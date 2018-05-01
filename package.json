@@ -1,0 +1,30 @@
+{
+  "name": "codecrumbs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Bohdan Liashenko",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn start:client & yarn start:server",
+    "start:client": "cd src/public && webpack --progress --colors --watch --env dev",
+    "start:server": "cd src && nodemon ./index.js"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-generator": "^6.26.1",
+    "babel-loader": "^7.1.4",
+    "babel-traverse": "^6.26.0",
+    "babylon": "^6.18.0",
+    "webpack": "^4.6.0",
+    "websocket": "^1.0.26"
+  },
+  "devDependencies": {
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^1.17.3",
+    "webpack-cli": "^2.1.2"
+  },
+  "nodemonConfig": {
+    "ignore": ["src/public/**/*.*"],
+    "delay": "2500"
+  }
+}

@@ -125,8 +125,11 @@ var createConnection = exports.createConnection = function createConnection(onMe
 
 var _connection = __webpack_require__(/*! ./connection */ "./js/connection.js");
 
+var mountNode = document.getElementById('mount-node');
+
 (0, _connection.createConnection)(function (data) {
-    console.log(data);
+    console.log(JSON.parse(data).data);
+    mountNode.innerHTML = data;
 });
 
 console.log(new Date(), 'UI started.');

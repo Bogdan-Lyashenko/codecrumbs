@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const PATH = {
-    PUBLIC: 'public/',
+    PUBLIC: 'src/public/',
     PAGE: 'index.html',
     BUNDLE: 'bundle.js'
 };

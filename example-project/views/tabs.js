@@ -1,6 +1,7 @@
 import HomePage from './home/home-page';
 import ProductPage from './product/product-page';
 
+//codecrumb
 const tabsSwitch = index => {
     console.log(index);
 };

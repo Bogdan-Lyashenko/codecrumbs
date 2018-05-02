@@ -29,7 +29,7 @@ const config = {
         ]
     },
     resolve: {
-        modules: [path.resolve('./node_modules'), path.resolve('./js')],
+        modules: [path.resolve('../../node_modules'), path.resolve('./js')],
         extensions: ['.json', '.js']
     },
     mode: 'development'

@@ -15,8 +15,6 @@ const webSocketServer = new WebSocketServer({ httpServer });
 webSocketServer.on('request', request => {
     const connection = request.accept(null, request.origin);
 
-    debugger;
-
     projectSourceWatcher.subscribeOnChange(PROJECT_DIR, body =>
         connection.sendUTF(
             JSON.stringify({

@@ -2,9 +2,10 @@ const fs = require('fs');
 
 const PATH = {
     PUBLIC: 'src/public/',
-    PAGE: 'index.html',
-    BUNDLE: 'bundle.js'
+    PAGE: 'index.html'
 };
+
+const AVAILABLE_RESOURCES = ['bundle.js', 'bundle.js.map'];
 
 const responseWithFile = function(options, response) {
     fs.readFile(options.file, function(err, data) {
@@ -19,27 +20,29 @@ const responseWithFile = function(options, response) {
 };
 
 const requestHandler = (request, response) => {
-    switch (request.url) {
-        case '/':
-            return responseWithFile(
-                {
-                    file: PATH.PUBLIC + PATH.PAGE,
-                    contentType: 'text/html'
-                },
-                response
-            );
-        case '/' + PATH.BUNDLE:
-            return responseWithFile(
-                {
-                    file: PATH.PUBLIC + PATH.BUNDLE,
-                    contentType: 'text/javascript'
-                },
-                response
-            );
+    const url = request.url.substr(1);
 
-        default:
-            return response.end();
+    if (!url) {
+        return responseWithFile(
+            {
+                file: PATH.PUBLIC + PATH.PAGE,
+                contentType: 'text/html'
+            },
+            response
+        );
     }
+
+    if (AVAILABLE_RESOURCES.indexOf(url) !== -1) {
+        return responseWithFile(
+            {
+                file: PATH.PUBLIC + url,
+                contentType: 'text/javascript'
+            },
+            response
+        );
+    }
+
+    return response.end();
 };
 
 module.exports = {

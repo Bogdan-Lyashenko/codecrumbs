@@ -26,8 +26,12 @@ const subscribeOnChange = (projectDir, fn) => {
                     resolve //TODO: move to utils fs read + promise
                 ) =>
                     fs.readFile(item.path, 'utf8', function(err, code) {
+                        const codecrumbsList = codecrumbs.getCrumbs(code);
+
+                        item.codecrumbs = codecrumbsList;
+                        item.hasCodecrumbs = !!codecrumbsList.length;
                         item.fileCode = code;
-                        item.codecrumbs = codecrumbs.getCrumbs(code); //TODO: parse code, find crumb comment mark to true
+
                         resolve();
                     })
                 )

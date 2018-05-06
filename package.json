@@ -13,10 +13,13 @@
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
     "d3-flextree": "^2.1.1",
     "directory-tree": "^2.1.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "svg.js": "^2.6.4",
     "webpack": "^4.6.0",
     "websocket": "^1.0.26"

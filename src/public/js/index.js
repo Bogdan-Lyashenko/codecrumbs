@@ -1,12 +1,6 @@
-import { createConnection } from './connection';
-import devProcessTesting from './dev-test';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-const mountNode = document.getElementById('mount-node');
-
-createConnection(data => {
-    console.log(JSON.parse(data).data);
-    //mountNode.innerHTML = data; //TODO: ui data entry
-    devProcessTesting(JSON.parse(data).data.body);//TODO: remove
-});
-
-console.log(new Date(), 'UI started.');
+const MOUNT_NODE_ID = 'mount-node';
+ReactDOM.render(<App />, document.getElementById(MOUNT_NODE_ID));

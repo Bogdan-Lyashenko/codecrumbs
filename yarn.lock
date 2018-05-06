@@ -1337,6 +1337,16 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
+d3-flextree@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/d3-flextree/-/d3-flextree-2.1.1.tgz#0e6b8b89b0602b073db2f488b5b8030ce318dde9"
+  dependencies:
+    d3-hierarchy "^1.1.5"
+
+d3-hierarchy@^1.1.5:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/d3-hierarchy/-/d3-hierarchy-1.1.6.tgz#842c1372090f870b7ea013ebae5c0c8d9f56229c"
+
 dargs@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/dargs/-/dargs-5.1.0.tgz#ec7ea50c78564cd36c9d5ec18f66329fade27829"
@@ -4152,6 +4162,10 @@ supports-color@^5.2.0, supports-color@^5.3.0:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.4.0.tgz#1c6b337402c2137605efe19f10fec390f6faab54"
   dependencies:
     has-flag "^3.0.0"
+
+svg.js@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/svg.js/-/svg.js-2.6.4.tgz#034085b13391c6fcca1a0185a34dbea6c3e78dc3"
 
 symbol-observable@1.0.1:
   version "1.0.1"

@@ -21987,6 +21987,2184 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 /***/ }),
 
+/***/ "../../node_modules/d3-flextree/index.js":
+/*!*******************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-flextree/index.js ***!
+  \*******************************************************************************/
+/*! exports provided: flextree */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_flextree__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/flextree */ "../../node_modules/d3-flextree/src/flextree.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flextree", function() { return _src_flextree__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-flextree/package.json":
+/*!***********************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-flextree/package.json ***!
+  \***********************************************************************************/
+/*! exports provided: name, version, main, module, jsnext:main, author, description, keywords, homepage, license, repository, scripts, dependencies, devDependencies, default */
+/***/ (function(module) {
+
+module.exports = {"name":"d3-flextree","version":"2.1.1","main":"build/d3-flextree.js","module":"index","jsnext:main":"index","author":{"name":"Chris Maloney","url":"http://chrismaloney.org"},"description":"Flexible tree layout algorithm that allows for variable node sizes.","keywords":["d3","d3-module","layout","tree","hierarchy","d3-hierarchy","plugin","d3-plugin","infovis","visualization","2d"],"homepage":"https://github.com/klortho/d3-flextree","license":"WTFPL","repository":{"type":"git","url":"https://github.com/klortho/d3-flextree.git"},"scripts":{"clean":"rm -rf build demo test","build:demo":"rollup -c --environment BUILD:demo","build:dev":"rollup -c --environment BUILD:dev","build:prod":"rollup -c --environment BUILD:prod","build:test":"rollup -c --environment BUILD:test","build":"rollup -c","lint":"eslint index.js src","test:main":"node test/bundle.js","test:browser":"node test/browser-tests.js","test":"npm-run-all test:*","prepare":"npm-run-all clean build lint test"},"dependencies":{"d3-hierarchy":"^1.1.5"},"devDependencies":{"babel-plugin-external-helpers":"^6.22.0","babel-preset-es2015-rollup":"^3.0.0","d3":"^4.13.0","d3-selection-multi":"^1.0.1","eslint":"^4.19.1","jsdom":"^11.6.2","npm-run-all":"^4.1.2","rollup":"^0.55.3","rollup-plugin-babel":"^2.7.1","rollup-plugin-commonjs":"^8.0.2","rollup-plugin-copy":"^0.2.3","rollup-plugin-json":"^2.3.0","rollup-plugin-node-resolve":"^3.0.2","rollup-plugin-uglify":"^3.0.0","uglify-es":"^3.3.9"}};
+
+/***/ }),
+
+/***/ "../../node_modules/d3-flextree/src/flextree.js":
+/*!**************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-flextree/src/flextree.js ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return flextree; });
+/* harmony import */ var d3_hierarchy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-hierarchy */ "../../node_modules/d3-hierarchy/index.js");
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../package.json */ "../../node_modules/d3-flextree/package.json");
+var _package_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/Object.assign({}, _package_json__WEBPACK_IMPORTED_MODULE_1__, {"default": _package_json__WEBPACK_IMPORTED_MODULE_1__});
+
+
+
+const defaults = Object.freeze({
+  children: data => data.children,
+  nodeSize: node => node.data.size,
+  spacing: 0,
+});
+
+// Create a layout function with customizable options. Per D3-style, the
+// options can be set at any time using setter methods. The layout function
+// will compute the tree node positions based on the options in effect at the
+// time it is called.
+function flextree(options) {
+  const opts = Object.assign({}, defaults, options);
+  function accessor(name) {
+    const opt = opts[name];
+    return typeof opt === 'function' ? opt : () => opt;
+  }
+
+  function layout(tree) {
+    const wtree = wrap(getWrapper(), tree, node=>node.children);
+    wtree.update();
+    return wtree.data;
+  }
+
+  function getFlexNode() {
+    const nodeSize = accessor('nodeSize');
+    const spacing = accessor('spacing');
+    return class FlexNode extends d3_hierarchy__WEBPACK_IMPORTED_MODULE_0__["hierarchy"].prototype.constructor {
+      constructor(data) {
+        super(data);
+      }
+      copy() {
+        const c = wrap(this.constructor, this, node=>node.children);
+        c.each(node => node.data = node.data.data);
+        return c;
+      }
+      get size() { return nodeSize(this); }
+      spacing(oNode) { return spacing(this, oNode); }
+      get nodes() { return this.descendants(); }
+      get xSize() { return this.size[0]; }
+      get ySize() { return this.size[1]; }
+      get top() { return this.y; }
+      get bottom() { return this.y + this.ySize; }
+      get left() { return this.x - this.xSize / 2; }
+      get right() { return this.x + this.xSize / 2; }
+      get root() {
+        const ancs = this.ancestors();
+        return ancs[ancs.length - 1];
+      }
+      get numChildren() {
+        return this.hasChildren ? this.children.length : 0;
+      }
+      get hasChildren() { return !this.noChildren; }
+      get noChildren() { return this.children === null; }
+      get firstChild() {
+        return this.hasChildren ? this.children[0] : null;
+      }
+      get lastChild() {
+        return this.hasChildren ? this.children[this.numChildren - 1] : null;
+      }
+      get extents() {
+        return (this.children || []).reduce(
+          (acc, kid) => FlexNode.maxExtents(acc, kid.extents),
+          this.nodeExtents);
+      }
+      get nodeExtents() {
+        return {
+          top: this.top,
+          bottom: this.bottom,
+          left: this.left,
+          right: this.right,
+        };
+      }
+      static maxExtents(e0, e1) {
+        return {
+          top: Math.min(e0.top, e1.top),
+          bottom: Math.max(e0.bottom, e1.bottom),
+          left: Math.min(e0.left, e1.left),
+          right: Math.max(e0.right, e1.right),
+        };
+      }
+    };
+  }
+
+  function getWrapper() {
+    const FlexNode = getFlexNode();
+    const nodeSize = accessor('nodeSize');
+    const spacing = accessor('spacing');
+    return class extends FlexNode {
+      constructor(data) {
+        super(data);
+        Object.assign(this, {
+          x: 0, y: 0,
+          relX: 0, prelim: 0, shift: 0, change: 0,
+          lExt: this, lExtRelX: 0, lThr: null,
+          rExt: this, rExtRelX: 0, rThr: null,
+        });
+      }
+      get size() { return nodeSize(this.data); }
+      spacing(oNode) { return spacing(this.data, oNode.data); }
+      get x() { return this.data.x; }
+      set x(v) { this.data.x = v; }
+      get y() { return this.data.y; }
+      set y(v) { this.data.y = v; }
+      update() {
+        layoutChildren(this);
+        resolveX(this);
+        return this;
+      }
+    };
+  }
+
+  function wrap(FlexClass, treeData, children) {
+    const _wrap = (data, parent) => {
+      const node = new FlexClass(data);
+      Object.assign(node, {
+        parent,
+        depth: parent === null ? 0 : parent.depth + 1,
+        height: 0,
+        length: 1,
+      });
+      const kidsData = children(data) || [];
+      node.children = kidsData.length === 0 ? null
+        : kidsData.map(kd => _wrap(kd, node));
+      if (node.children) {
+        Object.assign(node, node.children.reduce(
+          (hl, kid) => ({
+            height: Math.max(hl.height, kid.height + 1),
+            length: hl.length + kid.length,
+          }), node
+        ));
+      }
+      return node;
+    };
+    return _wrap(treeData, null);
+  }
+
+
+  Object.assign(layout, {
+    nodeSize(arg) {
+      return arguments.length ? (opts.nodeSize = arg, layout) : opts.nodeSize;
+    },
+    spacing(arg) {
+      return arguments.length ? (opts.spacing = arg, layout) : opts.spacing;
+    },
+    children(arg) {
+      return arguments.length ? (opts.children = arg, layout) : opts.children;
+    },
+    hierarchy(treeData, children) {
+      const kids = typeof children === 'undefined' ? opts.children : children;
+      return wrap(getFlexNode(), treeData, kids);
+    },
+    dump(tree) {
+      const nodeSize = accessor('nodeSize');
+      const _dump = i0 => node => {
+        const i1 = i0 + '  ';
+        const i2 = i0 + '    ';
+        const {x, y} = node;
+        const size = nodeSize(node);
+        const kids = (node.children || []);
+        const kdumps = (kids.length === 0) ? ' ' :
+          `,${i1}children: [${i2}${kids.map(_dump(i2)).join(i2)}${i1}],${i0}`;
+        return `{ size: [${size.join(', ')}],${i1}x: ${x}, y: ${y}${kdumps}},`;
+      };
+      return _dump('\n')(tree);
+    },
+  });
+  return layout;
+}
+flextree.version = _package_json__WEBPACK_IMPORTED_MODULE_1__["version"];
+
+const layoutChildren = (w, y = 0) => {
+  w.y = y;
+  (w.children || []).reduce((acc, kid) => {
+    const [i, lastLows] = acc;
+    layoutChildren(kid, w.y + w.ySize);
+    // The lowest vertical coordinate while extreme nodes still point
+    // in current subtree.
+    const lowY = (i === 0 ? kid.lExt : kid.rExt).bottom;
+    if (i !== 0) separate(w, i, lastLows);
+    const lows = updateLows(lowY, i, lastLows);
+    return [i + 1, lows];
+  }, [0, null]);
+  shiftChange(w);
+  positionRoot(w);
+  return w;
+};
+
+// Resolves the relative coordinate properties - relX and prelim --
+// to set the final, absolute x coordinate for each node. This also sets
+// `prelim` to 0, so that `relX` for each node is its x-coordinate relative
+// to its parent.
+const resolveX = (w, prevSum, parentX) => {
+  // A call to resolveX without arguments is assumed to be for the root of
+  // the tree. This will set the root's x-coord to zero.
+  if (typeof prevSum === 'undefined') {
+    prevSum = -w.relX - w.prelim;
+    parentX = 0;
+  }
+  const sum = prevSum + w.relX;
+  w.relX = sum + w.prelim - parentX;
+  w.prelim = 0;
+  w.x = parentX + w.relX;
+  (w.children || []).forEach(k => resolveX(k, sum, w.x));
+  return w;
+};
+
+// Process shift and change for all children, to add intermediate spacing to
+// each child's modifier.
+const shiftChange = w => {
+  (w.children || []).reduce((acc, child) => {
+    const [lastShiftSum, lastChangeSum] = acc;
+    const shiftSum = lastShiftSum + child.shift;
+    const changeSum = lastChangeSum + shiftSum + child.change;
+    child.relX += changeSum;
+    return [shiftSum, changeSum];
+  }, [0, 0]);
+};
+
+// Separates the latest child from its previous sibling
+/* eslint-disable complexity */
+const separate = (w, i, lows) => {
+  const lSib = w.children[i - 1];
+  const curSubtree = w.children[i];
+  let rContour = lSib;
+  let rSumMods = lSib.relX;
+  let lContour = curSubtree;
+  let lSumMods = curSubtree.relX;
+  let isFirst = true;
+  while (rContour && lContour) {
+    if (rContour.bottom > lows.lowY) lows = lows.next;
+    // How far to the left of the right side of rContour is the left side
+    // of lContour? First compute the center-to-center distance, then add
+    // the "spacing"
+    const dist =
+      (rSumMods + rContour.prelim) - (lSumMods + lContour.prelim) +
+      rContour.xSize / 2 + lContour.xSize / 2 +
+      rContour.spacing(lContour);
+    if (dist > 0 || (dist < 0 && isFirst)) {
+      lSumMods += dist;
+      // Move subtree by changing relX.
+      moveSubtree(curSubtree, dist);
+      distributeExtra(w, i, lows.index, dist);
+    }
+    isFirst = false;
+    // Advance highest node(s) and sum(s) of modifiers
+    const rightBottom = rContour.bottom;
+    const leftBottom = lContour.bottom;
+    if (rightBottom <= leftBottom) {
+      rContour = nextRContour(rContour);
+      if (rContour) rSumMods += rContour.relX;
+    }
+    if (rightBottom >= leftBottom) {
+      lContour = nextLContour(lContour);
+      if (lContour) lSumMods += lContour.relX;
+    }
+  }
+  // Set threads and update extreme nodes. In the first case, the
+  // current subtree is taller than the left siblings.
+  if (!rContour && lContour) setLThr(w, i, lContour, lSumMods);
+  // In the next case, the left siblings are taller than the current subtree
+  else if (rContour && !lContour) setRThr(w, i, rContour, rSumMods);
+};
+/* eslint-enable complexity */
+
+// Move subtree by changing relX.
+const moveSubtree = (subtree, distance) => {
+  subtree.relX += distance;
+  subtree.lExtRelX += distance;
+  subtree.rExtRelX += distance;
+};
+
+const distributeExtra = (w, curSubtreeI, leftSibI, dist) => {
+  const curSubtree = w.children[curSubtreeI];
+  const n = curSubtreeI - leftSibI;
+  // Are there intermediate children?
+  if (n > 1) {
+    const delta = dist / n;
+    w.children[leftSibI + 1].shift += delta;
+    curSubtree.shift -= delta;
+    curSubtree.change -= dist - delta;
+  }
+};
+
+const nextLContour = w => {
+  return w.hasChildren ? w.firstChild : w.lThr;
+};
+
+const nextRContour = w => {
+  return w.hasChildren ? w.lastChild : w.rThr;
+};
+
+const setLThr = (w, i, lContour, lSumMods) => {
+  const firstChild = w.firstChild;
+  const lExt = firstChild.lExt;
+  const curSubtree = w.children[i];
+  lExt.lThr = lContour;
+  // Change relX so that the sum of modifier after following thread is correct.
+  const diff = lSumMods - lContour.relX - firstChild.lExtRelX;
+  lExt.relX += diff;
+  // Change preliminary x coordinate so that the node does not move.
+  lExt.prelim -= diff;
+  // Update extreme node and its sum of modifiers.
+  firstChild.lExt = curSubtree.lExt;
+  firstChild.lExtRelX = curSubtree.lExtRelX;
+};
+
+// Mirror image of setLThr.
+const setRThr = (w, i, rContour, rSumMods) => {
+  const curSubtree = w.children[i];
+  const rExt = curSubtree.rExt;
+  const lSib = w.children[i - 1];
+  rExt.rThr = rContour;
+  const diff = rSumMods - rContour.relX - curSubtree.rExtRelX;
+  rExt.relX += diff;
+  rExt.prelim -= diff;
+  curSubtree.rExt = lSib.rExt;
+  curSubtree.rExtRelX = lSib.rExtRelX;
+};
+
+// Position root between children, taking into account their modifiers
+const positionRoot = w => {
+  if (w.hasChildren) {
+    const k0 = w.firstChild;
+    const kf = w.lastChild;
+    const prelim = (k0.prelim + k0.relX - k0.xSize / 2 +
+      kf.relX + kf.prelim + kf.xSize / 2 ) / 2;
+    Object.assign(w, {
+      prelim,
+      lExt: k0.lExt, lExtRelX: k0.lExtRelX,
+      rExt: kf.rExt, rExtRelX: kf.rExtRelX,
+    });
+  }
+};
+
+// Make/maintain a linked list of the indexes of left siblings and their
+// lowest vertical coordinate.
+const updateLows = (lowY, index, lastLows) => {
+  // Remove siblings that are hidden by the new subtree.
+  while (lastLows !== null && lowY >= lastLows.lowY)
+    lastLows = lastLows.next;
+  // Prepend the new subtree.
+  return {
+    lowY,
+    index,
+    next: lastLows,
+  };
+};
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/index.js":
+/*!********************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/index.js ***!
+  \********************************************************************************/
+/*! exports provided: cluster, hierarchy, pack, packSiblings, packEnclose, partition, stratify, tree, treemap, treemapBinary, treemapDice, treemapSlice, treemapSliceDice, treemapSquarify, treemapResquarify */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_cluster__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/cluster */ "../../node_modules/d3-hierarchy/src/cluster.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cluster", function() { return _src_cluster__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _src_hierarchy_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/hierarchy/index */ "../../node_modules/d3-hierarchy/src/hierarchy/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hierarchy", function() { return _src_hierarchy_index__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _src_pack_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/pack/index */ "../../node_modules/d3-hierarchy/src/pack/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "pack", function() { return _src_pack_index__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _src_pack_siblings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./src/pack/siblings */ "../../node_modules/d3-hierarchy/src/pack/siblings.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "packSiblings", function() { return _src_pack_siblings__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony import */ var _src_pack_enclose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./src/pack/enclose */ "../../node_modules/d3-hierarchy/src/pack/enclose.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "packEnclose", function() { return _src_pack_enclose__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+/* harmony import */ var _src_partition__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./src/partition */ "../../node_modules/d3-hierarchy/src/partition.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "partition", function() { return _src_partition__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
+/* harmony import */ var _src_stratify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./src/stratify */ "../../node_modules/d3-hierarchy/src/stratify.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stratify", function() { return _src_stratify__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+
+/* harmony import */ var _src_tree__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./src/tree */ "../../node_modules/d3-hierarchy/src/tree.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "tree", function() { return _src_tree__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
+/* harmony import */ var _src_treemap_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./src/treemap/index */ "../../node_modules/d3-hierarchy/src/treemap/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "treemap", function() { return _src_treemap_index__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+
+/* harmony import */ var _src_treemap_binary__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./src/treemap/binary */ "../../node_modules/d3-hierarchy/src/treemap/binary.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "treemapBinary", function() { return _src_treemap_binary__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+
+/* harmony import */ var _src_treemap_dice__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./src/treemap/dice */ "../../node_modules/d3-hierarchy/src/treemap/dice.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "treemapDice", function() { return _src_treemap_dice__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+
+/* harmony import */ var _src_treemap_slice__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./src/treemap/slice */ "../../node_modules/d3-hierarchy/src/treemap/slice.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "treemapSlice", function() { return _src_treemap_slice__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+
+/* harmony import */ var _src_treemap_sliceDice__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./src/treemap/sliceDice */ "../../node_modules/d3-hierarchy/src/treemap/sliceDice.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "treemapSliceDice", function() { return _src_treemap_sliceDice__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+
+/* harmony import */ var _src_treemap_squarify__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./src/treemap/squarify */ "../../node_modules/d3-hierarchy/src/treemap/squarify.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "treemapSquarify", function() { return _src_treemap_squarify__WEBPACK_IMPORTED_MODULE_13__["default"]; });
+
+/* harmony import */ var _src_treemap_resquarify__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./src/treemap/resquarify */ "../../node_modules/d3-hierarchy/src/treemap/resquarify.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "treemapResquarify", function() { return _src_treemap_resquarify__WEBPACK_IMPORTED_MODULE_14__["default"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/accessors.js":
+/*!****************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/accessors.js ***!
+  \****************************************************************************************/
+/*! exports provided: optional, required */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "optional", function() { return optional; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "required", function() { return required; });
+function optional(f) {
+  return f == null ? null : required(f);
+}
+
+function required(f) {
+  if (typeof f !== "function") throw new Error;
+  return f;
+}
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/array.js":
+/*!************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/array.js ***!
+  \************************************************************************************/
+/*! exports provided: slice, shuffle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "slice", function() { return slice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shuffle", function() { return shuffle; });
+var slice = Array.prototype.slice;
+
+function shuffle(array) {
+  var m = array.length,
+      t,
+      i;
+
+  while (m) {
+    i = Math.random() * m-- | 0;
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+}
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/cluster.js":
+/*!**************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/cluster.js ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function defaultSeparation(a, b) {
+  return a.parent === b.parent ? 1 : 2;
+}
+
+function meanX(children) {
+  return children.reduce(meanXReduce, 0) / children.length;
+}
+
+function meanXReduce(x, c) {
+  return x + c.x;
+}
+
+function maxY(children) {
+  return 1 + children.reduce(maxYReduce, 0);
+}
+
+function maxYReduce(y, c) {
+  return Math.max(y, c.y);
+}
+
+function leafLeft(node) {
+  var children;
+  while (children = node.children) node = children[0];
+  return node;
+}
+
+function leafRight(node) {
+  var children;
+  while (children = node.children) node = children[children.length - 1];
+  return node;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var separation = defaultSeparation,
+      dx = 1,
+      dy = 1,
+      nodeSize = false;
+
+  function cluster(root) {
+    var previousNode,
+        x = 0;
+
+    // First walk, computing the initial x & y values.
+    root.eachAfter(function(node) {
+      var children = node.children;
+      if (children) {
+        node.x = meanX(children);
+        node.y = maxY(children);
+      } else {
+        node.x = previousNode ? x += separation(node, previousNode) : 0;
+        node.y = 0;
+        previousNode = node;
+      }
+    });
+
+    var left = leafLeft(root),
+        right = leafRight(root),
+        x0 = left.x - separation(left, right) / 2,
+        x1 = right.x + separation(right, left) / 2;
+
+    // Second walk, normalizing x & y to the desired size.
+    return root.eachAfter(nodeSize ? function(node) {
+      node.x = (node.x - root.x) * dx;
+      node.y = (root.y - node.y) * dy;
+    } : function(node) {
+      node.x = (node.x - x0) / (x1 - x0) * dx;
+      node.y = (1 - (root.y ? node.y / root.y : 1)) * dy;
+    });
+  }
+
+  cluster.separation = function(x) {
+    return arguments.length ? (separation = x, cluster) : separation;
+  };
+
+  cluster.size = function(x) {
+    return arguments.length ? (nodeSize = false, dx = +x[0], dy = +x[1], cluster) : (nodeSize ? null : [dx, dy]);
+  };
+
+  cluster.nodeSize = function(x) {
+    return arguments.length ? (nodeSize = true, dx = +x[0], dy = +x[1], cluster) : (nodeSize ? [dx, dy] : null);
+  };
+
+  return cluster;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/constant.js":
+/*!***************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/constant.js ***!
+  \***************************************************************************************/
+/*! exports provided: constantZero, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "constantZero", function() { return constantZero; });
+function constantZero() {
+  return 0;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function(x) {
+  return function() {
+    return x;
+  };
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/ancestors.js":
+/*!**************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/ancestors.js ***!
+  \**************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var node = this, nodes = [node];
+  while (node = node.parent) {
+    nodes.push(node);
+  }
+  return nodes;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/count.js":
+/*!**********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/count.js ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function count(node) {
+  var sum = 0,
+      children = node.children,
+      i = children && children.length;
+  if (!i) sum = 1;
+  else while (--i >= 0) sum += children[i].value;
+  node.value = sum;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  return this.eachAfter(count);
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/descendants.js":
+/*!****************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/descendants.js ***!
+  \****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var nodes = [];
+  this.each(function(node) {
+    nodes.push(node);
+  });
+  return nodes;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/each.js":
+/*!*********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/each.js ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(callback) {
+  var node = this, current, next = [node], children, i, n;
+  do {
+    current = next.reverse(), next = [];
+    while (node = current.pop()) {
+      callback(node), children = node.children;
+      if (children) for (i = 0, n = children.length; i < n; ++i) {
+        next.push(children[i]);
+      }
+    }
+  } while (next.length);
+  return this;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/eachAfter.js":
+/*!**************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/eachAfter.js ***!
+  \**************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(callback) {
+  var node = this, nodes = [node], next = [], children, i, n;
+  while (node = nodes.pop()) {
+    next.push(node), children = node.children;
+    if (children) for (i = 0, n = children.length; i < n; ++i) {
+      nodes.push(children[i]);
+    }
+  }
+  while (node = next.pop()) {
+    callback(node);
+  }
+  return this;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/eachBefore.js":
+/*!***************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/eachBefore.js ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(callback) {
+  var node = this, nodes = [node], children, i;
+  while (node = nodes.pop()) {
+    callback(node), children = node.children;
+    if (children) for (i = children.length - 1; i >= 0; --i) {
+      nodes.push(children[i]);
+    }
+  }
+  return this;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/index.js":
+/*!**********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/index.js ***!
+  \**********************************************************************************************/
+/*! exports provided: default, computeHeight, Node */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return hierarchy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "computeHeight", function() { return computeHeight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Node", function() { return Node; });
+/* harmony import */ var _count__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./count */ "../../node_modules/d3-hierarchy/src/hierarchy/count.js");
+/* harmony import */ var _each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./each */ "../../node_modules/d3-hierarchy/src/hierarchy/each.js");
+/* harmony import */ var _eachBefore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./eachBefore */ "../../node_modules/d3-hierarchy/src/hierarchy/eachBefore.js");
+/* harmony import */ var _eachAfter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./eachAfter */ "../../node_modules/d3-hierarchy/src/hierarchy/eachAfter.js");
+/* harmony import */ var _sum__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sum */ "../../node_modules/d3-hierarchy/src/hierarchy/sum.js");
+/* harmony import */ var _sort__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sort */ "../../node_modules/d3-hierarchy/src/hierarchy/sort.js");
+/* harmony import */ var _path__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./path */ "../../node_modules/d3-hierarchy/src/hierarchy/path.js");
+/* harmony import */ var _ancestors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ancestors */ "../../node_modules/d3-hierarchy/src/hierarchy/ancestors.js");
+/* harmony import */ var _descendants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./descendants */ "../../node_modules/d3-hierarchy/src/hierarchy/descendants.js");
+/* harmony import */ var _leaves__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./leaves */ "../../node_modules/d3-hierarchy/src/hierarchy/leaves.js");
+/* harmony import */ var _links__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./links */ "../../node_modules/d3-hierarchy/src/hierarchy/links.js");
+
+
+
+
+
+
+
+
+
+
+
+
+function hierarchy(data, children) {
+  var root = new Node(data),
+      valued = +data.value && (root.value = data.value),
+      node,
+      nodes = [root],
+      child,
+      childs,
+      i,
+      n;
+
+  if (children == null) children = defaultChildren;
+
+  while (node = nodes.pop()) {
+    if (valued) node.value = +node.data.value;
+    if ((childs = children(node.data)) && (n = childs.length)) {
+      node.children = new Array(n);
+      for (i = n - 1; i >= 0; --i) {
+        nodes.push(child = node.children[i] = new Node(childs[i]));
+        child.parent = node;
+        child.depth = node.depth + 1;
+      }
+    }
+  }
+
+  return root.eachBefore(computeHeight);
+}
+
+function node_copy() {
+  return hierarchy(this).eachBefore(copyData);
+}
+
+function defaultChildren(d) {
+  return d.children;
+}
+
+function copyData(node) {
+  node.data = node.data.data;
+}
+
+function computeHeight(node) {
+  var height = 0;
+  do node.height = height;
+  while ((node = node.parent) && (node.height < ++height));
+}
+
+function Node(data) {
+  this.data = data;
+  this.depth =
+  this.height = 0;
+  this.parent = null;
+}
+
+Node.prototype = hierarchy.prototype = {
+  constructor: Node,
+  count: _count__WEBPACK_IMPORTED_MODULE_0__["default"],
+  each: _each__WEBPACK_IMPORTED_MODULE_1__["default"],
+  eachAfter: _eachAfter__WEBPACK_IMPORTED_MODULE_3__["default"],
+  eachBefore: _eachBefore__WEBPACK_IMPORTED_MODULE_2__["default"],
+  sum: _sum__WEBPACK_IMPORTED_MODULE_4__["default"],
+  sort: _sort__WEBPACK_IMPORTED_MODULE_5__["default"],
+  path: _path__WEBPACK_IMPORTED_MODULE_6__["default"],
+  ancestors: _ancestors__WEBPACK_IMPORTED_MODULE_7__["default"],
+  descendants: _descendants__WEBPACK_IMPORTED_MODULE_8__["default"],
+  leaves: _leaves__WEBPACK_IMPORTED_MODULE_9__["default"],
+  links: _links__WEBPACK_IMPORTED_MODULE_10__["default"],
+  copy: node_copy
+};
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/leaves.js":
+/*!***********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/leaves.js ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var leaves = [];
+  this.eachBefore(function(node) {
+    if (!node.children) {
+      leaves.push(node);
+    }
+  });
+  return leaves;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/links.js":
+/*!**********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/links.js ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var root = this, links = [];
+  root.each(function(node) {
+    if (node !== root) { // Don’t include the root’s parent, if any.
+      links.push({source: node.parent, target: node});
+    }
+  });
+  return links;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/path.js":
+/*!*********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/path.js ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(end) {
+  var start = this,
+      ancestor = leastCommonAncestor(start, end),
+      nodes = [start];
+  while (start !== ancestor) {
+    start = start.parent;
+    nodes.push(start);
+  }
+  var k = nodes.length;
+  while (end !== ancestor) {
+    nodes.splice(k, 0, end);
+    end = end.parent;
+  }
+  return nodes;
+});
+
+function leastCommonAncestor(a, b) {
+  if (a === b) return a;
+  var aNodes = a.ancestors(),
+      bNodes = b.ancestors(),
+      c = null;
+  a = aNodes.pop();
+  b = bNodes.pop();
+  while (a === b) {
+    c = a;
+    a = aNodes.pop();
+    b = bNodes.pop();
+  }
+  return c;
+}
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/sort.js":
+/*!*********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/sort.js ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(compare) {
+  return this.eachBefore(function(node) {
+    if (node.children) {
+      node.children.sort(compare);
+    }
+  });
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/hierarchy/sum.js":
+/*!********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/hierarchy/sum.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(value) {
+  return this.eachAfter(function(node) {
+    var sum = +value(node.data) || 0,
+        children = node.children,
+        i = children && children.length;
+    while (--i >= 0) sum += children[i].value;
+    node.value = sum;
+  });
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/pack/enclose.js":
+/*!*******************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/pack/enclose.js ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../array */ "../../node_modules/d3-hierarchy/src/array.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function(circles) {
+  var i = 0, n = (circles = Object(_array__WEBPACK_IMPORTED_MODULE_0__["shuffle"])(_array__WEBPACK_IMPORTED_MODULE_0__["slice"].call(circles))).length, B = [], p, e;
+
+  while (i < n) {
+    p = circles[i];
+    if (e && enclosesWeak(e, p)) ++i;
+    else e = encloseBasis(B = extendBasis(B, p)), i = 0;
+  }
+
+  return e;
+});
+
+function extendBasis(B, p) {
+  var i, j;
+
+  if (enclosesWeakAll(p, B)) return [p];
+
+  // If we get here then B must have at least one element.
+  for (i = 0; i < B.length; ++i) {
+    if (enclosesNot(p, B[i])
+        && enclosesWeakAll(encloseBasis2(B[i], p), B)) {
+      return [B[i], p];
+    }
+  }
+
+  // If we get here then B must have at least two elements.
+  for (i = 0; i < B.length - 1; ++i) {
+    for (j = i + 1; j < B.length; ++j) {
+      if (enclosesNot(encloseBasis2(B[i], B[j]), p)
+          && enclosesNot(encloseBasis2(B[i], p), B[j])
+          && enclosesNot(encloseBasis2(B[j], p), B[i])
+          && enclosesWeakAll(encloseBasis3(B[i], B[j], p), B)) {
+        return [B[i], B[j], p];
+      }
+    }
+  }
+
+  // If we get here then something is very wrong.
+  throw new Error;
+}
+
+function enclosesNot(a, b) {
+  var dr = a.r - b.r, dx = b.x - a.x, dy = b.y - a.y;
+  return dr < 0 || dr * dr < dx * dx + dy * dy;
+}
+
+function enclosesWeak(a, b) {
+  var dr = a.r - b.r + 1e-6, dx = b.x - a.x, dy = b.y - a.y;
+  return dr > 0 && dr * dr > dx * dx + dy * dy;
+}
+
+function enclosesWeakAll(a, B) {
+  for (var i = 0; i < B.length; ++i) {
+    if (!enclosesWeak(a, B[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function encloseBasis(B) {
+  switch (B.length) {
+    case 1: return encloseBasis1(B[0]);
+    case 2: return encloseBasis2(B[0], B[1]);
+    case 3: return encloseBasis3(B[0], B[1], B[2]);
+  }
+}
+
+function encloseBasis1(a) {
+  return {
+    x: a.x,
+    y: a.y,
+    r: a.r
+  };
+}
+
+function encloseBasis2(a, b) {
+  var x1 = a.x, y1 = a.y, r1 = a.r,
+      x2 = b.x, y2 = b.y, r2 = b.r,
+      x21 = x2 - x1, y21 = y2 - y1, r21 = r2 - r1,
+      l = Math.sqrt(x21 * x21 + y21 * y21);
+  return {
+    x: (x1 + x2 + x21 / l * r21) / 2,
+    y: (y1 + y2 + y21 / l * r21) / 2,
+    r: (l + r1 + r2) / 2
+  };
+}
+
+function encloseBasis3(a, b, c) {
+  var x1 = a.x, y1 = a.y, r1 = a.r,
+      x2 = b.x, y2 = b.y, r2 = b.r,
+      x3 = c.x, y3 = c.y, r3 = c.r,
+      a2 = x1 - x2,
+      a3 = x1 - x3,
+      b2 = y1 - y2,
+      b3 = y1 - y3,
+      c2 = r2 - r1,
+      c3 = r3 - r1,
+      d1 = x1 * x1 + y1 * y1 - r1 * r1,
+      d2 = d1 - x2 * x2 - y2 * y2 + r2 * r2,
+      d3 = d1 - x3 * x3 - y3 * y3 + r3 * r3,
+      ab = a3 * b2 - a2 * b3,
+      xa = (b2 * d3 - b3 * d2) / (ab * 2) - x1,
+      xb = (b3 * c2 - b2 * c3) / ab,
+      ya = (a3 * d2 - a2 * d3) / (ab * 2) - y1,
+      yb = (a2 * c3 - a3 * c2) / ab,
+      A = xb * xb + yb * yb - 1,
+      B = 2 * (r1 + xa * xb + ya * yb),
+      C = xa * xa + ya * ya - r1 * r1,
+      r = -(A ? (B + Math.sqrt(B * B - 4 * A * C)) / (2 * A) : C / B);
+  return {
+    x: x1 + xa + xb * r,
+    y: y1 + ya + yb * r,
+    r: r
+  };
+}
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/pack/index.js":
+/*!*****************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/pack/index.js ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _siblings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./siblings */ "../../node_modules/d3-hierarchy/src/pack/siblings.js");
+/* harmony import */ var _accessors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../accessors */ "../../node_modules/d3-hierarchy/src/accessors.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constant */ "../../node_modules/d3-hierarchy/src/constant.js");
+
+
+
+
+function defaultRadius(d) {
+  return Math.sqrt(d.value);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var radius = null,
+      dx = 1,
+      dy = 1,
+      padding = _constant__WEBPACK_IMPORTED_MODULE_2__["constantZero"];
+
+  function pack(root) {
+    root.x = dx / 2, root.y = dy / 2;
+    if (radius) {
+      root.eachBefore(radiusLeaf(radius))
+          .eachAfter(packChildren(padding, 0.5))
+          .eachBefore(translateChild(1));
+    } else {
+      root.eachBefore(radiusLeaf(defaultRadius))
+          .eachAfter(packChildren(_constant__WEBPACK_IMPORTED_MODULE_2__["constantZero"], 1))
+          .eachAfter(packChildren(padding, root.r / Math.min(dx, dy)))
+          .eachBefore(translateChild(Math.min(dx, dy) / (2 * root.r)));
+    }
+    return root;
+  }
+
+  pack.radius = function(x) {
+    return arguments.length ? (radius = Object(_accessors__WEBPACK_IMPORTED_MODULE_1__["optional"])(x), pack) : radius;
+  };
+
+  pack.size = function(x) {
+    return arguments.length ? (dx = +x[0], dy = +x[1], pack) : [dx, dy];
+  };
+
+  pack.padding = function(x) {
+    return arguments.length ? (padding = typeof x === "function" ? x : Object(_constant__WEBPACK_IMPORTED_MODULE_2__["default"])(+x), pack) : padding;
+  };
+
+  return pack;
+});
+
+function radiusLeaf(radius) {
+  return function(node) {
+    if (!node.children) {
+      node.r = Math.max(0, +radius(node) || 0);
+    }
+  };
+}
+
+function packChildren(padding, k) {
+  return function(node) {
+    if (children = node.children) {
+      var children,
+          i,
+          n = children.length,
+          r = padding(node) * k || 0,
+          e;
+
+      if (r) for (i = 0; i < n; ++i) children[i].r += r;
+      e = Object(_siblings__WEBPACK_IMPORTED_MODULE_0__["packEnclose"])(children);
+      if (r) for (i = 0; i < n; ++i) children[i].r -= r;
+      node.r = e + r;
+    }
+  };
+}
+
+function translateChild(k) {
+  return function(node) {
+    var parent = node.parent;
+    node.r *= k;
+    if (parent) {
+      node.x = parent.x + k * node.x;
+      node.y = parent.y + k * node.y;
+    }
+  };
+}
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/pack/siblings.js":
+/*!********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/pack/siblings.js ***!
+  \********************************************************************************************/
+/*! exports provided: packEnclose, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "packEnclose", function() { return packEnclose; });
+/* harmony import */ var _enclose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./enclose */ "../../node_modules/d3-hierarchy/src/pack/enclose.js");
+
+
+function place(b, a, c) {
+  var dx = b.x - a.x, x, a2,
+      dy = b.y - a.y, y, b2,
+      d2 = dx * dx + dy * dy;
+  if (d2) {
+    a2 = a.r + c.r, a2 *= a2;
+    b2 = b.r + c.r, b2 *= b2;
+    if (a2 > b2) {
+      x = (d2 + b2 - a2) / (2 * d2);
+      y = Math.sqrt(Math.max(0, b2 / d2 - x * x));
+      c.x = b.x - x * dx - y * dy;
+      c.y = b.y - x * dy + y * dx;
+    } else {
+      x = (d2 + a2 - b2) / (2 * d2);
+      y = Math.sqrt(Math.max(0, a2 / d2 - x * x));
+      c.x = a.x + x * dx - y * dy;
+      c.y = a.y + x * dy + y * dx;
+    }
+  } else {
+    c.x = a.x + c.r;
+    c.y = a.y;
+  }
+}
+
+function intersects(a, b) {
+  var dr = a.r + b.r - 1e-6, dx = b.x - a.x, dy = b.y - a.y;
+  return dr > 0 && dr * dr > dx * dx + dy * dy;
+}
+
+function score(node) {
+  var a = node._,
+      b = node.next._,
+      ab = a.r + b.r,
+      dx = (a.x * b.r + b.x * a.r) / ab,
+      dy = (a.y * b.r + b.y * a.r) / ab;
+  return dx * dx + dy * dy;
+}
+
+function Node(circle) {
+  this._ = circle;
+  this.next = null;
+  this.previous = null;
+}
+
+function packEnclose(circles) {
+  if (!(n = circles.length)) return 0;
+
+  var a, b, c, n, aa, ca, i, j, k, sj, sk;
+
+  // Place the first circle.
+  a = circles[0], a.x = 0, a.y = 0;
+  if (!(n > 1)) return a.r;
+
+  // Place the second circle.
+  b = circles[1], a.x = -b.r, b.x = a.r, b.y = 0;
+  if (!(n > 2)) return a.r + b.r;
+
+  // Place the third circle.
+  place(b, a, c = circles[2]);
+
+  // Initialize the front-chain using the first three circles a, b and c.
+  a = new Node(a), b = new Node(b), c = new Node(c);
+  a.next = c.previous = b;
+  b.next = a.previous = c;
+  c.next = b.previous = a;
+
+  // Attempt to place each remaining circle…
+  pack: for (i = 3; i < n; ++i) {
+    place(a._, b._, c = circles[i]), c = new Node(c);
+
+    // Find the closest intersecting circle on the front-chain, if any.
+    // “Closeness” is determined by linear distance along the front-chain.
+    // “Ahead” or “behind” is likewise determined by linear distance.
+    j = b.next, k = a.previous, sj = b._.r, sk = a._.r;
+    do {
+      if (sj <= sk) {
+        if (intersects(j._, c._)) {
+          b = j, a.next = b, b.previous = a, --i;
+          continue pack;
+        }
+        sj += j._.r, j = j.next;
+      } else {
+        if (intersects(k._, c._)) {
+          a = k, a.next = b, b.previous = a, --i;
+          continue pack;
+        }
+        sk += k._.r, k = k.previous;
+      }
+    } while (j !== k.next);
+
+    // Success! Insert the new circle c between a and b.
+    c.previous = a, c.next = b, a.next = b.previous = b = c;
+
+    // Compute the new closest circle pair to the centroid.
+    aa = score(a);
+    while ((c = c.next) !== b) {
+      if ((ca = score(c)) < aa) {
+        a = c, aa = ca;
+      }
+    }
+    b = a.next;
+  }
+
+  // Compute the enclosing circle of the front chain.
+  a = [b._], c = b; while ((c = c.next) !== b) a.push(c._); c = Object(_enclose__WEBPACK_IMPORTED_MODULE_0__["default"])(a);
+
+  // Translate the circles to put the enclosing circle around the origin.
+  for (i = 0; i < n; ++i) a = circles[i], a.x -= c.x, a.y -= c.y;
+
+  return c.r;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function(circles) {
+  packEnclose(circles);
+  return circles;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/partition.js":
+/*!****************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/partition.js ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _treemap_round__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./treemap/round */ "../../node_modules/d3-hierarchy/src/treemap/round.js");
+/* harmony import */ var _treemap_dice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./treemap/dice */ "../../node_modules/d3-hierarchy/src/treemap/dice.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var dx = 1,
+      dy = 1,
+      padding = 0,
+      round = false;
+
+  function partition(root) {
+    var n = root.height + 1;
+    root.x0 =
+    root.y0 = padding;
+    root.x1 = dx;
+    root.y1 = dy / n;
+    root.eachBefore(positionNode(dy, n));
+    if (round) root.eachBefore(_treemap_round__WEBPACK_IMPORTED_MODULE_0__["default"]);
+    return root;
+  }
+
+  function positionNode(dy, n) {
+    return function(node) {
+      if (node.children) {
+        Object(_treemap_dice__WEBPACK_IMPORTED_MODULE_1__["default"])(node, node.x0, dy * (node.depth + 1) / n, node.x1, dy * (node.depth + 2) / n);
+      }
+      var x0 = node.x0,
+          y0 = node.y0,
+          x1 = node.x1 - padding,
+          y1 = node.y1 - padding;
+      if (x1 < x0) x0 = x1 = (x0 + x1) / 2;
+      if (y1 < y0) y0 = y1 = (y0 + y1) / 2;
+      node.x0 = x0;
+      node.y0 = y0;
+      node.x1 = x1;
+      node.y1 = y1;
+    };
+  }
+
+  partition.round = function(x) {
+    return arguments.length ? (round = !!x, partition) : round;
+  };
+
+  partition.size = function(x) {
+    return arguments.length ? (dx = +x[0], dy = +x[1], partition) : [dx, dy];
+  };
+
+  partition.padding = function(x) {
+    return arguments.length ? (padding = +x, partition) : padding;
+  };
+
+  return partition;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/stratify.js":
+/*!***************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/stratify.js ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _accessors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./accessors */ "../../node_modules/d3-hierarchy/src/accessors.js");
+/* harmony import */ var _hierarchy_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hierarchy/index */ "../../node_modules/d3-hierarchy/src/hierarchy/index.js");
+
+
+
+var keyPrefix = "$", // Protect against keys like “__proto__”.
+    preroot = {depth: -1},
+    ambiguous = {};
+
+function defaultId(d) {
+  return d.id;
+}
+
+function defaultParentId(d) {
+  return d.parentId;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var id = defaultId,
+      parentId = defaultParentId;
+
+  function stratify(data) {
+    var d,
+        i,
+        n = data.length,
+        root,
+        parent,
+        node,
+        nodes = new Array(n),
+        nodeId,
+        nodeKey,
+        nodeByKey = {};
+
+    for (i = 0; i < n; ++i) {
+      d = data[i], node = nodes[i] = new _hierarchy_index__WEBPACK_IMPORTED_MODULE_1__["Node"](d);
+      if ((nodeId = id(d, i, data)) != null && (nodeId += "")) {
+        nodeKey = keyPrefix + (node.id = nodeId);
+        nodeByKey[nodeKey] = nodeKey in nodeByKey ? ambiguous : node;
+      }
+    }
+
+    for (i = 0; i < n; ++i) {
+      node = nodes[i], nodeId = parentId(data[i], i, data);
+      if (nodeId == null || !(nodeId += "")) {
+        if (root) throw new Error("multiple roots");
+        root = node;
+      } else {
+        parent = nodeByKey[keyPrefix + nodeId];
+        if (!parent) throw new Error("missing: " + nodeId);
+        if (parent === ambiguous) throw new Error("ambiguous: " + nodeId);
+        if (parent.children) parent.children.push(node);
+        else parent.children = [node];
+        node.parent = parent;
+      }
+    }
+
+    if (!root) throw new Error("no root");
+    root.parent = preroot;
+    root.eachBefore(function(node) { node.depth = node.parent.depth + 1; --n; }).eachBefore(_hierarchy_index__WEBPACK_IMPORTED_MODULE_1__["computeHeight"]);
+    root.parent = null;
+    if (n > 0) throw new Error("cycle");
+
+    return root;
+  }
+
+  stratify.id = function(x) {
+    return arguments.length ? (id = Object(_accessors__WEBPACK_IMPORTED_MODULE_0__["required"])(x), stratify) : id;
+  };
+
+  stratify.parentId = function(x) {
+    return arguments.length ? (parentId = Object(_accessors__WEBPACK_IMPORTED_MODULE_0__["required"])(x), stratify) : parentId;
+  };
+
+  return stratify;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/tree.js":
+/*!***********************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/tree.js ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _hierarchy_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hierarchy/index */ "../../node_modules/d3-hierarchy/src/hierarchy/index.js");
+
+
+function defaultSeparation(a, b) {
+  return a.parent === b.parent ? 1 : 2;
+}
+
+// function radialSeparation(a, b) {
+//   return (a.parent === b.parent ? 1 : 2) / a.depth;
+// }
+
+// This function is used to traverse the left contour of a subtree (or
+// subforest). It returns the successor of v on this contour. This successor is
+// either given by the leftmost child of v or by the thread of v. The function
+// returns null if and only if v is on the highest level of its subtree.
+function nextLeft(v) {
+  var children = v.children;
+  return children ? children[0] : v.t;
+}
+
+// This function works analogously to nextLeft.
+function nextRight(v) {
+  var children = v.children;
+  return children ? children[children.length - 1] : v.t;
+}
+
+// Shifts the current subtree rooted at w+. This is done by increasing
+// prelim(w+) and mod(w+) by shift.
+function moveSubtree(wm, wp, shift) {
+  var change = shift / (wp.i - wm.i);
+  wp.c -= change;
+  wp.s += shift;
+  wm.c += change;
+  wp.z += shift;
+  wp.m += shift;
+}
+
+// All other shifts, applied to the smaller subtrees between w- and w+, are
+// performed by this function. To prepare the shifts, we have to adjust
+// change(w+), shift(w+), and change(w-).
+function executeShifts(v) {
+  var shift = 0,
+      change = 0,
+      children = v.children,
+      i = children.length,
+      w;
+  while (--i >= 0) {
+    w = children[i];
+    w.z += shift;
+    w.m += shift;
+    shift += w.s + (change += w.c);
+  }
+}
+
+// If vi-’s ancestor is a sibling of v, returns vi-’s ancestor. Otherwise,
+// returns the specified (default) ancestor.
+function nextAncestor(vim, v, ancestor) {
+  return vim.a.parent === v.parent ? vim.a : ancestor;
+}
+
+function TreeNode(node, i) {
+  this._ = node;
+  this.parent = null;
+  this.children = null;
+  this.A = null; // default ancestor
+  this.a = this; // ancestor
+  this.z = 0; // prelim
+  this.m = 0; // mod
+  this.c = 0; // change
+  this.s = 0; // shift
+  this.t = null; // thread
+  this.i = i; // number
+}
+
+TreeNode.prototype = Object.create(_hierarchy_index__WEBPACK_IMPORTED_MODULE_0__["Node"].prototype);
+
+function treeRoot(root) {
+  var tree = new TreeNode(root, 0),
+      node,
+      nodes = [tree],
+      child,
+      children,
+      i,
+      n;
+
+  while (node = nodes.pop()) {
+    if (children = node._.children) {
+      node.children = new Array(n = children.length);
+      for (i = n - 1; i >= 0; --i) {
+        nodes.push(child = node.children[i] = new TreeNode(children[i], i));
+        child.parent = node;
+      }
+    }
+  }
+
+  (tree.parent = new TreeNode(null, 0)).children = [tree];
+  return tree;
+}
+
+// Node-link tree diagram using the Reingold-Tilford "tidy" algorithm
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var separation = defaultSeparation,
+      dx = 1,
+      dy = 1,
+      nodeSize = null;
+
+  function tree(root) {
+    var t = treeRoot(root);
+
+    // Compute the layout using Buchheim et al.’s algorithm.
+    t.eachAfter(firstWalk), t.parent.m = -t.z;
+    t.eachBefore(secondWalk);
+
+    // If a fixed node size is specified, scale x and y.
+    if (nodeSize) root.eachBefore(sizeNode);
+
+    // If a fixed tree size is specified, scale x and y based on the extent.
+    // Compute the left-most, right-most, and depth-most nodes for extents.
+    else {
+      var left = root,
+          right = root,
+          bottom = root;
+      root.eachBefore(function(node) {
+        if (node.x < left.x) left = node;
+        if (node.x > right.x) right = node;
+        if (node.depth > bottom.depth) bottom = node;
+      });
+      var s = left === right ? 1 : separation(left, right) / 2,
+          tx = s - left.x,
+          kx = dx / (right.x + s + tx),
+          ky = dy / (bottom.depth || 1);
+      root.eachBefore(function(node) {
+        node.x = (node.x + tx) * kx;
+        node.y = node.depth * ky;
+      });
+    }
+
+    return root;
+  }
+
+  // Computes a preliminary x-coordinate for v. Before that, FIRST WALK is
+  // applied recursively to the children of v, as well as the function
+  // APPORTION. After spacing out the children by calling EXECUTE SHIFTS, the
+  // node v is placed to the midpoint of its outermost children.
+  function firstWalk(v) {
+    var children = v.children,
+        siblings = v.parent.children,
+        w = v.i ? siblings[v.i - 1] : null;
+    if (children) {
+      executeShifts(v);
+      var midpoint = (children[0].z + children[children.length - 1].z) / 2;
+      if (w) {
+        v.z = w.z + separation(v._, w._);
+        v.m = v.z - midpoint;
+      } else {
+        v.z = midpoint;
+      }
+    } else if (w) {
+      v.z = w.z + separation(v._, w._);
+    }
+    v.parent.A = apportion(v, w, v.parent.A || siblings[0]);
+  }
+
+  // Computes all real x-coordinates by summing up the modifiers recursively.
+  function secondWalk(v) {
+    v._.x = v.z + v.parent.m;
+    v.m += v.parent.m;
+  }
+
+  // The core of the algorithm. Here, a new subtree is combined with the
+  // previous subtrees. Threads are used to traverse the inside and outside
+  // contours of the left and right subtree up to the highest common level. The
+  // vertices used for the traversals are vi+, vi-, vo-, and vo+, where the
+  // superscript o means outside and i means inside, the subscript - means left
+  // subtree and + means right subtree. For summing up the modifiers along the
+  // contour, we use respective variables si+, si-, so-, and so+. Whenever two
+  // nodes of the inside contours conflict, we compute the left one of the
+  // greatest uncommon ancestors using the function ANCESTOR and call MOVE
+  // SUBTREE to shift the subtree and prepare the shifts of smaller subtrees.
+  // Finally, we add a new thread (if necessary).
+  function apportion(v, w, ancestor) {
+    if (w) {
+      var vip = v,
+          vop = v,
+          vim = w,
+          vom = vip.parent.children[0],
+          sip = vip.m,
+          sop = vop.m,
+          sim = vim.m,
+          som = vom.m,
+          shift;
+      while (vim = nextRight(vim), vip = nextLeft(vip), vim && vip) {
+        vom = nextLeft(vom);
+        vop = nextRight(vop);
+        vop.a = v;
+        shift = vim.z + sim - vip.z - sip + separation(vim._, vip._);
+        if (shift > 0) {
+          moveSubtree(nextAncestor(vim, v, ancestor), v, shift);
+          sip += shift;
+          sop += shift;
+        }
+        sim += vim.m;
+        sip += vip.m;
+        som += vom.m;
+        sop += vop.m;
+      }
+      if (vim && !nextRight(vop)) {
+        vop.t = vim;
+        vop.m += sim - sop;
+      }
+      if (vip && !nextLeft(vom)) {
+        vom.t = vip;
+        vom.m += sip - som;
+        ancestor = v;
+      }
+    }
+    return ancestor;
+  }
+
+  function sizeNode(node) {
+    node.x *= dx;
+    node.y = node.depth * dy;
+  }
+
+  tree.separation = function(x) {
+    return arguments.length ? (separation = x, tree) : separation;
+  };
+
+  tree.size = function(x) {
+    return arguments.length ? (nodeSize = false, dx = +x[0], dy = +x[1], tree) : (nodeSize ? null : [dx, dy]);
+  };
+
+  tree.nodeSize = function(x) {
+    return arguments.length ? (nodeSize = true, dx = +x[0], dy = +x[1], tree) : (nodeSize ? [dx, dy] : null);
+  };
+
+  return tree;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/binary.js":
+/*!*********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/binary.js ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(parent, x0, y0, x1, y1) {
+  var nodes = parent.children,
+      i, n = nodes.length,
+      sum, sums = new Array(n + 1);
+
+  for (sums[0] = sum = i = 0; i < n; ++i) {
+    sums[i + 1] = sum += nodes[i].value;
+  }
+
+  partition(0, n, parent.value, x0, y0, x1, y1);
+
+  function partition(i, j, value, x0, y0, x1, y1) {
+    if (i >= j - 1) {
+      var node = nodes[i];
+      node.x0 = x0, node.y0 = y0;
+      node.x1 = x1, node.y1 = y1;
+      return;
+    }
+
+    var valueOffset = sums[i],
+        valueTarget = (value / 2) + valueOffset,
+        k = i + 1,
+        hi = j - 1;
+
+    while (k < hi) {
+      var mid = k + hi >>> 1;
+      if (sums[mid] < valueTarget) k = mid + 1;
+      else hi = mid;
+    }
+
+    if ((valueTarget - sums[k - 1]) < (sums[k] - valueTarget) && i + 1 < k) --k;
+
+    var valueLeft = sums[k] - valueOffset,
+        valueRight = value - valueLeft;
+
+    if ((x1 - x0) > (y1 - y0)) {
+      var xk = (x0 * valueRight + x1 * valueLeft) / value;
+      partition(i, k, valueLeft, x0, y0, xk, y1);
+      partition(k, j, valueRight, xk, y0, x1, y1);
+    } else {
+      var yk = (y0 * valueRight + y1 * valueLeft) / value;
+      partition(i, k, valueLeft, x0, y0, x1, yk);
+      partition(k, j, valueRight, x0, yk, x1, y1);
+    }
+  }
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/dice.js":
+/*!*******************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/dice.js ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(parent, x0, y0, x1, y1) {
+  var nodes = parent.children,
+      node,
+      i = -1,
+      n = nodes.length,
+      k = parent.value && (x1 - x0) / parent.value;
+
+  while (++i < n) {
+    node = nodes[i], node.y0 = y0, node.y1 = y1;
+    node.x0 = x0, node.x1 = x0 += node.value * k;
+  }
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/index.js":
+/*!********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/index.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _round__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./round */ "../../node_modules/d3-hierarchy/src/treemap/round.js");
+/* harmony import */ var _squarify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./squarify */ "../../node_modules/d3-hierarchy/src/treemap/squarify.js");
+/* harmony import */ var _accessors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../accessors */ "../../node_modules/d3-hierarchy/src/accessors.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constant */ "../../node_modules/d3-hierarchy/src/constant.js");
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function() {
+  var tile = _squarify__WEBPACK_IMPORTED_MODULE_1__["default"],
+      round = false,
+      dx = 1,
+      dy = 1,
+      paddingStack = [0],
+      paddingInner = _constant__WEBPACK_IMPORTED_MODULE_3__["constantZero"],
+      paddingTop = _constant__WEBPACK_IMPORTED_MODULE_3__["constantZero"],
+      paddingRight = _constant__WEBPACK_IMPORTED_MODULE_3__["constantZero"],
+      paddingBottom = _constant__WEBPACK_IMPORTED_MODULE_3__["constantZero"],
+      paddingLeft = _constant__WEBPACK_IMPORTED_MODULE_3__["constantZero"];
+
+  function treemap(root) {
+    root.x0 =
+    root.y0 = 0;
+    root.x1 = dx;
+    root.y1 = dy;
+    root.eachBefore(positionNode);
+    paddingStack = [0];
+    if (round) root.eachBefore(_round__WEBPACK_IMPORTED_MODULE_0__["default"]);
+    return root;
+  }
+
+  function positionNode(node) {
+    var p = paddingStack[node.depth],
+        x0 = node.x0 + p,
+        y0 = node.y0 + p,
+        x1 = node.x1 - p,
+        y1 = node.y1 - p;
+    if (x1 < x0) x0 = x1 = (x0 + x1) / 2;
+    if (y1 < y0) y0 = y1 = (y0 + y1) / 2;
+    node.x0 = x0;
+    node.y0 = y0;
+    node.x1 = x1;
+    node.y1 = y1;
+    if (node.children) {
+      p = paddingStack[node.depth + 1] = paddingInner(node) / 2;
+      x0 += paddingLeft(node) - p;
+      y0 += paddingTop(node) - p;
+      x1 -= paddingRight(node) - p;
+      y1 -= paddingBottom(node) - p;
+      if (x1 < x0) x0 = x1 = (x0 + x1) / 2;
+      if (y1 < y0) y0 = y1 = (y0 + y1) / 2;
+      tile(node, x0, y0, x1, y1);
+    }
+  }
+
+  treemap.round = function(x) {
+    return arguments.length ? (round = !!x, treemap) : round;
+  };
+
+  treemap.size = function(x) {
+    return arguments.length ? (dx = +x[0], dy = +x[1], treemap) : [dx, dy];
+  };
+
+  treemap.tile = function(x) {
+    return arguments.length ? (tile = Object(_accessors__WEBPACK_IMPORTED_MODULE_2__["required"])(x), treemap) : tile;
+  };
+
+  treemap.padding = function(x) {
+    return arguments.length ? treemap.paddingInner(x).paddingOuter(x) : treemap.paddingInner();
+  };
+
+  treemap.paddingInner = function(x) {
+    return arguments.length ? (paddingInner = typeof x === "function" ? x : Object(_constant__WEBPACK_IMPORTED_MODULE_3__["default"])(+x), treemap) : paddingInner;
+  };
+
+  treemap.paddingOuter = function(x) {
+    return arguments.length ? treemap.paddingTop(x).paddingRight(x).paddingBottom(x).paddingLeft(x) : treemap.paddingTop();
+  };
+
+  treemap.paddingTop = function(x) {
+    return arguments.length ? (paddingTop = typeof x === "function" ? x : Object(_constant__WEBPACK_IMPORTED_MODULE_3__["default"])(+x), treemap) : paddingTop;
+  };
+
+  treemap.paddingRight = function(x) {
+    return arguments.length ? (paddingRight = typeof x === "function" ? x : Object(_constant__WEBPACK_IMPORTED_MODULE_3__["default"])(+x), treemap) : paddingRight;
+  };
+
+  treemap.paddingBottom = function(x) {
+    return arguments.length ? (paddingBottom = typeof x === "function" ? x : Object(_constant__WEBPACK_IMPORTED_MODULE_3__["default"])(+x), treemap) : paddingBottom;
+  };
+
+  treemap.paddingLeft = function(x) {
+    return arguments.length ? (paddingLeft = typeof x === "function" ? x : Object(_constant__WEBPACK_IMPORTED_MODULE_3__["default"])(+x), treemap) : paddingLeft;
+  };
+
+  return treemap;
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/resquarify.js":
+/*!*************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/resquarify.js ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _dice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dice */ "../../node_modules/d3-hierarchy/src/treemap/dice.js");
+/* harmony import */ var _slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./slice */ "../../node_modules/d3-hierarchy/src/treemap/slice.js");
+/* harmony import */ var _squarify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./squarify */ "../../node_modules/d3-hierarchy/src/treemap/squarify.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ((function custom(ratio) {
+
+  function resquarify(parent, x0, y0, x1, y1) {
+    if ((rows = parent._squarify) && (rows.ratio === ratio)) {
+      var rows,
+          row,
+          nodes,
+          i,
+          j = -1,
+          n,
+          m = rows.length,
+          value = parent.value;
+
+      while (++j < m) {
+        row = rows[j], nodes = row.children;
+        for (i = row.value = 0, n = nodes.length; i < n; ++i) row.value += nodes[i].value;
+        if (row.dice) Object(_dice__WEBPACK_IMPORTED_MODULE_0__["default"])(row, x0, y0, x1, y0 += (y1 - y0) * row.value / value);
+        else Object(_slice__WEBPACK_IMPORTED_MODULE_1__["default"])(row, x0, y0, x0 += (x1 - x0) * row.value / value, y1);
+        value -= row.value;
+      }
+    } else {
+      parent._squarify = rows = Object(_squarify__WEBPACK_IMPORTED_MODULE_2__["squarifyRatio"])(ratio, parent, x0, y0, x1, y1);
+      rows.ratio = ratio;
+    }
+  }
+
+  resquarify.ratio = function(x) {
+    return custom((x = +x) > 1 ? x : 1);
+  };
+
+  return resquarify;
+})(_squarify__WEBPACK_IMPORTED_MODULE_2__["phi"]));
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/round.js":
+/*!********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/round.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(node) {
+  node.x0 = Math.round(node.x0);
+  node.y0 = Math.round(node.y0);
+  node.x1 = Math.round(node.x1);
+  node.y1 = Math.round(node.y1);
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/slice.js":
+/*!********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/slice.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(parent, x0, y0, x1, y1) {
+  var nodes = parent.children,
+      node,
+      i = -1,
+      n = nodes.length,
+      k = parent.value && (y1 - y0) / parent.value;
+
+  while (++i < n) {
+    node = nodes[i], node.x0 = x0, node.x1 = x1;
+    node.y0 = y0, node.y1 = y0 += node.value * k;
+  }
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/sliceDice.js":
+/*!************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/sliceDice.js ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _dice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dice */ "../../node_modules/d3-hierarchy/src/treemap/dice.js");
+/* harmony import */ var _slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./slice */ "../../node_modules/d3-hierarchy/src/treemap/slice.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function(parent, x0, y0, x1, y1) {
+  (parent.depth & 1 ? _slice__WEBPACK_IMPORTED_MODULE_1__["default"] : _dice__WEBPACK_IMPORTED_MODULE_0__["default"])(parent, x0, y0, x1, y1);
+});
+
+
+/***/ }),
+
+/***/ "../../node_modules/d3-hierarchy/src/treemap/squarify.js":
+/*!***********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/d3-hierarchy/src/treemap/squarify.js ***!
+  \***********************************************************************************************/
+/*! exports provided: phi, squarifyRatio, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "phi", function() { return phi; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squarifyRatio", function() { return squarifyRatio; });
+/* harmony import */ var _dice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dice */ "../../node_modules/d3-hierarchy/src/treemap/dice.js");
+/* harmony import */ var _slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./slice */ "../../node_modules/d3-hierarchy/src/treemap/slice.js");
+
+
+
+var phi = (1 + Math.sqrt(5)) / 2;
+
+function squarifyRatio(ratio, parent, x0, y0, x1, y1) {
+  var rows = [],
+      nodes = parent.children,
+      row,
+      nodeValue,
+      i0 = 0,
+      i1 = 0,
+      n = nodes.length,
+      dx, dy,
+      value = parent.value,
+      sumValue,
+      minValue,
+      maxValue,
+      newRatio,
+      minRatio,
+      alpha,
+      beta;
+
+  while (i0 < n) {
+    dx = x1 - x0, dy = y1 - y0;
+
+    // Find the next non-empty node.
+    do sumValue = nodes[i1++].value; while (!sumValue && i1 < n);
+    minValue = maxValue = sumValue;
+    alpha = Math.max(dy / dx, dx / dy) / (value * ratio);
+    beta = sumValue * sumValue * alpha;
+    minRatio = Math.max(maxValue / beta, beta / minValue);
+
+    // Keep adding nodes while the aspect ratio maintains or improves.
+    for (; i1 < n; ++i1) {
+      sumValue += nodeValue = nodes[i1].value;
+      if (nodeValue < minValue) minValue = nodeValue;
+      if (nodeValue > maxValue) maxValue = nodeValue;
+      beta = sumValue * sumValue * alpha;
+      newRatio = Math.max(maxValue / beta, beta / minValue);
+      if (newRatio > minRatio) { sumValue -= nodeValue; break; }
+      minRatio = newRatio;
+    }
+
+    // Position and record the row orientation.
+    rows.push(row = {value: sumValue, dice: dx < dy, children: nodes.slice(i0, i1)});
+    if (row.dice) Object(_dice__WEBPACK_IMPORTED_MODULE_0__["default"])(row, x0, y0, x1, value ? y0 += dy * sumValue / value : y1);
+    else Object(_slice__WEBPACK_IMPORTED_MODULE_1__["default"])(row, x0, y0, value ? x0 += dx * sumValue / value : x1, y1);
+    value -= sumValue, i0 = i1;
+  }
+
+  return rows;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = ((function custom(ratio) {
+
+  function squarify(parent, x0, y0, x1, y1) {
+    squarifyRatio(ratio, parent, x0, y0, x1, y1);
+  }
+
+  squarify.ratio = function(x) {
+    return custom((x = +x) > 1 ? x : 1);
+  };
+
+  return squarify;
+})(phi));
+
+
+/***/ }),
+
 /***/ "../../node_modules/debug/src/browser.js":
 /*!*******************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/debug/src/browser.js ***!
@@ -29077,6 +31255,5569 @@ module.exports = {
 
 /***/ }),
 
+/***/ "../../node_modules/svg.js/dist/svg.js":
+/*!*****************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/svg.js/dist/svg.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+* svg.js - A lightweight library for manipulating and animating SVG.
+* @version 2.6.4
+* https://svgdotjs.github.io/
+*
+* @copyright Wout Fierens <wout@mick-wout.com>
+* @license MIT
+*
+* BUILT: Wed Feb 07 2018 22:59:25 GMT+0100 (Mitteleuropäische Zeit)
+*/;
+(function(root, factory) {
+  /* istanbul ignore next */
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_RESULT__ = (function(){
+      return factory(root, root.document)
+    }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+  } else {}
+}(typeof window !== "undefined" ? window : this, function(window, document) {
+
+// The main wrapping element
+var SVG = this.SVG = function(element) {
+  if (SVG.supported) {
+    element = new SVG.Doc(element)
+
+    if(!SVG.parser.draw)
+      SVG.prepare()
+
+    return element
+  }
+}
+
+// Default namespaces
+SVG.ns    = 'http://www.w3.org/2000/svg'
+SVG.xmlns = 'http://www.w3.org/2000/xmlns/'
+SVG.xlink = 'http://www.w3.org/1999/xlink'
+SVG.svgjs = 'http://svgjs.com/svgjs'
+
+// Svg support test
+SVG.supported = (function() {
+  return !! document.createElementNS &&
+         !! document.createElementNS(SVG.ns,'svg').createSVGRect
+})()
+
+// Don't bother to continue if SVG is not supported
+if (!SVG.supported) return false
+
+// Element id sequence
+SVG.did  = 1000
+
+// Get next named element id
+SVG.eid = function(name) {
+  return 'Svgjs' + capitalize(name) + (SVG.did++)
+}
+
+// Method for element creation
+SVG.create = function(name) {
+  // create element
+  var element = document.createElementNS(this.ns, name)
+
+  // apply unique id
+  element.setAttribute('id', this.eid(name))
+
+  return element
+}
+
+// Method for extending objects
+SVG.extend = function() {
+  var modules, methods, key, i
+
+  // Get list of modules
+  modules = [].slice.call(arguments)
+
+  // Get object with extensions
+  methods = modules.pop()
+
+  for (i = modules.length - 1; i >= 0; i--)
+    if (modules[i])
+      for (key in methods)
+        modules[i].prototype[key] = methods[key]
+
+  // Make sure SVG.Set inherits any newly added methods
+  if (SVG.Set && SVG.Set.inherit)
+    SVG.Set.inherit()
+}
+
+// Invent new element
+SVG.invent = function(config) {
+  // Create element initializer
+  var initializer = typeof config.create == 'function' ?
+    config.create :
+    function() {
+      this.constructor.call(this, SVG.create(config.create))
+    }
+
+  // Inherit prototype
+  if (config.inherit)
+    initializer.prototype = new config.inherit
+
+  // Extend with methods
+  if (config.extend)
+    SVG.extend(initializer, config.extend)
+
+  // Attach construct method to parent
+  if (config.construct)
+    SVG.extend(config.parent || SVG.Container, config.construct)
+
+  return initializer
+}
+
+// Adopt existing svg elements
+SVG.adopt = function(node) {
+  // check for presence of node
+  if (!node) return null
+
+  // make sure a node isn't already adopted
+  if (node.instance) return node.instance
+
+  // initialize variables
+  var element
+
+  // adopt with element-specific settings
+  if (node.nodeName == 'svg')
+    element = node.parentNode instanceof window.SVGElement ? new SVG.Nested : new SVG.Doc
+  else if (node.nodeName == 'linearGradient')
+    element = new SVG.Gradient('linear')
+  else if (node.nodeName == 'radialGradient')
+    element = new SVG.Gradient('radial')
+  else if (SVG[capitalize(node.nodeName)])
+    element = new SVG[capitalize(node.nodeName)]
+  else
+    element = new SVG.Element(node)
+
+  // ensure references
+  element.type  = node.nodeName
+  element.node  = node
+  node.instance = element
+
+  // SVG.Class specific preparations
+  if (element instanceof SVG.Doc)
+    element.namespace().defs()
+
+  // pull svgjs data from the dom (getAttributeNS doesn't work in html5)
+  element.setData(JSON.parse(node.getAttribute('svgjs:data')) || {})
+
+  return element
+}
+
+// Initialize parsing element
+SVG.prepare = function() {
+  // Select document body and create invisible svg element
+  var body = document.getElementsByTagName('body')[0]
+    , draw = (body ? new SVG.Doc(body) : SVG.adopt(document.documentElement).nested()).size(2, 0)
+
+  // Create parser object
+  SVG.parser = {
+    body: body || document.documentElement
+  , draw: draw.style('opacity:0;position:absolute;left:-100%;top:-100%;overflow:hidden').node
+  , poly: draw.polyline().node
+  , path: draw.path().node
+  , native: SVG.create('svg')
+  }
+}
+
+SVG.parser = {
+  native: SVG.create('svg')
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if(!SVG.parser.draw)
+    SVG.prepare()
+}, false)
+
+// Storage for regular expressions
+SVG.regex = {
+  // Parse unit value
+  numberAndUnit:    /^([+-]?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?)([a-z%]*)$/i
+
+  // Parse hex value
+, hex:              /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
+
+  // Parse rgb value
+, rgb:              /rgb\((\d+),(\d+),(\d+)\)/
+
+  // Parse reference id
+, reference:        /#([a-z0-9\-_]+)/i
+
+  // splits a transformation chain
+, transforms:       /\)\s*,?\s*/
+
+  // Whitespace
+, whitespace:       /\s/g
+
+  // Test hex value
+, isHex:            /^#[a-f0-9]{3,6}$/i
+
+  // Test rgb value
+, isRgb:            /^rgb\(/
+
+  // Test css declaration
+, isCss:            /[^:]+:[^;]+;?/
+
+  // Test for blank string
+, isBlank:          /^(\s+)?$/
+
+  // Test for numeric string
+, isNumber:         /^[+-]?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i
+
+  // Test for percent value
+, isPercent:        /^-?[\d\.]+%$/
+
+  // Test for image url
+, isImage:          /\.(jpg|jpeg|png|gif|svg)(\?[^=]+.*)?/i
+
+  // split at whitespace and comma
+, delimiter:        /[\s,]+/
+
+  // The following regex are used to parse the d attribute of a path
+
+  // Matches all hyphens which are not after an exponent
+, hyphen:           /([^e])\-/gi
+
+  // Replaces and tests for all path letters
+, pathLetters:      /[MLHVCSQTAZ]/gi
+
+  // yes we need this one, too
+, isPathLetter:     /[MLHVCSQTAZ]/i
+
+  // matches 0.154.23.45
+, numbersWithDots:  /((\d?\.\d+(?:e[+-]?\d+)?)((?:\.\d+(?:e[+-]?\d+)?)+))+/gi
+
+  // matches .
+, dots:             /\./g
+}
+
+SVG.utils = {
+  // Map function
+  map: function(array, block) {
+    var i
+      , il = array.length
+      , result = []
+
+    for (i = 0; i < il; i++)
+      result.push(block(array[i]))
+
+    return result
+  }
+
+  // Filter function
+, filter: function(array, block) {
+    var i
+      , il = array.length
+      , result = []
+
+    for (i = 0; i < il; i++)
+      if (block(array[i]))
+        result.push(array[i])
+
+    return result
+  }
+
+  // Degrees to radians
+, radians: function(d) {
+    return d % 360 * Math.PI / 180
+  }
+
+  // Radians to degrees
+, degrees: function(r) {
+    return r * 180 / Math.PI % 360
+  }
+
+, filterSVGElements: function(nodes) {
+    return this.filter( nodes, function(el) { return el instanceof window.SVGElement })
+  }
+
+}
+
+SVG.defaults = {
+  // Default attribute values
+  attrs: {
+    // fill and stroke
+    'fill-opacity':     1
+  , 'stroke-opacity':   1
+  , 'stroke-width':     0
+  , 'stroke-linejoin':  'miter'
+  , 'stroke-linecap':   'butt'
+  , fill:               '#000000'
+  , stroke:             '#000000'
+  , opacity:            1
+    // position
+  , x:                  0
+  , y:                  0
+  , cx:                 0
+  , cy:                 0
+    // size
+  , width:              0
+  , height:             0
+    // radius
+  , r:                  0
+  , rx:                 0
+  , ry:                 0
+    // gradient
+  , offset:             0
+  , 'stop-opacity':     1
+  , 'stop-color':       '#000000'
+    // text
+  , 'font-size':        16
+  , 'font-family':      'Helvetica, Arial, sans-serif'
+  , 'text-anchor':      'start'
+  }
+
+}
+// Module for color convertions
+SVG.Color = function(color) {
+  var match
+
+  // initialize defaults
+  this.r = 0
+  this.g = 0
+  this.b = 0
+
+  if(!color) return
+
+  // parse color
+  if (typeof color === 'string') {
+    if (SVG.regex.isRgb.test(color)) {
+      // get rgb values
+      match = SVG.regex.rgb.exec(color.replace(SVG.regex.whitespace,''))
+
+      // parse numeric values
+      this.r = parseInt(match[1])
+      this.g = parseInt(match[2])
+      this.b = parseInt(match[3])
+
+    } else if (SVG.regex.isHex.test(color)) {
+      // get hex values
+      match = SVG.regex.hex.exec(fullHex(color))
+
+      // parse numeric values
+      this.r = parseInt(match[1], 16)
+      this.g = parseInt(match[2], 16)
+      this.b = parseInt(match[3], 16)
+
+    }
+
+  } else if (typeof color === 'object') {
+    this.r = color.r
+    this.g = color.g
+    this.b = color.b
+
+  }
+
+}
+
+SVG.extend(SVG.Color, {
+  // Default to hex conversion
+  toString: function() {
+    return this.toHex()
+  }
+  // Build hex value
+, toHex: function() {
+    return '#'
+      + compToHex(this.r)
+      + compToHex(this.g)
+      + compToHex(this.b)
+  }
+  // Build rgb value
+, toRgb: function() {
+    return 'rgb(' + [this.r, this.g, this.b].join() + ')'
+  }
+  // Calculate true brightness
+, brightness: function() {
+    return (this.r / 255 * 0.30)
+         + (this.g / 255 * 0.59)
+         + (this.b / 255 * 0.11)
+  }
+  // Make color morphable
+, morph: function(color) {
+    this.destination = new SVG.Color(color)
+
+    return this
+  }
+  // Get morphed color at given position
+, at: function(pos) {
+    // make sure a destination is defined
+    if (!this.destination) return this
+
+    // normalise pos
+    pos = pos < 0 ? 0 : pos > 1 ? 1 : pos
+
+    // generate morphed color
+    return new SVG.Color({
+      r: ~~(this.r + (this.destination.r - this.r) * pos)
+    , g: ~~(this.g + (this.destination.g - this.g) * pos)
+    , b: ~~(this.b + (this.destination.b - this.b) * pos)
+    })
+  }
+
+})
+
+// Testers
+
+// Test if given value is a color string
+SVG.Color.test = function(color) {
+  color += ''
+  return SVG.regex.isHex.test(color)
+      || SVG.regex.isRgb.test(color)
+}
+
+// Test if given value is a rgb object
+SVG.Color.isRgb = function(color) {
+  return color && typeof color.r == 'number'
+               && typeof color.g == 'number'
+               && typeof color.b == 'number'
+}
+
+// Test if given value is a color
+SVG.Color.isColor = function(color) {
+  return SVG.Color.isRgb(color) || SVG.Color.test(color)
+}
+// Module for array conversion
+SVG.Array = function(array, fallback) {
+  array = (array || []).valueOf()
+
+  // if array is empty and fallback is provided, use fallback
+  if (array.length == 0 && fallback)
+    array = fallback.valueOf()
+
+  // parse array
+  this.value = this.parse(array)
+}
+
+SVG.extend(SVG.Array, {
+  // Make array morphable
+  morph: function(array) {
+    this.destination = this.parse(array)
+
+    // normalize length of arrays
+    if (this.value.length != this.destination.length) {
+      var lastValue       = this.value[this.value.length - 1]
+        , lastDestination = this.destination[this.destination.length - 1]
+
+      while(this.value.length > this.destination.length)
+        this.destination.push(lastDestination)
+      while(this.value.length < this.destination.length)
+        this.value.push(lastValue)
+    }
+
+    return this
+  }
+  // Clean up any duplicate points
+, settle: function() {
+    // find all unique values
+    for (var i = 0, il = this.value.length, seen = []; i < il; i++)
+      if (seen.indexOf(this.value[i]) == -1)
+        seen.push(this.value[i])
+
+    // set new value
+    return this.value = seen
+  }
+  // Get morphed array at given position
+, at: function(pos) {
+    // make sure a destination is defined
+    if (!this.destination) return this
+
+    // generate morphed array
+    for (var i = 0, il = this.value.length, array = []; i < il; i++)
+      array.push(this.value[i] + (this.destination[i] - this.value[i]) * pos)
+
+    return new SVG.Array(array)
+  }
+  // Convert array to string
+, toString: function() {
+    return this.value.join(' ')
+  }
+  // Real value
+, valueOf: function() {
+    return this.value
+  }
+  // Parse whitespace separated string
+, parse: function(array) {
+    array = array.valueOf()
+
+    // if already is an array, no need to parse it
+    if (Array.isArray(array)) return array
+
+    return this.split(array)
+  }
+  // Strip unnecessary whitespace
+, split: function(string) {
+    return string.trim().split(SVG.regex.delimiter).map(parseFloat)
+  }
+  // Reverse array
+, reverse: function() {
+    this.value.reverse()
+
+    return this
+  }
+, clone: function() {
+    var clone = new this.constructor()
+    clone.value = array_clone(this.value)
+    return clone
+  }
+})
+// Poly points array
+SVG.PointArray = function(array, fallback) {
+  SVG.Array.call(this, array, fallback || [[0,0]])
+}
+
+// Inherit from SVG.Array
+SVG.PointArray.prototype = new SVG.Array
+SVG.PointArray.prototype.constructor = SVG.PointArray
+
+SVG.extend(SVG.PointArray, {
+  // Convert array to string
+  toString: function() {
+    // convert to a poly point string
+    for (var i = 0, il = this.value.length, array = []; i < il; i++)
+      array.push(this.value[i].join(','))
+
+    return array.join(' ')
+  }
+  // Convert array to line object
+, toLine: function() {
+    return {
+      x1: this.value[0][0]
+    , y1: this.value[0][1]
+    , x2: this.value[1][0]
+    , y2: this.value[1][1]
+    }
+  }
+  // Get morphed array at given position
+, at: function(pos) {
+    // make sure a destination is defined
+    if (!this.destination) return this
+
+    // generate morphed point string
+    for (var i = 0, il = this.value.length, array = []; i < il; i++)
+      array.push([
+        this.value[i][0] + (this.destination[i][0] - this.value[i][0]) * pos
+      , this.value[i][1] + (this.destination[i][1] - this.value[i][1]) * pos
+      ])
+
+    return new SVG.PointArray(array)
+  }
+  // Parse point string and flat array
+, parse: function(array) {
+    var points = []
+
+    array = array.valueOf()
+
+    // if it is an array
+    if (Array.isArray(array)) {
+      // and it is not flat, there is no need to parse it
+      if(Array.isArray(array[0])) {
+        return array
+      }
+    } else { // Else, it is considered as a string
+      // parse points
+      array = array.trim().split(SVG.regex.delimiter).map(parseFloat)
+    }
+
+    // validate points - https://svgwg.org/svg2-draft/shapes.html#DataTypePoints
+    // Odd number of coordinates is an error. In such cases, drop the last odd coordinate.
+    if (array.length % 2 !== 0) array.pop()
+
+    // wrap points in two-tuples and parse points as floats
+    for(var i = 0, len = array.length; i < len; i = i + 2)
+      points.push([ array[i], array[i+1] ])
+
+    return points
+  }
+  // Move point string
+, move: function(x, y) {
+    var box = this.bbox()
+
+    // get relative offset
+    x -= box.x
+    y -= box.y
+
+    // move every point
+    if (!isNaN(x) && !isNaN(y))
+      for (var i = this.value.length - 1; i >= 0; i--)
+        this.value[i] = [this.value[i][0] + x, this.value[i][1] + y]
+
+    return this
+  }
+  // Resize poly string
+, size: function(width, height) {
+    var i, box = this.bbox()
+
+    // recalculate position of all points according to new size
+    for (i = this.value.length - 1; i >= 0; i--) {
+      if(box.width) this.value[i][0] = ((this.value[i][0] - box.x) * width)  / box.width  + box.x
+      if(box.height) this.value[i][1] = ((this.value[i][1] - box.y) * height) / box.height + box.y
+    }
+
+    return this
+  }
+  // Get bounding box of points
+, bbox: function() {
+    SVG.parser.poly.setAttribute('points', this.toString())
+
+    return SVG.parser.poly.getBBox()
+  }
+})
+
+var pathHandlers = {
+  M: function(c, p, p0) {
+    p.x = p0.x = c[0]
+    p.y = p0.y = c[1]
+
+    return ['M', p.x, p.y]
+  },
+  L: function(c, p) {
+    p.x = c[0]
+    p.y = c[1]
+    return ['L', c[0], c[1]]
+  },
+  H: function(c, p) {
+    p.x = c[0]
+    return ['H', c[0]]
+  },
+  V: function(c, p) {
+    p.y = c[0]
+    return ['V', c[0]]
+  },
+  C: function(c, p) {
+    p.x = c[4]
+    p.y = c[5]
+    return ['C', c[0], c[1], c[2], c[3], c[4], c[5]]
+  },
+  S: function(c, p) {
+    p.x = c[2]
+    p.y = c[3]
+    return ['S', c[0], c[1], c[2], c[3]]
+  },
+  Q: function(c, p) {
+    p.x = c[2]
+    p.y = c[3]
+    return ['Q', c[0], c[1], c[2], c[3]]
+  },
+  T: function(c, p) {
+    p.x = c[0]
+    p.y = c[1]
+    return ['T', c[0], c[1]]
+  },
+  Z: function(c, p, p0) {
+    p.x = p0.x
+    p.y = p0.y
+    return ['Z']
+  },
+  A: function(c, p) {
+    p.x = c[5]
+    p.y = c[6]
+    return ['A', c[0], c[1], c[2], c[3], c[4], c[5], c[6]]
+  }
+}
+
+var mlhvqtcsa = 'mlhvqtcsaz'.split('')
+
+for(var i = 0, il = mlhvqtcsa.length; i < il; ++i){
+  pathHandlers[mlhvqtcsa[i]] = (function(i){
+    return function(c, p, p0) {
+      if(i == 'H') c[0] = c[0] + p.x
+      else if(i == 'V') c[0] = c[0] + p.y
+      else if(i == 'A'){
+        c[5] = c[5] + p.x,
+        c[6] = c[6] + p.y
+      }
+      else
+        for(var j = 0, jl = c.length; j < jl; ++j) {
+          c[j] = c[j] + (j%2 ? p.y : p.x)
+        }
+
+      return pathHandlers[i](c, p, p0)
+    }
+  })(mlhvqtcsa[i].toUpperCase())
+}
+
+// Path points array
+SVG.PathArray = function(array, fallback) {
+  SVG.Array.call(this, array, fallback || [['M', 0, 0]])
+}
+
+// Inherit from SVG.Array
+SVG.PathArray.prototype = new SVG.Array
+SVG.PathArray.prototype.constructor = SVG.PathArray
+
+SVG.extend(SVG.PathArray, {
+  // Convert array to string
+  toString: function() {
+    return arrayToString(this.value)
+  }
+  // Move path string
+, move: function(x, y) {
+    // get bounding box of current situation
+    var box = this.bbox()
+
+    // get relative offset
+    x -= box.x
+    y -= box.y
+
+    if (!isNaN(x) && !isNaN(y)) {
+      // move every point
+      for (var l, i = this.value.length - 1; i >= 0; i--) {
+        l = this.value[i][0]
+
+        if (l == 'M' || l == 'L' || l == 'T')  {
+          this.value[i][1] += x
+          this.value[i][2] += y
+
+        } else if (l == 'H')  {
+          this.value[i][1] += x
+
+        } else if (l == 'V')  {
+          this.value[i][1] += y
+
+        } else if (l == 'C' || l == 'S' || l == 'Q')  {
+          this.value[i][1] += x
+          this.value[i][2] += y
+          this.value[i][3] += x
+          this.value[i][4] += y
+
+          if (l == 'C')  {
+            this.value[i][5] += x
+            this.value[i][6] += y
+          }
+
+        } else if (l == 'A')  {
+          this.value[i][6] += x
+          this.value[i][7] += y
+        }
+
+      }
+    }
+
+    return this
+  }
+  // Resize path string
+, size: function(width, height) {
+    // get bounding box of current situation
+    var i, l, box = this.bbox()
+
+    // recalculate position of all points according to new size
+    for (i = this.value.length - 1; i >= 0; i--) {
+      l = this.value[i][0]
+
+      if (l == 'M' || l == 'L' || l == 'T')  {
+        this.value[i][1] = ((this.value[i][1] - box.x) * width)  / box.width  + box.x
+        this.value[i][2] = ((this.value[i][2] - box.y) * height) / box.height + box.y
+
+      } else if (l == 'H')  {
+        this.value[i][1] = ((this.value[i][1] - box.x) * width)  / box.width  + box.x
+
+      } else if (l == 'V')  {
+        this.value[i][1] = ((this.value[i][1] - box.y) * height) / box.height + box.y
+
+      } else if (l == 'C' || l == 'S' || l == 'Q')  {
+        this.value[i][1] = ((this.value[i][1] - box.x) * width)  / box.width  + box.x
+        this.value[i][2] = ((this.value[i][2] - box.y) * height) / box.height + box.y
+        this.value[i][3] = ((this.value[i][3] - box.x) * width)  / box.width  + box.x
+        this.value[i][4] = ((this.value[i][4] - box.y) * height) / box.height + box.y
+
+        if (l == 'C')  {
+          this.value[i][5] = ((this.value[i][5] - box.x) * width)  / box.width  + box.x
+          this.value[i][6] = ((this.value[i][6] - box.y) * height) / box.height + box.y
+        }
+
+      } else if (l == 'A')  {
+        // resize radii
+        this.value[i][1] = (this.value[i][1] * width)  / box.width
+        this.value[i][2] = (this.value[i][2] * height) / box.height
+
+        // move position values
+        this.value[i][6] = ((this.value[i][6] - box.x) * width)  / box.width  + box.x
+        this.value[i][7] = ((this.value[i][7] - box.y) * height) / box.height + box.y
+      }
+
+    }
+
+    return this
+  }
+  // Test if the passed path array use the same path data commands as this path array
+, equalCommands: function(pathArray) {
+    var i, il, equalCommands
+
+    pathArray = new SVG.PathArray(pathArray)
+
+    equalCommands = this.value.length === pathArray.value.length
+    for(i = 0, il = this.value.length; equalCommands && i < il; i++) {
+      equalCommands = this.value[i][0] === pathArray.value[i][0]
+    }
+
+    return equalCommands
+  }
+  // Make path array morphable
+, morph: function(pathArray) {
+    pathArray = new SVG.PathArray(pathArray)
+
+    if(this.equalCommands(pathArray)) {
+      this.destination = pathArray
+    } else {
+      this.destination = null
+    }
+
+    return this
+  }
+  // Get morphed path array at given position
+, at: function(pos) {
+    // make sure a destination is defined
+    if (!this.destination) return this
+
+    var sourceArray = this.value
+      , destinationArray = this.destination.value
+      , array = [], pathArray = new SVG.PathArray()
+      , i, il, j, jl
+
+    // Animate has specified in the SVG spec
+    // See: https://www.w3.org/TR/SVG11/paths.html#PathElement
+    for (i = 0, il = sourceArray.length; i < il; i++) {
+      array[i] = [sourceArray[i][0]]
+      for(j = 1, jl = sourceArray[i].length; j < jl; j++) {
+        array[i][j] = sourceArray[i][j] + (destinationArray[i][j] - sourceArray[i][j]) * pos
+      }
+      // For the two flags of the elliptical arc command, the SVG spec say:
+      // Flags and booleans are interpolated as fractions between zero and one, with any non-zero value considered to be a value of one/true
+      // Elliptical arc command as an array followed by corresponding indexes:
+      // ['A', rx, ry, x-axis-rotation, large-arc-flag, sweep-flag, x, y]
+      //   0    1   2        3                 4             5      6  7
+      if(array[i][0] === 'A') {
+        array[i][4] = +(array[i][4] != 0)
+        array[i][5] = +(array[i][5] != 0)
+      }
+    }
+
+    // Directly modify the value of a path array, this is done this way for performance
+    pathArray.value = array
+    return pathArray
+  }
+  // Absolutize and parse path to array
+, parse: function(array) {
+    // if it's already a patharray, no need to parse it
+    if (array instanceof SVG.PathArray) return array.valueOf()
+
+    // prepare for parsing
+    var i, x0, y0, s, seg, arr
+      , x = 0
+      , y = 0
+      , paramCnt = { 'M':2, 'L':2, 'H':1, 'V':1, 'C':6, 'S':4, 'Q':4, 'T':2, 'A':7, 'Z':0 }
+
+    if(typeof array == 'string'){
+
+      array = array
+        .replace(SVG.regex.numbersWithDots, pathRegReplace) // convert 45.123.123 to 45.123 .123
+        .replace(SVG.regex.pathLetters, ' $& ') // put some room between letters and numbers
+        .replace(SVG.regex.hyphen, '$1 -')      // add space before hyphen
+        .trim()                                 // trim
+        .split(SVG.regex.delimiter)   // split into array
+
+    }else{
+      array = array.reduce(function(prev, curr){
+        return [].concat.call(prev, curr)
+      }, [])
+    }
+
+    // array now is an array containing all parts of a path e.g. ['M', '0', '0', 'L', '30', '30' ...]
+    var arr = []
+      , p = new SVG.Point()
+      , p0 = new SVG.Point()
+      , index = 0
+      , len = array.length
+
+    do{
+      // Test if we have a path letter
+      if(SVG.regex.isPathLetter.test(array[index])){
+        s = array[index]
+        ++index
+      // If last letter was a move command and we got no new, it defaults to [L]ine
+      }else if(s == 'M'){
+        s = 'L'
+      }else if(s == 'm'){
+        s = 'l'
+      }
+
+      arr.push(pathHandlers[s].call(null,
+          array.slice(index, (index = index + paramCnt[s.toUpperCase()])).map(parseFloat),
+          p, p0
+        )
+      )
+
+    }while(len > index)
+
+    return arr
+
+  }
+  // Get bounding box of path
+, bbox: function() {
+    SVG.parser.path.setAttribute('d', this.toString())
+
+    return SVG.parser.path.getBBox()
+  }
+
+})
+
+// Module for unit convertions
+SVG.Number = SVG.invent({
+  // Initialize
+  create: function(value, unit) {
+    // initialize defaults
+    this.value = 0
+    this.unit  = unit || ''
+
+    // parse value
+    if (typeof value === 'number') {
+      // ensure a valid numeric value
+      this.value = isNaN(value) ? 0 : !isFinite(value) ? (value < 0 ? -3.4e+38 : +3.4e+38) : value
+
+    } else if (typeof value === 'string') {
+      unit = value.match(SVG.regex.numberAndUnit)
+
+      if (unit) {
+        // make value numeric
+        this.value = parseFloat(unit[1])
+
+        // normalize
+        if (unit[5] == '%')
+          this.value /= 100
+        else if (unit[5] == 's')
+          this.value *= 1000
+
+        // store unit
+        this.unit = unit[5]
+      }
+
+    } else {
+      if (value instanceof SVG.Number) {
+        this.value = value.valueOf()
+        this.unit  = value.unit
+      }
+    }
+
+  }
+  // Add methods
+, extend: {
+    // Stringalize
+    toString: function() {
+      return (
+        this.unit == '%' ?
+          ~~(this.value * 1e8) / 1e6:
+        this.unit == 's' ?
+          this.value / 1e3 :
+          this.value
+      ) + this.unit
+    }
+  , toJSON: function() {
+      return this.toString()
+    }
+  , // Convert to primitive
+    valueOf: function() {
+      return this.value
+    }
+    // Add number
+  , plus: function(number) {
+      number = new SVG.Number(number)
+      return new SVG.Number(this + number, this.unit || number.unit)
+    }
+    // Subtract number
+  , minus: function(number) {
+      number = new SVG.Number(number)
+      return new SVG.Number(this - number, this.unit || number.unit)
+    }
+    // Multiply number
+  , times: function(number) {
+      number = new SVG.Number(number)
+      return new SVG.Number(this * number, this.unit || number.unit)
+    }
+    // Divide number
+  , divide: function(number) {
+      number = new SVG.Number(number)
+      return new SVG.Number(this / number, this.unit || number.unit)
+    }
+    // Convert to different unit
+  , to: function(unit) {
+      var number = new SVG.Number(this)
+
+      if (typeof unit === 'string')
+        number.unit = unit
+
+      return number
+    }
+    // Make number morphable
+  , morph: function(number) {
+      this.destination = new SVG.Number(number)
+
+      if(number.relative) {
+        this.destination.value += this.value
+      }
+
+      return this
+    }
+    // Get morphed number at given position
+  , at: function(pos) {
+      // Make sure a destination is defined
+      if (!this.destination) return this
+
+      // Generate new morphed number
+      return new SVG.Number(this.destination)
+          .minus(this)
+          .times(pos)
+          .plus(this)
+    }
+
+  }
+})
+
+
+SVG.Element = SVG.invent({
+  // Initialize node
+  create: function(node) {
+    // make stroke value accessible dynamically
+    this._stroke = SVG.defaults.attrs.stroke
+    this._event = null
+
+    // initialize data object
+    this.dom = {}
+
+    // create circular reference
+    if (this.node = node) {
+      this.type = node.nodeName
+      this.node.instance = this
+
+      // store current attribute value
+      this._stroke = node.getAttribute('stroke') || this._stroke
+    }
+  }
+
+  // Add class methods
+, extend: {
+    // Move over x-axis
+    x: function(x) {
+      return this.attr('x', x)
+    }
+    // Move over y-axis
+  , y: function(y) {
+      return this.attr('y', y)
+    }
+    // Move by center over x-axis
+  , cx: function(x) {
+      return x == null ? this.x() + this.width() / 2 : this.x(x - this.width() / 2)
+    }
+    // Move by center over y-axis
+  , cy: function(y) {
+      return y == null ? this.y() + this.height() / 2 : this.y(y - this.height() / 2)
+    }
+    // Move element to given x and y values
+  , move: function(x, y) {
+      return this.x(x).y(y)
+    }
+    // Move element by its center
+  , center: function(x, y) {
+      return this.cx(x).cy(y)
+    }
+    // Set width of element
+  , width: function(width) {
+      return this.attr('width', width)
+    }
+    // Set height of element
+  , height: function(height) {
+      return this.attr('height', height)
+    }
+    // Set element size to given width and height
+  , size: function(width, height) {
+      var p = proportionalSize(this, width, height)
+
+      return this
+        .width(new SVG.Number(p.width))
+        .height(new SVG.Number(p.height))
+    }
+    // Clone element
+  , clone: function(parent, withData) {
+      // write dom data to the dom so the clone can pickup the data
+      this.writeDataToDom()
+
+      // clone element and assign new id
+      var clone = assignNewId(this.node.cloneNode(true))
+
+      // insert the clone in the given parent or after myself
+      if(parent) parent.add(clone)
+      else this.after(clone)
+
+      return clone
+    }
+    // Remove element
+  , remove: function() {
+      if (this.parent())
+        this.parent().removeElement(this)
+
+      return this
+    }
+    // Replace element
+  , replace: function(element) {
+      this.after(element).remove()
+
+      return element
+    }
+    // Add element to given container and return self
+  , addTo: function(parent) {
+      return parent.put(this)
+    }
+    // Add element to given container and return container
+  , putIn: function(parent) {
+      return parent.add(this)
+    }
+    // Get / set id
+  , id: function(id) {
+      return this.attr('id', id)
+    }
+    // Checks whether the given point inside the bounding box of the element
+  , inside: function(x, y) {
+      var box = this.bbox()
+
+      return x > box.x
+          && y > box.y
+          && x < box.x + box.width
+          && y < box.y + box.height
+    }
+    // Show element
+  , show: function() {
+      return this.style('display', '')
+    }
+    // Hide element
+  , hide: function() {
+      return this.style('display', 'none')
+    }
+    // Is element visible?
+  , visible: function() {
+      return this.style('display') != 'none'
+    }
+    // Return id on string conversion
+  , toString: function() {
+      return this.attr('id')
+    }
+    // Return array of classes on the node
+  , classes: function() {
+      var attr = this.attr('class')
+
+      return attr == null ? [] : attr.trim().split(SVG.regex.delimiter)
+    }
+    // Return true if class exists on the node, false otherwise
+  , hasClass: function(name) {
+      return this.classes().indexOf(name) != -1
+    }
+    // Add class to the node
+  , addClass: function(name) {
+      if (!this.hasClass(name)) {
+        var array = this.classes()
+        array.push(name)
+        this.attr('class', array.join(' '))
+      }
+
+      return this
+    }
+    // Remove class from the node
+  , removeClass: function(name) {
+      if (this.hasClass(name)) {
+        this.attr('class', this.classes().filter(function(c) {
+          return c != name
+        }).join(' '))
+      }
+
+      return this
+    }
+    // Toggle the presence of a class on the node
+  , toggleClass: function(name) {
+      return this.hasClass(name) ? this.removeClass(name) : this.addClass(name)
+    }
+    // Get referenced element form attribute value
+  , reference: function(attr) {
+      return SVG.get(this.attr(attr))
+    }
+    // Returns the parent element instance
+  , parent: function(type) {
+      var parent = this
+
+      // check for parent
+      if(!parent.node.parentNode) return null
+
+      // get parent element
+      parent = SVG.adopt(parent.node.parentNode)
+
+      if(!type) return parent
+
+      // loop trough ancestors if type is given
+      while(parent && parent.node instanceof window.SVGElement){
+        if(typeof type === 'string' ? parent.matches(type) : parent instanceof type) return parent
+        if(parent.node.parentNode.nodeName == '#document') return null // #720
+        parent = SVG.adopt(parent.node.parentNode)
+      }
+    }
+    // Get parent document
+  , doc: function() {
+      return this instanceof SVG.Doc ? this : this.parent(SVG.Doc)
+    }
+    // return array of all ancestors of given type up to the root svg
+  , parents: function(type) {
+      var parents = [], parent = this
+
+      do{
+        parent = parent.parent(type)
+        if(!parent || !parent.node) break
+
+        parents.push(parent)
+      } while(parent.parent)
+
+      return parents
+    }
+    // matches the element vs a css selector
+  , matches: function(selector){
+      return matches(this.node, selector)
+    }
+    // Returns the svg node to call native svg methods on it
+  , native: function() {
+      return this.node
+    }
+    // Import raw svg
+  , svg: function(svg) {
+      // create temporary holder
+      var well = document.createElement('svg')
+
+      // act as a setter if svg is given
+      if (svg && this instanceof SVG.Parent) {
+        // dump raw svg
+        well.innerHTML = '<svg>' + svg.replace(/\n/, '').replace(/<(\w+)([^<]+?)\/>/g, '<$1$2></$1>') + '</svg>'
+
+        // transplant nodes
+        for (var i = 0, il = well.firstChild.childNodes.length; i < il; i++)
+          this.node.appendChild(well.firstChild.firstChild)
+
+      // otherwise act as a getter
+      } else {
+        // create a wrapping svg element in case of partial content
+        well.appendChild(svg = document.createElement('svg'))
+
+        // write svgjs data to the dom
+        this.writeDataToDom()
+
+        // insert a copy of this node
+        svg.appendChild(this.node.cloneNode(true))
+
+        // return target element
+        return well.innerHTML.replace(/^<svg>/, '').replace(/<\/svg>$/, '')
+      }
+
+      return this
+    }
+  // write svgjs data to the dom
+  , writeDataToDom: function() {
+
+      // dump variables recursively
+      if(this.each || this.lines){
+        var fn = this.each ? this : this.lines();
+        fn.each(function(){
+          this.writeDataToDom()
+        })
+      }
+
+      // remove previously set data
+      this.node.removeAttribute('svgjs:data')
+
+      if(Object.keys(this.dom).length)
+        this.node.setAttribute('svgjs:data', JSON.stringify(this.dom)) // see #428
+
+      return this
+    }
+  // set given data to the elements data property
+  , setData: function(o){
+      this.dom = o
+      return this
+    }
+  , is: function(obj){
+      return is(this, obj)
+    }
+  }
+})
+
+SVG.easing = {
+  '-': function(pos){return pos}
+, '<>':function(pos){return -Math.cos(pos * Math.PI) / 2 + 0.5}
+, '>': function(pos){return  Math.sin(pos * Math.PI / 2)}
+, '<': function(pos){return -Math.cos(pos * Math.PI / 2) + 1}
+}
+
+SVG.morph = function(pos){
+  return function(from, to) {
+    return new SVG.MorphObj(from, to).at(pos)
+  }
+}
+
+SVG.Situation = SVG.invent({
+
+  create: function(o){
+    this.init = false
+    this.reversed = false
+    this.reversing = false
+
+    this.duration = new SVG.Number(o.duration).valueOf()
+    this.delay = new SVG.Number(o.delay).valueOf()
+
+    this.start = +new Date() + this.delay
+    this.finish = this.start + this.duration
+    this.ease = o.ease
+
+    // this.loop is incremented from 0 to this.loops
+    // it is also incremented when in an infinite loop (when this.loops is true)
+    this.loop = 0
+    this.loops = false
+
+    this.animations = {
+      // functionToCall: [list of morphable objects]
+      // e.g. move: [SVG.Number, SVG.Number]
+    }
+
+    this.attrs = {
+      // holds all attributes which are not represented from a function svg.js provides
+      // e.g. someAttr: SVG.Number
+    }
+
+    this.styles = {
+      // holds all styles which should be animated
+      // e.g. fill-color: SVG.Color
+    }
+
+    this.transforms = [
+      // holds all transformations as transformation objects
+      // e.g. [SVG.Rotate, SVG.Translate, SVG.Matrix]
+    ]
+
+    this.once = {
+      // functions to fire at a specific position
+      // e.g. "0.5": function foo(){}
+    }
+
+  }
+
+})
+
+
+SVG.FX = SVG.invent({
+
+  create: function(element) {
+    this._target = element
+    this.situations = []
+    this.active = false
+    this.situation = null
+    this.paused = false
+    this.lastPos = 0
+    this.pos = 0
+    // The absolute position of an animation is its position in the context of its complete duration (including delay and loops)
+    // When performing a delay, absPos is below 0 and when performing a loop, its value is above 1
+    this.absPos = 0
+    this._speed = 1
+  }
+
+, extend: {
+
+    /**
+     * sets or returns the target of this animation
+     * @param o object || number In case of Object it holds all parameters. In case of number its the duration of the animation
+     * @param ease function || string Function which should be used for easing or easing keyword
+     * @param delay Number indicating the delay before the animation starts
+     * @return target || this
+     */
+    animate: function(o, ease, delay){
+
+      if(typeof o == 'object'){
+        ease = o.ease
+        delay = o.delay
+        o = o.duration
+      }
+
+      var situation = new SVG.Situation({
+        duration: o || 1000,
+        delay: delay || 0,
+        ease: SVG.easing[ease || '-'] || ease
+      })
+
+      this.queue(situation)
+
+      return this
+    }
+
+    /**
+     * sets a delay before the next element of the queue is called
+     * @param delay Duration of delay in milliseconds
+     * @return this.target()
+     */
+  , delay: function(delay){
+      // The delay is performed by an empty situation with its duration
+      // attribute set to the duration of the delay
+      var situation = new SVG.Situation({
+        duration: delay,
+        delay: 0,
+        ease: SVG.easing['-']
+      })
+
+      return this.queue(situation)
+    }
+
+    /**
+     * sets or returns the target of this animation
+     * @param null || target SVG.Element which should be set as new target
+     * @return target || this
+     */
+  , target: function(target){
+      if(target && target instanceof SVG.Element){
+        this._target = target
+        return this
+      }
+
+      return this._target
+    }
+
+    // returns the absolute position at a given time
+  , timeToAbsPos: function(timestamp){
+      return (timestamp - this.situation.start) / (this.situation.duration/this._speed)
+    }
+
+    // returns the timestamp from a given absolute positon
+  , absPosToTime: function(absPos){
+      return this.situation.duration/this._speed * absPos + this.situation.start
+    }
+
+    // starts the animationloop
+  , startAnimFrame: function(){
+      this.stopAnimFrame()
+      this.animationFrame = window.requestAnimationFrame(function(){ this.step() }.bind(this))
+    }
+
+    // cancels the animationframe
+  , stopAnimFrame: function(){
+      window.cancelAnimationFrame(this.animationFrame)
+    }
+
+    // kicks off the animation - only does something when the queue is currently not active and at least one situation is set
+  , start: function(){
+      // dont start if already started
+      if(!this.active && this.situation){
+        this.active = true
+        this.startCurrent()
+      }
+
+      return this
+    }
+
+    // start the current situation
+  , startCurrent: function(){
+      this.situation.start = +new Date + this.situation.delay/this._speed
+      this.situation.finish = this.situation.start + this.situation.duration/this._speed
+      return this.initAnimations().step()
+    }
+
+    /**
+     * adds a function / Situation to the animation queue
+     * @param fn function / situation to add
+     * @return this
+     */
+  , queue: function(fn){
+      if(typeof fn == 'function' || fn instanceof SVG.Situation)
+        this.situations.push(fn)
+
+      if(!this.situation) this.situation = this.situations.shift()
+
+      return this
+    }
+
+    /**
+     * pulls next element from the queue and execute it
+     * @return this
+     */
+  , dequeue: function(){
+      // stop current animation
+      this.stop()
+
+      // get next animation from queue
+      this.situation = this.situations.shift()
+
+      if(this.situation){
+        if(this.situation instanceof SVG.Situation) {
+          this.start()
+        } else {
+          // If it is not a SVG.Situation, then it is a function, we execute it
+          this.situation.call(this)
+        }
+      }
+
+      return this
+    }
+
+    // updates all animations to the current state of the element
+    // this is important when one property could be changed from another property
+  , initAnimations: function() {
+      var i, j, source
+      var s = this.situation
+
+      if(s.init) return this
+
+      for(i in s.animations){
+        source = this.target()[i]()
+
+        if(!Array.isArray(source)) {
+          source = [source]
+        }
+
+        if(!Array.isArray(s.animations[i])) {
+          s.animations[i] = [s.animations[i]]
+        }
+
+        //if(s.animations[i].length > source.length) {
+        //  source.concat = source.concat(s.animations[i].slice(source.length, s.animations[i].length))
+        //}
+
+        for(j = source.length; j--;) {
+          // The condition is because some methods return a normal number instead
+          // of a SVG.Number
+          if(s.animations[i][j] instanceof SVG.Number)
+            source[j] = new SVG.Number(source[j])
+
+          s.animations[i][j] = source[j].morph(s.animations[i][j])
+        }
+      }
+
+      for(i in s.attrs){
+        s.attrs[i] = new SVG.MorphObj(this.target().attr(i), s.attrs[i])
+      }
+
+      for(i in s.styles){
+        s.styles[i] = new SVG.MorphObj(this.target().style(i), s.styles[i])
+      }
+
+      s.initialTransformation = this.target().matrixify()
+
+      s.init = true
+      return this
+    }
+  , clearQueue: function(){
+      this.situations = []
+      return this
+    }
+  , clearCurrent: function(){
+      this.situation = null
+      return this
+    }
+    /** stops the animation immediately
+     * @param jumpToEnd A Boolean indicating whether to complete the current animation immediately.
+     * @param clearQueue A Boolean indicating whether to remove queued animation as well.
+     * @return this
+     */
+  , stop: function(jumpToEnd, clearQueue){
+      var active = this.active
+      this.active = false
+
+      if(clearQueue){
+        this.clearQueue()
+      }
+
+      if(jumpToEnd && this.situation){
+        // initialize the situation if it was not
+        !active && this.startCurrent()
+        this.atEnd()
+      }
+
+      this.stopAnimFrame()
+
+      return this.clearCurrent()
+    }
+
+    /** resets the element to the state where the current element has started
+     * @return this
+     */
+  , reset: function(){
+      if(this.situation){
+        var temp = this.situation
+        this.stop()
+        this.situation = temp
+        this.atStart()
+      }
+      return this
+    }
+
+    // Stop the currently-running animation, remove all queued animations, and complete all animations for the element.
+  , finish: function(){
+
+      this.stop(true, false)
+
+      while(this.dequeue().situation && this.stop(true, false));
+
+      this.clearQueue().clearCurrent()
+
+      return this
+    }
+
+    // set the internal animation pointer at the start position, before any loops, and updates the visualisation
+  , atStart: function() {
+      return this.at(0, true)
+    }
+
+    // set the internal animation pointer at the end position, after all the loops, and updates the visualisation
+  , atEnd: function() {
+      if (this.situation.loops === true) {
+        // If in a infinite loop, we end the current iteration
+        this.situation.loops = this.situation.loop + 1
+      }
+
+      if(typeof this.situation.loops == 'number') {
+        // If performing a finite number of loops, we go after all the loops
+        return this.at(this.situation.loops, true)
+      } else {
+        // If no loops, we just go at the end
+        return this.at(1, true)
+      }
+    }
+
+    // set the internal animation pointer to the specified position and updates the visualisation
+    // if isAbsPos is true, pos is treated as an absolute position
+  , at: function(pos, isAbsPos){
+      var durDivSpd = this.situation.duration/this._speed
+
+      this.absPos = pos
+      // If pos is not an absolute position, we convert it into one
+      if (!isAbsPos) {
+        if (this.situation.reversed) this.absPos = 1 - this.absPos
+        this.absPos += this.situation.loop
+      }
+
+      this.situation.start = +new Date - this.absPos * durDivSpd
+      this.situation.finish = this.situation.start + durDivSpd
+
+      return this.step(true)
+    }
+
+    /**
+     * sets or returns the speed of the animations
+     * @param speed null || Number The new speed of the animations
+     * @return Number || this
+     */
+  , speed: function(speed){
+      if (speed === 0) return this.pause()
+
+      if (speed) {
+        this._speed = speed
+        // We use an absolute position here so that speed can affect the delay before the animation
+        return this.at(this.absPos, true)
+      } else return this._speed
+    }
+
+    // Make loopable
+  , loop: function(times, reverse) {
+      var c = this.last()
+
+      // store total loops
+      c.loops = (times != null) ? times : true
+      c.loop = 0
+
+      if(reverse) c.reversing = true
+      return this
+    }
+
+    // pauses the animation
+  , pause: function(){
+      this.paused = true
+      this.stopAnimFrame()
+
+      return this
+    }
+
+    // unpause the animation
+  , play: function(){
+      if(!this.paused) return this
+      this.paused = false
+      // We use an absolute position here so that the delay before the animation can be paused
+      return this.at(this.absPos, true)
+    }
+
+    /**
+     * toggle or set the direction of the animation
+     * true sets direction to backwards while false sets it to forwards
+     * @param reversed Boolean indicating whether to reverse the animation or not (default: toggle the reverse status)
+     * @return this
+     */
+  , reverse: function(reversed){
+      var c = this.last()
+
+      if(typeof reversed == 'undefined') c.reversed = !c.reversed
+      else c.reversed = reversed
+
+      return this
+    }
+
+
+    /**
+     * returns a float from 0-1 indicating the progress of the current animation
+     * @param eased Boolean indicating whether the returned position should be eased or not
+     * @return number
+     */
+  , progress: function(easeIt){
+      return easeIt ? this.situation.ease(this.pos) : this.pos
+    }
+
+    /**
+     * adds a callback function which is called when the current animation is finished
+     * @param fn Function which should be executed as callback
+     * @return number
+     */
+  , after: function(fn){
+      var c = this.last()
+        , wrapper = function wrapper(e){
+            if(e.detail.situation == c){
+              fn.call(this, c)
+              this.off('finished.fx', wrapper) // prevent memory leak
+            }
+          }
+
+      this.target().on('finished.fx', wrapper)
+
+      return this._callStart()
+    }
+
+    // adds a callback which is called whenever one animation step is performed
+  , during: function(fn){
+      var c = this.last()
+        , wrapper = function(e){
+            if(e.detail.situation == c){
+              fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c)
+            }
+          }
+
+      // see above
+      this.target().off('during.fx', wrapper).on('during.fx', wrapper)
+
+      this.after(function(){
+        this.off('during.fx', wrapper)
+      })
+
+      return this._callStart()
+    }
+
+    // calls after ALL animations in the queue are finished
+  , afterAll: function(fn){
+      var wrapper = function wrapper(e){
+            fn.call(this)
+            this.off('allfinished.fx', wrapper)
+          }
+
+      // see above
+      this.target().off('allfinished.fx', wrapper).on('allfinished.fx', wrapper)
+
+      return this._callStart()
+    }
+
+    // calls on every animation step for all animations
+  , duringAll: function(fn){
+      var wrapper = function(e){
+            fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, e.detail.situation)
+          }
+
+      this.target().off('during.fx', wrapper).on('during.fx', wrapper)
+
+      this.afterAll(function(){
+        this.off('during.fx', wrapper)
+      })
+
+      return this._callStart()
+    }
+
+  , last: function(){
+      return this.situations.length ? this.situations[this.situations.length-1] : this.situation
+    }
+
+    // adds one property to the animations
+  , add: function(method, args, type){
+      this.last()[type || 'animations'][method] = args
+      return this._callStart()
+    }
+
+    /** perform one step of the animation
+     *  @param ignoreTime Boolean indicating whether to ignore time and use position directly or recalculate position based on time
+     *  @return this
+     */
+  , step: function(ignoreTime){
+
+      // convert current time to an absolute position
+      if(!ignoreTime) this.absPos = this.timeToAbsPos(+new Date)
+
+      // This part convert an absolute position to a position
+      if(this.situation.loops !== false) {
+        var absPos, absPosInt, lastLoop
+
+        // If the absolute position is below 0, we just treat it as if it was 0
+        absPos = Math.max(this.absPos, 0)
+        absPosInt = Math.floor(absPos)
+
+        if(this.situation.loops === true || absPosInt < this.situation.loops) {
+          this.pos = absPos - absPosInt
+          lastLoop = this.situation.loop
+          this.situation.loop = absPosInt
+        } else {
+          this.absPos = this.situation.loops
+          this.pos = 1
+          // The -1 here is because we don't want to toggle reversed when all the loops have been completed
+          lastLoop = this.situation.loop - 1
+          this.situation.loop = this.situation.loops
+        }
+
+        if(this.situation.reversing) {
+          // Toggle reversed if an odd number of loops as occured since the last call of step
+          this.situation.reversed = this.situation.reversed != Boolean((this.situation.loop - lastLoop) % 2)
+        }
+
+      } else {
+        // If there are no loop, the absolute position must not be above 1
+        this.absPos = Math.min(this.absPos, 1)
+        this.pos = this.absPos
+      }
+
+      // while the absolute position can be below 0, the position must not be below 0
+      if(this.pos < 0) this.pos = 0
+
+      if(this.situation.reversed) this.pos = 1 - this.pos
+
+
+      // apply easing
+      var eased = this.situation.ease(this.pos)
+
+      // call once-callbacks
+      for(var i in this.situation.once){
+        if(i > this.lastPos && i <= eased){
+          this.situation.once[i].call(this.target(), this.pos, eased)
+          delete this.situation.once[i]
+        }
+      }
+
+      // fire during callback with position, eased position and current situation as parameter
+      if(this.active) this.target().fire('during', {pos: this.pos, eased: eased, fx: this, situation: this.situation})
+
+      // the user may call stop or finish in the during callback
+      // so make sure that we still have a valid situation
+      if(!this.situation){
+        return this
+      }
+
+      // apply the actual animation to every property
+      this.eachAt()
+
+      // do final code when situation is finished
+      if((this.pos == 1 && !this.situation.reversed) || (this.situation.reversed && this.pos == 0)){
+
+        // stop animation callback
+        this.stopAnimFrame()
+
+        // fire finished callback with current situation as parameter
+        this.target().fire('finished', {fx:this, situation: this.situation})
+
+        if(!this.situations.length){
+          this.target().fire('allfinished')
+
+          // Recheck the length since the user may call animate in the afterAll callback
+          if(!this.situations.length){
+            this.target().off('.fx') // there shouldnt be any binding left, but to make sure...
+            this.active = false
+          }
+        }
+
+        // start next animation
+        if(this.active) this.dequeue()
+        else this.clearCurrent()
+
+      }else if(!this.paused && this.active){
+        // we continue animating when we are not at the end
+        this.startAnimFrame()
+      }
+
+      // save last eased position for once callback triggering
+      this.lastPos = eased
+      return this
+
+    }
+
+    // calculates the step for every property and calls block with it
+  , eachAt: function(){
+      var i, len, at, self = this, target = this.target(), s = this.situation
+
+      // apply animations which can be called trough a method
+      for(i in s.animations){
+
+        at = [].concat(s.animations[i]).map(function(el){
+          return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el
+        })
+
+        target[i].apply(target, at)
+
+      }
+
+      // apply animation which has to be applied with attr()
+      for(i in s.attrs){
+
+        at = [i].concat(s.attrs[i]).map(function(el){
+          return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el
+        })
+
+        target.attr.apply(target, at)
+
+      }
+
+      // apply animation which has to be applied with style()
+      for(i in s.styles){
+
+        at = [i].concat(s.styles[i]).map(function(el){
+          return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el
+        })
+
+        target.style.apply(target, at)
+
+      }
+
+      // animate initialTransformation which has to be chained
+      if(s.transforms.length){
+
+        // get initial initialTransformation
+        at = s.initialTransformation
+        for(i = 0, len = s.transforms.length; i < len; i++){
+
+          // get next transformation in chain
+          var a = s.transforms[i]
+
+          // multiply matrix directly
+          if(a instanceof SVG.Matrix){
+
+            if(a.relative){
+              at = at.multiply(new SVG.Matrix().morph(a).at(s.ease(this.pos)))
+            }else{
+              at = at.morph(a).at(s.ease(this.pos))
+            }
+            continue
+          }
+
+          // when transformation is absolute we have to reset the needed transformation first
+          if(!a.relative)
+            a.undo(at.extract())
+
+          // and reapply it after
+          at = at.multiply(a.at(s.ease(this.pos)))
+
+        }
+
+        // set new matrix on element
+        target.matrix(at)
+      }
+
+      return this
+
+    }
+
+
+    // adds an once-callback which is called at a specific position and never again
+  , once: function(pos, fn, isEased){
+      var c = this.last()
+      if(!isEased) pos = c.ease(pos)
+
+      c.once[pos] = fn
+
+      return this
+    }
+
+  , _callStart: function() {
+      setTimeout(function(){this.start()}.bind(this), 0)
+      return this
+    }
+
+  }
+
+, parent: SVG.Element
+
+  // Add method to parent elements
+, construct: {
+    // Get fx module or create a new one, then animate with given duration and ease
+    animate: function(o, ease, delay) {
+      return (this.fx || (this.fx = new SVG.FX(this))).animate(o, ease, delay)
+    }
+  , delay: function(delay){
+      return (this.fx || (this.fx = new SVG.FX(this))).delay(delay)
+    }
+  , stop: function(jumpToEnd, clearQueue) {
+      if (this.fx)
+        this.fx.stop(jumpToEnd, clearQueue)
+
+      return this
+    }
+  , finish: function() {
+      if (this.fx)
+        this.fx.finish()
+
+      return this
+    }
+    // Pause current animation
+  , pause: function() {
+      if (this.fx)
+        this.fx.pause()
+
+      return this
+    }
+    // Play paused current animation
+  , play: function() {
+      if (this.fx)
+        this.fx.play()
+
+      return this
+    }
+    // Set/Get the speed of the animations
+  , speed: function(speed) {
+      if (this.fx)
+        if (speed == null)
+          return this.fx.speed()
+        else
+          this.fx.speed(speed)
+
+      return this
+    }
+  }
+
+})
+
+// MorphObj is used whenever no morphable object is given
+SVG.MorphObj = SVG.invent({
+
+  create: function(from, to){
+    // prepare color for morphing
+    if(SVG.Color.isColor(to)) return new SVG.Color(from).morph(to)
+    // prepare value list for morphing
+    if(SVG.regex.delimiter.test(from)) return new SVG.Array(from).morph(to)
+    // prepare number for morphing
+    if(SVG.regex.numberAndUnit.test(to)) return new SVG.Number(from).morph(to)
+
+    // prepare for plain morphing
+    this.value = from
+    this.destination = to
+  }
+
+, extend: {
+    at: function(pos, real){
+      return real < 1 ? this.value : this.destination
+    },
+
+    valueOf: function(){
+      return this.value
+    }
+  }
+
+})
+
+SVG.extend(SVG.FX, {
+  // Add animatable attributes
+  attr: function(a, v, relative) {
+    // apply attributes individually
+    if (typeof a == 'object') {
+      for (var key in a)
+        this.attr(key, a[key])
+
+    } else {
+      this.add(a, v, 'attrs')
+    }
+
+    return this
+  }
+  // Add animatable styles
+, style: function(s, v) {
+    if (typeof s == 'object')
+      for (var key in s)
+        this.style(key, s[key])
+
+    else
+      this.add(s, v, 'styles')
+
+    return this
+  }
+  // Animatable x-axis
+, x: function(x, relative) {
+    if(this.target() instanceof SVG.G){
+      this.transform({x:x}, relative)
+      return this
+    }
+
+    var num = new SVG.Number(x)
+    num.relative = relative
+    return this.add('x', num)
+  }
+  // Animatable y-axis
+, y: function(y, relative) {
+    if(this.target() instanceof SVG.G){
+      this.transform({y:y}, relative)
+      return this
+    }
+
+    var num = new SVG.Number(y)
+    num.relative = relative
+    return this.add('y', num)
+  }
+  // Animatable center x-axis
+, cx: function(x) {
+    return this.add('cx', new SVG.Number(x))
+  }
+  // Animatable center y-axis
+, cy: function(y) {
+    return this.add('cy', new SVG.Number(y))
+  }
+  // Add animatable move
+, move: function(x, y) {
+    return this.x(x).y(y)
+  }
+  // Add animatable center
+, center: function(x, y) {
+    return this.cx(x).cy(y)
+  }
+  // Add animatable size
+, size: function(width, height) {
+    if (this.target() instanceof SVG.Text) {
+      // animate font size for Text elements
+      this.attr('font-size', width)
+
+    } else {
+      // animate bbox based size for all other elements
+      var box
+
+      if(!width || !height){
+        box = this.target().bbox()
+      }
+
+      if(!width){
+        width = box.width / box.height  * height
+      }
+
+      if(!height){
+        height = box.height / box.width  * width
+      }
+
+      this.add('width' , new SVG.Number(width))
+          .add('height', new SVG.Number(height))
+
+    }
+
+    return this
+  }
+  // Add animatable width
+, width: function(width) {
+    return this.add('width', new SVG.Number(width))
+  }
+  // Add animatable height
+, height: function(height) {
+    return this.add('height', new SVG.Number(height))
+  }
+  // Add animatable plot
+, plot: function(a, b, c, d) {
+    // Lines can be plotted with 4 arguments
+    if(arguments.length == 4) {
+      return this.plot([a, b, c, d])
+    }
+
+    return this.add('plot', new (this.target().morphArray)(a))
+  }
+  // Add leading method
+, leading: function(value) {
+    return this.target().leading ?
+      this.add('leading', new SVG.Number(value)) :
+      this
+  }
+  // Add animatable viewbox
+, viewbox: function(x, y, width, height) {
+    if (this.target() instanceof SVG.Container) {
+      this.add('viewbox', new SVG.ViewBox(x, y, width, height))
+    }
+
+    return this
+  }
+, update: function(o) {
+    if (this.target() instanceof SVG.Stop) {
+      if (typeof o == 'number' || o instanceof SVG.Number) {
+        return this.update({
+          offset:  arguments[0]
+        , color:   arguments[1]
+        , opacity: arguments[2]
+        })
+      }
+
+      if (o.opacity != null) this.attr('stop-opacity', o.opacity)
+      if (o.color   != null) this.attr('stop-color', o.color)
+      if (o.offset  != null) this.attr('offset', o.offset)
+    }
+
+    return this
+  }
+})
+
+SVG.Box = SVG.invent({
+  create: function(x, y, width, height) {
+    if (typeof x == 'object' && !(x instanceof SVG.Element)) {
+      // chromes getBoundingClientRect has no x and y property
+      return SVG.Box.call(this, x.left != null ? x.left : x.x , x.top != null ? x.top : x.y, x.width, x.height)
+    } else if (arguments.length == 4) {
+      this.x = x
+      this.y = y
+      this.width = width
+      this.height = height
+    }
+
+    // add center, right, bottom...
+    fullBox(this)
+  }
+, extend: {
+    // Merge rect box with another, return a new instance
+    merge: function(box) {
+      var b = new this.constructor()
+
+      // merge boxes
+      b.x      = Math.min(this.x, box.x)
+      b.y      = Math.min(this.y, box.y)
+      b.width  = Math.max(this.x + this.width,  box.x + box.width)  - b.x
+      b.height = Math.max(this.y + this.height, box.y + box.height) - b.y
+
+      return fullBox(b)
+    }
+
+  , transform: function(m) {
+      var xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity, p, bbox
+
+      var pts = [
+        new SVG.Point(this.x, this.y),
+        new SVG.Point(this.x2, this.y),
+        new SVG.Point(this.x, this.y2),
+        new SVG.Point(this.x2, this.y2)
+      ]
+
+      pts.forEach(function(p) {
+        p = p.transform(m)
+        xMin = Math.min(xMin,p.x)
+        xMax = Math.max(xMax,p.x)
+        yMin = Math.min(yMin,p.y)
+        yMax = Math.max(yMax,p.y)
+      })
+
+      bbox = new this.constructor()
+      bbox.x = xMin
+      bbox.width = xMax-xMin
+      bbox.y = yMin
+      bbox.height = yMax-yMin
+
+      fullBox(bbox)
+
+      return bbox
+    }
+  }
+})
+
+SVG.BBox = SVG.invent({
+  // Initialize
+  create: function(element) {
+    SVG.Box.apply(this, [].slice.call(arguments))
+
+    // get values if element is given
+    if (element instanceof SVG.Element) {
+      var box
+
+      // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
+      try {
+
+        if (!document.documentElement.contains){
+          // This is IE - it does not support contains() for top-level SVGs
+          var topParent = element.node
+          while (topParent.parentNode){
+            topParent = topParent.parentNode
+          }
+          if (topParent != document) throw new Exception('Element not in the dom')
+        } else {
+          // the element is NOT in the dom, throw error
+          if(!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
+        }
+
+        // find native bbox
+        box = element.node.getBBox()
+      } catch(e) {
+        if(element instanceof SVG.Shape){
+          var clone = element.clone(SVG.parser.draw.instance).show()
+          box = clone.node.getBBox()
+          clone.remove()
+        }else{
+          box = {
+            x:      element.node.clientLeft
+          , y:      element.node.clientTop
+          , width:  element.node.clientWidth
+          , height: element.node.clientHeight
+          }
+        }
+      }
+
+      SVG.Box.call(this, box)
+    }
+
+  }
+
+  // Define ancestor
+, inherit: SVG.Box
+
+  // Define Parent
+, parent: SVG.Element
+
+  // Constructor
+, construct: {
+    // Get bounding box
+    bbox: function() {
+      return new SVG.BBox(this)
+    }
+  }
+
+})
+
+SVG.BBox.prototype.constructor = SVG.BBox
+
+
+SVG.extend(SVG.Element, {
+  tbox: function(){
+    console.warn('Use of TBox is deprecated and mapped to RBox. Use .rbox() instead.')
+    return this.rbox(this.doc())
+  }
+})
+
+SVG.RBox = SVG.invent({
+  // Initialize
+  create: function(element) {
+    SVG.Box.apply(this, [].slice.call(arguments))
+
+    if (element instanceof SVG.Element) {
+      SVG.Box.call(this, element.node.getBoundingClientRect())
+    }
+  }
+
+, inherit: SVG.Box
+
+  // define Parent
+, parent: SVG.Element
+
+, extend: {
+    addOffset: function() {
+      // offset by window scroll position, because getBoundingClientRect changes when window is scrolled
+      this.x += window.pageXOffset
+      this.y += window.pageYOffset
+      return this
+    }
+  }
+
+  // Constructor
+, construct: {
+    // Get rect box
+    rbox: function(el) {
+      if (el) return new SVG.RBox(this).transform(el.screenCTM().inverse())
+      return new SVG.RBox(this).addOffset()
+    }
+  }
+
+})
+
+SVG.RBox.prototype.constructor = SVG.RBox
+
+SVG.Matrix = SVG.invent({
+  // Initialize
+  create: function(source) {
+    var i, base = arrayToMatrix([1, 0, 0, 1, 0, 0])
+
+    // ensure source as object
+    source = source instanceof SVG.Element ?
+      source.matrixify() :
+    typeof source === 'string' ?
+      arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)) :
+    arguments.length == 6 ?
+      arrayToMatrix([].slice.call(arguments)) :
+    Array.isArray(source) ?
+      arrayToMatrix(source) :
+    typeof source === 'object' ?
+      source : base
+
+    // merge source
+    for (i = abcdef.length - 1; i >= 0; --i)
+      this[abcdef[i]] = source[abcdef[i]] != null ?
+        source[abcdef[i]] : base[abcdef[i]]
+  }
+
+  // Add methods
+, extend: {
+    // Extract individual transformations
+    extract: function() {
+      // find delta transform points
+      var px    = deltaTransformPoint(this, 0, 1)
+        , py    = deltaTransformPoint(this, 1, 0)
+        , skewX = 180 / Math.PI * Math.atan2(px.y, px.x) - 90
+
+      return {
+        // translation
+        x:        this.e
+      , y:        this.f
+      , transformedX:(this.e * Math.cos(skewX * Math.PI / 180) + this.f * Math.sin(skewX * Math.PI / 180)) / Math.sqrt(this.a * this.a + this.b * this.b)
+      , transformedY:(this.f * Math.cos(skewX * Math.PI / 180) + this.e * Math.sin(-skewX * Math.PI / 180)) / Math.sqrt(this.c * this.c + this.d * this.d)
+        // skew
+      , skewX:    -skewX
+      , skewY:    180 / Math.PI * Math.atan2(py.y, py.x)
+        // scale
+      , scaleX:   Math.sqrt(this.a * this.a + this.b * this.b)
+      , scaleY:   Math.sqrt(this.c * this.c + this.d * this.d)
+        // rotation
+      , rotation: skewX
+      , a: this.a
+      , b: this.b
+      , c: this.c
+      , d: this.d
+      , e: this.e
+      , f: this.f
+      , matrix: new SVG.Matrix(this)
+      }
+    }
+    // Clone matrix
+  , clone: function() {
+      return new SVG.Matrix(this)
+    }
+    // Morph one matrix into another
+  , morph: function(matrix) {
+      // store new destination
+      this.destination = new SVG.Matrix(matrix)
+
+      return this
+    }
+    // Get morphed matrix at a given position
+  , at: function(pos) {
+      // make sure a destination is defined
+      if (!this.destination) return this
+
+      // calculate morphed matrix at a given position
+      var matrix = new SVG.Matrix({
+        a: this.a + (this.destination.a - this.a) * pos
+      , b: this.b + (this.destination.b - this.b) * pos
+      , c: this.c + (this.destination.c - this.c) * pos
+      , d: this.d + (this.destination.d - this.d) * pos
+      , e: this.e + (this.destination.e - this.e) * pos
+      , f: this.f + (this.destination.f - this.f) * pos
+      })
+
+      return matrix
+    }
+    // Multiplies by given matrix
+  , multiply: function(matrix) {
+      return new SVG.Matrix(this.native().multiply(parseMatrix(matrix).native()))
+    }
+    // Inverses matrix
+  , inverse: function() {
+      return new SVG.Matrix(this.native().inverse())
+    }
+    // Translate matrix
+  , translate: function(x, y) {
+      return new SVG.Matrix(this.native().translate(x || 0, y || 0))
+    }
+    // Scale matrix
+  , scale: function(x, y, cx, cy) {
+      // support uniformal scale
+      if (arguments.length == 1) {
+        y = x
+      } else if (arguments.length == 3) {
+        cy = cx
+        cx = y
+        y = x
+      }
+
+      return this.around(cx, cy, new SVG.Matrix(x, 0, 0, y, 0, 0))
+    }
+    // Rotate matrix
+  , rotate: function(r, cx, cy) {
+      // convert degrees to radians
+      r = SVG.utils.radians(r)
+
+      return this.around(cx, cy, new SVG.Matrix(Math.cos(r), Math.sin(r), -Math.sin(r), Math.cos(r), 0, 0))
+    }
+    // Flip matrix on x or y, at a given offset
+  , flip: function(a, o) {
+      return a == 'x' ?
+          this.scale(-1, 1, o, 0) :
+        a == 'y' ?
+          this.scale(1, -1, 0, o) :
+          this.scale(-1, -1, a, o != null ? o : a)
+    }
+    // Skew
+  , skew: function(x, y, cx, cy) {
+      // support uniformal skew
+      if (arguments.length == 1) {
+        y = x
+      } else if (arguments.length == 3) {
+        cy = cx
+        cx = y
+        y = x
+      }
+
+      // convert degrees to radians
+      x = SVG.utils.radians(x)
+      y = SVG.utils.radians(y)
+
+      return this.around(cx, cy, new SVG.Matrix(1, Math.tan(y), Math.tan(x), 1, 0, 0))
+    }
+    // SkewX
+  , skewX: function(x, cx, cy) {
+      return this.skew(x, 0, cx, cy)
+    }
+    // SkewY
+  , skewY: function(y, cx, cy) {
+      return this.skew(0, y, cx, cy)
+    }
+    // Transform around a center point
+  , around: function(cx, cy, matrix) {
+      return this
+        .multiply(new SVG.Matrix(1, 0, 0, 1, cx || 0, cy || 0))
+        .multiply(matrix)
+        .multiply(new SVG.Matrix(1, 0, 0, 1, -cx || 0, -cy || 0))
+    }
+    // Convert to native SVGMatrix
+  , native: function() {
+      // create new matrix
+      var matrix = SVG.parser.native.createSVGMatrix()
+
+      // update with current values
+      for (var i = abcdef.length - 1; i >= 0; i--)
+        matrix[abcdef[i]] = this[abcdef[i]]
+
+      return matrix
+    }
+    // Convert matrix to string
+  , toString: function() {
+      return 'matrix(' + this.a + ',' + this.b + ',' + this.c + ',' + this.d + ',' + this.e + ',' + this.f + ')'
+    }
+  }
+
+  // Define parent
+, parent: SVG.Element
+
+  // Add parent method
+, construct: {
+    // Get current matrix
+    ctm: function() {
+      return new SVG.Matrix(this.node.getCTM())
+    },
+    // Get current screen matrix
+    screenCTM: function() {
+      /* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
+         This is needed because FF does not return the transformation matrix
+         for the inner coordinate system when getScreenCTM() is called on nested svgs.
+         However all other Browsers do that */
+      if(this instanceof SVG.Nested) {
+        var rect = this.rect(1,1)
+        var m = rect.node.getScreenCTM()
+        rect.remove()
+        return new SVG.Matrix(m)
+      }
+      return new SVG.Matrix(this.node.getScreenCTM())
+    }
+
+  }
+
+})
+
+SVG.Point = SVG.invent({
+  // Initialize
+  create: function(x,y) {
+    var i, source, base = {x:0, y:0}
+
+    // ensure source as object
+    source = Array.isArray(x) ?
+      {x:x[0], y:x[1]} :
+    typeof x === 'object' ?
+      {x:x.x, y:x.y} :
+    x != null ?
+      {x:x, y:(y != null ? y : x)} : base // If y has no value, then x is used has its value
+
+    // merge source
+    this.x = source.x
+    this.y = source.y
+  }
+
+  // Add methods
+, extend: {
+    // Clone point
+    clone: function() {
+      return new SVG.Point(this)
+    }
+    // Morph one point into another
+  , morph: function(x, y) {
+      // store new destination
+      this.destination = new SVG.Point(x, y)
+
+      return this
+    }
+    // Get morphed point at a given position
+  , at: function(pos) {
+      // make sure a destination is defined
+      if (!this.destination) return this
+
+      // calculate morphed matrix at a given position
+      var point = new SVG.Point({
+        x: this.x + (this.destination.x - this.x) * pos
+      , y: this.y + (this.destination.y - this.y) * pos
+      })
+
+      return point
+    }
+    // Convert to native SVGPoint
+  , native: function() {
+      // create new point
+      var point = SVG.parser.native.createSVGPoint()
+
+      // update with current values
+      point.x = this.x
+      point.y = this.y
+
+      return point
+    }
+    // transform point with matrix
+  , transform: function(matrix) {
+      return new SVG.Point(this.native().matrixTransform(matrix.native()))
+    }
+
+  }
+
+})
+
+SVG.extend(SVG.Element, {
+
+  // Get point
+  point: function(x, y) {
+    return new SVG.Point(x,y).transform(this.screenCTM().inverse());
+  }
+
+})
+
+SVG.extend(SVG.Element, {
+  // Set svg element attribute
+  attr: function(a, v, n) {
+    // act as full getter
+    if (a == null) {
+      // get an object of attributes
+      a = {}
+      v = this.node.attributes
+      for (n = v.length - 1; n >= 0; n--)
+        a[v[n].nodeName] = SVG.regex.isNumber.test(v[n].nodeValue) ? parseFloat(v[n].nodeValue) : v[n].nodeValue
+
+      return a
+
+    } else if (typeof a == 'object') {
+      // apply every attribute individually if an object is passed
+      for (v in a) this.attr(v, a[v])
+
+    } else if (v === null) {
+        // remove value
+        this.node.removeAttribute(a)
+
+    } else if (v == null) {
+      // act as a getter if the first and only argument is not an object
+      v = this.node.getAttribute(a)
+      return v == null ?
+        SVG.defaults.attrs[a] :
+      SVG.regex.isNumber.test(v) ?
+        parseFloat(v) : v
+
+    } else {
+      // BUG FIX: some browsers will render a stroke if a color is given even though stroke width is 0
+      if (a == 'stroke-width')
+        this.attr('stroke', parseFloat(v) > 0 ? this._stroke : null)
+      else if (a == 'stroke')
+        this._stroke = v
+
+      // convert image fill and stroke to patterns
+      if (a == 'fill' || a == 'stroke') {
+        if (SVG.regex.isImage.test(v))
+          v = this.doc().defs().image(v, 0, 0)
+
+        if (v instanceof SVG.Image)
+          v = this.doc().defs().pattern(0, 0, function() {
+            this.add(v)
+          })
+      }
+
+      // ensure correct numeric values (also accepts NaN and Infinity)
+      if (typeof v === 'number')
+        v = new SVG.Number(v)
+
+      // ensure full hex color
+      else if (SVG.Color.isColor(v))
+        v = new SVG.Color(v)
+
+      // parse array values
+      else if (Array.isArray(v))
+        v = new SVG.Array(v)
+
+      // if the passed attribute is leading...
+      if (a == 'leading') {
+        // ... call the leading method instead
+        if (this.leading)
+          this.leading(v)
+      } else {
+        // set given attribute on node
+        typeof n === 'string' ?
+          this.node.setAttributeNS(n, a, v.toString()) :
+          this.node.setAttribute(a, v.toString())
+      }
+
+      // rebuild if required
+      if (this.rebuild && (a == 'font-size' || a == 'x'))
+        this.rebuild(a, v)
+    }
+
+    return this
+  }
+})
+SVG.extend(SVG.Element, {
+  // Add transformations
+  transform: function(o, relative) {
+    // get target in case of the fx module, otherwise reference this
+    var target = this
+      , matrix, bbox
+
+    // act as a getter
+    if (typeof o !== 'object') {
+      // get current matrix
+      matrix = new SVG.Matrix(target).extract()
+
+      return typeof o === 'string' ? matrix[o] : matrix
+    }
+
+    // get current matrix
+    matrix = new SVG.Matrix(target)
+
+    // ensure relative flag
+    relative = !!relative || !!o.relative
+
+    // act on matrix
+    if (o.a != null) {
+      matrix = relative ?
+        // relative
+        matrix.multiply(new SVG.Matrix(o)) :
+        // absolute
+        new SVG.Matrix(o)
+
+    // act on rotation
+    } else if (o.rotation != null) {
+      // ensure centre point
+      ensureCentre(o, target)
+
+      // apply transformation
+      matrix = relative ?
+        // relative
+        matrix.rotate(o.rotation, o.cx, o.cy) :
+        // absolute
+        matrix.rotate(o.rotation - matrix.extract().rotation, o.cx, o.cy)
+
+    // act on scale
+    } else if (o.scale != null || o.scaleX != null || o.scaleY != null) {
+      // ensure centre point
+      ensureCentre(o, target)
+
+      // ensure scale values on both axes
+      o.scaleX = o.scale != null ? o.scale : o.scaleX != null ? o.scaleX : 1
+      o.scaleY = o.scale != null ? o.scale : o.scaleY != null ? o.scaleY : 1
+
+      if (!relative) {
+        // absolute; multiply inversed values
+        var e = matrix.extract()
+        o.scaleX = o.scaleX * 1 / e.scaleX
+        o.scaleY = o.scaleY * 1 / e.scaleY
+      }
+
+      matrix = matrix.scale(o.scaleX, o.scaleY, o.cx, o.cy)
+
+    // act on skew
+    } else if (o.skew != null || o.skewX != null || o.skewY != null) {
+      // ensure centre point
+      ensureCentre(o, target)
+
+      // ensure skew values on both axes
+      o.skewX = o.skew != null ? o.skew : o.skewX != null ? o.skewX : 0
+      o.skewY = o.skew != null ? o.skew : o.skewY != null ? o.skewY : 0
+
+      if (!relative) {
+        // absolute; reset skew values
+        var e = matrix.extract()
+        matrix = matrix.multiply(new SVG.Matrix().skew(e.skewX, e.skewY, o.cx, o.cy).inverse())
+      }
+
+      matrix = matrix.skew(o.skewX, o.skewY, o.cx, o.cy)
+
+    // act on flip
+    } else if (o.flip) {
+      if(o.flip == 'x' || o.flip == 'y') {
+        o.offset = o.offset == null ? target.bbox()['c' + o.flip] : o.offset
+      } else {
+        if(o.offset == null) {
+          bbox = target.bbox()
+          o.flip = bbox.cx
+          o.offset = bbox.cy
+        } else {
+          o.flip = o.offset
+        }
+      }
+
+      matrix = new SVG.Matrix().flip(o.flip, o.offset)
+
+    // act on translate
+    } else if (o.x != null || o.y != null) {
+      if (relative) {
+        // relative
+        matrix = matrix.translate(o.x, o.y)
+      } else {
+        // absolute
+        if (o.x != null) matrix.e = o.x
+        if (o.y != null) matrix.f = o.y
+      }
+    }
+
+    return this.attr('transform', matrix)
+  }
+})
+
+SVG.extend(SVG.FX, {
+  transform: function(o, relative) {
+    // get target in case of the fx module, otherwise reference this
+    var target = this.target()
+      , matrix, bbox
+
+    // act as a getter
+    if (typeof o !== 'object') {
+      // get current matrix
+      matrix = new SVG.Matrix(target).extract()
+
+      return typeof o === 'string' ? matrix[o] : matrix
+    }
+
+    // ensure relative flag
+    relative = !!relative || !!o.relative
+
+    // act on matrix
+    if (o.a != null) {
+      matrix = new SVG.Matrix(o)
+
+    // act on rotation
+    } else if (o.rotation != null) {
+      // ensure centre point
+      ensureCentre(o, target)
+
+      // apply transformation
+      matrix = new SVG.Rotate(o.rotation, o.cx, o.cy)
+
+    // act on scale
+    } else if (o.scale != null || o.scaleX != null || o.scaleY != null) {
+      // ensure centre point
+      ensureCentre(o, target)
+
+      // ensure scale values on both axes
+      o.scaleX = o.scale != null ? o.scale : o.scaleX != null ? o.scaleX : 1
+      o.scaleY = o.scale != null ? o.scale : o.scaleY != null ? o.scaleY : 1
+
+      matrix = new SVG.Scale(o.scaleX, o.scaleY, o.cx, o.cy)
+
+    // act on skew
+    } else if (o.skewX != null || o.skewY != null) {
+      // ensure centre point
+      ensureCentre(o, target)
+
+      // ensure skew values on both axes
+      o.skewX = o.skewX != null ? o.skewX : 0
+      o.skewY = o.skewY != null ? o.skewY : 0
+
+      matrix = new SVG.Skew(o.skewX, o.skewY, o.cx, o.cy)
+
+    // act on flip
+    } else if (o.flip) {
+      if(o.flip == 'x' || o.flip == 'y') {
+        o.offset = o.offset == null ? target.bbox()['c' + o.flip] : o.offset
+      } else {
+        if(o.offset == null) {
+          bbox = target.bbox()
+          o.flip = bbox.cx
+          o.offset = bbox.cy
+        } else {
+          o.flip = o.offset
+        }
+      }
+
+      matrix = new SVG.Matrix().flip(o.flip, o.offset)
+
+    // act on translate
+    } else if (o.x != null || o.y != null) {
+      matrix = new SVG.Translate(o.x, o.y)
+    }
+
+    if(!matrix) return this
+
+    matrix.relative = relative
+
+    this.last().transforms.push(matrix)
+
+    return this._callStart()
+  }
+})
+
+SVG.extend(SVG.Element, {
+  // Reset all transformations
+  untransform: function() {
+    return this.attr('transform', null)
+  },
+  // merge the whole transformation chain into one matrix and returns it
+  matrixify: function() {
+
+    var matrix = (this.attr('transform') || '')
+      // split transformations
+      .split(SVG.regex.transforms).slice(0,-1).map(function(str){
+        // generate key => value pairs
+        var kv = str.trim().split('(')
+        return [kv[0], kv[1].split(SVG.regex.delimiter).map(function(str){ return parseFloat(str) })]
+      })
+      // merge every transformation into one matrix
+      .reduce(function(matrix, transform){
+
+        if(transform[0] == 'matrix') return matrix.multiply(arrayToMatrix(transform[1]))
+        return matrix[transform[0]].apply(matrix, transform[1])
+
+      }, new SVG.Matrix())
+
+    return matrix
+  },
+  // add an element to another parent without changing the visual representation on the screen
+  toParent: function(parent) {
+    if(this == parent) return this
+    var ctm = this.screenCTM()
+    var pCtm = parent.screenCTM().inverse()
+
+    this.addTo(parent).untransform().transform(pCtm.multiply(ctm))
+
+    return this
+  },
+  // same as above with parent equals root-svg
+  toDoc: function() {
+    return this.toParent(this.doc())
+  }
+
+})
+
+SVG.Transformation = SVG.invent({
+
+  create: function(source, inversed){
+
+    if(arguments.length > 1 && typeof inversed != 'boolean'){
+      return this.constructor.call(this, [].slice.call(arguments))
+    }
+
+    if(Array.isArray(source)){
+      for(var i = 0, len = this.arguments.length; i < len; ++i){
+        this[this.arguments[i]] = source[i]
+      }
+    } else if(typeof source == 'object'){
+      for(var i = 0, len = this.arguments.length; i < len; ++i){
+        this[this.arguments[i]] = source[this.arguments[i]]
+      }
+    }
+
+    this.inversed = false
+
+    if(inversed === true){
+      this.inversed = true
+    }
+
+  }
+
+, extend: {
+
+    arguments: []
+  , method: ''
+
+  , at: function(pos){
+
+      var params = []
+
+      for(var i = 0, len = this.arguments.length; i < len; ++i){
+        params.push(this[this.arguments[i]])
+      }
+
+      var m = this._undo || new SVG.Matrix()
+
+      m = new SVG.Matrix().morph(SVG.Matrix.prototype[this.method].apply(m, params)).at(pos)
+
+      return this.inversed ? m.inverse() : m
+
+    }
+
+  , undo: function(o){
+      for(var i = 0, len = this.arguments.length; i < len; ++i){
+        o[this.arguments[i]] = typeof this[this.arguments[i]] == 'undefined' ? 0 : o[this.arguments[i]]
+      }
+
+      // The method SVG.Matrix.extract which was used before calling this
+      // method to obtain a value for the parameter o doesn't return a cx and
+      // a cy so we use the ones that were provided to this object at its creation
+      o.cx = this.cx
+      o.cy = this.cy
+
+      this._undo = new SVG[capitalize(this.method)](o, true).at(1)
+
+      return this
+    }
+
+  }
+
+})
+
+SVG.Translate = SVG.invent({
+
+  parent: SVG.Matrix
+, inherit: SVG.Transformation
+
+, create: function(source, inversed){
+    this.constructor.apply(this, [].slice.call(arguments))
+  }
+
+, extend: {
+    arguments: ['transformedX', 'transformedY']
+  , method: 'translate'
+  }
+
+})
+
+SVG.Rotate = SVG.invent({
+
+  parent: SVG.Matrix
+, inherit: SVG.Transformation
+
+, create: function(source, inversed){
+    this.constructor.apply(this, [].slice.call(arguments))
+  }
+
+, extend: {
+    arguments: ['rotation', 'cx', 'cy']
+  , method: 'rotate'
+  , at: function(pos){
+      var m = new SVG.Matrix().rotate(new SVG.Number().morph(this.rotation - (this._undo ? this._undo.rotation : 0)).at(pos), this.cx, this.cy)
+      return this.inversed ? m.inverse() : m
+    }
+  , undo: function(o){
+      this._undo = o
+      return this
+    }
+  }
+
+})
+
+SVG.Scale = SVG.invent({
+
+  parent: SVG.Matrix
+, inherit: SVG.Transformation
+
+, create: function(source, inversed){
+    this.constructor.apply(this, [].slice.call(arguments))
+  }
+
+, extend: {
+    arguments: ['scaleX', 'scaleY', 'cx', 'cy']
+  , method: 'scale'
+  }
+
+})
+
+SVG.Skew = SVG.invent({
+
+  parent: SVG.Matrix
+, inherit: SVG.Transformation
+
+, create: function(source, inversed){
+    this.constructor.apply(this, [].slice.call(arguments))
+  }
+
+, extend: {
+    arguments: ['skewX', 'skewY', 'cx', 'cy']
+  , method: 'skew'
+  }
+
+})
+
+SVG.extend(SVG.Element, {
+  // Dynamic style generator
+  style: function(s, v) {
+    if (arguments.length == 0) {
+      // get full style
+      return this.node.style.cssText || ''
+
+    } else if (arguments.length < 2) {
+      // apply every style individually if an object is passed
+      if (typeof s == 'object') {
+        for (v in s) this.style(v, s[v])
+
+      } else if (SVG.regex.isCss.test(s)) {
+        // parse css string
+        s = s.split(/\s*;\s*/)
+          // filter out suffix ; and stuff like ;;
+          .filter(function(e) { return !!e })
+          .map(function(e){ return e.split(/\s*:\s*/) })
+
+        // apply every definition individually
+        while (v = s.pop()) {
+          this.style(v[0], v[1])
+        }
+      } else {
+        // act as a getter if the first and only argument is not an object
+        return this.node.style[camelCase(s)]
+      }
+
+    } else {
+      this.node.style[camelCase(s)] = v === null || SVG.regex.isBlank.test(v) ? '' : v
+    }
+
+    return this
+  }
+})
+SVG.Parent = SVG.invent({
+  // Initialize node
+  create: function(element) {
+    this.constructor.call(this, element)
+  }
+
+  // Inherit from
+, inherit: SVG.Element
+
+  // Add class methods
+, extend: {
+    // Returns all child elements
+    children: function() {
+      return SVG.utils.map(SVG.utils.filterSVGElements(this.node.childNodes), function(node) {
+        return SVG.adopt(node)
+      })
+    }
+    // Add given element at a position
+  , add: function(element, i) {
+      if (i == null)
+        this.node.appendChild(element.node)
+      else if (element.node != this.node.childNodes[i])
+        this.node.insertBefore(element.node, this.node.childNodes[i])
+
+      return this
+    }
+    // Basically does the same as `add()` but returns the added element instead
+  , put: function(element, i) {
+      this.add(element, i)
+      return element
+    }
+    // Checks if the given element is a child
+  , has: function(element) {
+      return this.index(element) >= 0
+    }
+    // Gets index of given element
+  , index: function(element) {
+      return [].slice.call(this.node.childNodes).indexOf(element.node)
+    }
+    // Get a element at the given index
+  , get: function(i) {
+      return SVG.adopt(this.node.childNodes[i])
+    }
+    // Get first child
+  , first: function() {
+      return this.get(0)
+    }
+    // Get the last child
+  , last: function() {
+      return this.get(this.node.childNodes.length - 1)
+    }
+    // Iterates over all children and invokes a given block
+  , each: function(block, deep) {
+      var i, il
+        , children = this.children()
+
+      for (i = 0, il = children.length; i < il; i++) {
+        if (children[i] instanceof SVG.Element)
+          block.apply(children[i], [i, children])
+
+        if (deep && (children[i] instanceof SVG.Container))
+          children[i].each(block, deep)
+      }
+
+      return this
+    }
+    // Remove a given child
+  , removeElement: function(element) {
+      this.node.removeChild(element.node)
+
+      return this
+    }
+    // Remove all elements in this container
+  , clear: function() {
+      // remove children
+      while(this.node.hasChildNodes())
+        this.node.removeChild(this.node.lastChild)
+
+      // remove defs reference
+      delete this._defs
+
+      return this
+    }
+  , // Get defs
+    defs: function() {
+      return this.doc().defs()
+    }
+  }
+
+})
+
+SVG.extend(SVG.Parent, {
+
+  ungroup: function(parent, depth) {
+    if(depth === 0 || this instanceof SVG.Defs || this.node == SVG.parser.draw) return this
+
+    parent = parent || (this instanceof SVG.Doc ? this : this.parent(SVG.Parent))
+    depth = depth || Infinity
+
+    this.each(function(){
+      if(this instanceof SVG.Defs) return this
+      if(this instanceof SVG.Parent) return this.ungroup(parent, depth-1)
+      return this.toParent(parent)
+    })
+
+    this.node.firstChild || this.remove()
+
+    return this
+  },
+
+  flatten: function(parent, depth) {
+    return this.ungroup(parent, depth)
+  }
+
+})
+SVG.Container = SVG.invent({
+  // Initialize node
+  create: function(element) {
+    this.constructor.call(this, element)
+  }
+
+  // Inherit from
+, inherit: SVG.Parent
+
+})
+
+SVG.ViewBox = SVG.invent({
+
+  create: function(source) {
+    var i, base = [0, 0, 0, 0]
+
+    var x, y, width, height, box, view, we, he
+      , wm   = 1 // width multiplier
+      , hm   = 1 // height multiplier
+      , reg  = /[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?/gi
+
+    if(source instanceof SVG.Element){
+
+      we = source
+      he = source
+      view = (source.attr('viewBox') || '').match(reg)
+      box = source.bbox
+
+      // get dimensions of current node
+      width  = new SVG.Number(source.width())
+      height = new SVG.Number(source.height())
+
+      // find nearest non-percentual dimensions
+      while (width.unit == '%') {
+        wm *= width.value
+        width = new SVG.Number(we instanceof SVG.Doc ? we.parent().offsetWidth : we.parent().width())
+        we = we.parent()
+      }
+      while (height.unit == '%') {
+        hm *= height.value
+        height = new SVG.Number(he instanceof SVG.Doc ? he.parent().offsetHeight : he.parent().height())
+        he = he.parent()
+      }
+
+      // ensure defaults
+      this.x      = 0
+      this.y      = 0
+      this.width  = width  * wm
+      this.height = height * hm
+      this.zoom   = 1
+
+      if (view) {
+        // get width and height from viewbox
+        x      = parseFloat(view[0])
+        y      = parseFloat(view[1])
+        width  = parseFloat(view[2])
+        height = parseFloat(view[3])
+
+        // calculate zoom accoring to viewbox
+        this.zoom = ((this.width / this.height) > (width / height)) ?
+          this.height / height :
+          this.width  / width
+
+        // calculate real pixel dimensions on parent SVG.Doc element
+        this.x      = x
+        this.y      = y
+        this.width  = width
+        this.height = height
+
+      }
+
+    }else{
+
+      // ensure source as object
+      source = typeof source === 'string' ?
+        source.match(reg).map(function(el){ return parseFloat(el) }) :
+      Array.isArray(source) ?
+        source :
+      typeof source == 'object' ?
+        [source.x, source.y, source.width, source.height] :
+      arguments.length == 4 ?
+        [].slice.call(arguments) :
+        base
+
+      this.x = source[0]
+      this.y = source[1]
+      this.width = source[2]
+      this.height = source[3]
+    }
+
+
+  }
+
+, extend: {
+
+    toString: function() {
+      return this.x + ' ' + this.y + ' ' + this.width + ' ' + this.height
+    }
+  , morph: function(x, y, width, height){
+      this.destination = new SVG.ViewBox(x, y, width, height)
+      return this
+    }
+
+  , at: function(pos) {
+
+      if(!this.destination) return this
+
+      return new SVG.ViewBox([
+          this.x + (this.destination.x - this.x) * pos
+        , this.y + (this.destination.y - this.y) * pos
+        , this.width + (this.destination.width - this.width) * pos
+        , this.height + (this.destination.height - this.height) * pos
+      ])
+
+    }
+
+  }
+
+  // Define parent
+, parent: SVG.Container
+
+  // Add parent method
+, construct: {
+
+    // get/set viewbox
+    viewbox: function(x, y, width, height) {
+      if (arguments.length == 0)
+        // act as a getter if there are no arguments
+        return new SVG.ViewBox(this)
+
+      // otherwise act as a setter
+      return this.attr('viewBox', new SVG.ViewBox(x, y, width, height))
+    }
+
+  }
+
+})
+// Add events to elements
+;[  'click'
+  , 'dblclick'
+  , 'mousedown'
+  , 'mouseup'
+  , 'mouseover'
+  , 'mouseout'
+  , 'mousemove'
+  // , 'mouseenter' -> not supported by IE
+  // , 'mouseleave' -> not supported by IE
+  , 'touchstart'
+  , 'touchmove'
+  , 'touchleave'
+  , 'touchend'
+  , 'touchcancel' ].forEach(function(event) {
+
+  // add event to SVG.Element
+  SVG.Element.prototype[event] = function(f) {
+    // bind event to element rather than element node
+    SVG.on(this.node, event, f)
+    return this
+  }
+})
+
+// Initialize listeners stack
+SVG.listeners = []
+SVG.handlerMap = []
+SVG.listenerId = 0
+
+// Add event binder in the SVG namespace
+SVG.on = function(node, event, listener, binding, options) {
+  // create listener, get object-index
+  var l     = listener.bind(binding || node.instance || node)
+    , index = (SVG.handlerMap.indexOf(node) + 1 || SVG.handlerMap.push(node)) - 1
+    , ev    = event.split('.')[0]
+    , ns    = event.split('.')[1] || '*'
+
+
+  // ensure valid object
+  SVG.listeners[index]         = SVG.listeners[index]         || {}
+  SVG.listeners[index][ev]     = SVG.listeners[index][ev]     || {}
+  SVG.listeners[index][ev][ns] = SVG.listeners[index][ev][ns] || {}
+
+  if(!listener._svgjsListenerId)
+    listener._svgjsListenerId = ++SVG.listenerId
+
+  // reference listener
+  SVG.listeners[index][ev][ns][listener._svgjsListenerId] = l
+
+  // add listener
+  node.addEventListener(ev, l, options || false)
+}
+
+// Add event unbinder in the SVG namespace
+SVG.off = function(node, event, listener) {
+  var index = SVG.handlerMap.indexOf(node)
+    , ev    = event && event.split('.')[0]
+    , ns    = event && event.split('.')[1]
+    , namespace = ''
+
+  if(index == -1) return
+
+  if (listener) {
+    if(typeof listener == 'function') listener = listener._svgjsListenerId
+    if(!listener) return
+
+    // remove listener reference
+    if (SVG.listeners[index][ev] && SVG.listeners[index][ev][ns || '*']) {
+      // remove listener
+      node.removeEventListener(ev, SVG.listeners[index][ev][ns || '*'][listener], false)
+
+      delete SVG.listeners[index][ev][ns || '*'][listener]
+    }
+
+  } else if (ns && ev) {
+    // remove all listeners for a namespaced event
+    if (SVG.listeners[index][ev] && SVG.listeners[index][ev][ns]) {
+      for (listener in SVG.listeners[index][ev][ns])
+        SVG.off(node, [ev, ns].join('.'), listener)
+
+      delete SVG.listeners[index][ev][ns]
+    }
+
+  } else if (ns){
+    // remove all listeners for a specific namespace
+    for(event in SVG.listeners[index]){
+        for(namespace in SVG.listeners[index][event]){
+            if(ns === namespace){
+                SVG.off(node, [event, ns].join('.'))
+            }
+        }
+    }
+
+  } else if (ev) {
+    // remove all listeners for the event
+    if (SVG.listeners[index][ev]) {
+      for (namespace in SVG.listeners[index][ev])
+        SVG.off(node, [ev, namespace].join('.'))
+
+      delete SVG.listeners[index][ev]
+    }
+
+  } else {
+    // remove all listeners on a given node
+    for (event in SVG.listeners[index])
+      SVG.off(node, event)
+
+    delete SVG.listeners[index]
+    delete SVG.handlerMap[index]
+
+  }
+}
+
+//
+SVG.extend(SVG.Element, {
+  // Bind given event to listener
+  on: function(event, listener, binding, options) {
+    SVG.on(this.node, event, listener, binding, options)
+
+    return this
+  }
+  // Unbind event from listener
+, off: function(event, listener) {
+    SVG.off(this.node, event, listener)
+
+    return this
+  }
+  // Fire given event
+, fire: function(event, data) {
+
+    // Dispatch event
+    if(event instanceof window.Event){
+        this.node.dispatchEvent(event)
+    }else{
+        this.node.dispatchEvent(event = new window.CustomEvent(event, {detail:data, cancelable: true}))
+    }
+
+    this._event = event
+    return this
+  }
+, event: function() {
+    return this._event
+  }
+})
+
+
+SVG.Defs = SVG.invent({
+  // Initialize node
+  create: 'defs'
+
+  // Inherit from
+, inherit: SVG.Container
+
+})
+SVG.G = SVG.invent({
+  // Initialize node
+  create: 'g'
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Move over x-axis
+    x: function(x) {
+      return x == null ? this.transform('x') : this.transform({ x: x - this.x() }, true)
+    }
+    // Move over y-axis
+  , y: function(y) {
+      return y == null ? this.transform('y') : this.transform({ y: y - this.y() }, true)
+    }
+    // Move by center over x-axis
+  , cx: function(x) {
+      return x == null ? this.gbox().cx : this.x(x - this.gbox().width / 2)
+    }
+    // Move by center over y-axis
+  , cy: function(y) {
+      return y == null ? this.gbox().cy : this.y(y - this.gbox().height / 2)
+    }
+  , gbox: function() {
+
+      var bbox  = this.bbox()
+        , trans = this.transform()
+
+      bbox.x  += trans.x
+      bbox.x2 += trans.x
+      bbox.cx += trans.x
+
+      bbox.y  += trans.y
+      bbox.y2 += trans.y
+      bbox.cy += trans.y
+
+      return bbox
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create a group element
+    group: function() {
+      return this.put(new SVG.G)
+    }
+  }
+})
+
+// ### This module adds backward / forward functionality to elements.
+
+//
+SVG.extend(SVG.Element, {
+  // Get all siblings, including myself
+  siblings: function() {
+    return this.parent().children()
+  }
+  // Get the curent position siblings
+, position: function() {
+    return this.parent().index(this)
+  }
+  // Get the next element (will return null if there is none)
+, next: function() {
+    return this.siblings()[this.position() + 1]
+  }
+  // Get the next element (will return null if there is none)
+, previous: function() {
+    return this.siblings()[this.position() - 1]
+  }
+  // Send given element one step forward
+, forward: function() {
+    var i = this.position() + 1
+      , p = this.parent()
+
+    // move node one step forward
+    p.removeElement(this).add(this, i)
+
+    // make sure defs node is always at the top
+    if (p instanceof SVG.Doc)
+      p.node.appendChild(p.defs().node)
+
+    return this
+  }
+  // Send given element one step backward
+, backward: function() {
+    var i = this.position()
+
+    if (i > 0)
+      this.parent().removeElement(this).add(this, i - 1)
+
+    return this
+  }
+  // Send given element all the way to the front
+, front: function() {
+    var p = this.parent()
+
+    // Move node forward
+    p.node.appendChild(this.node)
+
+    // Make sure defs node is always at the top
+    if (p instanceof SVG.Doc)
+      p.node.appendChild(p.defs().node)
+
+    return this
+  }
+  // Send given element all the way to the back
+, back: function() {
+    if (this.position() > 0)
+      this.parent().removeElement(this).add(this, 0)
+
+    return this
+  }
+  // Inserts a given element before the targeted element
+, before: function(element) {
+    element.remove()
+
+    var i = this.position()
+
+    this.parent().add(element, i)
+
+    return this
+  }
+  // Insters a given element after the targeted element
+, after: function(element) {
+    element.remove()
+
+    var i = this.position()
+
+    this.parent().add(element, i + 1)
+
+    return this
+  }
+
+})
+SVG.Mask = SVG.invent({
+  // Initialize node
+  create: function() {
+    this.constructor.call(this, SVG.create('mask'))
+
+    // keep references to masked elements
+    this.targets = []
+  }
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Unmask all masked elements and remove itself
+    remove: function() {
+      // unmask all targets
+      for (var i = this.targets.length - 1; i >= 0; i--)
+        if (this.targets[i])
+          this.targets[i].unmask()
+      this.targets = []
+
+      // remove mask from parent
+      this.parent().removeElement(this)
+
+      return this
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create masking element
+    mask: function() {
+      return this.defs().put(new SVG.Mask)
+    }
+  }
+})
+
+
+SVG.extend(SVG.Element, {
+  // Distribute mask to svg element
+  maskWith: function(element) {
+    // use given mask or create a new one
+    this.masker = element instanceof SVG.Mask ? element : this.parent().mask().add(element)
+
+    // store reverence on self in mask
+    this.masker.targets.push(this)
+
+    // apply mask
+    return this.attr('mask', 'url("#' + this.masker.attr('id') + '")')
+  }
+  // Unmask element
+, unmask: function() {
+    delete this.masker
+    return this.attr('mask', null)
+  }
+
+})
+
+SVG.ClipPath = SVG.invent({
+  // Initialize node
+  create: function() {
+    this.constructor.call(this, SVG.create('clipPath'))
+
+    // keep references to clipped elements
+    this.targets = []
+  }
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Unclip all clipped elements and remove itself
+    remove: function() {
+      // unclip all targets
+      for (var i = this.targets.length - 1; i >= 0; i--)
+        if (this.targets[i])
+          this.targets[i].unclip()
+      this.targets = []
+
+      // remove clipPath from parent
+      this.parent().removeElement(this)
+
+      return this
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create clipping element
+    clip: function() {
+      return this.defs().put(new SVG.ClipPath)
+    }
+  }
+})
+
+//
+SVG.extend(SVG.Element, {
+  // Distribute clipPath to svg element
+  clipWith: function(element) {
+    // use given clip or create a new one
+    this.clipper = element instanceof SVG.ClipPath ? element : this.parent().clip().add(element)
+
+    // store reverence on self in mask
+    this.clipper.targets.push(this)
+
+    // apply mask
+    return this.attr('clip-path', 'url("#' + this.clipper.attr('id') + '")')
+  }
+  // Unclip element
+, unclip: function() {
+    delete this.clipper
+    return this.attr('clip-path', null)
+  }
+
+})
+SVG.Gradient = SVG.invent({
+  // Initialize node
+  create: function(type) {
+    this.constructor.call(this, SVG.create(type + 'Gradient'))
+
+    // store type
+    this.type = type
+  }
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Add a color stop
+    at: function(offset, color, opacity) {
+      return this.put(new SVG.Stop).update(offset, color, opacity)
+    }
+    // Update gradient
+  , update: function(block) {
+      // remove all stops
+      this.clear()
+
+      // invoke passed block
+      if (typeof block == 'function')
+        block.call(this, this)
+
+      return this
+    }
+    // Return the fill id
+  , fill: function() {
+      return 'url(#' + this.id() + ')'
+    }
+    // Alias string convertion to fill
+  , toString: function() {
+      return this.fill()
+    }
+    // custom attr to handle transform
+  , attr: function(a, b, c) {
+      if(a == 'transform') a = 'gradientTransform'
+      return SVG.Container.prototype.attr.call(this, a, b, c)
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create gradient element in defs
+    gradient: function(type, block) {
+      return this.defs().gradient(type, block)
+    }
+  }
+})
+
+// Add animatable methods to both gradient and fx module
+SVG.extend(SVG.Gradient, SVG.FX, {
+  // From position
+  from: function(x, y) {
+    return (this._target || this).type == 'radial' ?
+      this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) :
+      this.attr({ x1: new SVG.Number(x), y1: new SVG.Number(y) })
+  }
+  // To position
+, to: function(x, y) {
+    return (this._target || this).type == 'radial' ?
+      this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) :
+      this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) })
+  }
+})
+
+// Base gradient generation
+SVG.extend(SVG.Defs, {
+  // define gradient
+  gradient: function(type, block) {
+    return this.put(new SVG.Gradient(type)).update(block)
+  }
+
+})
+
+SVG.Stop = SVG.invent({
+  // Initialize node
+  create: 'stop'
+
+  // Inherit from
+, inherit: SVG.Element
+
+  // Add class methods
+, extend: {
+    // add color stops
+    update: function(o) {
+      if (typeof o == 'number' || o instanceof SVG.Number) {
+        o = {
+          offset:  arguments[0]
+        , color:   arguments[1]
+        , opacity: arguments[2]
+        }
+      }
+
+      // set attributes
+      if (o.opacity != null) this.attr('stop-opacity', o.opacity)
+      if (o.color   != null) this.attr('stop-color', o.color)
+      if (o.offset  != null) this.attr('offset', new SVG.Number(o.offset))
+
+      return this
+    }
+  }
+
+})
+
+SVG.Pattern = SVG.invent({
+  // Initialize node
+  create: 'pattern'
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Return the fill id
+    fill: function() {
+      return 'url(#' + this.id() + ')'
+    }
+    // Update pattern by rebuilding
+  , update: function(block) {
+      // remove content
+      this.clear()
+
+      // invoke passed block
+      if (typeof block == 'function')
+        block.call(this, this)
+
+      return this
+    }
+    // Alias string convertion to fill
+  , toString: function() {
+      return this.fill()
+    }
+    // custom attr to handle transform
+  , attr: function(a, b, c) {
+      if(a == 'transform') a = 'patternTransform'
+      return SVG.Container.prototype.attr.call(this, a, b, c)
+    }
+
+  }
+
+  // Add parent method
+, construct: {
+    // Create pattern element in defs
+    pattern: function(width, height, block) {
+      return this.defs().pattern(width, height, block)
+    }
+  }
+})
+
+SVG.extend(SVG.Defs, {
+  // Define gradient
+  pattern: function(width, height, block) {
+    return this.put(new SVG.Pattern).update(block).attr({
+      x:            0
+    , y:            0
+    , width:        width
+    , height:       height
+    , patternUnits: 'userSpaceOnUse'
+    })
+  }
+
+})
+SVG.Doc = SVG.invent({
+  // Initialize node
+  create: function(element) {
+    if (element) {
+      // ensure the presence of a dom element
+      element = typeof element == 'string' ?
+        document.getElementById(element) :
+        element
+
+      // If the target is an svg element, use that element as the main wrapper.
+      // This allows svg.js to work with svg documents as well.
+      if (element.nodeName == 'svg') {
+        this.constructor.call(this, element)
+      } else {
+        this.constructor.call(this, SVG.create('svg'))
+        element.appendChild(this.node)
+        this.size('100%', '100%')
+      }
+
+      // set svg element attributes and ensure defs node
+      this.namespace().defs()
+    }
+  }
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Add namespaces
+    namespace: function() {
+      return this
+        .attr({ xmlns: SVG.ns, version: '1.1' })
+        .attr('xmlns:xlink', SVG.xlink, SVG.xmlns)
+        .attr('xmlns:svgjs', SVG.svgjs, SVG.xmlns)
+    }
+    // Creates and returns defs element
+  , defs: function() {
+      if (!this._defs) {
+        var defs
+
+        // Find or create a defs element in this instance
+        if (defs = this.node.getElementsByTagName('defs')[0])
+          this._defs = SVG.adopt(defs)
+        else
+          this._defs = new SVG.Defs
+
+        // Make sure the defs node is at the end of the stack
+        this.node.appendChild(this._defs.node)
+      }
+
+      return this._defs
+    }
+    // custom parent method
+  , parent: function() {
+      return this.node.parentNode.nodeName == '#document' ? null : this.node.parentNode
+    }
+    // Fix for possible sub-pixel offset. See:
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=608812
+  , spof: function() {
+      var pos = this.node.getScreenCTM()
+
+      if (pos)
+        this
+          .style('left', (-pos.e % 1) + 'px')
+          .style('top',  (-pos.f % 1) + 'px')
+
+      return this
+    }
+
+      // Removes the doc from the DOM
+  , remove: function() {
+      if(this.parent()) {
+        this.parent().removeChild(this.node)
+      }
+
+      return this
+    }
+  , clear: function() {
+      // remove children
+      while(this.node.hasChildNodes())
+        this.node.removeChild(this.node.lastChild)
+
+      // remove defs reference
+      delete this._defs
+
+      // add back parser
+      if(!SVG.parser.draw.parentNode)
+        this.node.appendChild(SVG.parser.draw)
+
+      return this
+    }
+  }
+
+})
+
+SVG.Shape = SVG.invent({
+  // Initialize node
+  create: function(element) {
+    this.constructor.call(this, element)
+  }
+
+  // Inherit from
+, inherit: SVG.Element
+
+})
+
+SVG.Bare = SVG.invent({
+  // Initialize
+  create: function(element, inherit) {
+    // construct element
+    this.constructor.call(this, SVG.create(element))
+
+    // inherit custom methods
+    if (inherit)
+      for (var method in inherit.prototype)
+        if (typeof inherit.prototype[method] === 'function')
+          this[method] = inherit.prototype[method]
+  }
+
+  // Inherit from
+, inherit: SVG.Element
+
+  // Add methods
+, extend: {
+    // Insert some plain text
+    words: function(text) {
+      // remove contents
+      while (this.node.hasChildNodes())
+        this.node.removeChild(this.node.lastChild)
+
+      // create text node
+      this.node.appendChild(document.createTextNode(text))
+
+      return this
+    }
+  }
+})
+
+
+SVG.extend(SVG.Parent, {
+  // Create an element that is not described by SVG.js
+  element: function(element, inherit) {
+    return this.put(new SVG.Bare(element, inherit))
+  }
+})
+
+SVG.Symbol = SVG.invent({
+  // Initialize node
+  create: 'symbol'
+
+  // Inherit from
+, inherit: SVG.Container
+
+, construct: {
+    // create symbol
+    symbol: function() {
+      return this.put(new SVG.Symbol)
+    }
+  }
+})
+
+SVG.Use = SVG.invent({
+  // Initialize node
+  create: 'use'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add class methods
+, extend: {
+    // Use element as a reference
+    element: function(element, file) {
+      // Set lined element
+      return this.attr('href', (file || '') + '#' + element, SVG.xlink)
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create a use element
+    use: function(element, file) {
+      return this.put(new SVG.Use).element(element, file)
+    }
+  }
+})
+SVG.Rect = SVG.invent({
+  // Initialize node
+  create: 'rect'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add parent method
+, construct: {
+    // Create a rect element
+    rect: function(width, height) {
+      return this.put(new SVG.Rect()).size(width, height)
+    }
+  }
+})
+SVG.Circle = SVG.invent({
+  // Initialize node
+  create: 'circle'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add parent method
+, construct: {
+    // Create circle element, based on ellipse
+    circle: function(size) {
+      return this.put(new SVG.Circle).rx(new SVG.Number(size).divide(2)).move(0, 0)
+    }
+  }
+})
+
+SVG.extend(SVG.Circle, SVG.FX, {
+  // Radius x value
+  rx: function(rx) {
+    return this.attr('r', rx)
+  }
+  // Alias radius x value
+, ry: function(ry) {
+    return this.rx(ry)
+  }
+})
+
+SVG.Ellipse = SVG.invent({
+  // Initialize node
+  create: 'ellipse'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add parent method
+, construct: {
+    // Create an ellipse
+    ellipse: function(width, height) {
+      return this.put(new SVG.Ellipse).size(width, height).move(0, 0)
+    }
+  }
+})
+
+SVG.extend(SVG.Ellipse, SVG.Rect, SVG.FX, {
+  // Radius x value
+  rx: function(rx) {
+    return this.attr('rx', rx)
+  }
+  // Radius y value
+, ry: function(ry) {
+    return this.attr('ry', ry)
+  }
+})
+
+// Add common method
+SVG.extend(SVG.Circle, SVG.Ellipse, {
+    // Move over x-axis
+    x: function(x) {
+      return x == null ? this.cx() - this.rx() : this.cx(x + this.rx())
+    }
+    // Move over y-axis
+  , y: function(y) {
+      return y == null ? this.cy() - this.ry() : this.cy(y + this.ry())
+    }
+    // Move by center over x-axis
+  , cx: function(x) {
+      return x == null ? this.attr('cx') : this.attr('cx', x)
+    }
+    // Move by center over y-axis
+  , cy: function(y) {
+      return y == null ? this.attr('cy') : this.attr('cy', y)
+    }
+    // Set width of element
+  , width: function(width) {
+      return width == null ? this.rx() * 2 : this.rx(new SVG.Number(width).divide(2))
+    }
+    // Set height of element
+  , height: function(height) {
+      return height == null ? this.ry() * 2 : this.ry(new SVG.Number(height).divide(2))
+    }
+    // Custom size function
+  , size: function(width, height) {
+      var p = proportionalSize(this, width, height)
+
+      return this
+        .rx(new SVG.Number(p.width).divide(2))
+        .ry(new SVG.Number(p.height).divide(2))
+    }
+})
+SVG.Line = SVG.invent({
+  // Initialize node
+  create: 'line'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add class methods
+, extend: {
+    // Get array
+    array: function() {
+      return new SVG.PointArray([
+        [ this.attr('x1'), this.attr('y1') ]
+      , [ this.attr('x2'), this.attr('y2') ]
+      ])
+    }
+    // Overwrite native plot() method
+  , plot: function(x1, y1, x2, y2) {
+      if (x1 == null)
+        return this.array()
+      else if (typeof y1 !== 'undefined')
+        x1 = { x1: x1, y1: y1, x2: x2, y2: y2 }
+      else
+        x1 = new SVG.PointArray(x1).toLine()
+
+      return this.attr(x1)
+    }
+    // Move by left top corner
+  , move: function(x, y) {
+      return this.attr(this.array().move(x, y).toLine())
+    }
+    // Set element size to given width and height
+  , size: function(width, height) {
+      var p = proportionalSize(this, width, height)
+
+      return this.attr(this.array().size(p.width, p.height).toLine())
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create a line element
+    line: function(x1, y1, x2, y2) {
+      // make sure plot is called as a setter
+      // x1 is not necessarily a number, it can also be an array, a string and a SVG.PointArray
+      return SVG.Line.prototype.plot.apply(
+        this.put(new SVG.Line)
+      , x1 != null ? [x1, y1, x2, y2] : [0, 0, 0, 0]
+      )
+    }
+  }
+})
+
+SVG.Polyline = SVG.invent({
+  // Initialize node
+  create: 'polyline'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add parent method
+, construct: {
+    // Create a wrapped polyline element
+    polyline: function(p) {
+      // make sure plot is called as a setter
+      return this.put(new SVG.Polyline).plot(p || new SVG.PointArray)
+    }
+  }
+})
+
+SVG.Polygon = SVG.invent({
+  // Initialize node
+  create: 'polygon'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add parent method
+, construct: {
+    // Create a wrapped polygon element
+    polygon: function(p) {
+      // make sure plot is called as a setter
+      return this.put(new SVG.Polygon).plot(p || new SVG.PointArray)
+    }
+  }
+})
+
+// Add polygon-specific functions
+SVG.extend(SVG.Polyline, SVG.Polygon, {
+  // Get array
+  array: function() {
+    return this._array || (this._array = new SVG.PointArray(this.attr('points')))
+  }
+  // Plot new path
+, plot: function(p) {
+    return (p == null) ?
+      this.array() :
+      this.clear().attr('points', typeof p == 'string' ? p : (this._array = new SVG.PointArray(p)))
+  }
+  // Clear array cache
+, clear: function() {
+    delete this._array
+    return this
+  }
+  // Move by left top corner
+, move: function(x, y) {
+    return this.attr('points', this.array().move(x, y))
+  }
+  // Set element size to given width and height
+, size: function(width, height) {
+    var p = proportionalSize(this, width, height)
+
+    return this.attr('points', this.array().size(p.width, p.height))
+  }
+
+})
+
+// unify all point to point elements
+SVG.extend(SVG.Line, SVG.Polyline, SVG.Polygon, {
+  // Define morphable array
+  morphArray:  SVG.PointArray
+  // Move by left top corner over x-axis
+, x: function(x) {
+    return x == null ? this.bbox().x : this.move(x, this.bbox().y)
+  }
+  // Move by left top corner over y-axis
+, y: function(y) {
+    return y == null ? this.bbox().y : this.move(this.bbox().x, y)
+  }
+  // Set width of element
+, width: function(width) {
+    var b = this.bbox()
+
+    return width == null ? b.width : this.size(width, b.height)
+  }
+  // Set height of element
+, height: function(height) {
+    var b = this.bbox()
+
+    return height == null ? b.height : this.size(b.width, height)
+  }
+})
+SVG.Path = SVG.invent({
+  // Initialize node
+  create: 'path'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add class methods
+, extend: {
+    // Define morphable array
+    morphArray:  SVG.PathArray
+    // Get array
+  , array: function() {
+      return this._array || (this._array = new SVG.PathArray(this.attr('d')))
+    }
+    // Plot new path
+  , plot: function(d) {
+      return (d == null) ?
+        this.array() :
+        this.clear().attr('d', typeof d == 'string' ? d : (this._array = new SVG.PathArray(d)))
+    }
+    // Clear array cache
+  , clear: function() {
+      delete this._array
+      return this
+    }
+    // Move by left top corner
+  , move: function(x, y) {
+      return this.attr('d', this.array().move(x, y))
+    }
+    // Move by left top corner over x-axis
+  , x: function(x) {
+      return x == null ? this.bbox().x : this.move(x, this.bbox().y)
+    }
+    // Move by left top corner over y-axis
+  , y: function(y) {
+      return y == null ? this.bbox().y : this.move(this.bbox().x, y)
+    }
+    // Set element size to given width and height
+  , size: function(width, height) {
+      var p = proportionalSize(this, width, height)
+
+      return this.attr('d', this.array().size(p.width, p.height))
+    }
+    // Set width of element
+  , width: function(width) {
+      return width == null ? this.bbox().width : this.size(width, this.bbox().height)
+    }
+    // Set height of element
+  , height: function(height) {
+      return height == null ? this.bbox().height : this.size(this.bbox().width, height)
+    }
+
+  }
+
+  // Add parent method
+, construct: {
+    // Create a wrapped path element
+    path: function(d) {
+      // make sure plot is called as a setter
+      return this.put(new SVG.Path).plot(d || new SVG.PathArray)
+    }
+  }
+})
+
+SVG.Image = SVG.invent({
+  // Initialize node
+  create: 'image'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add class methods
+, extend: {
+    // (re)load image
+    load: function(url) {
+      if (!url) return this
+
+      var self = this
+        , img  = new window.Image()
+
+      // preload image
+      SVG.on(img, 'load', function() {
+        SVG.off(img)
+
+        var p = self.parent(SVG.Pattern)
+
+        if(p === null) return
+
+        // ensure image size
+        if (self.width() == 0 && self.height() == 0)
+          self.size(img.width, img.height)
+
+        // ensure pattern size if not set
+        if (p && p.width() == 0 && p.height() == 0)
+          p.size(self.width(), self.height())
+
+        // callback
+        if (typeof self._loaded === 'function')
+          self._loaded.call(self, {
+            width:  img.width
+          , height: img.height
+          , ratio:  img.width / img.height
+          , url:    url
+          })
+      })
+
+      SVG.on(img, 'error', function(e){
+        SVG.off(img)
+
+        if (typeof self._error === 'function'){
+            self._error.call(self, e)
+        }
+      })
+
+      return this.attr('href', (img.src = this.src = url), SVG.xlink)
+    }
+    // Add loaded callback
+  , loaded: function(loaded) {
+      this._loaded = loaded
+      return this
+    }
+
+  , error: function(error) {
+      this._error = error
+      return this
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // create image element, load image and set its size
+    image: function(source, width, height) {
+      return this.put(new SVG.Image).load(source).size(width || 0, height || width || 0)
+    }
+  }
+
+})
+SVG.Text = SVG.invent({
+  // Initialize node
+  create: function() {
+    this.constructor.call(this, SVG.create('text'))
+
+    this.dom.leading = new SVG.Number(1.3)    // store leading value for rebuilding
+    this._rebuild = true                      // enable automatic updating of dy values
+    this._build   = false                     // disable build mode for adding multiple lines
+
+    // set default font
+    this.attr('font-family', SVG.defaults.attrs['font-family'])
+  }
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add class methods
+, extend: {
+    // Move over x-axis
+    x: function(x) {
+      // act as getter
+      if (x == null)
+        return this.attr('x')
+
+      return this.attr('x', x)
+    }
+    // Move over y-axis
+  , y: function(y) {
+      var oy = this.attr('y')
+        , o  = typeof oy === 'number' ? oy - this.bbox().y : 0
+
+      // act as getter
+      if (y == null)
+        return typeof oy === 'number' ? oy - o : oy
+
+      return this.attr('y', typeof y === 'number' ? y + o : y)
+    }
+    // Move center over x-axis
+  , cx: function(x) {
+      return x == null ? this.bbox().cx : this.x(x - this.bbox().width / 2)
+    }
+    // Move center over y-axis
+  , cy: function(y) {
+      return y == null ? this.bbox().cy : this.y(y - this.bbox().height / 2)
+    }
+    // Set the text content
+  , text: function(text) {
+      // act as getter
+      if (typeof text === 'undefined'){
+        var text = ''
+        var children = this.node.childNodes
+        for(var i = 0, len = children.length; i < len; ++i){
+
+          // add newline if its not the first child and newLined is set to true
+          if(i != 0 && children[i].nodeType != 3 && SVG.adopt(children[i]).dom.newLined == true){
+            text += '\n'
+          }
+
+          // add content of this node
+          text += children[i].textContent
+        }
+
+        return text
+      }
+
+      // remove existing content
+      this.clear().build(true)
+
+      if (typeof text === 'function') {
+        // call block
+        text.call(this, this)
+
+      } else {
+        // store text and make sure text is not blank
+        text = text.split('\n')
+
+        // build new lines
+        for (var i = 0, il = text.length; i < il; i++)
+          this.tspan(text[i]).newLine()
+      }
+
+      // disable build mode and rebuild lines
+      return this.build(false).rebuild()
+    }
+    // Set font size
+  , size: function(size) {
+      return this.attr('font-size', size).rebuild()
+    }
+    // Set / get leading
+  , leading: function(value) {
+      // act as getter
+      if (value == null)
+        return this.dom.leading
+
+      // act as setter
+      this.dom.leading = new SVG.Number(value)
+
+      return this.rebuild()
+    }
+    // Get all the first level lines
+  , lines: function() {
+      var node = (this.textPath && this.textPath() || this).node
+
+      // filter tspans and map them to SVG.js instances
+      var lines = SVG.utils.map(SVG.utils.filterSVGElements(node.childNodes), function(el){
+        return SVG.adopt(el)
+      })
+
+      // return an instance of SVG.set
+      return new SVG.Set(lines)
+    }
+    // Rebuild appearance type
+  , rebuild: function(rebuild) {
+      // store new rebuild flag if given
+      if (typeof rebuild == 'boolean')
+        this._rebuild = rebuild
+
+      // define position of all lines
+      if (this._rebuild) {
+        var self = this
+          , blankLineOffset = 0
+          , dy = this.dom.leading * new SVG.Number(this.attr('font-size'))
+
+        this.lines().each(function() {
+          if (this.dom.newLined) {
+            if (!self.textPath())
+              this.attr('x', self.attr('x'))
+            if(this.text() == '\n') {
+              blankLineOffset += dy
+            }else{
+              this.attr('dy', dy + blankLineOffset)
+              blankLineOffset = 0
+            }
+          }
+        })
+
+        this.fire('rebuild')
+      }
+
+      return this
+    }
+    // Enable / disable build mode
+  , build: function(build) {
+      this._build = !!build
+      return this
+    }
+    // overwrite method from parent to set data properly
+  , setData: function(o){
+      this.dom = o
+      this.dom.leading = new SVG.Number(o.leading || 1.3)
+      return this
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create text element
+    text: function(text) {
+      return this.put(new SVG.Text).text(text)
+    }
+    // Create plain text element
+  , plain: function(text) {
+      return this.put(new SVG.Text).plain(text)
+    }
+  }
+
+})
+
+SVG.Tspan = SVG.invent({
+  // Initialize node
+  create: 'tspan'
+
+  // Inherit from
+, inherit: SVG.Shape
+
+  // Add class methods
+, extend: {
+    // Set text content
+    text: function(text) {
+      if(text == null) return this.node.textContent + (this.dom.newLined ? '\n' : '')
+
+      typeof text === 'function' ? text.call(this, this) : this.plain(text)
+
+      return this
+    }
+    // Shortcut dx
+  , dx: function(dx) {
+      return this.attr('dx', dx)
+    }
+    // Shortcut dy
+  , dy: function(dy) {
+      return this.attr('dy', dy)
+    }
+    // Create new line
+  , newLine: function() {
+      // fetch text parent
+      var t = this.parent(SVG.Text)
+
+      // mark new line
+      this.dom.newLined = true
+
+      // apply new hy¡n
+      return this.dy(t.dom.leading * t.attr('font-size')).attr('x', t.x())
+    }
+  }
+
+})
+
+SVG.extend(SVG.Text, SVG.Tspan, {
+  // Create plain text node
+  plain: function(text) {
+    // clear if build mode is disabled
+    if (this._build === false)
+      this.clear()
+
+    // create text node
+    this.node.appendChild(document.createTextNode(text))
+
+    return this
+  }
+  // Create a tspan
+, tspan: function(text) {
+    var node  = (this.textPath && this.textPath() || this).node
+      , tspan = new SVG.Tspan
+
+    // clear if build mode is disabled
+    if (this._build === false)
+      this.clear()
+
+    // add new tspan
+    node.appendChild(tspan.node)
+
+    return tspan.text(text)
+  }
+  // Clear all lines
+, clear: function() {
+    var node = (this.textPath && this.textPath() || this).node
+
+    // remove existing child nodes
+    while (node.hasChildNodes())
+      node.removeChild(node.lastChild)
+
+    return this
+  }
+  // Get length of text element
+, length: function() {
+    return this.node.getComputedTextLength()
+  }
+})
+
+SVG.TextPath = SVG.invent({
+  // Initialize node
+  create: 'textPath'
+
+  // Inherit from
+, inherit: SVG.Parent
+
+  // Define parent class
+, parent: SVG.Text
+
+  // Add parent method
+, construct: {
+    morphArray: SVG.PathArray
+    // Create path for text to run on
+  , path: function(d) {
+      // create textPath element
+      var path  = new SVG.TextPath
+        , track = this.doc().defs().path(d)
+
+      // move lines to textpath
+      while (this.node.hasChildNodes())
+        path.node.appendChild(this.node.firstChild)
+
+      // add textPath element as child node
+      this.node.appendChild(path.node)
+
+      // link textPath to path and add content
+      path.attr('href', '#' + track, SVG.xlink)
+
+      return this
+    }
+    // return the array of the path track element
+  , array: function() {
+      var track = this.track()
+
+      return track ? track.array() : null
+    }
+    // Plot path if any
+  , plot: function(d) {
+      var track = this.track()
+        , pathArray = null
+
+      if (track) {
+        pathArray = track.plot(d)
+      }
+
+      return (d == null) ? pathArray : this
+    }
+    // Get the path track element
+  , track: function() {
+      var path = this.textPath()
+
+      if (path)
+        return path.reference('href')
+    }
+    // Get the textPath child
+  , textPath: function() {
+      if (this.node.firstChild && this.node.firstChild.nodeName == 'textPath')
+        return SVG.adopt(this.node.firstChild)
+    }
+  }
+})
+
+SVG.Nested = SVG.invent({
+  // Initialize node
+  create: function() {
+    this.constructor.call(this, SVG.create('svg'))
+
+    this.style('overflow', 'visible')
+  }
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add parent method
+, construct: {
+    // Create nested svg document
+    nested: function() {
+      return this.put(new SVG.Nested)
+    }
+  }
+})
+SVG.A = SVG.invent({
+  // Initialize node
+  create: 'a'
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Link url
+    to: function(url) {
+      return this.attr('href', url, SVG.xlink)
+    }
+    // Link show attribute
+  , show: function(target) {
+      return this.attr('show', target, SVG.xlink)
+    }
+    // Link target attribute
+  , target: function(target) {
+      return this.attr('target', target)
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create a hyperlink element
+    link: function(url) {
+      return this.put(new SVG.A).to(url)
+    }
+  }
+})
+
+SVG.extend(SVG.Element, {
+  // Create a hyperlink element
+  linkTo: function(url) {
+    var link = new SVG.A
+
+    if (typeof url == 'function')
+      url.call(link, link)
+    else
+      link.to(url)
+
+    return this.parent().put(link).put(this)
+  }
+
+})
+SVG.Marker = SVG.invent({
+  // Initialize node
+  create: 'marker'
+
+  // Inherit from
+, inherit: SVG.Container
+
+  // Add class methods
+, extend: {
+    // Set width of element
+    width: function(width) {
+      return this.attr('markerWidth', width)
+    }
+    // Set height of element
+  , height: function(height) {
+      return this.attr('markerHeight', height)
+    }
+    // Set marker refX and refY
+  , ref: function(x, y) {
+      return this.attr('refX', x).attr('refY', y)
+    }
+    // Update marker
+  , update: function(block) {
+      // remove all content
+      this.clear()
+
+      // invoke passed block
+      if (typeof block == 'function')
+        block.call(this, this)
+
+      return this
+    }
+    // Return the fill id
+  , toString: function() {
+      return 'url(#' + this.id() + ')'
+    }
+  }
+
+  // Add parent method
+, construct: {
+    marker: function(width, height, block) {
+      // Create marker element in defs
+      return this.defs().marker(width, height, block)
+    }
+  }
+
+})
+
+SVG.extend(SVG.Defs, {
+  // Create marker
+  marker: function(width, height, block) {
+    // Set default viewbox to match the width and height, set ref to cx and cy and set orient to auto
+    return this.put(new SVG.Marker)
+      .size(width, height)
+      .ref(width / 2, height / 2)
+      .viewbox(0, 0, width, height)
+      .attr('orient', 'auto')
+      .update(block)
+  }
+
+})
+
+SVG.extend(SVG.Line, SVG.Polyline, SVG.Polygon, SVG.Path, {
+  // Create and attach markers
+  marker: function(marker, width, height, block) {
+    var attr = ['marker']
+
+    // Build attribute name
+    if (marker != 'all') attr.push(marker)
+    attr = attr.join('-')
+
+    // Set marker attribute
+    marker = arguments[1] instanceof SVG.Marker ?
+      arguments[1] :
+      this.doc().marker(width, height, block)
+
+    return this.attr(attr, marker)
+  }
+
+})
+// Define list of available attributes for stroke and fill
+var sugar = {
+  stroke: ['color', 'width', 'opacity', 'linecap', 'linejoin', 'miterlimit', 'dasharray', 'dashoffset']
+, fill:   ['color', 'opacity', 'rule']
+, prefix: function(t, a) {
+    return a == 'color' ? t : t + '-' + a
+  }
+}
+
+// Add sugar for fill and stroke
+;['fill', 'stroke'].forEach(function(m) {
+  var i, extension = {}
+
+  extension[m] = function(o) {
+    if (typeof o == 'undefined')
+      return this
+    if (typeof o == 'string' || SVG.Color.isRgb(o) || (o && typeof o.fill === 'function'))
+      this.attr(m, o)
+
+    else
+      // set all attributes from sugar.fill and sugar.stroke list
+      for (i = sugar[m].length - 1; i >= 0; i--)
+        if (o[sugar[m][i]] != null)
+          this.attr(sugar.prefix(m, sugar[m][i]), o[sugar[m][i]])
+
+    return this
+  }
+
+  SVG.extend(SVG.Element, SVG.FX, extension)
+
+})
+
+SVG.extend(SVG.Element, SVG.FX, {
+  // Map rotation to transform
+  rotate: function(d, cx, cy) {
+    return this.transform({ rotation: d, cx: cx, cy: cy })
+  }
+  // Map skew to transform
+, skew: function(x, y, cx, cy) {
+    return arguments.length == 1  || arguments.length == 3 ?
+      this.transform({ skew: x, cx: y, cy: cx }) :
+      this.transform({ skewX: x, skewY: y, cx: cx, cy: cy })
+  }
+  // Map scale to transform
+, scale: function(x, y, cx, cy) {
+    return arguments.length == 1  || arguments.length == 3 ?
+      this.transform({ scale: x, cx: y, cy: cx }) :
+      this.transform({ scaleX: x, scaleY: y, cx: cx, cy: cy })
+  }
+  // Map translate to transform
+, translate: function(x, y) {
+    return this.transform({ x: x, y: y })
+  }
+  // Map flip to transform
+, flip: function(a, o) {
+    o = typeof a == 'number' ? a : o
+    return this.transform({ flip: a || 'both', offset: o })
+  }
+  // Map matrix to transform
+, matrix: function(m) {
+    return this.attr('transform', new SVG.Matrix(arguments.length == 6 ? [].slice.call(arguments) : m))
+  }
+  // Opacity
+, opacity: function(value) {
+    return this.attr('opacity', value)
+  }
+  // Relative move over x axis
+, dx: function(x) {
+    return this.x(new SVG.Number(x).plus(this instanceof SVG.FX ? 0 : this.x()), true)
+  }
+  // Relative move over y axis
+, dy: function(y) {
+    return this.y(new SVG.Number(y).plus(this instanceof SVG.FX ? 0 : this.y()), true)
+  }
+  // Relative move over x and y axes
+, dmove: function(x, y) {
+    return this.dx(x).dy(y)
+  }
+})
+
+SVG.extend(SVG.Rect, SVG.Ellipse, SVG.Circle, SVG.Gradient, SVG.FX, {
+  // Add x and y radius
+  radius: function(x, y) {
+    var type = (this._target || this).type;
+    return type == 'radial' || type == 'circle' ?
+      this.attr('r', new SVG.Number(x)) :
+      this.rx(x).ry(y == null ? x : y)
+  }
+})
+
+SVG.extend(SVG.Path, {
+  // Get path length
+  length: function() {
+    return this.node.getTotalLength()
+  }
+  // Get point at length
+, pointAt: function(length) {
+    return this.node.getPointAtLength(length)
+  }
+})
+
+SVG.extend(SVG.Parent, SVG.Text, SVG.Tspan, SVG.FX, {
+  // Set font
+  font: function(a, v) {
+    if (typeof a == 'object') {
+      for (v in a) this.font(v, a[v])
+    }
+
+    return a == 'leading' ?
+        this.leading(v) :
+      a == 'anchor' ?
+        this.attr('text-anchor', v) :
+      a == 'size' || a == 'family' || a == 'weight' || a == 'stretch' || a == 'variant' || a == 'style' ?
+        this.attr('font-'+ a, v) :
+        this.attr(a, v)
+  }
+})
+
+SVG.Set = SVG.invent({
+  // Initialize
+  create: function(members) {
+    // Set initial state
+    Array.isArray(members) ? this.members = members : this.clear()
+  }
+
+  // Add class methods
+, extend: {
+    // Add element to set
+    add: function() {
+      var i, il, elements = [].slice.call(arguments)
+
+      for (i = 0, il = elements.length; i < il; i++)
+        this.members.push(elements[i])
+
+      return this
+    }
+    // Remove element from set
+  , remove: function(element) {
+      var i = this.index(element)
+
+      // remove given child
+      if (i > -1)
+        this.members.splice(i, 1)
+
+      return this
+    }
+    // Iterate over all members
+  , each: function(block) {
+      for (var i = 0, il = this.members.length; i < il; i++)
+        block.apply(this.members[i], [i, this.members])
+
+      return this
+    }
+    // Restore to defaults
+  , clear: function() {
+      // initialize store
+      this.members = []
+
+      return this
+    }
+    // Get the length of a set
+  , length: function() {
+      return this.members.length
+    }
+    // Checks if a given element is present in set
+  , has: function(element) {
+      return this.index(element) >= 0
+    }
+    // retuns index of given element in set
+  , index: function(element) {
+      return this.members.indexOf(element)
+    }
+    // Get member at given index
+  , get: function(i) {
+      return this.members[i]
+    }
+    // Get first member
+  , first: function() {
+      return this.get(0)
+    }
+    // Get last member
+  , last: function() {
+      return this.get(this.members.length - 1)
+    }
+    // Default value
+  , valueOf: function() {
+      return this.members
+    }
+    // Get the bounding box of all members included or empty box if set has no items
+  , bbox: function(){
+      // return an empty box of there are no members
+      if (this.members.length == 0)
+        return new SVG.RBox()
+
+      // get the first rbox and update the target bbox
+      var rbox = this.members[0].rbox(this.members[0].doc())
+
+      this.each(function() {
+        // user rbox for correct position and visual representation
+        rbox = rbox.merge(this.rbox(this.doc()))
+      })
+
+      return rbox
+    }
+  }
+
+  // Add parent method
+, construct: {
+    // Create a new set
+    set: function(members) {
+      return new SVG.Set(members)
+    }
+  }
+})
+
+SVG.FX.Set = SVG.invent({
+  // Initialize node
+  create: function(set) {
+    // store reference to set
+    this.set = set
+  }
+
+})
+
+// Alias methods
+SVG.Set.inherit = function() {
+  var m
+    , methods = []
+
+  // gather shape methods
+  for(var m in SVG.Shape.prototype)
+    if (typeof SVG.Shape.prototype[m] == 'function' && typeof SVG.Set.prototype[m] != 'function')
+      methods.push(m)
+
+  // apply shape aliasses
+  methods.forEach(function(method) {
+    SVG.Set.prototype[method] = function() {
+      for (var i = 0, il = this.members.length; i < il; i++)
+        if (this.members[i] && typeof this.members[i][method] == 'function')
+          this.members[i][method].apply(this.members[i], arguments)
+
+      return method == 'animate' ? (this.fx || (this.fx = new SVG.FX.Set(this))) : this
+    }
+  })
+
+  // clear methods for the next round
+  methods = []
+
+  // gather fx methods
+  for(var m in SVG.FX.prototype)
+    if (typeof SVG.FX.prototype[m] == 'function' && typeof SVG.FX.Set.prototype[m] != 'function')
+      methods.push(m)
+
+  // apply fx aliasses
+  methods.forEach(function(method) {
+    SVG.FX.Set.prototype[method] = function() {
+      for (var i = 0, il = this.set.members.length; i < il; i++)
+        this.set.members[i].fx[method].apply(this.set.members[i].fx, arguments)
+
+      return this
+    }
+  })
+}
+
+
+
+
+SVG.extend(SVG.Element, {
+  // Store data values on svg nodes
+  data: function(a, v, r) {
+    if (typeof a == 'object') {
+      for (v in a)
+        this.data(v, a[v])
+
+    } else if (arguments.length < 2) {
+      try {
+        return JSON.parse(this.attr('data-' + a))
+      } catch(e) {
+        return this.attr('data-' + a)
+      }
+
+    } else {
+      this.attr(
+        'data-' + a
+      , v === null ?
+          null :
+        r === true || typeof v === 'string' || typeof v === 'number' ?
+          v :
+          JSON.stringify(v)
+      )
+    }
+
+    return this
+  }
+})
+SVG.extend(SVG.Element, {
+  // Remember arbitrary data
+  remember: function(k, v) {
+    // remember every item in an object individually
+    if (typeof arguments[0] == 'object')
+      for (var v in k)
+        this.remember(v, k[v])
+
+    // retrieve memory
+    else if (arguments.length == 1)
+      return this.memory()[k]
+
+    // store memory
+    else
+      this.memory()[k] = v
+
+    return this
+  }
+
+  // Erase a given memory
+, forget: function() {
+    if (arguments.length == 0)
+      this._memory = {}
+    else
+      for (var i = arguments.length - 1; i >= 0; i--)
+        delete this.memory()[arguments[i]]
+
+    return this
+  }
+
+  // Initialize or return local memory object
+, memory: function() {
+    return this._memory || (this._memory = {})
+  }
+
+})
+// Method for getting an element by id
+SVG.get = function(id) {
+  var node = document.getElementById(idFromReference(id) || id)
+  return SVG.adopt(node)
+}
+
+// Select elements by query string
+SVG.select = function(query, parent) {
+  return new SVG.Set(
+    SVG.utils.map((parent || document).querySelectorAll(query), function(node) {
+      return SVG.adopt(node)
+    })
+  )
+}
+
+SVG.extend(SVG.Parent, {
+  // Scoped select method
+  select: function(query) {
+    return SVG.select(query, this.node)
+  }
+
+})
+function pathRegReplace(a, b, c, d) {
+  return c + d.replace(SVG.regex.dots, ' .')
+}
+
+// creates deep clone of array
+function array_clone(arr){
+  var clone = arr.slice(0)
+  for(var i = clone.length; i--;){
+    if(Array.isArray(clone[i])){
+      clone[i] = array_clone(clone[i])
+    }
+  }
+  return clone
+}
+
+// tests if a given element is instance of an object
+function is(el, obj){
+  return el instanceof obj
+}
+
+// tests if a given selector matches an element
+function matches(el, selector) {
+  return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
+}
+
+// Convert dash-separated-string to camelCase
+function camelCase(s) {
+  return s.toLowerCase().replace(/-(.)/g, function(m, g) {
+    return g.toUpperCase()
+  })
+}
+
+// Capitalize first letter of a string
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+// Ensure to six-based hex
+function fullHex(hex) {
+  return hex.length == 4 ?
+    [ '#',
+      hex.substring(1, 2), hex.substring(1, 2)
+    , hex.substring(2, 3), hex.substring(2, 3)
+    , hex.substring(3, 4), hex.substring(3, 4)
+    ].join('') : hex
+}
+
+// Component to hex value
+function compToHex(comp) {
+  var hex = comp.toString(16)
+  return hex.length == 1 ? '0' + hex : hex
+}
+
+// Calculate proportional width and height values when necessary
+function proportionalSize(element, width, height) {
+  if (width == null || height == null) {
+    var box = element.bbox()
+
+    if (width == null)
+      width = box.width / box.height * height
+    else if (height == null)
+      height = box.height / box.width * width
+  }
+
+  return {
+    width:  width
+  , height: height
+  }
+}
+
+// Delta transform point
+function deltaTransformPoint(matrix, x, y) {
+  return {
+    x: x * matrix.a + y * matrix.c + 0
+  , y: x * matrix.b + y * matrix.d + 0
+  }
+}
+
+// Map matrix array to object
+function arrayToMatrix(a) {
+  return { a: a[0], b: a[1], c: a[2], d: a[3], e: a[4], f: a[5] }
+}
+
+// Parse matrix if required
+function parseMatrix(matrix) {
+  if (!(matrix instanceof SVG.Matrix))
+    matrix = new SVG.Matrix(matrix)
+
+  return matrix
+}
+
+// Add centre point to transform object
+function ensureCentre(o, target) {
+  o.cx = o.cx == null ? target.bbox().cx : o.cx
+  o.cy = o.cy == null ? target.bbox().cy : o.cy
+}
+
+// PathArray Helpers
+function arrayToString(a) {
+  for (var i = 0, il = a.length, s = ''; i < il; i++) {
+    s += a[i][0]
+
+    if (a[i][1] != null) {
+      s += a[i][1]
+
+      if (a[i][2] != null) {
+        s += ' '
+        s += a[i][2]
+
+        if (a[i][3] != null) {
+          s += ' '
+          s += a[i][3]
+          s += ' '
+          s += a[i][4]
+
+          if (a[i][5] != null) {
+            s += ' '
+            s += a[i][5]
+            s += ' '
+            s += a[i][6]
+
+            if (a[i][7] != null) {
+              s += ' '
+              s += a[i][7]
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return s + ' '
+}
+
+// Deep new id assignment
+function assignNewId(node) {
+  // do the same for SVG child nodes as well
+  for (var i = node.childNodes.length - 1; i >= 0; i--)
+    if (node.childNodes[i] instanceof window.SVGElement)
+      assignNewId(node.childNodes[i])
+
+  return SVG.adopt(node).id(SVG.eid(node.nodeName))
+}
+
+// Add more bounding box properties
+function fullBox(b) {
+  if (b.x == null) {
+    b.x      = 0
+    b.y      = 0
+    b.width  = 0
+    b.height = 0
+  }
+
+  b.w  = b.width
+  b.h  = b.height
+  b.x2 = b.x + b.width
+  b.y2 = b.y + b.height
+  b.cx = b.x + b.width / 2
+  b.cy = b.y + b.height / 2
+
+  return b
+}
+
+// Get id from reference string
+function idFromReference(url) {
+  var m = url.toString().match(SVG.regex.reference)
+
+  if (m) return m[1]
+}
+
+// Create matrix array for looping
+var abcdef = 'abcdef'.split('')
+// Add CustomEvent to IE9 and IE10
+if (typeof window.CustomEvent !== 'function') {
+  // Code from: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent
+  var CustomEvent = function(event, options) {
+    options = options || { bubbles: false, cancelable: false, detail: undefined }
+    var e = document.createEvent('CustomEvent')
+    e.initCustomEvent(event, options.bubbles, options.cancelable, options.detail)
+    return e
+  }
+
+  CustomEvent.prototype = window.Event.prototype
+
+  window.CustomEvent = CustomEvent
+}
+
+// requestAnimationFrame / cancelAnimationFrame Polyfill with fallback based on Paul Irish
+(function(w) {
+  var lastTime = 0
+  var vendors = ['moz', 'webkit']
+
+  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    w.requestAnimationFrame = w[vendors[x] + 'RequestAnimationFrame']
+    w.cancelAnimationFrame  = w[vendors[x] + 'CancelAnimationFrame'] ||
+                              w[vendors[x] + 'CancelRequestAnimationFrame']
+  }
+
+  w.requestAnimationFrame = w.requestAnimationFrame ||
+    function(callback) {
+      var currTime = new Date().getTime()
+      var timeToCall = Math.max(0, 16 - (currTime - lastTime))
+
+      var id = w.setTimeout(function() {
+        callback(currTime + timeToCall)
+      }, timeToCall)
+
+      lastTime = currTime + timeToCall
+      return id
+    }
+
+  w.cancelAnimationFrame = w.cancelAnimationFrame || w.clearTimeout;
+
+}(window))
+
+return SVG
+
+}));
+
+/***/ }),
+
 /***/ "../../node_modules/to-fast-properties/index.js":
 /*!**************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/to-fast-properties/index.js ***!
@@ -29832,11 +37573,19 @@ var _babelTraverse = __webpack_require__(/*! babel-traverse */ "../../node_modul
 
 var _babelTraverse2 = _interopRequireDefault(_babelTraverse);
 
+var _d3Flextree = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-flextree/index.js");
+
+var d3flextree = _interopRequireWildcard(_d3Flextree);
+
+var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
+
+var _svg2 = _interopRequireDefault(_svg);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-exports.default = function () {
+var astTest = function astTest() {
     var ast = babylon.parse('\n        //codecrumb\n        //c\n        /*aa\n        */\n        var a = 12;\n    ');
 
     (0, _babelTraverse2.default)(ast, {
@@ -29847,6 +37596,40 @@ exports.default = function () {
             }
         }
     });
+};
+
+var d3test = function d3test(treeData) {
+    var draw = (0, _svg2.default)('drawing').size(500, 500);
+
+    var layout = d3flextree.flextree({
+        children: function children(data) {
+            return data.children;
+        },
+        nodeSize: function nodeSize(node) {
+            return [node.data.name.length, 40];
+        },
+        spacing: function spacing(nodeA, nodeB) {
+            return 150;
+        }
+    });
+    var tree = layout.hierarchy(treeData);
+    var lt = layout(tree);
+
+    lt.each(function (node) {
+        draw.circle(10).attr({ fill: '#f06' }).move(node.x + 200, node.y + 200);
+
+        draw.text(node.data.name).move(node.x + 200, node.y + 200);
+
+        if (node.parent) {
+            var p = node.parent;
+            draw.line(p.x + 200, p.y + 200, node.x + 200, node.y + 200).stroke({ width: 1 });
+        }
+    });
+};
+
+exports.default = function (p) {
+    //astTest();
+    d3test(p);
 };
 
 /***/ }),
@@ -29873,11 +37656,11 @@ var mountNode = document.getElementById('mount-node');
 
 (0, _connection.createConnection)(function (data) {
     console.log(JSON.parse(data).data);
-    mountNode.innerHTML = data;
+    //mountNode.innerHTML = data; //TODO: ui data entry
+    (0, _devTest2.default)(JSON.parse(data).data.body); //TODO: remove
 });
 
 console.log(new Date(), 'UI started.');
-(0, _devTest2.default)(); //TODO: remove
 
 /***/ })
 

@@ -24,8 +24,15 @@ const config = {
                 exclude: /(node_modules)/,
                 query: {
                     presets: ['es2015', 'stage-2'],
-                    plugins: ['transform-react-jsx']
+                    plugins: [
+                        'transform-react-jsx',
+                        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
+                    ]
                 }
+            },
+            {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
             }
         ]
     },

@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const PATH = {
-    PUBLIC: 'src/public/',
+    PUBLIC: 'src/public/dist/',
     PAGE: 'index.html'
 };
 
@@ -19,9 +19,7 @@ const responseWithFile = function(options, response) {
     });
 };
 
-const requestHandler = (request, response) => {
-    const url = request.url.substr(1);
-
+const requestHandler = (url, response) => {
     if (!url) {
         return responseWithFile(
             {

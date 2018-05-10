@@ -1,10 +1,9 @@
 const directoryTree = require('directory-tree');
-const codecrumbs = require('./codecrumbs');
-const fs = require('fs');
+const codecrumbs = require('./codecrumbs/codecrumbs');
+const file = require('./utils/file');
+const madge = require('madge');
 
-let filesTreeCached = null;
-
-const subscribeOnChange = (projectDir, fn) => {
+const getDirFiles = projectDir => {
     const filesList = [];
 
     const filesTree = directoryTree(
@@ -15,31 +14,38 @@ const subscribeOnChange = (projectDir, fn) => {
         }
     );
 
-    if (filesTreeCached) {
-        //keep files content
-    }
+    return { list: filesList, tree: filesTree };
+};
 
-    Promise.all(
-        filesList.map(
-            item =>
-                new Promise((
-                    resolve //TODO: move to utils fs read + promise
-                ) =>
-                    fs.readFile(item.path, 'utf8', function(err, code) {
-                        const codecrumbsList = codecrumbs.getCrumbs(code);
+const getDependenciesList = (projectDir, entryPoint) => {
+    return madge(projectDir + entryPoint).then(res => res.obj());
+};
 
-                        item.codecrumbs = codecrumbsList;
-                        item.hasCodecrumbs = !!codecrumbsList.length;
-                        item.fileCode = code;
+const getProjectSourceStats = (projectDir, entryPoint) => {
+    const dirFiles = getDirFiles(projectDir);
 
-                        resolve();
-                    })
-                )
+    return Promise.all([
+        getDependenciesList(projectDir, entryPoint),
+        ...dirFiles.list.map(item =>
+            file.read(item.path, 'utf8').then(code => {
+                const codecrumbsList = codecrumbs.getCrumbs(code);
+
+                item.codecrumbs = codecrumbsList;
+                item.hasCodecrumbs = !!codecrumbsList.length;
+            })
         )
-    ).then(() => fn(filesTree));
+    ]).then(([dependenciesList]) => ({
+        filesTree: dirFiles.tree,
+        filesList: dirFiles.list,
+        dependenciesList
+    }));
+};
 
-    //1) read file by file and mark files from tree which are without //crumb(s), so they can be greyed out on ui
-    //2) add 'display path' (substr example-project which is repeated) and other info for resulting tree - based on passed params to crumbs
+const subscribeOnChange = (projectDir, entryPoint, fn) => {
+    //first response on registration
+    getProjectSourceStats(projectDir, entryPoint).then(fn);
+
+    //watch changes here and trigger fn()
 };
 
 module.exports = {

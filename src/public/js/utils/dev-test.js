@@ -6,17 +6,16 @@ import SVG from 'svg.js';
 const astTest = () => {
     const ast = babylon.parse(`
         //codecrumb
-        //c
-        /*aa
-        */
         var a = 12;
+        
+        var b = 8;//cc//aa
     `);
 
     babelTraverse(ast, {
         enter(path) {
-            if (path.node && path.node.leadingComments) {
+            if (path.node && path.node.leadingComments || path.node.trailingComments) {
                 //debugger
-                //console.log(path.node.leadingComments);
+                console.log(path.node.leadingComments, path.node.trailingComments);
             }
         }
     });
@@ -52,7 +51,9 @@ const d3test = treeData => {
     });
 };
 
+astTest();
+
 export default p => {
-    //astTest();
-    d3test(p);
+    astTest();
+    //d3test(p);
 };

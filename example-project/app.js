@@ -1,9 +1,9 @@
 import tabs from './views/tabs';
 
-//codecrumb
 const App = {
+    //codecrumb
     init() {
-        tabs.render();
+        tabs.render();//cc:label=render call
     }
 };
 

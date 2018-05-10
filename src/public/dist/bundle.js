@@ -66937,13 +66937,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var astTest = function astTest() {
-    var ast = babylon.parse('\n        //codecrumb\n        //c\n        /*aa\n        */\n        var a = 12;\n    ');
+    var ast = babylon.parse('\n        //codecrumb\n        var a = 12;\n        \n        var b = 8;//cc//aa\n    ');
 
     (0, _babelTraverse2.default)(ast, {
         enter: function enter(path) {
-            if (path.node && path.node.leadingComments) {
+            if (path.node && path.node.leadingComments || path.node.trailingComments) {
                 //debugger
-                //console.log(path.node.leadingComments);
+                console.log(path.node.leadingComments, path.node.trailingComments);
             }
         }
     });
@@ -66978,9 +66978,11 @@ var d3test = function d3test(treeData) {
     });
 };
 
+astTest();
+
 exports.default = function (p) {
-    //astTest();
-    d3test(p);
+    astTest();
+    //d3test(p);
 };
 
 /***/ })

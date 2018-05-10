@@ -1,4 +1,4 @@
-const fs = require('fs');
+const file = require('../utils/file');
 
 const PATH = {
     PUBLIC: 'src/public/dist/',
@@ -8,7 +8,7 @@ const PATH = {
 const AVAILABLE_RESOURCES = ['bundle.js', 'bundle.js.map'];
 
 const responseWithFile = function(options, response) {
-    fs.readFile(options.file, function(err, data) {
+    file.read(options.file).then(data => {
         response.writeHead(200, {
             'Content-Type': options.contentType,
             'Content-Length': data.length

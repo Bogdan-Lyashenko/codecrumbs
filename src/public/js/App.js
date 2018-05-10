@@ -1,6 +1,7 @@
 import React from 'react';
 import devProcessTesting from './utils/dev-test';
-import { createConnection } from './connection';
+import { createConnection } from './utils/connection';
+import { SOCKET_EVENT_TYPE } from '../../shared/constants';
 import ViewsSwitchList from './components/controls/ViewsSwitchList';
 import SourceTree from './components/tree-diagram/SourceTree';
 import './App.css';
@@ -10,16 +11,31 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            sourceTreeData: []
+            filesTree: [],
+            filesList: [],
+            dependenciesList: []
         };
     }
 
     componentDidMount() {
-        createConnection(({ data }) => {
-            this.setState({
-                sourceTreeData: data.body
-            });
-        });
+        createConnection(({ type, data }) => this.onSocketEvent(type, data));
+    }
+
+    onSocketEvent(type, data) {
+        switch (type) {
+            case SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
+                const { filesTree, filesList, dependenciesList } = data.body;
+
+                this.setState({
+                    filesTree,
+                    filesList,
+                    dependenciesList
+                });
+                break;
+
+            default:
+                break;
+        }
     }
 
     render() {
@@ -32,7 +48,7 @@ class App extends React.Component {
                         }}
                     />
                 </div>
-                <SourceTree treeData={this.state.sourceTreeData} />
+                <SourceTree treeData={this.state.filesTree} />
             </div>
         );
     }

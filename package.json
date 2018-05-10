@@ -21,6 +21,7 @@
     "css-loader": "^0.28.11",
     "d3-flextree": "^2.1.1",
     "directory-tree": "^2.1.0",
+    "madge": "^3.0.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "style-loader": "^0.21.0",

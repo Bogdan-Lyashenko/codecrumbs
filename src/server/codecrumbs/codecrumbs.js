@@ -21,18 +21,23 @@ const getCrumbs = fileCode => {
     babelTraverse.default(ast, {
         enter(path) {
             const node = path.node;
-            if (!node || !node.leadingComments) return;
+            if (!node || !(node.leadingComments || node.trailingComments)) return;
 
-            const leadingComment =
-                node.leadingComments[node.leadingComments.length - 1];
+            const leadingComment = node.leadingComments ?
+                node.leadingComments[node.leadingComments.length - 1] : null;
 
-            if (isCodecrumb(leadingComment)) {
-                crumbsList.push({
-                    crumbedLineNode: node,
-                    crumbNode: leadingComment,
-                    crumbOptions: parseCodecrumbComment(leadingComment)
-                });
-            }
+            const trailingComment = node.trailingComments ?
+                node.trailingComments[0] : null;
+
+            [leadingComment, trailingComment].forEach(comment => {
+                if (comment && isCodecrumb(comment)) {
+                    crumbsList.push({
+                        crumbedLineNode: node,
+                        crumbNode: comment,
+                        crumbOptions: parseCodecrumbComment(comment)
+                    });
+                }
+            });
         }
     });
 

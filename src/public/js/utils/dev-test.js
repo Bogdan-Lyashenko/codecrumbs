@@ -51,9 +51,7 @@ const d3test = treeData => {
     });
 };
 
-astTest();
-
 export default p => {
-    astTest();
+    //astTest();
     //d3test(p);
 };

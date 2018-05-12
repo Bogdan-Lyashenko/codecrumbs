@@ -7,7 +7,8 @@
   "scripts": {
     "start": "yarn start:client & yarn start:server",
     "start:client": "cd src/public && webpack --progress --colors --watch --env dev",
-    "start:server": "nodemon --inspect ./src/server/index.js"
+    "start:server": "nodemon --inspect ./src/server/index.js",
+    "start:demo": "node ./src/server/index.js"
   },
   "dependencies": {
     "antd": "^3.5.0",
@@ -18,9 +19,11 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
+    "chokidar": "^2.0.3",
     "css-loader": "^0.28.11",
     "d3-flextree": "^2.1.1",
     "directory-tree": "^2.1.0",
+    "lodash.debounce": "^4.0.8",
     "madge": "^3.0.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

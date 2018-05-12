@@ -66779,12 +66779,13 @@ var SourceTree = function (_React$Component) {
     _createClass(SourceTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.svgDraw = (0, _svg2.default)(this.svgMountNode).size(500, 500); //TODO: props for size
+            this.svgDraw = (0, _svg2.default)(this.svgMountNode).size(1000, 800); //TODO: props for size
             this.drawTree(this.props.treeData, this.svgDraw);
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
+            this.svgDraw.clear();
             this.drawTree(this.props.treeData, this.svgDraw);
         }
 
@@ -66978,10 +66979,8 @@ var d3test = function d3test(treeData) {
     });
 };
 
-astTest();
-
 exports.default = function (p) {
-    astTest();
+    //astTest();
     //d3test(p);
 };
 

@@ -11,11 +11,12 @@ class SourceTree extends React.Component {
     }
 
     componentDidMount() {
-        this.svgDraw = SVG(this.svgMountNode).size(500, 500); //TODO: props for size
+        this.svgDraw = SVG(this.svgMountNode).size(1000, 800); //TODO: props for size
         this.drawTree(this.props.treeData, this.svgDraw);
     }
 
     componentDidUpdate() {
+        this.svgDraw.clear();
         this.drawTree(this.props.treeData, this.svgDraw);
     }
 

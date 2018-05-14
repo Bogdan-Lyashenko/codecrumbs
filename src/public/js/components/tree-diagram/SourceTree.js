@@ -1,6 +1,12 @@
 import SVG from 'svg.js';
-import * as d3flextree from 'd3-flextree';
 import React from 'react';
+import { getTreeLayout } from './treeLayout';
+
+const BOX_SIZE = 800;
+const DOT = {
+    x: BOX_SIZE / 4,
+    y: BOX_SIZE / 4
+};
 
 class SourceTree extends React.Component {
     constructor(props) {
@@ -11,7 +17,7 @@ class SourceTree extends React.Component {
     }
 
     componentDidMount() {
-        this.svgDraw = SVG(this.svgMountNode).size(1000, 800); //TODO: props for size
+        this.svgDraw = SVG(this.svgMountNode).size(BOX_SIZE, BOX_SIZE); //TODO: props for size
         this.drawTree(this.props.treeData, this.svgDraw);
     }
 
@@ -20,38 +26,48 @@ class SourceTree extends React.Component {
         this.drawTree(this.props.treeData, this.svgDraw);
     }
 
-    //TODO: this can be moved to tree utils
     drawTree(treeData, draw) {
-        const layout = d3flextree.flextree({
-            children: data => {
-                return data.children;
-            },
-            nodeSize: node => [node.data.name.length, 40],
-            spacing: (nodeA, nodeB) => 150
-        });
+        const layoutNodes = getTreeLayout(treeData);
 
-        const tree = layout.hierarchy(treeData);
-        const lt = layout(tree);
+        layoutNodes.each(node => {
+            draw
+                .circle(6)
+                .fill('#ccc')
+                .move(node.y + DOT.x - 3, node.x + DOT.y - 3);
 
-        lt.each(node => {
             if (node.parent) {
                 let p = node.parent;
                 draw
-                    .line(p.x + 200, p.y + 200, node.x + 200, node.y + 200)
-                    .stroke({ width: 1 });
+                    .line(p.y + DOT.x, p.x + DOT.y, node.y + DOT.x, p.x + DOT.y)
+                    .stroke({ width: 1, color: '#ccc' });
+
+                draw
+                    .line(
+                        node.y + DOT.x,
+                        p.x + DOT.y,
+                        node.y + DOT.x,
+                        node.x + DOT.y
+                    )
+                    .stroke({ width: 1, color: '#ccc' });
             }
-        });
 
-        lt.each(node => {
-            draw
-                .circle(10)
-                .attr({ fill: '#f06' }) //TODO: styles
-                .move(node.x + 200 - 5, node.y + 200 - 5);
+            let text = draw.text(node.data.name || '');
 
-            let t = draw
-                .text(node.data.name || '')
-                .move(node.x + 200, node.y + 200); //TODO: shift to center
-            //setTimeout(()=>t.remove(), 2000); //TODO: remove
+            if (!node.children) {
+                text.move(node.y + DOT.x + 18, node.x - 8 + DOT.y);
+
+                draw
+                    .image('resources/js-file-format-symbol.svg', 15, 15)
+                    .move(node.y + DOT.x + 3, node.x - 6 + DOT.y);
+            } else {
+                text.move(node.y + DOT.x + 19, node.x - 17 + DOT.y);
+
+                draw
+                    .image('resources/folder.svg', 15, 15)
+                    .move(node.y + DOT.x + 3, node.x - 16 + DOT.y);
+            }
+
+            text.font('family', 'Menlo');
         });
     }
 

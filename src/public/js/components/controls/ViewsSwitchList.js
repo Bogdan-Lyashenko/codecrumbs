@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Form } from 'antd';
+import { Switch, Form, Icon } from 'antd';
 const FormItem = Form.Item;
 
 const Switches = [
@@ -14,17 +14,13 @@ class ViewsSwitchList extends React.Component {
             <Form layout="inline">
                 {Switches.map(item => (
                     <FormItem key={item.key}>
-                        <FormItem>
-                            <h4>{item.name}</h4>
-                        </FormItem>
-                        <FormItem>
-                            <Switch
-                                defaultChecked
-                                onChange={checked =>
-                                    this.props.onChange(item.key, checked)
-                                }
-                            />
-                        </FormItem>
+                        <span>{item.name + ' '}</span>
+                        <Switch
+                            defaultChecked
+                            onChange={checked =>
+                                this.props.onChange(item.key, checked)
+                            }
+                        />
                     </FormItem>
                 ))}
             </Form>

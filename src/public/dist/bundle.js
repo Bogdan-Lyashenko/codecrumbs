@@ -66694,24 +66694,16 @@ var ViewsSwitchList = function (_React$Component) {
                         FormItem,
                         { key: item.key },
                         _react2.default.createElement(
-                            FormItem,
+                            'span',
                             null,
-                            _react2.default.createElement(
-                                'h4',
-                                null,
-                                item.name
-                            )
+                            item.name + ' '
                         ),
-                        _react2.default.createElement(
-                            FormItem,
-                            null,
-                            _react2.default.createElement(_switch2.default, {
-                                defaultChecked: true,
-                                onChange: function onChange(checked) {
-                                    return _this2.props.onChange(item.key, checked);
-                                }
-                            })
-                        )
+                        _react2.default.createElement(_switch2.default, {
+                            defaultChecked: true,
+                            onChange: function onChange(checked) {
+                                return _this2.props.onChange(item.key, checked);
+                            }
+                        })
                     );
                 })
             );
@@ -66745,15 +66737,11 @@ var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg
 
 var _svg2 = _interopRequireDefault(_svg);
 
-var _d3Flextree = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-flextree/index.js");
-
-var d3flextree = _interopRequireWildcard(_d3Flextree);
-
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _treeLayout = __webpack_require__(/*! ./treeLayout */ "./js/components/tree-diagram/treeLayout.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66762,6 +66750,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BOX_SIZE = 800;
+var DOT = {
+    x: BOX_SIZE / 4,
+    y: BOX_SIZE / 4
+};
 
 var SourceTree = function (_React$Component) {
     _inherits(SourceTree, _React$Component);
@@ -66779,7 +66773,7 @@ var SourceTree = function (_React$Component) {
     _createClass(SourceTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.svgDraw = (0, _svg2.default)(this.svgMountNode).size(1000, 800); //TODO: props for size
+            this.svgDraw = (0, _svg2.default)(this.svgMountNode).size(BOX_SIZE, BOX_SIZE); //TODO: props for size
             this.drawTree(this.props.treeData, this.svgDraw);
         }
     }, {
@@ -66788,40 +66782,34 @@ var SourceTree = function (_React$Component) {
             this.svgDraw.clear();
             this.drawTree(this.props.treeData, this.svgDraw);
         }
-
-        //TODO: this can be moved to tree utils
-
     }, {
         key: 'drawTree',
         value: function drawTree(treeData, draw) {
-            var layout = d3flextree.flextree({
-                children: function children(data) {
-                    return data.children;
-                },
-                nodeSize: function nodeSize(node) {
-                    return [node.data.name.length, 40];
-                },
-                spacing: function spacing(nodeA, nodeB) {
-                    return 150;
-                }
-            });
+            var layoutNodes = (0, _treeLayout.getTreeLayout)(treeData);
 
-            var tree = layout.hierarchy(treeData);
-            var lt = layout(tree);
+            layoutNodes.each(function (node) {
+                draw.circle(6).fill('#ccc').move(node.y + DOT.x - 3, node.x + DOT.y - 3);
 
-            lt.each(function (node) {
                 if (node.parent) {
                     var p = node.parent;
-                    draw.line(p.x + 200, p.y + 200, node.x + 200, node.y + 200).stroke({ width: 1 });
+                    draw.line(p.y + DOT.x, p.x + DOT.y, node.y + DOT.x, p.x + DOT.y).stroke({ width: 1, color: '#ccc' });
+
+                    draw.line(node.y + DOT.x, p.x + DOT.y, node.y + DOT.x, node.x + DOT.y).stroke({ width: 1, color: '#ccc' });
                 }
-            });
 
-            lt.each(function (node) {
-                draw.circle(10).attr({ fill: '#f06' }) //TODO: styles
-                .move(node.x + 200 - 5, node.y + 200 - 5);
+                var text = draw.text(node.data.name || '');
 
-                var t = draw.text(node.data.name || '').move(node.x + 200, node.y + 200); //TODO: shift to center
-                //setTimeout(()=>t.remove(), 2000); //TODO: remove
+                if (!node.children) {
+                    text.move(node.y + DOT.x + 18, node.x - 8 + DOT.y);
+
+                    draw.image('resources/js-file-format-symbol.svg', 15, 15).move(node.y + DOT.x + 3, node.x - 6 + DOT.y);
+                } else {
+                    text.move(node.y + DOT.x + 19, node.x - 17 + DOT.y);
+
+                    draw.image('resources/folder.svg', 15, 15).move(node.y + DOT.x + 3, node.x - 16 + DOT.y);
+                }
+
+                text.font('family', 'Menlo');
             });
         }
     }, {
@@ -66839,6 +66827,46 @@ var SourceTree = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SourceTree;
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/treeLayout.js":
+/*!**************************************************!*\
+  !*** ./js/components/tree-diagram/treeLayout.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getTreeLayout = undefined;
+
+var _d3Flextree = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-flextree/index.js");
+
+var d3FlexTree = _interopRequireWildcard(_d3Flextree);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData) {
+    var layoutStructure = d3FlexTree.flextree({
+        children: function children(data) {
+            return data.children;
+        },
+        nodeSize: function nodeSize(node) {
+            return [40, 15 * node.data.name.length];
+        },
+        spacing: function spacing(nodeA, nodeB) {
+            return 30;
+        }
+    });
+
+    var tree = layoutStructure.hierarchy(treeData);
+    return layoutStructure(tree);
+};
 
 /***/ }),
 

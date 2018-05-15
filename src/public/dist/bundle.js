@@ -66743,6 +66743,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _treeLayout = __webpack_require__(/*! ./treeLayout */ "./js/components/tree-diagram/treeLayout.js");
 
+var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/treeGraph.js");
+
+var _geometry = __webpack_require__(/*! ../../utils/geometry */ "./js/utils/geometry.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66756,6 +66760,8 @@ var DOT = {
     x: BOX_SIZE / 4,
     y: BOX_SIZE / 4
 };
+
+var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(DOT);
 
 var SourceTree = function (_React$Component) {
     _inherits(SourceTree, _React$Component);
@@ -66774,7 +66780,6 @@ var SourceTree = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.svgDraw = (0, _svg2.default)(this.svgMountNode).size(BOX_SIZE, BOX_SIZE); //TODO: props for size
-            this.drawTree(this.props.treeData, this.svgDraw);
         }
     }, {
         key: 'componentDidUpdate',
@@ -66788,28 +66793,30 @@ var SourceTree = function (_React$Component) {
             var layoutNodes = (0, _treeLayout.getTreeLayout)(treeData);
 
             layoutNodes.each(function (node) {
-                draw.circle(6).fill('#ccc').move(node.y + DOT.x - 3, node.x + DOT.y - 3);
+                var _ref = [node.y, node.x],
+                    nX = _ref[0],
+                    nY = _ref[1];
+
+
+                (0, _treeGraph.drawDot)(draw, shiftToCenterPoint, nX, nY);
 
                 if (node.parent) {
-                    var p = node.parent;
-                    draw.line(p.y + DOT.x, p.x + DOT.y, node.y + DOT.x, p.x + DOT.y).stroke({ width: 1, color: '#ccc' });
+                    var _ref2 = [node.parent.y, node.parent.x],
+                        pX = _ref2[0],
+                        pY = _ref2[1];
 
-                    draw.line(node.y + DOT.x, p.x + DOT.y, node.y + DOT.x, node.x + DOT.y).stroke({ width: 1, color: '#ccc' });
+
+                    (0, _treeGraph.drawEdge)(draw, shiftToCenterPoint, nX, nY, pX, pY);
                 }
-
-                var text = draw.text(node.data.name || '');
 
                 if (!node.children) {
-                    text.move(node.y + DOT.x + 18, node.x - 8 + DOT.y);
-
-                    draw.image('resources/js-file-format-symbol.svg', 15, 15).move(node.y + DOT.x + 3, node.x - 6 + DOT.y);
-                } else {
-                    text.move(node.y + DOT.x + 19, node.x - 17 + DOT.y);
-
-                    draw.image('resources/folder.svg', 15, 15).move(node.y + DOT.x + 3, node.x - 16 + DOT.y);
+                    (0, _treeGraph.drawFileText)(draw, shiftToCenterPoint, nX, nY, node.data.name);
+                    (0, _treeGraph.drawFileIcon)(draw, shiftToCenterPoint, nX, nY);
+                    return;
                 }
 
-                text.font('family', 'Menlo');
+                (0, _treeGraph.drawFolderText)(draw, shiftToCenterPoint, nX, nY, node.data.name);
+                (0, _treeGraph.drawFolderIcon)(draw, shiftToCenterPoint, nX, nY);
             });
         }
     }, {
@@ -66817,8 +66824,8 @@ var SourceTree = function (_React$Component) {
         value: function render() {
             var _this2 = this;
 
-            return _react2.default.createElement('div', { ref: function ref(_ref) {
-                    return _this2.svgMountNode = _ref;
+            return _react2.default.createElement('div', { ref: function ref(_ref3) {
+                    return _this2.svgMountNode = _ref3;
                 } });
         }
     }]);
@@ -66827,6 +66834,91 @@ var SourceTree = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SourceTree;
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/treeGraph.js":
+/*!*************************************************!*\
+  !*** ./js/components/tree-diagram/treeGraph.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//TODO: move numbers to config per function
+var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, x, y) {
+    var radius = 5;
+    var halfRadius = radius / 2;
+    var circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
+
+    draw.circle(radius).fill('#ccc').move(circlePoint.x, circlePoint.y);
+};
+
+var drawEdge = exports.drawEdge = function drawEdge(draw, shiftToCenterPoint, nX, nY, pX, pY) {
+    var edgeTurnDistance = 15;
+
+    var P1 = shiftToCenterPoint(pX, pY);
+    var P2 = shiftToCenterPoint(nX - edgeTurnDistance, pY);
+    var P3 = shiftToCenterPoint(nX - edgeTurnDistance, nY);
+    var P4 = shiftToCenterPoint(nX, nY);
+
+    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
+
+    polyline.fill('none').stroke({
+        color: '#ccc'
+    });
+};
+
+var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, nX, nY) {
+    var fileText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+
+    var text = draw.text(fileText);
+    text.font({ fill: '#333', family: 'Menlo' });
+
+    var fileTextPointShiftX = 18;
+    var fileTextPointShiftY = 8;
+    var fileTextPoint = shiftToCenterPoint(nX + fileTextPointShiftX, nY - fileTextPointShiftY);
+
+    text.move(fileTextPoint.x, fileTextPoint.y);
+};
+
+var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, nX, nY) {
+    var fileIconPath = 'resources/js-file-format-symbol.svg';
+    var fileIconSize = 15;
+    var fileIconPointShiftX = 3;
+    var fileIconPointShiftY = 6;
+    var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
+
+    draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
+};
+
+var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, nX, nY) {
+    var folderText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+
+    var text = draw.text(folderText);
+    text.font({ fill: '#333', family: 'Menlo' });
+
+    var folderTextPointShiftX = 19;
+    var folderTextPointShiftY = 17;
+    var folderTextPoint = shiftToCenterPoint(nX + folderTextPointShiftX, nY - folderTextPointShiftY);
+
+    text.move(folderTextPoint.x, folderTextPoint.y);
+};
+
+var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, nX, nY) {
+    var folderIconPath = 'resources/folder.svg';
+    var folderIconSize = 15;
+    var folderIconPointShiftX = 3;
+    var folderIconPointShiftY = 16;
+    var folderIconPoint = shiftToCenterPoint(nX + folderIconPointShiftX, nY - folderIconPointShiftY);
+
+    draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
+};
 
 /***/ }),
 
@@ -66851,16 +66943,25 @@ var d3FlexTree = _interopRequireWildcard(_d3Flextree);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var DEFAULT_CONFIG = {
+    symbolWidth: 8.4,
+    nodeSizeX: 20,
+    nodeSizeY: 60,
+    spacing: 20
+};
+
 var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData) {
+    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_CONFIG;
+
     var layoutStructure = d3FlexTree.flextree({
         children: function children(data) {
             return data.children;
         },
         nodeSize: function nodeSize(node) {
-            return [40, 15 * node.data.name.length];
+            return [config.nodeSizeX, config.symbolWidth * node.data.name.length + config.nodeSizeY];
         },
         spacing: function spacing(nodeA, nodeB) {
-            return 30;
+            return config.spacing;
         }
     });
 
@@ -67010,6 +67111,30 @@ var d3test = function d3test(treeData) {
 exports.default = function (p) {
     //astTest();
     //d3test(p);
+};
+
+/***/ }),
+
+/***/ "./js/utils/geometry.js":
+/*!******************************!*\
+  !*** ./js/utils/geometry.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var buildShiftToPoint = exports.buildShiftToPoint = function buildShiftToPoint(shift) {
+    return function (x, y) {
+        return {
+            x: shift.x + x,
+            y: shift.y + y
+        };
+    };
 };
 
 /***/ })

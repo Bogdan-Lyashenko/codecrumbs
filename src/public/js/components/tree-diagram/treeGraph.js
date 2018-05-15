@@ -75,7 +75,7 @@ export const drawFolderText = (
     const text = draw.text(folderText);
     text.font({ fill: '#333', family: 'Menlo' });
 
-    const folderTextPointShiftX = 19;
+    const folderTextPointShiftX = 21;
     const folderTextPointShiftY = 17;
     const folderTextPoint = shiftToCenterPoint(
         nX + folderTextPointShiftX,
@@ -87,9 +87,9 @@ export const drawFolderText = (
 
 export const drawFolderIcon = (draw, shiftToCenterPoint, nX, nY) => {
     const folderIconPath = 'resources/folder.svg';
-    const folderIconSize = 15;
-    const folderIconPointShiftX = 3;
-    const folderIconPointShiftY = 16;
+    const folderIconSize = 16;
+    const folderIconPointShiftX = 4;
+    const folderIconPointShiftY = 17;
     const folderIconPoint = shiftToCenterPoint(
         nX + folderIconPointShiftX,
         nY - folderIconPointShiftY

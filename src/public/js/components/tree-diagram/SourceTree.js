@@ -1,12 +1,23 @@
 import SVG from 'svg.js';
 import React from 'react';
 import { getTreeLayout } from './treeLayout';
+import {
+    drawDot,
+    drawEdge,
+    drawFileText,
+    drawFileIcon,
+    drawFolderText,
+    drawFolderIcon
+} from './treeGraph';
+import { buildShiftToPoint } from '../../utils/geometry';
 
 const BOX_SIZE = 800;
 const DOT = {
     x: BOX_SIZE / 4,
     y: BOX_SIZE / 4
 };
+
+const shiftToCenterPoint = buildShiftToPoint(DOT);
 
 class SourceTree extends React.Component {
     constructor(props) {
@@ -18,7 +29,6 @@ class SourceTree extends React.Component {
 
     componentDidMount() {
         this.svgDraw = SVG(this.svgMountNode).size(BOX_SIZE, BOX_SIZE); //TODO: props for size
-        this.drawTree(this.props.treeData, this.svgDraw);
     }
 
     componentDidUpdate() {
@@ -30,44 +40,24 @@ class SourceTree extends React.Component {
         const layoutNodes = getTreeLayout(treeData);
 
         layoutNodes.each(node => {
-            draw
-                .circle(6)
-                .fill('#ccc')
-                .move(node.y + DOT.x - 3, node.x + DOT.y - 3);
+            const [nX, nY] = [node.y, node.x];
+
+            drawDot(draw, shiftToCenterPoint, nX, nY);
 
             if (node.parent) {
-                let p = node.parent;
-                draw
-                    .line(p.y + DOT.x, p.x + DOT.y, node.y + DOT.x, p.x + DOT.y)
-                    .stroke({ width: 1, color: '#ccc' });
+                const [pX, pY] = [node.parent.y, node.parent.x];
 
-                draw
-                    .line(
-                        node.y + DOT.x,
-                        p.x + DOT.y,
-                        node.y + DOT.x,
-                        node.x + DOT.y
-                    )
-                    .stroke({ width: 1, color: '#ccc' });
+                drawEdge(draw, shiftToCenterPoint, nX, nY, pX, pY);
             }
-
-            let text = draw.text(node.data.name || '');
 
             if (!node.children) {
-                text.move(node.y + DOT.x + 18, node.x - 8 + DOT.y);
-
-                draw
-                    .image('resources/js-file-format-symbol.svg', 15, 15)
-                    .move(node.y + DOT.x + 3, node.x - 6 + DOT.y);
-            } else {
-                text.move(node.y + DOT.x + 19, node.x - 17 + DOT.y);
-
-                draw
-                    .image('resources/folder.svg', 15, 15)
-                    .move(node.y + DOT.x + 3, node.x - 16 + DOT.y);
+                drawFileText(draw, shiftToCenterPoint, nX, nY, node.data.name);
+                drawFileIcon(draw, shiftToCenterPoint, nX, nY);
+                return;
             }
 
-            text.font('family', 'Menlo');
+            drawFolderText(draw, shiftToCenterPoint, nX, nY, node.data.name);
+            drawFolderIcon(draw, shiftToCenterPoint, nX, nY);
         });
     }
 

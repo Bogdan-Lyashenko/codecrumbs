@@ -66903,7 +66903,7 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
     var text = draw.text(folderText);
     text.font({ fill: '#333', family: 'Menlo' });
 
-    var folderTextPointShiftX = 19;
+    var folderTextPointShiftX = 21;
     var folderTextPointShiftY = 17;
     var folderTextPoint = shiftToCenterPoint(nX + folderTextPointShiftX, nY - folderTextPointShiftY);
 
@@ -66912,9 +66912,9 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
 
 var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, nX, nY) {
     var folderIconPath = 'resources/folder.svg';
-    var folderIconSize = 15;
-    var folderIconPointShiftX = 3;
-    var folderIconPointShiftY = 16;
+    var folderIconSize = 16;
+    var folderIconPointShiftX = 4;
+    var folderIconPointShiftY = 17;
     var folderIconPoint = shiftToCenterPoint(nX + folderIconPointShiftX, nY - folderIconPointShiftY);
 
     draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);

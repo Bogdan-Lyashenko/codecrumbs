@@ -3,7 +3,9 @@ import devProcessTesting from './utils/dev-test';
 import { createConnection } from './utils/connection';
 import { SOCKET_EVENT_TYPE } from '../../shared/constants';
 import ViewsSwitchList from './components/controls/ViewsSwitchList';
-import SourceTree from './components/tree-diagram/SourceTree';
+import TreeDiagram from './components/tree-diagram/TreeDiagram';
+import { getTreeLayout } from './components/tree-diagram/treeLayout';
+
 import './App.css';
 
 class App extends React.Component {
@@ -11,9 +13,10 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            filesTree: [],
-            filesList: [],
-            dependenciesList: []
+            filesTreeLayoutNodes: null,
+            filesTree: null,
+            filesList: null,
+            dependenciesList: null
         };
     }
 
@@ -25,8 +28,10 @@ class App extends React.Component {
         switch (type) {
             case SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
                 const { filesTree, filesList, dependenciesList } = data.body;
+                const filesTreeLayoutNodes = getTreeLayout(filesTree);
 
                 this.setState({
+                    filesTreeLayoutNodes,
                     filesTree,
                     filesList,
                     dependenciesList
@@ -39,16 +44,23 @@ class App extends React.Component {
     }
 
     render() {
+        const {
+            filesTreeLayoutNodes,
+            dependenciesList
+        } = this.state;
+
         return (
             <div className="App-container">
-                <div>
-                    <ViewsSwitchList
-                        onChange={(key, checked) => {
-                            console.log(`Switch to ${checked} for ${key}`);
-                        }}
-                    />
-                </div>
-                <SourceTree treeData={this.state.filesTree} />
+                <ViewsSwitchList
+                    onChange={(key, checked) => {
+                        console.log(`Switch to ${checked} for ${key}`);
+                    }}
+                />
+
+                <TreeDiagram
+                    filesTreeLayoutNodes={filesTreeLayoutNodes}
+                    dependenciesList={dependenciesList}
+                />
             </div>
         );
     }

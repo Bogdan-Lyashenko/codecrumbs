@@ -26827,6 +26827,25 @@ exports.push([module.i, ".App-container {\n    padding: 10px;\n}", ""]);
 
 /***/ }),
 
+/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/TreeDiagram.css":
+/*!******************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/TreeDiagram.css ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".TreeDiagram-layers {\n    position: relative;\n}\n\n.TreeDiagram-layer {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../node_modules/css-loader/lib/css-base.js":
 /*!*************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader/lib/css-base.js ***!
@@ -66538,9 +66557,11 @@ var _ViewsSwitchList = __webpack_require__(/*! ./components/controls/ViewsSwitch
 
 var _ViewsSwitchList2 = _interopRequireDefault(_ViewsSwitchList);
 
-var _SourceTree = __webpack_require__(/*! ./components/tree-diagram/SourceTree */ "./js/components/tree-diagram/SourceTree.js");
+var _TreeDiagram = __webpack_require__(/*! ./components/tree-diagram/TreeDiagram */ "./js/components/tree-diagram/TreeDiagram.js");
 
-var _SourceTree2 = _interopRequireDefault(_SourceTree);
+var _TreeDiagram2 = _interopRequireDefault(_TreeDiagram);
+
+var _treeLayout = __webpack_require__(/*! ./components/tree-diagram/treeLayout */ "./js/components/tree-diagram/treeLayout.js");
 
 __webpack_require__(/*! ./App.css */ "./js/App.css");
 
@@ -66561,9 +66582,10 @@ var App = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.state = {
-            filesTree: [],
-            filesList: [],
-            dependenciesList: []
+            filesTreeLayoutNodes: null,
+            filesTree: null,
+            filesList: null,
+            dependenciesList: null
         };
         return _this;
     }
@@ -66589,8 +66611,10 @@ var App = function (_React$Component) {
                         filesList = _data$body.filesList,
                         dependenciesList = _data$body.dependenciesList;
 
+                    var filesTreeLayoutNodes = (0, _treeLayout.getTreeLayout)(filesTree);
 
                     this.setState({
+                        filesTreeLayoutNodes: filesTreeLayoutNodes,
                         filesTree: filesTree,
                         filesList: filesList,
                         dependenciesList: dependenciesList
@@ -66604,19 +66628,23 @@ var App = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _state = this.state,
+                filesTreeLayoutNodes = _state.filesTreeLayoutNodes,
+                dependenciesList = _state.dependenciesList;
+
+
             return _react2.default.createElement(
                 'div',
                 { className: 'App-container' },
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(_ViewsSwitchList2.default, {
-                        onChange: function onChange(key, checked) {
-                            console.log('Switch to ' + checked + ' for ' + key);
-                        }
-                    })
-                ),
-                _react2.default.createElement(_SourceTree2.default, { treeData: this.state.filesTree })
+                _react2.default.createElement(_ViewsSwitchList2.default, {
+                    onChange: function onChange(key, checked) {
+                        console.log('Switch to ' + checked + ' for ' + key);
+                    }
+                }),
+                _react2.default.createElement(_TreeDiagram2.default, {
+                    filesTreeLayoutNodes: filesTreeLayoutNodes,
+                    dependenciesList: dependenciesList
+                })
             );
         }
     }]);
@@ -66717,6 +66745,132 @@ exports.default = ViewsSwitchList;
 
 /***/ }),
 
+/***/ "./js/components/tree-diagram/DependenciesTree.js":
+/*!********************************************************!*\
+  !*** ./js/components/tree-diagram/DependenciesTree.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
+
+var _svg2 = _interopRequireDefault(_svg);
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/treeGraph.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DependenciesTree = function (_React$Component) {
+    _inherits(DependenciesTree, _React$Component);
+
+    function DependenciesTree(props) {
+        _classCallCheck(this, DependenciesTree);
+
+        var _this = _possibleConstructorReturn(this, (DependenciesTree.__proto__ || Object.getPrototypeOf(DependenciesTree)).call(this, props));
+
+        _this.findNodeByPathName = function () {
+            var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+            var pathName = arguments[1];
+
+            return list.find(function (l) {
+                return l.data.path === pathName;
+            });
+        };
+
+        _this.svgDraw = null;
+        _this.svgElementsSet = null; //
+        return _this;
+    }
+
+    _createClass(DependenciesTree, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _props = this.props,
+                width = _props.width,
+                height = _props.height,
+                dependenciesEdgesLayer = _props.dependenciesEdgesLayer;
+
+
+            this.svgDraw = (0, _svg2.default)(dependenciesEdgesLayer).size(width, height); //TODO: props for size
+            this.drawTree(this.svgDraw);
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            this.svgDraw.clear();
+            this.drawTree(this.svgDraw);
+        }
+
+        //move to utils
+
+    }, {
+        key: 'drawTree',
+        value: function drawTree(draw) {
+            var _this2 = this;
+
+            var _props2 = this.props,
+                filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
+                dependenciesList = _props2.dependenciesList,
+                shiftToCenterPoint = _props2.shiftToCenterPoint;
+
+
+            var moduleFilesList = filesTreeLayoutNodes.leaves();
+
+            dependenciesList.forEach(function (_ref) {
+                var moduleName = _ref.moduleName,
+                    importedModuleNames = _ref.importedModuleNames;
+
+                var moduleNode = _this2.findNodeByPathName(moduleFilesList, moduleName);
+
+                var _ref2 = [moduleNode.y, moduleNode.x],
+                    mX = _ref2[0],
+                    mY = _ref2[1];
+
+
+                importedModuleNames.forEach(function (name) {
+                    var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
+
+                    var _ref3 = [importedNode.y, importedNode.x],
+                        iX = _ref3[0],
+                        iY = _ref3[1];
+
+                    (0, _treeGraph.drawDependenciesEdge)(draw, shiftToCenterPoint, iX, iY, mX, mY);
+                });
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement('div', null);
+        }
+    }]);
+
+    return DependenciesTree;
+}(_react2.default.Component);
+
+exports.default = DependenciesTree;
+
+/***/ }),
+
 /***/ "./js/components/tree-diagram/SourceTree.js":
 /*!**************************************************!*\
   !*** ./js/components/tree-diagram/SourceTree.js ***!
@@ -66741,11 +66895,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeLayout = __webpack_require__(/*! ./treeLayout */ "./js/components/tree-diagram/treeLayout.js");
-
 var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/treeGraph.js");
-
-var _geometry = __webpack_require__(/*! ../../utils/geometry */ "./js/utils/geometry.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66754,14 +66904,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var BOX_SIZE = 800;
-var DOT = {
-    x: BOX_SIZE / 4,
-    y: BOX_SIZE / 4
-};
-
-var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(DOT);
 
 var SourceTree = function (_React$Component) {
     _inherits(SourceTree, _React$Component);
@@ -66779,54 +66921,74 @@ var SourceTree = function (_React$Component) {
     _createClass(SourceTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.svgDraw = (0, _svg2.default)(this.svgMountNode).size(BOX_SIZE, BOX_SIZE); //TODO: props for size
+            var _props = this.props,
+                width = _props.width,
+                height = _props.height,
+                iconsAndTextLayer = _props.iconsAndTextLayer,
+                sourceEdgesLayer = _props.sourceEdgesLayer;
+
+
+            this.drawOnIconsAndTextLayer = (0, _svg2.default)(iconsAndTextLayer).size(width, height);
+
+            this.drawOnSourceEdgesLayer = (0, _svg2.default)(sourceEdgesLayer).size(width, height);
+
+            this.drawTree({
+                primaryDraw: this.drawOnIconsAndTextLayer,
+                secondaryDraw: this.drawOnSourceEdgesLayer
+            });
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            this.svgDraw.clear();
-            this.drawTree(this.props.treeData, this.svgDraw);
+            this.drawOnSourceEdgesLayer.clear();
+            this.drawOnIconsAndTextLayer.clear();
+
+            this.drawTree({
+                primaryDraw: this.drawOnIconsAndTextLayer,
+                secondaryDraw: this.drawOnSourceEdgesLayer
+            });
         }
     }, {
         key: 'drawTree',
-        value: function drawTree(treeData, draw) {
-            var layoutNodes = (0, _treeLayout.getTreeLayout)(treeData);
+        value: function drawTree(_ref) {
+            var primaryDraw = _ref.primaryDraw,
+                secondaryDraw = _ref.secondaryDraw;
+            var _props2 = this.props,
+                layoutNodes = _props2.layoutNodes,
+                shiftToCenterPoint = _props2.shiftToCenterPoint;
+
+            //note: instance from d3-flex tree, not Array
 
             layoutNodes.each(function (node) {
-                var _ref = [node.y, node.x],
-                    nX = _ref[0],
-                    nY = _ref[1];
+                var _ref2 = [node.y, node.x],
+                    nX = _ref2[0],
+                    nY = _ref2[1];
 
 
-                (0, _treeGraph.drawDot)(draw, shiftToCenterPoint, nX, nY);
+                (0, _treeGraph.drawDot)(secondaryDraw, shiftToCenterPoint, nX, nY);
 
                 if (node.parent) {
-                    var _ref2 = [node.parent.y, node.parent.x],
-                        pX = _ref2[0],
-                        pY = _ref2[1];
+                    var _ref3 = [node.parent.y, node.parent.x],
+                        pX = _ref3[0],
+                        pY = _ref3[1];
 
-
-                    (0, _treeGraph.drawEdge)(draw, shiftToCenterPoint, nX, nY, pX, pY);
+                    (0, _treeGraph.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, nX, nY, pX, pY);
                 }
 
                 if (!node.children) {
-                    (0, _treeGraph.drawFileText)(draw, shiftToCenterPoint, nX, nY, node.data.name);
-                    (0, _treeGraph.drawFileIcon)(draw, shiftToCenterPoint, nX, nY);
+                    (0, _treeGraph.drawFileText)(primaryDraw, shiftToCenterPoint, nX, nY, node.data.name);
+                    (0, _treeGraph.drawFileIcon)(primaryDraw, shiftToCenterPoint, nX, nY);
                     return;
                 }
 
-                (0, _treeGraph.drawFolderText)(draw, shiftToCenterPoint, nX, nY, node.data.name);
-                (0, _treeGraph.drawFolderIcon)(draw, shiftToCenterPoint, nX, nY);
+                (0, _treeGraph.drawFolderText)(primaryDraw, shiftToCenterPoint, nX, nY, node.data.name);
+                (0, _treeGraph.drawFolderIcon)(primaryDraw, shiftToCenterPoint, nX, nY);
             });
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement('div', { ref: function ref(_ref3) {
-                    return _this2.svgMountNode = _ref3;
-                } });
+            return _react2.default.createElement('div', null);
         }
     }]);
 
@@ -66834,6 +66996,165 @@ var SourceTree = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SourceTree;
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/TreeDiagram.css":
+/*!****************************************************!*\
+  !*** ./js/components/tree-diagram/TreeDiagram.css ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!./TreeDiagram.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/TreeDiagram.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/TreeDiagram.js":
+/*!***************************************************!*\
+  !*** ./js/components/tree-diagram/TreeDiagram.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _geometry = __webpack_require__(/*! ../../utils/geometry */ "./js/utils/geometry.js");
+
+var _SourceTree = __webpack_require__(/*! ./SourceTree */ "./js/components/tree-diagram/SourceTree.js");
+
+var _SourceTree2 = _interopRequireDefault(_SourceTree);
+
+var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree */ "./js/components/tree-diagram/DependenciesTree.js");
+
+var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
+
+__webpack_require__(/*! ./TreeDiagram.css */ "./js/components/tree-diagram/TreeDiagram.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BOX_SIZE = 800;
+var DOT = {
+    x: BOX_SIZE / 4,
+    y: BOX_SIZE / 4
+};
+
+var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(DOT);
+
+var TreeDiagram = function (_React$Component) {
+    _inherits(TreeDiagram, _React$Component);
+
+    function TreeDiagram(props) {
+        _classCallCheck(this, TreeDiagram);
+
+        var _this = _possibleConstructorReturn(this, (TreeDiagram.__proto__ || Object.getPrototypeOf(TreeDiagram)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(TreeDiagram, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.setState({ layersReady: true });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+                dependenciesList = _props.dependenciesList;
+            var layersReady = this.state.layersReady;
+
+            //TODO:move styles to class
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'TreeDiagram-layers' },
+                    _react2.default.createElement('div', {
+                        className: 'TreeDiagram-layer',
+                        ref: function ref(_ref) {
+                            return _this2.sourceEdgesLayer = _ref;
+                        }
+                    }),
+                    _react2.default.createElement('div', {
+                        className: 'TreeDiagram-layer',
+                        ref: function ref(_ref2) {
+                            return _this2.dependenciesEdgesLayer = _ref2;
+                        }
+                    }),
+                    _react2.default.createElement('div', {
+                        className: 'TreeDiagram-layer',
+                        ref: function ref(_ref3) {
+                            return _this2.iconsAndTextLayer = _ref3;
+                        }
+                    })
+                ),
+                layersReady && filesTreeLayoutNodes && _react2.default.createElement(_SourceTree2.default, {
+                    layoutNodes: filesTreeLayoutNodes,
+                    shiftToCenterPoint: shiftToCenterPoint,
+                    width: BOX_SIZE,
+                    height: BOX_SIZE,
+                    sourceEdgesLayer: this.sourceEdgesLayer,
+                    iconsAndTextLayer: this.iconsAndTextLayer
+                }),
+                layersReady && dependenciesList && filesTreeLayoutNodes && _react2.default.createElement(_DependenciesTree2.default, {
+                    dependenciesList: dependenciesList,
+                    filesTreeLayoutNodes: filesTreeLayoutNodes,
+                    shiftToCenterPoint: shiftToCenterPoint,
+                    width: BOX_SIZE,
+                    height: BOX_SIZE,
+                    dependenciesEdgesLayer: this.dependenciesEdgesLayer
+                })
+            );
+        }
+    }]);
+
+    return TreeDiagram;
+}(_react2.default.Component);
+
+exports.default = TreeDiagram;
 
 /***/ }),
 
@@ -66851,15 +67172,18 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 //TODO: move numbers to config per function
+//create object instead
 var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, x, y) {
+    var color = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '#ccc';
+
     var radius = 5;
     var halfRadius = radius / 2;
     var circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
 
-    draw.circle(radius).fill('#ccc').move(circlePoint.x, circlePoint.y);
+    draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
 };
 
-var drawEdge = exports.drawEdge = function drawEdge(draw, shiftToCenterPoint, nX, nY, pX, pY) {
+var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shiftToCenterPoint, nX, nY, pX, pY) {
     var edgeTurnDistance = 15;
 
     var P1 = shiftToCenterPoint(pX, pY);
@@ -66900,12 +67224,17 @@ var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCen
 var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, nX, nY) {
     var folderText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
 
-    var text = draw.text(folderText);
-    text.font({ fill: '#333', family: 'Menlo' });
-
     var folderTextPointShiftX = 21;
     var folderTextPointShiftY = 17;
+
     var folderTextPoint = shiftToCenterPoint(nX + folderTextPointShiftX, nY - folderTextPointShiftY);
+
+    var textSize = folderText.length * 8.4;
+    var rect = draw.rect(textSize, 12).fill('#fff');
+    rect.move(folderTextPoint.x, folderTextPoint.y + 3);
+
+    var text = draw.text(folderText);
+    text.font({ fill: '#333', family: 'Menlo' });
 
     text.move(folderTextPoint.x, folderTextPoint.y);
 };
@@ -66918,6 +67247,27 @@ var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shif
     var folderIconPoint = shiftToCenterPoint(nX + folderIconPointShiftX, nY - folderIconPointShiftY);
 
     draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
+};
+
+/* Dependencies graph */
+var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, sX, sY, tX, tY) {
+    var sourcePt = shiftToCenterPoint(sX, sY);
+    var targetPt = shiftToCenterPoint(tX, tY);
+
+    //calculate this based on dots positions
+    var midPoint = {
+        x: Math.abs(sourcePt.x - targetPt.x) / 2 + targetPt.x,
+        y: Math.abs(sourcePt.y - targetPt.y) / 2 + targetPt.y - 40
+    };
+
+    var polyline = draw.path('M' + sourcePt.x + ' ' + sourcePt.y + ' Q ' + midPoint.x + ' ' + midPoint.y + '  ' + targetPt.x + ' ' + targetPt.y);
+
+    polyline.fill('none').stroke({
+        color: '#f06' //#1890ff'
+    });
+
+    //add arrow instead
+    drawDot(draw, shiftToCenterPoint, tX, tY, '#f06');
 };
 
 /***/ }),

@@ -81,9 +81,10 @@ export const drawFolderText = (
         nY - folderTextPointShiftY
     );
 
+    //TODO: add the same for file text
     const textSize = folderText.length * 8.4;
-    const rect = draw.rect(textSize, 12).fill('#fff');
-    rect.move(folderTextPoint.x, folderTextPoint.y+3);
+    const rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
+    rect.move(folderTextPoint.x, folderTextPoint.y+2);
 
     const text = draw.text(folderText);
     text.font({ fill: '#333', family: 'Menlo' });
@@ -135,5 +136,5 @@ export const drawDependenciesEdge = (
     });
 
     //add arrow instead
-    drawDot(draw, shiftToCenterPoint, tX, tY, '#f06');
+    drawDot(draw, shiftToCenterPoint, tX+1, tY, '#f06');
 };

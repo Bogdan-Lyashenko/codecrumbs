@@ -55,7 +55,7 @@ class SourceTree extends React.Component {
         layoutNodes.each(node => {
             const [nX, nY] = [node.y, node.x];
 
-            drawDot(secondaryDraw, shiftToCenterPoint, nX, nY);
+            drawDot(primaryDraw, shiftToCenterPoint, nX, nY);
 
             if (node.parent) {
                 const [pX, pY] = [node.parent.y, node.parent.x];

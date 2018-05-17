@@ -66965,7 +66965,7 @@ var SourceTree = function (_React$Component) {
                     nY = _ref2[1];
 
 
-                (0, _treeGraph.drawDot)(secondaryDraw, shiftToCenterPoint, nX, nY);
+                (0, _treeGraph.drawDot)(primaryDraw, shiftToCenterPoint, nX, nY);
 
                 if (node.parent) {
                     var _ref3 = [node.parent.y, node.parent.x],
@@ -67229,9 +67229,10 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
 
     var folderTextPoint = shiftToCenterPoint(nX + folderTextPointShiftX, nY - folderTextPointShiftY);
 
+    //TODO: add the same for file text
     var textSize = folderText.length * 8.4;
-    var rect = draw.rect(textSize, 12).fill('#fff');
-    rect.move(folderTextPoint.x, folderTextPoint.y + 3);
+    var rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
+    rect.move(folderTextPoint.x, folderTextPoint.y + 2);
 
     var text = draw.text(folderText);
     text.font({ fill: '#333', family: 'Menlo' });
@@ -67267,7 +67268,7 @@ var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenc
     });
 
     //add arrow instead
-    drawDot(draw, shiftToCenterPoint, tX, tY, '#f06');
+    drawDot(draw, shiftToCenterPoint, tX + 1, tY, '#f06');
 };
 
 /***/ }),

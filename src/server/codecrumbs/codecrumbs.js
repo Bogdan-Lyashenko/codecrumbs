@@ -21,13 +21,16 @@ const getCrumbs = fileCode => {
     babelTraverse.default(ast, {
         enter(path) {
             const node = path.node;
-            if (!node || !(node.leadingComments || node.trailingComments)) return;
+            if (!node || !(node.leadingComments || node.trailingComments))
+                return;
 
-            const leadingComment = node.leadingComments ?
-                node.leadingComments[node.leadingComments.length - 1] : null;
+            const leadingComment = node.leadingComments
+                ? node.leadingComments[node.leadingComments.length - 1]
+                : null;
 
-            const trailingComment = node.trailingComments ?
-                node.trailingComments[0] : null;
+            const trailingComment = node.trailingComments
+                ? node.trailingComments[0]
+                : null;
 
             [leadingComment, trailingComment].forEach(comment => {
                 if (comment && isCodecrumb(comment)) {

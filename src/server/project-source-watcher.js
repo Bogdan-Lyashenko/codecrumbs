@@ -20,7 +20,14 @@ const getDirFiles = projectDir => {
 };
 
 const getDependenciesList = (projectDir, entryPoint) => {
-    return madge(projectDir + entryPoint).then(res => res.obj());
+    return madge(projectDir + entryPoint)
+        .then(res => res.obj())
+        .then(obj => {
+            return Object.entries(obj).map(([key, value]) => ({
+                moduleName: `${projectDir}/${key}`,
+                importedModuleNames: value.map(v => `${projectDir}/${v}`)
+            }));
+        });
 };
 
 const grabProjectSourceState = (projectDir, entryPoint) => {

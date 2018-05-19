@@ -1,3 +1,10 @@
 .App-container {
     padding: 10px;
 }
+
+.App-footer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 10px;
+}

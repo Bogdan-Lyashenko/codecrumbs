@@ -22,6 +22,11 @@ class DependenciesTree extends React.Component {
         this.drawTree(this.svgDraw);
     }
 
+    componentWillUnmount() {
+        const { dependenciesEdgesLayer } = this.props;
+        dependenciesEdgesLayer.removeChild(this.svgDraw.node);
+    }
+
     //move to utils
     findNodeByPathName = (list = [], pathName) => {
         return list.find(l => l.data.path === pathName);
@@ -57,7 +62,7 @@ class DependenciesTree extends React.Component {
     }
 
     render() {
-        return <div />;
+        return null;
     }
 }
 

@@ -22,30 +22,40 @@ class TreeDiagram extends React.Component {
         this.setState({ layersReady: true });
     }
 
-    render() {
-        const { filesTreeLayoutNodes, dependenciesList } = this.props;
-        const { layersReady } = this.state;
-
-        //TODO:move styles to class
+    renderLayers() {
         return (
-            <div>
-                <div className="TreeDiagram-layers">
-                    <div
-                        className="TreeDiagram-layer"
-                        ref={ref => (this.sourceEdgesLayer = ref)}
-                    />
-                    <div
-                        className="TreeDiagram-layer"
-                        ref={ref => (this.dependenciesEdgesLayer = ref)}
-                    />
-                    <div
-                        className="TreeDiagram-layer"
-                        ref={ref => (this.iconsAndTextLayer = ref)}
-                    />
-                </div>
+            <div className="TreeDiagram-layers">
+                <div
+                    data-name="sourceEdgesLayer"
+                    className="TreeDiagram-layer"
+                    ref={ref => (this.sourceEdgesLayer = ref)}
+                />
+                <div
+                    data-name="dependenciesEdgesLayer"
+                    className="TreeDiagram-layer"
+                    ref={ref => (this.dependenciesEdgesLayer = ref)}
+                />
+                <div
+                    data-name="iconsAndTextLayer"
+                    className="TreeDiagram-layer"
+                    ref={ref => (this.iconsAndTextLayer = ref)}
+                />
+            </div>
+        );
+    }
 
-                {layersReady &&
-                    filesTreeLayoutNodes && (
+    renderDiagrams() {
+        const {
+            filesTreeLayoutNodes,
+            dependenciesList,
+            sourceDiagramOn,
+            dependenciesDiagramOn
+        } = this.props;
+
+        return (
+            <React.Fragment>
+                {filesTreeLayoutNodes &&
+                    sourceDiagramOn && (
                         <SourceTree
                             layoutNodes={filesTreeLayoutNodes}
                             shiftToCenterPoint={shiftToCenterPoint}
@@ -53,12 +63,13 @@ class TreeDiagram extends React.Component {
                             height={BOX_SIZE}
                             sourceEdgesLayer={this.sourceEdgesLayer}
                             iconsAndTextLayer={this.iconsAndTextLayer}
+                            dependenciesDiagramOn={dependenciesDiagramOn}
                         />
                     )}
 
-                {layersReady &&
-                    dependenciesList &&
-                    filesTreeLayoutNodes && (
+                {dependenciesList &&
+                    filesTreeLayoutNodes &&
+                    dependenciesDiagramOn && (
                         <DependenciesTree
                             dependenciesList={dependenciesList}
                             filesTreeLayoutNodes={filesTreeLayoutNodes}
@@ -68,6 +79,17 @@ class TreeDiagram extends React.Component {
                             dependenciesEdgesLayer={this.dependenciesEdgesLayer}
                         />
                     )}
+            </React.Fragment>
+        );
+    }
+
+    render() {
+        const { layersReady } = this.state;
+
+        return (
+            <div className="TreeDiagram-container">
+                {this.renderLayers()}
+                {layersReady && this.renderDiagrams()}
             </div>
         );
     }

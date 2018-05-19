@@ -1,6 +1,7 @@
+import { getCurvedPath } from '../../utils/svgPrimitives';
 //TODO: move numbers to config per function
 //create object instead
-export const drawDot = (draw, shiftToCenterPoint, x, y, color = '#ccc') => {
+export const drawDot = (draw, shiftToCenterPoint, x, y, color = '#BFBFBF') => {
     const radius = 5;
     const halfRadius = radius / 2;
     const circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
@@ -27,7 +28,7 @@ export const drawSourceEdge = (draw, shiftToCenterPoint, nX, nY, pX, pY) => {
     ]);
 
     polyline.fill('none').stroke({
-        color: '#ccc'
+        color: '#BFBFBF'
     });
 };
 
@@ -41,7 +42,7 @@ export const drawFileText = (
     const text = draw.text(fileText);
     text.font({ fill: '#333', family: 'Menlo' });
 
-    const fileTextPointShiftX = 18;
+    const fileTextPointShiftX = 16;
     const fileTextPointShiftY = 8;
     const fileTextPoint = shiftToCenterPoint(
         nX + fileTextPointShiftX,
@@ -54,7 +55,7 @@ export const drawFileText = (
 export const drawFileIcon = (draw, shiftToCenterPoint, nX, nY) => {
     const fileIconPath = 'resources/js-file-format-symbol.svg';
     const fileIconSize = 15;
-    const fileIconPointShiftX = 3;
+    const fileIconPointShiftX = 2;
     const fileIconPointShiftY = 6;
     const fileIconPoint = shiftToCenterPoint(
         nX + fileIconPointShiftX,
@@ -73,7 +74,7 @@ export const drawFolderText = (
     nY,
     folderText = ''
 ) => {
-    const folderTextPointShiftX = 21;
+    const folderTextPointShiftX = 20;
     const folderTextPointShiftY = 17;
 
     const folderTextPoint = shiftToCenterPoint(
@@ -83,8 +84,11 @@ export const drawFolderText = (
 
     //TODO: add the same for file text
     const textSize = folderText.length * 8.4;
-    const rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
-    rect.move(folderTextPoint.x, folderTextPoint.y+2);
+    const rect = draw
+        .rect(textSize, 13)
+        .fill('#fff')
+        .opacity(0.8);
+    rect.move(folderTextPoint.x, folderTextPoint.y + 2);
 
     const text = draw.text(folderText);
     text.font({ fill: '#333', family: 'Menlo' });
@@ -93,9 +97,9 @@ export const drawFolderText = (
 };
 
 export const drawFolderIcon = (draw, shiftToCenterPoint, nX, nY) => {
-    const folderIconPath = 'resources/folder.svg';
+    const folderIconPath = 'resources/folder-2.svg';
     const folderIconSize = 16;
-    const folderIconPointShiftX = 4;
+    const folderIconPointShiftX = 3;
     const folderIconPointShiftY = 17;
     const folderIconPoint = shiftToCenterPoint(
         nX + folderIconPointShiftX,
@@ -125,16 +129,16 @@ export const drawDependenciesEdge = (
         y: Math.abs(sourcePt.y - targetPt.y) / 2 + targetPt.y - 40
     };
 
-    const polyline = draw.path(
+    const path = draw.path(
         `M${sourcePt.x} ${sourcePt.y} Q ${midPoint.x} ${midPoint.y}  ${
             targetPt.x
         } ${targetPt.y}`
     );
 
-    polyline.fill('none').stroke({
-        color: '#f06'//#1890ff'
+    path.fill('none').stroke({
+        color: '#f06' //#1890ff'
     });
 
     //add arrow instead
-    drawDot(draw, shiftToCenterPoint, tX+1, tY, '#f06');
+    drawDot(draw, shiftToCenterPoint, tX + 1, tY, '#f06');
 };

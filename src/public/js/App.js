@@ -2,7 +2,9 @@ import React from 'react';
 import devProcessTesting from './utils/dev-test';
 import { createConnection } from './utils/connection';
 import { SOCKET_EVENT_TYPE } from '../../shared/constants';
-import ViewsSwitchList from './components/controls/ViewsSwitchList';
+import ViewsSwitchList, {
+    SWITCH_KEYS
+} from './components/controls/ViewsSwitchList';
 import TreeDiagram from './components/tree-diagram/TreeDiagram';
 import { getTreeLayout } from './components/tree-diagram/treeLayout';
 
@@ -13,6 +15,12 @@ class App extends React.Component {
         super(props);
 
         this.state = {
+            switchesOn: {
+                [SWITCH_KEYS.SOURCE]: true,
+                [SWITCH_KEYS.DEPENDENCIES]: false,
+                [SWITCH_KEYS.CODE_CRUMBS]: false
+            },
+
             filesTreeLayoutNodes: null,
             filesTree: null,
             filesList: null,
@@ -46,21 +54,38 @@ class App extends React.Component {
     render() {
         const {
             filesTreeLayoutNodes,
-            dependenciesList
+            dependenciesList,
+            switchesOn
         } = this.state;
 
         return (
             <div className="App-container">
                 <ViewsSwitchList
+                    defaultChecked={SWITCH_KEYS.SOURCE}
                     onChange={(key, checked) => {
-                        console.log(`Switch to ${checked} for ${key}`);
+                        this.setState({
+                            switchesOn: {
+                                ...this.state.switchesOn,
+                                [key]: checked
+                            }
+                        });
                     }}
                 />
 
                 <TreeDiagram
                     filesTreeLayoutNodes={filesTreeLayoutNodes}
                     dependenciesList={dependenciesList}
+                    sourceDiagramOn={switchesOn[SWITCH_KEYS.SOURCE]}
+                    dependenciesDiagramOn={switchesOn[SWITCH_KEYS.DEPENDENCIES]}
+                    codeCrumbsDiagramOn={switchesOn[SWITCH_KEYS.CODE_CRUMBS]}
                 />
+
+                <footer className="App-footer">
+                    Bohdan Liashenko{' '}
+                    <a href="https://github.com/Bogdan-Lyashenko/codecrumbs">
+                        Project Github
+                    </a>
+                </footer>
             </div>
         );
     }

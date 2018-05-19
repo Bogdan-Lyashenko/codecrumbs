@@ -26820,7 +26820,26 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".App-container {\n    padding: 10px;\n}", ""]);
+exports.push([module.i, ".App-container {\n    padding: 10px;\n}\n\n.App-footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "../../node_modules/css-loader/index.js!./js/components/controls/ViewSwitchList.css":
+/*!*****************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/controls/ViewSwitchList.css ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".ViewSwitchList-container {\n    border-bottom: 1px solid #BFBFBF;\n}", ""]);
 
 // exports
 
@@ -66539,6 +66558,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
@@ -66567,6 +66588,8 @@ __webpack_require__(/*! ./App.css */ "./js/App.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -66577,11 +66600,15 @@ var App = function (_React$Component) {
     _inherits(App, _React$Component);
 
     function App(props) {
+        var _switchesOn;
+
         _classCallCheck(this, App);
 
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.state = {
+            switchesOn: (_switchesOn = {}, _defineProperty(_switchesOn, _ViewsSwitchList.SWITCH_KEYS.SOURCE, true), _defineProperty(_switchesOn, _ViewsSwitchList.SWITCH_KEYS.DEPENDENCIES, false), _defineProperty(_switchesOn, _ViewsSwitchList.SWITCH_KEYS.CODE_CRUMBS, false), _switchesOn),
+
             filesTreeLayoutNodes: null,
             filesTree: null,
             filesList: null,
@@ -66628,23 +66655,43 @@ var App = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             var _state = this.state,
                 filesTreeLayoutNodes = _state.filesTreeLayoutNodes,
-                dependenciesList = _state.dependenciesList;
+                dependenciesList = _state.dependenciesList,
+                switchesOn = _state.switchesOn;
 
 
             return _react2.default.createElement(
                 'div',
                 { className: 'App-container' },
                 _react2.default.createElement(_ViewsSwitchList2.default, {
+                    defaultChecked: _ViewsSwitchList.SWITCH_KEYS.SOURCE,
                     onChange: function onChange(key, checked) {
-                        console.log('Switch to ' + checked + ' for ' + key);
+                        _this3.setState({
+                            switchesOn: _extends({}, _this3.state.switchesOn, _defineProperty({}, key, checked))
+                        });
                     }
                 }),
                 _react2.default.createElement(_TreeDiagram2.default, {
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
-                    dependenciesList: dependenciesList
-                })
+                    dependenciesList: dependenciesList,
+                    sourceDiagramOn: switchesOn[_ViewsSwitchList.SWITCH_KEYS.SOURCE],
+                    dependenciesDiagramOn: switchesOn[_ViewsSwitchList.SWITCH_KEYS.DEPENDENCIES],
+                    codeCrumbsDiagramOn: switchesOn[_ViewsSwitchList.SWITCH_KEYS.CODE_CRUMBS]
+                }),
+                _react2.default.createElement(
+                    'footer',
+                    { className: 'App-footer' },
+                    'Bohdan Liashenko',
+                    ' ',
+                    _react2.default.createElement(
+                        'a',
+                        { href: 'https://github.com/Bogdan-Lyashenko/codecrumbs' },
+                        'Project Github'
+                    )
+                )
             );
         }
     }]);
@@ -66653,6 +66700,36 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = App;
+
+/***/ }),
+
+/***/ "./js/components/controls/ViewSwitchList.css":
+/*!***************************************************!*\
+  !*** ./js/components/controls/ViewSwitchList.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!./ViewSwitchList.css */ "../../node_modules/css-loader/index.js!./js/components/controls/ViewSwitchList.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -66669,6 +66746,7 @@ exports.default = App;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.SWITCH_KEYS = undefined;
 
 var _switch = __webpack_require__(/*! antd/es/switch */ "../../node_modules/antd/es/switch/index.js");
 
@@ -66678,8 +66756,6 @@ var _form = __webpack_require__(/*! antd/es/form */ "../../node_modules/antd/es/
 
 var _form2 = _interopRequireDefault(_form);
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 __webpack_require__(/*! antd/es/switch/style/css */ "../../node_modules/antd/es/switch/style/css.js");
 
 __webpack_require__(/*! antd/es/form/style/css */ "../../node_modules/antd/es/form/style/css.js");
@@ -66688,58 +66764,50 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
+__webpack_require__(/*! ./ViewSwitchList.css */ "./js/components/controls/ViewSwitchList.css");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 var FormItem = _form2.default.Item;
+var SWITCH_KEYS = exports.SWITCH_KEYS = {
+    SOURCE: 'SourceStructure',
+    DEPENDENCIES: 'ModuleDependencies',
+    CODE_CRUMBS: 'CodeCrumbs'
+};
 
-var Switches = [{ name: 'Source Structure', key: 'SourceStructure' }, { name: 'Module Dependencies', key: 'ModuleDependencies' }, { name: 'Code Crumbs', key: 'CodeCrumbs' }];
+var Switches = [{ name: 'Source', key: SWITCH_KEYS.SOURCE }, { name: 'Dependencies', key: SWITCH_KEYS.DEPENDENCIES }, { name: 'CodeCrumbs', key: SWITCH_KEYS.CODE_CRUMBS }];
 
-var ViewsSwitchList = function (_React$Component) {
-    _inherits(ViewsSwitchList, _React$Component);
+var ViewsSwitchList = function ViewsSwitchList(_ref) {
+    var _onChange = _ref.onChange,
+        defaultChecked = _ref.defaultChecked;
 
-    function ViewsSwitchList() {
-        _classCallCheck(this, ViewsSwitchList);
-
-        return _possibleConstructorReturn(this, (ViewsSwitchList.__proto__ || Object.getPrototypeOf(ViewsSwitchList)).apply(this, arguments));
-    }
-
-    _createClass(ViewsSwitchList, [{
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                _form2.default,
-                { layout: 'inline' },
-                Switches.map(function (item) {
-                    return _react2.default.createElement(
-                        FormItem,
-                        { key: item.key },
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            item.name + ' '
-                        ),
-                        _react2.default.createElement(_switch2.default, {
-                            defaultChecked: true,
-                            onChange: function onChange(checked) {
-                                return _this2.props.onChange(item.key, checked);
-                            }
-                        })
-                    );
-                })
-            );
-        }
-    }]);
-
-    return ViewsSwitchList;
-}(_react2.default.Component);
+    return _react2.default.createElement(
+        'div',
+        { className: 'ViewSwitchList-container' },
+        _react2.default.createElement(
+            _form2.default,
+            { layout: 'inline' },
+            Switches.map(function (item) {
+                return _react2.default.createElement(
+                    FormItem,
+                    { key: item.key },
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        item.name + ' '
+                    ),
+                    _react2.default.createElement(_switch2.default, {
+                        size: 'small',
+                        defaultChecked: item.key === defaultChecked,
+                        onChange: function onChange(checked) {
+                            return _onChange(item.key, checked);
+                        }
+                    })
+                );
+            })
+        )
+    );
+};
 
 exports.default = ViewsSwitchList;
 
@@ -66819,6 +66887,13 @@ var DependenciesTree = function (_React$Component) {
             this.svgDraw.clear();
             this.drawTree(this.svgDraw);
         }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            var dependenciesEdgesLayer = this.props.dependenciesEdgesLayer;
+
+            dependenciesEdgesLayer.removeChild(this.svgDraw.node);
+        }
 
         //move to utils
 
@@ -66860,7 +66935,7 @@ var DependenciesTree = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('div', null);
+            return null;
         }
     }]);
 
@@ -66988,7 +67063,7 @@ var SourceTree = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('div', null);
+            return null;
         }
     }]);
 
@@ -67095,51 +67170,59 @@ var TreeDiagram = function (_React$Component) {
             this.setState({ layersReady: true });
         }
     }, {
-        key: 'render',
-        value: function render() {
+        key: 'renderLayers',
+        value: function renderLayers() {
             var _this2 = this;
-
-            var _props = this.props,
-                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
-                dependenciesList = _props.dependenciesList;
-            var layersReady = this.state.layersReady;
-
-            //TODO:move styles to class
 
             return _react2.default.createElement(
                 'div',
+                { className: 'TreeDiagram-layers' },
+                _react2.default.createElement('div', {
+                    'data-name': 'sourceEdgesLayer',
+                    className: 'TreeDiagram-layer',
+                    ref: function ref(_ref) {
+                        return _this2.sourceEdgesLayer = _ref;
+                    }
+                }),
+                _react2.default.createElement('div', {
+                    'data-name': 'dependenciesEdgesLayer',
+                    className: 'TreeDiagram-layer',
+                    ref: function ref(_ref2) {
+                        return _this2.dependenciesEdgesLayer = _ref2;
+                    }
+                }),
+                _react2.default.createElement('div', {
+                    'data-name': 'iconsAndTextLayer',
+                    className: 'TreeDiagram-layer',
+                    ref: function ref(_ref3) {
+                        return _this2.iconsAndTextLayer = _ref3;
+                    }
+                })
+            );
+        }
+    }, {
+        key: 'renderDiagrams',
+        value: function renderDiagrams() {
+            var _props = this.props,
+                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+                dependenciesList = _props.dependenciesList,
+                sourceDiagramOn = _props.sourceDiagramOn,
+                dependenciesDiagramOn = _props.dependenciesDiagramOn;
+
+
+            return _react2.default.createElement(
+                _react2.default.Fragment,
                 null,
-                _react2.default.createElement(
-                    'div',
-                    { className: 'TreeDiagram-layers' },
-                    _react2.default.createElement('div', {
-                        className: 'TreeDiagram-layer',
-                        ref: function ref(_ref) {
-                            return _this2.sourceEdgesLayer = _ref;
-                        }
-                    }),
-                    _react2.default.createElement('div', {
-                        className: 'TreeDiagram-layer',
-                        ref: function ref(_ref2) {
-                            return _this2.dependenciesEdgesLayer = _ref2;
-                        }
-                    }),
-                    _react2.default.createElement('div', {
-                        className: 'TreeDiagram-layer',
-                        ref: function ref(_ref3) {
-                            return _this2.iconsAndTextLayer = _ref3;
-                        }
-                    })
-                ),
-                layersReady && filesTreeLayoutNodes && _react2.default.createElement(_SourceTree2.default, {
+                filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, {
                     layoutNodes: filesTreeLayoutNodes,
                     shiftToCenterPoint: shiftToCenterPoint,
                     width: BOX_SIZE,
                     height: BOX_SIZE,
                     sourceEdgesLayer: this.sourceEdgesLayer,
-                    iconsAndTextLayer: this.iconsAndTextLayer
+                    iconsAndTextLayer: this.iconsAndTextLayer,
+                    dependenciesDiagramOn: dependenciesDiagramOn
                 }),
-                layersReady && dependenciesList && filesTreeLayoutNodes && _react2.default.createElement(_DependenciesTree2.default, {
+                dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, {
                     dependenciesList: dependenciesList,
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
                     shiftToCenterPoint: shiftToCenterPoint,
@@ -67147,6 +67230,19 @@ var TreeDiagram = function (_React$Component) {
                     height: BOX_SIZE,
                     dependenciesEdgesLayer: this.dependenciesEdgesLayer
                 })
+            );
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var layersReady = this.state.layersReady;
+
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'TreeDiagram-container' },
+                this.renderLayers(),
+                layersReady && this.renderDiagrams()
             );
         }
     }]);
@@ -67171,10 +67267,14 @@ exports.default = TreeDiagram;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.drawDependenciesEdge = exports.drawFolderIcon = exports.drawFolderText = exports.drawFileIcon = exports.drawFileText = exports.drawSourceEdge = exports.drawDot = undefined;
+
+var _svgPrimitives = __webpack_require__(/*! ../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
+
 //TODO: move numbers to config per function
 //create object instead
 var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, x, y) {
-    var color = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '#ccc';
+    var color = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '#BFBFBF';
 
     var radius = 5;
     var halfRadius = radius / 2;
@@ -67194,7 +67294,7 @@ var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shif
     var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
 
     polyline.fill('none').stroke({
-        color: '#ccc'
+        color: '#BFBFBF'
     });
 };
 
@@ -67204,7 +67304,7 @@ var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCen
     var text = draw.text(fileText);
     text.font({ fill: '#333', family: 'Menlo' });
 
-    var fileTextPointShiftX = 18;
+    var fileTextPointShiftX = 16;
     var fileTextPointShiftY = 8;
     var fileTextPoint = shiftToCenterPoint(nX + fileTextPointShiftX, nY - fileTextPointShiftY);
 
@@ -67214,7 +67314,7 @@ var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCen
 var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, nX, nY) {
     var fileIconPath = 'resources/js-file-format-symbol.svg';
     var fileIconSize = 15;
-    var fileIconPointShiftX = 3;
+    var fileIconPointShiftX = 2;
     var fileIconPointShiftY = 6;
     var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
 
@@ -67224,7 +67324,7 @@ var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCen
 var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, nX, nY) {
     var folderText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
 
-    var folderTextPointShiftX = 21;
+    var folderTextPointShiftX = 20;
     var folderTextPointShiftY = 17;
 
     var folderTextPoint = shiftToCenterPoint(nX + folderTextPointShiftX, nY - folderTextPointShiftY);
@@ -67241,9 +67341,9 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
 };
 
 var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, nX, nY) {
-    var folderIconPath = 'resources/folder.svg';
+    var folderIconPath = 'resources/folder-2.svg';
     var folderIconSize = 16;
-    var folderIconPointShiftX = 4;
+    var folderIconPointShiftX = 3;
     var folderIconPointShiftY = 17;
     var folderIconPoint = shiftToCenterPoint(nX + folderIconPointShiftX, nY - folderIconPointShiftY);
 
@@ -67261,9 +67361,9 @@ var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenc
         y: Math.abs(sourcePt.y - targetPt.y) / 2 + targetPt.y - 40
     };
 
-    var polyline = draw.path('M' + sourcePt.x + ' ' + sourcePt.y + ' Q ' + midPoint.x + ' ' + midPoint.y + '  ' + targetPt.x + ' ' + targetPt.y);
+    var path = draw.path('M' + sourcePt.x + ' ' + sourcePt.y + ' Q ' + midPoint.x + ' ' + midPoint.y + '  ' + targetPt.x + ' ' + targetPt.y);
 
-    polyline.fill('none').stroke({
+    path.fill('none').stroke({
         color: '#f06' //#1890ff'
     });
 
@@ -67486,6 +67586,65 @@ var buildShiftToPoint = exports.buildShiftToPoint = function buildShiftToPoint(s
             y: shift.y + y
         };
     };
+};
+
+/***/ }),
+
+/***/ "./js/utils/svgPrimitives.js":
+/*!***********************************!*\
+  !*** ./js/utils/svgPrimitives.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getCurvedPath = exports.getCurvedPath = function getCurvedPath(points, theme) {
+    var pointStr = points.map(function (point, i) {
+        if (!i) return 'M' + point.x + ', ' + point.y;
+
+        var previousPoint = points[i - 1];
+
+        if (i <= 1) {
+            return getLinePointStr(point, previousPoint, theme.curveTurnRadius);
+        }
+
+        return 'Q' + previousPoint.x + ' ' + previousPoint.y + '\n                ' + getArcEndPointStr(point, previousPoint, theme.curveTurnRadius) + '\n                ' + getLinePointStr(point, previousPoint, 2 * theme.curveTurnRadius);
+    }).join(' ');
+
+    return pointStr;
+};
+
+var getLinePointStr = function getLinePointStr(point, previousPoint, radius) {
+    if (point.x === previousPoint.x) {
+        return 'L' + point.x + ' ' + getShiftedByArcNextPointValue(point.y, previousPoint.y, radius);
+    }
+
+    if (point.y === previousPoint.y) {
+        return 'L' + getShiftedByArcNextPointValue(point.x, previousPoint.x, radius) + ' ' + point.y + ' ';
+    }
+};
+
+var getShiftedByArcNextPointValue = function getShiftedByArcNextPointValue(pointValue, previousPointValue, radius) {
+    return pointValue > previousPointValue ? pointValue - radius : pointValue + radius;
+};
+
+var getArcEndPointStr = function getArcEndPointStr(point, previousPoint, radius) {
+    if (point.x === previousPoint.x) {
+        return previousPoint.x + ' ' + getArcEndPointValue(point.y, previousPoint.y, radius);
+    }
+
+    if (point.y === previousPoint.y) {
+        return getArcEndPointValue(point.x, previousPoint.x, radius) + ' ' + previousPoint.y;
+    }
+};
+
+var getArcEndPointValue = function getArcEndPointValue(pointValue, previousPointValue, radius) {
+    return pointValue > previousPointValue ? previousPointValue + radius : previousPointValue - radius;
 };
 
 /***/ })

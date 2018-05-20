@@ -17,7 +17,7 @@ class App extends React.Component {
         this.state = {
             switchesOn: {
                 [SWITCH_KEYS.SOURCE]: true,
-                [SWITCH_KEYS.DEPENDENCIES]: false,
+                [SWITCH_KEYS.DEPENDENCIES]: false,//TODO: false
                 [SWITCH_KEYS.CODE_CRUMBS]: false
             },
 

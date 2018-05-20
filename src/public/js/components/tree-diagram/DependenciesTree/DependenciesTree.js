@@ -56,6 +56,10 @@ class DependenciesTree extends React.Component {
                 );
 
                 const [iX, iY] = [importedNode.y, importedNode.x];
+                //TODO: implementation iterations:
+                //1) first with sharp angles + overlay
+                //2) without overlaying
+                //3) rounded angles
                 drawDependenciesEdge(draw, shiftToCenterPoint, iX, iY, mX, mY);
             });
         });

@@ -1,6 +1,6 @@
 import SVG from 'svg.js';
 import React from 'react';
-import { drawDependenciesEdge } from './treeGraph';
+import { drawDependenciesEdge } from './drawHelpers';
 
 class DependenciesTree extends React.Component {
     constructor(props) {
@@ -49,7 +49,7 @@ class DependenciesTree extends React.Component {
 
             const [mX, mY] = [moduleNode.y, moduleNode.x];
 
-            importedModuleNames.forEach(name => {
+            importedModuleNames.reduce((prevSource, name) => {
                 const importedNode = this.findNodeByPathName(
                     moduleFilesList,
                     name
@@ -57,11 +57,18 @@ class DependenciesTree extends React.Component {
 
                 const [iX, iY] = [importedNode.y, importedNode.x];
                 //TODO: implementation iterations:
-                //1) first with sharp angles + overlay
-                //2) without overlaying
+                //1) done: first with sharp angles + overlay
+                //2) done: without overlaying
                 //3) rounded angles
-                drawDependenciesEdge(draw, shiftToCenterPoint, iX, iY, mX, mY);
-            });
+                const source = { x: iX, y: iY };
+                drawDependenciesEdge(draw, shiftToCenterPoint, {
+                    source,
+                    target: { x: mX, y: mY },
+                    prevSource
+                });
+
+                return source;
+            }, null);
         });
     }
 

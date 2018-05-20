@@ -66837,7 +66837,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/DependenciesTree/treeGraph.js");
+var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/DependenciesTree/drawHelpers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66921,19 +66921,26 @@ var DependenciesTree = function (_React$Component) {
                     mY = _ref2[1];
 
 
-                importedModuleNames.forEach(function (name) {
+                importedModuleNames.reduce(function (prevSource, name) {
                     var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
 
                     var _ref3 = [importedNode.y, importedNode.x],
                         iX = _ref3[0],
                         iY = _ref3[1];
                     //TODO: implementation iterations:
-                    //1) first with sharp angles + overlay
-                    //2) without overlaying
+                    //1) done: first with sharp angles + overlay
+                    //2) done: without overlaying
                     //3) rounded angles
 
-                    (0, _treeGraph.drawDependenciesEdge)(draw, shiftToCenterPoint, iX, iY, mX, mY);
-                });
+                    var source = { x: iX, y: iY };
+                    (0, _drawHelpers.drawDependenciesEdge)(draw, shiftToCenterPoint, {
+                        source: source,
+                        target: { x: mX, y: mY },
+                        prevSource: prevSource
+                    });
+
+                    return source;
+                }, null);
             });
         }
     }, {
@@ -66950,10 +66957,10 @@ exports.default = DependenciesTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/DependenciesTree/treeGraph.js":
-/*!******************************************************************!*\
-  !*** ./js/components/tree-diagram/DependenciesTree/treeGraph.js ***!
-  \******************************************************************/
+/***/ "./js/components/tree-diagram/DependenciesTree/drawHelpers.js":
+/*!********************************************************************!*\
+  !*** ./js/components/tree-diagram/DependenciesTree/drawHelpers.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66963,7 +66970,7 @@ exports.default = DependenciesTree;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.drawDependenciesEdge = undefined;
+exports.drawDot = exports.drawDependenciesEdge = undefined;
 
 var _svgPrimitives = __webpack_require__(/*! ../../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
 
@@ -66973,18 +66980,53 @@ var _colors = __webpack_require__(/*! ../colors */ "./js/components/tree-diagram
 
 var COLOR = _colors.BLUE_COLOR;
 
-var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, sX, sY, tX, tY) {
-    var sourcePt = shiftToCenterPoint(tY > sY ? sX + 10 : sX + 8, tY > sY ? sY + 11 : sY - 8);
-    var targetPt = shiftToCenterPoint(tX, tY);
+var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, _ref) {
+    var source = _ref.source,
+        target = _ref.target,
+        prevSource = _ref.prevSource;
+
     var padding = 20;
+    var halfPadding = padding / 2;
 
-    var P1 = { x: sourcePt.x, y: targetPt.y + padding };
-    var P2 = { x: targetPt.x, y: targetPt.y + padding };
-
-    drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [targetPt.x, targetPt.y]]);
-
-    drawArrow(draw, shiftToCenterPoint, tX, tY + 6);
+    var sourcePt = shiftToCenterPoint(target.y > source.y ? source.x + 10 : source.x + 8, target.y > source.y ? source.y + 11 : source.y - 8);
     drawSourceDotLine(draw, sourcePt);
+
+    if (!prevSource) {
+        var targetPt = shiftToCenterPoint(target.x, target.y);
+
+        var P1 = { x: sourcePt.x, y: targetPt.y + padding };
+        var P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding };
+        var P3 = { x: targetPt.x - halfPadding, y: targetPt.y };
+
+        drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPt.x, targetPt.y]]);
+
+        drawArrow(draw, shiftToCenterPoint, target.x, target.y + 6);
+    } else {
+        if (prevSource.x < sourcePt.x) {
+            //TODO: handle other cases
+            var prevSourcePt = shiftToCenterPoint(prevSource.x, prevSource.y);
+
+            var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding };
+            var _P2 = {
+                x: prevSourcePt.x + halfPadding,
+                y: sourcePt.y + halfPadding
+            };
+
+            drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]]);
+
+            drawDot(draw, _P2);
+        }
+    }
+};
+
+var drawDot = exports.drawDot = function drawDot(draw, _ref2) {
+    var x = _ref2.x,
+        y = _ref2.y;
+
+    var radius = 4;
+    var halfRadius = radius / 2;
+
+    draw.circle(radius).fill(_colors.BLUE_COLOR).move(x - halfRadius, y - halfRadius);
 };
 
 var drawConnectionLine = function drawConnectionLine(draw, points) {
@@ -66995,19 +67037,21 @@ var drawConnectionLine = function drawConnectionLine(draw, points) {
     });
 };
 
-var drawSourceDotLine = function drawSourceDotLine(draw, _ref) {
-    var x = _ref.x,
-        y = _ref.y;
+var drawSourceDotLine = function drawSourceDotLine(draw, _ref3) {
+    var x = _ref3.x,
+        y = _ref3.y;
 
     draw.line(x - 3, y, x + 3, y).stroke({ width: 1, color: COLOR });
 };
 
 var drawArrow = function drawArrow(draw, shiftToCenterPoint, nX, nY) {
-    var fileIconPath = 'resources/up-arrow.svg';
-    var fileIconSize = 6;
-    var fileIconPointShiftX = -3;
-    var fileIconPointShiftY = 3;
+    var fileIconPath = 'resources/right-arrow.svg';
+    var fileIconSize = 7;
+    var fileIconPointShiftX = -4;
+    var fileIconPointShiftY = 9.5;
     var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
+
+    draw.rect(5, 6).fill('#fff').move(fileIconPoint.x + 2, fileIconPoint.y);
 
     draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
 };
@@ -67038,7 +67082,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/SourceTree/treeGraph.js");
+var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/SourceTree/drawHelpers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67115,7 +67159,7 @@ var SourceTree = function (_React$Component) {
                         pX = _ref3[0],
                         pY = _ref3[1];
 
-                    (0, _treeGraph.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
+                    (0, _drawHelpers.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
                         disabled: dependenciesDiagramOn,
                         target: {
                             x: nX,
@@ -67130,34 +67174,34 @@ var SourceTree = function (_React$Component) {
 
                 //file: TODO: add another check, possible bug for empty folder
                 if (!node.children) {
-                    (0, _treeGraph.drawDot)(primaryDraw, shiftToCenterPoint, {
+                    (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
-                        highlighted: dependenciesDiagramOn
+                        disabled: dependenciesDiagramOn
                     });
 
-                    (0, _treeGraph.drawFileText)(primaryDraw, shiftToCenterPoint, {
+                    (0, _drawHelpers.drawFileText)(primaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
                         name: node.data.name
                     });
-                    (0, _treeGraph.drawFileIcon)(primaryDraw, shiftToCenterPoint, { x: nX, y: nY });
+                    (0, _drawHelpers.drawFileIcon)(primaryDraw, shiftToCenterPoint, { x: nX, y: nY });
                     return;
                 }
 
-                (0, _treeGraph.drawDot)(primaryDraw, shiftToCenterPoint, {
+                (0, _drawHelpers.drawDot)(primaryDraw, shiftToCenterPoint, {
                     x: nX,
                     y: nY,
                     disabled: dependenciesDiagramOn
                 });
 
-                (0, _treeGraph.drawFolderText)(primaryDraw, shiftToCenterPoint, {
+                (0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
                     x: nX,
                     y: nY,
                     name: node.data.name,
                     disabled: dependenciesDiagramOn
                 });
-                (0, _treeGraph.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
+                (0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
                     x: nX,
                     y: nY,
                     disabled: dependenciesDiagramOn
@@ -67189,10 +67233,10 @@ exports.default = SourceTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/SourceTree/treeGraph.js":
-/*!************************************************************!*\
-  !*** ./js/components/tree-diagram/SourceTree/treeGraph.js ***!
-  \************************************************************/
+/***/ "./js/components/tree-diagram/SourceTree/drawHelpers.js":
+/*!**************************************************************!*\
+  !*** ./js/components/tree-diagram/SourceTree/drawHelpers.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -67238,7 +67282,7 @@ var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shif
         source = _ref2.source,
         disabled = _ref2.disabled;
 
-    var edgeTurnDistance = 15;
+    var edgeTurnDistance = 20;
 
     var P1 = shiftToCenterPoint(source.x, source.y);
     var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);

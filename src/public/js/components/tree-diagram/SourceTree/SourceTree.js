@@ -7,7 +7,7 @@ import {
     drawFileIcon,
     drawFolderText,
     drawFolderIcon
-} from './treeGraph';
+} from './drawHelpers';
 
 class SourceTree extends React.Component {
     constructor(props) {
@@ -77,10 +77,10 @@ class SourceTree extends React.Component {
 
             //file: TODO: add another check, possible bug for empty folder
             if (!node.children) {
-                drawDot(primaryDraw, shiftToCenterPoint, {
+                drawDot(secondaryDraw, shiftToCenterPoint, {
                     x: nX,
                     y: nY,
-                    highlighted: dependenciesDiagramOn
+                    disabled: dependenciesDiagramOn
                 });
 
                 drawFileText(primaryDraw, shiftToCenterPoint, {

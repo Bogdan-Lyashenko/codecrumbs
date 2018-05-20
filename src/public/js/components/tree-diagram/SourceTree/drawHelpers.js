@@ -33,7 +33,7 @@ export const drawSourceEdge = (
     shiftToCenterPoint,
     { target, source, disabled }
 ) => {
-    const edgeTurnDistance = 15;
+    const edgeTurnDistance = 20;
 
     const P1 = shiftToCenterPoint(source.x, source.y);
     const P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);

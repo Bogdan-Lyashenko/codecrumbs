@@ -1,7 +1,7 @@
 import React from 'react';
 import { buildShiftToPoint } from '../../utils/geometry';
-import SourceTree from './SourceTree';
-import DependenciesTree from './DependenciesTree';
+import SourceTree from './SourceTree/SourceTree';
+import DependenciesTree from './DependenciesTree/DependenciesTree';
 import './TreeDiagram.css';
 
 const BOX_SIZE = 800;

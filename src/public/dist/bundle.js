@@ -66813,10 +66813,10 @@ exports.default = ViewsSwitchList;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/DependenciesTree.js":
-/*!********************************************************!*\
-  !*** ./js/components/tree-diagram/DependenciesTree.js ***!
-  \********************************************************/
+/***/ "./js/components/tree-diagram/DependenciesTree/DependenciesTree.js":
+/*!*************************************************************************!*\
+  !*** ./js/components/tree-diagram/DependenciesTree/DependenciesTree.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66837,7 +66837,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/treeGraph.js");
+var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/DependenciesTree/treeGraph.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66927,6 +66927,10 @@ var DependenciesTree = function (_React$Component) {
                     var _ref3 = [importedNode.y, importedNode.x],
                         iX = _ref3[0],
                         iY = _ref3[1];
+                    //TODO: implementation iterations:
+                    //1) first with sharp angles + overlay
+                    //2) without overlaying
+                    //3) rounded angles
 
                     (0, _treeGraph.drawDependenciesEdge)(draw, shiftToCenterPoint, iX, iY, mX, mY);
                 });
@@ -66946,10 +66950,74 @@ exports.default = DependenciesTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/SourceTree.js":
-/*!**************************************************!*\
-  !*** ./js/components/tree-diagram/SourceTree.js ***!
-  \**************************************************/
+/***/ "./js/components/tree-diagram/DependenciesTree/treeGraph.js":
+/*!******************************************************************!*\
+  !*** ./js/components/tree-diagram/DependenciesTree/treeGraph.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.drawDependenciesEdge = undefined;
+
+var _svgPrimitives = __webpack_require__(/*! ../../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
+
+var _colors = __webpack_require__(/*! ../colors */ "./js/components/tree-diagram/colors.js");
+
+//TODO: move numbers to config per function
+
+var COLOR = _colors.BLUE_COLOR;
+
+var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, sX, sY, tX, tY) {
+    var sourcePt = shiftToCenterPoint(tY > sY ? sX + 10 : sX + 8, tY > sY ? sY + 11 : sY - 8);
+    var targetPt = shiftToCenterPoint(tX, tY);
+    var padding = 20;
+
+    var P1 = { x: sourcePt.x, y: targetPt.y + padding };
+    var P2 = { x: targetPt.x, y: targetPt.y + padding };
+
+    drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [targetPt.x, targetPt.y]]);
+
+    drawArrow(draw, shiftToCenterPoint, tX, tY + 6);
+    drawSourceDotLine(draw, sourcePt);
+};
+
+var drawConnectionLine = function drawConnectionLine(draw, points) {
+    var polyline = draw.polyline(points);
+
+    polyline.fill('none').stroke({
+        color: COLOR
+    });
+};
+
+var drawSourceDotLine = function drawSourceDotLine(draw, _ref) {
+    var x = _ref.x,
+        y = _ref.y;
+
+    draw.line(x - 3, y, x + 3, y).stroke({ width: 1, color: COLOR });
+};
+
+var drawArrow = function drawArrow(draw, shiftToCenterPoint, nX, nY) {
+    var fileIconPath = 'resources/up-arrow.svg';
+    var fileIconSize = 6;
+    var fileIconPointShiftX = -3;
+    var fileIconPointShiftY = 3;
+    var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
+
+    draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/SourceTree/SourceTree.js":
+/*!*************************************************************!*\
+  !*** ./js/components/tree-diagram/SourceTree/SourceTree.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66970,7 +67038,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/treeGraph.js");
+var _treeGraph = __webpack_require__(/*! ./treeGraph */ "./js/components/tree-diagram/SourceTree/treeGraph.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67030,7 +67098,8 @@ var SourceTree = function (_React$Component) {
                 secondaryDraw = _ref.secondaryDraw;
             var _props2 = this.props,
                 layoutNodes = _props2.layoutNodes,
-                shiftToCenterPoint = _props2.shiftToCenterPoint;
+                shiftToCenterPoint = _props2.shiftToCenterPoint,
+                dependenciesDiagramOn = _props2.dependenciesDiagramOn;
 
             //note: instance from d3-flex tree, not Array
 
@@ -67039,26 +67108,72 @@ var SourceTree = function (_React$Component) {
                     nX = _ref2[0],
                     nY = _ref2[1];
 
+                var parent = node.parent;
 
-                (0, _treeGraph.drawDot)(primaryDraw, shiftToCenterPoint, nX, nY);
-
-                if (node.parent) {
-                    var _ref3 = [node.parent.y, node.parent.x],
+                if (parent) {
+                    var _ref3 = [parent.y, parent.x],
                         pX = _ref3[0],
                         pY = _ref3[1];
 
-                    (0, _treeGraph.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, nX, nY, pX, pY);
+                    (0, _treeGraph.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
+                        disabled: dependenciesDiagramOn,
+                        target: {
+                            x: nX,
+                            y: nY
+                        },
+                        source: {
+                            x: pX,
+                            y: pY
+                        }
+                    });
                 }
 
+                //file: TODO: add another check, possible bug for empty folder
                 if (!node.children) {
-                    (0, _treeGraph.drawFileText)(primaryDraw, shiftToCenterPoint, nX, nY, node.data.name);
-                    (0, _treeGraph.drawFileIcon)(primaryDraw, shiftToCenterPoint, nX, nY);
+                    (0, _treeGraph.drawDot)(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        highlighted: dependenciesDiagramOn
+                    });
+
+                    (0, _treeGraph.drawFileText)(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        name: node.data.name
+                    });
+                    (0, _treeGraph.drawFileIcon)(primaryDraw, shiftToCenterPoint, { x: nX, y: nY });
                     return;
                 }
 
-                (0, _treeGraph.drawFolderText)(primaryDraw, shiftToCenterPoint, nX, nY, node.data.name);
-                (0, _treeGraph.drawFolderIcon)(primaryDraw, shiftToCenterPoint, nX, nY);
+                (0, _treeGraph.drawDot)(primaryDraw, shiftToCenterPoint, {
+                    x: nX,
+                    y: nY,
+                    disabled: dependenciesDiagramOn
+                });
+
+                (0, _treeGraph.drawFolderText)(primaryDraw, shiftToCenterPoint, {
+                    x: nX,
+                    y: nY,
+                    name: node.data.name,
+                    disabled: dependenciesDiagramOn
+                });
+                (0, _treeGraph.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
+                    x: nX,
+                    y: nY,
+                    disabled: dependenciesDiagramOn
+                });
             });
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            var _props3 = this.props,
+                sourceEdgesLayer = _props3.sourceEdgesLayer,
+                iconsAndTextLayer = _props3.iconsAndTextLayer;
+
+
+            sourceEdgesLayer.removeChild(this.drawOnSourceEdgesLayer.node);
+            iconsAndTextLayer.removeChild(this.drawOnIconsAndTextLayer.node);
         }
     }, {
         key: 'render',
@@ -67071,6 +67186,139 @@ var SourceTree = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SourceTree;
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/SourceTree/treeGraph.js":
+/*!************************************************************!*\
+  !*** ./js/components/tree-diagram/SourceTree/treeGraph.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.drawFolderIcon = exports.drawFolderText = exports.drawFileIcon = exports.drawFileText = exports.drawSourceEdge = exports.drawDot = undefined;
+
+var _svgPrimitives = __webpack_require__(/*! ../../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
+
+var _colors = __webpack_require__(/*! ../colors */ "./js/components/tree-diagram/colors.js");
+
+//TODO: move numbers to config per function
+//create object instead
+var ICONS_DIR = 'resources/';
+
+var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, _ref) {
+    var x = _ref.x,
+        y = _ref.y,
+        disabled = _ref.disabled,
+        highlighted = _ref.highlighted;
+
+    var radius = 5;
+    var halfRadius = radius / 2;
+    var circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
+
+    var color = '#BFBFBF';
+    if (disabled) {
+        color = '#ccc';
+    }
+    if (highlighted) {
+        color = _colors.BLUE_COLOR;
+    }
+
+    draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
+};
+
+var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shiftToCenterPoint, _ref2) {
+    var target = _ref2.target,
+        source = _ref2.source,
+        disabled = _ref2.disabled;
+
+    var edgeTurnDistance = 15;
+
+    var P1 = shiftToCenterPoint(source.x, source.y);
+    var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
+    var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
+    var P4 = shiftToCenterPoint(target.x, target.y);
+
+    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
+
+    var color = !disabled ? '#BFBFBF' : '#ccc';
+    polyline.fill('none').stroke({
+        color: color
+    });
+};
+
+var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, _ref3) {
+    var x = _ref3.x,
+        y = _ref3.y,
+        _ref3$name = _ref3.name,
+        name = _ref3$name === undefined ? '' : _ref3$name;
+
+    var text = draw.text(name);
+    text.font({ fill: '#595959', family: 'Menlo' });
+
+    var fileTextPointShiftX = 16;
+    var fileTextPointShiftY = 8;
+    var fileTextPoint = shiftToCenterPoint(x + fileTextPointShiftX, y - fileTextPointShiftY);
+
+    text.move(fileTextPoint.x, fileTextPoint.y);
+};
+
+var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, _ref4) {
+    var x = _ref4.x,
+        y = _ref4.y;
+
+    var fileIconPath = ICONS_DIR + 'js-file.svg';
+    var fileIconSize = 15;
+    var fileIconPointShiftX = 2;
+    var fileIconPointShiftY = 6;
+    var fileIconPoint = shiftToCenterPoint(x + fileIconPointShiftX, y - fileIconPointShiftY);
+
+    draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
+};
+
+var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, _ref5) {
+    var x = _ref5.x,
+        y = _ref5.y,
+        _ref5$name = _ref5.name,
+        name = _ref5$name === undefined ? '' : _ref5$name,
+        disabled = _ref5.disabled;
+
+    var folderTextPointShiftX = 20;
+    var folderTextPointShiftY = 17;
+
+    var folderTextPoint = shiftToCenterPoint(x + folderTextPointShiftX, y - folderTextPointShiftY);
+
+    //TODO: add the same for file text
+    var textSize = name.length * 8.4;
+    var rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
+    rect.move(folderTextPoint.x, folderTextPoint.y + 2);
+
+    var fill = !disabled ? '#595959' : '#ccc';
+    var text = draw.text(name);
+    text.font({ fill: fill, family: 'Menlo' });
+
+    text.move(folderTextPoint.x, folderTextPoint.y);
+};
+
+var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, _ref6) {
+    var x = _ref6.x,
+        y = _ref6.y,
+        disabled = _ref6.disabled;
+
+    var folderIconPath = !disabled ? ICONS_DIR + 'folder.svg' : ICONS_DIR + 'folder-disabled.svg';
+    var folderIconSize = 16;
+    var folderIconPointShiftX = 3;
+    var folderIconPointShiftY = 17;
+    var folderIconPoint = shiftToCenterPoint(x + folderIconPointShiftX, y - folderIconPointShiftY);
+
+    draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
+};
 
 /***/ }),
 
@@ -67126,11 +67374,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _geometry = __webpack_require__(/*! ../../utils/geometry */ "./js/utils/geometry.js");
 
-var _SourceTree = __webpack_require__(/*! ./SourceTree */ "./js/components/tree-diagram/SourceTree.js");
+var _SourceTree = __webpack_require__(/*! ./SourceTree/SourceTree */ "./js/components/tree-diagram/SourceTree/SourceTree.js");
 
 var _SourceTree2 = _interopRequireDefault(_SourceTree);
 
-var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree */ "./js/components/tree-diagram/DependenciesTree.js");
+var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree/DependenciesTree */ "./js/components/tree-diagram/DependenciesTree/DependenciesTree.js");
 
 var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
 
@@ -67254,10 +67502,10 @@ exports.default = TreeDiagram;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/treeGraph.js":
-/*!*************************************************!*\
-  !*** ./js/components/tree-diagram/treeGraph.js ***!
-  \*************************************************/
+/***/ "./js/components/tree-diagram/colors.js":
+/*!**********************************************!*\
+  !*** ./js/components/tree-diagram/colors.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -67265,111 +67513,10 @@ exports.default = TreeDiagram;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.drawDependenciesEdge = exports.drawFolderIcon = exports.drawFolderText = exports.drawFileIcon = exports.drawFileText = exports.drawSourceEdge = exports.drawDot = undefined;
-
-var _svgPrimitives = __webpack_require__(/*! ../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
-
-//TODO: move numbers to config per function
-//create object instead
-var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, x, y) {
-    var color = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '#BFBFBF';
-
-    var radius = 5;
-    var halfRadius = radius / 2;
-    var circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
-
-    draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
-};
-
-var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shiftToCenterPoint, nX, nY, pX, pY) {
-    var edgeTurnDistance = 15;
-
-    var P1 = shiftToCenterPoint(pX, pY);
-    var P2 = shiftToCenterPoint(nX - edgeTurnDistance, pY);
-    var P3 = shiftToCenterPoint(nX - edgeTurnDistance, nY);
-    var P4 = shiftToCenterPoint(nX, nY);
-
-    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
-
-    polyline.fill('none').stroke({
-        color: '#BFBFBF'
-    });
-};
-
-var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, nX, nY) {
-    var fileText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
-
-    var text = draw.text(fileText);
-    text.font({ fill: '#333', family: 'Menlo' });
-
-    var fileTextPointShiftX = 16;
-    var fileTextPointShiftY = 8;
-    var fileTextPoint = shiftToCenterPoint(nX + fileTextPointShiftX, nY - fileTextPointShiftY);
-
-    text.move(fileTextPoint.x, fileTextPoint.y);
-};
-
-var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, nX, nY) {
-    var fileIconPath = 'resources/js-file-format-symbol.svg';
-    var fileIconSize = 15;
-    var fileIconPointShiftX = 2;
-    var fileIconPointShiftY = 6;
-    var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
-
-    draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
-};
-
-var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, nX, nY) {
-    var folderText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
-
-    var folderTextPointShiftX = 20;
-    var folderTextPointShiftY = 17;
-
-    var folderTextPoint = shiftToCenterPoint(nX + folderTextPointShiftX, nY - folderTextPointShiftY);
-
-    //TODO: add the same for file text
-    var textSize = folderText.length * 8.4;
-    var rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
-    rect.move(folderTextPoint.x, folderTextPoint.y + 2);
-
-    var text = draw.text(folderText);
-    text.font({ fill: '#333', family: 'Menlo' });
-
-    text.move(folderTextPoint.x, folderTextPoint.y);
-};
-
-var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, nX, nY) {
-    var folderIconPath = 'resources/folder-2.svg';
-    var folderIconSize = 16;
-    var folderIconPointShiftX = 3;
-    var folderIconPointShiftY = 17;
-    var folderIconPoint = shiftToCenterPoint(nX + folderIconPointShiftX, nY - folderIconPointShiftY);
-
-    draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
-};
-
-/* Dependencies graph */
-var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, sX, sY, tX, tY) {
-    var sourcePt = shiftToCenterPoint(sX, sY);
-    var targetPt = shiftToCenterPoint(tX, tY);
-
-    //calculate this based on dots positions
-    var midPoint = {
-        x: Math.abs(sourcePt.x - targetPt.x) / 2 + targetPt.x,
-        y: Math.abs(sourcePt.y - targetPt.y) / 2 + targetPt.y - 40
-    };
-
-    var path = draw.path('M' + sourcePt.x + ' ' + sourcePt.y + ' Q ' + midPoint.x + ' ' + midPoint.y + '  ' + targetPt.x + ' ' + targetPt.y);
-
-    path.fill('none').stroke({
-        color: '#f06' //#1890ff'
-    });
-
-    //add arrow instead
-    drawDot(draw, shiftToCenterPoint, tX + 1, tY, '#f06');
-};
+var PURPLE_COLOR = exports.PURPLE_COLOR = '#f06';
+var BLUE_COLOR = exports.BLUE_COLOR = '#1890ff';
 
 /***/ }),
 

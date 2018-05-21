@@ -26858,7 +26858,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".TreeDiagram-layers {\n    position: relative;\n}\n\n.TreeDiagram-layer {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n", ""]);
+exports.push([module.i, ".TreeDiagram-layers {\n    position: relative;\n}\n\n.TreeDiagram-layer, .TreeDiagram-layer svg {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n", ""]);
 
 // exports
 
@@ -66606,6 +66606,20 @@ var App = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+        _this.onSwitchChange = function (key, checked) {
+            var subState = {
+                switchesOn: _extends({}, _this.state.switchesOn, _defineProperty({}, key, checked))
+            };
+
+            if (key === _ViewsSwitchList.SWITCH_KEYS.CODE_CRUMBS) {
+                subState = _extends({}, subState, {
+                    filesTreeLayoutNodes: (0, _treeLayout.getTreeLayout)(_this.state.filesTree, checked)
+                });
+            }
+
+            _this.setState(subState);
+        };
+
         _this.state = {
             switchesOn: (_switchesOn = {}, _defineProperty(_switchesOn, _ViewsSwitchList.SWITCH_KEYS.SOURCE, true), _defineProperty(_switchesOn, _ViewsSwitchList.SWITCH_KEYS.DEPENDENCIES, false), _defineProperty(_switchesOn, _ViewsSwitchList.SWITCH_KEYS.CODE_CRUMBS, false), _switchesOn),
 
@@ -66633,12 +66647,13 @@ var App = function (_React$Component) {
         value: function onSocketEvent(type, data) {
             switch (type) {
                 case _constants.SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
+                    var switchesOn = this.state.switchesOn;
                     var _data$body = data.body,
                         filesTree = _data$body.filesTree,
                         filesList = _data$body.filesList,
                         dependenciesList = _data$body.dependenciesList;
 
-                    var filesTreeLayoutNodes = (0, _treeLayout.getTreeLayout)(filesTree);
+                    var filesTreeLayoutNodes = (0, _treeLayout.getTreeLayout)(filesTree, switchesOn[_ViewsSwitchList.SWITCH_KEYS.CODE_CRUMBS]);
 
                     this.setState({
                         filesTreeLayoutNodes: filesTreeLayoutNodes,
@@ -66655,8 +66670,6 @@ var App = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
-
             var _state = this.state,
                 filesTreeLayoutNodes = _state.filesTreeLayoutNodes,
                 dependenciesList = _state.dependenciesList,
@@ -66668,11 +66681,7 @@ var App = function (_React$Component) {
                 { className: 'App-container' },
                 _react2.default.createElement(_ViewsSwitchList2.default, {
                     defaultChecked: _ViewsSwitchList.SWITCH_KEYS.SOURCE,
-                    onChange: function onChange(key, checked) {
-                        _this3.setState({
-                            switchesOn: _extends({}, _this3.state.switchesOn, _defineProperty({}, key, checked))
-                        });
-                    }
+                    onChange: this.onSwitchChange
                 }),
                 _react2.default.createElement(_TreeDiagram2.default, {
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
@@ -66813,6 +66822,225 @@ exports.default = ViewsSwitchList;
 
 /***/ }),
 
+/***/ "./js/components/tree-diagram/CodeCrumbsTree/CodeCrumbsTree.js":
+/*!*********************************************************************!*\
+  !*** ./js/components/tree-diagram/CodeCrumbsTree/CodeCrumbsTree.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
+
+var _svg2 = _interopRequireDefault(_svg);
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/CodeCrumbsTree/drawHelpers.js");
+
+var _constants = __webpack_require__(/*! ../constants */ "./js/components/tree-diagram/constants.js");
+
+var _treeLayout = __webpack_require__(/*! ../treeLayout */ "./js/components/tree-diagram/treeLayout.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CodeCrumbsTree = function (_React$Component) {
+    _inherits(CodeCrumbsTree, _React$Component);
+
+    function CodeCrumbsTree(props) {
+        _classCallCheck(this, CodeCrumbsTree);
+
+        var _this = _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).call(this, props));
+
+        _this.svgDraw = null;
+        _this.svgElementsSet = null; //
+        return _this;
+    }
+
+    _createClass(CodeCrumbsTree, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _props = this.props,
+                width = _props.width,
+                height = _props.height,
+                iconsAndTextLayer = _props.iconsAndTextLayer;
+
+
+            this.svgDraw = (0, _svg2.default)(iconsAndTextLayer).size(width, height);
+            this.drawTree(this.svgDraw);
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            this.svgDraw.clear();
+            this.drawTree(this.svgDraw);
+        }
+    }, {
+        key: 'drawTree',
+        value: function drawTree(primaryDraw) {
+            var _props2 = this.props,
+                filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
+                shiftToCenterPoint = _props2.shiftToCenterPoint;
+
+
+            var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
+            filesList.forEach(function (node) {
+                var _ref = [node.y, node.x],
+                    nX = _ref[0],
+                    nY = _ref[1];
+
+
+                if (node.children) {
+                    (0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
+                        source: {
+                            x: nX,
+                            y: nY
+                        },
+                        parentName: node.data.name
+                    });
+
+                    node.children.forEach(function (crumb) {
+                        var _ref2 = [crumb.y, crumb.x],
+                            cX = _ref2[0],
+                            cY = _ref2[1];
+
+                        (0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
+                            source: {
+                                x: nX,
+                                y: nY
+                            },
+                            target: {
+                                x: cX,
+                                y: cY
+                            },
+                            parentName: node.data.name
+                        });
+
+                        (0, _drawHelpers.drawCodeCrumbText)(primaryDraw, shiftToCenterPoint, {
+                            x: cX,
+                            y: cY,
+                            name: crumb.data.name
+                        });
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            var iconsAndTextLayer = this.props.iconsAndTextLayer;
+
+
+            iconsAndTextLayer.removeChild(this.svgDraw.node);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return null;
+        }
+    }]);
+
+    return CodeCrumbsTree;
+}(_react2.default.Component);
+
+exports.default = CodeCrumbsTree;
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/CodeCrumbsTree/drawHelpers.js":
+/*!******************************************************************!*\
+  !*** ./js/components/tree-diagram/CodeCrumbsTree/drawHelpers.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.drawCodeCrumbText = exports.drawPartEdge = exports.drawCodeCrumbEdge = undefined;
+
+var _constants = __webpack_require__(/*! ../constants */ "./js/components/tree-diagram/constants.js");
+
+var drawCodeCrumbEdge = exports.drawCodeCrumbEdge = function drawCodeCrumbEdge(draw, shiftToCenterPoint, _ref) {
+    var target = _ref.target,
+        source = _ref.source,
+        parentName = _ref.parentName;
+
+    var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+    var padding = 40;
+    var edgeTurnDistance = 20;
+
+    var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
+
+    var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
+    var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
+    var P4 = shiftToCenterPoint(target.x, target.y);
+
+    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
+
+    polyline.fill('none').stroke({
+        color: _constants.PURPLE_COLOR
+    });
+};
+
+var drawPartEdge = exports.drawPartEdge = function drawPartEdge(draw, shiftToCenterPoint, _ref2) {
+    var source = _ref2.source,
+        parentName = _ref2.parentName;
+
+    var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+    var padding = 18;
+
+    var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
+    var P2 = { x: P1.x + padding + 4, y: P1.y };
+
+    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y]]);
+
+    polyline.fill('none').stroke({
+        color: _constants.PURPLE_COLOR
+    });
+
+    draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: _constants.PURPLE_COLOR });
+};
+
+var drawCodeCrumbText = exports.drawCodeCrumbText = function drawCodeCrumbText(draw, shiftToCenterPoint, _ref3) {
+    var x = _ref3.x,
+        y = _ref3.y,
+        _ref3$name = _ref3.name,
+        name = _ref3$name === undefined ? '' : _ref3$name;
+
+    var text = draw.text(name);
+    text.font({ fill: '#595959', family: 'Menlo' });
+
+    var textPointShiftX = 3;
+    var textPointShiftY = 8;
+    var textPoint = shiftToCenterPoint(x, y);
+
+    text.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+
+    draw.circle(4).fill(_constants.PURPLE_COLOR).move(textPoint.x - 2, textPoint.y - 2);
+};
+
+/***/ }),
+
 /***/ "./js/components/tree-diagram/DependenciesTree/DependenciesTree.js":
 /*!*************************************************************************!*\
   !*** ./js/components/tree-diagram/DependenciesTree/DependenciesTree.js ***!
@@ -66838,6 +67066,8 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 var _react2 = _interopRequireDefault(_react);
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/DependenciesTree/drawHelpers.js");
+
+var _treeLayout = __webpack_require__(/*! ../treeLayout */ "./js/components/tree-diagram/treeLayout.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66908,7 +67138,7 @@ var DependenciesTree = function (_React$Component) {
                 shiftToCenterPoint = _props2.shiftToCenterPoint;
 
 
-            var moduleFilesList = filesTreeLayoutNodes.leaves();
+            var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
 
             dependenciesList.forEach(function (_ref) {
                 var moduleName = _ref.moduleName,
@@ -66929,7 +67159,7 @@ var DependenciesTree = function (_React$Component) {
                         iY = _ref3[1];
                     //TODO: implementation iterations:
                     //1) done: first with sharp angles + overlay
-                    //2) done: without overlaying
+                    //2) done: without overlaying, not fot all cases
                     //3) rounded angles
 
                     var source = { x: iX, y: iY };
@@ -66974,11 +67204,11 @@ exports.drawDot = exports.drawDependenciesEdge = undefined;
 
 var _svgPrimitives = __webpack_require__(/*! ../../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
 
-var _colors = __webpack_require__(/*! ../colors */ "./js/components/tree-diagram/colors.js");
+var _constants = __webpack_require__(/*! ../constants */ "./js/components/tree-diagram/constants.js");
 
 //TODO: move numbers to config per function
 
-var COLOR = _colors.BLUE_COLOR;
+var COLOR = _constants.BLUE_COLOR;
 
 var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, _ref) {
     var source = _ref.source,
@@ -67026,7 +67256,7 @@ var drawDot = exports.drawDot = function drawDot(draw, _ref2) {
     var radius = 4;
     var halfRadius = radius / 2;
 
-    draw.circle(radius).fill(_colors.BLUE_COLOR).move(x - halfRadius, y - halfRadius);
+    draw.circle(radius).fill(_constants.BLUE_COLOR).move(x - halfRadius, y - halfRadius);
 };
 
 var drawConnectionLine = function drawConnectionLine(draw, points) {
@@ -67084,6 +67314,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/SourceTree/drawHelpers.js");
 
+var _constants = __webpack_require__(/*! ../constants */ "./js/components/tree-diagram/constants.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -67114,6 +67346,7 @@ var SourceTree = function (_React$Component) {
                 iconsAndTextLayer = _props.iconsAndTextLayer,
                 sourceEdgesLayer = _props.sourceEdgesLayer;
 
+            //this can be moved out to HOC (and used inside Dep, and CC trees)
 
             this.drawOnIconsAndTextLayer = (0, _svg2.default)(iconsAndTextLayer).size(width, height);
 
@@ -67154,7 +67387,7 @@ var SourceTree = function (_React$Component) {
 
                 var parent = node.parent;
 
-                if (parent) {
+                if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
                     var _ref3 = [parent.y, parent.x],
                         pX = _ref3[0],
                         pY = _ref3[1];
@@ -67172,8 +67405,7 @@ var SourceTree = function (_React$Component) {
                     });
                 }
 
-                //file: TODO: add another check, possible bug for empty folder
-                if (!node.children) {
+                if (node.data.type === _constants.FILE_NODE_TYPE) {
                     (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
@@ -67189,23 +67421,26 @@ var SourceTree = function (_React$Component) {
                     return;
                 }
 
-                (0, _drawHelpers.drawDot)(primaryDraw, shiftToCenterPoint, {
-                    x: nX,
-                    y: nY,
-                    disabled: dependenciesDiagramOn
-                });
+                if (node.data.type === _constants.DIR_NODE_TYPE) {
+                    (0, _drawHelpers.drawDot)(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        disabled: dependenciesDiagramOn
+                    });
 
-                (0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
-                    x: nX,
-                    y: nY,
-                    name: node.data.name,
-                    disabled: dependenciesDiagramOn
-                });
-                (0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
-                    x: nX,
-                    y: nY,
-                    disabled: dependenciesDiagramOn
-                });
+                    (0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        name: node.data.name,
+                        disabled: dependenciesDiagramOn
+                    });
+                    (0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        disabled: dependenciesDiagramOn
+                    });
+                    return;
+                }
             });
         }
     }, {
@@ -67250,7 +67485,7 @@ exports.drawFolderIcon = exports.drawFolderText = exports.drawFileIcon = exports
 
 var _svgPrimitives = __webpack_require__(/*! ../../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
 
-var _colors = __webpack_require__(/*! ../colors */ "./js/components/tree-diagram/colors.js");
+var _constants = __webpack_require__(/*! ../constants */ "./js/components/tree-diagram/constants.js");
 
 //TODO: move numbers to config per function
 //create object instead
@@ -67271,7 +67506,7 @@ var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, _ref)
         color = '#ccc';
     }
     if (highlighted) {
-        color = _colors.BLUE_COLOR;
+        color = _constants.BLUE_COLOR;
     }
 
     draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
@@ -67339,7 +67574,7 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
     var folderTextPoint = shiftToCenterPoint(x + folderTextPointShiftX, y - folderTextPointShiftY);
 
     //TODO: add the same for file text
-    var textSize = name.length * 8.4;
+    var textSize = name.length * _constants.SYMBOL_WIDTH; //TODO: refactor to not calculate each time
     var rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
     rect.move(folderTextPoint.x, folderTextPoint.y + 2);
 
@@ -67426,6 +67661,10 @@ var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree/DependenciesT
 
 var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
 
+var _CodeCrumbsTree = __webpack_require__(/*! ./CodeCrumbsTree/CodeCrumbsTree */ "./js/components/tree-diagram/CodeCrumbsTree/CodeCrumbsTree.js");
+
+var _CodeCrumbsTree2 = _interopRequireDefault(_CodeCrumbsTree);
+
 __webpack_require__(/*! ./TreeDiagram.css */ "./js/components/tree-diagram/TreeDiagram.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -67499,7 +67738,8 @@ var TreeDiagram = function (_React$Component) {
                 filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
                 dependenciesList = _props.dependenciesList,
                 sourceDiagramOn = _props.sourceDiagramOn,
-                dependenciesDiagramOn = _props.dependenciesDiagramOn;
+                dependenciesDiagramOn = _props.dependenciesDiagramOn,
+                codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn;
 
 
             return _react2.default.createElement(
@@ -67521,6 +67761,13 @@ var TreeDiagram = function (_React$Component) {
                     width: BOX_SIZE,
                     height: BOX_SIZE,
                     dependenciesEdgesLayer: this.dependenciesEdgesLayer
+                }),
+                filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, {
+                    filesTreeLayoutNodes: filesTreeLayoutNodes,
+                    shiftToCenterPoint: shiftToCenterPoint,
+                    width: BOX_SIZE,
+                    height: BOX_SIZE,
+                    iconsAndTextLayer: this.iconsAndTextLayer
                 })
             );
         }
@@ -67546,10 +67793,10 @@ exports.default = TreeDiagram;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/colors.js":
-/*!**********************************************!*\
-  !*** ./js/components/tree-diagram/colors.js ***!
-  \**********************************************/
+/***/ "./js/components/tree-diagram/constants.js":
+/*!*************************************************!*\
+  !*** ./js/components/tree-diagram/constants.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -67557,10 +67804,22 @@ exports.default = TreeDiagram;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 var PURPLE_COLOR = exports.PURPLE_COLOR = '#f06';
 var BLUE_COLOR = exports.BLUE_COLOR = '#1890ff';
+
+var FILE_NODE_TYPE = exports.FILE_NODE_TYPE = 'file';
+var DIR_NODE_TYPE = exports.DIR_NODE_TYPE = 'directory';
+
+var SYMBOL_WIDTH = exports.SYMBOL_WIDTH = 8.4;
+
+var LAYOUT_CONFIG = exports.LAYOUT_CONFIG = {
+    symbolWidth: SYMBOL_WIDTH,
+    nodeSizeX: 20,
+    nodeSizeY: 60,
+    spacing: 20
+};
 
 /***/ }),
 
@@ -67577,27 +67836,26 @@ var BLUE_COLOR = exports.BLUE_COLOR = '#1890ff';
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getTreeLayout = undefined;
+exports.getFilesList = exports.getTreeLayout = undefined;
 
 var _d3Flextree = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-flextree/index.js");
 
 var d3FlexTree = _interopRequireWildcard(_d3Flextree);
 
+var _constants = __webpack_require__(/*! ./constants */ "./js/components/tree-diagram/constants.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var DEFAULT_CONFIG = {
-    symbolWidth: 8.4,
-    nodeSizeX: 20,
-    nodeSizeY: 60,
-    spacing: 20
-};
-
-var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData) {
-    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_CONFIG;
+var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData, includeFileChildren) {
+    var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _constants.LAYOUT_CONFIG;
 
     var layoutStructure = d3FlexTree.flextree({
         children: function children(data) {
-            return data.children;
+            if (includeFileChildren || data.type === _constants.DIR_NODE_TYPE) {
+                return data.children;
+            }
+
+            return [];
         },
         nodeSize: function nodeSize(node) {
             return [config.nodeSizeX, config.symbolWidth * node.data.name.length + config.nodeSizeY];
@@ -67609,6 +67867,18 @@ var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData) {
 
     var tree = layoutStructure.hierarchy(treeData);
     return layoutStructure(tree);
+};
+
+var getFilesList = exports.getFilesList = function getFilesList(layoutNodes) {
+    var list = [];
+
+    layoutNodes.each(function (node) {
+        if (node.data && node.data.type === _constants.FILE_NODE_TYPE) {
+            list.push(node);
+        }
+    });
+
+    return list;
 };
 
 /***/ }),

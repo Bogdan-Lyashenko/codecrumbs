@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.TreeDiagram-layer {
+.TreeDiagram-layer, .TreeDiagram-layer svg {
     position: absolute;
     top: 0;
     left: 0;

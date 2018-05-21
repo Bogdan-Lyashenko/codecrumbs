@@ -1,5 +1,5 @@
 import { getCurvedPath } from '../../../utils/svgPrimitives';
-import { BLUE_COLOR, PURPLE_COLOR } from '../colors';
+import { BLUE_COLOR, PURPLE_COLOR,SYMBOL_WIDTH } from '../constants';
 
 //TODO: move numbers to config per function
 //create object instead
@@ -96,7 +96,7 @@ export const drawFolderText = (
     );
 
     //TODO: add the same for file text
-    const textSize = name.length * 8.4;
+    const textSize = name.length * SYMBOL_WIDTH;//TODO: refactor to not calculate each time
     const rect = draw
         .rect(textSize, 13)
         .fill('#fff')

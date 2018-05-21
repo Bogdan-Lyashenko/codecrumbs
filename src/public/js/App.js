@@ -6,7 +6,10 @@ import ViewsSwitchList, {
     SWITCH_KEYS
 } from './components/controls/ViewsSwitchList';
 import TreeDiagram from './components/tree-diagram/TreeDiagram';
-import { getTreeLayout } from './components/tree-diagram/treeLayout';
+import {
+    getTreeLayout,
+    getTreeLayoutWithCodeCrumbs
+} from './components/tree-diagram/treeLayout';
 
 import './App.css';
 
@@ -17,7 +20,7 @@ class App extends React.Component {
         this.state = {
             switchesOn: {
                 [SWITCH_KEYS.SOURCE]: true,
-                [SWITCH_KEYS.DEPENDENCIES]: false,//TODO: false
+                [SWITCH_KEYS.DEPENDENCIES]: false, //TODO: false
                 [SWITCH_KEYS.CODE_CRUMBS]: false
             },
 
@@ -32,11 +35,36 @@ class App extends React.Component {
         createConnection(({ type, data }) => this.onSocketEvent(type, data));
     }
 
+    onSwitchChange = (key, checked) => {
+        let subState = {
+            switchesOn: {
+                ...this.state.switchesOn,
+                [key]: checked
+            }
+        };
+
+        if (key === SWITCH_KEYS.CODE_CRUMBS) {
+            subState = {
+                ...subState,
+                filesTreeLayoutNodes: getTreeLayout(
+                    this.state.filesTree,
+                    checked
+                )
+            };
+        }
+
+        this.setState(subState);
+    };
+
     onSocketEvent(type, data) {
         switch (type) {
             case SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
+                const { switchesOn } = this.state;
                 const { filesTree, filesList, dependenciesList } = data.body;
-                const filesTreeLayoutNodes = getTreeLayout(filesTree);
+                const filesTreeLayoutNodes = getTreeLayout(
+                    filesTree,
+                    switchesOn[SWITCH_KEYS.CODE_CRUMBS]
+                );
 
                 this.setState({
                     filesTreeLayoutNodes,
@@ -62,14 +90,7 @@ class App extends React.Component {
             <div className="App-container">
                 <ViewsSwitchList
                     defaultChecked={SWITCH_KEYS.SOURCE}
-                    onChange={(key, checked) => {
-                        this.setState({
-                            switchesOn: {
-                                ...this.state.switchesOn,
-                                [key]: checked
-                            }
-                        });
-                    }}
+                    onChange={this.onSwitchChange}
                 />
 
                 <TreeDiagram

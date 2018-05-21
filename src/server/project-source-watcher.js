@@ -39,7 +39,7 @@ const grabProjectSourceState = (projectDir, entryPoint) => {
             file.read(item.path, 'utf8').then(code => {
                 const codecrumbsList = codecrumbs.getCrumbs(code);
 
-                item.codecrumbs = codecrumbsList;
+                item.children = codecrumbsList;
                 item.hasCodecrumbs = !!codecrumbsList.length;
             })
         )

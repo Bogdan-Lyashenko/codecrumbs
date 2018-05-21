@@ -35,6 +35,7 @@ const getCrumbs = fileCode => {
             [leadingComment, trailingComment].forEach(comment => {
                 if (comment && isCodecrumb(comment)) {
                     crumbsList.push({
+                        name: 'codecrumb',
                         crumbedLineNode: node,
                         crumbNode: comment,
                         crumbOptions: parseCodecrumbComment(comment)

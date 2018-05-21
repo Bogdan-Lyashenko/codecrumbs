@@ -1,5 +1,5 @@
 import { getCurvedPath } from '../../../utils/svgPrimitives';
-import { BLUE_COLOR, PURPLE_COLOR } from '../colors';
+import { BLUE_COLOR, PURPLE_COLOR } from '../constants';
 //TODO: move numbers to config per function
 
 const COLOR = BLUE_COLOR;

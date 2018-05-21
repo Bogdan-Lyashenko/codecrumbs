@@ -2,6 +2,7 @@ import React from 'react';
 import { buildShiftToPoint } from '../../utils/geometry';
 import SourceTree from './SourceTree/SourceTree';
 import DependenciesTree from './DependenciesTree/DependenciesTree';
+import CodeCrumbsTree from './CodeCrumbsTree/CodeCrumbsTree';
 import './TreeDiagram.css';
 
 const BOX_SIZE = 800;
@@ -49,7 +50,8 @@ class TreeDiagram extends React.Component {
             filesTreeLayoutNodes,
             dependenciesList,
             sourceDiagramOn,
-            dependenciesDiagramOn
+            dependenciesDiagramOn,
+            codeCrumbsDiagramOn
         } = this.props;
 
         return (
@@ -77,6 +79,17 @@ class TreeDiagram extends React.Component {
                             width={BOX_SIZE}
                             height={BOX_SIZE}
                             dependenciesEdgesLayer={this.dependenciesEdgesLayer}
+                        />
+                    )}
+
+                {filesTreeLayoutNodes &&
+                    codeCrumbsDiagramOn && (
+                        <CodeCrumbsTree
+                            filesTreeLayoutNodes={filesTreeLayoutNodes}
+                            shiftToCenterPoint={shiftToCenterPoint}
+                            width={BOX_SIZE}
+                            height={BOX_SIZE}
+                            iconsAndTextLayer={this.iconsAndTextLayer}
                         />
                     )}
             </React.Fragment>

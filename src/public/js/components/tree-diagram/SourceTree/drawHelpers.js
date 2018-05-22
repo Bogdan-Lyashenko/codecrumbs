@@ -71,7 +71,7 @@ export const drawFileIcon = (draw, shiftToCenterPoint, { x, y }) => {
     const fileIconPath = ICONS_DIR + 'js-file.svg';
     const fileIconSize = 15;
     const fileIconPointShiftX = 2;
-    const fileIconPointShiftY = 6;
+    const fileIconPointShiftY = 10;
     const fileIconPoint = shiftToCenterPoint(
         x + fileIconPointShiftX,
         y - fileIconPointShiftY
@@ -88,7 +88,7 @@ export const drawFolderText = (
     { x, y, name = '', disabled }
 ) => {
     const folderTextPointShiftX = 20;
-    const folderTextPointShiftY = 17;
+    const folderTextPointShiftY = 16;
 
     const folderTextPoint = shiftToCenterPoint(
         x + folderTextPointShiftX,

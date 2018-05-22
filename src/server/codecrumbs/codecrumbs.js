@@ -6,7 +6,8 @@ const CRUMB = 'codecrumb',
 
 const parseCodecrumbComment = (node = {}) => {
     const comment = node.value || '';
-    return { original: comment };
+    const afterAlias = comment.split(':')[1];
+    return { original: comment, name: afterAlias };
 };
 
 const isCodecrumb = (node = {}) => {
@@ -34,11 +35,13 @@ const getCrumbs = fileCode => {
 
             [leadingComment, trailingComment].forEach(comment => {
                 if (comment && isCodecrumb(comment)) {
+                    const crumbOptions = parseCodecrumbComment(comment);
+
                     crumbsList.push({
-                        name: 'codecrumb',
+                        name: crumbOptions.name || '', //TODO: check, can be bug with layout calc
                         crumbedLineNode: node,
                         crumbNode: comment,
-                        crumbOptions: parseCodecrumbComment(comment)
+                        crumbOptions
                     });
                 }
             });

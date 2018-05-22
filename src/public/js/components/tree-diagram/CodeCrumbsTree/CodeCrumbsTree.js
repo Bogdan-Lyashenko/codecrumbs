@@ -3,7 +3,7 @@ import React from 'react';
 import {
     drawCodeCrumbEdge,
     drawPartEdge,
-    drawCodeCrumbText
+    drawCodeCrumbLoc
 } from './drawHelpers';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../constants';
@@ -59,9 +59,11 @@ class CodeCrumbsTree extends React.Component {
                         parentName: node.data.name
                     });
 
-                    drawCodeCrumbText(primaryDraw, shiftToCenterPoint, {
+                    const loc = crumb.data.crumbedLineNode.loc.start;
+                    drawCodeCrumbLoc(primaryDraw, shiftToCenterPoint, {
                         x: cX,
                         y: cY,
+                        loc: `(${loc.line},${loc.column})`,
                         name: crumb.data.name
                     });
                 });

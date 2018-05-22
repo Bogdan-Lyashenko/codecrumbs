@@ -1,4 +1,4 @@
-export const PURPLE_COLOR = '#f06';
+export const PURPLE_COLOR = '#ff18a6';
 export const BLUE_COLOR = '#1890ff';
 
 export const FILE_NODE_TYPE = 'file';

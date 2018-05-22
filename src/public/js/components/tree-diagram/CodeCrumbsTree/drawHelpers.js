@@ -33,10 +33,10 @@ export const drawPartEdge = (
     { source, parentName }
 ) => {
     const nameWidth = SYMBOL_WIDTH * parentName.length;
-    const padding = 18;
+    const padding = 17;
 
     const P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
-    const P2 = { x: P1.x + padding + 4, y: P1.y };
+    const P2 = { x: P1.x + padding + 6, y: P1.y };
 
     const polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y]]);
 
@@ -47,22 +47,34 @@ export const drawPartEdge = (
     draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: PURPLE_COLOR });
 };
 
-export const drawCodeCrumbText = (
+export const drawCodeCrumbLoc = (
     draw,
     shiftToCenterPoint,
-    { x, y, name = '' }
+    { x, y, name = '', loc }
 ) => {
-    const text = draw.text(name);
-    text.font({ fill: '#595959', family: 'Menlo' });
-
     const textPointShiftX = 3;
-    const textPointShiftY = 8;
+    const textPointShiftY = 5;
     const textPoint = shiftToCenterPoint(x, y);
 
-    text.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
-
+    const locWidth = loc.length * 6;
     draw
-        .circle(4)
-        .fill(PURPLE_COLOR)
-        .move(textPoint.x - 2, textPoint.y - 2);
+        .rect(locWidth, 12)
+        .fill('#fff')
+        .stroke(PURPLE_COLOR)
+        .move(textPoint.x, textPoint.y - 6);
+
+    const locText = draw.text(loc);
+    locText.font({ fill: '#595959', family: 'Menlo', size: '8px' });
+    //TODO: refactor to use one way, plus or minus
+    locText.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+
+    if (name) {
+        const nameText = draw.text(':' + name);
+        nameText.font({ fill: '#595959', family: 'Menlo', size: '12px' });
+        //TODO: refactor to use one way, plus or minus
+        nameText.move(
+            textPoint.x + textPointShiftX + locWidth - 1,
+            textPoint.y - textPointShiftY - 2
+        );
+    }
 };

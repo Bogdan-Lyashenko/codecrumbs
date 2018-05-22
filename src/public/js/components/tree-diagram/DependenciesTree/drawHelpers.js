@@ -9,12 +9,12 @@ export const drawDependenciesEdge = (
     shiftToCenterPoint,
     { source, target, prevSource }
 ) => {
-    const padding = 20;
-    const halfPadding = padding / 2;
+    const padding = 30;
+    const halfPadding = padding / 2 - 5;
 
     const sourcePt = shiftToCenterPoint(
         target.y > source.y ? source.x + 10 : source.x + 8,
-        target.y > source.y ? source.y + 11 : source.y - 8
+        target.y > source.y ? source.y + 7 : source.y - 12
     );
     drawSourceDotLine(draw, sourcePt);
 

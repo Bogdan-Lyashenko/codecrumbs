@@ -66932,9 +66932,11 @@ var CodeCrumbsTree = function (_React$Component) {
                             parentName: node.data.name
                         });
 
-                        (0, _drawHelpers.drawCodeCrumbText)(primaryDraw, shiftToCenterPoint, {
+                        var loc = crumb.data.crumbedLineNode.loc.start;
+                        (0, _drawHelpers.drawCodeCrumbLoc)(primaryDraw, shiftToCenterPoint, {
                             x: cX,
                             y: cY,
+                            loc: '(' + loc.line + ',' + loc.column + ')',
                             name: crumb.data.name
                         });
                     });
@@ -66976,7 +66978,7 @@ exports.default = CodeCrumbsTree;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.drawCodeCrumbText = exports.drawPartEdge = exports.drawCodeCrumbEdge = undefined;
+exports.drawCodeCrumbLoc = exports.drawPartEdge = exports.drawCodeCrumbEdge = undefined;
 
 var _constants = __webpack_require__(/*! ../constants */ "./js/components/tree-diagram/constants.js");
 
@@ -67007,10 +67009,10 @@ var drawPartEdge = exports.drawPartEdge = function drawPartEdge(draw, shiftToCen
         parentName = _ref2.parentName;
 
     var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
-    var padding = 18;
+    var padding = 17;
 
     var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
-    var P2 = { x: P1.x + padding + 4, y: P1.y };
+    var P2 = { x: P1.x + padding + 6, y: P1.y };
 
     var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y]]);
 
@@ -67021,22 +67023,31 @@ var drawPartEdge = exports.drawPartEdge = function drawPartEdge(draw, shiftToCen
     draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: _constants.PURPLE_COLOR });
 };
 
-var drawCodeCrumbText = exports.drawCodeCrumbText = function drawCodeCrumbText(draw, shiftToCenterPoint, _ref3) {
+var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw, shiftToCenterPoint, _ref3) {
     var x = _ref3.x,
         y = _ref3.y,
         _ref3$name = _ref3.name,
-        name = _ref3$name === undefined ? '' : _ref3$name;
-
-    var text = draw.text(name);
-    text.font({ fill: '#595959', family: 'Menlo' });
+        name = _ref3$name === undefined ? '' : _ref3$name,
+        loc = _ref3.loc;
 
     var textPointShiftX = 3;
-    var textPointShiftY = 8;
+    var textPointShiftY = 5;
     var textPoint = shiftToCenterPoint(x, y);
 
-    text.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+    var locWidth = loc.length * 6;
+    draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
 
-    draw.circle(4).fill(_constants.PURPLE_COLOR).move(textPoint.x - 2, textPoint.y - 2);
+    var locText = draw.text(loc);
+    locText.font({ fill: '#595959', family: 'Menlo', size: '8px' });
+    //TODO: refactor to use one way, plus or minus
+    locText.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+
+    if (name) {
+        var nameText = draw.text(':' + name);
+        nameText.font({ fill: '#595959', family: 'Menlo', size: '12px' });
+        //TODO: refactor to use one way, plus or minus
+        nameText.move(textPoint.x + textPointShiftX + locWidth - 1, textPoint.y - textPointShiftY - 2);
+    }
 };
 
 /***/ }),
@@ -67215,10 +67226,10 @@ var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenc
         target = _ref.target,
         prevSource = _ref.prevSource;
 
-    var padding = 20;
-    var halfPadding = padding / 2;
+    var padding = 30;
+    var halfPadding = padding / 2 - 5;
 
-    var sourcePt = shiftToCenterPoint(target.y > source.y ? source.x + 10 : source.x + 8, target.y > source.y ? source.y + 11 : source.y - 8);
+    var sourcePt = shiftToCenterPoint(target.y > source.y ? source.x + 10 : source.x + 8, target.y > source.y ? source.y + 7 : source.y - 12);
     drawSourceDotLine(draw, sourcePt);
 
     if (!prevSource) {
@@ -67555,7 +67566,7 @@ var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCen
     var fileIconPath = ICONS_DIR + 'js-file.svg';
     var fileIconSize = 15;
     var fileIconPointShiftX = 2;
-    var fileIconPointShiftY = 6;
+    var fileIconPointShiftY = 10;
     var fileIconPoint = shiftToCenterPoint(x + fileIconPointShiftX, y - fileIconPointShiftY);
 
     draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
@@ -67569,7 +67580,7 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
         disabled = _ref5.disabled;
 
     var folderTextPointShiftX = 20;
-    var folderTextPointShiftY = 17;
+    var folderTextPointShiftY = 16;
 
     var folderTextPoint = shiftToCenterPoint(x + folderTextPointShiftX, y - folderTextPointShiftY);
 
@@ -67806,7 +67817,7 @@ exports.default = TreeDiagram;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var PURPLE_COLOR = exports.PURPLE_COLOR = '#f06';
+var PURPLE_COLOR = exports.PURPLE_COLOR = '#ff18a6';
 var BLUE_COLOR = exports.BLUE_COLOR = '#1890ff';
 
 var FILE_NODE_TYPE = exports.FILE_NODE_TYPE = 'file';

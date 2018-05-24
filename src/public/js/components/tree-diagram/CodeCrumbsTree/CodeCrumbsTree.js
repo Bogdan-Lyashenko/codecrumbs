@@ -41,26 +41,30 @@ class CodeCrumbsTree extends React.Component {
                     parentName: node.data.name
                 });
 
-                node.children.forEach(crumb => {
+                node.children.forEach((crumb, i, list) => {
                     const [cX, cY] = [crumb.y, crumb.x];
-                    drawCodeCrumbEdge(primaryDraw, shiftToCenterPoint, {
-                        source: {
-                            x: nX,
-                            y: nY
-                        },
-                        target: {
-                            x: cX,
-                            y: cY
-                        },
-                        parentName: node.data.name
-                    });
+                    const singleCrumb = list.length === 1;
+
+                    !singleCrumb &&
+                        drawCodeCrumbEdge(primaryDraw, shiftToCenterPoint, {
+                            source: {
+                                x: nX,
+                                y: nY
+                            },
+                            target: {
+                                x: cX,
+                                y: cY
+                            },
+                            parentName: node.data.name
+                        });
 
                     const loc = crumb.data.crumbedLineNode.loc.start;
                     drawCodeCrumbLoc(primaryDraw, shiftToCenterPoint, {
                         x: cX,
                         y: cY,
                         loc: `(${loc.line},${loc.column})`,
-                        name: crumb.data.name
+                        name: crumb.data.name,
+                        singleCrumb
                     });
                 });
             }

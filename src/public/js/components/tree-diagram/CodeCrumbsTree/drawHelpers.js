@@ -50,11 +50,11 @@ export const drawPartEdge = (
 export const drawCodeCrumbLoc = (
     draw,
     shiftToCenterPoint,
-    { x, y, name = '', loc }
+    { x, y, name = '', loc, singleCrumb }
 ) => {
     const textPointShiftX = 3;
     const textPointShiftY = 5;
-    const textPoint = shiftToCenterPoint(x, y);
+    const textPoint = shiftToCenterPoint(singleCrumb ? x - 20 : x, y);
 
     const locWidth = loc.length * 6;
     draw

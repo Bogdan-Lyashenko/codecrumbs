@@ -41,6 +41,7 @@ class SourceTree extends React.Component {
 
             if (parent && parent.data.type === DIR_NODE_TYPE) {
                 const [pX, pY] = [parent.y, parent.x];
+
                 drawSourceEdge(secondaryDraw, shiftToCenterPoint, {
                     disabled: dependenciesDiagramOn,
                     target: {
@@ -50,7 +51,8 @@ class SourceTree extends React.Component {
                     source: {
                         x: pX,
                         y: pY
-                    }
+                    },
+                    singleChild: parent.children.length === 1
                 });
             }
 

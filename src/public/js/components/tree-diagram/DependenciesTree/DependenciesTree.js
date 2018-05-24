@@ -1,31 +1,18 @@
-import SVG from 'svg.js';
 import React from 'react';
 import { drawDependenciesEdge } from './drawHelpers';
 import { getFilesList } from '../treeLayout';
+import { withSvgDraw } from '../SvgDraw';
 
 class DependenciesTree extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.svgDraw = null;
-        this.svgElementsSet = null; //
-    }
-
     componentDidMount() {
-        const { width, height, dependenciesEdgesLayer } = this.props;
-
-        this.svgDraw = SVG(dependenciesEdgesLayer).size(width, height); //TODO: props for size
-        this.drawTree(this.svgDraw);
+        this.drawTree();
     }
 
     componentDidUpdate() {
-        this.svgDraw.clear();
-        this.drawTree(this.svgDraw);
-    }
+        const { primaryDraw } = this.props;
 
-    componentWillUnmount() {
-        const { dependenciesEdgesLayer } = this.props;
-        dependenciesEdgesLayer.removeChild(this.svgDraw.node);
+        primaryDraw.clear();
+        this.drawTree();
     }
 
     //move to utils
@@ -33,8 +20,9 @@ class DependenciesTree extends React.Component {
         return list.find(l => l.data.path === pathName);
     };
 
-    drawTree(draw) {
+    drawTree() {
         const {
+            primaryDraw,
             filesTreeLayoutNodes,
             dependenciesList,
             shiftToCenterPoint
@@ -62,7 +50,7 @@ class DependenciesTree extends React.Component {
                 //2) done: without overlaying, not fot all cases
                 //3) rounded angles
                 const source = { x: iX, y: iY };
-                drawDependenciesEdge(draw, shiftToCenterPoint, {
+                drawDependenciesEdge(primaryDraw, shiftToCenterPoint, {
                     source,
                     target: { x: mX, y: mY },
                     prevSource
@@ -78,4 +66,4 @@ class DependenciesTree extends React.Component {
     }
 }
 
-export default DependenciesTree;
+export default withSvgDraw(DependenciesTree);

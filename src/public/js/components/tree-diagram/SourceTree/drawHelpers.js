@@ -103,7 +103,7 @@ export const drawFolderText = (
         .opacity(0.8);
     rect.move(folderTextPoint.x, folderTextPoint.y + 2);
 
-    const fill = !disabled ? '#595959' : '#ccc';
+    const fill = !disabled ? '#595959' : '#A9A8A8';
     const text = draw.text(name);
     text.font({ fill, family: 'Menlo' });
 

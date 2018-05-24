@@ -1,5 +1,5 @@
 import { getCurvedPath } from '../../../utils/svgPrimitives';
-import { BLUE_COLOR, PURPLE_COLOR,SYMBOL_WIDTH } from '../constants';
+import { BLUE_COLOR, PURPLE_COLOR, SYMBOL_WIDTH } from '../constants';
 
 //TODO: move numbers to config per function
 //create object instead
@@ -31,21 +31,25 @@ export const drawDot = (
 export const drawSourceEdge = (
     draw,
     shiftToCenterPoint,
-    { target, source, disabled }
+    { target, source, disabled, singleChild }
 ) => {
     const edgeTurnDistance = 20;
 
-    const P1 = shiftToCenterPoint(source.x, source.y);
+    const START_PT = shiftToCenterPoint(source.x, source.y);
     const P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
     const P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
-    const P4 = shiftToCenterPoint(target.x, target.y);
+    const END_PT = shiftToCenterPoint(target.x, target.y);
 
-    const polyline = draw.polyline([
-        [P1.x, P1.y],
-        [P2.x, P2.y],
-        [P3.x, P3.y],
-        [P4.x, P4.y]
-    ]);
+    const points = singleChild
+        ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]]
+        : [
+              [START_PT.x, START_PT.y],
+              [P2.x, P2.y],
+              [P3.x, P3.y],
+              [END_PT.x, END_PT.y]
+          ];
+
+    const polyline = draw.polyline(points);
 
     const color = !disabled ? '#BFBFBF' : '#ccc';
     polyline.fill('none').stroke({
@@ -96,7 +100,7 @@ export const drawFolderText = (
     );
 
     //TODO: add the same for file text
-    const textSize = name.length * SYMBOL_WIDTH;//TODO: refactor to not calculate each time
+    const textSize = name.length * SYMBOL_WIDTH; //TODO: refactor to not calculate each time
     const rect = draw
         .rect(textSize, 13)
         .fill('#fff')

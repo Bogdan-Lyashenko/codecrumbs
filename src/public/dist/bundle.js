@@ -66906,12 +66906,14 @@ var CodeCrumbsTree = function (_React$Component) {
                         parentName: node.data.name
                     });
 
-                    node.children.forEach(function (crumb) {
+                    node.children.forEach(function (crumb, i, list) {
                         var _ref2 = [crumb.y, crumb.x],
                             cX = _ref2[0],
                             cY = _ref2[1];
 
-                        (0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
+                        var singleCrumb = list.length === 1;
+
+                        !singleCrumb && (0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
                             source: {
                                 x: nX,
                                 y: nY
@@ -66928,7 +66930,8 @@ var CodeCrumbsTree = function (_React$Component) {
                             x: cX,
                             y: cY,
                             loc: '(' + loc.line + ',' + loc.column + ')',
-                            name: crumb.data.name
+                            name: crumb.data.name,
+                            singleCrumb: singleCrumb
                         });
                     });
                 }
@@ -67011,11 +67014,12 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
         y = _ref3.y,
         _ref3$name = _ref3.name,
         name = _ref3$name === undefined ? '' : _ref3$name,
-        loc = _ref3.loc;
+        loc = _ref3.loc,
+        singleCrumb = _ref3.singleCrumb;
 
     var textPointShiftX = 3;
     var textPointShiftY = 5;
-    var textPoint = shiftToCenterPoint(x, y);
+    var textPoint = shiftToCenterPoint(singleCrumb ? x - 20 : x, y);
 
     var locWidth = loc.length * 6;
     draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
@@ -67357,6 +67361,7 @@ var SourceTree = function (_React$Component) {
                         pX = _ref2[0],
                         pY = _ref2[1];
 
+
                     (0, _drawHelpers.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
                         disabled: dependenciesDiagramOn,
                         target: {
@@ -67366,7 +67371,8 @@ var SourceTree = function (_React$Component) {
                         source: {
                             x: pX,
                             y: pY
-                        }
+                        },
+                        singleChild: parent.children.length === 1
                     });
                 }
 
@@ -67469,16 +67475,19 @@ var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, _ref)
 var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shiftToCenterPoint, _ref2) {
     var target = _ref2.target,
         source = _ref2.source,
-        disabled = _ref2.disabled;
+        disabled = _ref2.disabled,
+        singleChild = _ref2.singleChild;
 
     var edgeTurnDistance = 20;
 
-    var P1 = shiftToCenterPoint(source.x, source.y);
+    var START_PT = shiftToCenterPoint(source.x, source.y);
     var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
     var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
-    var P4 = shiftToCenterPoint(target.x, target.y);
+    var END_PT = shiftToCenterPoint(target.x, target.y);
 
-    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
+    var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
+
+    var polyline = draw.polyline(points);
 
     var color = !disabled ? '#BFBFBF' : '#ccc';
     polyline.fill('none').stroke({

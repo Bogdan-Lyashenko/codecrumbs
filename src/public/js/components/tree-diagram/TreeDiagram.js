@@ -63,8 +63,8 @@ class TreeDiagram extends React.Component {
                             shiftToCenterPoint={shiftToCenterPoint}
                             width={BOX_SIZE}
                             height={BOX_SIZE}
-                            sourceEdgesLayer={this.sourceEdgesLayer}
-                            iconsAndTextLayer={this.iconsAndTextLayer}
+                            secondaryLayer={this.sourceEdgesLayer}
+                            primaryLayer={this.iconsAndTextLayer}
                             dependenciesDiagramOn={dependenciesDiagramOn}
                         />
                     )}
@@ -78,7 +78,7 @@ class TreeDiagram extends React.Component {
                             shiftToCenterPoint={shiftToCenterPoint}
                             width={BOX_SIZE}
                             height={BOX_SIZE}
-                            dependenciesEdgesLayer={this.dependenciesEdgesLayer}
+                            primaryLayer={this.dependenciesEdgesLayer}
                         />
                     )}
 
@@ -89,7 +89,7 @@ class TreeDiagram extends React.Component {
                             shiftToCenterPoint={shiftToCenterPoint}
                             width={BOX_SIZE}
                             height={BOX_SIZE}
-                            iconsAndTextLayer={this.iconsAndTextLayer}
+                            primaryLayer={this.iconsAndTextLayer}
                         />
                     )}
             </React.Fragment>

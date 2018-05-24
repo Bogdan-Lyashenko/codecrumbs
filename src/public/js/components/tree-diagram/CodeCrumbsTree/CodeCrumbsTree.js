@@ -1,5 +1,5 @@
-import SVG from 'svg.js';
 import React from 'react';
+import { withSvgDraw } from '../SvgDraw';
 import {
     drawCodeCrumbEdge,
     drawPartEdge,
@@ -10,27 +10,23 @@ import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../constants';
 import { getFilesList } from '../treeLayout';
 
 class CodeCrumbsTree extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.svgDraw = null;
-        this.svgElementsSet = null; //
-    }
-
     componentDidMount() {
-        const { width, height, iconsAndTextLayer } = this.props;
-
-        this.svgDraw = SVG(iconsAndTextLayer).size(width, height);
-        this.drawTree(this.svgDraw);
+        this.drawTree();
     }
 
     componentDidUpdate() {
-        this.svgDraw.clear();
-        this.drawTree(this.svgDraw);
+        const { primaryDraw } = this.props;
+
+        primaryDraw.clear();
+        this.drawTree();
     }
 
-    drawTree(primaryDraw) {
-        const { filesTreeLayoutNodes, shiftToCenterPoint } = this.props;
+    drawTree() {
+        const {
+            primaryDraw,
+            filesTreeLayoutNodes,
+            shiftToCenterPoint
+        } = this.props;
 
         const filesList = getFilesList(filesTreeLayoutNodes);
         filesList.forEach(node => {
@@ -71,15 +67,9 @@ class CodeCrumbsTree extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        const { iconsAndTextLayer } = this.props;
-
-        iconsAndTextLayer.removeChild(this.svgDraw.node);
-    }
-
     render() {
         return null;
     }
 }
 
-export default CodeCrumbsTree;
+export default withSvgDraw(CodeCrumbsTree);

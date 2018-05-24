@@ -66838,13 +66838,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
-
-var _svg2 = _interopRequireDefault(_svg);
-
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagram/SvgDraw.js");
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/CodeCrumbsTree/drawHelpers.js");
 
@@ -66863,40 +66861,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CodeCrumbsTree = function (_React$Component) {
     _inherits(CodeCrumbsTree, _React$Component);
 
-    function CodeCrumbsTree(props) {
+    function CodeCrumbsTree() {
         _classCallCheck(this, CodeCrumbsTree);
 
-        var _this = _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).call(this, props));
-
-        _this.svgDraw = null;
-        _this.svgElementsSet = null; //
-        return _this;
+        return _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).apply(this, arguments));
     }
 
     _createClass(CodeCrumbsTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _props = this.props,
-                width = _props.width,
-                height = _props.height,
-                iconsAndTextLayer = _props.iconsAndTextLayer;
-
-
-            this.svgDraw = (0, _svg2.default)(iconsAndTextLayer).size(width, height);
-            this.drawTree(this.svgDraw);
+            this.drawTree();
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            this.svgDraw.clear();
-            this.drawTree(this.svgDraw);
+            var primaryDraw = this.props.primaryDraw;
+
+
+            primaryDraw.clear();
+            this.drawTree();
         }
     }, {
         key: 'drawTree',
-        value: function drawTree(primaryDraw) {
-            var _props2 = this.props,
-                filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
-                shiftToCenterPoint = _props2.shiftToCenterPoint;
+        value: function drawTree() {
+            var _props = this.props,
+                primaryDraw = _props.primaryDraw,
+                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+                shiftToCenterPoint = _props.shiftToCenterPoint;
 
 
             var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
@@ -66944,14 +66935,6 @@ var CodeCrumbsTree = function (_React$Component) {
             });
         }
     }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            var iconsAndTextLayer = this.props.iconsAndTextLayer;
-
-
-            iconsAndTextLayer.removeChild(this.svgDraw.node);
-        }
-    }, {
         key: 'render',
         value: function render() {
             return null;
@@ -66961,7 +66944,7 @@ var CodeCrumbsTree = function (_React$Component) {
     return CodeCrumbsTree;
 }(_react2.default.Component);
 
-exports.default = CodeCrumbsTree;
+exports.default = (0, _SvgDraw.withSvgDraw)(CodeCrumbsTree);
 
 /***/ }),
 
@@ -67068,10 +67051,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
-
-var _svg2 = _interopRequireDefault(_svg);
-
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
@@ -67079,6 +67058,8 @@ var _react2 = _interopRequireDefault(_react);
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/DependenciesTree/drawHelpers.js");
 
 var _treeLayout = __webpack_require__(/*! ../treeLayout */ "./js/components/tree-diagram/treeLayout.js");
+
+var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagram/SvgDraw.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67091,90 +67072,82 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var DependenciesTree = function (_React$Component) {
     _inherits(DependenciesTree, _React$Component);
 
-    function DependenciesTree(props) {
+    function DependenciesTree() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, DependenciesTree);
 
-        var _this = _possibleConstructorReturn(this, (DependenciesTree.__proto__ || Object.getPrototypeOf(DependenciesTree)).call(this, props));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-        _this.findNodeByPathName = function () {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DependenciesTree.__proto__ || Object.getPrototypeOf(DependenciesTree)).call.apply(_ref, [this].concat(args))), _this), _this.findNodeByPathName = function () {
             var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
             var pathName = arguments[1];
 
             return list.find(function (l) {
                 return l.data.path === pathName;
             });
-        };
-
-        _this.svgDraw = null;
-        _this.svgElementsSet = null; //
-        return _this;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(DependenciesTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _props = this.props,
-                width = _props.width,
-                height = _props.height,
-                dependenciesEdgesLayer = _props.dependenciesEdgesLayer;
-
-
-            this.svgDraw = (0, _svg2.default)(dependenciesEdgesLayer).size(width, height); //TODO: props for size
-            this.drawTree(this.svgDraw);
+            this.drawTree();
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            this.svgDraw.clear();
-            this.drawTree(this.svgDraw);
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            var dependenciesEdgesLayer = this.props.dependenciesEdgesLayer;
+            var primaryDraw = this.props.primaryDraw;
 
-            dependenciesEdgesLayer.removeChild(this.svgDraw.node);
+
+            primaryDraw.clear();
+            this.drawTree();
         }
 
         //move to utils
 
     }, {
         key: 'drawTree',
-        value: function drawTree(draw) {
+        value: function drawTree() {
             var _this2 = this;
 
-            var _props2 = this.props,
-                filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
-                dependenciesList = _props2.dependenciesList,
-                shiftToCenterPoint = _props2.shiftToCenterPoint;
+            var _props = this.props,
+                primaryDraw = _props.primaryDraw,
+                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+                dependenciesList = _props.dependenciesList,
+                shiftToCenterPoint = _props.shiftToCenterPoint;
 
 
             var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
 
-            dependenciesList.forEach(function (_ref) {
-                var moduleName = _ref.moduleName,
-                    importedModuleNames = _ref.importedModuleNames;
+            dependenciesList.forEach(function (_ref2) {
+                var moduleName = _ref2.moduleName,
+                    importedModuleNames = _ref2.importedModuleNames;
 
                 var moduleNode = _this2.findNodeByPathName(moduleFilesList, moduleName);
 
-                var _ref2 = [moduleNode.y, moduleNode.x],
-                    mX = _ref2[0],
-                    mY = _ref2[1];
+                var _ref3 = [moduleNode.y, moduleNode.x],
+                    mX = _ref3[0],
+                    mY = _ref3[1];
 
 
                 importedModuleNames.reduce(function (prevSource, name) {
                     var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
 
-                    var _ref3 = [importedNode.y, importedNode.x],
-                        iX = _ref3[0],
-                        iY = _ref3[1];
+                    var _ref4 = [importedNode.y, importedNode.x],
+                        iX = _ref4[0],
+                        iY = _ref4[1];
                     //TODO: implementation iterations:
                     //1) done: first with sharp angles + overlay
                     //2) done: without overlaying, not fot all cases
                     //3) rounded angles
 
                     var source = { x: iX, y: iY };
-                    (0, _drawHelpers.drawDependenciesEdge)(draw, shiftToCenterPoint, {
+                    (0, _drawHelpers.drawDependenciesEdge)(primaryDraw, shiftToCenterPoint, {
                         source: source,
                         target: { x: mX, y: mY },
                         prevSource: prevSource
@@ -67194,7 +67167,7 @@ var DependenciesTree = function (_React$Component) {
     return DependenciesTree;
 }(_react2.default.Component);
 
-exports.default = DependenciesTree;
+exports.default = (0, _SvgDraw.withSvgDraw)(DependenciesTree);
 
 /***/ }),
 
@@ -67315,13 +67288,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
-
-var _svg2 = _interopRequireDefault(_svg);
-
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagram/SvgDraw.js");
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/SourceTree/drawHelpers.js");
 
@@ -67338,53 +67309,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SourceTree = function (_React$Component) {
     _inherits(SourceTree, _React$Component);
 
-    function SourceTree(props) {
+    function SourceTree() {
         _classCallCheck(this, SourceTree);
 
-        var _this = _possibleConstructorReturn(this, (SourceTree.__proto__ || Object.getPrototypeOf(SourceTree)).call(this, props));
-
-        _this.svgDraw = null;
-        _this.svgElementsSet = null; //
-        return _this;
+        return _possibleConstructorReturn(this, (SourceTree.__proto__ || Object.getPrototypeOf(SourceTree)).apply(this, arguments));
     }
 
     _createClass(SourceTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _props = this.props,
-                width = _props.width,
-                height = _props.height,
-                iconsAndTextLayer = _props.iconsAndTextLayer,
-                sourceEdgesLayer = _props.sourceEdgesLayer;
-
-            //this can be moved out to HOC (and used inside Dep, and CC trees)
-
-            this.drawOnIconsAndTextLayer = (0, _svg2.default)(iconsAndTextLayer).size(width, height);
-
-            this.drawOnSourceEdgesLayer = (0, _svg2.default)(sourceEdgesLayer).size(width, height);
-
-            this.drawTree({
-                primaryDraw: this.drawOnIconsAndTextLayer,
-                secondaryDraw: this.drawOnSourceEdgesLayer
-            });
+            this.drawTree();
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            this.drawOnSourceEdgesLayer.clear();
-            this.drawOnIconsAndTextLayer.clear();
+            var _props = this.props,
+                primaryDraw = _props.primaryDraw,
+                secondaryDraw = _props.secondaryDraw;
 
-            this.drawTree({
-                primaryDraw: this.drawOnIconsAndTextLayer,
-                secondaryDraw: this.drawOnSourceEdgesLayer
-            });
+
+            primaryDraw.clear();
+            secondaryDraw.clear();
+
+            this.drawTree();
         }
     }, {
         key: 'drawTree',
-        value: function drawTree(_ref) {
-            var primaryDraw = _ref.primaryDraw,
-                secondaryDraw = _ref.secondaryDraw;
+        value: function drawTree() {
             var _props2 = this.props,
+                primaryDraw = _props2.primaryDraw,
+                secondaryDraw = _props2.secondaryDraw,
                 layoutNodes = _props2.layoutNodes,
                 shiftToCenterPoint = _props2.shiftToCenterPoint,
                 dependenciesDiagramOn = _props2.dependenciesDiagramOn;
@@ -67392,16 +67346,16 @@ var SourceTree = function (_React$Component) {
             //note: instance from d3-flex tree, not Array
 
             layoutNodes.each(function (node) {
-                var _ref2 = [node.y, node.x],
-                    nX = _ref2[0],
-                    nY = _ref2[1];
+                var _ref = [node.y, node.x],
+                    nX = _ref[0],
+                    nY = _ref[1];
 
                 var parent = node.parent;
 
                 if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
-                    var _ref3 = [parent.y, parent.x],
-                        pX = _ref3[0],
-                        pY = _ref3[1];
+                    var _ref2 = [parent.y, parent.x],
+                        pX = _ref2[0],
+                        pY = _ref2[1];
 
                     (0, _drawHelpers.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
                         disabled: dependenciesDiagramOn,
@@ -67455,17 +67409,6 @@ var SourceTree = function (_React$Component) {
             });
         }
     }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            var _props3 = this.props,
-                sourceEdgesLayer = _props3.sourceEdgesLayer,
-                iconsAndTextLayer = _props3.iconsAndTextLayer;
-
-
-            sourceEdgesLayer.removeChild(this.drawOnSourceEdgesLayer.node);
-            iconsAndTextLayer.removeChild(this.drawOnIconsAndTextLayer.node);
-        }
-    }, {
         key: 'render',
         value: function render() {
             return null;
@@ -67475,7 +67418,7 @@ var SourceTree = function (_React$Component) {
     return SourceTree;
 }(_react2.default.Component);
 
-exports.default = SourceTree;
+exports.default = (0, _SvgDraw.withSvgDraw)(SourceTree);
 
 /***/ }),
 
@@ -67589,7 +67532,7 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
     var rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
     rect.move(folderTextPoint.x, folderTextPoint.y + 2);
 
-    var fill = !disabled ? '#595959' : '#ccc';
+    var fill = !disabled ? '#595959' : '#A9A8A8';
     var text = draw.text(name);
     text.font({ fill: fill, family: 'Menlo' });
 
@@ -67608,6 +67551,113 @@ var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shif
     var folderIconPoint = shiftToCenterPoint(x + folderIconPointShiftX, y - folderIconPointShiftY);
 
     draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/SvgDraw.js":
+/*!***********************************************!*\
+  !*** ./js/components/tree-diagram/SvgDraw.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.withSvgDraw = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
+
+var _svg2 = _interopRequireDefault(_svg);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
+    return function (_React$Component) {
+        _inherits(_class2, _React$Component);
+
+        function _class2() {
+            var _ref;
+
+            var _temp, _this, _ret;
+
+            _classCallCheck(this, _class2);
+
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
+
+            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class2.__proto__ || Object.getPrototypeOf(_class2)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
+        }
+
+        _createClass(_class2, [{
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                var _props = this.props,
+                    width = _props.width,
+                    height = _props.height,
+                    primaryLayer = _props.primaryLayer,
+                    secondaryLayer = _props.secondaryLayer;
+
+
+                var subState = {
+                    primaryDraw: (0, _svg2.default)(primaryLayer).size(width, height)
+                };
+
+                if (secondaryLayer) {
+                    subState = _extends({}, subState, {
+                        secondaryDraw: (0, _svg2.default)(secondaryLayer).size(width, height)
+                    });
+                }
+
+                this.setState(subState);
+            }
+        }, {
+            key: 'componentWillUnmount',
+            value: function componentWillUnmount() {
+                var _props2 = this.props,
+                    primaryLayer = _props2.primaryLayer,
+                    secondaryLayer = _props2.secondaryLayer;
+
+
+                primaryLayer.removeChild(this.state.primaryDraw.node);
+                secondaryLayer && secondaryLayer.removeChild(this.state.secondaryDraw.node);
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _state = this.state,
+                    primaryDraw = _state.primaryDraw,
+                    secondaryDraw = _state.secondaryDraw;
+
+
+                return primaryDraw && _react2.default.createElement(Component, _extends({}, this.props, {
+                    primaryDraw: primaryDraw,
+                    secondaryDraw: secondaryDraw
+                })) || null;
+            }
+        }]);
+
+        return _class2;
+    }(_react2.default.Component);
 };
 
 /***/ }),
@@ -67761,8 +67811,8 @@ var TreeDiagram = function (_React$Component) {
                     shiftToCenterPoint: shiftToCenterPoint,
                     width: BOX_SIZE,
                     height: BOX_SIZE,
-                    sourceEdgesLayer: this.sourceEdgesLayer,
-                    iconsAndTextLayer: this.iconsAndTextLayer,
+                    secondaryLayer: this.sourceEdgesLayer,
+                    primaryLayer: this.iconsAndTextLayer,
                     dependenciesDiagramOn: dependenciesDiagramOn
                 }),
                 dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, {
@@ -67771,14 +67821,14 @@ var TreeDiagram = function (_React$Component) {
                     shiftToCenterPoint: shiftToCenterPoint,
                     width: BOX_SIZE,
                     height: BOX_SIZE,
-                    dependenciesEdgesLayer: this.dependenciesEdgesLayer
+                    primaryLayer: this.dependenciesEdgesLayer
                 }),
                 filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, {
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
                     shiftToCenterPoint: shiftToCenterPoint,
                     width: BOX_SIZE,
                     height: BOX_SIZE,
-                    iconsAndTextLayer: this.iconsAndTextLayer
+                    primaryLayer: this.iconsAndTextLayer
                 })
             );
         }

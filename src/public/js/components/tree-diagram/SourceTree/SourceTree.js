@@ -1,5 +1,5 @@
-import SVG from 'svg.js';
 import React from 'react';
+import { withSvgDraw } from '../SvgDraw';
 import {
     drawDot,
     drawSourceEdge,
@@ -12,47 +12,23 @@ import {
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../constants';
 
 class SourceTree extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.svgDraw = null;
-        this.svgElementsSet = null; //
-    }
-
     componentDidMount() {
-        const {
-            width,
-            height,
-            iconsAndTextLayer,//TODO: refactor to 'primary' layout
-            sourceEdgesLayer//TODO: refactor to 'secondary' layout
-        } = this.props;
-
-        //this can be moved out to HOC (and used inside Dep, and CC trees)
-        this.drawOnIconsAndTextLayer = SVG(iconsAndTextLayer).size(
-            width,
-            height
-        );
-
-        this.drawOnSourceEdgesLayer = SVG(sourceEdgesLayer).size(width, height);
-
-        this.drawTree({
-            primaryDraw: this.drawOnIconsAndTextLayer,
-            secondaryDraw: this.drawOnSourceEdgesLayer
-        });
+        this.drawTree();
     }
 
     componentDidUpdate() {
-        this.drawOnSourceEdgesLayer.clear();
-        this.drawOnIconsAndTextLayer.clear();
+        const { primaryDraw, secondaryDraw } = this.props;
 
-        this.drawTree({
-            primaryDraw: this.drawOnIconsAndTextLayer,
-            secondaryDraw: this.drawOnSourceEdgesLayer
-        });
+        primaryDraw.clear();
+        secondaryDraw.clear();
+
+        this.drawTree();
     }
 
-    drawTree({ primaryDraw, secondaryDraw }) {
+    drawTree() {
         const {
+            primaryDraw,
+            secondaryDraw,
             layoutNodes,
             shiftToCenterPoint,
             dependenciesDiagramOn
@@ -117,16 +93,9 @@ class SourceTree extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        const { sourceEdgesLayer, iconsAndTextLayer } = this.props;
-
-        sourceEdgesLayer.removeChild(this.drawOnSourceEdgesLayer.node);
-        iconsAndTextLayer.removeChild(this.drawOnIconsAndTextLayer.node);
-    }
-
     render() {
         return null;
     }
 }
 
-export default SourceTree;
+export default withSvgDraw(SourceTree);

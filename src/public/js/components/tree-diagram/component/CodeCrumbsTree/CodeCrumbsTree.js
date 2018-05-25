@@ -6,8 +6,8 @@ import {
     drawCodeCrumbLoc
 } from './drawHelpers';
 
-import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../constants';
-import { getFilesList } from '../treeLayout';
+import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../store/constants';
+import { getFilesList } from '../../../../utils/treeLayout';
 
 class CodeCrumbsTree extends React.Component {
     componentDidMount() {
@@ -25,7 +25,8 @@ class CodeCrumbsTree extends React.Component {
         const {
             primaryDraw,
             filesTreeLayoutNodes,
-            shiftToCenterPoint
+            shiftToCenterPoint,
+            onCodeCrumbMouseOver
         } = this.props;
 
         const filesList = getFilesList(filesTreeLayoutNodes);
@@ -64,7 +65,13 @@ class CodeCrumbsTree extends React.Component {
                         y: cY,
                         loc: `(${loc.line},${loc.column})`,
                         name: crumb.data.name,
-                        singleCrumb
+                        singleCrumb,
+                        onMouseOver(position) {
+                            onCodeCrumbMouseOver(node.data, position)
+                        },
+                        onClick() {
+                            console.log(node.data.fileCode)
+                        }
                     });
                 });
             }

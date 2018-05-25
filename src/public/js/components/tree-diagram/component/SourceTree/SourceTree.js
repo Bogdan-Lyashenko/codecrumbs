@@ -9,7 +9,7 @@ import {
     drawFolderIcon
 } from './drawHelpers';
 
-import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../constants';
+import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../store/constants';
 
 class SourceTree extends React.Component {
     componentDidMount() {

@@ -1,15 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import devProcessTesting from './utils/dev-test';
+
 import { createConnection } from './utils/connection';
+import { getTreeLayout } from './utils/treeLayout';
 import { SOCKET_EVENT_TYPE } from '../../shared/constants';
-import ViewsSwitchList, {
-    SWITCH_KEYS
-} from './components/controls/ViewsSwitchList';
-import TreeDiagram from './components/tree-diagram/TreeDiagram';
-import {
-    getTreeLayout,
-    getTreeLayoutWithCodeCrumbs
-} from './components/tree-diagram/treeLayout';
+
+import ViewsSwitches from './components/controls/ViewSwitches/ViewSwitchesContainer';
+import TreeDiagram from './components/tree-diagram/TreeDiagramContainer';
+
+//TODO: move out logic, just pass
+import { SWITCH_KEYS } from './components/controls/ViewSwitches/store/constants';
 
 import './App.css';
 
@@ -18,12 +19,6 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            switchesOn: {
-                [SWITCH_KEYS.SOURCE]: true,
-                [SWITCH_KEYS.DEPENDENCIES]: false, //TODO: false
-                [SWITCH_KEYS.CODE_CRUMBS]: false
-            },
-
             filesTreeLayoutNodes: null,
             filesTree: null,
             filesList: null,
@@ -35,35 +30,29 @@ class App extends React.Component {
         createConnection(({ type, data }) => this.onSocketEvent(type, data));
     }
 
-    onSwitchChange = (key, checked) => {
-        let subState = {
-            switchesOn: {
-                ...this.state.switchesOn,
-                [key]: checked
-            }
-        };
-
-        if (key === SWITCH_KEYS.CODE_CRUMBS) {
-            subState = {
-                ...subState,
-                filesTreeLayoutNodes: getTreeLayout(
-                    this.state.filesTree,
-                    checked
-                )
-            };
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.codeCrumbsDiagramOn === this.props.codeCrumbsDiagramOn) {
+            return;
         }
 
-        this.setState(subState);
-    };
+        this.setState({
+            ...this.state,
+            filesTreeLayoutNodes: getTreeLayout(
+                this.state.filesTree,
+                nextProps.codeCrumbsDiagramOn
+            )
+        });
+    }
 
     onSocketEvent(type, data) {
         switch (type) {
             case SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
-                const { switchesOn } = this.state;
+                const { codeCrumbsDiagramOn } = this.props;
+
                 const { filesTree, filesList, dependenciesList } = data.body;
                 const filesTreeLayoutNodes = getTreeLayout(
                     filesTree,
-                    switchesOn[SWITCH_KEYS.CODE_CRUMBS]
+                    codeCrumbsDiagramOn
                 );
 
                 this.setState({
@@ -80,25 +69,15 @@ class App extends React.Component {
     }
 
     render() {
-        const {
-            filesTreeLayoutNodes,
-            dependenciesList,
-            switchesOn
-        } = this.state;
+        const { filesTreeLayoutNodes, dependenciesList } = this.state;
 
         return (
             <div className="App-container">
-                <ViewsSwitchList
-                    defaultChecked={SWITCH_KEYS.SOURCE}
-                    onChange={this.onSwitchChange}
-                />
+                <ViewsSwitches />
 
                 <TreeDiagram
                     filesTreeLayoutNodes={filesTreeLayoutNodes}
                     dependenciesList={dependenciesList}
-                    sourceDiagramOn={switchesOn[SWITCH_KEYS.SOURCE]}
-                    dependenciesDiagramOn={switchesOn[SWITCH_KEYS.DEPENDENCIES]}
-                    codeCrumbsDiagramOn={switchesOn[SWITCH_KEYS.CODE_CRUMBS]}
                 />
 
                 <footer className="App-footer">
@@ -112,4 +91,12 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    const { checkedState } = state.viewSwitches;
+
+    return {
+        codeCrumbsDiagramOn: checkedState[SWITCH_KEYS.CODE_CRUMBS]
+    };
+};
+
+export default connect(mapStateToProps)(App);

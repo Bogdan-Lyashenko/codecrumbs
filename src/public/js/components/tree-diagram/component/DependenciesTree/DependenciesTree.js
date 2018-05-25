@@ -1,6 +1,6 @@
 import React from 'react';
 import { drawDependenciesEdge } from './drawHelpers';
-import { getFilesList } from '../treeLayout';
+import { getFilesList } from '../../../../utils/treeLayout';
 import { withSvgDraw } from '../SvgDraw';
 
 class DependenciesTree extends React.Component {

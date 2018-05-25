@@ -1,4 +1,4 @@
-import { PURPLE_COLOR, SYMBOL_WIDTH } from '../constants';
+import { PURPLE_COLOR, SYMBOL_WIDTH } from '../../store/constants';
 
 export const drawCodeCrumbEdge = (
     draw,
@@ -50,7 +50,7 @@ export const drawPartEdge = (
 export const drawCodeCrumbLoc = (
     draw,
     shiftToCenterPoint,
-    { x, y, name = '', loc, singleCrumb }
+    { x, y, name = '', loc, singleCrumb, onClick,onMouseOver }
 ) => {
     const textPointShiftX = 3;
     const textPointShiftY = 5;
@@ -67,6 +67,8 @@ export const drawCodeCrumbLoc = (
     locText.font({ fill: '#595959', family: 'Menlo', size: '8px' });
     //TODO: refactor to use one way, plus or minus
     locText.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+    locText.on('mouseover',()=>onMouseOver({x: textPoint.x, y: textPoint.y - 15}));
+    locText.on('',onClick);
 
     if (name) {
         const nameText = draw.text(':' + name);

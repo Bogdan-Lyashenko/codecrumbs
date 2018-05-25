@@ -1,5 +1,5 @@
 import React from 'react';
-import { buildShiftToPoint } from '../../utils/geometry';
+import { buildShiftToPoint } from '../../../utils/geometry';
 import SourceTree from './SourceTree/SourceTree';
 import DependenciesTree from './DependenciesTree/DependenciesTree';
 import CodeCrumbsTree from './CodeCrumbsTree/CodeCrumbsTree';
@@ -51,7 +51,8 @@ class TreeDiagram extends React.Component {
             dependenciesList,
             sourceDiagramOn,
             dependenciesDiagramOn,
-            codeCrumbsDiagramOn
+            codeCrumbsDiagramOn,
+            onCodeCrumbMouseOver
         } = this.props;
 
         return (
@@ -90,6 +91,7 @@ class TreeDiagram extends React.Component {
                             width={BOX_SIZE}
                             height={BOX_SIZE}
                             primaryLayer={this.iconsAndTextLayer}
+                            onCodeCrumbMouseOver={onCodeCrumbMouseOver}
                         />
                     )}
             </React.Fragment>

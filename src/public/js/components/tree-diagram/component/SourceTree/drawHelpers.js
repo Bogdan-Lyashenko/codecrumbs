@@ -1,5 +1,5 @@
-import { getCurvedPath } from '../../../utils/svgPrimitives';
-import { BLUE_COLOR, PURPLE_COLOR, SYMBOL_WIDTH } from '../constants';
+import { getCurvedPath } from '../../../../utils/svgPrimitives';
+import { BLUE_COLOR, PURPLE_COLOR, SYMBOL_WIDTH } from '../../store/constants';
 
 //TODO: move numbers to config per function
 //create object instead

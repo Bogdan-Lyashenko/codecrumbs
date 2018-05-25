@@ -28,6 +28,8 @@
     "mime-types": "^2.1.18",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
     "style-loader": "^0.21.0",
     "svg.js": "^2.6.4",
     "webpack": "^4.6.0",

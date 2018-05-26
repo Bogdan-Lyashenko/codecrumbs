@@ -80,6 +80,8 @@ class TreeDiagram extends React.Component {
                             width={BOX_SIZE}
                             height={BOX_SIZE}
                             primaryLayer={this.dependenciesEdgesLayer}
+                            sourceDiagramOn={sourceDiagramOn}
+                            codeCrumbsDiagramOn={codeCrumbsDiagramOn}
                         />
                     )}
 
@@ -92,6 +94,8 @@ class TreeDiagram extends React.Component {
                             height={BOX_SIZE}
                             primaryLayer={this.iconsAndTextLayer}
                             onCodeCrumbMouseOver={onCodeCrumbMouseOver}
+                            sourceDiagramOn={sourceDiagramOn}
+                            dependenciesDiagramOn={dependenciesDiagramOn}
                         />
                     )}
             </React.Fragment>

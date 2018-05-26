@@ -1,5 +1,6 @@
 import React from 'react';
 import { drawDependenciesEdge } from './drawHelpers';
+import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 import { getFilesList } from '../../../../utils/treeLayout';
 import { withSvgDraw } from '../SvgDraw';
 
@@ -14,7 +15,6 @@ class DependenciesTree extends React.Component {
         primaryDraw.clear();
         this.drawTree();
     }
-
     //move to utils
     findNodeByPathName = (list = [], pathName) => {
         return list.find(l => l.data.path === pathName);
@@ -25,7 +25,8 @@ class DependenciesTree extends React.Component {
             primaryDraw,
             filesTreeLayoutNodes,
             dependenciesList,
-            shiftToCenterPoint
+            shiftToCenterPoint,
+            sourceDiagramOn
         } = this.props;
 
         const moduleFilesList = getFilesList(filesTreeLayoutNodes);
@@ -37,6 +38,15 @@ class DependenciesTree extends React.Component {
             );
 
             const [mX, mY] = [moduleNode.y, moduleNode.x];
+
+            if (!sourceDiagramOn) {
+                drawFileText(primaryDraw, shiftToCenterPoint, {
+                    x: mX,
+                    y: mY,
+                    name: moduleNode.data.name
+                });
+                drawFileIcon(primaryDraw, shiftToCenterPoint, { x: mX, y: mY });
+            }
 
             importedModuleNames.reduce((prevSource, name) => {
                 const importedNode = this.findNodeByPathName(

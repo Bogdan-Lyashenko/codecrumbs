@@ -69407,6 +69407,8 @@ var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagr
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/CodeCrumbsTree/drawHelpers.js");
 
+var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
+
 var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
 
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
@@ -69449,6 +69451,8 @@ var CodeCrumbsTree = function (_React$Component) {
                 primaryDraw = _props.primaryDraw,
                 filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
                 shiftToCenterPoint = _props.shiftToCenterPoint,
+                sourceDiagramOn = _props.sourceDiagramOn,
+                dependenciesDiagramOn = _props.dependenciesDiagramOn,
                 onCodeCrumbMouseOver = _props.onCodeCrumbMouseOver;
 
 
@@ -69460,6 +69464,18 @@ var CodeCrumbsTree = function (_React$Component) {
 
 
                 if (node.children) {
+                    if (!sourceDiagramOn && !dependenciesDiagramOn) {
+                        (0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
+                            x: nX,
+                            y: nY,
+                            name: node.data.name
+                        });
+                        (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
+                            x: nX,
+                            y: nY
+                        });
+                    }
+
                     (0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
                         source: {
                             x: nX,
@@ -69635,6 +69651,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/DependenciesTree/drawHelpers.js");
 
+var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
+
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
 var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagram/component/SvgDraw.js");
@@ -69685,7 +69703,6 @@ var DependenciesTree = function (_React$Component) {
             primaryDraw.clear();
             this.drawTree();
         }
-
         //move to utils
 
     }, {
@@ -69697,7 +69714,8 @@ var DependenciesTree = function (_React$Component) {
                 primaryDraw = _props.primaryDraw,
                 filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
                 dependenciesList = _props.dependenciesList,
-                shiftToCenterPoint = _props.shiftToCenterPoint;
+                shiftToCenterPoint = _props.shiftToCenterPoint,
+                sourceDiagramOn = _props.sourceDiagramOn;
 
 
             var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
@@ -69712,6 +69730,15 @@ var DependenciesTree = function (_React$Component) {
                     mX = _ref3[0],
                     mY = _ref3[1];
 
+
+                if (!sourceDiagramOn) {
+                    (0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
+                        x: mX,
+                        y: mY,
+                        name: moduleNode.data.name
+                    });
+                    (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, { x: mX, y: mY });
+                }
 
                 importedModuleNames.reduce(function (prevSource, name) {
                     var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
@@ -70405,7 +70432,9 @@ var TreeDiagram = function (_React$Component) {
                     shiftToCenterPoint: shiftToCenterPoint,
                     width: BOX_SIZE,
                     height: BOX_SIZE,
-                    primaryLayer: this.dependenciesEdgesLayer
+                    primaryLayer: this.dependenciesEdgesLayer,
+                    sourceDiagramOn: sourceDiagramOn,
+                    codeCrumbsDiagramOn: codeCrumbsDiagramOn
                 }),
                 filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, {
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
@@ -70413,7 +70442,9 @@ var TreeDiagram = function (_React$Component) {
                     width: BOX_SIZE,
                     height: BOX_SIZE,
                     primaryLayer: this.iconsAndTextLayer,
-                    onCodeCrumbMouseOver: onCodeCrumbMouseOver
+                    onCodeCrumbMouseOver: onCodeCrumbMouseOver,
+                    sourceDiagramOn: sourceDiagramOn,
+                    dependenciesDiagramOn: dependenciesDiagramOn
                 })
             );
         }

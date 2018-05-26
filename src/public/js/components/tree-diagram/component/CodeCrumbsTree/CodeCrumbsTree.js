@@ -5,6 +5,7 @@ import {
     drawPartEdge,
     drawCodeCrumbLoc
 } from './drawHelpers';
+import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../store/constants';
 import { getFilesList } from '../../../../utils/treeLayout';
@@ -26,6 +27,8 @@ class CodeCrumbsTree extends React.Component {
             primaryDraw,
             filesTreeLayoutNodes,
             shiftToCenterPoint,
+            sourceDiagramOn,
+            dependenciesDiagramOn,
             onCodeCrumbMouseOver
         } = this.props;
 
@@ -34,6 +37,18 @@ class CodeCrumbsTree extends React.Component {
             const [nX, nY] = [node.y, node.x];
 
             if (node.children) {
+                if (!sourceDiagramOn && !dependenciesDiagramOn) {
+                    drawFileText(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        name: node.data.name
+                    });
+                    drawFileIcon(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY
+                    });
+                }
+
                 drawPartEdge(primaryDraw, shiftToCenterPoint, {
                     source: {
                         x: nX,
@@ -67,10 +82,10 @@ class CodeCrumbsTree extends React.Component {
                         name: crumb.data.name,
                         singleCrumb,
                         onMouseOver(position) {
-                            onCodeCrumbMouseOver(node.data, position)
+                            onCodeCrumbMouseOver(node.data, position);
                         },
                         onClick() {
-                            console.log(node.data.fileCode)
+                            console.log(node.data.fileCode);
                         }
                     });
                 });

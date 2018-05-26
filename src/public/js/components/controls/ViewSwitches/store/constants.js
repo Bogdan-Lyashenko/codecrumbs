@@ -3,7 +3,7 @@ export const ACTIONS = {
 };
 
 export const SWITCH_KEYS = {
-    SOURCE: 'SourceStructure',
-    DEPENDENCIES: 'ModuleDependencies',
-    CODE_CRUMBS: 'CodeCrumbs'
+    SOURCE: 'source',
+    DEPENDENCIES: 'dependencies',
+    CODE_CRUMBS: 'codeCrumbs'
 };

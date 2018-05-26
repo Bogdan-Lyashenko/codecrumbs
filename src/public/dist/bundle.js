@@ -61163,6 +61163,40 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "../../node_modules/redux-thunk/lib/index.js":
+/*!***********************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/redux-thunk/lib/index.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+function createThunkMiddleware(extraArgument) {
+  return function (_ref) {
+    var dispatch = _ref.dispatch,
+        getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof action === 'function') {
+          return action(dispatch, getState, extraArgument);
+        }
+
+        return next(action);
+      };
+    };
+  };
+}
+
+var thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+exports['default'] = thunk;
+
+/***/ }),
+
 /***/ "../../node_modules/redux/es/redux.js":
 /*!****************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/redux/es/redux.js ***!
@@ -68777,25 +68811,17 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 
 var _devTest = __webpack_require__(/*! ./utils/dev-test */ "./js/utils/dev-test.js");
 
 var _devTest2 = _interopRequireDefault(_devTest);
 
-var _connection = __webpack_require__(/*! ./utils/connection */ "./js/utils/connection.js");
+var _DataBusContainer = __webpack_require__(/*! ./components/data-bus/DataBusContainer */ "./js/components/data-bus/DataBusContainer.js");
 
-var _treeLayout = __webpack_require__(/*! ./utils/treeLayout */ "./js/utils/treeLayout.js");
-
-var _constants = __webpack_require__(/*! ../../shared/constants */ "../shared/constants.js");
+var _DataBusContainer2 = _interopRequireDefault(_DataBusContainer);
 
 var _ViewSwitchesContainer = __webpack_require__(/*! ./components/controls/ViewSwitches/ViewSwitchesContainer */ "./js/components/controls/ViewSwitches/ViewSwitchesContainer.js");
 
@@ -68805,129 +68831,32 @@ var _TreeDiagramContainer = __webpack_require__(/*! ./components/tree-diagram/Tr
 
 var _TreeDiagramContainer2 = _interopRequireDefault(_TreeDiagramContainer);
 
-var _constants2 = __webpack_require__(/*! ./components/controls/ViewSwitches/store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
-
 __webpack_require__(/*! ./App.css */ "./js/App.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-//TODO: move out logic, just pass
-
-
-var App = function (_React$Component) {
-    _inherits(App, _React$Component);
-
-    function App(props) {
-        _classCallCheck(this, App);
-
-        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-        _this.state = {
-            filesTreeLayoutNodes: null,
-            filesTree: null,
-            filesList: null,
-            dependenciesList: null
-        };
-        return _this;
-    }
-
-    _createClass(App, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this2 = this;
-
-            (0, _connection.createConnection)(function (_ref) {
-                var type = _ref.type,
-                    data = _ref.data;
-                return _this2.onSocketEvent(type, data);
-            });
-        }
-    }, {
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(nextProps) {
-            if (nextProps.codeCrumbsDiagramOn === this.props.codeCrumbsDiagramOn) {
-                return;
-            }
-
-            this.setState(_extends({}, this.state, {
-                filesTreeLayoutNodes: (0, _treeLayout.getTreeLayout)(this.state.filesTree, nextProps.codeCrumbsDiagramOn)
-            }));
-        }
-    }, {
-        key: 'onSocketEvent',
-        value: function onSocketEvent(type, data) {
-            switch (type) {
-                case _constants.SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
-                    var codeCrumbsDiagramOn = this.props.codeCrumbsDiagramOn;
-                    var _data$body = data.body,
-                        filesTree = _data$body.filesTree,
-                        filesList = _data$body.filesList,
-                        dependenciesList = _data$body.dependenciesList;
-
-                    var filesTreeLayoutNodes = (0, _treeLayout.getTreeLayout)(filesTree, codeCrumbsDiagramOn);
-
-                    this.setState({
-                        filesTreeLayoutNodes: filesTreeLayoutNodes,
-                        filesTree: filesTree,
-                        filesList: filesList,
-                        dependenciesList: dependenciesList
-                    });
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _state = this.state,
-                filesTreeLayoutNodes = _state.filesTreeLayoutNodes,
-                dependenciesList = _state.dependenciesList;
-
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'App-container' },
-                _react2.default.createElement(_ViewSwitchesContainer2.default, null),
-                _react2.default.createElement(_TreeDiagramContainer2.default, {
-                    filesTreeLayoutNodes: filesTreeLayoutNodes,
-                    dependenciesList: dependenciesList
-                }),
-                _react2.default.createElement(
-                    'footer',
-                    { className: 'App-footer' },
-                    'Bohdan Liashenko',
-                    ' ',
-                    _react2.default.createElement(
-                        'a',
-                        { href: 'https://github.com/Bogdan-Lyashenko/codecrumbs' },
-                        'Project Github'
-                    )
-                )
-            );
-        }
-    }]);
-
-    return App;
-}(_react2.default.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-    var checkedState = state.viewSwitches.checkedState;
-
-
-    return {
-        codeCrumbsDiagramOn: checkedState[_constants2.SWITCH_KEYS.CODE_CRUMBS]
-    };
+var App = function App() {
+    return _react2.default.createElement(
+        'div',
+        { className: 'App-container' },
+        _react2.default.createElement(_DataBusContainer2.default, null),
+        _react2.default.createElement(_ViewSwitchesContainer2.default, null),
+        _react2.default.createElement(_TreeDiagramContainer2.default, null),
+        _react2.default.createElement(
+            'footer',
+            { className: 'App-footer' },
+            'Bohdan Liashenko',
+            ' ',
+            _react2.default.createElement(
+                'a',
+                { href: 'https://github.com/Bogdan-Lyashenko/codecrumbs' },
+                'Project Github'
+            )
+        )
+    );
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
+exports.default = App;
 
 /***/ }),
 
@@ -69119,9 +69048,9 @@ var ACTIONS = exports.ACTIONS = {
 };
 
 var SWITCH_KEYS = exports.SWITCH_KEYS = {
-    SOURCE: 'SourceStructure',
-    DEPENDENCIES: 'ModuleDependencies',
-    CODE_CRUMBS: 'CodeCrumbs'
+    SOURCE: 'source',
+    DEPENDENCIES: 'dependencies',
+    CODE_CRUMBS: 'codeCrumbs'
 };
 
 /***/ }),
@@ -69177,6 +69106,234 @@ exports.default = function () {
 
 /***/ }),
 
+/***/ "./js/components/data-bus/DataBusContainer.js":
+/*!****************************************************!*\
+  !*** ./js/components/data-bus/DataBusContainer.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
+
+var _connection = __webpack_require__(/*! ../../utils/connection */ "./js/utils/connection.js");
+
+var _constants = __webpack_require__(/*! ../../../../shared/constants */ "../shared/constants.js");
+
+var _actions = __webpack_require__(/*! ./store/actions */ "./js/components/data-bus/store/actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DataBusContainer = function (_React$Component) {
+    _inherits(DataBusContainer, _React$Component);
+
+    function DataBusContainer() {
+        _classCallCheck(this, DataBusContainer);
+
+        return _possibleConstructorReturn(this, (DataBusContainer.__proto__ || Object.getPrototypeOf(DataBusContainer)).apply(this, arguments));
+    }
+
+    _createClass(DataBusContainer, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            (0, _connection.createConnection)(function (_ref) {
+                var type = _ref.type,
+                    data = _ref.data;
+                return _this2.onSocketEvent(type, data);
+            });
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            if (nextProps.codeCrumbsDiagramOn === this.props.codeCrumbsDiagramOn) {
+                return;
+            }
+
+            this.props.calcFilesTreeLayoutNodes(nextProps.codeCrumbsDiagramOn);
+        }
+    }, {
+        key: 'onSocketEvent',
+        value: function onSocketEvent(type, data) {
+            switch (type) {
+                case _constants.SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
+                    var _data$body = data.body,
+                        filesTree = _data$body.filesTree,
+                        filesList = _data$body.filesList,
+                        dependenciesList = _data$body.dependenciesList;
+
+
+                    this.props.setInitialSourceData({
+                        filesTree: filesTree,
+                        filesList: filesList,
+                        dependenciesList: dependenciesList
+                    });
+
+                    this.props.calcFilesTreeLayoutNodes(this.props.codeCrumbsDiagramOn);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement('div', { className: 'DataBus-container' });
+        }
+    }]);
+
+    return DataBusContainer;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    var checkedState = state.viewSwitches.checkedState;
+
+
+    return {
+        codeCrumbsDiagramOn: checkedState.codeCrumbs
+    };
+};
+
+var mapDispatchToProps = {
+    setInitialSourceData: _actions.setInitialSourceData,
+    calcFilesTreeLayoutNodes: _actions.calcFilesTreeLayoutNodes
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DataBusContainer);
+
+/***/ }),
+
+/***/ "./js/components/data-bus/store/actions.js":
+/*!*************************************************!*\
+  !*** ./js/components/data-bus/store/actions.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
+
+var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
+
+var _treeLayout = __webpack_require__(/*! ../../../utils/treeLayout */ "./js/utils/treeLayout.js");
+
+var setInitialSourceData = exports.setInitialSourceData = function setInitialSourceData(data) {
+    return {
+        type: _constants.ACTIONS.SET_INITIAL_SOURCE_DATA,
+        payload: data
+    };
+};
+
+var calcFilesTreeLayoutNodes = exports.calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(codeCrumbsOn) {
+    return function (dispatch, getState) {
+        var state = getState();
+        var dataBus = state.dataBus;
+
+
+        if (!dataBus.filesTree) return;
+
+        return dispatch({
+            type: _constants.ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
+            payload: (0, _treeLayout.getTreeLayout)(dataBus.filesTree, codeCrumbsOn)
+        });
+    };
+};
+
+/***/ }),
+
+/***/ "./js/components/data-bus/store/constants.js":
+/*!***************************************************!*\
+  !*** ./js/components/data-bus/store/constants.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var ACTIONS = exports.ACTIONS = {
+    SET_INITIAL_SOURCE_DATA: 'DATA_BUS.SET_INITIAL_SOURCE_DATA',
+    UPDATE_FILES_TREE_LAYOUT_NODES: 'DATA_BUS.UPDATE_FILES_TREE_LAYOUT_NODES'
+};
+
+/***/ }),
+
+/***/ "./js/components/data-bus/store/reducer.js":
+/*!*************************************************!*\
+  !*** ./js/components/data-bus/store/reducer.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
+
+var DefaultState = {
+    filesTree: null,
+    filesList: null,
+    dependenciesList: null,
+
+    filesTreeLayoutNodes: null
+};
+
+exports.default = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DefaultState;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _constants.ACTIONS.SET_INITIAL_SOURCE_DATA:
+            return _extends({}, state, action.payload);
+            break;
+
+        case _constants.ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES:
+            return _extends({}, state, {
+                filesTreeLayoutNodes: action.payload
+            });
+            break;
+
+        default:
+            return state;
+    }
+};
+
+/***/ }),
+
 /***/ "./js/components/tree-diagram/TreeDiagramContainer.js":
 /*!************************************************************!*\
   !*** ./js/components/tree-diagram/TreeDiagramContainer.js ***!
@@ -69197,18 +69354,21 @@ var _TreeDiagram = __webpack_require__(/*! ./component/TreeDiagram */ "./js/comp
 
 var _TreeDiagram2 = _interopRequireDefault(_TreeDiagram);
 
-var _constants = __webpack_require__(/*! ../controls/ViewSwitches/store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
     var checkedState = state.viewSwitches.checkedState;
+    var _state$dataBus = state.dataBus,
+        filesTreeLayoutNodes = _state$dataBus.filesTreeLayoutNodes,
+        dependenciesList = _state$dataBus.dependenciesList;
 
 
     return {
-        sourceDiagramOn: checkedState[_constants.SWITCH_KEYS.SOURCE],
-        dependenciesDiagramOn: checkedState[_constants.SWITCH_KEYS.DEPENDENCIES],
-        codeCrumbsDiagramOn: checkedState[_constants.SWITCH_KEYS.CODE_CRUMBS]
+        sourceDiagramOn: checkedState.source,
+        dependenciesDiagramOn: checkedState.dependencies,
+        codeCrumbsDiagramOn: checkedState.codeCrumbs,
+        filesTreeLayoutNodes: filesTreeLayoutNodes,
+        dependenciesList: dependenciesList
     };
 };
 
@@ -70329,21 +70489,19 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 
-var _redux = __webpack_require__(/*! redux */ "../../node_modules/redux/es/redux.js");
-
 var _App = __webpack_require__(/*! ./App */ "./js/App.js");
 
 var _App2 = _interopRequireDefault(_App);
 
-var _reducer = __webpack_require__(/*! ./reducers/reducer */ "./js/reducers/reducer.js");
+var _store = __webpack_require__(/*! ./store */ "./js/store.js");
 
-var _reducer2 = _interopRequireDefault(_reducer);
+var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MOUNT_NODE_ID = 'mount-node';
 
-var store = (0, _redux.createStore)(_reducer2.default);
+var store = (0, _store2.default)();
 _reactDom2.default.render(_react2.default.createElement(
     _reactRedux.Provider,
     { store: store },
@@ -70352,10 +70510,10 @@ _reactDom2.default.render(_react2.default.createElement(
 
 /***/ }),
 
-/***/ "./js/reducers/reducer.js":
-/*!********************************!*\
-  !*** ./js/reducers/reducer.js ***!
-  \********************************/
+/***/ "./js/store.js":
+/*!*********************!*\
+  !*** ./js/store.js ***!
+  \*********************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -70368,15 +70526,26 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(/*! redux */ "../../node_modules/redux/es/redux.js");
 
-var _reducer = __webpack_require__(/*! ../components/controls/ViewSwitches/store/reducer */ "./js/components/controls/ViewSwitches/store/reducer.js");
+var _reduxThunk = __webpack_require__(/*! redux-thunk */ "../../node_modules/redux-thunk/lib/index.js");
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+var _reducer = __webpack_require__(/*! ./components/controls/ViewSwitches/store/reducer */ "./js/components/controls/ViewSwitches/store/reducer.js");
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
+var _reducer3 = __webpack_require__(/*! ./components/data-bus/store/reducer */ "./js/components/data-bus/store/reducer.js");
+
+var _reducer4 = _interopRequireDefault(_reducer3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _redux.combineReducers)({
-    viewSwitches: _reducer2.default
-});
+exports.default = function () {
+    return (0, _redux.createStore)((0, _redux.combineReducers)({
+        viewSwitches: _reducer2.default,
+        dataBus: _reducer4.default
+    }), (0, _redux.applyMiddleware)(_reduxThunk2.default));
+};
 
 /***/ }),
 

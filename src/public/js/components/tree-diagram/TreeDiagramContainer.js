@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 import TreeDiagram from './component/TreeDiagram';
-import { SWITCH_KEYS } from '../controls/ViewSwitches/store/constants';
 
 const mapStateToProps = state => {
     const { checkedState } = state.viewSwitches;
+    const { filesTreeLayoutNodes, dependenciesList } = state.dataBus;
 
     return {
-        sourceDiagramOn: checkedState[SWITCH_KEYS.SOURCE],
-        dependenciesDiagramOn: checkedState[SWITCH_KEYS.DEPENDENCIES],
-        codeCrumbsDiagramOn: checkedState[SWITCH_KEYS.CODE_CRUMBS]
+        sourceDiagramOn: checkedState.source,
+        dependenciesDiagramOn: checkedState.dependencies,
+        codeCrumbsDiagramOn: checkedState.codeCrumbs,
+        filesTreeLayoutNodes,
+        dependenciesList
     };
 };
 

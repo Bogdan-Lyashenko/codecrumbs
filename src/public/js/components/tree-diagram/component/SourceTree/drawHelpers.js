@@ -89,7 +89,7 @@ export const drawFileIcon = (draw, shiftToCenterPoint, { x, y, onClick }) => {
         .move(fileIconPoint.x, fileIconPoint.y);
 
     if (onClick) {
-        icon.style({ cursor: 'pointer' }).click(onClick);
+        icon.style({ cursor: 'pointer' }).on('click', onClick);
     }
 
     return icon;
@@ -138,7 +138,7 @@ export const drawFolderIcon = (
         .move(folderIconPoint.x, folderIconPoint.y);
 
     if (onClick) {
-        icon.style({ cursor: 'pointer' }).click(onClick);
+        icon.style({ cursor: 'pointer' }).on('click', onClick);
     }
 
     return icon;

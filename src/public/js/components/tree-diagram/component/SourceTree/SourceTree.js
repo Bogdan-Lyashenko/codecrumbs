@@ -1,5 +1,5 @@
 import React from 'react';
-import { withSvgDraw } from '../SvgDraw';
+import { withSvgDraw } from '../utils/SvgDraw';
 import {
     drawDot,
     drawSourceEdge,
@@ -10,15 +10,12 @@ import {
 } from './drawHelpers';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../store/constants';
+import { createSet } from '../utils/SvgSet';
 
 class SourceTree extends React.Component {
     componentDidMount() {
-        this.drawSet = this.props.primaryDraw.set();
+        this.drawSet = createSet(this.props.primaryDraw);
         this.drawTree();
-    }
-
-    addToSet(list) {
-        this.drawSet.add.apply(this.drawSet, [].concat(list));
     }
 
     componentDidUpdate() {
@@ -33,10 +30,7 @@ class SourceTree extends React.Component {
     }
 
     clearPrimaryDraw() {
-        this.drawSet.each(function() {
-            //TODO: remove event listener here
-            this.remove();
-        });
+        this.drawSet.clearAll();
     }
 
     clearSecondaryDraw() {
@@ -52,7 +46,7 @@ class SourceTree extends React.Component {
             dependenciesDiagramOn
         } = this.props;
 
-        const add = this.addToSet.bind(this);
+        const { add } = this.drawSet;
 
         //note: instance from d3-flex tree, not Array
         layoutNodes.each(node => {

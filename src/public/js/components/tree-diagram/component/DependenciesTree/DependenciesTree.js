@@ -2,7 +2,7 @@ import React from 'react';
 import { drawDependenciesEdge } from './drawHelpers';
 import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 import { getFilesList } from '../../../../utils/treeLayout';
-import { withSvgDraw } from '../SvgDraw';
+import { withSvgDraw } from '../utils/SvgDraw';
 
 class DependenciesTree extends React.Component {
     componentDidMount() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withSvgDraw } from '../SvgDraw';
+import { withSvgDraw } from '../utils/SvgDraw';
 import {
     drawCodeCrumbEdge,
     drawPartEdge,
@@ -9,28 +9,12 @@ import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../store/constants';
 import { getFilesList } from '../../../../utils/treeLayout';
+import { createSet } from '../utils/SvgSet';
 
 class CodeCrumbsTree extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.drawSet = null;
-    }
-
     componentDidMount() {
-        this.drawSet = this.props.primaryDraw.set();
+        this.drawSet = createSet(this.props.primaryDraw);
         this.drawTree();
-    }
-
-    addToSet(list) {
-        this.drawSet.add.apply(this.drawSet, [].concat(list));
-    }
-
-    clearDraw() {
-        this.drawSet.each(function() {
-            //TODO: remove event listener here
-            this.remove();
-        });
     }
 
     componentDidUpdate() {
@@ -43,8 +27,14 @@ class CodeCrumbsTree extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const oldProps = this.props;
-        return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;
+        return true;
+        //TODO: missing overlapping elements: text&icons
+        /*const oldProps = this.props;
+        return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;*/
+    }
+
+    clearDraw() {
+        this.drawSet.clearAll();
     }
 
     drawTree() {
@@ -57,7 +47,7 @@ class CodeCrumbsTree extends React.Component {
             onCodeCrumbMouseOver
         } = this.props;
 
-        const add = this.addToSet.bind(this);
+        const { add } = this.drawSet;
 
         const filesList = getFilesList(filesTreeLayoutNodes);
         filesList.forEach(node => {

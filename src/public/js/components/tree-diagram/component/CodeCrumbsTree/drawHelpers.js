@@ -70,9 +70,10 @@ export const drawCodeCrumbLoc = (
         .move(textPoint.x, textPoint.y - 6);
 
     const locText = draw.text(loc);
-    locText.font({ fill: '#595959', family: 'Menlo', size: '8px' });
-    //TODO: refactor to use one way, plus or minus
-    locText.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+    locText
+        .font({ fill: '#595959', family: 'Menlo', size: '8px' })
+        .style({cursor: 'pointer'})
+        .move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
 
     if (onMouseOver) {
         locText.on('mouseover', () =>
@@ -80,7 +81,7 @@ export const drawCodeCrumbLoc = (
         );
     }
     if (onClick) {
-        locText.on('', onClick);
+        locText.on('click', onClick);
     }
 
     if (name) {

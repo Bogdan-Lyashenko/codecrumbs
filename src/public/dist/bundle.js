@@ -69403,7 +69403,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagram/component/SvgDraw.js");
+var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree-diagram/component/utils/SvgDraw.js");
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/CodeCrumbsTree/drawHelpers.js");
 
@@ -69412,6 +69412,8 @@ var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/c
 var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
 
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
+
+var _SvgSet = __webpack_require__(/*! ../utils/SvgSet */ "./js/components/tree-diagram/component/utils/SvgSet.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -69424,33 +69426,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CodeCrumbsTree = function (_React$Component) {
     _inherits(CodeCrumbsTree, _React$Component);
 
-    function CodeCrumbsTree(props) {
+    function CodeCrumbsTree() {
         _classCallCheck(this, CodeCrumbsTree);
 
-        var _this = _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).call(this, props));
-
-        _this.drawSet = null;
-        return _this;
+        return _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).apply(this, arguments));
     }
 
     _createClass(CodeCrumbsTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.drawSet = this.props.primaryDraw.set();
+            this.drawSet = (0, _SvgSet.createSet)(this.props.primaryDraw);
             this.drawTree();
-        }
-    }, {
-        key: 'addToSet',
-        value: function addToSet(list) {
-            this.drawSet.add.apply(this.drawSet, [].concat(list));
-        }
-    }, {
-        key: 'clearDraw',
-        value: function clearDraw() {
-            this.drawSet.each(function () {
-                //TODO: remove event listener here
-                this.remove();
-            });
         }
     }, {
         key: 'componentDidUpdate',
@@ -69466,8 +69452,15 @@ var CodeCrumbsTree = function (_React$Component) {
     }, {
         key: 'shouldComponentUpdate',
         value: function shouldComponentUpdate(nextProps) {
-            var oldProps = this.props;
-            return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;
+            return true;
+            //TODO: missing overlapping elements: text&icons
+            /*const oldProps = this.props;
+            return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;*/
+        }
+    }, {
+        key: 'clearDraw',
+        value: function clearDraw() {
+            this.drawSet.clearAll();
         }
     }, {
         key: 'drawTree',
@@ -69479,9 +69472,8 @@ var CodeCrumbsTree = function (_React$Component) {
                 sourceDiagramOn = _props.sourceDiagramOn,
                 dependenciesDiagramOn = _props.dependenciesDiagramOn,
                 onCodeCrumbMouseOver = _props.onCodeCrumbMouseOver;
+            var add = this.drawSet.add;
 
-
-            var add = this.addToSet.bind(this);
 
             var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
             filesList.forEach(function (node) {
@@ -69644,9 +69636,7 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
     var locRec = draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
 
     var locText = draw.text(loc);
-    locText.font({ fill: '#595959', family: 'Menlo', size: '8px' });
-    //TODO: refactor to use one way, plus or minus
-    locText.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+    locText.font({ fill: '#595959', family: 'Menlo', size: '8px' }).style({ cursor: 'pointer' }).move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
 
     if (onMouseOver) {
         locText.on('mouseover', function () {
@@ -69654,7 +69644,7 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
         });
     }
     if (onClick) {
-        locText.on('', onClick);
+        locText.on('click', onClick);
     }
 
     if (name) {
@@ -69697,7 +69687,7 @@ var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/c
 
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagram/component/SvgDraw.js");
+var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree-diagram/component/utils/SvgDraw.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -69939,11 +69929,13 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SvgDraw = __webpack_require__(/*! ../SvgDraw */ "./js/components/tree-diagram/component/SvgDraw.js");
+var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree-diagram/component/utils/SvgDraw.js");
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
 
 var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
+
+var _SvgSet = __webpack_require__(/*! ../utils/SvgSet */ "./js/components/tree-diagram/component/utils/SvgSet.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -69965,13 +69957,8 @@ var SourceTree = function (_React$Component) {
     _createClass(SourceTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.drawSet = this.props.primaryDraw.set();
+            this.drawSet = (0, _SvgSet.createSet)(this.props.primaryDraw);
             this.drawTree();
-        }
-    }, {
-        key: 'addToSet',
-        value: function addToSet(list) {
-            this.drawSet.add.apply(this.drawSet, [].concat(list));
         }
     }, {
         key: 'componentDidUpdate',
@@ -69989,10 +69976,7 @@ var SourceTree = function (_React$Component) {
     }, {
         key: 'clearPrimaryDraw',
         value: function clearPrimaryDraw() {
-            this.drawSet.each(function () {
-                //TODO: remove event listener here
-                this.remove();
-            });
+            this.drawSet.clearAll();
         }
     }, {
         key: 'clearSecondaryDraw',
@@ -70008,11 +69992,10 @@ var SourceTree = function (_React$Component) {
                 layoutNodes = _props.layoutNodes,
                 shiftToCenterPoint = _props.shiftToCenterPoint,
                 dependenciesDiagramOn = _props.dependenciesDiagramOn;
-
-
-            var add = this.addToSet.bind(this);
+            var add = this.drawSet.add;
 
             //note: instance from d3-flex tree, not Array
+
             layoutNodes.each(function (node) {
                 var _ref = [node.y, node.x],
                     nX = _ref[0],
@@ -70200,7 +70183,7 @@ var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCen
     var icon = draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
 
     if (onClick) {
-        icon.style({ cursor: 'pointer' }).click(onClick);
+        icon.style({ cursor: 'pointer' }).on('click', onClick);
     }
 
     return icon;
@@ -70242,144 +70225,10 @@ var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shif
     var icon = draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
 
     if (onClick) {
-        icon.style({ cursor: 'pointer' }).click(onClick);
+        icon.style({ cursor: 'pointer' }).on('click', onClick);
     }
 
     return icon;
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/SvgDraw.js":
-/*!*********************************************************!*\
-  !*** ./js/components/tree-diagram/component/SvgDraw.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.withSvgDraw = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
-
-var _svg2 = _interopRequireDefault(_svg);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var IconsAndTextLayer = 'iconsAndTextLayer';
-var cachedSvgDraws = {};
-
-var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
-    return function (_React$Component) {
-        _inherits(_class2, _React$Component);
-
-        function _class2() {
-            var _ref;
-
-            var _temp, _this, _ret;
-
-            _classCallCheck(this, _class2);
-
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-            }
-
-            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class2.__proto__ || Object.getPrototypeOf(_class2)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
-        }
-
-        _createClass(_class2, [{
-            key: 'getPrimaryDraw',
-            value: function getPrimaryDraw() {
-                var _props = this.props,
-                    width = _props.width,
-                    height = _props.height,
-                    primaryLayer = _props.primaryLayer;
-
-                var primaryLayerName = primaryLayer.dataset.name;
-
-                if (primaryLayerName !== IconsAndTextLayer) {
-                    return (0, _svg2.default)(primaryLayer).size(width, height);
-                }
-
-                if (cachedSvgDraws[primaryLayerName]) {
-                    return cachedSvgDraws[primaryLayerName];
-                }
-
-                cachedSvgDraws[primaryLayerName] = (0, _svg2.default)(primaryLayer).size(width, height);
-
-                return cachedSvgDraws[primaryLayerName];
-            }
-        }, {
-            key: 'componentDidMount',
-            value: function componentDidMount() {
-                var _props2 = this.props,
-                    width = _props2.width,
-                    height = _props2.height,
-                    secondaryLayer = _props2.secondaryLayer;
-
-
-                var subState = {
-                    primaryDraw: this.getPrimaryDraw()
-                };
-
-                if (secondaryLayer) {
-                    subState = _extends({}, subState, {
-                        secondaryDraw: (0, _svg2.default)(secondaryLayer).size(width, height)
-                    });
-                }
-
-                this.setState(subState);
-            }
-        }, {
-            key: 'componentWillUnmount',
-            value: function componentWillUnmount() {
-                var _props3 = this.props,
-                    primaryLayer = _props3.primaryLayer,
-                    secondaryLayer = _props3.secondaryLayer;
-
-
-                if (primaryLayer.dataset.name !== IconsAndTextLayer) {
-                    primaryLayer.removeChild(this.state.primaryDraw.node);
-                }
-
-                secondaryLayer && secondaryLayer.removeChild(this.state.secondaryDraw.node);
-            }
-        }, {
-            key: 'render',
-            value: function render() {
-                var _state = this.state,
-                    primaryDraw = _state.primaryDraw,
-                    secondaryDraw = _state.secondaryDraw;
-
-
-                return primaryDraw && _react2.default.createElement(Component, _extends({}, this.props, {
-                    primaryDraw: primaryDraw,
-                    secondaryDraw: secondaryDraw
-                })) || null;
-            }
-        }]);
-
-        return _class2;
-    }(_react2.default.Component);
 };
 
 /***/ }),
@@ -70579,6 +70428,172 @@ var TreeDiagram = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = TreeDiagram;
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/SvgDraw.js":
+/*!***************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/SvgDraw.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.withSvgDraw = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg.js");
+
+var _svg2 = _interopRequireDefault(_svg);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IconsAndTextLayer = 'iconsAndTextLayer';
+var cachedSvgDraws = {};
+
+var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
+    return function (_React$Component) {
+        _inherits(_class2, _React$Component);
+
+        function _class2() {
+            var _ref;
+
+            var _temp, _this, _ret;
+
+            _classCallCheck(this, _class2);
+
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
+
+            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class2.__proto__ || Object.getPrototypeOf(_class2)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
+        }
+
+        _createClass(_class2, [{
+            key: 'getPrimaryDraw',
+            value: function getPrimaryDraw() {
+                var _props = this.props,
+                    width = _props.width,
+                    height = _props.height,
+                    primaryLayer = _props.primaryLayer;
+
+                var primaryLayerName = primaryLayer.dataset.name;
+
+                if (primaryLayerName !== IconsAndTextLayer) {
+                    return (0, _svg2.default)(primaryLayer).size(width, height);
+                }
+
+                if (cachedSvgDraws[primaryLayerName]) {
+                    return cachedSvgDraws[primaryLayerName];
+                }
+
+                cachedSvgDraws[primaryLayerName] = (0, _svg2.default)(primaryLayer).size(width, height);
+
+                return cachedSvgDraws[primaryLayerName];
+            }
+        }, {
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                var _props2 = this.props,
+                    width = _props2.width,
+                    height = _props2.height,
+                    secondaryLayer = _props2.secondaryLayer;
+
+
+                var subState = {
+                    primaryDraw: this.getPrimaryDraw()
+                };
+
+                if (secondaryLayer) {
+                    subState = _extends({}, subState, {
+                        secondaryDraw: (0, _svg2.default)(secondaryLayer).size(width, height)
+                    });
+                }
+
+                this.setState(subState);
+            }
+        }, {
+            key: 'componentWillUnmount',
+            value: function componentWillUnmount() {
+                var _props3 = this.props,
+                    primaryLayer = _props3.primaryLayer,
+                    secondaryLayer = _props3.secondaryLayer;
+
+
+                if (primaryLayer.dataset.name !== IconsAndTextLayer) {
+                    primaryLayer.removeChild(this.state.primaryDraw.node);
+                }
+
+                secondaryLayer && secondaryLayer.removeChild(this.state.secondaryDraw.node);
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _state = this.state,
+                    primaryDraw = _state.primaryDraw,
+                    secondaryDraw = _state.secondaryDraw;
+
+
+                return primaryDraw && _react2.default.createElement(Component, _extends({}, this.props, {
+                    primaryDraw: primaryDraw,
+                    secondaryDraw: secondaryDraw
+                })) || null;
+            }
+        }]);
+
+        return _class2;
+    }(_react2.default.Component);
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/SvgSet.js":
+/*!**************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/SvgSet.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var createSet = exports.createSet = function createSet(draw) {
+    var drawSet = draw.set();
+
+    return {
+        add: function add(list) {
+            drawSet.add.apply(drawSet, [].concat(list));
+        },
+        clearAll: function clearAll() {
+            drawSet.each(function () {
+                this.off();
+                this.remove();
+            });
+            drawSet.clear();
+        }
+    };
+};
 
 /***/ }),
 

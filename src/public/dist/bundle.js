@@ -46771,9 +46771,14 @@ var CodeCrumbsTree = function (_React$Component) {
                             loc: '(' + loc.line + ',' + loc.column + ')',
                             name: crumb.data.name,
                             singleCrumb: singleCrumb,
-                            onMouseOver: function onMouseOver(position) {
-                                //TODO: draw svg
-                                console.log(position);
+                            onMouseOver: function onMouseOver() {
+                                if (!crumb.data.params.details) return null;
+
+                                return (0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
+                                    x: cX,
+                                    y: cY,
+                                    name: crumb.data.params.details
+                                });
                             },
                             onClick: function onClick() {
                                 onCodeCrumbSelect(node.data, crumb.data);
@@ -46810,7 +46815,7 @@ exports.default = (0, _SvgDraw.withSvgDraw)(CodeCrumbsTree);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.drawCodeCrumbLoc = exports.drawPartEdge = exports.drawCodeCrumbEdge = undefined;
+exports.drawPopOver = exports.drawCodeCrumbLoc = exports.drawPartEdge = exports.drawCodeCrumbEdge = undefined;
 
 var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
 
@@ -46880,10 +46885,15 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
     locText.font({ fill: '#595959', family: 'Menlo', size: '8px' }).style({ cursor: 'pointer' }).move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
 
     if (onMouseOver) {
+        var popOver = null;
         locText.on('mouseover', function () {
-            return onMouseOver({ x: textPoint.x, y: textPoint.y - 15 });
+            popOver = onMouseOver();
+        });
+        locText.on('mouseout', function () {
+            popOver && popOver.remove();
         });
     }
+
     if (onClick) {
         locText.on('click', onClick);
     }
@@ -46898,6 +46908,23 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
     }
 
     return [locRec, locText];
+};
+
+var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenterPoint, _ref4) {
+    var x = _ref4.x,
+        y = _ref4.y,
+        _ref4$name = _ref4.name,
+        name = _ref4$name === undefined ? '' : _ref4$name;
+
+    var textPointShiftX = 3;
+    var textPointShiftY = 5;
+    var textPoint = shiftToCenterPoint(x, y);
+
+    var text = draw.text(name);
+    text.font({ fill: '#595959', family: 'Menlo', size: '12px' });
+    text.move(textPoint.x + textPointShiftX - 15, textPoint.y - textPointShiftY - 25);
+
+    return text;
 };
 
 /***/ }),

@@ -3,7 +3,8 @@ import { withSvgDraw } from '../utils/SvgDraw';
 import {
     drawCodeCrumbEdge,
     drawPartEdge,
-    drawCodeCrumbLoc
+    drawCodeCrumbLoc,
+    drawPopOver
 } from './drawHelpers';
 import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 
@@ -108,9 +109,18 @@ class CodeCrumbsTree extends React.Component {
                             loc: `(${loc.line},${loc.column})`,
                             name: crumb.data.name,
                             singleCrumb,
-                            onMouseOver(position) {
-                                //TODO: draw svg
-                                console.log(position);
+                            onMouseOver() {
+                                if (!crumb.data.params.details) return null;
+
+                                return drawPopOver(
+                                    primaryDraw,
+                                    shiftToCenterPoint,
+                                    {
+                                        x: cX,
+                                        y: cY,
+                                        name: crumb.data.params.details
+                                    }
+                                );
                             },
                             onClick() {
                                 onCodeCrumbSelect(node.data, crumb.data);

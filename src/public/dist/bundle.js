@@ -69445,6 +69445,12 @@ var CodeCrumbsTree = function (_React$Component) {
             this.drawTree();
         }
     }, {
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps) {
+            var oldProps = this.props;
+            return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;
+        }
+    }, {
         key: 'drawTree',
         value: function drawTree() {
             var _props = this.props,
@@ -70524,15 +70530,15 @@ var _App = __webpack_require__(/*! ./App */ "./js/App.js");
 
 var _App2 = _interopRequireDefault(_App);
 
-var _store = __webpack_require__(/*! ./store */ "./js/store.js");
+var _createStore = __webpack_require__(/*! ./store/createStore */ "./js/store/createStore.js");
 
-var _store2 = _interopRequireDefault(_store);
+var _createStore2 = _interopRequireDefault(_createStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MOUNT_NODE_ID = 'mount-node';
 
-var store = (0, _store2.default)();
+var store = (0, _createStore2.default)();
 _reactDom2.default.render(_react2.default.createElement(
     _reactRedux.Provider,
     { store: store },
@@ -70541,10 +70547,10 @@ _reactDom2.default.render(_react2.default.createElement(
 
 /***/ }),
 
-/***/ "./js/store.js":
-/*!*********************!*\
-  !*** ./js/store.js ***!
-  \*********************/
+/***/ "./js/store/createStore.js":
+/*!*********************************!*\
+  !*** ./js/store/createStore.js ***!
+  \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -70561,11 +70567,11 @@ var _reduxThunk = __webpack_require__(/*! redux-thunk */ "../../node_modules/red
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reducer = __webpack_require__(/*! ./components/controls/ViewSwitches/store/reducer */ "./js/components/controls/ViewSwitches/store/reducer.js");
+var _reducer = __webpack_require__(/*! ../components/controls/ViewSwitches/store/reducer */ "./js/components/controls/ViewSwitches/store/reducer.js");
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
-var _reducer3 = __webpack_require__(/*! ./components/data-bus/store/reducer */ "./js/components/data-bus/store/reducer.js");
+var _reducer3 = __webpack_require__(/*! ../components/data-bus/store/reducer */ "./js/components/data-bus/store/reducer.js");
 
 var _reducer4 = _interopRequireDefault(_reducer3);
 

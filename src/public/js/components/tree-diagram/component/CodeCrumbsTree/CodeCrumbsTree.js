@@ -22,6 +22,11 @@ class CodeCrumbsTree extends React.Component {
         this.drawTree();
     }
 
+    shouldComponentUpdate(nextProps) {
+        const oldProps = this.props;
+        return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;
+    }
+
     drawTree() {
         const {
             primaryDraw,

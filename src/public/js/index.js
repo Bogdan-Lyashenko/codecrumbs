@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import App from './App';
-import getStore from './store';
+import getStore from './store/createStore';
 
 const MOUNT_NODE_ID = 'mount-node';
 

@@ -72,14 +72,19 @@ export const drawCodeCrumbLoc = (
     const locText = draw.text(loc);
     locText
         .font({ fill: '#595959', family: 'Menlo', size: '8px' })
-        .style({cursor: 'pointer'})
+        .style({ cursor: 'pointer' })
         .move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
 
     if (onMouseOver) {
-        locText.on('mouseover', () =>
-            onMouseOver({ x: textPoint.x, y: textPoint.y - 15 })
-        );
+        let popOver = null;
+        locText.on('mouseover', () => {
+            popOver = onMouseOver();
+        });
+        locText.on('mouseout', () => {
+            popOver && popOver.remove();
+        });
     }
+
     if (onClick) {
         locText.on('click', onClick);
     }
@@ -97,4 +102,19 @@ export const drawCodeCrumbLoc = (
     }
 
     return [locRec, locText];
+};
+
+export const drawPopOver = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
+    const textPointShiftX = 3;
+    const textPointShiftY = 5;
+    const textPoint = shiftToCenterPoint(x, y);
+
+    const text = draw.text(name);
+    text.font({ fill: '#595959', family: 'Menlo', size: '12px' });
+    text.move(
+        textPoint.x + textPointShiftX - 15,
+        textPoint.y - textPointShiftY - 25
+    );
+
+    return text;
 };

@@ -20,3 +20,13 @@ export const calcFilesTreeLayoutNodes = codeCrumbsOn => (
         payload: getTreeLayout(dataBus.filesTree, codeCrumbsOn)
     });
 };
+
+export const selectFile = (fileNode) => ({
+    type: ACTIONS.SELECT_FILE,
+    payload: fileNode
+});
+
+export const selectCodeCrumb = (fileNode, codeCrumb) => ({
+    type: ACTIONS.SELECT_CODE_CRUMB,
+    payload: { fileNode, codeCrumb }
+});

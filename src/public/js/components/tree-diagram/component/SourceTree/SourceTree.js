@@ -43,7 +43,8 @@ class SourceTree extends React.Component {
             secondaryDraw,
             layoutNodes,
             shiftToCenterPoint,
-            dependenciesDiagramOn
+            dependenciesDiagramOn,
+            onFileSelect
         } = this.props;
 
         const { add } = this.drawSet;
@@ -89,7 +90,7 @@ class SourceTree extends React.Component {
                         x: nX,
                         y: nY,
                         onClick() {
-                            console.log(node.data.name);
+                            onFileSelect(node.data);
                         }
                     })
                 );

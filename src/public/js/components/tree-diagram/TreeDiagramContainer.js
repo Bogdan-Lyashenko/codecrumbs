@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import TreeDiagram from './component/TreeDiagram';
+import { selectCodeCrumb, selectFile } from '../data-bus/store/actions';
 
 const mapStateToProps = state => {
     const { checkedState } = state.viewSwitches;
@@ -15,10 +16,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    onCodeCrumbMouseOver(codeCrumb, position) {
-        console.log(codeCrumb, position);
-        return { type: null };
-    }
+    onCodeCrumbSelect: selectCodeCrumb,
+    onFileSelect: selectFile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TreeDiagram);

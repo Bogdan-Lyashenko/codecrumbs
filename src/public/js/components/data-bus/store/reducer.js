@@ -24,6 +24,23 @@ export default (state = DefaultState, action) => {
             };
             break;
 
+        case ACTIONS.SELECT_FILE:
+            return {
+                ...state,
+                selectedCodeCrumb: null,
+                selectedFile: action.payload
+            };
+            break;
+
+        case ACTIONS.SELECT_CODE_CRUMB:
+            const { fileNode, codeCrumb } = action.payload;
+            return {
+                ...state,
+                selectedFile: fileNode,
+                selectedCodeCrumb: codeCrumb
+            };
+            break;
+
         default:
             return state;
     }

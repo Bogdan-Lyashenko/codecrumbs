@@ -6,8 +6,16 @@ const CRUMB = 'codecrumb',
 
 const parseCodecrumbComment = (node = {}) => {
     const comment = node.value || '';
+
+    const cc = { original: comment };
     const afterAlias = comment.split(':')[1];
-    return { original: comment, name: afterAlias };
+    if (afterAlias) {
+        const simplified = afterAlias.split(';');
+        cc.name = simplified[0];
+        cc.details = simplified[1];
+    }
+
+    return cc;
 };
 
 const isCodecrumb = (node = {}) => {
@@ -35,13 +43,13 @@ const getCrumbs = fileCode => {
 
             [leadingComment, trailingComment].forEach(comment => {
                 if (comment && isCodecrumb(comment)) {
-                    const crumbOptions = parseCodecrumbComment(comment);
+                    const params = parseCodecrumbComment(comment);
 
                     crumbsList.push({
-                        name: crumbOptions.name || '', //TODO: check, can be bug with layout calc
+                        name: params.name || '', //TODO: check, can be bug with layout calc
                         crumbedLineNode: node,
                         crumbNode: comment,
-                        crumbOptions
+                        params
                     });
                 }
             });

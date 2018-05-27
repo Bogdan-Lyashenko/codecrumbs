@@ -52,7 +52,8 @@ class TreeDiagram extends React.Component {
             sourceDiagramOn,
             dependenciesDiagramOn,
             codeCrumbsDiagramOn,
-            onCodeCrumbMouseOver
+            onFileSelect,
+            onCodeCrumbSelect
         } = this.props;
 
         return (
@@ -66,6 +67,7 @@ class TreeDiagram extends React.Component {
                             height={BOX_SIZE}
                             secondaryLayer={this.sourceEdgesLayer}
                             primaryLayer={this.iconsAndTextLayer}
+                            onFileSelect={onFileSelect}
                             dependenciesDiagramOn={dependenciesDiagramOn}
                         />
                     )}
@@ -93,7 +95,7 @@ class TreeDiagram extends React.Component {
                             width={BOX_SIZE}
                             height={BOX_SIZE}
                             primaryLayer={this.iconsAndTextLayer}
-                            onCodeCrumbMouseOver={onCodeCrumbMouseOver}
+                            onCodeCrumbSelect={onCodeCrumbSelect}
                             sourceDiagramOn={sourceDiagramOn}
                             dependenciesDiagramOn={dependenciesDiagramOn}
                         />

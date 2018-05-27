@@ -1,9 +1,9 @@
 import React from 'react';
-import devProcessTesting from './utils/dev-test';
 
 import DataBus from './components/data-bus/DataBusContainer';
 import ViewsSwitches from './components/controls/ViewSwitches/ViewSwitchesContainer';
 import TreeDiagram from './components/tree-diagram/TreeDiagramContainer';
+import SideBar from './components/side-bar/SideBarContainer';
 
 import './App.css';
 
@@ -13,6 +13,7 @@ const App = () => {
             <DataBus />
             <ViewsSwitches />
             <TreeDiagram />
+            <SideBar />
 
             <footer className="App-footer">
                 Bohdan Liashenko{' '}

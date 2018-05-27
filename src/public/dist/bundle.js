@@ -69424,25 +69424,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CodeCrumbsTree = function (_React$Component) {
     _inherits(CodeCrumbsTree, _React$Component);
 
-    function CodeCrumbsTree() {
+    function CodeCrumbsTree(props) {
         _classCallCheck(this, CodeCrumbsTree);
 
-        return _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).call(this, props));
+
+        _this.drawSet = null;
+        return _this;
     }
 
     _createClass(CodeCrumbsTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            this.drawSet = this.props.primaryDraw.set();
             this.drawTree();
+        }
+    }, {
+        key: 'addToSet',
+        value: function addToSet(list) {
+            this.drawSet.add.apply(this.drawSet, [].concat(list));
+        }
+    }, {
+        key: 'clearDraw',
+        value: function clearDraw() {
+            this.drawSet.each(function () {
+                //TODO: remove event listener here
+                this.remove();
+            });
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            var primaryDraw = this.props.primaryDraw;
-
-
-            primaryDraw.clear();
+            this.clearDraw();
             this.drawTree();
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.clearDraw();
         }
     }, {
         key: 'shouldComponentUpdate',
@@ -69462,6 +69481,8 @@ var CodeCrumbsTree = function (_React$Component) {
                 onCodeCrumbMouseOver = _props.onCodeCrumbMouseOver;
 
 
+            var add = this.addToSet.bind(this);
+
             var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
             filesList.forEach(function (node) {
                 var _ref = [node.y, node.x],
@@ -69471,24 +69492,25 @@ var CodeCrumbsTree = function (_React$Component) {
 
                 if (node.children) {
                     if (!sourceDiagramOn && !dependenciesDiagramOn) {
-                        (0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
+                        add((0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
                             x: nX,
                             y: nY,
                             name: node.data.name
-                        });
-                        (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
+                        }));
+
+                        add((0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
                             x: nX,
                             y: nY
-                        });
+                        }));
                     }
 
-                    (0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
+                    add((0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
                         source: {
                             x: nX,
                             y: nY
                         },
                         parentName: node.data.name
-                    });
+                    }));
 
                     node.children.forEach(function (crumb, i, list) {
                         var _ref2 = [crumb.y, crumb.x],
@@ -69497,7 +69519,7 @@ var CodeCrumbsTree = function (_React$Component) {
 
                         var singleCrumb = list.length === 1;
 
-                        !singleCrumb && (0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
+                        !singleCrumb && add((0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
                             source: {
                                 x: nX,
                                 y: nY
@@ -69507,10 +69529,11 @@ var CodeCrumbsTree = function (_React$Component) {
                                 y: cY
                             },
                             parentName: node.data.name
-                        });
+                        }));
 
                         var loc = crumb.data.crumbedLineNode.loc.start;
-                        (0, _drawHelpers.drawCodeCrumbLoc)(primaryDraw, shiftToCenterPoint, {
+                        //TODO: use drawSet to remove event listeners
+                        add((0, _drawHelpers.drawCodeCrumbLoc)(primaryDraw, shiftToCenterPoint, {
                             x: cX,
                             y: cY,
                             loc: '(' + loc.line + ',' + loc.column + ')',
@@ -69522,7 +69545,7 @@ var CodeCrumbsTree = function (_React$Component) {
                             onClick: function onClick() {
                                 console.log(node.data.fileCode);
                             }
-                        });
+                        }));
                     });
                 }
             });
@@ -69578,6 +69601,8 @@ var drawCodeCrumbEdge = exports.drawCodeCrumbEdge = function drawCodeCrumbEdge(d
     polyline.fill('none').stroke({
         color: _constants.PURPLE_COLOR
     });
+
+    return polyline;
 };
 
 var drawPartEdge = exports.drawPartEdge = function drawPartEdge(draw, shiftToCenterPoint, _ref2) {
@@ -69596,7 +69621,9 @@ var drawPartEdge = exports.drawPartEdge = function drawPartEdge(draw, shiftToCen
         color: _constants.PURPLE_COLOR
     });
 
-    draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: _constants.PURPLE_COLOR });
+    var smallLine = draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: _constants.PURPLE_COLOR });
+
+    return [polyline, smallLine];
 };
 
 var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw, shiftToCenterPoint, _ref3) {
@@ -69614,23 +69641,32 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
     var textPoint = shiftToCenterPoint(singleCrumb ? x - 20 : x, y);
 
     var locWidth = loc.length * 6;
-    draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
+    var locRec = draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
 
     var locText = draw.text(loc);
     locText.font({ fill: '#595959', family: 'Menlo', size: '8px' });
     //TODO: refactor to use one way, plus or minus
     locText.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
-    locText.on('mouseover', function () {
-        return onMouseOver({ x: textPoint.x, y: textPoint.y - 15 });
-    });
-    locText.on('', onClick);
+
+    if (onMouseOver) {
+        locText.on('mouseover', function () {
+            return onMouseOver({ x: textPoint.x, y: textPoint.y - 15 });
+        });
+    }
+    if (onClick) {
+        locText.on('', onClick);
+    }
 
     if (name) {
         var nameText = draw.text(':' + name);
         nameText.font({ fill: '#595959', family: 'Menlo', size: '12px' });
         //TODO: refactor to use one way, plus or minus
         nameText.move(textPoint.x + textPointShiftX + locWidth - 1, textPoint.y - textPointShiftY - 2);
+
+        return [locRec, locText, nameText];
     }
+
+    return [locRec, locText];
 };
 
 /***/ }),
@@ -69929,33 +69965,54 @@ var SourceTree = function (_React$Component) {
     _createClass(SourceTree, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            this.drawSet = this.props.primaryDraw.set();
             this.drawTree();
+        }
+    }, {
+        key: 'addToSet',
+        value: function addToSet(list) {
+            this.drawSet.add.apply(this.drawSet, [].concat(list));
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            var _props = this.props,
-                primaryDraw = _props.primaryDraw,
-                secondaryDraw = _props.secondaryDraw;
-
-
-            primaryDraw.clear();
-            secondaryDraw.clear();
+            this.clearPrimaryDraw();
+            this.clearSecondaryDraw();
 
             this.drawTree();
         }
     }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.clearPrimaryDraw();
+        }
+    }, {
+        key: 'clearPrimaryDraw',
+        value: function clearPrimaryDraw() {
+            this.drawSet.each(function () {
+                //TODO: remove event listener here
+                this.remove();
+            });
+        }
+    }, {
+        key: 'clearSecondaryDraw',
+        value: function clearSecondaryDraw() {
+            this.props.secondaryDraw.clear();
+        }
+    }, {
         key: 'drawTree',
         value: function drawTree() {
-            var _props2 = this.props,
-                primaryDraw = _props2.primaryDraw,
-                secondaryDraw = _props2.secondaryDraw,
-                layoutNodes = _props2.layoutNodes,
-                shiftToCenterPoint = _props2.shiftToCenterPoint,
-                dependenciesDiagramOn = _props2.dependenciesDiagramOn;
+            var _props = this.props,
+                primaryDraw = _props.primaryDraw,
+                secondaryDraw = _props.secondaryDraw,
+                layoutNodes = _props.layoutNodes,
+                shiftToCenterPoint = _props.shiftToCenterPoint,
+                dependenciesDiagramOn = _props.dependenciesDiagramOn;
+
+
+            var add = this.addToSet.bind(this);
 
             //note: instance from d3-flex tree, not Array
-
             layoutNodes.each(function (node) {
                 var _ref = [node.y, node.x],
                     nX = _ref[0],
@@ -69990,34 +70047,42 @@ var SourceTree = function (_React$Component) {
                         disabled: dependenciesDiagramOn
                     });
 
-                    (0, _drawHelpers.drawFileText)(primaryDraw, shiftToCenterPoint, {
+                    add((0, _drawHelpers.drawFileText)(primaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
                         name: node.data.name
-                    });
-                    (0, _drawHelpers.drawFileIcon)(primaryDraw, shiftToCenterPoint, { x: nX, y: nY });
+                    }));
+                    add((0, _drawHelpers.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        onClick: function onClick() {
+                            console.log(node.data.name);
+                        }
+                    }));
                     return;
                 }
 
                 if (node.data.type === _constants.DIR_NODE_TYPE) {
-                    (0, _drawHelpers.drawDot)(primaryDraw, shiftToCenterPoint, {
+                    (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
                         disabled: dependenciesDiagramOn
                     });
 
-                    (0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
+                    add((0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
                         name: node.data.name,
                         disabled: dependenciesDiagramOn
-                    });
-                    (0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
+                    }));
+                    add((0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
-                        disabled: dependenciesDiagramOn
-                    });
-                    return;
+                        disabled: dependenciesDiagramOn,
+                        onClick: function onClick() {
+                            console.log(node.data.name);
+                        }
+                    }));
                 }
             });
         }
@@ -70076,7 +70141,7 @@ var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, _ref)
         color = _constants.BLUE_COLOR;
     }
 
-    draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
+    return draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
 };
 
 var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shiftToCenterPoint, _ref2) {
@@ -70100,6 +70165,8 @@ var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shif
     polyline.fill('none').stroke({
         color: color
     });
+
+    return polyline;
 };
 
 var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, _ref3) {
@@ -70114,13 +70181,15 @@ var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCen
     var fileTextPointShiftX = 16;
     var fileTextPointShiftY = 8;
     var fileTextPoint = shiftToCenterPoint(x + fileTextPointShiftX, y - fileTextPointShiftY);
-
     text.move(fileTextPoint.x, fileTextPoint.y);
+
+    return text;
 };
 
 var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, _ref4) {
     var x = _ref4.x,
-        y = _ref4.y;
+        y = _ref4.y,
+        onClick = _ref4.onClick;
 
     var fileIconPath = ICONS_DIR + 'js-file.svg';
     var fileIconSize = 15;
@@ -70128,7 +70197,13 @@ var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCen
     var fileIconPointShiftY = 10;
     var fileIconPoint = shiftToCenterPoint(x + fileIconPointShiftX, y - fileIconPointShiftY);
 
-    draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
+    var icon = draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
+
+    if (onClick) {
+        icon.style({ cursor: 'pointer' }).click(onClick);
+    }
+
+    return icon;
 };
 
 var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, _ref5) {
@@ -70143,22 +70218,20 @@ var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shif
 
     var folderTextPoint = shiftToCenterPoint(x + folderTextPointShiftX, y - folderTextPointShiftY);
 
-    //TODO: add the same for file text
-    var textSize = name.length * _constants.SYMBOL_WIDTH; //TODO: refactor to not calculate each time
-    var rect = draw.rect(textSize, 13).fill('#fff').opacity(0.8);
-    rect.move(folderTextPoint.x, folderTextPoint.y + 2);
-
     var fill = !disabled ? '#595959' : '#A9A8A8';
     var text = draw.text(name);
-    text.font({ fill: fill, family: 'Menlo' });
 
+    text.font({ fill: fill, family: 'Menlo' });
     text.move(folderTextPoint.x, folderTextPoint.y);
+
+    return text;
 };
 
 var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, _ref6) {
     var x = _ref6.x,
         y = _ref6.y,
-        disabled = _ref6.disabled;
+        disabled = _ref6.disabled,
+        onClick = _ref6.onClick;
 
     var folderIconPath = !disabled ? ICONS_DIR + 'folder.svg' : ICONS_DIR + 'folder-disabled.svg';
     var folderIconSize = 16;
@@ -70166,7 +70239,13 @@ var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shif
     var folderIconPointShiftY = 17;
     var folderIconPoint = shiftToCenterPoint(x + folderIconPointShiftX, y - folderIconPointShiftY);
 
-    draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
+    var icon = draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
+
+    if (onClick) {
+        icon.style({ cursor: 'pointer' }).click(onClick);
+    }
+
+    return icon;
 };
 
 /***/ }),
@@ -70206,6 +70285,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var IconsAndTextLayer = 'iconsAndTextLayer';
+var cachedSvgDraws = {};
+
 var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
     return function (_React$Component) {
         _inherits(_class2, _React$Component);
@@ -70225,17 +70307,38 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
         }
 
         _createClass(_class2, [{
-            key: 'componentDidMount',
-            value: function componentDidMount() {
+            key: 'getPrimaryDraw',
+            value: function getPrimaryDraw() {
                 var _props = this.props,
                     width = _props.width,
                     height = _props.height,
-                    primaryLayer = _props.primaryLayer,
-                    secondaryLayer = _props.secondaryLayer;
+                    primaryLayer = _props.primaryLayer;
+
+                var primaryLayerName = primaryLayer.dataset.name;
+
+                if (primaryLayerName !== IconsAndTextLayer) {
+                    return (0, _svg2.default)(primaryLayer).size(width, height);
+                }
+
+                if (cachedSvgDraws[primaryLayerName]) {
+                    return cachedSvgDraws[primaryLayerName];
+                }
+
+                cachedSvgDraws[primaryLayerName] = (0, _svg2.default)(primaryLayer).size(width, height);
+
+                return cachedSvgDraws[primaryLayerName];
+            }
+        }, {
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                var _props2 = this.props,
+                    width = _props2.width,
+                    height = _props2.height,
+                    secondaryLayer = _props2.secondaryLayer;
 
 
                 var subState = {
-                    primaryDraw: (0, _svg2.default)(primaryLayer).size(width, height)
+                    primaryDraw: this.getPrimaryDraw()
                 };
 
                 if (secondaryLayer) {
@@ -70249,12 +70352,15 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
         }, {
             key: 'componentWillUnmount',
             value: function componentWillUnmount() {
-                var _props2 = this.props,
-                    primaryLayer = _props2.primaryLayer,
-                    secondaryLayer = _props2.secondaryLayer;
+                var _props3 = this.props,
+                    primaryLayer = _props3.primaryLayer,
+                    secondaryLayer = _props3.secondaryLayer;
 
 
-                primaryLayer.removeChild(this.state.primaryDraw.node);
+                if (primaryLayer.dataset.name !== IconsAndTextLayer) {
+                    primaryLayer.removeChild(this.state.primaryDraw.node);
+                }
+
                 secondaryLayer && secondaryLayer.removeChild(this.state.secondaryDraw.node);
             }
         }, {

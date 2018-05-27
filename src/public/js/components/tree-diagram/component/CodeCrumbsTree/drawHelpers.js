@@ -25,6 +25,8 @@ export const drawCodeCrumbEdge = (
     polyline.fill('none').stroke({
         color: PURPLE_COLOR
     });
+
+    return polyline;
 };
 
 export const drawPartEdge = (
@@ -44,20 +46,24 @@ export const drawPartEdge = (
         color: PURPLE_COLOR
     });
 
-    draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: PURPLE_COLOR });
+    const smallLine = draw
+        .line(P1.x, P1.y - 2, P1.x, P1.y + 2)
+        .stroke({ color: PURPLE_COLOR });
+
+    return [polyline, smallLine];
 };
 
 export const drawCodeCrumbLoc = (
     draw,
     shiftToCenterPoint,
-    { x, y, name = '', loc, singleCrumb, onClick,onMouseOver }
+    { x, y, name = '', loc, singleCrumb, onClick, onMouseOver }
 ) => {
     const textPointShiftX = 3;
     const textPointShiftY = 5;
     const textPoint = shiftToCenterPoint(singleCrumb ? x - 20 : x, y);
 
     const locWidth = loc.length * 6;
-    draw
+    const locRec = draw
         .rect(locWidth, 12)
         .fill('#fff')
         .stroke(PURPLE_COLOR)
@@ -67,8 +73,15 @@ export const drawCodeCrumbLoc = (
     locText.font({ fill: '#595959', family: 'Menlo', size: '8px' });
     //TODO: refactor to use one way, plus or minus
     locText.move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
-    locText.on('mouseover',()=>onMouseOver({x: textPoint.x, y: textPoint.y - 15}));
-    locText.on('',onClick);
+
+    if (onMouseOver) {
+        locText.on('mouseover', () =>
+            onMouseOver({ x: textPoint.x, y: textPoint.y - 15 })
+        );
+    }
+    if (onClick) {
+        locText.on('', onClick);
+    }
 
     if (name) {
         const nameText = draw.text(':' + name);
@@ -78,5 +91,9 @@ export const drawCodeCrumbLoc = (
             textPoint.x + textPointShiftX + locWidth - 1,
             textPoint.y - textPointShiftY - 2
         );
+
+        return [locRec, locText, nameText];
     }
+
+    return [locRec, locText];
 };

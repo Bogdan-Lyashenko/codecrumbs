@@ -22,7 +22,7 @@ export const drawDot = (
         color = BLUE_COLOR;
     }
 
-    draw
+    return draw
         .circle(radius)
         .fill(color)
         .move(circlePoint.x, circlePoint.y);
@@ -55,6 +55,8 @@ export const drawSourceEdge = (
     polyline.fill('none').stroke({
         color
     });
+
+    return polyline;
 };
 
 export const drawFileText = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
@@ -67,11 +69,12 @@ export const drawFileText = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
         x + fileTextPointShiftX,
         y - fileTextPointShiftY
     );
-
     text.move(fileTextPoint.x, fileTextPoint.y);
+
+    return text;
 };
 
-export const drawFileIcon = (draw, shiftToCenterPoint, { x, y }) => {
+export const drawFileIcon = (draw, shiftToCenterPoint, { x, y, onClick }) => {
     const fileIconPath = ICONS_DIR + 'js-file.svg';
     const fileIconSize = 15;
     const fileIconPointShiftX = 2;
@@ -81,9 +84,15 @@ export const drawFileIcon = (draw, shiftToCenterPoint, { x, y }) => {
         y - fileIconPointShiftY
     );
 
-    draw
+    const icon = draw
         .image(fileIconPath, fileIconSize, fileIconSize)
         .move(fileIconPoint.x, fileIconPoint.y);
+
+    if (onClick) {
+        icon.style({ cursor: 'pointer' }).click(onClick);
+    }
+
+    return icon;
 };
 
 export const drawFolderText = (
@@ -99,25 +108,19 @@ export const drawFolderText = (
         y - folderTextPointShiftY
     );
 
-    //TODO: add the same for file text
-    const textSize = name.length * SYMBOL_WIDTH; //TODO: refactor to not calculate each time
-    const rect = draw
-        .rect(textSize, 13)
-        .fill('#fff')
-        .opacity(0.8);
-    rect.move(folderTextPoint.x, folderTextPoint.y + 2);
-
     const fill = !disabled ? '#595959' : '#A9A8A8';
     const text = draw.text(name);
-    text.font({ fill, family: 'Menlo' });
 
+    text.font({ fill, family: 'Menlo' });
     text.move(folderTextPoint.x, folderTextPoint.y);
+
+    return text;
 };
 
 export const drawFolderIcon = (
     draw,
     shiftToCenterPoint,
-    { x, y, disabled }
+    { x, y, disabled, onClick }
 ) => {
     const folderIconPath = !disabled
         ? ICONS_DIR + 'folder.svg'
@@ -130,7 +133,13 @@ export const drawFolderIcon = (
         y - folderIconPointShiftY
     );
 
-    draw
+    const icon = draw
         .image(folderIconPath, folderIconSize, folderIconSize)
         .move(folderIconPoint.x, folderIconPoint.y);
+
+    if (onClick) {
+        icon.style({ cursor: 'pointer' }).click(onClick);
+    }
+
+    return icon;
 };

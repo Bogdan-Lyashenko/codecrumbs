@@ -13,16 +13,34 @@ import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../store/constants';
 
 class SourceTree extends React.Component {
     componentDidMount() {
+        this.drawSet = this.props.primaryDraw.set();
         this.drawTree();
     }
 
-    componentDidUpdate() {
-        const { primaryDraw, secondaryDraw } = this.props;
+    addToSet(list) {
+        this.drawSet.add.apply(this.drawSet, [].concat(list));
+    }
 
-        primaryDraw.clear();
-        secondaryDraw.clear();
+    componentDidUpdate() {
+        this.clearPrimaryDraw();
+        this.clearSecondaryDraw();
 
         this.drawTree();
+    }
+
+    componentWillUnmount() {
+        this.clearPrimaryDraw();
+    }
+
+    clearPrimaryDraw() {
+        this.drawSet.each(function() {
+            //TODO: remove event listener here
+            this.remove();
+        });
+    }
+
+    clearSecondaryDraw() {
+        this.props.secondaryDraw.clear();
     }
 
     drawTree() {
@@ -33,6 +51,8 @@ class SourceTree extends React.Component {
             shiftToCenterPoint,
             dependenciesDiagramOn
         } = this.props;
+
+        const add = this.addToSet.bind(this);
 
         //note: instance from d3-flex tree, not Array
         layoutNodes.each(node => {
@@ -63,34 +83,50 @@ class SourceTree extends React.Component {
                     disabled: dependenciesDiagramOn
                 });
 
-                drawFileText(primaryDraw, shiftToCenterPoint, {
-                    x: nX,
-                    y: nY,
-                    name: node.data.name
-                });
-                drawFileIcon(primaryDraw, shiftToCenterPoint, { x: nX, y: nY });
+                add(
+                    drawFileText(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        name: node.data.name
+                    })
+                );
+                add(
+                    drawFileIcon(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        onClick() {
+                            console.log(node.data.name);
+                        }
+                    })
+                );
                 return;
             }
 
             if (node.data.type === DIR_NODE_TYPE) {
-                drawDot(primaryDraw, shiftToCenterPoint, {
+                drawDot(secondaryDraw, shiftToCenterPoint, {
                     x: nX,
                     y: nY,
                     disabled: dependenciesDiagramOn
                 });
 
-                drawFolderText(primaryDraw, shiftToCenterPoint, {
-                    x: nX,
-                    y: nY,
-                    name: node.data.name,
-                    disabled: dependenciesDiagramOn
-                });
-                drawFolderIcon(primaryDraw, shiftToCenterPoint, {
-                    x: nX,
-                    y: nY,
-                    disabled: dependenciesDiagramOn
-                });
-                return;
+                add(
+                    drawFolderText(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        name: node.data.name,
+                        disabled: dependenciesDiagramOn
+                    })
+                );
+                add(
+                    drawFolderIcon(primaryDraw, shiftToCenterPoint, {
+                        x: nX,
+                        y: nY,
+                        disabled: dependenciesDiagramOn,
+                        onClick() {
+                            console.log(node.data.name);
+                        }
+                    })
+                );
             }
         });
     }

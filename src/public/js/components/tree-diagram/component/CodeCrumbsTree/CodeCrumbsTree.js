@@ -44,7 +44,7 @@ class CodeCrumbsTree extends React.Component {
             shiftToCenterPoint,
             sourceDiagramOn,
             dependenciesDiagramOn,
-            onCodeCrumbMouseOver
+            onCodeCrumbSelect
         } = this.props;
 
         const { add } = this.drawSet;
@@ -101,7 +101,6 @@ class CodeCrumbsTree extends React.Component {
                         );
 
                     const loc = crumb.data.crumbedLineNode.loc.start;
-                    //TODO: use drawSet to remove event listeners
                     add(
                         drawCodeCrumbLoc(primaryDraw, shiftToCenterPoint, {
                             x: cX,
@@ -110,10 +109,11 @@ class CodeCrumbsTree extends React.Component {
                             name: crumb.data.name,
                             singleCrumb,
                             onMouseOver(position) {
-                                onCodeCrumbMouseOver(node.data, position);
+                                //TODO: draw svg
+                                console.log(position);
                             },
                             onClick() {
-                                console.log(node.data.fileCode);
+                                onCodeCrumbSelect(node.data, crumb.data);
                             }
                         })
                     );

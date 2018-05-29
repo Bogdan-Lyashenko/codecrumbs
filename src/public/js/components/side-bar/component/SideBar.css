@@ -1,8 +1,17 @@
 .SideBar-container {
     position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 450px;
+    right: 0px;
+    top: 60px;
+    height: calc(100% - 70px);
+    width: 500px;
     z-index: 2;
+    background-color: white;
+    border-left: 1px solid #bfbfbf;
+    padding: 0 16px;
+}
+
+.SideBar-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }

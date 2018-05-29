@@ -75616,8 +75616,9 @@ exports.default = function (_ref) {
         _reactSyntaxHighlighter2.default,
         {
             language: 'javascript',
-            style: _hljs.atomOneLight,
-            customStyle: { fontSize: '13px' }
+            style: _hljs.hybrid,
+            customStyle: { fontSize: '14px' },
+            showLineNumbers: true
         },
         code
     );

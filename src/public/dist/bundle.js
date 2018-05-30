@@ -7525,7 +7525,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".App-container {\n    padding: 10px;\n}\n\n.App-footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px;\n}", ""]);
+exports.push([module.i, ".App-container {\n    padding: 10px;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n}\n\n.App-body {\n    position: relative;\n    height: 100%;\n}\n\n.App-footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px;\n}\n", ""]);
 
 // exports
 
@@ -7544,7 +7544,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".ViewSwitchList-container {\n    border-bottom: 1px solid #BFBFBF;\n}", ""]);
+exports.push([module.i, ".ViewSwitchList-container {\n    border-bottom: 1px solid #ebedf0;\n}", ""]);
 
 // exports
 
@@ -7563,7 +7563,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".SideBar-container {\n    position: absolute;\n    right: 0px;\n    top: 60px;\n    height: calc(100% - 70px);\n    width: 500px;\n    z-index: 2;\n    background-color: white;\n    border-left: 1px solid #bfbfbf;\n    padding: 0 16px;\n}\n\n.SideBar-header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between;\n}\n", ""]);
+exports.push([module.i, ".SideBar-container {\n    position: absolute;\n    right: 0px;\n    top: 0px;\n    height: 100%;\n    width: 500px;\n    z-index: 2;\n    background-color: white;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 16px;\n}\n\n.SideBar-header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between;\n}\n", ""]);
 
 // exports
 
@@ -74984,10 +74984,18 @@ var App = function App() {
     return _react2.default.createElement(
         'div',
         { className: 'App-container' },
-        _react2.default.createElement(_DataBusContainer2.default, null),
-        _react2.default.createElement(_ViewSwitchesContainer2.default, null),
-        _react2.default.createElement(_TreeDiagramContainer2.default, null),
-        _react2.default.createElement(_SideBarContainer2.default, null),
+        _react2.default.createElement(
+            'header',
+            { className: 'App-header' },
+            _react2.default.createElement(_DataBusContainer2.default, null),
+            _react2.default.createElement(_ViewSwitchesContainer2.default, null)
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'App-body' },
+            _react2.default.createElement(_TreeDiagramContainer2.default, null),
+            _react2.default.createElement(_SideBarContainer2.default, null)
+        ),
         _react2.default.createElement(
             'footer',
             { className: 'App-footer' },
@@ -75549,6 +75557,7 @@ var SideBarContainer = function SideBarContainer(_ref) {
 
     if (!selectedFile) return null;
 
+    //TODO: add animation slide
     return _react2.default.createElement(_SideBar2.default, {
         file: selectedFile,
         codeCrumb: selectedCodeCrumb,
@@ -75606,6 +75615,7 @@ var _hljs = __webpack_require__(/*! react-syntax-highlighter/styles/hljs */ "../
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//TODO: add select with several themes
 //TODO: scrool to/highlight crumbed lines
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
 exports.default = function (_ref) {
@@ -75616,8 +75626,8 @@ exports.default = function (_ref) {
         _reactSyntaxHighlighter2.default,
         {
             language: 'javascript',
-            style: _hljs.hybrid,
-            customStyle: { fontSize: '14px' },
+            style: _hljs.atomOneLight,
+            customStyle: { fontSize: '13px' },
             showLineNumbers: true
         },
         code

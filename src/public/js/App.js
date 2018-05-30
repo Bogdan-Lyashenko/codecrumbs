@@ -10,10 +10,15 @@ import './App.css';
 const App = () => {
     return (
         <div className="App-container">
-            <DataBus />
-            <ViewsSwitches />
-            <TreeDiagram />
-            <SideBar />
+            <header className="App-header">
+                <DataBus />
+                <ViewsSwitches />
+            </header>
+
+            <div className="App-body">
+                <TreeDiagram />
+                <SideBar />
+            </div>
 
             <footer className="App-footer">
                 Bohdan Liashenko{' '}

@@ -1,13 +1,13 @@
 .SideBar-container {
     position: absolute;
     right: 0px;
-    top: 60px;
-    height: calc(100% - 70px);
+    top: 0px;
+    height: 100%;
     width: 500px;
     z-index: 2;
     background-color: white;
-    border-left: 1px solid #bfbfbf;
-    padding: 0 16px;
+    border-left: 1px solid #ebedf0;
+    padding: 8px 16px;
 }
 
 .SideBar-header {

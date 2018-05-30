@@ -1,5 +1,13 @@
 .App-container {
     padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.App-body {
+    position: relative;
+    height: 100%;
 }
 
 .App-footer {

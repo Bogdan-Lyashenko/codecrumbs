@@ -6,6 +6,7 @@ import { selectFile } from '../data-bus/store/actions';
 const SideBarContainer = ({ selectedFile, selectedCodeCrumb, onClose }) => {
     if (!selectedFile) return null;
 
+    //TODO: add animation slide
     return (
         <SideBar
             file={selectedFile}

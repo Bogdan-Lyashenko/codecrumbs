@@ -44,6 +44,7 @@ class SourceTree extends React.Component {
             layoutNodes,
             shiftToCenterPoint,
             dependenciesDiagramOn,
+            codeCrumbsMinimize,
             onFileSelect
         } = this.props;
 
@@ -82,6 +83,7 @@ class SourceTree extends React.Component {
                     drawFileText(primaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
+                        purple: node.children && codeCrumbsMinimize,
                         name: node.data.name
                     })
                 );
@@ -89,6 +91,7 @@ class SourceTree extends React.Component {
                     drawFileIcon(primaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
+                        purple: node.children && codeCrumbsMinimize,
                         onClick() {
                             onFileSelect(node.data);
                         }

@@ -1,3 +1,32 @@
 .ViewSwitchList-container {
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.ViewSwitchList-group {
+    margin-right: 16px;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ViewSwitchList-big-item {
+    padding: 0 8px;
+}
+
+.ViewSwitchList-small-group {
+    background-color: white;
+    display: flex;
+    align-items: center;
     border-bottom: 1px solid #ebedf0;
+    border-right: 1px solid #ebedf0;
+    border-left: 1px solid #ebedf0;
+    padding: 8px 8px 8px 8px;
+}
+
+.ViewSwitchList-small-item {
+    margin-right: 10px;
 }

@@ -59,9 +59,13 @@ export const drawSourceEdge = (
     return polyline;
 };
 
-export const drawFileText = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
+export const drawFileText = (
+    draw,
+    shiftToCenterPoint,
+    { x, y, purple, name = '' }
+) => {
     const text = draw.text(name);
-    text.font({ fill: '#595959', family: 'Menlo' });
+    text.font({ fill: purple ? PURPLE_COLOR : '#595959', family: 'Menlo' });
 
     const fileTextPointShiftX = 16;
     const fileTextPointShiftY = 8;
@@ -74,8 +78,13 @@ export const drawFileText = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
     return text;
 };
 
-export const drawFileIcon = (draw, shiftToCenterPoint, { x, y, onClick }) => {
-    const fileIconPath = ICONS_DIR + 'js-file.svg';
+export const drawFileIcon = (
+    draw,
+    shiftToCenterPoint,
+    { x, y, purple, onClick }
+) => {
+    const fileIconPath =
+        ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
     const fileIconSize = 15;
     const fileIconPointShiftX = 2;
     const fileIconPointShiftY = 10;

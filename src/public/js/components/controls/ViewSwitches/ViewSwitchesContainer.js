@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { toggleSwitch } from './store/actions';
 
 const mapStateToProps = state => {
-    const { defaultChecked, switches } = state.viewSwitches;
-    return { defaultChecked, switches };
+    const { defaultChecked, switches, checkedState } = state.viewSwitches;
+    return { defaultChecked, switches, checkedState };
 };
 
 const mapDispatchToProps = {

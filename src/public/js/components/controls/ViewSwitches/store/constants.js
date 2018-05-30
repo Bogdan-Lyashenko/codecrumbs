@@ -5,5 +5,6 @@ export const ACTIONS = {
 export const SWITCH_KEYS = {
     SOURCE: 'source',
     DEPENDENCIES: 'dependencies',
-    CODE_CRUMBS: 'codeCrumbs'
+    CODE_CRUMBS: 'codeCrumbs',
+    CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
 };

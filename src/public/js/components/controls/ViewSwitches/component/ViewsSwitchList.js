@@ -1,14 +1,18 @@
 import React from 'react';
-import { Switch, Form, Icon } from 'antd';
-const FormItem = Form.Item;
+import { Switch, Checkbox, Icon } from 'antd';
 import './ViewSwitchList.css';
 
-const ViewsSwitchList = ({ switches, toggleSwitch, defaultChecked }) => {
+const ViewsSwitchList = ({
+    switches,
+    toggleSwitch,
+    defaultChecked,
+    checkedState
+}) => {
     return (
         <div className="ViewSwitchList-container">
-            <Form layout="inline">
-                {switches.map(item => (
-                    <FormItem key={item.key}>
+            {switches.map((item, i) => (
+                <div className="ViewSwitchList-group" key={item.key}>
+                    <div className="ViewSwitchList-big-item">
                         <span>{item.name + ' '}</span>
                         <Switch
                             size="small"
@@ -17,9 +21,33 @@ const ViewsSwitchList = ({ switches, toggleSwitch, defaultChecked }) => {
                                 toggleSwitch(item.key, checked)
                             }
                         />
-                    </FormItem>
-                ))}
-            </Form>
+                    </div>
+
+                    {(checkedState[item.key] &&
+                        item.checkBoxes.length && (
+                            <div className="ViewSwitchList-small-group">
+                                {item.checkBoxes.map((item, i) => (
+                                    <div
+                                        key={item.key}
+                                        className="ViewSwitchList-small-item"
+                                    >
+                                        <Checkbox
+                                            onChange={e =>
+                                                toggleSwitch(
+                                                    item.key,
+                                                    e.target.checked
+                                                )
+                                            }
+                                        >
+                                            {item.name}
+                                        </Checkbox>
+                                    </div>
+                                ))}
+                            </div>
+                        )) ||
+                        null}
+                </div>
+            ))}
         </div>
     );
 };

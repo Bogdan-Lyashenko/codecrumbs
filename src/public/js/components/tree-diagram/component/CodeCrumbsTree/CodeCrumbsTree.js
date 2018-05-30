@@ -45,6 +45,7 @@ class CodeCrumbsTree extends React.Component {
             shiftToCenterPoint,
             sourceDiagramOn,
             dependenciesDiagramOn,
+            codeCrumbsMinimize,
             onCodeCrumbSelect
         } = this.props;
 
@@ -67,12 +68,13 @@ class CodeCrumbsTree extends React.Component {
                     add(
                         drawFileIcon(primaryDraw, shiftToCenterPoint, {
                             x: nX,
-                            y: nY
+                            y: nY,
+                            codeCrumbsMinimize
                         })
                     );
                 }
 
-                add(
+                !codeCrumbsMinimize && add(
                     drawPartEdge(primaryDraw, shiftToCenterPoint, {
                         source: {
                             x: nX,
@@ -82,7 +84,7 @@ class CodeCrumbsTree extends React.Component {
                     })
                 );
 
-                node.children.forEach((crumb, i, list) => {
+                !codeCrumbsMinimize && node.children.forEach((crumb, i, list) => {
                     const [cX, cY] = [crumb.y, crumb.x];
                     const singleCrumb = list.length === 1;
 

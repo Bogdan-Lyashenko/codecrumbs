@@ -1,4 +1,4 @@
-import { PURPLE_COLOR, SYMBOL_WIDTH } from '../../store/constants';
+import { PURPLE_COLOR, BLUE_COLOR,SYMBOL_WIDTH } from '../../store/constants';
 
 export const drawCodeCrumbEdge = (
     draw,
@@ -81,7 +81,7 @@ export const drawCodeCrumbLoc = (
             popOver = onMouseOver();
         });
         locText.on('mouseout', () => {
-            popOver && popOver.remove();
+            popOver && popOver[0].remove() && popOver[1].remove();
         });
     }
 
@@ -105,16 +105,27 @@ export const drawCodeCrumbLoc = (
 };
 
 export const drawPopOver = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
-    const textPointShiftX = 3;
-    const textPointShiftY = 5;
-    const textPoint = shiftToCenterPoint(x, y);
+    const tPt = shiftToCenterPoint(x - 12, y - 30);
+    const nameWidth = name.length * 7;
+    const nameHeight = 10;
+    const padding = 8;
+
+    const polyline = draw.polyline([
+        [tPt.x - padding, tPt.y + nameHeight + padding + 3],
+        [tPt.x - padding, tPt.y - padding],
+        [tPt.x + nameWidth + 2 * padding, tPt.y - padding],
+        [tPt.x + nameWidth + 2 * padding, tPt.y + nameHeight + padding],
+        [tPt.x - padding + 3, tPt.y + nameHeight + padding],
+        [tPt.x - padding, tPt.y + nameHeight + padding + 3]
+    ]);
+
+    polyline.fill('#fff').stroke({
+        color: PURPLE_COLOR
+    });
 
     const text = draw.text(name);
     text.font({ fill: '#595959', family: 'Menlo', size: '12px' });
-    text.move(
-        textPoint.x + textPointShiftX - 15,
-        textPoint.y - textPointShiftY - 25
-    );
+    text.move(tPt.x, tPt.y);
 
-    return text;
+    return [text, polyline];
 };

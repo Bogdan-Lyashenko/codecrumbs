@@ -68893,7 +68893,7 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
             popOver = onMouseOver();
         });
         locText.on('mouseout', function () {
-            popOver && popOver.remove();
+            popOver && popOver[0].remove() && popOver[1].remove();
         });
     }
 
@@ -68919,15 +68919,22 @@ var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenter
         _ref4$name = _ref4.name,
         name = _ref4$name === undefined ? '' : _ref4$name;
 
-    var textPointShiftX = 3;
-    var textPointShiftY = 5;
-    var textPoint = shiftToCenterPoint(x, y);
+    var tPt = shiftToCenterPoint(x - 12, y - 30);
+    var nameWidth = name.length * 7;
+    var nameHeight = 10;
+    var padding = 8;
+
+    var polyline = draw.polyline([[tPt.x - padding, tPt.y + nameHeight + padding + 3], [tPt.x - padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y + nameHeight + padding], [tPt.x - padding + 3, tPt.y + nameHeight + padding], [tPt.x - padding, tPt.y + nameHeight + padding + 3]]);
+
+    polyline.fill('#fff').stroke({
+        color: _constants.PURPLE_COLOR
+    });
 
     var text = draw.text(name);
     text.font({ fill: '#595959', family: 'Menlo', size: '12px' });
-    text.move(textPoint.x + textPointShiftX - 15, textPoint.y - textPointShiftY - 25);
+    text.move(tPt.x, tPt.y);
 
-    return text;
+    return [text, polyline];
 };
 
 /***/ }),

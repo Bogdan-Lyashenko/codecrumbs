@@ -1,17 +1,8 @@
 import React from 'react';
-import { buildShiftToPoint } from '../../../utils/geometry';
 import SourceTree from './SourceTree/SourceTree';
 import DependenciesTree from './DependenciesTree/DependenciesTree';
 import CodeCrumbsTree from './CodeCrumbsTree/CodeCrumbsTree';
 import './TreeDiagram.css';
-
-const BOX_SIZE = 800;
-const DOT = {
-    x: BOX_SIZE / 4,
-    y: BOX_SIZE / 4
-};
-
-const shiftToCenterPoint = buildShiftToPoint(DOT);
 
 class TreeDiagram extends React.Component {
     constructor(props) {
@@ -57,20 +48,23 @@ class TreeDiagram extends React.Component {
             onCodeCrumbSelect
         } = this.props;
 
+        const sharedProps = {
+            sourceDiagramOn,
+            dependenciesDiagramOn,
+            codeCrumbsDiagramOn,
+            codeCrumbsMinimize
+        };
+
         return (
             <React.Fragment>
                 {filesTreeLayoutNodes &&
                     sourceDiagramOn && (
                         <SourceTree
                             layoutNodes={filesTreeLayoutNodes}
-                            shiftToCenterPoint={shiftToCenterPoint}
-                            width={BOX_SIZE}
-                            height={BOX_SIZE}
                             secondaryLayer={this.sourceEdgesLayer}
                             primaryLayer={this.iconsAndTextLayer}
                             onFileSelect={onFileSelect}
-                            dependenciesDiagramOn={dependenciesDiagramOn}
-                            codeCrumbsMinimize={codeCrumbsMinimize}
+                            {...sharedProps}
                         />
                     )}
 
@@ -80,12 +74,8 @@ class TreeDiagram extends React.Component {
                         <DependenciesTree
                             dependenciesList={dependenciesList}
                             filesTreeLayoutNodes={filesTreeLayoutNodes}
-                            shiftToCenterPoint={shiftToCenterPoint}
-                            width={BOX_SIZE}
-                            height={BOX_SIZE}
                             primaryLayer={this.dependenciesEdgesLayer}
-                            sourceDiagramOn={sourceDiagramOn}
-                            codeCrumbsDiagramOn={codeCrumbsDiagramOn}
+                            {...sharedProps}
                         />
                     )}
 
@@ -93,14 +83,9 @@ class TreeDiagram extends React.Component {
                     codeCrumbsDiagramOn && (
                         <CodeCrumbsTree
                             filesTreeLayoutNodes={filesTreeLayoutNodes}
-                            shiftToCenterPoint={shiftToCenterPoint}
-                            width={BOX_SIZE}
-                            height={BOX_SIZE}
                             primaryLayer={this.iconsAndTextLayer}
                             onCodeCrumbSelect={onCodeCrumbSelect}
-                            sourceDiagramOn={sourceDiagramOn}
-                            dependenciesDiagramOn={dependenciesDiagramOn}
-                            codeCrumbsMinimize={codeCrumbsMinimize}
+                            {...sharedProps}
                         />
                     )}
             </React.Fragment>

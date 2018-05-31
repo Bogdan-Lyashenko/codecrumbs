@@ -69554,13 +69554,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
-
-var _geometry = __webpack_require__(/*! ../../../utils/geometry */ "./js/utils/geometry.js");
 
 var _SourceTree = __webpack_require__(/*! ./SourceTree/SourceTree */ "./js/components/tree-diagram/component/SourceTree/SourceTree.js");
 
@@ -69583,14 +69583,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var BOX_SIZE = 800;
-var DOT = {
-    x: BOX_SIZE / 4,
-    y: BOX_SIZE / 4
-};
-
-var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(DOT);
 
 var TreeDiagram = function (_React$Component) {
     _inherits(TreeDiagram, _React$Component);
@@ -69654,41 +69646,32 @@ var TreeDiagram = function (_React$Component) {
                 onCodeCrumbSelect = _props.onCodeCrumbSelect;
 
 
+            var sharedProps = {
+                sourceDiagramOn: sourceDiagramOn,
+                dependenciesDiagramOn: dependenciesDiagramOn,
+                codeCrumbsDiagramOn: codeCrumbsDiagramOn,
+                codeCrumbsMinimize: codeCrumbsMinimize
+            };
+
             return _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
-                filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, {
+                filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, _extends({
                     layoutNodes: filesTreeLayoutNodes,
-                    shiftToCenterPoint: shiftToCenterPoint,
-                    width: BOX_SIZE,
-                    height: BOX_SIZE,
                     secondaryLayer: this.sourceEdgesLayer,
                     primaryLayer: this.iconsAndTextLayer,
-                    onFileSelect: onFileSelect,
-                    dependenciesDiagramOn: dependenciesDiagramOn,
-                    codeCrumbsMinimize: codeCrumbsMinimize
-                }),
-                dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, {
+                    onFileSelect: onFileSelect
+                }, sharedProps)),
+                dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, _extends({
                     dependenciesList: dependenciesList,
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
-                    shiftToCenterPoint: shiftToCenterPoint,
-                    width: BOX_SIZE,
-                    height: BOX_SIZE,
-                    primaryLayer: this.dependenciesEdgesLayer,
-                    sourceDiagramOn: sourceDiagramOn,
-                    codeCrumbsDiagramOn: codeCrumbsDiagramOn
-                }),
-                filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, {
+                    primaryLayer: this.dependenciesEdgesLayer
+                }, sharedProps)),
+                filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
-                    shiftToCenterPoint: shiftToCenterPoint,
-                    width: BOX_SIZE,
-                    height: BOX_SIZE,
                     primaryLayer: this.iconsAndTextLayer,
-                    onCodeCrumbSelect: onCodeCrumbSelect,
-                    sourceDiagramOn: sourceDiagramOn,
-                    dependenciesDiagramOn: dependenciesDiagramOn,
-                    codeCrumbsMinimize: codeCrumbsMinimize
-                })
+                    onCodeCrumbSelect: onCodeCrumbSelect
+                }, sharedProps))
             );
         }
     }, {
@@ -69740,6 +69723,8 @@ var _svg = __webpack_require__(/*! svg.js */ "../../node_modules/svg.js/dist/svg
 
 var _svg2 = _interopRequireDefault(_svg);
 
+var _geometry = __webpack_require__(/*! ../../../../utils/geometry */ "./js/utils/geometry.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -69750,6 +69735,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var IconsAndTextLayer = 'iconsAndTextLayer';
 var cachedSvgDraws = {};
+
+var BOX_SIZE = 800;
+var DOT = {
+    x: BOX_SIZE / 4,
+    y: BOX_SIZE / 4
+};
+
+var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(DOT);
 
 var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
     return function (_React$Component) {
@@ -69770,34 +69763,39 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
         }
 
         _createClass(_class2, [{
+            key: 'createSvg',
+            value: function createSvg(layer) {
+                var _props = this.props,
+                    _props$width = _props.width,
+                    width = _props$width === undefined ? BOX_SIZE : _props$width,
+                    _props$height = _props.height,
+                    height = _props$height === undefined ? BOX_SIZE : _props$height;
+
+
+                return (0, _svg2.default)(layer).size(width, height);
+            }
+        }, {
             key: 'getPrimaryDraw',
             value: function getPrimaryDraw() {
-                var _props = this.props,
-                    width = _props.width,
-                    height = _props.height,
-                    primaryLayer = _props.primaryLayer;
+                var primaryLayer = this.props.primaryLayer;
+
 
                 var primaryLayerName = primaryLayer.dataset.name;
-
                 if (primaryLayerName !== IconsAndTextLayer) {
-                    return (0, _svg2.default)(primaryLayer).size(width, height);
+                    return this.createSvg(primaryLayer);
                 }
 
                 if (cachedSvgDraws[primaryLayerName]) {
                     return cachedSvgDraws[primaryLayerName];
                 }
 
-                cachedSvgDraws[primaryLayerName] = (0, _svg2.default)(primaryLayer).size(width, height);
-
+                cachedSvgDraws[primaryLayerName] = this.createSvg(primaryLayer);
                 return cachedSvgDraws[primaryLayerName];
             }
         }, {
             key: 'componentDidMount',
             value: function componentDidMount() {
-                var _props2 = this.props,
-                    width = _props2.width,
-                    height = _props2.height,
-                    secondaryLayer = _props2.secondaryLayer;
+                var secondaryLayer = this.props.secondaryLayer;
 
 
                 var subState = {
@@ -69806,7 +69804,7 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
 
                 if (secondaryLayer) {
                     subState = _extends({}, subState, {
-                        secondaryDraw: (0, _svg2.default)(secondaryLayer).size(width, height)
+                        secondaryDraw: this.createSvg(secondaryLayer)
                     });
                 }
 
@@ -69815,9 +69813,9 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
         }, {
             key: 'componentWillUnmount',
             value: function componentWillUnmount() {
-                var _props3 = this.props,
-                    primaryLayer = _props3.primaryLayer,
-                    secondaryLayer = _props3.secondaryLayer;
+                var _props2 = this.props,
+                    primaryLayer = _props2.primaryLayer,
+                    secondaryLayer = _props2.secondaryLayer;
 
 
                 if (primaryLayer.dataset.name !== IconsAndTextLayer) {
@@ -69836,7 +69834,8 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
 
                 return primaryDraw && _react2.default.createElement(Component, _extends({}, this.props, {
                     primaryDraw: primaryDraw,
-                    secondaryDraw: secondaryDraw
+                    secondaryDraw: secondaryDraw,
+                    shiftToCenterPoint: shiftToCenterPoint
                 })) || null;
             }
         }]);

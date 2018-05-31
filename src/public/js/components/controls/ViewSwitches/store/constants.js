@@ -7,4 +7,5 @@ export const SWITCH_KEYS = {
     DEPENDENCIES: 'dependencies',
     CODE_CRUMBS: 'codeCrumbs',
     CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
+    CODE_CRUMBS_DETAILS: 'codeCrumbsDetails',
 };

@@ -1,4 +1,4 @@
-import { PURPLE_COLOR, BLUE_COLOR,SYMBOL_WIDTH } from '../../store/constants';
+import { PURPLE_COLOR, BLUE_COLOR, SYMBOL_WIDTH } from '../../store/constants';
 
 export const drawCodeCrumbEdge = (
     draw,
@@ -104,11 +104,15 @@ export const drawCodeCrumbLoc = (
     return [locRec, locText];
 };
 
-export const drawPopOver = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
-    const tPt = shiftToCenterPoint(x - 12, y - 30);
-    const nameWidth = name.length * 7;
-    const nameHeight = 10;
-    const padding = 8;
+export const drawPopOver = (
+    draw,
+    shiftToCenterPoint,
+    { x, y, name = '', singleCrumb }
+) => {
+    const tPt = shiftToCenterPoint(x - 15 + (singleCrumb ? 0 : 20), y - 24);
+    const nameWidth = name.length * 6;
+    const nameHeight = 8;
+    const padding = 5;
 
     const polyline = draw.polyline([
         [tPt.x - padding, tPt.y + nameHeight + padding + 3],
@@ -124,8 +128,8 @@ export const drawPopOver = (draw, shiftToCenterPoint, { x, y, name = '' }) => {
     });
 
     const text = draw.text(name);
-    text.font({ fill: '#595959', family: 'Menlo', size: '12px' });
-    text.move(tPt.x, tPt.y);
+    text.font({ fill: '#595959', family: 'Menlo', size: '10px' });
+    text.move(tPt.x+2, tPt.y - 1);
 
     return [text, polyline];
 };

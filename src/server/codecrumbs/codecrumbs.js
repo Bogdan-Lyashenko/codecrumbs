@@ -37,9 +37,16 @@ const getCrumbs = fileCode => {
                 ? node.leadingComments[node.leadingComments.length - 1]
                 : null;
 
-            const trailingComment = node.trailingComments
+            let trailingComment = node.trailingComments
                 ? node.trailingComments[0]
                 : null;
+
+            if (
+                trailingComment &&
+                trailingComment.loc.start.line !== node.loc.start.line
+            ) {
+                trailingComment = null;
+            }
 
             [leadingComment, trailingComment].forEach(comment => {
                 if (comment && isCodecrumb(comment)) {

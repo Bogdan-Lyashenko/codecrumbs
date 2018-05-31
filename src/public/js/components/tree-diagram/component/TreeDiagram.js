@@ -44,6 +44,7 @@ class TreeDiagram extends React.Component {
             dependenciesDiagramOn,
             codeCrumbsDiagramOn,
             codeCrumbsMinimize,
+            codeCrumbsDetails,
             onFileSelect,
             onCodeCrumbSelect
         } = this.props;
@@ -52,7 +53,8 @@ class TreeDiagram extends React.Component {
             sourceDiagramOn,
             dependenciesDiagramOn,
             codeCrumbsDiagramOn,
-            codeCrumbsMinimize
+            codeCrumbsMinimize,
+            codeCrumbsDetails
         };
 
         return (

@@ -11,6 +11,7 @@ const mapStateToProps = state => {
         dependenciesDiagramOn: checkedState.dependencies,
         codeCrumbsDiagramOn: checkedState.codeCrumbs,
         codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
+        codeCrumbsDetails: checkedState.codeCrumbsDetails,
         filesTreeLayoutNodes,
         dependenciesList
     };

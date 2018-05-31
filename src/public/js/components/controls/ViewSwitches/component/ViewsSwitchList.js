@@ -39,7 +39,9 @@ const ViewsSwitchList = ({
                                                 )
                                             }
                                         >
-                                            {item.name}
+                                            <span title={item.title || ''}>
+                                                {item.name}
+                                            </span>
                                         </Checkbox>
                                     </div>
                                 ))}

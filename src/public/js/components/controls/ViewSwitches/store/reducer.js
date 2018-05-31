@@ -9,7 +9,16 @@ const DefaultState = {
             name: 'CodeCrumbs',
             key: SWITCH_KEYS.CODE_CRUMBS,
             checkBoxes: [
-                { name: 'minimize', key: SWITCH_KEYS.CODE_CRUMBS_MINIMIZE }
+                {
+                    name: 'M',
+                    title: 'Minimize code crumbs',
+                    key: SWITCH_KEYS.CODE_CRUMBS_MINIMIZE
+                },
+                {
+                    name: 'D',
+                    title: 'Show all Details',
+                    key: SWITCH_KEYS.CODE_CRUMBS_DETAILS
+                }
             ]
         }
     ],
@@ -17,7 +26,8 @@ const DefaultState = {
         [SWITCH_KEYS.SOURCE]: true,
         [SWITCH_KEYS.DEPENDENCIES]: false,
         [SWITCH_KEYS.CODE_CRUMBS]: false,
-        [SWITCH_KEYS.CODE_CRUMBS_MINIMIZE]: false
+        [SWITCH_KEYS.CODE_CRUMBS_MINIMIZE]: false,
+        [SWITCH_KEYS.CODE_CRUMBS_DETAILS]: false
     }
 };
 

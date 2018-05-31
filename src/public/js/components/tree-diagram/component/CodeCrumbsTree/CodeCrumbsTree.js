@@ -46,6 +46,7 @@ class CodeCrumbsTree extends React.Component {
             sourceDiagramOn,
             dependenciesDiagramOn,
             codeCrumbsMinimize,
+            codeCrumbsDetails,
             onCodeCrumbSelect
         } = this.props;
 
@@ -74,62 +75,85 @@ class CodeCrumbsTree extends React.Component {
                     );
                 }
 
-                !codeCrumbsMinimize && add(
-                    drawPartEdge(primaryDraw, shiftToCenterPoint, {
-                        source: {
-                            x: nX,
-                            y: nY
-                        },
-                        parentName: node.data.name
-                    })
-                );
-
-                !codeCrumbsMinimize && node.children.forEach((crumb, i, list) => {
-                    const [cX, cY] = [crumb.y, crumb.x];
-                    const singleCrumb = list.length === 1;
-
-                    !singleCrumb &&
-                        add(
-                            drawCodeCrumbEdge(primaryDraw, shiftToCenterPoint, {
-                                source: {
-                                    x: nX,
-                                    y: nY
-                                },
-                                target: {
-                                    x: cX,
-                                    y: cY
-                                },
-                                parentName: node.data.name
-                            })
-                        );
-
-                    const loc = crumb.data.crumbedLineNode.loc.start;
+                !codeCrumbsMinimize &&
                     add(
-                        drawCodeCrumbLoc(primaryDraw, shiftToCenterPoint, {
-                            x: cX,
-                            y: cY,
-                            loc: `(${loc.line},${loc.column})`,
-                            name: crumb.data.name,
-                            singleCrumb,
-                            onMouseOver() {
-                                if (!crumb.data.params.details) return null;
+                        drawPartEdge(primaryDraw, shiftToCenterPoint, {
+                            source: {
+                                x: nX,
+                                y: nY
+                            },
+                            parentName: node.data.name
+                        })
+                    );
 
-                                return drawPopOver(
+                !codeCrumbsMinimize &&
+                    node.children.forEach((crumb, i, list) => {
+                        const [cX, cY] = [crumb.y, crumb.x];
+                        const singleCrumb = list.length === 1;
+
+                        !singleCrumb &&
+                            add(
+                                drawCodeCrumbEdge(
                                     primaryDraw,
                                     shiftToCenterPoint,
                                     {
-                                        x: cX,
-                                        y: cY,
-                                        name: crumb.data.params.details
+                                        source: {
+                                            x: nX,
+                                            y: nY
+                                        },
+                                        target: {
+                                            x: cX,
+                                            y: cY
+                                        },
+                                        parentName: node.data.name
                                     }
-                                );
-                            },
-                            onClick() {
-                                onCodeCrumbSelect(node.data, crumb.data);
-                            }
-                        })
-                    );
-                });
+                                )
+                            );
+
+                        //TODO: refactor mess
+                        const loc = crumb.data.crumbedLineNode.loc.start;
+                        add(
+                            drawCodeCrumbLoc(primaryDraw, shiftToCenterPoint, {
+                                x: cX,
+                                y: cY,
+                                loc: `(${loc.line},${loc.column})`,
+                                name: crumb.data.name,
+                                singleCrumb,
+                                onMouseOver() {
+                                    if (
+                                        !crumb.data.params.details ||
+                                        codeCrumbsDetails
+                                    )
+                                        return null;
+
+                                    return drawPopOver(
+                                        primaryDraw,
+                                        shiftToCenterPoint,
+                                        {
+                                            x: cX,
+                                            y: cY,
+                                            name: crumb.data.params.details,
+                                            singleCrumb
+                                        }
+                                    );
+                                },
+                                onClick() {
+                                    onCodeCrumbSelect(node.data, crumb.data);
+                                }
+                            })
+                        );
+
+                        if (codeCrumbsDetails && crumb.data.params.details) {
+                            add(
+                                drawPopOver(primaryDraw, shiftToCenterPoint, {
+                                    x: cX,
+                                    y: cY,
+                                    name: crumb.data.params.details,
+                                    singleCrumb
+                                })
+                            );
+                        }
+                    });
             }
         });
     }

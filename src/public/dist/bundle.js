@@ -67958,7 +67958,11 @@ var ViewsSwitchList = function ViewsSwitchList(_ref) {
                                         return toggleSwitch(item.key, e.target.checked);
                                     }
                                 },
-                                item.name
+                                _react2.default.createElement(
+                                    'span',
+                                    { title: item.title || '' },
+                                    item.name
+                                )
                             )
                         );
                     })
@@ -68019,7 +68023,8 @@ var SWITCH_KEYS = exports.SWITCH_KEYS = {
     SOURCE: 'source',
     DEPENDENCIES: 'dependencies',
     CODE_CRUMBS: 'codeCrumbs',
-    CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize'
+    CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
+    CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'
 };
 
 /***/ }),
@@ -68051,9 +68056,17 @@ var DefaultState = {
     switches: [{ name: 'Source', key: _constants.SWITCH_KEYS.SOURCE, checkBoxes: [] }, { name: 'Dependencies', key: _constants.SWITCH_KEYS.DEPENDENCIES, checkBoxes: [] }, {
         name: 'CodeCrumbs',
         key: _constants.SWITCH_KEYS.CODE_CRUMBS,
-        checkBoxes: [{ name: 'minimize', key: _constants.SWITCH_KEYS.CODE_CRUMBS_MINIMIZE }]
+        checkBoxes: [{
+            name: 'M',
+            title: 'Minimize code crumbs',
+            key: _constants.SWITCH_KEYS.CODE_CRUMBS_MINIMIZE
+        }, {
+            name: 'D',
+            title: 'Show all Details',
+            key: _constants.SWITCH_KEYS.CODE_CRUMBS_DETAILS
+        }]
     }],
-    checkedState: (_checkedState = {}, _defineProperty(_checkedState, _constants.SWITCH_KEYS.SOURCE, true), _defineProperty(_checkedState, _constants.SWITCH_KEYS.DEPENDENCIES, false), _defineProperty(_checkedState, _constants.SWITCH_KEYS.CODE_CRUMBS, false), _defineProperty(_checkedState, _constants.SWITCH_KEYS.CODE_CRUMBS_MINIMIZE, false), _checkedState)
+    checkedState: (_checkedState = {}, _defineProperty(_checkedState, _constants.SWITCH_KEYS.SOURCE, true), _defineProperty(_checkedState, _constants.SWITCH_KEYS.DEPENDENCIES, false), _defineProperty(_checkedState, _constants.SWITCH_KEYS.CODE_CRUMBS, false), _defineProperty(_checkedState, _constants.SWITCH_KEYS.CODE_CRUMBS_MINIMIZE, false), _defineProperty(_checkedState, _constants.SWITCH_KEYS.CODE_CRUMBS_DETAILS, false), _checkedState)
 };
 
 exports.default = function () {
@@ -68611,6 +68624,7 @@ var mapStateToProps = function mapStateToProps(state) {
         dependenciesDiagramOn: checkedState.dependencies,
         codeCrumbsDiagramOn: checkedState.codeCrumbs,
         codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
+        codeCrumbsDetails: checkedState.codeCrumbsDetails,
         filesTreeLayoutNodes: filesTreeLayoutNodes,
         dependenciesList: dependenciesList
     };
@@ -68714,6 +68728,7 @@ var CodeCrumbsTree = function (_React$Component) {
                 sourceDiagramOn = _props.sourceDiagramOn,
                 dependenciesDiagramOn = _props.dependenciesDiagramOn,
                 codeCrumbsMinimize = _props.codeCrumbsMinimize,
+                codeCrumbsDetails = _props.codeCrumbsDetails,
                 onCodeCrumbSelect = _props.onCodeCrumbSelect;
             var add = this.drawSet.add;
 
@@ -68767,6 +68782,7 @@ var CodeCrumbsTree = function (_React$Component) {
                             parentName: node.data.name
                         }));
 
+                        //TODO: refactor mess
                         var loc = crumb.data.crumbedLineNode.loc.start;
                         add((0, _drawHelpers.drawCodeCrumbLoc)(primaryDraw, shiftToCenterPoint, {
                             x: cX,
@@ -68775,18 +68791,28 @@ var CodeCrumbsTree = function (_React$Component) {
                             name: crumb.data.name,
                             singleCrumb: singleCrumb,
                             onMouseOver: function onMouseOver() {
-                                if (!crumb.data.params.details) return null;
+                                if (!crumb.data.params.details || codeCrumbsDetails) return null;
 
                                 return (0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
                                     x: cX,
                                     y: cY,
-                                    name: crumb.data.params.details
+                                    name: crumb.data.params.details,
+                                    singleCrumb: singleCrumb
                                 });
                             },
                             onClick: function onClick() {
                                 onCodeCrumbSelect(node.data, crumb.data);
                             }
                         }));
+
+                        if (codeCrumbsDetails && crumb.data.params.details) {
+                            add((0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
+                                x: cX,
+                                y: cY,
+                                name: crumb.data.params.details,
+                                singleCrumb: singleCrumb
+                            }));
+                        }
                     });
                 }
             });
@@ -68917,12 +68943,13 @@ var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenter
     var x = _ref4.x,
         y = _ref4.y,
         _ref4$name = _ref4.name,
-        name = _ref4$name === undefined ? '' : _ref4$name;
+        name = _ref4$name === undefined ? '' : _ref4$name,
+        singleCrumb = _ref4.singleCrumb;
 
-    var tPt = shiftToCenterPoint(x - 12, y - 30);
-    var nameWidth = name.length * 7;
-    var nameHeight = 10;
-    var padding = 8;
+    var tPt = shiftToCenterPoint(x - 15 + (singleCrumb ? 0 : 20), y - 24);
+    var nameWidth = name.length * 6;
+    var nameHeight = 8;
+    var padding = 5;
 
     var polyline = draw.polyline([[tPt.x - padding, tPt.y + nameHeight + padding + 3], [tPt.x - padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y + nameHeight + padding], [tPt.x - padding + 3, tPt.y + nameHeight + padding], [tPt.x - padding, tPt.y + nameHeight + padding + 3]]);
 
@@ -68931,8 +68958,8 @@ var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenter
     });
 
     var text = draw.text(name);
-    text.font({ fill: '#595959', family: 'Menlo', size: '12px' });
-    text.move(tPt.x, tPt.y);
+    text.font({ fill: '#595959', family: 'Menlo', size: '10px' });
+    text.move(tPt.x + 2, tPt.y - 1);
 
     return [text, polyline];
 };
@@ -69649,6 +69676,7 @@ var TreeDiagram = function (_React$Component) {
                 dependenciesDiagramOn = _props.dependenciesDiagramOn,
                 codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
                 codeCrumbsMinimize = _props.codeCrumbsMinimize,
+                codeCrumbsDetails = _props.codeCrumbsDetails,
                 onFileSelect = _props.onFileSelect,
                 onCodeCrumbSelect = _props.onCodeCrumbSelect;
 
@@ -69657,7 +69685,8 @@ var TreeDiagram = function (_React$Component) {
                 sourceDiagramOn: sourceDiagramOn,
                 dependenciesDiagramOn: dependenciesDiagramOn,
                 codeCrumbsDiagramOn: codeCrumbsDiagramOn,
-                codeCrumbsMinimize: codeCrumbsMinimize
+                codeCrumbsMinimize: codeCrumbsMinimize,
+                codeCrumbsDetails: codeCrumbsDetails
             };
 
             return _react2.default.createElement(

@@ -1,35 +1,46 @@
 import React from 'react';
 import SVG from 'svg.js';
+import { buildShiftToPoint } from '../../../../utils/geometry';
 
 const IconsAndTextLayer = 'iconsAndTextLayer';
 const cachedSvgDraws = {};
+
+const BOX_SIZE = 800;
+const DOT = {
+    x: BOX_SIZE / 4,
+    y: BOX_SIZE / 4
+};
+
+const shiftToCenterPoint = buildShiftToPoint(DOT);
 
 export const withSvgDraw = Component =>
     class extends React.Component {
         state = {};
 
-        getPrimaryDraw() {
-            const { width, height, primaryLayer } = this.props;
-            const primaryLayerName = primaryLayer.dataset.name;
+        createSvg(layer) {
+            const { width = BOX_SIZE, height = BOX_SIZE } = this.props;
 
+            return SVG(layer).size(width, height);
+        }
+
+        getPrimaryDraw() {
+            const { primaryLayer } = this.props;
+
+            const primaryLayerName = primaryLayer.dataset.name;
             if (primaryLayerName !== IconsAndTextLayer) {
-                return SVG(primaryLayer).size(width, height);
+                return this.createSvg(primaryLayer);
             }
 
             if (cachedSvgDraws[primaryLayerName]) {
                 return cachedSvgDraws[primaryLayerName];
             }
 
-            cachedSvgDraws[primaryLayerName] = SVG(primaryLayer).size(
-                width,
-                height
-            );
-
+            cachedSvgDraws[primaryLayerName] = this.createSvg(primaryLayer);
             return cachedSvgDraws[primaryLayerName];
         }
 
         componentDidMount() {
-            const { width, height, secondaryLayer } = this.props;
+            const { secondaryLayer } = this.props;
 
             let subState = {
                 primaryDraw: this.getPrimaryDraw()
@@ -38,7 +49,7 @@ export const withSvgDraw = Component =>
             if (secondaryLayer) {
                 subState = {
                     ...subState,
-                    secondaryDraw: SVG(secondaryLayer).size(width, height)
+                    secondaryDraw: this.createSvg(secondaryLayer)
                 };
             }
 
@@ -65,6 +76,7 @@ export const withSvgDraw = Component =>
                         {...this.props}
                         primaryDraw={primaryDraw}
                         secondaryDraw={secondaryDraw}
+                        shiftToCenterPoint={shiftToCenterPoint}
                     />
                 )) ||
                 null

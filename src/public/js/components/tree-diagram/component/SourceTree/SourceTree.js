@@ -42,10 +42,12 @@ class SourceTree extends React.Component {
             primaryDraw,
             secondaryDraw,
             layoutNodes,
+            closedFolders,
             shiftToCenterPoint,
             dependenciesDiagramOn,
             codeCrumbsMinimize,
-            onFileSelect
+            onFileSelect,
+            onFolderClick
         } = this.props;
 
         const { add } = this.drawSet;
@@ -120,8 +122,9 @@ class SourceTree extends React.Component {
                         x: nX,
                         y: nY,
                         disabled: dependenciesDiagramOn,
+                        closed: closedFolders[node.data.path],
                         onClick() {
-                            console.log(node.data.name);
+                            onFolderClick(node.data);
                         }
                     })
                 );

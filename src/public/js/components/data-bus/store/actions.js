@@ -6,24 +6,30 @@ export const setInitialSourceData = data => ({
     payload: data
 });
 
-export const calcFilesTreeLayoutNodes = codeCrumbsOn => (
-    dispatch,
-    getState
-) => {
+export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
     const state = getState();
-    const { dataBus } = state;
+    const { filesTree, closedFolders } = state.dataBus;
+    const { checkedState } = state.viewSwitches;
 
-    if (!dataBus.filesTree) return;
+    if (!filesTree) return;
 
     return dispatch({
         type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
-        payload: getTreeLayout(dataBus.filesTree, codeCrumbsOn)
+        payload: getTreeLayout(filesTree, {
+            includeFileChildren: checkedState.codeCrumbs,
+            closedFolders
+        })
     });
 };
 
-export const selectFile = (fileNode) => ({
+export const selectFile = fileNode => ({
     type: ACTIONS.SELECT_FILE,
     payload: fileNode
+});
+
+export const toggleFolder = folderNode => ({
+    type: ACTIONS.TOGGLE_FOLDER,
+    payload: folderNode
 });
 
 export const selectCodeCrumb = (fileNode, codeCrumb) => ({

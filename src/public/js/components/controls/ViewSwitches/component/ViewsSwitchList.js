@@ -1,13 +1,9 @@
 import React from 'react';
-import { Switch, Checkbox, Icon } from 'antd';
+import { Switch, Checkbox, Button } from 'antd';
 import './ViewSwitchList.css';
+import { VIEW_TYPES } from '../store/constants';
 
-const ViewsSwitchList = ({
-    switches,
-    toggleSwitch,
-    defaultChecked,
-    checkedState
-}) => {
+const ViewsSwitchList = ({ switches, toggleSwitch, checkedState }) => {
     return (
         <div className="ViewSwitchList-container">
             {switches.map((item, i) => (
@@ -16,7 +12,7 @@ const ViewsSwitchList = ({
                         <span>{item.name + ' '}</span>
                         <Switch
                             size="small"
-                            defaultChecked={item.key === defaultChecked}
+                            checked={checkedState[item.key]}
                             onChange={checked =>
                                 toggleSwitch(item.key, checked)
                             }
@@ -31,18 +27,33 @@ const ViewsSwitchList = ({
                                         key={item.key}
                                         className="ViewSwitchList-small-item"
                                     >
-                                        <Checkbox
-                                            onChange={e =>
-                                                toggleSwitch(
-                                                    item.key,
-                                                    e.target.checked
-                                                )
-                                            }
-                                        >
-                                            <span title={item.title || ''}>
-                                                {item.name}
-                                            </span>
-                                        </Checkbox>
+                                        {item.type === VIEW_TYPES.BUTTON ? (
+                                            <Button
+                                                title={item.title}
+                                                size={'small'}
+                                                onClick={() =>
+                                                    toggleSwitch(item.key, true)
+                                                }
+                                            >
+                                                <span title={item.title}>
+                                                    {item.name}{' '}
+                                                </span>
+                                            </Button>
+                                        ) : (
+                                            <Checkbox
+                                                checked={checkedState[item.key]}
+                                                onChange={e =>
+                                                    toggleSwitch(
+                                                        item.key,
+                                                        e.target.checked
+                                                    )
+                                                }
+                                            >
+                                                <span title={item.title}>
+                                                    {item.name}
+                                                </span>
+                                            </Checkbox>
+                                        )}
                                     </div>
                                 ))}
                             </div>

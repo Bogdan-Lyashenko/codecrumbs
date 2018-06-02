@@ -32,6 +32,14 @@ export const toggleFolder = folderNode => ({
     payload: folderNode
 });
 
+export const openAllFolders = () => ({
+    type: ACTIONS.OPEN_ALL_FOLDERS
+});
+
+export const closeAllFolders = () => ({
+    type: ACTIONS.CLOSE_ALL_FOLDERS
+});
+
 export const selectCodeCrumb = (fileNode, codeCrumb) => ({
     type: ACTIONS.SELECT_CODE_CRUMB,
     payload: { fileNode, codeCrumb }

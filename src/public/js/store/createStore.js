@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import viewSwitches from '../components/controls/ViewSwitches/store/reducer';
 import dataBus from '../components/data-bus/store/reducer';
-import rootSaga from '../components/data-bus/store/sagas';
+import rootSaga from './sagas';
 
 export default () => {
     const sagaMiddleware = createSagaMiddleware();

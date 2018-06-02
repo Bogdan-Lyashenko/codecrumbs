@@ -30,3 +30,7 @@
 .ViewSwitchList-small-item {
     margin-right: 10px;
 }
+
+.ViewSwitchList-small-item .anticon {
+    padding: 2px 8px 0 0px;
+}

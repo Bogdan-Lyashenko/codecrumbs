@@ -1,9 +1,25 @@
-import { ACTIONS, SWITCH_KEYS } from './constants';
+import { ACTIONS, SWITCH_KEYS, VIEW_TYPES } from './constants';
 
 const DefaultState = {
-    defaultChecked: SWITCH_KEYS.SOURCE,
     switches: [
-        { name: 'Source', key: SWITCH_KEYS.SOURCE, checkBoxes: [] },
+        {
+            name: 'Source',
+            key: SWITCH_KEYS.SOURCE,
+            checkBoxes: [
+                {
+                    name: 'C',
+                    title: 'Collapse to 2nd Level',
+                    key: SWITCH_KEYS.SOURCE_COLLAPSE_TO_MIN,
+                    type: VIEW_TYPES.BUTTON
+                },
+                {
+                    name: 'E',
+                    title: 'Expand all',
+                    key: SWITCH_KEYS.SOURCE_EXPAND_ALL,
+                    type: VIEW_TYPES.BUTTON
+                }
+            ]
+        },
         { name: 'Dependencies', key: SWITCH_KEYS.DEPENDENCIES, checkBoxes: [] },
         {
             name: 'CodeCrumbs',
@@ -23,11 +39,7 @@ const DefaultState = {
         }
     ],
     checkedState: {
-        [SWITCH_KEYS.SOURCE]: true,
-        [SWITCH_KEYS.DEPENDENCIES]: false,
-        [SWITCH_KEYS.CODE_CRUMBS]: false,
-        [SWITCH_KEYS.CODE_CRUMBS_MINIMIZE]: false,
-        [SWITCH_KEYS.CODE_CRUMBS_DETAILS]: false
+        [SWITCH_KEYS.SOURCE]: true
     }
 };
 
@@ -36,12 +48,22 @@ export default (state = DefaultState, action) => {
         case ACTIONS.TOGGLE_SWITCH:
             const { switchKey, checked } = action.payload;
 
+            const checkedState = {
+                ...state.checkedState,
+                [switchKey]: checked
+            };
+
+            if (switchKey === SWITCH_KEYS.SOURCE_COLLAPSE_TO_MIN && checked) {
+                checkedState[SWITCH_KEYS.SOURCE_EXPAND_ALL] = false;
+            }
+
+            if (switchKey === SWITCH_KEYS.SOURCE_EXPAND_ALL && checked) {
+                checkedState[SWITCH_KEYS.SOURCE_COLLAPSE_TO_MIN] = false;
+            }
+
             return {
                 ...state,
-                checkedState: {
-                    ...state.checkedState,
-                    [switchKey]: checked
-                }
+                checkedState
             };
             break;
 

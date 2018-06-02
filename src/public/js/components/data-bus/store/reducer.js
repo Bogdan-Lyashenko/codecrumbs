@@ -1,3 +1,4 @@
+import { DIR_NODE_TYPE } from '../../../../../shared/constants';
 import { ACTIONS } from './constants';
 
 const DefaultState = {
@@ -44,6 +45,26 @@ export default (state = DefaultState, action) => {
                     : { ...closedFolders, [folderPath]: action.payload }
             };
             break;
+
+        case ACTIONS.OPEN_ALL_FOLDERS:
+            return {
+                ...state,
+                closedFolders: {}
+            };
+
+        case ACTIONS.CLOSE_ALL_FOLDERS:
+            if (!state.filesTree) return state;
+            const rootFolderChildren = state.filesTree.children.filter(
+                item => item.type === DIR_NODE_TYPE
+            );
+
+            return {
+                ...state,
+                closedFolders: rootFolderChildren.reduce((res, folder) => {
+                    res[folder.path] = folder;
+                    return res;
+                }, {})
+            };
 
         case ACTIONS.SELECT_CODE_CRUMB:
             const { fileNode, codeCrumb } = action.payload;

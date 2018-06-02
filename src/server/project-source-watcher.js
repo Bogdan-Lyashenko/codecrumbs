@@ -1,6 +1,8 @@
 const directoryTree = require('directory-tree');
 const codecrumbs = require('./codecrumbs/codecrumbs');
 const file = require('./utils/file');
+const treeTraversal = require('../shared/utils/tree').traversal;
+const DIR_NODE_TYPE = require('../shared/constants').DIR_NODE_TYPE;
 const madge = require('madge');
 const chokidar = require('chokidar');
 const debounce = require('lodash.debounce');
@@ -15,6 +17,22 @@ const getDirFiles = projectDir => {
             filesList.push(item);
         }
     );
+
+    treeTraversal(filesTree, node => {
+        if (node.type === DIR_NODE_TYPE && node.children) {
+            node.children = node.children.sort((a, b) => {
+                if (a.type !== DIR_NODE_TYPE && b.type === DIR_NODE_TYPE) {
+                    return 1;
+                }
+
+                if (a.type === DIR_NODE_TYPE && b.type !== DIR_NODE_TYPE) {
+                    return -1;
+                }
+
+                return 0;
+            });
+        }
+    });
 
     return { list: filesList, tree: filesTree };
 };

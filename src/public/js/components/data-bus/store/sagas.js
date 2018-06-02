@@ -4,7 +4,11 @@ import { ACTIONS as SWITCHES_ACTIONS } from '../../controls/ViewSwitches/store/c
 import { calcFilesTreeLayoutNodes } from './actions';
 
 function* recalculateFilesLayout() {
-    yield put(calcFilesTreeLayoutNodes());
+    try {
+        yield put(calcFilesTreeLayoutNodes());
+    } catch (e) {
+        yield put({type: 'ERROR'});
+    }
 }
 
 //TODO: think to move out from data-bus folder

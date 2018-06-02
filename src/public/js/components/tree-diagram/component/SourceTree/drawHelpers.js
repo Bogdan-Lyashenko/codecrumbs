@@ -148,8 +148,10 @@ export const drawFolderIcon = (
         polyline = draw.polyline([
             folderIconPoint.x - 1,
             folderIconPoint.y + 16,
-            folderIconPoint.x + 15,
-            folderIconPoint.y + 16
+            folderIconPoint.x + 16,
+            folderIconPoint.y + 16,
+            folderIconPoint.x + 16,
+            folderIconPoint.y + 14,
         ]);
 
         const color = !disabled ? '#BFBFBF' : '#ccc';

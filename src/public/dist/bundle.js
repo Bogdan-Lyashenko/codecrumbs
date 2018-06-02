@@ -80672,12 +80672,17 @@ module.exports = function(originalModule) {
 "use strict";
 
 
+var FILE_NODE_TYPE = 'file';
+var DIR_NODE_TYPE = 'directory';
+
 var SOCKET_EVENT_TYPE = {
     SYNC_SOURCE_FILES: 'sync-source-files'
 };
 
 module.exports = {
-    SOCKET_EVENT_TYPE: SOCKET_EVENT_TYPE
+    SOCKET_EVENT_TYPE: SOCKET_EVENT_TYPE,
+    FILE_NODE_TYPE: FILE_NODE_TYPE,
+    DIR_NODE_TYPE: DIR_NODE_TYPE
 };
 
 /***/ }),
@@ -81374,15 +81379,26 @@ function recalculateFilesLayout() {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
-                    _context.next = 2;
+                    _context.prev = 0;
+                    _context.next = 3;
                     return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
 
-                case 2:
+                case 3:
+                    _context.next = 9;
+                    break;
+
+                case 5:
+                    _context.prev = 5;
+                    _context.t0 = _context['catch'](0);
+                    _context.next = 9;
+                    return (0, _effects.put)({ type: 'ERROR' });
+
+                case 9:
                 case 'end':
                     return _context.stop();
             }
         }
-    }, _marked, this);
+    }, _marked, this, [[0, 5]]);
 }
 
 //TODO: think to move out from data-bus folder
@@ -81721,8 +81737,6 @@ var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/CodeCrumbsTree/drawHelpers.js");
 
 var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
-
-var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
 
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
@@ -82299,7 +82313,7 @@ var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree
 
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
 
-var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants = __webpack_require__(/*! ../../../../../../shared/constants */ "../shared/constants.js");
 
 var _SvgSet = __webpack_require__(/*! ../utils/SvgSet */ "./js/components/tree-diagram/component/utils/SvgSet.js");
 
@@ -82601,7 +82615,7 @@ var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shif
 
     var polyline = null;
     if (closed) {
-        polyline = draw.polyline([folderIconPoint.x - 1, folderIconPoint.y + 16, folderIconPoint.x + 15, folderIconPoint.y + 16]);
+        polyline = draw.polyline([folderIconPoint.x - 1, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 14]);
 
         var color = !disabled ? '#BFBFBF' : '#ccc';
         polyline.fill('none').stroke({
@@ -83012,9 +83026,6 @@ Object.defineProperty(exports, "__esModule", {
 var PURPLE_COLOR = exports.PURPLE_COLOR = '#ff18a6';
 var BLUE_COLOR = exports.BLUE_COLOR = '#1890ff';
 
-var FILE_NODE_TYPE = exports.FILE_NODE_TYPE = 'file';
-var DIR_NODE_TYPE = exports.DIR_NODE_TYPE = 'directory';
-
 var SYMBOL_WIDTH = exports.SYMBOL_WIDTH = 8.4;
 
 var LAYOUT_CONFIG = exports.LAYOUT_CONFIG = {
@@ -83254,14 +83265,16 @@ var _d3Flextree = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-
 
 var d3FlexTree = _interopRequireWildcard(_d3Flextree);
 
-var _constants = __webpack_require__(/*! ../components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants = __webpack_require__(/*! ../../../shared/constants */ "../shared/constants.js");
+
+var _constants2 = __webpack_require__(/*! ../components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData, _ref) {
     var includeFileChildren = _ref.includeFileChildren,
         _ref$config = _ref.config,
-        config = _ref$config === undefined ? _constants.LAYOUT_CONFIG : _ref$config,
+        config = _ref$config === undefined ? _constants2.LAYOUT_CONFIG : _ref$config,
         closedFolders = _ref.closedFolders;
 
     var layoutStructure = d3FlexTree.flextree({

@@ -1,4 +1,4 @@
-export const traversal = (tree, fn) => {
+const traversal = (tree, fn) => {
     let queue = [].concat(tree);
 
     while (queue.length) {
@@ -13,7 +13,7 @@ export const traversal = (tree, fn) => {
     }
 };
 
-export const traversalSearch = (tree, fn) => {
+const traversalSearch = (tree, fn) => {
     const result = [];
 
     traversal(tree, node => {
@@ -23,4 +23,9 @@ export const traversalSearch = (tree, fn) => {
     });
 
     return result;
+};
+
+module.exports = {
+    traversal,
+    traversalSearch
 };

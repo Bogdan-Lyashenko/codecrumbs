@@ -8,7 +8,6 @@ import {
 } from './drawHelpers';
 import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 
-import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../store/constants';
 import { getFilesList } from '../../../../utils/treeLayout';
 import { createSet } from '../utils/SvgSet';
 

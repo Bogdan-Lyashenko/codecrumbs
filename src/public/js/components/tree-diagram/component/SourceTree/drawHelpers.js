@@ -129,18 +129,34 @@ export const drawFolderText = (
 export const drawFolderIcon = (
     draw,
     shiftToCenterPoint,
-    { x, y, disabled, onClick }
+    { x, y, disabled, closed, onClick }
 ) => {
-    const folderIconPath = !disabled
-        ? ICONS_DIR + 'folder.svg'
-        : ICONS_DIR + 'folder-disabled.svg';
-    const folderIconSize = 16;
-    const folderIconPointShiftX = 3;
-    const folderIconPointShiftY = 17;
+    const folderIconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${
+        disabled ? '-disabled' : ''
+    }.svg`;
+
+    const folderIconSize = closed ? 14 : 15;
+    const folderIconPointShiftX = closed ? 3 : 3;
+    const folderIconPointShiftY = closed ? 16 : 17;
     const folderIconPoint = shiftToCenterPoint(
         x + folderIconPointShiftX,
         y - folderIconPointShiftY
     );
+
+    let polyline = null;
+    if (closed) {
+        polyline = draw.polyline([
+            folderIconPoint.x - 1,
+            folderIconPoint.y + 16,
+            folderIconPoint.x + 15,
+            folderIconPoint.y + 16
+        ]);
+
+        const color = !disabled ? '#BFBFBF' : '#ccc';
+        polyline.fill('none').stroke({
+            color
+        });
+    }
 
     const icon = draw
         .image(folderIconPath, folderIconSize, folderIconSize)
@@ -150,5 +166,7 @@ export const drawFolderIcon = (
         icon.style({ cursor: 'pointer' }).on('click', onClick);
     }
 
-    return icon;
+    if (!polyline) return icon;
+
+    return [icon, polyline];
 };

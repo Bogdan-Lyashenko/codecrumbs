@@ -40,12 +40,16 @@ class TreeDiagram extends React.Component {
         const {
             filesTreeLayoutNodes,
             dependenciesList,
+            closedFolders,
+
             sourceDiagramOn,
             dependenciesDiagramOn,
             codeCrumbsDiagramOn,
             codeCrumbsMinimize,
             codeCrumbsDetails,
+
             onFileSelect,
+            onFolderClick,
             onCodeCrumbSelect
         } = this.props;
 
@@ -63,9 +67,11 @@ class TreeDiagram extends React.Component {
                     sourceDiagramOn && (
                         <SourceTree
                             layoutNodes={filesTreeLayoutNodes}
+                            closedFolders={closedFolders}
                             secondaryLayer={this.sourceEdgesLayer}
                             primaryLayer={this.iconsAndTextLayer}
                             onFileSelect={onFileSelect}
+                            onFolderClick={onFolderClick}
                             {...sharedProps}
                         />
                     )}

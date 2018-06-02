@@ -5,7 +5,8 @@ const DefaultState = {
     filesList: null,
     dependenciesList: null,
 
-    filesTreeLayoutNodes: null
+    filesTreeLayoutNodes: null,
+    closedFolders: {}
 };
 
 export default (state = DefaultState, action) => {
@@ -29,6 +30,18 @@ export default (state = DefaultState, action) => {
                 ...state,
                 selectedCodeCrumb: null,
                 selectedFile: action.payload
+            };
+            break;
+
+        case ACTIONS.TOGGLE_FOLDER:
+            const { closedFolders } = state;
+            const folderPath = action.payload.path;
+
+            return {
+                ...state,
+                closedFolders: closedFolders[folderPath]
+                    ? { ...closedFolders, [folderPath]: null }
+                    : { ...closedFolders, [folderPath]: action.payload }
             };
             break;
 

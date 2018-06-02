@@ -13,28 +13,22 @@ class DataBusContainer extends React.Component {
         createConnection(({ type, data }) => this.onSocketEvent(type, data));
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.codeCrumbsDiagramOn === this.props.codeCrumbsDiagramOn) {
-            return;
-        }
-
-        this.props.calcFilesTreeLayoutNodes(nextProps.codeCrumbsDiagramOn);
-    }
-
     onSocketEvent(type, data) {
         switch (type) {
             case SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
                 const { filesTree, filesList, dependenciesList } = data.body;
+                const {
+                    setInitialSourceData,
+                    calcFilesTreeLayoutNodes
+                } = this.props;
 
-                this.props.setInitialSourceData({
+                setInitialSourceData({
                     filesTree,
                     filesList,
                     dependenciesList
                 });
 
-                this.props.calcFilesTreeLayoutNodes(
-                    this.props.codeCrumbsDiagramOn
-                );
+                calcFilesTreeLayoutNodes();
                 break;
 
             default:
@@ -47,17 +41,9 @@ class DataBusContainer extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    const { checkedState } = state.viewSwitches;
-
-    return {
-        codeCrumbsDiagramOn: checkedState.codeCrumbs
-    };
-};
-
 const mapDispatchToProps = {
     setInitialSourceData,
     calcFilesTreeLayoutNodes
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataBusContainer);
+export default connect(null, mapDispatchToProps)(DataBusContainer);

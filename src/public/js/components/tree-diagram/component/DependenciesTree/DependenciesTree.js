@@ -37,6 +37,8 @@ class DependenciesTree extends React.Component {
                 moduleName
             );
 
+            if (!moduleNode) return;
+
             const [mX, mY] = [moduleNode.y, moduleNode.x];
 
             if (!sourceDiagramOn) {
@@ -53,6 +55,8 @@ class DependenciesTree extends React.Component {
                     moduleFilesList,
                     name
                 );
+
+                if (!importedNode) return;
 
                 const [iX, iY] = [importedNode.y, importedNode.x];
                 //TODO: implementation iterations:

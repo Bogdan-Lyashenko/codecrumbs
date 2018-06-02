@@ -1,10 +1,18 @@
 import { connect } from 'react-redux';
 import TreeDiagram from './component/TreeDiagram';
-import { selectCodeCrumb, selectFile } from '../data-bus/store/actions';
+import {
+    selectCodeCrumb,
+    selectFile,
+    toggleFolder
+} from '../data-bus/store/actions';
 
 const mapStateToProps = state => {
     const { checkedState } = state.viewSwitches;
-    const { filesTreeLayoutNodes, dependenciesList } = state.dataBus;
+    const {
+        filesTreeLayoutNodes,
+        dependenciesList,
+        closedFolders
+    } = state.dataBus;
 
     return {
         sourceDiagramOn: checkedState.source,
@@ -13,13 +21,15 @@ const mapStateToProps = state => {
         codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
         codeCrumbsDetails: checkedState.codeCrumbsDetails,
         filesTreeLayoutNodes,
-        dependenciesList
+        dependenciesList,
+        closedFolders
     };
 };
 
 const mapDispatchToProps = {
     onCodeCrumbSelect: selectCodeCrumb,
-    onFileSelect: selectFile
+    onFileSelect: selectFile,
+    onFolderClick: toggleFolder
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TreeDiagram);

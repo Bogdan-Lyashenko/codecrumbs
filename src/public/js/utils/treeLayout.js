@@ -1,18 +1,21 @@
 import * as d3FlexTree from 'd3-flextree';
-import { FILE_NODE_TYPE, DIR_NODE_TYPE, LAYOUT_CONFIG } from '../components/tree-diagram/store/constants';
+import {
+    FILE_NODE_TYPE,
+    DIR_NODE_TYPE,
+    LAYOUT_CONFIG
+} from '../components/tree-diagram/store/constants';
 
 export const getTreeLayout = (
     treeData,
-    includeFileChildren,
-    config = LAYOUT_CONFIG
+    { includeFileChildren, config = LAYOUT_CONFIG, closedFolders }
 ) => {
     const layoutStructure = d3FlexTree.flextree({
         children: data => {
-            if (includeFileChildren || data.type === DIR_NODE_TYPE) {
-                return data.children;
+            if (data.type === DIR_NODE_TYPE) {
+                return !closedFolders[data.path] ? data.children : [];
             }
 
-            return [];
+            return includeFileChildren ? data.children : [];
         },
         nodeSize: node => [
             config.nodeSizeX,

@@ -1,3 +1,4 @@
+import safeGet from 'lodash/get';
 import { DIR_NODE_TYPE } from '../../../../../shared/constants';
 import { ACTIONS } from './constants';
 
@@ -7,7 +8,8 @@ const DefaultState = {
     dependenciesList: null,
 
     filesTreeLayoutNodes: null,
-    closedFolders: {}
+    closedFolders: {},
+    firstLevelFolders: {}
 };
 
 export default (state = DefaultState, action) => {
@@ -15,16 +17,24 @@ export default (state = DefaultState, action) => {
         case ACTIONS.SET_INITIAL_SOURCE_DATA:
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
+                firstLevelFolders: safeGet(
+                    action.payload,
+                    'filesTree.children',
+                    []
+                )
+                    .filter(item => item.type === DIR_NODE_TYPE)
+                    .reduce((res, item) => {
+                        res[item.path] = item;
+                        return res;
+                    }, {})
             };
-            break;
 
         case ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES:
             return {
                 ...state,
                 filesTreeLayoutNodes: action.payload
             };
-            break;
 
         case ACTIONS.SELECT_FILE:
             return {
@@ -32,7 +42,6 @@ export default (state = DefaultState, action) => {
                 selectedCodeCrumb: null,
                 selectedFile: action.payload
             };
-            break;
 
         case ACTIONS.TOGGLE_FOLDER:
             const { closedFolders } = state;
@@ -44,7 +53,6 @@ export default (state = DefaultState, action) => {
                     ? { ...closedFolders, [folderPath]: null }
                     : { ...closedFolders, [folderPath]: action.payload }
             };
-            break;
 
         case ACTIONS.OPEN_ALL_FOLDERS:
             return {
@@ -53,17 +61,12 @@ export default (state = DefaultState, action) => {
             };
 
         case ACTIONS.CLOSE_ALL_FOLDERS:
-            if (!state.filesTree) return state;
-            const rootFolderChildren = state.filesTree.children.filter(
-                item => item.type === DIR_NODE_TYPE
-            );
-
             return {
                 ...state,
-                closedFolders: rootFolderChildren.reduce((res, folder) => {
-                    res[folder.path] = folder;
-                    return res;
-                }, {})
+                closedFolders: {
+                    ...state.closedFolders,
+                    ...state.firstLevelFolders
+                }
             };
 
         case ACTIONS.SELECT_CODE_CRUMB:
@@ -73,7 +76,6 @@ export default (state = DefaultState, action) => {
                 selectedFile: fileNode,
                 selectedCodeCrumb: codeCrumb
             };
-            break;
 
         default:
             return state;

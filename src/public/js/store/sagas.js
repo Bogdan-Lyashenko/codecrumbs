@@ -1,4 +1,5 @@
-import { put, takeLatest, select } from 'redux-saga/effects';
+import every from 'lodash/every';
+import { put, takeEvery, select, all } from 'redux-saga/effects';
 import { ACTIONS as DATA_BUS_ACTIONS } from '../components/data-bus/store/constants';
 import {
     calcFilesTreeLayoutNodes,
@@ -8,44 +9,68 @@ import {
 
 import {
     ACTIONS as SWITCHES_ACTIONS,
-    SWITCH_KEYS
+    CONTROLS_KEYS
 } from '../components/controls/ViewSwitches/store/constants';
-import { toggleSwitch } from '../components/controls/ViewSwitches/store/actions';
+import { setDisabledControl } from '../components/controls/ViewSwitches/store/actions';
 
 function* reactOnSwitchToggle(action) {
-    const { switchKey, checked } = action.payload;
+    const { switchKey } = action.payload;
 
-    if (switchKey === SWITCH_KEYS.SOURCE_EXPAND_ALL && checked) {
-        yield put(openAllFolders());
+    if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
         yield put(calcFilesTreeLayoutNodes());
-        return;
+    }
+}
+
+function* reactOnButtonAction(action) {
+    const buttonKey = action.payload;
+
+    if (buttonKey === CONTROLS_KEYS.SOURCE_EXPAND_ALL) {
+        return yield all([
+            put(setDisabledControl(CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)),
+            put(openAllFolders()),
+            put(calcFilesTreeLayoutNodes())
+        ]);
     }
 
-    if (switchKey === SWITCH_KEYS.SOURCE_COLLAPSE_TO_MIN && checked) {
-        yield put(closeAllFolders());
-        yield put(calcFilesTreeLayoutNodes());
-        return;
-    }
-
-    if (switchKey === SWITCH_KEYS.CODE_CRUMBS) {
-        yield put(calcFilesTreeLayoutNodes());
+    if (buttonKey === CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN) {
+        return yield all([
+            put(setDisabledControl(CONTROLS_KEYS.SOURCE_EXPAND_ALL)),
+            put(closeAllFolders()),
+            put(calcFilesTreeLayoutNodes())
+        ]);
     }
 }
 
 function* reactOnToggledFolder(action) {
-    const checkedState = yield select(state => state.viewSwitches.checkedState);
-    if (checkedState[SWITCH_KEYS.SOURCE_EXPAND_ALL]) {
-        yield put(toggleSwitch(SWITCH_KEYS.SOURCE_EXPAND_ALL, false));
-    }
-    if (checkedState[SWITCH_KEYS.SOURCE_COLLAPSE_TO_MIN]) {
-        yield put(toggleSwitch(SWITCH_KEYS.SOURCE_COLLAPSE_TO_MIN, false));
-    }
+    const dataBusState = yield select(state => state.dataBus);
+    const { closedFolders, firstLevelFolders } = dataBusState;
+
+    yield all([
+        put(
+            setDisabledControl(
+                CONTROLS_KEYS.SOURCE_EXPAND_ALL,
+                every(Object.keys(closedFolders), item => !closedFolders[item])
+            )
+        ),
+
+        put(
+            setDisabledControl(
+                CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
+                every(
+                    Object.keys(firstLevelFolders),
+                    item => closedFolders[item]
+                )
+            )
+        )
+    ]);
 
     yield put(calcFilesTreeLayoutNodes());
 }
 
-//TODO: think to move out from data-bus folder
 export default function* rootSaga() {
-    yield takeLatest(SWITCHES_ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle);
-    yield takeLatest(DATA_BUS_ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder);
+    yield all([
+        takeEvery(SWITCHES_ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle),
+        takeEvery(SWITCHES_ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction),
+        takeEvery(DATA_BUS_ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder)
+    ]);
 }

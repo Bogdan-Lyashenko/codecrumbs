@@ -1,5 +1,3 @@
-import { SWITCH_KEYS } from '../../controls/ViewSwitches/store/constants';
-
 export const ACTIONS = {
     SET_INITIAL_SOURCE_DATA: 'DATA_BUS.SET_INITIAL_SOURCE_DATA',
     UPDATE_FILES_TREE_LAYOUT_NODES: 'DATA_BUS.UPDATE_FILES_TREE_LAYOUT_NODES',

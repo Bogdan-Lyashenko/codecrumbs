@@ -24,6 +24,7 @@
     "css-loader": "^0.28.11",
     "d3-flextree": "^2.1.1",
     "directory-tree": "^2.1.0",
+    "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
     "madge": "^3.0.1",
     "mime-types": "^2.1.18",

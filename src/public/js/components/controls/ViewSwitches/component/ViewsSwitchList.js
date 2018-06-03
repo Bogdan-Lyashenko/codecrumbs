@@ -3,7 +3,13 @@ import { Switch, Checkbox, Button } from 'antd';
 import './ViewSwitchList.css';
 import { VIEW_TYPES } from '../store/constants';
 
-const ViewsSwitchList = ({ switches, toggleSwitch, checkedState }) => {
+const ViewsSwitchList = ({
+    switches,
+    toggleSwitch,
+    checkedState,
+    disabledState,
+    fireButtonAction
+}) => {
     return (
         <div className="ViewSwitchList-container">
             {switches.map((item, i) => (
@@ -30,13 +36,16 @@ const ViewsSwitchList = ({ switches, toggleSwitch, checkedState }) => {
                                         {item.type === VIEW_TYPES.BUTTON ? (
                                             <Button
                                                 title={item.title}
+                                                disabled={
+                                                    disabledState[item.key]
+                                                }
                                                 size={'small'}
                                                 onClick={() =>
-                                                    toggleSwitch(item.key, true)
+                                                    fireButtonAction(item.key)
                                                 }
                                             >
                                                 <span title={item.title}>
-                                                    {item.name}{' '}
+                                                    {item.name}
                                                 </span>
                                             </Button>
                                         ) : (

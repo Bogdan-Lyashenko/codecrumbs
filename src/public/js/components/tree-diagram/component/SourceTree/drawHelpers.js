@@ -62,7 +62,7 @@ export const drawSourceEdge = (
 export const drawFileText = (
     draw,
     shiftToCenterPoint,
-    { x, y, purple, name = '' }
+    { x, y, purple, name = '', onClick }
 ) => {
     const text = draw.text(name);
     text.font({ fill: purple ? PURPLE_COLOR : '#595959', family: 'Menlo' });
@@ -74,6 +74,10 @@ export const drawFileText = (
         y - fileTextPointShiftY
     );
     text.move(fileTextPoint.x, fileTextPoint.y);
+
+    if (onClick) {
+        text.style({ cursor: 'pointer' }).on('click', onClick);
+    }
 
     return text;
 };
@@ -151,7 +155,7 @@ export const drawFolderIcon = (
             folderIconPoint.x + 16,
             folderIconPoint.y + 16,
             folderIconPoint.x + 16,
-            folderIconPoint.y + 14,
+            folderIconPoint.y + 14
         ]);
 
         const color = !disabled ? '#BFBFBF' : '#ccc';

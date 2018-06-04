@@ -1,3 +1,1 @@
-/**
- * Created by bliashenko on 2018-06-02.
- */
+export default () => Promise.resolve({ data: [] });

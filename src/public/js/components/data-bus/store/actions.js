@@ -44,3 +44,8 @@ export const selectCodeCrumb = (fileNode, codeCrumb) => ({
     type: ACTIONS.SELECT_CODE_CRUMB,
     payload: { fileNode, codeCrumb }
 });
+
+export const selectEntryPointForDependencies = (fileNode) => ({
+    type: ACTIONS.SELECT_DEPENDENCIES_ENTRY_POINT,
+    payload: fileNode
+});

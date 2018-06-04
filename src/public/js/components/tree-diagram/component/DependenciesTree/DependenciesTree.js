@@ -25,13 +25,19 @@ class DependenciesTree extends React.Component {
             primaryDraw,
             filesTreeLayoutNodes,
             dependenciesList,
+            dependenciesEntryPoint,
             shiftToCenterPoint,
             sourceDiagramOn
         } = this.props;
 
         const moduleFilesList = getFilesList(filesTreeLayoutNodes);
+        let filteredList = !dependenciesEntryPoint
+            ? dependenciesList
+            : dependenciesList.filter(
+                  d => d.moduleName === dependenciesEntryPoint.path
+              );
 
-        dependenciesList.forEach(({ moduleName, importedModuleNames }) => {
+        filteredList.forEach(({ moduleName, importedModuleNames }) => {
             const moduleNode = this.findNodeByPathName(
                 moduleFilesList,
                 moduleName

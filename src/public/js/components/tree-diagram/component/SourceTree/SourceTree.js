@@ -50,6 +50,7 @@ class SourceTree extends React.Component {
             dependenciesDiagramOn,
             codeCrumbsMinimize,
             onFileSelect,
+            onFileIconClick,
             onFolderClick
         } = this.props;
 
@@ -89,7 +90,10 @@ class SourceTree extends React.Component {
                         x: nX,
                         y: nY,
                         purple: node.children && codeCrumbsMinimize,
-                        name: node.data.name
+                        name: node.data.name,
+                        onClick() {
+                            onFileSelect(node.data);
+                        }
                     })
                 );
                 add(
@@ -98,7 +102,7 @@ class SourceTree extends React.Component {
                         y: nY,
                         purple: node.children && codeCrumbsMinimize,
                         onClick() {
-                            onFileSelect(node.data);
+                            dependenciesDiagramOn && onFileIconClick(node.data);
                         }
                     })
                 );

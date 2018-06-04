@@ -41,6 +41,7 @@ class TreeDiagram extends React.Component {
             filesTreeLayoutNodes,
             dependenciesList,
             closedFolders,
+            dependenciesEntryPoint,
 
             sourceDiagramOn,
             dependenciesDiagramOn,
@@ -49,6 +50,7 @@ class TreeDiagram extends React.Component {
             codeCrumbsDetails,
 
             onFileSelect,
+            onFileIconClick,
             onFolderClick,
             onCodeCrumbSelect
         } = this.props;
@@ -71,6 +73,7 @@ class TreeDiagram extends React.Component {
                             secondaryLayer={this.sourceEdgesLayer}
                             primaryLayer={this.iconsAndTextLayer}
                             onFileSelect={onFileSelect}
+                            onFileIconClick={onFileIconClick}
                             onFolderClick={onFolderClick}
                             {...sharedProps}
                         />
@@ -82,6 +85,7 @@ class TreeDiagram extends React.Component {
                         <DependenciesTree
                             dependenciesList={dependenciesList}
                             filesTreeLayoutNodes={filesTreeLayoutNodes}
+                            dependenciesEntryPoint={dependenciesEntryPoint}
                             primaryLayer={this.dependenciesEdgesLayer}
                             {...sharedProps}
                         />

@@ -77,6 +77,12 @@ export default (state = DefaultState, action) => {
                 selectedCodeCrumb: codeCrumb
             };
 
+        case ACTIONS.SELECT_DEPENDENCIES_ENTRY_POINT:
+            return {
+                ...state,
+                dependenciesEntryPoint: action.payload
+            };
+
         default:
             return state;
     }

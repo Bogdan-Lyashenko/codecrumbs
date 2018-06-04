@@ -3,6 +3,7 @@ import TreeDiagram from './component/TreeDiagram';
 import {
     selectCodeCrumb,
     selectFile,
+    selectEntryPointForDependencies,
     toggleFolder
 } from '../data-bus/store/actions';
 
@@ -11,7 +12,8 @@ const mapStateToProps = state => {
     const {
         filesTreeLayoutNodes,
         dependenciesList,
-        closedFolders
+        closedFolders,
+        dependenciesEntryPoint
     } = state.dataBus;
 
     return {
@@ -22,13 +24,15 @@ const mapStateToProps = state => {
         codeCrumbsDetails: checkedState.codeCrumbsDetails,
         filesTreeLayoutNodes,
         dependenciesList,
-        closedFolders
+        closedFolders,
+        dependenciesEntryPoint
     };
 };
 
 const mapDispatchToProps = {
     onCodeCrumbSelect: selectCodeCrumb,
     onFileSelect: selectFile,
+    onFileIconClick: selectEntryPointForDependencies,
     onFolderClick: toggleFolder
 };
 

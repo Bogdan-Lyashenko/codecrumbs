@@ -85985,7 +85985,7 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DataBusCont
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectFile = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
+exports.selectEntryPointForDependencies = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectFile = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
 
@@ -86052,6 +86052,13 @@ var selectCodeCrumb = exports.selectCodeCrumb = function selectCodeCrumb(fileNod
     };
 };
 
+var selectEntryPointForDependencies = exports.selectEntryPointForDependencies = function selectEntryPointForDependencies(fileNode) {
+    return {
+        type: _constants.ACTIONS.SELECT_DEPENDENCIES_ENTRY_POINT,
+        payload: fileNode
+    };
+};
+
 /***/ }),
 
 /***/ "./js/components/data-bus/store/constants.js":
@@ -86074,7 +86081,8 @@ var ACTIONS = exports.ACTIONS = {
     TOGGLE_FOLDER: 'DATA_BUS.TOGGLE_FOLDER',
     OPEN_ALL_FOLDERS: 'DATA_BUS.OPEN_ALL_FOLDERS',
     CLOSE_ALL_FOLDERS: 'DATA_BUS.CLOSE_ALL_FOLDERS',
-    SELECT_CODE_CRUMB: 'DATA_BUS.SELECT_CODE_CRUMB'
+    SELECT_CODE_CRUMB: 'DATA_BUS.SELECT_CODE_CRUMB',
+    SELECT_DEPENDENCIES_ENTRY_POINT: 'DATA_BUS.SELECT_DEPENDENCIES_ENTRY_POINT'
 };
 
 /***/ }),
@@ -86170,6 +86178,11 @@ exports.default = function () {
             return _extends({}, state, {
                 selectedFile: fileNode,
                 selectedCodeCrumb: codeCrumb
+            });
+
+        case _constants2.ACTIONS.SELECT_DEPENDENCIES_ENTRY_POINT:
+            return _extends({}, state, {
+                dependenciesEntryPoint: action.payload
             });
 
         default:
@@ -86442,7 +86455,8 @@ var mapStateToProps = function mapStateToProps(state) {
     var _state$dataBus = state.dataBus,
         filesTreeLayoutNodes = _state$dataBus.filesTreeLayoutNodes,
         dependenciesList = _state$dataBus.dependenciesList,
-        closedFolders = _state$dataBus.closedFolders;
+        closedFolders = _state$dataBus.closedFolders,
+        dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint;
 
 
     return {
@@ -86453,13 +86467,15 @@ var mapStateToProps = function mapStateToProps(state) {
         codeCrumbsDetails: checkedState.codeCrumbsDetails,
         filesTreeLayoutNodes: filesTreeLayoutNodes,
         dependenciesList: dependenciesList,
-        closedFolders: closedFolders
+        closedFolders: closedFolders,
+        dependenciesEntryPoint: dependenciesEntryPoint
     };
 };
 
 var mapDispatchToProps = {
     onCodeCrumbSelect: _actions.selectCodeCrumb,
     onFileSelect: _actions.selectFile,
+    onFileIconClick: _actions.selectEntryPointForDependencies,
     onFolderClick: _actions.toggleFolder
 };
 
@@ -86877,13 +86893,17 @@ var DependenciesTree = function (_React$Component) {
                 primaryDraw = _props.primaryDraw,
                 filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
                 dependenciesList = _props.dependenciesList,
+                dependenciesEntryPoint = _props.dependenciesEntryPoint,
                 shiftToCenterPoint = _props.shiftToCenterPoint,
                 sourceDiagramOn = _props.sourceDiagramOn;
 
 
             var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
+            var filteredList = !dependenciesEntryPoint ? dependenciesList : dependenciesList.filter(function (d) {
+                return d.moduleName === dependenciesEntryPoint.path;
+            });
 
-            dependenciesList.forEach(function (_ref2) {
+            filteredList.forEach(function (_ref2) {
                 var moduleName = _ref2.moduleName,
                     importedModuleNames = _ref2.importedModuleNames;
 
@@ -87130,6 +87150,7 @@ var SourceTree = function (_React$Component) {
                 dependenciesDiagramOn = _props.dependenciesDiagramOn,
                 codeCrumbsMinimize = _props.codeCrumbsMinimize,
                 onFileSelect = _props.onFileSelect,
+                onFileIconClick = _props.onFileIconClick,
                 onFolderClick = _props.onFolderClick;
             var add = this.drawSet.add;
 
@@ -87173,14 +87194,17 @@ var SourceTree = function (_React$Component) {
                         x: nX,
                         y: nY,
                         purple: node.children && codeCrumbsMinimize,
-                        name: node.data.name
+                        name: node.data.name,
+                        onClick: function onClick() {
+                            onFileSelect(node.data);
+                        }
                     }));
                     add((0, _drawHelpers.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
                         x: nX,
                         y: nY,
                         purple: node.children && codeCrumbsMinimize,
                         onClick: function onClick() {
-                            onFileSelect(node.data);
+                            dependenciesDiagramOn && onFileIconClick(node.data);
                         }
                     }));
                     return;
@@ -87299,7 +87323,8 @@ var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCen
         y = _ref3.y,
         purple = _ref3.purple,
         _ref3$name = _ref3.name,
-        name = _ref3$name === undefined ? '' : _ref3$name;
+        name = _ref3$name === undefined ? '' : _ref3$name,
+        onClick = _ref3.onClick;
 
     var text = draw.text(name);
     text.font({ fill: purple ? _constants.PURPLE_COLOR : '#595959', family: 'Menlo' });
@@ -87308,6 +87333,10 @@ var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCen
     var fileTextPointShiftY = 8;
     var fileTextPoint = shiftToCenterPoint(x + fileTextPointShiftX, y - fileTextPointShiftY);
     text.move(fileTextPoint.x, fileTextPoint.y);
+
+    if (onClick) {
+        text.style({ cursor: 'pointer' }).on('click', onClick);
+    }
 
     return text;
 };
@@ -87520,12 +87549,14 @@ var TreeDiagram = function (_React$Component) {
                 filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
                 dependenciesList = _props.dependenciesList,
                 closedFolders = _props.closedFolders,
+                dependenciesEntryPoint = _props.dependenciesEntryPoint,
                 sourceDiagramOn = _props.sourceDiagramOn,
                 dependenciesDiagramOn = _props.dependenciesDiagramOn,
                 codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
                 codeCrumbsMinimize = _props.codeCrumbsMinimize,
                 codeCrumbsDetails = _props.codeCrumbsDetails,
                 onFileSelect = _props.onFileSelect,
+                onFileIconClick = _props.onFileIconClick,
                 onFolderClick = _props.onFolderClick,
                 onCodeCrumbSelect = _props.onCodeCrumbSelect;
 
@@ -87547,11 +87578,13 @@ var TreeDiagram = function (_React$Component) {
                     secondaryLayer: this.sourceEdgesLayer,
                     primaryLayer: this.iconsAndTextLayer,
                     onFileSelect: onFileSelect,
+                    onFileIconClick: onFileIconClick,
                     onFolderClick: onFolderClick
                 }, sharedProps)),
                 dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, _extends({
                     dependenciesList: dependenciesList,
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
+                    dependenciesEntryPoint: dependenciesEntryPoint,
                     primaryLayer: this.dependenciesEdgesLayer
                 }, sharedProps)),
                 filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({

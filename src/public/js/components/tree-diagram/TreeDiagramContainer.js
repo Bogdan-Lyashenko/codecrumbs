@@ -3,7 +3,7 @@ import TreeDiagram from './component/TreeDiagram';
 import {
     selectCodeCrumb,
     selectFile,
-    selectEntryPointForDependencies,
+    setDependenciesEntryPoint,
     toggleFolder
 } from '../data-bus/store/actions';
 
@@ -32,7 +32,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     onCodeCrumbSelect: selectCodeCrumb,
     onFileSelect: selectFile,
-    onFileIconClick: selectEntryPointForDependencies,
+    onFileIconClick: setDependenciesEntryPoint,
     onFolderClick: toggleFolder
 };
 

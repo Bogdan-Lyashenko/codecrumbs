@@ -23,7 +23,14 @@ const DefaultState = {
         {
             name: 'Dependencies',
             key: CONTROLS_KEYS.DEPENDENCIES,
-            checkBoxes: []
+            checkBoxes: [
+                {
+                    name: 'A',
+                    title: 'Show All dependencies',
+                    key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
+                    type: VIEW_TYPES.BUTTON
+                }
+            ]
         },
         {
             name: 'CodeCrumbs',
@@ -46,7 +53,8 @@ const DefaultState = {
         [CONTROLS_KEYS.SOURCE]: true
     },
     disabledState: {
-        [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true
+        [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true,
+        [CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL]: true
     }
 };
 

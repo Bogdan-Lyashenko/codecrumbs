@@ -85762,6 +85762,7 @@ var CONTROLS_KEYS = exports.CONTROLS_KEYS = {
     SOURCE_COLLAPSE_TO_MIN: 'sourceCollapseToMin',
     SOURCE_EXPAND_ALL: 'sourceExpandAll',
     DEPENDENCIES: 'dependencies',
+    DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
     CODE_CRUMBS: 'codeCrumbs',
     CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
     CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'
@@ -85789,6 +85790,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _disabledState;
+
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -85811,7 +85814,12 @@ var DefaultState = {
     }, {
         name: 'Dependencies',
         key: _constants.CONTROLS_KEYS.DEPENDENCIES,
-        checkBoxes: []
+        checkBoxes: [{
+            name: 'A',
+            title: 'Show All dependencies',
+            key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
+            type: _constants.VIEW_TYPES.BUTTON
+        }]
     }, {
         name: 'CodeCrumbs',
         key: _constants.CONTROLS_KEYS.CODE_CRUMBS,
@@ -85826,7 +85834,7 @@ var DefaultState = {
         }]
     }],
     checkedState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE, true),
-    disabledState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true)
+    disabledState: (_disabledState = {}, _defineProperty(_disabledState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_disabledState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _disabledState)
 };
 
 exports.default = function () {
@@ -85985,7 +85993,7 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DataBusCont
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.selectEntryPointForDependencies = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectFile = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
+exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectFile = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
 
@@ -86052,9 +86060,9 @@ var selectCodeCrumb = exports.selectCodeCrumb = function selectCodeCrumb(fileNod
     };
 };
 
-var selectEntryPointForDependencies = exports.selectEntryPointForDependencies = function selectEntryPointForDependencies(fileNode) {
+var setDependenciesEntryPoint = exports.setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode) {
     return {
-        type: _constants.ACTIONS.SELECT_DEPENDENCIES_ENTRY_POINT,
+        type: _constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
         payload: fileNode
     };
 };
@@ -86082,7 +86090,7 @@ var ACTIONS = exports.ACTIONS = {
     OPEN_ALL_FOLDERS: 'DATA_BUS.OPEN_ALL_FOLDERS',
     CLOSE_ALL_FOLDERS: 'DATA_BUS.CLOSE_ALL_FOLDERS',
     SELECT_CODE_CRUMB: 'DATA_BUS.SELECT_CODE_CRUMB',
-    SELECT_DEPENDENCIES_ENTRY_POINT: 'DATA_BUS.SELECT_DEPENDENCIES_ENTRY_POINT'
+    SET_DEPENDENCIES_ENTRY_POINT: 'DATA_BUS.SET_DEPENDENCIES_ENTRY_POINT'
 };
 
 /***/ }),
@@ -86180,7 +86188,7 @@ exports.default = function () {
                 selectedCodeCrumb: codeCrumb
             });
 
-        case _constants2.ACTIONS.SELECT_DEPENDENCIES_ENTRY_POINT:
+        case _constants2.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
             return _extends({}, state, {
                 dependenciesEntryPoint: action.payload
             });
@@ -86475,7 +86483,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = {
     onCodeCrumbSelect: _actions.selectCodeCrumb,
     onFileSelect: _actions.selectFile,
-    onFileIconClick: _actions.selectEntryPointForDependencies,
+    onFileIconClick: _actions.setDependenciesEntryPoint,
     onFolderClick: _actions.toggleFolder
 };
 
@@ -87953,7 +87961,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(reactOnSwitchToggle),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(reactOnButtonAction),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(reactOnToggledFolder),
-    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(reactDependenciesEntryPointChange),
+    _marked5 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
 
 function reactOnSwitchToggle(action) {
     var switchKey;
@@ -88011,6 +88020,18 @@ function reactOnButtonAction(action) {
                     return _context2.abrupt('return', _context2.sent);
 
                 case 9:
+                    if (!(buttonKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL)) {
+                        _context2.next = 13;
+                        break;
+                    }
+
+                    _context2.next = 12;
+                    return (0, _effects.put)((0, _actions.setDependenciesEntryPoint)(null));
+
+                case 12:
+                    return _context2.abrupt('return', _context2.sent);
+
+                case 13:
                 case 'end':
                     return _context2.stop();
             }
@@ -88051,13 +88072,13 @@ function reactOnToggledFolder(action) {
     }, _marked3, this);
 }
 
-function rootSaga() {
-    return regeneratorRuntime.wrap(function rootSaga$(_context4) {
+function reactDependenciesEntryPointChange(action) {
+    return regeneratorRuntime.wrap(function reactDependenciesEntryPointChange$(_context4) {
         while (1) {
             switch (_context4.prev = _context4.next) {
                 case 0:
                     _context4.next = 2;
-                    return (0, _effects.all)([(0, _effects.takeEvery)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeEvery)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeEvery)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder)]);
+                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, !action.payload));
 
                 case 2:
                 case 'end':
@@ -88065,6 +88086,22 @@ function rootSaga() {
             }
         }
     }, _marked4, this);
+}
+
+function rootSaga() {
+    return regeneratorRuntime.wrap(function rootSaga$(_context5) {
+        while (1) {
+            switch (_context5.prev = _context5.next) {
+                case 0:
+                    _context5.next = 2;
+                    return (0, _effects.all)([(0, _effects.takeEvery)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeEvery)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeEvery)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder), (0, _effects.takeEvery)(_constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactDependenciesEntryPointChange)]);
+
+                case 2:
+                case 'end':
+                    return _context5.stop();
+            }
+        }
+    }, _marked5, this);
 }
 
 /***/ }),

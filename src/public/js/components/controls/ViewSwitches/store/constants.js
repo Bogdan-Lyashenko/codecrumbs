@@ -9,6 +9,7 @@ export const CONTROLS_KEYS = {
     SOURCE_COLLAPSE_TO_MIN: 'sourceCollapseToMin',
     SOURCE_EXPAND_ALL: 'sourceExpandAll',
     DEPENDENCIES: 'dependencies',
+    DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
     CODE_CRUMBS: 'codeCrumbs',
     CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
     CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'

@@ -45,6 +45,7 @@ class TreeDiagram extends React.Component {
 
             sourceDiagramOn,
             dependenciesDiagramOn,
+            dependenciesShowOneModule,
             codeCrumbsDiagramOn,
             codeCrumbsMinimize,
             codeCrumbsDetails,
@@ -86,6 +87,7 @@ class TreeDiagram extends React.Component {
                             dependenciesList={dependenciesList}
                             filesTreeLayoutNodes={filesTreeLayoutNodes}
                             dependenciesEntryPoint={dependenciesEntryPoint}
+                            dependenciesShowOneModule={dependenciesShowOneModule}
                             primaryLayer={this.dependenciesEdgesLayer}
                             {...sharedProps}
                         />

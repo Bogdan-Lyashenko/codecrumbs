@@ -12,7 +12,10 @@ import {
     ACTIONS as SWITCHES_ACTIONS,
     CONTROLS_KEYS
 } from '../components/controls/ViewSwitches/store/constants';
-import { setHiddenControl } from '../components/controls/ViewSwitches/store/actions';
+import {
+    setHiddenControl,
+    toggleSwitch
+} from '../components/controls/ViewSwitches/store/actions';
 
 function* reactOnSwitchToggle(action) {
     const { switchKey } = action.payload;
@@ -42,7 +45,10 @@ function* reactOnButtonAction(action) {
     }
 
     if (buttonKey === CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL) {
-        return yield put(setDependenciesEntryPoint(null));
+        return yield all([
+            put(toggleSwitch(CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)),
+            put(setDependenciesEntryPoint(null))
+        ]);
     }
 }
 
@@ -73,8 +79,27 @@ function* reactOnToggledFolder(action) {
 }
 
 function* reactDependenciesEntryPointChange(action) {
+    if (!action.payload) {
+        return yield put(
+            setHiddenControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true)
+        );
+    }
+
+    const dependenciesRootEntryPoint = yield select(
+        state => state.dataBus.dependenciesRootEntryPoint
+    );
+    const dependenciesShowOneModule = yield select(
+        state => state.viewSwitches.checkedState.dependenciesShowOneModule
+    );
+
+    const isRootPoint =
+        action.payload.path === dependenciesRootEntryPoint.moduleName;
+
     yield put(
-        setHiddenControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, !action.payload)
+        setHiddenControl(
+            CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
+            isRootPoint && !dependenciesShowOneModule
+        )
     );
 }
 

@@ -10,6 +10,7 @@ export const CONTROLS_KEYS = {
     SOURCE_EXPAND_ALL: 'sourceExpandAll',
     DEPENDENCIES: 'dependencies',
     DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
+    DEPENDENCIES_SHOW_ONE_MODULE: 'dependenciesShowOneModule',
     CODE_CRUMBS: 'codeCrumbs',
     CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
     CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'

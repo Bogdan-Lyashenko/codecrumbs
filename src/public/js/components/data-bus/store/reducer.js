@@ -18,6 +18,7 @@ export default (state = DefaultState, action) => {
             return {
                 ...state,
                 ...action.payload,
+                dependenciesRootEntryPoint: action.payload.dependenciesList[0],
                 firstLevelFolders: safeGet(
                     action.payload,
                     'filesTree.children',

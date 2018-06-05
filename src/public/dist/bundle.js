@@ -85805,6 +85805,7 @@ var CONTROLS_KEYS = exports.CONTROLS_KEYS = {
     SOURCE_EXPAND_ALL: 'sourceExpandAll',
     DEPENDENCIES: 'dependencies',
     DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
+    DEPENDENCIES_SHOW_ONE_MODULE: 'dependenciesShowOneModule',
     CODE_CRUMBS: 'codeCrumbs',
     CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
     CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'
@@ -85861,6 +85862,10 @@ var DefaultState = {
             title: 'Show All dependencies',
             key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
             type: _constants.VIEW_TYPES.BUTTON
+        }, {
+            name: 'M',
+            title: 'Show One module dependencies',
+            key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
         }]
     }, {
         name: 'CodeCrumbs',
@@ -86182,6 +86187,7 @@ exports.default = function () {
     switch (action.type) {
         case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
             return _extends({}, state, action.payload, {
+                dependenciesRootEntryPoint: action.payload.dependenciesList[0],
                 firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
                     return item.type === _constants.DIR_NODE_TYPE;
                 }).reduce(function (res, item) {
@@ -86512,6 +86518,7 @@ var mapStateToProps = function mapStateToProps(state) {
     return {
         sourceDiagramOn: checkedState.source,
         dependenciesDiagramOn: checkedState.dependencies,
+        dependenciesShowOneModule: checkedState.dependenciesShowOneModule,
         codeCrumbsDiagramOn: checkedState.codeCrumbs,
         codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
         codeCrumbsDetails: checkedState.codeCrumbsDetails,
@@ -86935,29 +86942,66 @@ var DependenciesTree = function (_React$Component) {
         //move to utils
 
     }, {
-        key: 'drawTree',
-        value: function drawTree() {
-            var _this2 = this;
-
+        key: 'getFilteredDependenciesList',
+        value: function getFilteredDependenciesList() {
             var _props = this.props,
-                primaryDraw = _props.primaryDraw,
-                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
                 dependenciesList = _props.dependenciesList,
                 dependenciesEntryPoint = _props.dependenciesEntryPoint,
-                shiftToCenterPoint = _props.shiftToCenterPoint,
-                sourceDiagramOn = _props.sourceDiagramOn;
+                dependenciesShowOneModule = _props.dependenciesShowOneModule;
+
+
+            var entryPoint = dependenciesEntryPoint || {
+                path: dependenciesList[0].moduleName
+            };
+
+            if (dependenciesShowOneModule) {
+                var entryModule = dependenciesList.find(function (d) {
+                    return d.moduleName === entryPoint.path;
+                });
+                return [entryModule];
+            }
+
+            var dependenciesStore = [];
+            this.collectDependencies(entryPoint.path, dependenciesList, dependenciesStore);
+            return dependenciesStore;
+        }
+    }, {
+        key: 'collectDependencies',
+        value: function collectDependencies(entryModuleName, dependenciesList) {
+            var _this2 = this;
+
+            var store = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+            var entryModule = dependenciesList.find(function (d) {
+                return d.moduleName === entryModuleName;
+            });
+
+            store.push(entryModule);
+
+            entryModule.importedModuleNames.forEach(function (name) {
+                return _this2.collectDependencies(name, dependenciesList, store);
+            });
+        }
+    }, {
+        key: 'drawTree',
+        value: function drawTree() {
+            var _this3 = this;
+
+            var _props2 = this.props,
+                primaryDraw = _props2.primaryDraw,
+                filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
+                shiftToCenterPoint = _props2.shiftToCenterPoint,
+                sourceDiagramOn = _props2.sourceDiagramOn;
 
 
             var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
-            var filteredList = !dependenciesEntryPoint ? dependenciesList : dependenciesList.filter(function (d) {
-                return d.moduleName === dependenciesEntryPoint.path;
-            });
+            var filteredDependenciesList = this.getFilteredDependenciesList();
 
-            filteredList.forEach(function (_ref2) {
+            filteredDependenciesList.forEach(function (_ref2) {
                 var moduleName = _ref2.moduleName,
                     importedModuleNames = _ref2.importedModuleNames;
 
-                var moduleNode = _this2.findNodeByPathName(moduleFilesList, moduleName);
+                var moduleNode = _this3.findNodeByPathName(moduleFilesList, moduleName);
 
                 if (!moduleNode) return;
 
@@ -86972,11 +87016,14 @@ var DependenciesTree = function (_React$Component) {
                         y: mY,
                         name: moduleNode.data.name
                     });
-                    (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, { x: mX, y: mY });
+                    (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
+                        x: mX,
+                        y: mY
+                    });
                 }
 
                 importedModuleNames.reduce(function (prevSource, name) {
-                    var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
+                    var importedNode = _this3.findNodeByPathName(moduleFilesList, name);
 
                     if (!importedNode) return;
 
@@ -87602,6 +87649,7 @@ var TreeDiagram = function (_React$Component) {
                 dependenciesEntryPoint = _props.dependenciesEntryPoint,
                 sourceDiagramOn = _props.sourceDiagramOn,
                 dependenciesDiagramOn = _props.dependenciesDiagramOn,
+                dependenciesShowOneModule = _props.dependenciesShowOneModule,
                 codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
                 codeCrumbsMinimize = _props.codeCrumbsMinimize,
                 codeCrumbsDetails = _props.codeCrumbsDetails,
@@ -87635,6 +87683,7 @@ var TreeDiagram = function (_React$Component) {
                     dependenciesList: dependenciesList,
                     filesTreeLayoutNodes: filesTreeLayoutNodes,
                     dependenciesEntryPoint: dependenciesEntryPoint,
+                    dependenciesShowOneModule: dependenciesShowOneModule,
                     primaryLayer: this.dependenciesEdgesLayer
                 }, sharedProps)),
                 filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({
@@ -88068,7 +88117,7 @@ function reactOnButtonAction(action) {
                     }
 
                     _context2.next = 12;
-                    return (0, _effects.put)((0, _actions.setDependenciesEntryPoint)(null));
+                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.toggleSwitch)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)), (0, _effects.put)((0, _actions.setDependenciesEntryPoint)(null))]);
 
                 case 12:
                     return _context2.abrupt('return', _context2.sent);
@@ -88115,14 +88164,42 @@ function reactOnToggledFolder(action) {
 }
 
 function reactDependenciesEntryPointChange(action) {
+    var dependenciesRootEntryPoint, dependenciesShowOneModule, isRootPoint;
     return regeneratorRuntime.wrap(function reactDependenciesEntryPointChange$(_context4) {
         while (1) {
             switch (_context4.prev = _context4.next) {
                 case 0:
-                    _context4.next = 2;
-                    return (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, !action.payload));
+                    if (action.payload) {
+                        _context4.next = 4;
+                        break;
+                    }
 
-                case 2:
+                    _context4.next = 3;
+                    return (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true));
+
+                case 3:
+                    return _context4.abrupt('return', _context4.sent);
+
+                case 4:
+                    _context4.next = 6;
+                    return (0, _effects.select)(function (state) {
+                        return state.dataBus.dependenciesRootEntryPoint;
+                    });
+
+                case 6:
+                    dependenciesRootEntryPoint = _context4.sent;
+                    _context4.next = 9;
+                    return (0, _effects.select)(function (state) {
+                        return state.viewSwitches.checkedState.dependenciesShowOneModule;
+                    });
+
+                case 9:
+                    dependenciesShowOneModule = _context4.sent;
+                    isRootPoint = action.payload.path === dependenciesRootEntryPoint.moduleName;
+                    _context4.next = 13;
+                    return (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isRootPoint && !dependenciesShowOneModule));
+
+                case 13:
                 case 'end':
                     return _context4.stop();
             }

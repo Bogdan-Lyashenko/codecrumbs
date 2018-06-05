@@ -29,6 +29,11 @@ const DefaultState = {
                     title: 'Show All dependencies',
                     key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
                     type: VIEW_TYPES.BUTTON
+                },
+                {
+                    name: 'M',
+                    title: 'Show One module dependencies',
+                    key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
                 }
             ]
         },

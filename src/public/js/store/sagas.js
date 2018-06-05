@@ -12,7 +12,7 @@ import {
     ACTIONS as SWITCHES_ACTIONS,
     CONTROLS_KEYS
 } from '../components/controls/ViewSwitches/store/constants';
-import { setDisabledControl } from '../components/controls/ViewSwitches/store/actions';
+import { setHiddenControl } from '../components/controls/ViewSwitches/store/actions';
 
 function* reactOnSwitchToggle(action) {
     const { switchKey } = action.payload;
@@ -27,7 +27,7 @@ function* reactOnButtonAction(action) {
 
     if (buttonKey === CONTROLS_KEYS.SOURCE_EXPAND_ALL) {
         return yield all([
-            put(setDisabledControl(CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)),
+            put(setHiddenControl(CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)),
             put(openAllFolders()),
             put(calcFilesTreeLayoutNodes())
         ]);
@@ -35,7 +35,7 @@ function* reactOnButtonAction(action) {
 
     if (buttonKey === CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN) {
         return yield all([
-            put(setDisabledControl(CONTROLS_KEYS.SOURCE_EXPAND_ALL)),
+            put(setHiddenControl(CONTROLS_KEYS.SOURCE_EXPAND_ALL)),
             put(closeAllFolders()),
             put(calcFilesTreeLayoutNodes())
         ]);
@@ -52,14 +52,14 @@ function* reactOnToggledFolder(action) {
 
     yield all([
         put(
-            setDisabledControl(
+            setHiddenControl(
                 CONTROLS_KEYS.SOURCE_EXPAND_ALL,
                 every(Object.keys(closedFolders), item => !closedFolders[item])
             )
         ),
 
         put(
-            setDisabledControl(
+            setHiddenControl(
                 CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
                 every(
                     Object.keys(firstLevelFolders),
@@ -74,7 +74,7 @@ function* reactOnToggledFolder(action) {
 
 function* reactDependenciesEntryPointChange(action) {
     yield put(
-        setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, !action.payload)
+        setHiddenControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, !action.payload)
     );
 }
 

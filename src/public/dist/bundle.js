@@ -85530,10 +85530,10 @@ var mapStateToProps = function mapStateToProps(state) {
     var _state$viewSwitches = state.viewSwitches,
         switches = _state$viewSwitches.switches,
         checkedState = _state$viewSwitches.checkedState,
-        disabledState = _state$viewSwitches.disabledState;
+        hiddenState = _state$viewSwitches.hiddenState;
 
 
-    return { switches: switches, checkedState: checkedState, disabledState: disabledState };
+    return { switches: switches, checkedState: checkedState, hiddenState: hiddenState };
 };
 
 var mapDispatchToProps = {
@@ -85589,6 +85589,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _switch = __webpack_require__(/*! antd/es/switch */ "../../node_modules/antd/es/switch/index.js");
+
+var _switch2 = _interopRequireDefault(_switch);
+
 var _checkbox = __webpack_require__(/*! antd/es/checkbox */ "../../node_modules/antd/es/checkbox/index.js");
 
 var _checkbox2 = _interopRequireDefault(_checkbox);
@@ -85597,15 +85601,13 @@ var _button = __webpack_require__(/*! antd/es/button */ "../../node_modules/antd
 
 var _button2 = _interopRequireDefault(_button);
 
-var _switch = __webpack_require__(/*! antd/es/switch */ "../../node_modules/antd/es/switch/index.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _switch2 = _interopRequireDefault(_switch);
+__webpack_require__(/*! antd/es/switch/style/css */ "../../node_modules/antd/es/switch/style/css.js");
 
 __webpack_require__(/*! antd/es/checkbox/style/css */ "../../node_modules/antd/es/checkbox/style/css.js");
 
 __webpack_require__(/*! antd/es/button/style/css */ "../../node_modules/antd/es/button/style/css.js");
-
-__webpack_require__(/*! antd/es/switch/style/css */ "../../node_modules/antd/es/switch/style/css.js");
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
@@ -85617,82 +85619,122 @@ var _constants = __webpack_require__(/*! ../store/constants */ "./js/components/
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ViewsSwitchList = function ViewsSwitchList(_ref) {
-    var switches = _ref.switches,
-        toggleSwitch = _ref.toggleSwitch,
-        checkedState = _ref.checkedState,
-        disabledState = _ref.disabledState,
-        fireButtonAction = _ref.fireButtonAction;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    return _react2.default.createElement(
-        'div',
-        { className: 'ViewSwitchList-container' },
-        switches.map(function (item, i) {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ViewsSwitchList = function (_React$Component) {
+    _inherits(ViewsSwitchList, _React$Component);
+
+    function ViewsSwitchList() {
+        _classCallCheck(this, ViewsSwitchList);
+
+        return _possibleConstructorReturn(this, (ViewsSwitchList.__proto__ || Object.getPrototypeOf(ViewsSwitchList)).apply(this, arguments));
+    }
+
+    _createClass(ViewsSwitchList, [{
+        key: 'renderChildren',
+        value: function renderChildren(children) {
+            var _props = this.props,
+                toggleSwitch = _props.toggleSwitch,
+                checkedState = _props.checkedState,
+                hiddenState = _props.hiddenState,
+                fireButtonAction = _props.fireButtonAction;
+
+
+            var visibleControls = children.filter(function (child) {
+                return !hiddenState[child.key];
+            });
+
+            if (!visibleControls.length) return null;
+
             return _react2.default.createElement(
                 'div',
-                { className: 'ViewSwitchList-group', key: item.key },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'ViewSwitchList-big-item' },
-                    _react2.default.createElement(
-                        'span',
-                        null,
-                        item.name + ' '
-                    ),
-                    _react2.default.createElement(_switch2.default, {
-                        size: 'small',
-                        checked: checkedState[item.key],
-                        onChange: function onChange(checked) {
-                            return toggleSwitch(item.key, checked);
-                        }
-                    })
-                ),
-                checkedState[item.key] && item.checkBoxes.length && _react2.default.createElement(
-                    'div',
-                    { className: 'ViewSwitchList-small-group' },
-                    item.checkBoxes.map(function (item, i) {
-                        return _react2.default.createElement(
-                            'div',
+                { className: 'ViewSwitchList-small-group' },
+                visibleControls.map(function (item, i) {
+                    return _react2.default.createElement(
+                        'div',
+                        {
+                            key: item.key,
+                            className: 'ViewSwitchList-small-item'
+                        },
+                        item.type === _constants.VIEW_TYPES.BUTTON ? _react2.default.createElement(
+                            _button2.default,
                             {
-                                key: item.key,
-                                className: 'ViewSwitchList-small-item'
+                                title: item.title,
+                                size: 'small',
+                                onClick: function onClick() {
+                                    return fireButtonAction(item.key);
+                                }
                             },
-                            item.type === _constants.VIEW_TYPES.BUTTON ? _react2.default.createElement(
-                                _button2.default,
-                                {
-                                    title: item.title,
-                                    disabled: disabledState[item.key],
-                                    size: 'small',
-                                    onClick: function onClick() {
-                                        return fireButtonAction(item.key);
-                                    }
-                                },
-                                _react2.default.createElement(
-                                    'span',
-                                    { title: item.title },
-                                    item.name
-                                )
-                            ) : _react2.default.createElement(
-                                _checkbox2.default,
-                                {
-                                    checked: checkedState[item.key],
-                                    onChange: function onChange(e) {
-                                        return toggleSwitch(item.key, e.target.checked);
-                                    }
-                                },
-                                _react2.default.createElement(
-                                    'span',
-                                    { title: item.title },
-                                    item.name
-                                )
+                            _react2.default.createElement(
+                                'span',
+                                { title: item.title },
+                                item.name
                             )
-                        );
-                    })
-                ) || null
+                        ) : _react2.default.createElement(
+                            _checkbox2.default,
+                            {
+                                checked: checkedState[item.key],
+                                onChange: function onChange(e) {
+                                    return toggleSwitch(item.key, e.target.checked);
+                                }
+                            },
+                            _react2.default.createElement(
+                                'span',
+                                { title: item.title },
+                                item.name
+                            )
+                        )
+                    );
+                })
             );
-        })
-    );
-};
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props2 = this.props,
+                switches = _props2.switches,
+                toggleSwitch = _props2.toggleSwitch,
+                checkedState = _props2.checkedState;
+
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'ViewSwitchList-container' },
+                switches.map(function (item, i) {
+                    return _react2.default.createElement(
+                        'div',
+                        { className: 'ViewSwitchList-group', key: item.key },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'ViewSwitchList-big-item' },
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                item.name + ' '
+                            ),
+                            _react2.default.createElement(_switch2.default, {
+                                size: 'small',
+                                checked: checkedState[item.key],
+                                onChange: function onChange(checked) {
+                                    return toggleSwitch(item.key, checked);
+                                }
+                            })
+                        ),
+                        checkedState[item.key] && item.children.length && _this2.renderChildren(item.children) || null
+                    );
+                })
+            );
+        }
+    }]);
+
+    return ViewsSwitchList;
+}(_react2.default.Component);
 
 exports.default = ViewsSwitchList;
 
@@ -85711,7 +85753,7 @@ exports.default = ViewsSwitchList;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setDisabledControl = exports.fireButtonAction = exports.toggleSwitch = undefined;
+exports.setHiddenControl = exports.fireButtonAction = exports.toggleSwitch = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
@@ -85729,10 +85771,10 @@ var fireButtonAction = exports.fireButtonAction = function fireButtonAction(butt
     };
 };
 
-var setDisabledControl = exports.setDisabledControl = function setDisabledControl(controlKey, disabled) {
+var setHiddenControl = exports.setHiddenControl = function setHiddenControl(controlKey, hidden) {
     return {
-        type: _constants.ACTIONS.SET_DISABLED_CONTROL,
-        payload: { controlKey: controlKey, disabled: disabled }
+        type: _constants.ACTIONS.SET_HIDDEN_CONTROL,
+        payload: { controlKey: controlKey, hidden: hidden }
     };
 };
 
@@ -85754,7 +85796,7 @@ Object.defineProperty(exports, "__esModule", {
 var ACTIONS = exports.ACTIONS = {
     TOGGLE_SWITCH: 'SWITCHES_LIST.TOGGLE_SWITCH',
     FIRE_BUTTON_ACTION: 'SWITCHES_LIST.FIRE_BUTTON_ACTION',
-    SET_DISABLED_CONTROL: 'SWITCHES_LIST.SET_DISABLED_CONTROL'
+    SET_HIDDEN_CONTROL: 'SWITCHES_LIST.SET_HIDDEN_CONTROL'
 };
 
 var CONTROLS_KEYS = exports.CONTROLS_KEYS = {
@@ -85790,7 +85832,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _disabledState;
+var _hiddenState;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
@@ -85800,7 +85842,7 @@ var DefaultState = {
     switches: [{
         name: 'Source',
         key: _constants.CONTROLS_KEYS.SOURCE,
-        checkBoxes: [{
+        children: [{
             name: 'C',
             title: 'Collapse to 2nd Level',
             key: _constants.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
@@ -85814,7 +85856,7 @@ var DefaultState = {
     }, {
         name: 'Dependencies',
         key: _constants.CONTROLS_KEYS.DEPENDENCIES,
-        checkBoxes: [{
+        children: [{
             name: 'A',
             title: 'Show All dependencies',
             key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
@@ -85823,7 +85865,7 @@ var DefaultState = {
     }, {
         name: 'CodeCrumbs',
         key: _constants.CONTROLS_KEYS.CODE_CRUMBS,
-        checkBoxes: [{
+        children: [{
             name: 'M',
             title: 'Minimize code crumbs',
             key: _constants.CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
@@ -85834,7 +85876,7 @@ var DefaultState = {
         }]
     }],
     checkedState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE, true),
-    disabledState: (_disabledState = {}, _defineProperty(_disabledState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_disabledState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _disabledState)
+    hiddenState: (_hiddenState = {}, _defineProperty(_hiddenState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_hiddenState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _hiddenState)
 };
 
 exports.default = function () {
@@ -85857,17 +85899,17 @@ exports.default = function () {
             var buttonKey = action.payload;
 
             return _extends({}, state, {
-                disabledState: _extends({}, state.disabledState, _defineProperty({}, buttonKey, true))
+                hiddenState: _extends({}, state.hiddenState, _defineProperty({}, buttonKey, true))
             });
 
-        case _constants.ACTIONS.SET_DISABLED_CONTROL:
+        case _constants.ACTIONS.SET_HIDDEN_CONTROL:
             var _action$payload2 = action.payload,
                 controlKey = _action$payload2.controlKey,
-                disabled = _action$payload2.disabled;
+                hidden = _action$payload2.hidden;
 
 
             return _extends({}, state, {
-                disabledState: _extends({}, state.disabledState, _defineProperty({}, controlKey, disabled))
+                hiddenState: _extends({}, state.hiddenState, _defineProperty({}, controlKey, hidden))
             });
             break;
 
@@ -88002,7 +88044,7 @@ function reactOnButtonAction(action) {
                     }
 
                     _context2.next = 4;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)), (0, _effects.put)((0, _actions.openAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
+                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)), (0, _effects.put)((0, _actions.openAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
 
                 case 4:
                     return _context2.abrupt('return', _context2.sent);
@@ -88014,7 +88056,7 @@ function reactOnButtonAction(action) {
                     }
 
                     _context2.next = 8;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)), (0, _effects.put)((0, _actions.closeAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
+                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)), (0, _effects.put)((0, _actions.closeAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
 
                 case 8:
                     return _context2.abrupt('return', _context2.sent);
@@ -88054,9 +88096,9 @@ function reactOnToggledFolder(action) {
                     dataBusState = _context3.sent;
                     closedFolders = dataBusState.closedFolders, firstLevelFolders = dataBusState.firstLevelFolders;
                     _context3.next = 6;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL, (0, _every2.default)(Object.keys(closedFolders), function (item) {
+                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL, (0, _every2.default)(Object.keys(closedFolders), function (item) {
                         return !closedFolders[item];
-                    }))), (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN, (0, _every2.default)(Object.keys(firstLevelFolders), function (item) {
+                    }))), (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN, (0, _every2.default)(Object.keys(firstLevelFolders), function (item) {
                         return closedFolders[item];
                     })))]);
 
@@ -88078,7 +88120,7 @@ function reactDependenciesEntryPointChange(action) {
             switch (_context4.prev = _context4.next) {
                 case 0:
                     _context4.next = 2;
-                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, !action.payload));
+                    return (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, !action.payload));
 
                 case 2:
                 case 'end':

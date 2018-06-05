@@ -5,7 +5,7 @@ const DefaultState = {
         {
             name: 'Source',
             key: CONTROLS_KEYS.SOURCE,
-            checkBoxes: [
+            children: [
                 {
                     name: 'C',
                     title: 'Collapse to 2nd Level',
@@ -23,7 +23,7 @@ const DefaultState = {
         {
             name: 'Dependencies',
             key: CONTROLS_KEYS.DEPENDENCIES,
-            checkBoxes: [
+            children: [
                 {
                     name: 'A',
                     title: 'Show All dependencies',
@@ -35,7 +35,7 @@ const DefaultState = {
         {
             name: 'CodeCrumbs',
             key: CONTROLS_KEYS.CODE_CRUMBS,
-            checkBoxes: [
+            children: [
                 {
                     name: 'M',
                     title: 'Minimize code crumbs',
@@ -52,7 +52,7 @@ const DefaultState = {
     checkedState: {
         [CONTROLS_KEYS.SOURCE]: true
     },
-    disabledState: {
+    hiddenState: {
         [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true,
         [CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL]: true
     }
@@ -77,20 +77,20 @@ export default (state = DefaultState, action) => {
 
             return {
                 ...state,
-                disabledState: {
-                    ...state.disabledState,
+                hiddenState: {
+                    ...state.hiddenState,
                     [buttonKey]: true
                 }
             };
 
-        case ACTIONS.SET_DISABLED_CONTROL:
-            const { controlKey, disabled } = action.payload;
+        case ACTIONS.SET_HIDDEN_CONTROL:
+            const { controlKey, hidden } = action.payload;
 
             return {
                 ...state,
-                disabledState: {
-                    ...state.disabledState,
-                    [controlKey]: disabled
+                hiddenState: {
+                    ...state.hiddenState,
+                    [controlKey]: hidden
                 }
             };
             break;

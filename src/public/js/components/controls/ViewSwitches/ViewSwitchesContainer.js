@@ -4,9 +4,9 @@ import { toggleSwitch, fireButtonAction } from './store/actions';
 import { CONTROLS_KEYS } from './store/constants';
 
 const mapStateToProps = state => {
-    const { switches, checkedState,disabledState } = state.viewSwitches;
+    const { switches, checkedState, hiddenState } = state.viewSwitches;
 
-    return { switches, checkedState, disabledState };
+    return { switches, checkedState, hiddenState };
 };
 
 const mapDispatchToProps = {

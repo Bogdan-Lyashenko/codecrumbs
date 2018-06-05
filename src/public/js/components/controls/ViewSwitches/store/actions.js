@@ -10,7 +10,7 @@ export const fireButtonAction = buttonKey => ({
     payload: buttonKey
 });
 
-export const setDisabledControl = (controlKey, disabled) => ({
-    type: ACTIONS.SET_DISABLED_CONTROL,
-    payload: { controlKey, disabled }
+export const setHiddenControl = (controlKey, hidden) => ({
+    type: ACTIONS.SET_HIDDEN_CONTROL,
+    payload: { controlKey, hidden }
 });

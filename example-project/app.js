@@ -1,5 +1,5 @@
 import tabs from './views/tabs';
-import dataModel from './data/model';
+import dataModel from './dataModel/model';
 
 const App = {
     init() {

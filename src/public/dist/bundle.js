@@ -15094,7 +15094,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".ViewSwitchList-container {\n    z-index: 3;\n    position: absolute;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n}\n\n.ViewSwitchList-group {\n    margin-right: 16px;\n    padding: 8px 0;\n    display: flex;\n    flex-direction: column;\n}\n\n.ViewSwitchList-big-item {\n    padding: 0 8px;\n}\n\n.ViewSwitchList-small-group {\n    background-color: white;\n    display: flex;\n    align-items: center;\n    border-bottom: 1px solid #ebedf0;\n    border-right: 1px solid #ebedf0;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 8px 8px 8px;\n}\n\n.ViewSwitchList-small-item {\n    margin-right: 10px;\n}\n\n.ViewSwitchList-small-item .anticon {\n    padding: 2px 8px 0 0px;\n}\n", ""]);
+exports.push([module.i, ".ViewSwitchList-container {\n    z-index: 3;\n    position: absolute;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n}\n\n.ViewSwitchList-group {\n    margin-right: 16px;\n    padding: 8px 0;\n    display: flex;\n    flex-direction: column;\n}\n\n.ViewSwitchList-big-item {\n    padding: 0 8px;\n}\n\n.ViewSwitchList-small-group {\n    background-color: white;\n    display: flex;\n    align-items: center;\n    border-bottom: 1px solid #ebedf0;\n    border-right: 1px solid #ebedf0;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 8px 8px 8px;\n    min-height: 42px;\n}\n\n.ViewSwitchList-small-item {\n    margin-right: 10px;\n}\n\n.ViewSwitchList-small-item .anticon {\n    padding: 2px 8px 0 0px;\n}\n", ""]);
 
 // exports
 
@@ -85530,10 +85530,10 @@ var mapStateToProps = function mapStateToProps(state) {
     var _state$viewSwitches = state.viewSwitches,
         switches = _state$viewSwitches.switches,
         checkedState = _state$viewSwitches.checkedState,
-        hiddenState = _state$viewSwitches.hiddenState;
+        disabledState = _state$viewSwitches.disabledState;
 
 
-    return { switches: switches, checkedState: checkedState, hiddenState: hiddenState };
+    return { switches: switches, checkedState: checkedState, disabledState: disabledState };
 };
 
 var mapDispatchToProps = {
@@ -85636,24 +85636,18 @@ var ViewsSwitchList = function (_React$Component) {
 
     _createClass(ViewsSwitchList, [{
         key: 'renderChildren',
-        value: function renderChildren(children) {
+        value: function renderChildren(controls) {
             var _props = this.props,
                 toggleSwitch = _props.toggleSwitch,
                 checkedState = _props.checkedState,
-                hiddenState = _props.hiddenState,
+                disabledState = _props.disabledState,
                 fireButtonAction = _props.fireButtonAction;
 
-
-            var visibleControls = children.filter(function (child) {
-                return !hiddenState[child.key];
-            });
-
-            if (!visibleControls.length) return null;
 
             return _react2.default.createElement(
                 'div',
                 { className: 'ViewSwitchList-small-group' },
-                visibleControls.map(function (item, i) {
+                controls.map(function (item, i) {
                     return _react2.default.createElement(
                         'div',
                         {
@@ -85665,6 +85659,7 @@ var ViewsSwitchList = function (_React$Component) {
                             {
                                 title: item.title,
                                 size: 'small',
+                                disabled: disabledState[item.key],
                                 onClick: function onClick() {
                                     return fireButtonAction(item.key);
                                 }
@@ -85753,7 +85748,7 @@ exports.default = ViewsSwitchList;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setHiddenControl = exports.fireButtonAction = exports.toggleSwitch = undefined;
+exports.setDisabledControl = exports.fireButtonAction = exports.toggleSwitch = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
@@ -85771,10 +85766,10 @@ var fireButtonAction = exports.fireButtonAction = function fireButtonAction(butt
     };
 };
 
-var setHiddenControl = exports.setHiddenControl = function setHiddenControl(controlKey, hidden) {
+var setDisabledControl = exports.setDisabledControl = function setDisabledControl(controlKey, disabled) {
     return {
-        type: _constants.ACTIONS.SET_HIDDEN_CONTROL,
-        payload: { controlKey: controlKey, hidden: hidden }
+        type: _constants.ACTIONS.SET_DISABLED_CONTROL,
+        payload: { controlKey: controlKey, disabled: disabled }
     };
 };
 
@@ -85796,7 +85791,7 @@ Object.defineProperty(exports, "__esModule", {
 var ACTIONS = exports.ACTIONS = {
     TOGGLE_SWITCH: 'SWITCHES_LIST.TOGGLE_SWITCH',
     FIRE_BUTTON_ACTION: 'SWITCHES_LIST.FIRE_BUTTON_ACTION',
-    SET_HIDDEN_CONTROL: 'SWITCHES_LIST.SET_HIDDEN_CONTROL'
+    SET_DISABLED_CONTROL: 'SWITCHES_LIST.SET_DISABLED_CONTROL'
 };
 
 var CONTROLS_KEYS = exports.CONTROLS_KEYS = {
@@ -85833,7 +85828,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _hiddenState;
+var _disabledState;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
@@ -85844,13 +85839,13 @@ var DefaultState = {
         name: 'Source',
         key: _constants.CONTROLS_KEYS.SOURCE,
         children: [{
-            name: 'C',
-            title: 'Collapse to 2nd Level',
+            name: 'close all',
+            title: 'Close folders to 2nd Level',
             key: _constants.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
             type: _constants.VIEW_TYPES.BUTTON
         }, {
-            name: 'E',
-            title: 'Expand all',
+            name: 'open all',
+            title: 'Open all folders',
             key: _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL,
             type: _constants.VIEW_TYPES.BUTTON
         }]
@@ -85858,12 +85853,12 @@ var DefaultState = {
         name: 'Dependencies',
         key: _constants.CONTROLS_KEYS.DEPENDENCIES,
         children: [{
-            name: 'A',
+            name: 'show all',
             title: 'Show All dependencies',
             key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
             type: _constants.VIEW_TYPES.BUTTON
         }, {
-            name: 'M',
+            name: 'direct only',
             title: 'Show One module dependencies',
             key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
         }]
@@ -85871,17 +85866,17 @@ var DefaultState = {
         name: 'CodeCrumbs',
         key: _constants.CONTROLS_KEYS.CODE_CRUMBS,
         children: [{
-            name: 'M',
+            name: 'minimize',
             title: 'Minimize code crumbs',
             key: _constants.CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
         }, {
-            name: 'D',
+            name: 'show details',
             title: 'Show all Details',
             key: _constants.CONTROLS_KEYS.CODE_CRUMBS_DETAILS
         }]
     }],
     checkedState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE, true),
-    hiddenState: (_hiddenState = {}, _defineProperty(_hiddenState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_hiddenState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _hiddenState)
+    disabledState: (_disabledState = {}, _defineProperty(_disabledState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_disabledState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _disabledState)
 };
 
 exports.default = function () {
@@ -85904,17 +85899,17 @@ exports.default = function () {
             var buttonKey = action.payload;
 
             return _extends({}, state, {
-                hiddenState: _extends({}, state.hiddenState, _defineProperty({}, buttonKey, true))
+                disabledState: _extends({}, state.disabledState, _defineProperty({}, buttonKey, true))
             });
 
-        case _constants.ACTIONS.SET_HIDDEN_CONTROL:
+        case _constants.ACTIONS.SET_DISABLED_CONTROL:
             var _action$payload2 = action.payload,
                 controlKey = _action$payload2.controlKey,
-                hidden = _action$payload2.hidden;
+                disabled = _action$payload2.disabled;
 
 
             return _extends({}, state, {
-                hiddenState: _extends({}, state.hiddenState, _defineProperty({}, controlKey, hidden))
+                disabledState: _extends({}, state.disabledState, _defineProperty({}, controlKey, disabled))
             });
             break;
 
@@ -86188,6 +86183,8 @@ exports.default = function () {
         case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
             return _extends({}, state, action.payload, {
                 dependenciesRootEntryPoint: action.payload.dependenciesList[0],
+                isCurrentDependenciesEntryPointRoot: true,
+
                 firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
                     return item.type === _constants.DIR_NODE_TYPE;
                 }).reduce(function (res, item) {
@@ -86237,8 +86234,12 @@ exports.default = function () {
             });
 
         case _constants2.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
+            var entry = action.payload;
+            var rootEntryPointModuleName = state.dependenciesRootEntryPoint.moduleName;
+
             return _extends({}, state, {
-                dependenciesEntryPoint: action.payload
+                dependenciesEntryPoint: entry,
+                isCurrentDependenciesEntryPointRoot: entry && entry.path === rootEntryPointModuleName
             });
 
         default:
@@ -87097,8 +87098,8 @@ var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenc
     if (!prevSource) {
         var targetPt = shiftToCenterPoint(target.x, target.y);
 
-        var P1 = { x: sourcePt.x, y: targetPt.y + padding };
-        var P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding };
+        var P1 = { x: sourcePt.x, y: targetPt.y + padding - 6 };
+        var P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding - 6 };
         var P3 = { x: targetPt.x - halfPadding, y: targetPt.y };
 
         drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPt.x, targetPt.y]]);
@@ -87109,10 +87110,10 @@ var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenc
             //TODO: handle other cases
             var prevSourcePt = shiftToCenterPoint(prevSource.x, prevSource.y);
 
-            var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding };
+            var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding - 3 };
             var _P2 = {
                 x: prevSourcePt.x + halfPadding,
-                y: sourcePt.y + halfPadding
+                y: sourcePt.y + halfPadding - 3
             };
 
             drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]]);
@@ -88053,10 +88054,11 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(reactOnSwitchToggle),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(reactOnButtonAction),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(reactOnToggledFolder),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(reactDependenciesEntryPointChange),
-    _marked5 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+    _marked5 = /*#__PURE__*/regeneratorRuntime.mark(isDependenciesShowAllDisabled),
+    _marked6 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
 
 function reactOnSwitchToggle(action) {
-    var switchKey;
+    var switchKey, isDisabled;
     return regeneratorRuntime.wrap(function reactOnSwitchToggle$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
@@ -88072,6 +88074,20 @@ function reactOnSwitchToggle(action) {
                     return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
 
                 case 4:
+                    if (!(switchKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)) {
+                        _context.next = 10;
+                        break;
+                    }
+
+                    _context.next = 7;
+                    return isDependenciesShowAllDisabled();
+
+                case 7:
+                    isDisabled = _context.sent;
+                    _context.next = 10;
+                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
+
+                case 10:
                 case 'end':
                     return _context.stop();
             }
@@ -88093,7 +88109,7 @@ function reactOnButtonAction(action) {
                     }
 
                     _context2.next = 4;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)), (0, _effects.put)((0, _actions.openAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
+                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)), (0, _effects.put)((0, _actions.openAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
 
                 case 4:
                     return _context2.abrupt('return', _context2.sent);
@@ -88105,7 +88121,7 @@ function reactOnButtonAction(action) {
                     }
 
                     _context2.next = 8;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)), (0, _effects.put)((0, _actions.closeAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
+                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)), (0, _effects.put)((0, _actions.closeAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
 
                 case 8:
                     return _context2.abrupt('return', _context2.sent);
@@ -88145,9 +88161,9 @@ function reactOnToggledFolder(action) {
                     dataBusState = _context3.sent;
                     closedFolders = dataBusState.closedFolders, firstLevelFolders = dataBusState.firstLevelFolders;
                     _context3.next = 6;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL, (0, _every2.default)(Object.keys(closedFolders), function (item) {
+                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL, (0, _every2.default)(Object.keys(closedFolders), function (item) {
                         return !closedFolders[item];
-                    }))), (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN, (0, _every2.default)(Object.keys(firstLevelFolders), function (item) {
+                    }))), (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN, (0, _every2.default)(Object.keys(firstLevelFolders), function (item) {
                         return closedFolders[item];
                     })))]);
 
@@ -88164,7 +88180,7 @@ function reactOnToggledFolder(action) {
 }
 
 function reactDependenciesEntryPointChange(action) {
-    var dependenciesRootEntryPoint, dependenciesShowOneModule, isRootPoint;
+    var isDisabled;
     return regeneratorRuntime.wrap(function reactDependenciesEntryPointChange$(_context4) {
         while (1) {
             switch (_context4.prev = _context4.next) {
@@ -88175,31 +88191,21 @@ function reactDependenciesEntryPointChange(action) {
                     }
 
                     _context4.next = 3;
-                    return (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true));
+                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true));
 
                 case 3:
                     return _context4.abrupt('return', _context4.sent);
 
                 case 4:
                     _context4.next = 6;
-                    return (0, _effects.select)(function (state) {
-                        return state.dataBus.dependenciesRootEntryPoint;
-                    });
+                    return isDependenciesShowAllDisabled();
 
                 case 6:
-                    dependenciesRootEntryPoint = _context4.sent;
+                    isDisabled = _context4.sent;
                     _context4.next = 9;
-                    return (0, _effects.select)(function (state) {
-                        return state.viewSwitches.checkedState.dependenciesShowOneModule;
-                    });
+                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
 
                 case 9:
-                    dependenciesShowOneModule = _context4.sent;
-                    isRootPoint = action.payload.path === dependenciesRootEntryPoint.moduleName;
-                    _context4.next = 13;
-                    return (0, _effects.put)((0, _actions2.setHiddenControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isRootPoint && !dependenciesShowOneModule));
-
-                case 13:
                 case 'end':
                     return _context4.stop();
             }
@@ -88207,20 +88213,50 @@ function reactDependenciesEntryPointChange(action) {
     }, _marked4, this);
 }
 
-function rootSaga() {
-    return regeneratorRuntime.wrap(function rootSaga$(_context5) {
+function isDependenciesShowAllDisabled() {
+    var isRoot, dependenciesShowOneModule;
+    return regeneratorRuntime.wrap(function isDependenciesShowAllDisabled$(_context5) {
         while (1) {
             switch (_context5.prev = _context5.next) {
                 case 0:
                     _context5.next = 2;
-                    return (0, _effects.all)([(0, _effects.takeEvery)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeEvery)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeEvery)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder), (0, _effects.takeEvery)(_constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactDependenciesEntryPointChange)]);
+                    return (0, _effects.select)(function (state) {
+                        return state.dataBus.isCurrentDependenciesEntryPointRoot;
+                    });
 
                 case 2:
+                    isRoot = _context5.sent;
+                    _context5.next = 5;
+                    return (0, _effects.select)(function (state) {
+                        return state.viewSwitches.checkedState.dependenciesShowOneModule;
+                    });
+
+                case 5:
+                    dependenciesShowOneModule = _context5.sent;
+                    return _context5.abrupt('return', isRoot && !dependenciesShowOneModule);
+
+                case 7:
                 case 'end':
                     return _context5.stop();
             }
         }
     }, _marked5, this);
+}
+
+function rootSaga() {
+    return regeneratorRuntime.wrap(function rootSaga$(_context6) {
+        while (1) {
+            switch (_context6.prev = _context6.next) {
+                case 0:
+                    _context6.next = 2;
+                    return (0, _effects.all)([(0, _effects.takeEvery)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeEvery)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeEvery)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder), (0, _effects.takeEvery)(_constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactDependenciesEntryPointChange)]);
+
+                case 2:
+                case 'end':
+                    return _context6.stop();
+            }
+        }
+    }, _marked6, this);
 }
 
 /***/ }),

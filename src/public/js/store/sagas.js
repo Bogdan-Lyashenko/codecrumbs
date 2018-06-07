@@ -13,7 +13,7 @@ import {
     CONTROLS_KEYS
 } from '../components/controls/ViewSwitches/store/constants';
 import {
-    setHiddenControl,
+    setDisabledControl,
     toggleSwitch
 } from '../components/controls/ViewSwitches/store/actions';
 
@@ -23,6 +23,13 @@ function* reactOnSwitchToggle(action) {
     if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
         yield put(calcFilesTreeLayoutNodes());
     }
+
+    if (switchKey === CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE) {
+        const isDisabled = yield isDependenciesShowAllDisabled();
+        yield put(
+            setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled)
+        );
+    }
 }
 
 function* reactOnButtonAction(action) {
@@ -30,7 +37,7 @@ function* reactOnButtonAction(action) {
 
     if (buttonKey === CONTROLS_KEYS.SOURCE_EXPAND_ALL) {
         return yield all([
-            put(setHiddenControl(CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)),
+            put(setDisabledControl(CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)),
             put(openAllFolders()),
             put(calcFilesTreeLayoutNodes())
         ]);
@@ -38,7 +45,7 @@ function* reactOnButtonAction(action) {
 
     if (buttonKey === CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN) {
         return yield all([
-            put(setHiddenControl(CONTROLS_KEYS.SOURCE_EXPAND_ALL)),
+            put(setDisabledControl(CONTROLS_KEYS.SOURCE_EXPAND_ALL)),
             put(closeAllFolders()),
             put(calcFilesTreeLayoutNodes())
         ]);
@@ -58,14 +65,14 @@ function* reactOnToggledFolder(action) {
 
     yield all([
         put(
-            setHiddenControl(
+            setDisabledControl(
                 CONTROLS_KEYS.SOURCE_EXPAND_ALL,
                 every(Object.keys(closedFolders), item => !closedFolders[item])
             )
         ),
 
         put(
-            setHiddenControl(
+            setDisabledControl(
                 CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
                 every(
                     Object.keys(firstLevelFolders),
@@ -81,26 +88,26 @@ function* reactOnToggledFolder(action) {
 function* reactDependenciesEntryPointChange(action) {
     if (!action.payload) {
         return yield put(
-            setHiddenControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true)
+            setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true)
         );
     }
 
-    const dependenciesRootEntryPoint = yield select(
-        state => state.dataBus.dependenciesRootEntryPoint
+    const isDisabled = yield isDependenciesShowAllDisabled();
+    yield put(
+        setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled)
     );
+}
+
+function* isDependenciesShowAllDisabled() {
+    const isRoot = yield select(
+        state => state.dataBus.isCurrentDependenciesEntryPointRoot
+    );
+
     const dependenciesShowOneModule = yield select(
         state => state.viewSwitches.checkedState.dependenciesShowOneModule
     );
 
-    const isRootPoint =
-        action.payload.path === dependenciesRootEntryPoint.moduleName;
-
-    yield put(
-        setHiddenControl(
-            CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
-            isRootPoint && !dependenciesShowOneModule
-        )
-    );
+    return isRoot && !dependenciesShowOneModule;
 }
 
 export default function* rootSaga() {

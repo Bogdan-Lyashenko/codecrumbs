@@ -19,6 +19,8 @@ export default (state = DefaultState, action) => {
                 ...state,
                 ...action.payload,
                 dependenciesRootEntryPoint: action.payload.dependenciesList[0],
+                isCurrentDependenciesEntryPointRoot: true,
+
                 firstLevelFolders: safeGet(
                     action.payload,
                     'filesTree.children',
@@ -79,9 +81,15 @@ export default (state = DefaultState, action) => {
             };
 
         case ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
+            const entry = action.payload;
+            const rootEntryPointModuleName =
+                state.dependenciesRootEntryPoint.moduleName;
+
             return {
                 ...state,
-                dependenciesEntryPoint: action.payload
+                dependenciesEntryPoint: entry,
+                isCurrentDependenciesEntryPointRoot:
+                    entry && entry.path === rootEntryPointModuleName
             };
 
         default:

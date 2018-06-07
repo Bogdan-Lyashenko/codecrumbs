@@ -32,31 +32,33 @@ class DependenciesTree extends React.Component {
         };
 
         if (dependenciesShowOneModule) {
-            const entryModule = dependenciesList.find(
-                d => d.moduleName === entryPoint.path
-            );
-            return [entryModule];
+            return [
+                dependenciesList.find(d => d.moduleName === entryPoint.path)
+            ];
         }
 
-        const dependenciesStore = [];
-        this.collectDependencies(
-            entryPoint.path,
-            dependenciesList,
-            dependenciesStore
-        );
-        return dependenciesStore;
+        return this.collectDependencies(entryPoint.path, dependenciesList);
     }
 
-    collectDependencies(entryModuleName, dependenciesList, store = []) {
-        const entryModule = dependenciesList.find(
-            d => d.moduleName === entryModuleName
-        );
+    collectDependencies(entryModuleName, dependenciesList) {
+        let queue = [].concat(entryModuleName),
+            store = [];
 
-        store.push(entryModule);
+        while (queue.length) {
+            let moduleName = queue.shift(),
+                entryModule = dependenciesList.find(
+                    d => d.moduleName === moduleName
+                );
 
-        entryModule.importedModuleNames.forEach(name =>
-            this.collectDependencies(name, dependenciesList, store)
-        );
+            store.push(entryModule);
+
+            const nodeBody = entryModule.importedModuleNames;
+            if (nodeBody) {
+                queue = [...queue, ...nodeBody];
+            }
+        }
+
+        return store;
     }
 
     drawTree() {

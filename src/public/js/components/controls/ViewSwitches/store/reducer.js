@@ -7,14 +7,14 @@ const DefaultState = {
             key: CONTROLS_KEYS.SOURCE,
             children: [
                 {
-                    name: 'C',
-                    title: 'Collapse to 2nd Level',
+                    name: 'close all',
+                    title: 'Close folders to 2nd Level',
                     key: CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
                     type: VIEW_TYPES.BUTTON
                 },
                 {
-                    name: 'E',
-                    title: 'Expand all',
+                    name: 'open all',
+                    title: 'Open all folders',
                     key: CONTROLS_KEYS.SOURCE_EXPAND_ALL,
                     type: VIEW_TYPES.BUTTON
                 }
@@ -25,13 +25,13 @@ const DefaultState = {
             key: CONTROLS_KEYS.DEPENDENCIES,
             children: [
                 {
-                    name: 'A',
+                    name: 'show all',
                     title: 'Show All dependencies',
                     key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
                     type: VIEW_TYPES.BUTTON
                 },
                 {
-                    name: 'M',
+                    name: 'direct only',
                     title: 'Show One module dependencies',
                     key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
                 }
@@ -42,12 +42,12 @@ const DefaultState = {
             key: CONTROLS_KEYS.CODE_CRUMBS,
             children: [
                 {
-                    name: 'M',
+                    name: 'minimize',
                     title: 'Minimize code crumbs',
                     key: CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
                 },
                 {
-                    name: 'D',
+                    name: 'show details',
                     title: 'Show all Details',
                     key: CONTROLS_KEYS.CODE_CRUMBS_DETAILS
                 }
@@ -57,7 +57,7 @@ const DefaultState = {
     checkedState: {
         [CONTROLS_KEYS.SOURCE]: true
     },
-    hiddenState: {
+    disabledState: {
         [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true,
         [CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL]: true
     }
@@ -82,20 +82,20 @@ export default (state = DefaultState, action) => {
 
             return {
                 ...state,
-                hiddenState: {
-                    ...state.hiddenState,
+                disabledState: {
+                    ...state.disabledState,
                     [buttonKey]: true
                 }
             };
 
-        case ACTIONS.SET_HIDDEN_CONTROL:
-            const { controlKey, hidden } = action.payload;
+        case ACTIONS.SET_DISABLED_CONTROL:
+            const { controlKey, disabled } = action.payload;
 
             return {
                 ...state,
-                hiddenState: {
-                    ...state.hiddenState,
-                    [controlKey]: hidden
+                disabledState: {
+                    ...state.disabledState,
+                    [controlKey]: disabled
                 }
             };
             break;

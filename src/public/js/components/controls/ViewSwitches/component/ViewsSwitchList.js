@@ -4,23 +4,17 @@ import './ViewSwitchList.css';
 import { VIEW_TYPES } from '../store/constants';
 
 class ViewsSwitchList extends React.Component {
-    renderChildren(children) {
+    renderChildren(controls) {
         const {
             toggleSwitch,
             checkedState,
-            hiddenState,
+            disabledState,
             fireButtonAction
         } = this.props;
 
-        const visibleControls = children.filter(
-            child => !hiddenState[child.key]
-        );
-
-        if (!visibleControls.length) return null;
-
         return (
             <div className="ViewSwitchList-small-group">
-                {visibleControls.map((item, i) => {
+                {controls.map((item, i) => {
                     return (
                         <div
                             key={item.key}
@@ -30,6 +24,7 @@ class ViewsSwitchList extends React.Component {
                                 <Button
                                     title={item.title}
                                     size={'small'}
+                                    disabled={disabledState[item.key]}
                                     onClick={() => fireButtonAction(item.key)}
                                 >
                                     <span title={item.title}>{item.name}</span>

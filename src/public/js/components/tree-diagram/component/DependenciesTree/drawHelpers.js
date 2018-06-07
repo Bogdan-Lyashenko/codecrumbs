@@ -21,8 +21,8 @@ export const drawDependenciesEdge = (
     if (!prevSource) {
         const targetPt = shiftToCenterPoint(target.x, target.y);
 
-        const P1 = { x: sourcePt.x, y: targetPt.y + padding };
-        const P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding };
+        const P1 = { x: sourcePt.x, y: targetPt.y + padding - 6};
+        const P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding -6 };
         const P3 = { x: targetPt.x - halfPadding, y: targetPt.y };
 
         drawConnectionLine(draw, [
@@ -38,10 +38,10 @@ export const drawDependenciesEdge = (
         if (prevSource.x < sourcePt.x) { //TODO: handle other cases
             const prevSourcePt = shiftToCenterPoint(prevSource.x, prevSource.y);
 
-            const P1 = { x: sourcePt.x, y: sourcePt.y + halfPadding };
+            const P1 = { x: sourcePt.x, y: sourcePt.y + halfPadding -3};
             const P2 = {
                 x: prevSourcePt.x + halfPadding,
-                y: sourcePt.y + halfPadding
+                y: sourcePt.y + halfPadding-3
             };
 
             drawConnectionLine(draw, [

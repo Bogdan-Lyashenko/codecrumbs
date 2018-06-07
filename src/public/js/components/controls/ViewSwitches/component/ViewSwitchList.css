@@ -25,6 +25,7 @@
     border-right: 1px solid #ebedf0;
     border-left: 1px solid #ebedf0;
     padding: 8px 8px 8px 8px;
+    min-height: 42px;
 }
 
 .ViewSwitchList-small-item {

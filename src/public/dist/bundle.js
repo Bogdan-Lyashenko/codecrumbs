@@ -86896,6 +86896,8 @@ var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -86956,37 +86958,43 @@ var DependenciesTree = function (_React$Component) {
             };
 
             if (dependenciesShowOneModule) {
-                var entryModule = dependenciesList.find(function (d) {
+                return [dependenciesList.find(function (d) {
                     return d.moduleName === entryPoint.path;
-                });
-                return [entryModule];
+                })];
             }
 
-            var dependenciesStore = [];
-            this.collectDependencies(entryPoint.path, dependenciesList, dependenciesStore);
-            return dependenciesStore;
+            return this.collectDependencies(entryPoint.path, dependenciesList);
         }
     }, {
         key: 'collectDependencies',
         value: function collectDependencies(entryModuleName, dependenciesList) {
-            var _this2 = this;
+            var queue = [].concat(entryModuleName),
+                store = [];
 
-            var store = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+            var _loop = function _loop() {
+                var moduleName = queue.shift(),
+                    entryModule = dependenciesList.find(function (d) {
+                    return d.moduleName === moduleName;
+                });
 
-            var entryModule = dependenciesList.find(function (d) {
-                return d.moduleName === entryModuleName;
-            });
+                store.push(entryModule);
 
-            store.push(entryModule);
+                var nodeBody = entryModule.importedModuleNames;
+                if (nodeBody) {
+                    queue = [].concat(_toConsumableArray(queue), _toConsumableArray(nodeBody));
+                }
+            };
 
-            entryModule.importedModuleNames.forEach(function (name) {
-                return _this2.collectDependencies(name, dependenciesList, store);
-            });
+            while (queue.length) {
+                _loop();
+            }
+
+            return store;
         }
     }, {
         key: 'drawTree',
         value: function drawTree() {
-            var _this3 = this;
+            var _this2 = this;
 
             var _props2 = this.props,
                 primaryDraw = _props2.primaryDraw,
@@ -87002,7 +87010,7 @@ var DependenciesTree = function (_React$Component) {
                 var moduleName = _ref2.moduleName,
                     importedModuleNames = _ref2.importedModuleNames;
 
-                var moduleNode = _this3.findNodeByPathName(moduleFilesList, moduleName);
+                var moduleNode = _this2.findNodeByPathName(moduleFilesList, moduleName);
 
                 if (!moduleNode) return;
 
@@ -87024,7 +87032,7 @@ var DependenciesTree = function (_React$Component) {
                 }
 
                 importedModuleNames.reduce(function (prevSource, name) {
-                    var importedNode = _this3.findNodeByPathName(moduleFilesList, name);
+                    var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
 
                     if (!importedNode) return;
 

@@ -6,8 +6,8 @@ const projectSourceWatcher = require('./project-source-watcher');
 const SOCKET_EVENT_TYPE = require('../shared/constants').SOCKET_EVENT_TYPE;
 
 const PORT = 2018;
-const PROJECT_DIR = 'example-project'; //get as param to server script
-const ENTRY = '/app.js'; //get as param to server script
+const PROJECT_DIR = 'src/public/js'; //, src/public/js, example-project, get as param to server script
+const ENTRY = '/index.js'; //, index.js, app.js get as param to server script
 
 const httpServer = http.createServer((request, response) => {
     const url = request.url.substr(1);

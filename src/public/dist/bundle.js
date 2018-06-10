@@ -15113,7 +15113,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".SideBar-container {\n    position: absolute;\n    right: 0px;\n    top: 0px;\n    height: 100%;\n    width: 500px;\n    z-index: 4;\n    background-color: white;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 16px;\n}\n\n.SideBar-header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between;\n}\n", ""]);
+exports.push([module.i, ".SideBar-container {\n    position: absolute;\n    right: 0px;\n    top: 0px;\n    height: 100%;\n    width: 650px;\n    z-index: 4;\n    background-color: white;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 16px;\n}\n\n.SideBar-header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between;\n}\n\n\n.SideBar-body {\n    height: calc(100% - 25px);\n    overflow: auto;\n}", ""]);
 
 // exports
 
@@ -87617,6 +87617,9 @@ var TreeDiagram = function (_React$Component) {
         value: function componentDidMount() {
             this.setState({ layersReady: true });
         }
+
+        //cc: layers
+
     }, {
         key: 'renderLayers',
         value: function renderLayers() {
@@ -87764,10 +87767,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var IconsAndTextLayer = 'iconsAndTextLayer';
 var cachedSvgDraws = {};
 
-var BOX_SIZE = 800;
+var BOX_SIZE = { W: 1000, H: 800 };
 var DOT = {
-    x: BOX_SIZE / 4,
-    y: BOX_SIZE / 4
+    x: 50,
+    y: 500
 };
 
 var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(DOT);
@@ -87795,9 +87798,9 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
             value: function createSvg(layer) {
                 var _props = this.props,
                     _props$width = _props.width,
-                    width = _props$width === undefined ? BOX_SIZE : _props$width,
+                    width = _props$width === undefined ? BOX_SIZE.W : _props$width,
                     _props$height = _props.height,
-                    height = _props$height === undefined ? BOX_SIZE : _props$height;
+                    height = _props$height === undefined ? BOX_SIZE.H : _props$height;
 
 
                 return (0, _svg2.default)(layer).size(width, height);
@@ -88424,7 +88427,21 @@ var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData, _re
             return includeFileChildren ? data.children : [];
         },
         nodeSize: function nodeSize(node) {
-            return [config.nodeSizeX, config.symbolWidth * node.data.name.length + config.nodeSizeY];
+            var nameLength = node.data.name.length;
+
+            //cc: layout calc
+            if (node.parent && node.data.type === _constants.DIR_NODE_TYPE) {
+                var children = node.parent.children;
+                nameLength = children.reduce(function (max, item) {
+                    if (item.data.type === _constants.DIR_NODE_TYPE && item.data.name.length > max) {
+                        return item.data.name.length;
+                    }
+
+                    return max;
+                }, 0);
+            }
+
+            return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
         },
         spacing: function spacing(nodeA, nodeB) {
             return config.spacing;

@@ -24,8 +24,15 @@ const isCodecrumb = (node = {}) => {
 };
 
 const getCrumbs = fileCode => {
-    const ast = babylon.parse(fileCode, { sourceType: 'module' });
+    let ast = {};
     const crumbsList = [];
+
+    try {
+        ast = babylon.parse(fileCode, { sourceType: 'module' });
+    } catch (e) {
+        console.log(e);
+        return crumbsList;
+    }
 
     babelTraverse.default(ast, {
         enter(path) {

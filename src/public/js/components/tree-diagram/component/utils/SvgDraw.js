@@ -5,10 +5,10 @@ import { buildShiftToPoint } from '../../../../utils/geometry';
 const IconsAndTextLayer = 'iconsAndTextLayer';
 const cachedSvgDraws = {};
 
-const BOX_SIZE = 800;
+const BOX_SIZE = {W: 1000, H: 800};
 const DOT = {
-    x: BOX_SIZE / 4,
-    y: BOX_SIZE / 4
+    x: 50,
+    y: 500
 };
 
 const shiftToCenterPoint = buildShiftToPoint(DOT);
@@ -18,7 +18,7 @@ export const withSvgDraw = Component =>
         state = {};
 
         createSvg(layer) {
-            const { width = BOX_SIZE, height = BOX_SIZE } = this.props;
+            const { width = BOX_SIZE.W, height = BOX_SIZE.H } = this.props;
 
             return SVG(layer).size(width, height);
         }

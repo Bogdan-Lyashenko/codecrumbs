@@ -14,6 +14,7 @@ class TreeDiagram extends React.Component {
         this.setState({ layersReady: true });
     }
 
+    //cc: layers
     renderLayers() {
         return (
             <div className="TreeDiagram-layers">

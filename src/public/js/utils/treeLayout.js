@@ -14,10 +14,29 @@ export const getTreeLayout = (
 
             return includeFileChildren ? data.children : [];
         },
-        nodeSize: node => [
-            config.nodeSizeX,
-            config.symbolWidth * node.data.name.length + config.nodeSizeY
-        ],
+        nodeSize: node => {
+            let nameLength = node.data.name.length;
+
+            //cc: layout calc
+            if (node.parent && node.data.type === DIR_NODE_TYPE) {
+                const children = node.parent.children;
+                nameLength = children.reduce((max, item) => {
+                    if (
+                        item.data.type === DIR_NODE_TYPE &&
+                        item.data.name.length > max
+                    ) {
+                        return item.data.name.length;
+                    }
+
+                    return max;
+                }, 0);
+            }
+
+            return [
+                config.nodeSizeX,
+                nameLength * config.symbolWidth + config.nodeSizeY
+            ];
+        },
         spacing: (nodeA, nodeB) => config.spacing
     });
 

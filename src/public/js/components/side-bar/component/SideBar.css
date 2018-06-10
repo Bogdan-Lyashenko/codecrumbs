@@ -3,7 +3,7 @@
     right: 0px;
     top: 0px;
     height: 100%;
-    width: 500px;
+    width: 650px;
     z-index: 4;
     background-color: white;
     border-left: 1px solid #ebedf0;
@@ -14,4 +14,10 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+
+.SideBar-body {
+    height: calc(100% - 25px);
+    overflow: auto;
 }

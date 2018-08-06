@@ -9,7 +9,8 @@
     "start:client": "cd src/public && webpack --progress --colors --watch --env dev",
     "start:server": "nodemon ./src/server/index.js",
     "start:server-debug": "nodemon --inspect ./src/server/index.js",
-    "start:demo": "node ./src/server/index.js"
+    "start:demo": "node ./src/server/index.js",
+    "pretty": "prettier  --write \"./src/public/js/**/*.js\""
   },
   "dependencies": {
     "antd": "^3.5.0",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "babel-preset-stage-2": "^6.24.1",
     "nodemon": "^1.17.3",
+    "prettier": "^1.14.0",
     "webpack-cli": "^2.1.2"
   },
   "nodemonConfig": {

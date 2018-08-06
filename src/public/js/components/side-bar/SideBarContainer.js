@@ -4,29 +4,26 @@ import SideBar from './component/SideBar';
 import { selectFile } from '../data-bus/store/actions';
 
 const SideBarContainer = ({ selectedFile, selectedCodeCrumb, onClose }) => {
-    if (!selectedFile) return null;
+  if (!selectedFile) return null;
 
-    //TODO: add animation slide
-    return (
-        <SideBar
-            file={selectedFile}
-            codeCrumb={selectedCodeCrumb}
-            onClose={onClose}
-        />
-    );
+  //TODO: add animation slide
+  return <SideBar file={selectedFile} codeCrumb={selectedCodeCrumb} onClose={onClose} />;
 };
 
 const mapStateToProps = state => {
-    const { selectedFile, selectedCodeCrumb } = state.dataBus;
+  const { selectedFile, selectedCodeCrumb } = state.dataBus;
 
-    return {
-        selectedFile,
-        selectedCodeCrumb
-    };
+  return {
+    selectedFile,
+    selectedCodeCrumb
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
-    onClose: () => dispatch(selectFile(null))
+  onClose: () => dispatch(selectFile(null))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideBarContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SideBarContainer);

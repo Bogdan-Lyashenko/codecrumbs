@@ -10,8 +10,8 @@ const MOUNT_NODE_ID = 'mount-node';
 
 const store = getStore();
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById(MOUNT_NODE_ID)
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById(MOUNT_NODE_ID)
 );

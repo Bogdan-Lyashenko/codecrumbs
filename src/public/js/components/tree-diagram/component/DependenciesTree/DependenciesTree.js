@@ -5,125 +5,104 @@ import { getFilesList } from '../../../../utils/treeLayout';
 import { withSvgDraw } from '../utils/SvgDraw';
 
 class DependenciesTree extends React.Component {
-    componentDidMount() {
-        this.drawTree();
-    }
+  componentDidMount() {
+    this.drawTree();
+  }
 
-    componentDidUpdate() {
-        const { primaryDraw } = this.props;
+  componentDidUpdate() {
+    const { primaryDraw } = this.props;
 
-        primaryDraw.clear();
-        this.drawTree();
-    }
-    //move to utils
-    findNodeByPathName = (list = [], pathName) => {
-        return list.find(l => l.data.path === pathName);
+    primaryDraw.clear();
+    this.drawTree();
+  }
+  //move to utils
+  findNodeByPathName = (list = [], pathName) => {
+    return list.find(l => l.data.path === pathName);
+  };
+
+  getFilteredDependenciesList() {
+    const { dependenciesList, dependenciesEntryPoint, dependenciesShowOneModule } = this.props;
+
+    const entryPoint = dependenciesEntryPoint || {
+      path: dependenciesList[0].moduleName
     };
 
-    getFilteredDependenciesList() {
-        const {
-            dependenciesList,
-            dependenciesEntryPoint,
-            dependenciesShowOneModule
-        } = this.props;
-
-        const entryPoint = dependenciesEntryPoint || {
-            path: dependenciesList[0].moduleName
-        };
-
-        if (dependenciesShowOneModule) {
-            return [
-                dependenciesList.find(d => d.moduleName === entryPoint.path)
-            ];
-        }
-
-        return this.collectDependencies(entryPoint.path, dependenciesList);
+    if (dependenciesShowOneModule) {
+      return [dependenciesList.find(d => d.moduleName === entryPoint.path)];
     }
 
-    collectDependencies(entryModuleName, dependenciesList) {
-        let queue = [].concat(entryModuleName),
-            store = [];
+    return this.collectDependencies(entryPoint.path, dependenciesList);
+  }
 
-        while (queue.length) {
-            let moduleName = queue.shift(),
-                entryModule = dependenciesList.find(
-                    d => d.moduleName === moduleName
-                );
+  collectDependencies(entryModuleName, dependenciesList) {
+    let queue = [].concat(entryModuleName),
+      store = [];
 
-            store.push(entryModule);
+    while (queue.length) {
+      let moduleName = queue.shift(),
+        entryModule = dependenciesList.find(d => d.moduleName === moduleName);
 
-            const nodeBody = entryModule.importedModuleNames;
-            if (nodeBody) {
-                queue = [...queue, ...nodeBody];
-            }
-        }
+      store.push(entryModule);
 
-        return store;
+      const nodeBody = entryModule.importedModuleNames;
+      if (nodeBody) {
+        queue = [...queue, ...nodeBody];
+      }
     }
 
-    drawTree() {
-        const {
-            primaryDraw,
-            filesTreeLayoutNodes,
-            shiftToCenterPoint,
-            sourceDiagramOn
-        } = this.props;
+    return store;
+  }
 
-        const moduleFilesList = getFilesList(filesTreeLayoutNodes);
-        const filteredDependenciesList = this.getFilteredDependenciesList();
+  drawTree() {
+    const { primaryDraw, filesTreeLayoutNodes, shiftToCenterPoint, sourceDiagramOn } = this.props;
 
-        filteredDependenciesList.forEach(
-            ({ moduleName, importedModuleNames }) => {
-                const moduleNode = this.findNodeByPathName(
-                    moduleFilesList,
-                    moduleName
-                );
+    const moduleFilesList = getFilesList(filesTreeLayoutNodes);
+    const filteredDependenciesList = this.getFilteredDependenciesList();
 
-                if (!moduleNode) return;
+    filteredDependenciesList.forEach(({ moduleName, importedModuleNames }) => {
+      const moduleNode = this.findNodeByPathName(moduleFilesList, moduleName);
 
-                const [mX, mY] = [moduleNode.y, moduleNode.x];
+      if (!moduleNode) return;
 
-                if (!sourceDiagramOn) {
-                    drawFileText(primaryDraw, shiftToCenterPoint, {
-                        x: mX,
-                        y: mY,
-                        name: moduleNode.data.name
-                    });
-                    drawFileIcon(primaryDraw, shiftToCenterPoint, {
-                        x: mX,
-                        y: mY
-                    });
-                }
+      const [mX, mY] = [moduleNode.y, moduleNode.x];
 
-                importedModuleNames.reduce((prevSource, name) => {
-                    const importedNode = this.findNodeByPathName(
-                        moduleFilesList,
-                        name
-                    );
+      if (!sourceDiagramOn) {
+        drawFileText(primaryDraw, shiftToCenterPoint, {
+          x: mX,
+          y: mY,
+          name: moduleNode.data.name
+        });
+        drawFileIcon(primaryDraw, shiftToCenterPoint, {
+          x: mX,
+          y: mY
+        });
+      }
 
-                    if (!importedNode) return;
+      importedModuleNames.reduce((prevSource, name) => {
+        const importedNode = this.findNodeByPathName(moduleFilesList, name);
 
-                    const [iX, iY] = [importedNode.y, importedNode.x];
-                    //TODO: implementation iterations:
-                    //1) done: first with sharp angles + overlay
-                    //2) done: without overlaying, not fot all cases
-                    //3) rounded angles
-                    const source = { x: iX, y: iY };
-                    drawDependenciesEdge(primaryDraw, shiftToCenterPoint, {
-                        source,
-                        target: { x: mX, y: mY },
-                        prevSource
-                    });
+        if (!importedNode) return;
 
-                    return source;
-                }, null);
-            }
-        );
-    }
+        const [iX, iY] = [importedNode.y, importedNode.x];
+        //TODO: implementation iterations:
+        //1) done: first with sharp angles + overlay
+        //2) done: without overlaying, not fot all cases
+        //3) rounded angles
+        const source = { x: iX, y: iY };
+        drawDependenciesEdge(primaryDraw, shiftToCenterPoint, {
+          source,
+          target: { x: mX, y: mY },
+          prevSource
+        });
 
-    render() {
-        return null;
-    }
+        return source;
+      }, null);
+    });
+  }
+
+  render() {
+    return null;
+  }
 }
 
 export default withSvgDraw(DependenciesTree);

@@ -85439,7 +85439,7 @@ if(false) {}
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
@@ -85467,33 +85467,32 @@ __webpack_require__(/*! ./App.css */ "./js/App.css");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
-    return _react2.default.createElement(
-        'div',
-        { className: 'App-container' },
-        _react2.default.createElement(
-            'header',
-            { className: 'App-header' },
-            _react2.default.createElement(_DataBusContainer2.default, null),
-            _react2.default.createElement(_ViewSwitchesContainer2.default, null)
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'App-body' },
-            _react2.default.createElement(_TreeDiagramContainer2.default, null),
-            _react2.default.createElement(_SideBarContainer2.default, null)
-        ),
-        _react2.default.createElement(
-            'footer',
-            { className: 'App-footer' },
-            'Bohdan Liashenko',
-            ' ',
-            _react2.default.createElement(
-                'a',
-                { href: 'https://github.com/Bogdan-Lyashenko/codecrumbs' },
-                'Project Github'
-            )
-        )
-    );
+  return _react2.default.createElement(
+    'div',
+    { className: 'App-container' },
+    _react2.default.createElement(
+      'header',
+      { className: 'App-header' },
+      _react2.default.createElement(_DataBusContainer2.default, null),
+      _react2.default.createElement(_ViewSwitchesContainer2.default, null)
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'App-body' },
+      _react2.default.createElement(_TreeDiagramContainer2.default, null),
+      _react2.default.createElement(_SideBarContainer2.default, null)
+    ),
+    _react2.default.createElement(
+      'footer',
+      { className: 'App-footer' },
+      'Bohdan Liashenko ',
+      _react2.default.createElement(
+        'a',
+        { href: 'https://github.com/Bogdan-Lyashenko/codecrumbs' },
+        'Project Github'
+      )
+    )
+  );
 };
 
 exports.default = App;
@@ -85511,7 +85510,7 @@ exports.default = App;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _ViewsSwitchList = __webpack_require__(/*! ./component/ViewsSwitchList */ "./js/components/controls/ViewSwitches/component/ViewsSwitchList.js");
@@ -85527,18 +85526,18 @@ var _constants = __webpack_require__(/*! ./store/constants */ "./js/components/c
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
-    var _state$viewSwitches = state.viewSwitches,
-        switches = _state$viewSwitches.switches,
-        checkedState = _state$viewSwitches.checkedState,
-        disabledState = _state$viewSwitches.disabledState;
+  var _state$viewSwitches = state.viewSwitches,
+      switches = _state$viewSwitches.switches,
+      checkedState = _state$viewSwitches.checkedState,
+      disabledState = _state$viewSwitches.disabledState;
 
 
-    return { switches: switches, checkedState: checkedState, disabledState: disabledState };
+  return { switches: switches, checkedState: checkedState, disabledState: disabledState };
 };
 
 var mapDispatchToProps = {
-    toggleSwitch: _actions.toggleSwitch,
-    fireButtonAction: _actions.fireButtonAction
+  toggleSwitch: _actions.toggleSwitch,
+  fireButtonAction: _actions.fireButtonAction
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_ViewsSwitchList2.default);
@@ -85586,7 +85585,7 @@ if(false) {}
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _switch = __webpack_require__(/*! antd/es/switch */ "../../node_modules/antd/es/switch/index.js");
@@ -85626,109 +85625,106 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var ViewsSwitchList = function (_React$Component) {
-    _inherits(ViewsSwitchList, _React$Component);
+  _inherits(ViewsSwitchList, _React$Component);
 
-    function ViewsSwitchList() {
-        _classCallCheck(this, ViewsSwitchList);
+  function ViewsSwitchList() {
+    _classCallCheck(this, ViewsSwitchList);
 
-        return _possibleConstructorReturn(this, (ViewsSwitchList.__proto__ || Object.getPrototypeOf(ViewsSwitchList)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ViewsSwitchList.__proto__ || Object.getPrototypeOf(ViewsSwitchList)).apply(this, arguments));
+  }
+
+  _createClass(ViewsSwitchList, [{
+    key: 'renderChildren',
+    value: function renderChildren(controls) {
+      var _props = this.props,
+          toggleSwitch = _props.toggleSwitch,
+          checkedState = _props.checkedState,
+          disabledState = _props.disabledState,
+          fireButtonAction = _props.fireButtonAction;
+
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'ViewSwitchList-small-group' },
+        controls.map(function (item, i) {
+          return _react2.default.createElement(
+            'div',
+            { key: item.key, className: 'ViewSwitchList-small-item' },
+            item.type === _constants.VIEW_TYPES.BUTTON ? _react2.default.createElement(
+              _button2.default,
+              {
+                title: item.title,
+                size: 'small',
+                disabled: disabledState[item.key],
+                onClick: function onClick() {
+                  return fireButtonAction(item.key);
+                }
+              },
+              _react2.default.createElement(
+                'span',
+                { title: item.title },
+                item.name
+              )
+            ) : _react2.default.createElement(
+              _checkbox2.default,
+              {
+                checked: checkedState[item.key],
+                onChange: function onChange(e) {
+                  return toggleSwitch(item.key, e.target.checked);
+                }
+              },
+              _react2.default.createElement(
+                'span',
+                { title: item.title },
+                item.name
+              )
+            )
+          );
+        })
+      );
     }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
 
-    _createClass(ViewsSwitchList, [{
-        key: 'renderChildren',
-        value: function renderChildren(controls) {
-            var _props = this.props,
-                toggleSwitch = _props.toggleSwitch,
-                checkedState = _props.checkedState,
-                disabledState = _props.disabledState,
-                fireButtonAction = _props.fireButtonAction;
-
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'ViewSwitchList-small-group' },
-                controls.map(function (item, i) {
-                    return _react2.default.createElement(
-                        'div',
-                        {
-                            key: item.key,
-                            className: 'ViewSwitchList-small-item'
-                        },
-                        item.type === _constants.VIEW_TYPES.BUTTON ? _react2.default.createElement(
-                            _button2.default,
-                            {
-                                title: item.title,
-                                size: 'small',
-                                disabled: disabledState[item.key],
-                                onClick: function onClick() {
-                                    return fireButtonAction(item.key);
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                { title: item.title },
-                                item.name
-                            )
-                        ) : _react2.default.createElement(
-                            _checkbox2.default,
-                            {
-                                checked: checkedState[item.key],
-                                onChange: function onChange(e) {
-                                    return toggleSwitch(item.key, e.target.checked);
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                { title: item.title },
-                                item.name
-                            )
-                        )
-                    );
-                })
-            );
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            var _props2 = this.props,
-                switches = _props2.switches,
-                toggleSwitch = _props2.toggleSwitch,
-                checkedState = _props2.checkedState;
+      var _props2 = this.props,
+          switches = _props2.switches,
+          toggleSwitch = _props2.toggleSwitch,
+          checkedState = _props2.checkedState;
 
 
-            return _react2.default.createElement(
-                'div',
-                { className: 'ViewSwitchList-container' },
-                switches.map(function (item, i) {
-                    return _react2.default.createElement(
-                        'div',
-                        { className: 'ViewSwitchList-group', key: item.key },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'ViewSwitchList-big-item' },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                item.name + ' '
-                            ),
-                            _react2.default.createElement(_switch2.default, {
-                                size: 'small',
-                                checked: checkedState[item.key],
-                                onChange: function onChange(checked) {
-                                    return toggleSwitch(item.key, checked);
-                                }
-                            })
-                        ),
-                        checkedState[item.key] && item.children.length && _this2.renderChildren(item.children) || null
-                    );
-                })
-            );
-        }
-    }]);
+      return _react2.default.createElement(
+        'div',
+        { className: 'ViewSwitchList-container' },
+        switches.map(function (item, i) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'ViewSwitchList-group', key: item.key },
+            _react2.default.createElement(
+              'div',
+              { className: 'ViewSwitchList-big-item' },
+              _react2.default.createElement(
+                'span',
+                null,
+                item.name + ' '
+              ),
+              _react2.default.createElement(_switch2.default, {
+                size: 'small',
+                checked: checkedState[item.key],
+                onChange: function onChange(checked) {
+                  return toggleSwitch(item.key, checked);
+                }
+              })
+            ),
+            checkedState[item.key] && item.children.length && _this2.renderChildren(item.children) || null
+          );
+        })
+      );
+    }
+  }]);
 
-    return ViewsSwitchList;
+  return ViewsSwitchList;
 }(_react2.default.Component);
 
 exports.default = ViewsSwitchList;
@@ -85746,31 +85742,31 @@ exports.default = ViewsSwitchList;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.setDisabledControl = exports.fireButtonAction = exports.toggleSwitch = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
 var toggleSwitch = exports.toggleSwitch = function toggleSwitch(switchKey, checked) {
-    return {
-        type: _constants.ACTIONS.TOGGLE_SWITCH,
-        payload: { switchKey: switchKey, checked: checked }
-    };
+  return {
+    type: _constants.ACTIONS.TOGGLE_SWITCH,
+    payload: { switchKey: switchKey, checked: checked }
+  };
 };
 
 var fireButtonAction = exports.fireButtonAction = function fireButtonAction(buttonKey) {
-    return {
-        type: _constants.ACTIONS.FIRE_BUTTON_ACTION,
-        payload: buttonKey
-    };
+  return {
+    type: _constants.ACTIONS.FIRE_BUTTON_ACTION,
+    payload: buttonKey
+  };
 };
 
 var setDisabledControl = exports.setDisabledControl = function setDisabledControl(controlKey, disabled) {
-    return {
-        type: _constants.ACTIONS.SET_DISABLED_CONTROL,
-        payload: { controlKey: controlKey, disabled: disabled }
-    };
+  return {
+    type: _constants.ACTIONS.SET_DISABLED_CONTROL,
+    payload: { controlKey: controlKey, disabled: disabled }
+  };
 };
 
 /***/ }),
@@ -85786,28 +85782,28 @@ var setDisabledControl = exports.setDisabledControl = function setDisabledContro
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var ACTIONS = exports.ACTIONS = {
-    TOGGLE_SWITCH: 'SWITCHES_LIST.TOGGLE_SWITCH',
-    FIRE_BUTTON_ACTION: 'SWITCHES_LIST.FIRE_BUTTON_ACTION',
-    SET_DISABLED_CONTROL: 'SWITCHES_LIST.SET_DISABLED_CONTROL'
+  TOGGLE_SWITCH: 'SWITCHES_LIST.TOGGLE_SWITCH',
+  FIRE_BUTTON_ACTION: 'SWITCHES_LIST.FIRE_BUTTON_ACTION',
+  SET_DISABLED_CONTROL: 'SWITCHES_LIST.SET_DISABLED_CONTROL'
 };
 
 var CONTROLS_KEYS = exports.CONTROLS_KEYS = {
-    SOURCE: 'source',
-    SOURCE_COLLAPSE_TO_MIN: 'sourceCollapseToMin',
-    SOURCE_EXPAND_ALL: 'sourceExpandAll',
-    DEPENDENCIES: 'dependencies',
-    DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
-    DEPENDENCIES_SHOW_ONE_MODULE: 'dependenciesShowOneModule',
-    CODE_CRUMBS: 'codeCrumbs',
-    CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
-    CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'
+  SOURCE: 'source',
+  SOURCE_COLLAPSE_TO_MIN: 'sourceCollapseToMin',
+  SOURCE_EXPAND_ALL: 'sourceExpandAll',
+  DEPENDENCIES: 'dependencies',
+  DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
+  DEPENDENCIES_SHOW_ONE_MODULE: 'dependenciesShowOneModule',
+  CODE_CRUMBS: 'codeCrumbs',
+  CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
+  CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'
 };
 
 var VIEW_TYPES = exports.VIEW_TYPES = {
-    BUTTON: 'icon'
+  BUTTON: 'icon'
 };
 
 /***/ }),
@@ -85823,7 +85819,7 @@ var VIEW_TYPES = exports.VIEW_TYPES = {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -85835,87 +85831,87 @@ var _constants = __webpack_require__(/*! ./constants */ "./js/components/control
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var DefaultState = {
-    switches: [{
-        name: 'Source',
-        key: _constants.CONTROLS_KEYS.SOURCE,
-        children: [{
-            name: 'close all',
-            title: 'Close folders to 2nd Level',
-            key: _constants.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
-            type: _constants.VIEW_TYPES.BUTTON
-        }, {
-            name: 'open all',
-            title: 'Open all folders',
-            key: _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL,
-            type: _constants.VIEW_TYPES.BUTTON
-        }]
+  switches: [{
+    name: 'Source',
+    key: _constants.CONTROLS_KEYS.SOURCE,
+    children: [{
+      name: 'close all',
+      title: 'Close folders to 2nd Level',
+      key: _constants.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN,
+      type: _constants.VIEW_TYPES.BUTTON
     }, {
-        name: 'Dependencies',
-        key: _constants.CONTROLS_KEYS.DEPENDENCIES,
-        children: [{
-            name: 'show all',
-            title: 'Show All dependencies',
-            key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
-            type: _constants.VIEW_TYPES.BUTTON
-        }, {
-            name: 'direct only',
-            title: 'Show One module dependencies',
-            key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
-        }]
+      name: 'open all',
+      title: 'Open all folders',
+      key: _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL,
+      type: _constants.VIEW_TYPES.BUTTON
+    }]
+  }, {
+    name: 'Dependencies',
+    key: _constants.CONTROLS_KEYS.DEPENDENCIES,
+    children: [{
+      name: 'show all',
+      title: 'Show All dependencies',
+      key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
+      type: _constants.VIEW_TYPES.BUTTON
     }, {
-        name: 'CodeCrumbs',
-        key: _constants.CONTROLS_KEYS.CODE_CRUMBS,
-        children: [{
-            name: 'minimize',
-            title: 'Minimize code crumbs',
-            key: _constants.CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
-        }, {
-            name: 'show details',
-            title: 'Show all Details',
-            key: _constants.CONTROLS_KEYS.CODE_CRUMBS_DETAILS
-        }]
-    }],
-    checkedState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE, true),
-    disabledState: (_disabledState = {}, _defineProperty(_disabledState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_disabledState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _disabledState)
+      name: 'direct only',
+      title: 'Show One module dependencies',
+      key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
+    }]
+  }, {
+    name: 'CodeCrumbs',
+    key: _constants.CONTROLS_KEYS.CODE_CRUMBS,
+    children: [{
+      name: 'minimize',
+      title: 'Minimize code crumbs',
+      key: _constants.CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
+    }, {
+      name: 'show details',
+      title: 'Show all Details',
+      key: _constants.CONTROLS_KEYS.CODE_CRUMBS_DETAILS
+    }]
+  }],
+  checkedState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE, true),
+  disabledState: (_disabledState = {}, _defineProperty(_disabledState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_disabledState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _disabledState)
 };
 
 exports.default = function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DefaultState;
-    var action = arguments[1];
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DefaultState;
+  var action = arguments[1];
 
-    switch (action.type) {
-        case _constants.ACTIONS.TOGGLE_SWITCH:
-            var _action$payload = action.payload,
-                switchKey = _action$payload.switchKey,
-                checked = _action$payload.checked;
-
-
-            return _extends({}, state, {
-                checkedState: _extends({}, state.checkedState, _defineProperty({}, switchKey, checked))
-            });
-            break;
-
-        case _constants.ACTIONS.FIRE_BUTTON_ACTION:
-            var buttonKey = action.payload;
-
-            return _extends({}, state, {
-                disabledState: _extends({}, state.disabledState, _defineProperty({}, buttonKey, true))
-            });
-
-        case _constants.ACTIONS.SET_DISABLED_CONTROL:
-            var _action$payload2 = action.payload,
-                controlKey = _action$payload2.controlKey,
-                disabled = _action$payload2.disabled;
+  switch (action.type) {
+    case _constants.ACTIONS.TOGGLE_SWITCH:
+      var _action$payload = action.payload,
+          switchKey = _action$payload.switchKey,
+          checked = _action$payload.checked;
 
 
-            return _extends({}, state, {
-                disabledState: _extends({}, state.disabledState, _defineProperty({}, controlKey, disabled))
-            });
-            break;
+      return _extends({}, state, {
+        checkedState: _extends({}, state.checkedState, _defineProperty({}, switchKey, checked))
+      });
+      break;
 
-        default:
-            return state;
-    }
+    case _constants.ACTIONS.FIRE_BUTTON_ACTION:
+      var buttonKey = action.payload;
+
+      return _extends({}, state, {
+        disabledState: _extends({}, state.disabledState, _defineProperty({}, buttonKey, true))
+      });
+
+    case _constants.ACTIONS.SET_DISABLED_CONTROL:
+      var _action$payload2 = action.payload,
+          controlKey = _action$payload2.controlKey,
+          disabled = _action$payload2.disabled;
+
+
+      return _extends({}, state, {
+        disabledState: _extends({}, state.disabledState, _defineProperty({}, controlKey, disabled))
+      });
+      break;
+
+    default:
+      return state;
+  }
 };
 
 /***/ }),
@@ -85931,7 +85927,7 @@ exports.default = function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -85957,65 +85953,65 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var DataBusContainer = function (_React$Component) {
-    _inherits(DataBusContainer, _React$Component);
+  _inherits(DataBusContainer, _React$Component);
 
-    function DataBusContainer() {
-        _classCallCheck(this, DataBusContainer);
+  function DataBusContainer() {
+    _classCallCheck(this, DataBusContainer);
 
-        return _possibleConstructorReturn(this, (DataBusContainer.__proto__ || Object.getPrototypeOf(DataBusContainer)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (DataBusContainer.__proto__ || Object.getPrototypeOf(DataBusContainer)).apply(this, arguments));
+  }
+
+  _createClass(DataBusContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      (0, _connection.createConnection)(function (_ref) {
+        var type = _ref.type,
+            data = _ref.data;
+        return _this2.onSocketEvent(type, data);
+      });
     }
-
-    _createClass(DataBusContainer, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this2 = this;
-
-            (0, _connection.createConnection)(function (_ref) {
-                var type = _ref.type,
-                    data = _ref.data;
-                return _this2.onSocketEvent(type, data);
-            });
-        }
-    }, {
-        key: 'onSocketEvent',
-        value: function onSocketEvent(type, data) {
-            switch (type) {
-                case _constants.SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
-                    var _data$body = data.body,
-                        filesTree = _data$body.filesTree,
-                        filesList = _data$body.filesList,
-                        dependenciesList = _data$body.dependenciesList;
-                    var _props = this.props,
-                        _setInitialSourceData = _props.setInitialSourceData,
-                        _calcFilesTreeLayoutNodes = _props.calcFilesTreeLayoutNodes;
+  }, {
+    key: 'onSocketEvent',
+    value: function onSocketEvent(type, data) {
+      switch (type) {
+        case _constants.SOCKET_EVENT_TYPE.SYNC_SOURCE_FILES:
+          var _data$body = data.body,
+              filesTree = _data$body.filesTree,
+              filesList = _data$body.filesList,
+              dependenciesList = _data$body.dependenciesList;
+          var _props = this.props,
+              _setInitialSourceData = _props.setInitialSourceData,
+              _calcFilesTreeLayoutNodes = _props.calcFilesTreeLayoutNodes;
 
 
-                    _setInitialSourceData({
-                        filesTree: filesTree,
-                        filesList: filesList,
-                        dependenciesList: dependenciesList
-                    });
+          _setInitialSourceData({
+            filesTree: filesTree,
+            filesList: filesList,
+            dependenciesList: dependenciesList
+          });
 
-                    _calcFilesTreeLayoutNodes();
-                    break;
+          _calcFilesTreeLayoutNodes();
+          break;
 
-                default:
-                    break;
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement('div', { className: 'DataBus-container' });
-        }
-    }]);
+        default:
+          break;
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement('div', { className: 'DataBus-container' });
+    }
+  }]);
 
-    return DataBusContainer;
+  return DataBusContainer;
 }(_react2.default.Component);
 
 var mapDispatchToProps = {
-    setInitialSourceData: _actions.setInitialSourceData,
-    calcFilesTreeLayoutNodes: _actions.calcFilesTreeLayoutNodes
+  setInitialSourceData: _actions.setInitialSourceData,
+  calcFilesTreeLayoutNodes: _actions.calcFilesTreeLayoutNodes
 };
 
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DataBusContainer);
@@ -86033,7 +86029,7 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DataBusCont
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectFile = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
 
@@ -86042,71 +86038,71 @@ var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bu
 var _treeLayout = __webpack_require__(/*! ../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
 var setInitialSourceData = exports.setInitialSourceData = function setInitialSourceData(data) {
-    return {
-        type: _constants.ACTIONS.SET_INITIAL_SOURCE_DATA,
-        payload: data
-    };
+  return {
+    type: _constants.ACTIONS.SET_INITIAL_SOURCE_DATA,
+    payload: data
+  };
 };
 
 var calcFilesTreeLayoutNodes = exports.calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes() {
-    return function (dispatch, getState) {
-        var state = getState();
-        var _state$dataBus = state.dataBus,
-            filesTree = _state$dataBus.filesTree,
-            closedFolders = _state$dataBus.closedFolders;
-        var checkedState = state.viewSwitches.checkedState;
+  return function (dispatch, getState) {
+    var state = getState();
+    var _state$dataBus = state.dataBus,
+        filesTree = _state$dataBus.filesTree,
+        closedFolders = _state$dataBus.closedFolders;
+    var checkedState = state.viewSwitches.checkedState;
 
 
-        if (!filesTree) return;
+    if (!filesTree) return;
 
-        return dispatch({
-            type: _constants.ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
-            payload: (0, _treeLayout.getTreeLayout)(filesTree, {
-                includeFileChildren: checkedState.codeCrumbs,
-                closedFolders: closedFolders
-            })
-        });
-    };
+    return dispatch({
+      type: _constants.ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
+      payload: (0, _treeLayout.getTreeLayout)(filesTree, {
+        includeFileChildren: checkedState.codeCrumbs,
+        closedFolders: closedFolders
+      })
+    });
+  };
 };
 
 var selectFile = exports.selectFile = function selectFile(fileNode) {
-    return {
-        type: _constants.ACTIONS.SELECT_FILE,
-        payload: fileNode
-    };
+  return {
+    type: _constants.ACTIONS.SELECT_FILE,
+    payload: fileNode
+  };
 };
 
 var toggleFolder = exports.toggleFolder = function toggleFolder(folderNode) {
-    return {
-        type: _constants.ACTIONS.TOGGLE_FOLDER,
-        payload: folderNode
-    };
+  return {
+    type: _constants.ACTIONS.TOGGLE_FOLDER,
+    payload: folderNode
+  };
 };
 
 var openAllFolders = exports.openAllFolders = function openAllFolders() {
-    return {
-        type: _constants.ACTIONS.OPEN_ALL_FOLDERS
-    };
+  return {
+    type: _constants.ACTIONS.OPEN_ALL_FOLDERS
+  };
 };
 
 var closeAllFolders = exports.closeAllFolders = function closeAllFolders() {
-    return {
-        type: _constants.ACTIONS.CLOSE_ALL_FOLDERS
-    };
+  return {
+    type: _constants.ACTIONS.CLOSE_ALL_FOLDERS
+  };
 };
 
 var selectCodeCrumb = exports.selectCodeCrumb = function selectCodeCrumb(fileNode, codeCrumb) {
-    return {
-        type: _constants.ACTIONS.SELECT_CODE_CRUMB,
-        payload: { fileNode: fileNode, codeCrumb: codeCrumb }
-    };
+  return {
+    type: _constants.ACTIONS.SELECT_CODE_CRUMB,
+    payload: { fileNode: fileNode, codeCrumb: codeCrumb }
+  };
 };
 
 var setDependenciesEntryPoint = exports.setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode) {
-    return {
-        type: _constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
-        payload: fileNode
-    };
+  return {
+    type: _constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
+    payload: fileNode
+  };
 };
 
 /***/ }),
@@ -86122,17 +86118,17 @@ var setDependenciesEntryPoint = exports.setDependenciesEntryPoint = function set
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var ACTIONS = exports.ACTIONS = {
-    SET_INITIAL_SOURCE_DATA: 'DATA_BUS.SET_INITIAL_SOURCE_DATA',
-    UPDATE_FILES_TREE_LAYOUT_NODES: 'DATA_BUS.UPDATE_FILES_TREE_LAYOUT_NODES',
-    SELECT_FILE: 'DATA_BUS.SELECT_FILE',
-    TOGGLE_FOLDER: 'DATA_BUS.TOGGLE_FOLDER',
-    OPEN_ALL_FOLDERS: 'DATA_BUS.OPEN_ALL_FOLDERS',
-    CLOSE_ALL_FOLDERS: 'DATA_BUS.CLOSE_ALL_FOLDERS',
-    SELECT_CODE_CRUMB: 'DATA_BUS.SELECT_CODE_CRUMB',
-    SET_DEPENDENCIES_ENTRY_POINT: 'DATA_BUS.SET_DEPENDENCIES_ENTRY_POINT'
+  SET_INITIAL_SOURCE_DATA: 'DATA_BUS.SET_INITIAL_SOURCE_DATA',
+  UPDATE_FILES_TREE_LAYOUT_NODES: 'DATA_BUS.UPDATE_FILES_TREE_LAYOUT_NODES',
+  SELECT_FILE: 'DATA_BUS.SELECT_FILE',
+  TOGGLE_FOLDER: 'DATA_BUS.TOGGLE_FOLDER',
+  OPEN_ALL_FOLDERS: 'DATA_BUS.OPEN_ALL_FOLDERS',
+  CLOSE_ALL_FOLDERS: 'DATA_BUS.CLOSE_ALL_FOLDERS',
+  SELECT_CODE_CRUMB: 'DATA_BUS.SELECT_CODE_CRUMB',
+  SET_DEPENDENCIES_ENTRY_POINT: 'DATA_BUS.SET_DEPENDENCIES_ENTRY_POINT'
 };
 
 /***/ }),
@@ -86148,7 +86144,7 @@ var ACTIONS = exports.ACTIONS = {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -86166,85 +86162,85 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var DefaultState = {
-    filesTree: null,
-    filesList: null,
-    dependenciesList: null,
+  filesTree: null,
+  filesList: null,
+  dependenciesList: null,
 
-    filesTreeLayoutNodes: null,
-    closedFolders: {},
-    firstLevelFolders: {}
+  filesTreeLayoutNodes: null,
+  closedFolders: {},
+  firstLevelFolders: {}
 };
 
 exports.default = function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DefaultState;
-    var action = arguments[1];
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DefaultState;
+  var action = arguments[1];
 
-    switch (action.type) {
-        case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
-            return _extends({}, state, action.payload, {
-                dependenciesRootEntryPoint: action.payload.dependenciesList[0],
-                isCurrentDependenciesEntryPointRoot: true,
+  switch (action.type) {
+    case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
+      return _extends({}, state, action.payload, {
+        dependenciesRootEntryPoint: action.payload.dependenciesList[0],
+        isCurrentDependenciesEntryPointRoot: true,
 
-                firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
-                    return item.type === _constants.DIR_NODE_TYPE;
-                }).reduce(function (res, item) {
-                    res[item.path] = item;
-                    return res;
-                }, {})
-            });
+        firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
+          return item.type === _constants.DIR_NODE_TYPE;
+        }).reduce(function (res, item) {
+          res[item.path] = item;
+          return res;
+        }, {})
+      });
 
-        case _constants2.ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES:
-            return _extends({}, state, {
-                filesTreeLayoutNodes: action.payload
-            });
+    case _constants2.ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES:
+      return _extends({}, state, {
+        filesTreeLayoutNodes: action.payload
+      });
 
-        case _constants2.ACTIONS.SELECT_FILE:
-            return _extends({}, state, {
-                selectedCodeCrumb: null,
-                selectedFile: action.payload
-            });
+    case _constants2.ACTIONS.SELECT_FILE:
+      return _extends({}, state, {
+        selectedCodeCrumb: null,
+        selectedFile: action.payload
+      });
 
-        case _constants2.ACTIONS.TOGGLE_FOLDER:
-            var closedFolders = state.closedFolders;
+    case _constants2.ACTIONS.TOGGLE_FOLDER:
+      var closedFolders = state.closedFolders;
 
-            var folderPath = action.payload.path;
+      var folderPath = action.payload.path;
 
-            return _extends({}, state, {
-                closedFolders: closedFolders[folderPath] ? _extends({}, closedFolders, _defineProperty({}, folderPath, null)) : _extends({}, closedFolders, _defineProperty({}, folderPath, action.payload))
-            });
+      return _extends({}, state, {
+        closedFolders: closedFolders[folderPath] ? _extends({}, closedFolders, _defineProperty({}, folderPath, null)) : _extends({}, closedFolders, _defineProperty({}, folderPath, action.payload))
+      });
 
-        case _constants2.ACTIONS.OPEN_ALL_FOLDERS:
-            return _extends({}, state, {
-                closedFolders: {}
-            });
+    case _constants2.ACTIONS.OPEN_ALL_FOLDERS:
+      return _extends({}, state, {
+        closedFolders: {}
+      });
 
-        case _constants2.ACTIONS.CLOSE_ALL_FOLDERS:
-            return _extends({}, state, {
-                closedFolders: _extends({}, state.closedFolders, state.firstLevelFolders)
-            });
+    case _constants2.ACTIONS.CLOSE_ALL_FOLDERS:
+      return _extends({}, state, {
+        closedFolders: _extends({}, state.closedFolders, state.firstLevelFolders)
+      });
 
-        case _constants2.ACTIONS.SELECT_CODE_CRUMB:
-            var _action$payload = action.payload,
-                fileNode = _action$payload.fileNode,
-                codeCrumb = _action$payload.codeCrumb;
+    case _constants2.ACTIONS.SELECT_CODE_CRUMB:
+      var _action$payload = action.payload,
+          fileNode = _action$payload.fileNode,
+          codeCrumb = _action$payload.codeCrumb;
 
-            return _extends({}, state, {
-                selectedFile: fileNode,
-                selectedCodeCrumb: codeCrumb
-            });
+      return _extends({}, state, {
+        selectedFile: fileNode,
+        selectedCodeCrumb: codeCrumb
+      });
 
-        case _constants2.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
-            var entry = action.payload;
-            var rootEntryPointModuleName = state.dependenciesRootEntryPoint.moduleName;
+    case _constants2.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
+      var entry = action.payload;
+      var rootEntryPointModuleName = state.dependenciesRootEntryPoint.moduleName;
 
-            return _extends({}, state, {
-                dependenciesEntryPoint: entry,
-                isCurrentDependenciesEntryPointRoot: entry && entry.path === rootEntryPointModuleName
-            });
+      return _extends({}, state, {
+        dependenciesEntryPoint: entry,
+        isCurrentDependenciesEntryPointRoot: entry && entry.path === rootEntryPointModuleName
+      });
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 };
 
 /***/ }),
@@ -86260,7 +86256,7 @@ exports.default = function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
@@ -86278,38 +86274,34 @@ var _actions = __webpack_require__(/*! ../data-bus/store/actions */ "./js/compon
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SideBarContainer = function SideBarContainer(_ref) {
-    var selectedFile = _ref.selectedFile,
-        selectedCodeCrumb = _ref.selectedCodeCrumb,
-        onClose = _ref.onClose;
+  var selectedFile = _ref.selectedFile,
+      selectedCodeCrumb = _ref.selectedCodeCrumb,
+      onClose = _ref.onClose;
 
-    if (!selectedFile) return null;
+  if (!selectedFile) return null;
 
-    //TODO: add animation slide
-    return _react2.default.createElement(_SideBar2.default, {
-        file: selectedFile,
-        codeCrumb: selectedCodeCrumb,
-        onClose: onClose
-    });
+  //TODO: add animation slide
+  return _react2.default.createElement(_SideBar2.default, { file: selectedFile, codeCrumb: selectedCodeCrumb, onClose: onClose });
 };
 
 var mapStateToProps = function mapStateToProps(state) {
-    var _state$dataBus = state.dataBus,
-        selectedFile = _state$dataBus.selectedFile,
-        selectedCodeCrumb = _state$dataBus.selectedCodeCrumb;
+  var _state$dataBus = state.dataBus,
+      selectedFile = _state$dataBus.selectedFile,
+      selectedCodeCrumb = _state$dataBus.selectedCodeCrumb;
 
 
-    return {
-        selectedFile: selectedFile,
-        selectedCodeCrumb: selectedCodeCrumb
-    };
+  return {
+    selectedFile: selectedFile,
+    selectedCodeCrumb: selectedCodeCrumb
+  };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-    return {
-        onClose: function onClose() {
-            return dispatch((0, _actions.selectFile)(null));
-        }
-    };
+  return {
+    onClose: function onClose() {
+      return dispatch((0, _actions.selectFile)(null));
+    }
+  };
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SideBarContainer);
@@ -86327,7 +86319,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
@@ -86346,19 +86338,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //TODO: scrool to/highlight crumbed lines
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
 exports.default = function (_ref) {
-    var code = _ref.code,
-        _ref$crumbedLines = _ref.crumbedLines,
-        crumbedLines = _ref$crumbedLines === undefined ? [] : _ref$crumbedLines;
-    return _react2.default.createElement(
-        _reactSyntaxHighlighter2.default,
-        {
-            language: 'javascript',
-            style: _hljs.atomOneLight,
-            customStyle: { fontSize: '13px' },
-            showLineNumbers: true
-        },
-        code
-    );
+  var code = _ref.code,
+      _ref$crumbedLines = _ref.crumbedLines,
+      crumbedLines = _ref$crumbedLines === undefined ? [] : _ref$crumbedLines;
+  return _react2.default.createElement(
+    _reactSyntaxHighlighter2.default,
+    {
+      language: 'javascript',
+      style: _hljs.atomOneLight,
+      customStyle: { fontSize: '13px' },
+      showLineNumbers: true
+    },
+    code
+  );
 };
 
 /***/ }),
@@ -86404,7 +86396,7 @@ if(false) {}
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _tabs = __webpack_require__(/*! antd/es/tabs */ "../../node_modules/antd/es/tabs/index.js");
@@ -86429,56 +86421,53 @@ var TabPane = _tabs2.default.TabPane;
 
 //TODO: Add slide from right animation
 exports.default = function (_ref) {
-    var file = _ref.file,
-        codeCrumb = _ref.codeCrumb,
-        onClose = _ref.onClose;
+  var file = _ref.file,
+      codeCrumb = _ref.codeCrumb,
+      onClose = _ref.onClose;
 
-    var crumbedLines = !codeCrumb ? [] : codeCrumb.crumbedLineNode.loc.start.line;
+  var crumbedLines = !codeCrumb ? [] : codeCrumb.crumbedLineNode.loc.start.line;
 
-    return _react2.default.createElement(
+  return _react2.default.createElement(
+    'div',
+    { className: 'SideBar-container' },
+    _react2.default.createElement(
+      'div',
+      { className: 'SideBar-header' },
+      _react2.default.createElement(
         'div',
-        { className: 'SideBar-container' },
+        null,
+        file.path
+      ),
+      _react2.default.createElement(
+        'a',
+        { href: '#', onClick: onClose },
+        'X'
+      )
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'SideBar-body' },
+      file.fileCode && _react2.default.createElement(
+        _tabs2.default,
+        { defaultActiveKey: '1', onChange: function onChange() {} },
         _react2.default.createElement(
-            'div',
-            { className: 'SideBar-header' },
-            _react2.default.createElement(
-                'div',
-                null,
-                file.path
-            ),
-            _react2.default.createElement(
-                'a',
-                { href: '#', onClick: onClose },
-                'X'
-            )
+          TabPane,
+          { tab: 'Code', key: '1' },
+          _react2.default.createElement(_Code2.default, { code: file.fileCode, crumbedLines: crumbedLines })
         ),
         _react2.default.createElement(
-            'div',
-            { className: 'SideBar-body' },
-            file.fileCode && _react2.default.createElement(
-                _tabs2.default,
-                { defaultActiveKey: '1', onChange: function onChange() {} },
-                _react2.default.createElement(
-                    TabPane,
-                    { tab: 'Code', key: '1' },
-                    _react2.default.createElement(_Code2.default, {
-                        code: file.fileCode,
-                        crumbedLines: crumbedLines
-                    })
-                ),
-                _react2.default.createElement(
-                    TabPane,
-                    { tab: 'FlowChart', key: '2' },
-                    'Content of Tab Pane 2'
-                ),
-                _react2.default.createElement(
-                    TabPane,
-                    { tab: 'Crumbs', key: '3' },
-                    'Content of Tab Pane 3'
-                )
-            )
+          TabPane,
+          { tab: 'FlowChart', key: '2' },
+          'Content of Tab Pane 2'
+        ),
+        _react2.default.createElement(
+          TabPane,
+          { tab: 'Crumbs', key: '3' },
+          'Content of Tab Pane 3'
         )
-    );
+      )
+    )
+  );
 };
 
 /***/ }),
@@ -86494,7 +86483,7 @@ exports.default = function (_ref) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
@@ -86508,33 +86497,33 @@ var _actions = __webpack_require__(/*! ../data-bus/store/actions */ "./js/compon
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
-    var checkedState = state.viewSwitches.checkedState;
-    var _state$dataBus = state.dataBus,
-        filesTreeLayoutNodes = _state$dataBus.filesTreeLayoutNodes,
-        dependenciesList = _state$dataBus.dependenciesList,
-        closedFolders = _state$dataBus.closedFolders,
-        dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint;
+  var checkedState = state.viewSwitches.checkedState;
+  var _state$dataBus = state.dataBus,
+      filesTreeLayoutNodes = _state$dataBus.filesTreeLayoutNodes,
+      dependenciesList = _state$dataBus.dependenciesList,
+      closedFolders = _state$dataBus.closedFolders,
+      dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint;
 
 
-    return {
-        sourceDiagramOn: checkedState.source,
-        dependenciesDiagramOn: checkedState.dependencies,
-        dependenciesShowOneModule: checkedState.dependenciesShowOneModule,
-        codeCrumbsDiagramOn: checkedState.codeCrumbs,
-        codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
-        codeCrumbsDetails: checkedState.codeCrumbsDetails,
-        filesTreeLayoutNodes: filesTreeLayoutNodes,
-        dependenciesList: dependenciesList,
-        closedFolders: closedFolders,
-        dependenciesEntryPoint: dependenciesEntryPoint
-    };
+  return {
+    sourceDiagramOn: checkedState.source,
+    dependenciesDiagramOn: checkedState.dependencies,
+    dependenciesShowOneModule: checkedState.dependenciesShowOneModule,
+    codeCrumbsDiagramOn: checkedState.codeCrumbs,
+    codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
+    codeCrumbsDetails: checkedState.codeCrumbsDetails,
+    filesTreeLayoutNodes: filesTreeLayoutNodes,
+    dependenciesList: dependenciesList,
+    closedFolders: closedFolders,
+    dependenciesEntryPoint: dependenciesEntryPoint
+  };
 };
 
 var mapDispatchToProps = {
-    onCodeCrumbSelect: _actions.selectCodeCrumb,
-    onFileSelect: _actions.selectFile,
-    onFileIconClick: _actions.setDependenciesEntryPoint,
-    onFolderClick: _actions.toggleFolder
+  onCodeCrumbSelect: _actions.selectCodeCrumb,
+  onFileSelect: _actions.selectFile,
+  onFileIconClick: _actions.setDependenciesEntryPoint,
+  onFolderClick: _actions.toggleFolder
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TreeDiagram2.default);
@@ -86552,7 +86541,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -86580,151 +86569,151 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var CodeCrumbsTree = function (_React$Component) {
-    _inherits(CodeCrumbsTree, _React$Component);
+  _inherits(CodeCrumbsTree, _React$Component);
 
-    function CodeCrumbsTree() {
-        _classCallCheck(this, CodeCrumbsTree);
+  function CodeCrumbsTree() {
+    _classCallCheck(this, CodeCrumbsTree);
 
-        return _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CodeCrumbsTree.__proto__ || Object.getPrototypeOf(CodeCrumbsTree)).apply(this, arguments));
+  }
+
+  _createClass(CodeCrumbsTree, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.drawSet = (0, _SvgSet.createSet)(this.props.primaryDraw);
+      this.drawTree();
     }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.clearDraw();
+      this.drawTree();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.clearDraw();
+    }
+  }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      return true;
+      //TODO: missing overlapping elements: text&icons
+      /*const oldProps = this.props;
+          return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;*/
+    }
+  }, {
+    key: 'clearDraw',
+    value: function clearDraw() {
+      this.drawSet.clearAll();
+    }
+  }, {
+    key: 'drawTree',
+    value: function drawTree() {
+      var _props = this.props,
+          primaryDraw = _props.primaryDraw,
+          filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+          shiftToCenterPoint = _props.shiftToCenterPoint,
+          sourceDiagramOn = _props.sourceDiagramOn,
+          dependenciesDiagramOn = _props.dependenciesDiagramOn,
+          codeCrumbsMinimize = _props.codeCrumbsMinimize,
+          codeCrumbsDetails = _props.codeCrumbsDetails,
+          onCodeCrumbSelect = _props.onCodeCrumbSelect;
+      var add = this.drawSet.add;
 
-    _createClass(CodeCrumbsTree, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.drawSet = (0, _SvgSet.createSet)(this.props.primaryDraw);
-            this.drawTree();
+
+      var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
+      filesList.forEach(function (node) {
+        var _ref = [node.y, node.x],
+            nX = _ref[0],
+            nY = _ref[1];
+
+
+        if (node.children) {
+          if (!sourceDiagramOn && !dependenciesDiagramOn) {
+            add((0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
+              x: nX,
+              y: nY,
+              name: node.data.name
+            }));
+
+            add((0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
+              x: nX,
+              y: nY,
+              codeCrumbsMinimize: codeCrumbsMinimize
+            }));
+          }
+
+          !codeCrumbsMinimize && add((0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
+            source: {
+              x: nX,
+              y: nY
+            },
+            parentName: node.data.name
+          }));
+
+          !codeCrumbsMinimize && node.children.forEach(function (crumb, i, list) {
+            var _ref2 = [crumb.y, crumb.x],
+                cX = _ref2[0],
+                cY = _ref2[1];
+
+            var singleCrumb = list.length === 1;
+
+            !singleCrumb && add((0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
+              source: {
+                x: nX,
+                y: nY
+              },
+              target: {
+                x: cX,
+                y: cY
+              },
+              parentName: node.data.name
+            }));
+
+            //TODO: refactor mess
+            var loc = crumb.data.crumbedLineNode.loc.start;
+            add((0, _drawHelpers.drawCodeCrumbLoc)(primaryDraw, shiftToCenterPoint, {
+              x: cX,
+              y: cY,
+              loc: '(' + loc.line + ',' + loc.column + ')',
+              name: crumb.data.name,
+              singleCrumb: singleCrumb,
+              onMouseOver: function onMouseOver() {
+                if (!crumb.data.params.details || codeCrumbsDetails) return null;
+
+                return (0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
+                  x: cX,
+                  y: cY,
+                  name: crumb.data.params.details,
+                  singleCrumb: singleCrumb
+                });
+              },
+              onClick: function onClick() {
+                onCodeCrumbSelect(node.data, crumb.data);
+              }
+            }));
+
+            if (codeCrumbsDetails && crumb.data.params.details) {
+              add((0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
+                x: cX,
+                y: cY,
+                name: crumb.data.params.details,
+                singleCrumb: singleCrumb
+              }));
+            }
+          });
         }
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-            this.clearDraw();
-            this.drawTree();
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            this.clearDraw();
-        }
-    }, {
-        key: 'shouldComponentUpdate',
-        value: function shouldComponentUpdate(nextProps) {
-            return true;
-            //TODO: missing overlapping elements: text&icons
-            /*const oldProps = this.props;
-            return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;*/
-        }
-    }, {
-        key: 'clearDraw',
-        value: function clearDraw() {
-            this.drawSet.clearAll();
-        }
-    }, {
-        key: 'drawTree',
-        value: function drawTree() {
-            var _props = this.props,
-                primaryDraw = _props.primaryDraw,
-                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
-                shiftToCenterPoint = _props.shiftToCenterPoint,
-                sourceDiagramOn = _props.sourceDiagramOn,
-                dependenciesDiagramOn = _props.dependenciesDiagramOn,
-                codeCrumbsMinimize = _props.codeCrumbsMinimize,
-                codeCrumbsDetails = _props.codeCrumbsDetails,
-                onCodeCrumbSelect = _props.onCodeCrumbSelect;
-            var add = this.drawSet.add;
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return null;
+    }
+  }]);
 
-
-            var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
-            filesList.forEach(function (node) {
-                var _ref = [node.y, node.x],
-                    nX = _ref[0],
-                    nY = _ref[1];
-
-
-                if (node.children) {
-                    if (!sourceDiagramOn && !dependenciesDiagramOn) {
-                        add((0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
-                            x: nX,
-                            y: nY,
-                            name: node.data.name
-                        }));
-
-                        add((0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
-                            x: nX,
-                            y: nY,
-                            codeCrumbsMinimize: codeCrumbsMinimize
-                        }));
-                    }
-
-                    !codeCrumbsMinimize && add((0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
-                        source: {
-                            x: nX,
-                            y: nY
-                        },
-                        parentName: node.data.name
-                    }));
-
-                    !codeCrumbsMinimize && node.children.forEach(function (crumb, i, list) {
-                        var _ref2 = [crumb.y, crumb.x],
-                            cX = _ref2[0],
-                            cY = _ref2[1];
-
-                        var singleCrumb = list.length === 1;
-
-                        !singleCrumb && add((0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
-                            source: {
-                                x: nX,
-                                y: nY
-                            },
-                            target: {
-                                x: cX,
-                                y: cY
-                            },
-                            parentName: node.data.name
-                        }));
-
-                        //TODO: refactor mess
-                        var loc = crumb.data.crumbedLineNode.loc.start;
-                        add((0, _drawHelpers.drawCodeCrumbLoc)(primaryDraw, shiftToCenterPoint, {
-                            x: cX,
-                            y: cY,
-                            loc: '(' + loc.line + ',' + loc.column + ')',
-                            name: crumb.data.name,
-                            singleCrumb: singleCrumb,
-                            onMouseOver: function onMouseOver() {
-                                if (!crumb.data.params.details || codeCrumbsDetails) return null;
-
-                                return (0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
-                                    x: cX,
-                                    y: cY,
-                                    name: crumb.data.params.details,
-                                    singleCrumb: singleCrumb
-                                });
-                            },
-                            onClick: function onClick() {
-                                onCodeCrumbSelect(node.data, crumb.data);
-                            }
-                        }));
-
-                        if (codeCrumbsDetails && crumb.data.params.details) {
-                            add((0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
-                                x: cX,
-                                y: cY,
-                                name: crumb.data.params.details,
-                                singleCrumb: singleCrumb
-                            }));
-                        }
-                    });
-                }
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return null;
-        }
-    }]);
-
-    return CodeCrumbsTree;
+  return CodeCrumbsTree;
 }(_react2.default.Component);
 
 exports.default = (0, _SvgDraw.withSvgDraw)(CodeCrumbsTree);
@@ -86742,126 +86731,126 @@ exports.default = (0, _SvgDraw.withSvgDraw)(CodeCrumbsTree);
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.drawPopOver = exports.drawCodeCrumbLoc = exports.drawPartEdge = exports.drawCodeCrumbEdge = undefined;
 
 var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
 
 var drawCodeCrumbEdge = exports.drawCodeCrumbEdge = function drawCodeCrumbEdge(draw, shiftToCenterPoint, _ref) {
-    var target = _ref.target,
-        source = _ref.source,
-        parentName = _ref.parentName;
+  var target = _ref.target,
+      source = _ref.source,
+      parentName = _ref.parentName;
 
-    var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
-    var padding = 40;
-    var edgeTurnDistance = 20;
+  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+  var padding = 40;
+  var edgeTurnDistance = 20;
 
-    var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
+  var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
 
-    var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
-    var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
-    var P4 = shiftToCenterPoint(target.x, target.y);
+  var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
+  var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
+  var P4 = shiftToCenterPoint(target.x, target.y);
 
-    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
+  var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
 
-    polyline.fill('none').stroke({
-        color: _constants.PURPLE_COLOR
-    });
+  polyline.fill('none').stroke({
+    color: _constants.PURPLE_COLOR
+  });
 
-    return polyline;
+  return polyline;
 };
 
 var drawPartEdge = exports.drawPartEdge = function drawPartEdge(draw, shiftToCenterPoint, _ref2) {
-    var source = _ref2.source,
-        parentName = _ref2.parentName;
+  var source = _ref2.source,
+      parentName = _ref2.parentName;
 
-    var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
-    var padding = 17;
+  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+  var padding = 17;
 
-    var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
-    var P2 = { x: P1.x + padding + 6, y: P1.y };
+  var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
+  var P2 = { x: P1.x + padding + 6, y: P1.y };
 
-    var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y]]);
+  var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y]]);
 
-    polyline.fill('none').stroke({
-        color: _constants.PURPLE_COLOR
-    });
+  polyline.fill('none').stroke({
+    color: _constants.PURPLE_COLOR
+  });
 
-    var smallLine = draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: _constants.PURPLE_COLOR });
+  var smallLine = draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: _constants.PURPLE_COLOR });
 
-    return [polyline, smallLine];
+  return [polyline, smallLine];
 };
 
 var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw, shiftToCenterPoint, _ref3) {
-    var x = _ref3.x,
-        y = _ref3.y,
-        _ref3$name = _ref3.name,
-        name = _ref3$name === undefined ? '' : _ref3$name,
-        loc = _ref3.loc,
-        singleCrumb = _ref3.singleCrumb,
-        onClick = _ref3.onClick,
-        onMouseOver = _ref3.onMouseOver;
+  var x = _ref3.x,
+      y = _ref3.y,
+      _ref3$name = _ref3.name,
+      name = _ref3$name === undefined ? '' : _ref3$name,
+      loc = _ref3.loc,
+      singleCrumb = _ref3.singleCrumb,
+      onClick = _ref3.onClick,
+      onMouseOver = _ref3.onMouseOver;
 
-    var textPointShiftX = 3;
-    var textPointShiftY = 5;
-    var textPoint = shiftToCenterPoint(singleCrumb ? x - 20 : x, y);
+  var textPointShiftX = 3;
+  var textPointShiftY = 5;
+  var textPoint = shiftToCenterPoint(singleCrumb ? x - 20 : x, y);
 
-    var locWidth = loc.length * 6;
-    var locRec = draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
+  var locWidth = loc.length * 6;
+  var locRec = draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
 
-    var locText = draw.text(loc);
-    locText.font({ fill: '#595959', family: 'Menlo', size: '8px' }).style({ cursor: 'pointer' }).move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
+  var locText = draw.text(loc);
+  locText.font({ fill: '#595959', family: 'Menlo', size: '8px' }).style({ cursor: 'pointer' }).move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
 
-    if (onMouseOver) {
-        var popOver = null;
-        locText.on('mouseover', function () {
-            popOver = onMouseOver();
-        });
-        locText.on('mouseout', function () {
-            popOver && popOver[0].remove() && popOver[1].remove();
-        });
-    }
+  if (onMouseOver) {
+    var popOver = null;
+    locText.on('mouseover', function () {
+      popOver = onMouseOver();
+    });
+    locText.on('mouseout', function () {
+      popOver && popOver[0].remove() && popOver[1].remove();
+    });
+  }
 
-    if (onClick) {
-        locText.on('click', onClick);
-    }
+  if (onClick) {
+    locText.on('click', onClick);
+  }
 
-    if (name) {
-        var nameText = draw.text(':' + name);
-        nameText.font({ fill: '#595959', family: 'Menlo', size: '12px' });
-        //TODO: refactor to use one way, plus or minus
-        nameText.move(textPoint.x + textPointShiftX + locWidth - 1, textPoint.y - textPointShiftY - 2);
+  if (name) {
+    var nameText = draw.text(':' + name);
+    nameText.font({ fill: '#595959', family: 'Menlo', size: '12px' });
+    //TODO: refactor to use one way, plus or minus
+    nameText.move(textPoint.x + textPointShiftX + locWidth - 1, textPoint.y - textPointShiftY - 2);
 
-        return [locRec, locText, nameText];
-    }
+    return [locRec, locText, nameText];
+  }
 
-    return [locRec, locText];
+  return [locRec, locText];
 };
 
 var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenterPoint, _ref4) {
-    var x = _ref4.x,
-        y = _ref4.y,
-        _ref4$name = _ref4.name,
-        name = _ref4$name === undefined ? '' : _ref4$name,
-        singleCrumb = _ref4.singleCrumb;
+  var x = _ref4.x,
+      y = _ref4.y,
+      _ref4$name = _ref4.name,
+      name = _ref4$name === undefined ? '' : _ref4$name,
+      singleCrumb = _ref4.singleCrumb;
 
-    var tPt = shiftToCenterPoint(x - 15 + (singleCrumb ? 0 : 20), y - 24);
-    var nameWidth = name.length * 6;
-    var nameHeight = 8;
-    var padding = 5;
+  var tPt = shiftToCenterPoint(x - 15 + (singleCrumb ? 0 : 20), y - 24);
+  var nameWidth = name.length * 6;
+  var nameHeight = 8;
+  var padding = 5;
 
-    var polyline = draw.polyline([[tPt.x - padding, tPt.y + nameHeight + padding + 3], [tPt.x - padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y + nameHeight + padding], [tPt.x - padding + 3, tPt.y + nameHeight + padding], [tPt.x - padding, tPt.y + nameHeight + padding + 3]]);
+  var polyline = draw.polyline([[tPt.x - padding, tPt.y + nameHeight + padding + 3], [tPt.x - padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y + nameHeight + padding], [tPt.x - padding + 3, tPt.y + nameHeight + padding], [tPt.x - padding, tPt.y + nameHeight + padding + 3]]);
 
-    polyline.fill('#fff').stroke({
-        color: _constants.PURPLE_COLOR
-    });
+  polyline.fill('#fff').stroke({
+    color: _constants.PURPLE_COLOR
+  });
 
-    var text = draw.text(name);
-    text.font({ fill: '#595959', family: 'Menlo', size: '10px' });
-    text.move(tPt.x + 2, tPt.y - 1);
+  var text = draw.text(name);
+  text.font({ fill: '#595959', family: 'Menlo', size: '10px' });
+  text.move(tPt.x + 2, tPt.y - 1);
 
-    return [text, polyline];
+  return [text, polyline];
 };
 
 /***/ }),
@@ -86877,7 +86866,7 @@ var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenter
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -86905,164 +86894,164 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var DependenciesTree = function (_React$Component) {
-    _inherits(DependenciesTree, _React$Component);
+  _inherits(DependenciesTree, _React$Component);
 
-    function DependenciesTree() {
-        var _ref;
+  function DependenciesTree() {
+    var _ref;
 
-        var _temp, _this, _ret;
+    var _temp, _this, _ret;
 
-        _classCallCheck(this, DependenciesTree);
+    _classCallCheck(this, DependenciesTree);
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DependenciesTree.__proto__ || Object.getPrototypeOf(DependenciesTree)).call.apply(_ref, [this].concat(args))), _this), _this.findNodeByPathName = function () {
-            var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-            var pathName = arguments[1];
-
-            return list.find(function (l) {
-                return l.data.path === pathName;
-            });
-        }, _temp), _possibleConstructorReturn(_this, _ret);
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    _createClass(DependenciesTree, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.drawTree();
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DependenciesTree.__proto__ || Object.getPrototypeOf(DependenciesTree)).call.apply(_ref, [this].concat(args))), _this), _this.findNodeByPathName = function () {
+      var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var pathName = arguments[1];
+
+      return list.find(function (l) {
+        return l.data.path === pathName;
+      });
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(DependenciesTree, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.drawTree();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var primaryDraw = this.props.primaryDraw;
+
+
+      primaryDraw.clear();
+      this.drawTree();
+    }
+    //move to utils
+
+  }, {
+    key: 'getFilteredDependenciesList',
+    value: function getFilteredDependenciesList() {
+      var _props = this.props,
+          dependenciesList = _props.dependenciesList,
+          dependenciesEntryPoint = _props.dependenciesEntryPoint,
+          dependenciesShowOneModule = _props.dependenciesShowOneModule;
+
+
+      var entryPoint = dependenciesEntryPoint || {
+        path: dependenciesList[0].moduleName
+      };
+
+      if (dependenciesShowOneModule) {
+        return [dependenciesList.find(function (d) {
+          return d.moduleName === entryPoint.path;
+        })];
+      }
+
+      return this.collectDependencies(entryPoint.path, dependenciesList);
+    }
+  }, {
+    key: 'collectDependencies',
+    value: function collectDependencies(entryModuleName, dependenciesList) {
+      var queue = [].concat(entryModuleName),
+          store = [];
+
+      var _loop = function _loop() {
+        var moduleName = queue.shift(),
+            entryModule = dependenciesList.find(function (d) {
+          return d.moduleName === moduleName;
+        });
+
+        store.push(entryModule);
+
+        var nodeBody = entryModule.importedModuleNames;
+        if (nodeBody) {
+          queue = [].concat(_toConsumableArray(queue), _toConsumableArray(nodeBody));
         }
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-            var primaryDraw = this.props.primaryDraw;
+      };
+
+      while (queue.length) {
+        _loop();
+      }
+
+      return store;
+    }
+  }, {
+    key: 'drawTree',
+    value: function drawTree() {
+      var _this2 = this;
+
+      var _props2 = this.props,
+          primaryDraw = _props2.primaryDraw,
+          filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
+          shiftToCenterPoint = _props2.shiftToCenterPoint,
+          sourceDiagramOn = _props2.sourceDiagramOn;
 
 
-            primaryDraw.clear();
-            this.drawTree();
+      var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
+      var filteredDependenciesList = this.getFilteredDependenciesList();
+
+      filteredDependenciesList.forEach(function (_ref2) {
+        var moduleName = _ref2.moduleName,
+            importedModuleNames = _ref2.importedModuleNames;
+
+        var moduleNode = _this2.findNodeByPathName(moduleFilesList, moduleName);
+
+        if (!moduleNode) return;
+
+        var _ref3 = [moduleNode.y, moduleNode.x],
+            mX = _ref3[0],
+            mY = _ref3[1];
+
+
+        if (!sourceDiagramOn) {
+          (0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
+            x: mX,
+            y: mY,
+            name: moduleNode.data.name
+          });
+          (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
+            x: mX,
+            y: mY
+          });
         }
-        //move to utils
 
-    }, {
-        key: 'getFilteredDependenciesList',
-        value: function getFilteredDependenciesList() {
-            var _props = this.props,
-                dependenciesList = _props.dependenciesList,
-                dependenciesEntryPoint = _props.dependenciesEntryPoint,
-                dependenciesShowOneModule = _props.dependenciesShowOneModule;
+        importedModuleNames.reduce(function (prevSource, name) {
+          var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
 
+          if (!importedNode) return;
 
-            var entryPoint = dependenciesEntryPoint || {
-                path: dependenciesList[0].moduleName
-            };
+          var _ref4 = [importedNode.y, importedNode.x],
+              iX = _ref4[0],
+              iY = _ref4[1];
+          //TODO: implementation iterations:
+          //1) done: first with sharp angles + overlay
+          //2) done: without overlaying, not fot all cases
+          //3) rounded angles
 
-            if (dependenciesShowOneModule) {
-                return [dependenciesList.find(function (d) {
-                    return d.moduleName === entryPoint.path;
-                })];
-            }
+          var source = { x: iX, y: iY };
+          (0, _drawHelpers.drawDependenciesEdge)(primaryDraw, shiftToCenterPoint, {
+            source: source,
+            target: { x: mX, y: mY },
+            prevSource: prevSource
+          });
 
-            return this.collectDependencies(entryPoint.path, dependenciesList);
-        }
-    }, {
-        key: 'collectDependencies',
-        value: function collectDependencies(entryModuleName, dependenciesList) {
-            var queue = [].concat(entryModuleName),
-                store = [];
+          return source;
+        }, null);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return null;
+    }
+  }]);
 
-            var _loop = function _loop() {
-                var moduleName = queue.shift(),
-                    entryModule = dependenciesList.find(function (d) {
-                    return d.moduleName === moduleName;
-                });
-
-                store.push(entryModule);
-
-                var nodeBody = entryModule.importedModuleNames;
-                if (nodeBody) {
-                    queue = [].concat(_toConsumableArray(queue), _toConsumableArray(nodeBody));
-                }
-            };
-
-            while (queue.length) {
-                _loop();
-            }
-
-            return store;
-        }
-    }, {
-        key: 'drawTree',
-        value: function drawTree() {
-            var _this2 = this;
-
-            var _props2 = this.props,
-                primaryDraw = _props2.primaryDraw,
-                filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
-                shiftToCenterPoint = _props2.shiftToCenterPoint,
-                sourceDiagramOn = _props2.sourceDiagramOn;
-
-
-            var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
-            var filteredDependenciesList = this.getFilteredDependenciesList();
-
-            filteredDependenciesList.forEach(function (_ref2) {
-                var moduleName = _ref2.moduleName,
-                    importedModuleNames = _ref2.importedModuleNames;
-
-                var moduleNode = _this2.findNodeByPathName(moduleFilesList, moduleName);
-
-                if (!moduleNode) return;
-
-                var _ref3 = [moduleNode.y, moduleNode.x],
-                    mX = _ref3[0],
-                    mY = _ref3[1];
-
-
-                if (!sourceDiagramOn) {
-                    (0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
-                        x: mX,
-                        y: mY,
-                        name: moduleNode.data.name
-                    });
-                    (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
-                        x: mX,
-                        y: mY
-                    });
-                }
-
-                importedModuleNames.reduce(function (prevSource, name) {
-                    var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
-
-                    if (!importedNode) return;
-
-                    var _ref4 = [importedNode.y, importedNode.x],
-                        iX = _ref4[0],
-                        iY = _ref4[1];
-                    //TODO: implementation iterations:
-                    //1) done: first with sharp angles + overlay
-                    //2) done: without overlaying, not fot all cases
-                    //3) rounded angles
-
-                    var source = { x: iX, y: iY };
-                    (0, _drawHelpers.drawDependenciesEdge)(primaryDraw, shiftToCenterPoint, {
-                        source: source,
-                        target: { x: mX, y: mY },
-                        prevSource: prevSource
-                    });
-
-                    return source;
-                }, null);
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return null;
-        }
-    }]);
-
-    return DependenciesTree;
+  return DependenciesTree;
 }(_react2.default.Component);
 
 exports.default = (0, _SvgDraw.withSvgDraw)(DependenciesTree);
@@ -87080,7 +87069,7 @@ exports.default = (0, _SvgDraw.withSvgDraw)(DependenciesTree);
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.drawDot = exports.drawDependenciesEdge = undefined;
 
@@ -87093,79 +87082,79 @@ var _constants = __webpack_require__(/*! ../../store/constants */ "./js/componen
 var COLOR = _constants.BLUE_COLOR;
 
 var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, _ref) {
-    var source = _ref.source,
-        target = _ref.target,
-        prevSource = _ref.prevSource;
+  var source = _ref.source,
+      target = _ref.target,
+      prevSource = _ref.prevSource;
 
-    var padding = 30;
-    var halfPadding = padding / 2 - 5;
+  var padding = 30;
+  var halfPadding = padding / 2 - 5;
 
-    var sourcePt = shiftToCenterPoint(target.y > source.y ? source.x + 10 : source.x + 8, target.y > source.y ? source.y + 7 : source.y - 12);
-    drawSourceDotLine(draw, sourcePt);
+  var sourcePt = shiftToCenterPoint(target.y > source.y ? source.x + 10 : source.x + 8, target.y > source.y ? source.y + 7 : source.y - 12);
+  drawSourceDotLine(draw, sourcePt);
 
-    if (!prevSource) {
-        var targetPt = shiftToCenterPoint(target.x, target.y);
+  if (!prevSource) {
+    var targetPt = shiftToCenterPoint(target.x, target.y);
 
-        var P1 = { x: sourcePt.x, y: targetPt.y + padding - 6 };
-        var P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding - 6 };
-        var P3 = { x: targetPt.x - halfPadding, y: targetPt.y };
+    var P1 = { x: sourcePt.x, y: targetPt.y + padding - 6 };
+    var P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding - 6 };
+    var P3 = { x: targetPt.x - halfPadding, y: targetPt.y };
 
-        drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPt.x, targetPt.y]]);
+    drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPt.x, targetPt.y]]);
 
-        drawArrow(draw, shiftToCenterPoint, target.x, target.y + 6);
-    } else {
-        if (prevSource.x < sourcePt.x) {
-            //TODO: handle other cases
-            var prevSourcePt = shiftToCenterPoint(prevSource.x, prevSource.y);
+    drawArrow(draw, shiftToCenterPoint, target.x, target.y + 6);
+  } else {
+    if (prevSource.x < sourcePt.x) {
+      //TODO: handle other cases
+      var prevSourcePt = shiftToCenterPoint(prevSource.x, prevSource.y);
 
-            var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding - 3 };
-            var _P2 = {
-                x: prevSourcePt.x + halfPadding,
-                y: sourcePt.y + halfPadding - 3
-            };
+      var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding - 3 };
+      var _P2 = {
+        x: prevSourcePt.x + halfPadding,
+        y: sourcePt.y + halfPadding - 3
+      };
 
-            drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]]);
+      drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]]);
 
-            drawDot(draw, _P2);
-        }
+      drawDot(draw, _P2);
     }
+  }
 };
 
 var drawDot = exports.drawDot = function drawDot(draw, _ref2) {
-    var x = _ref2.x,
-        y = _ref2.y;
+  var x = _ref2.x,
+      y = _ref2.y;
 
-    var radius = 4;
-    var halfRadius = radius / 2;
+  var radius = 4;
+  var halfRadius = radius / 2;
 
-    draw.circle(radius).fill(_constants.BLUE_COLOR).move(x - halfRadius, y - halfRadius);
+  draw.circle(radius).fill(_constants.BLUE_COLOR).move(x - halfRadius, y - halfRadius);
 };
 
 var drawConnectionLine = function drawConnectionLine(draw, points) {
-    var polyline = draw.polyline(points);
+  var polyline = draw.polyline(points);
 
-    polyline.fill('none').stroke({
-        color: COLOR
-    });
+  polyline.fill('none').stroke({
+    color: COLOR
+  });
 };
 
 var drawSourceDotLine = function drawSourceDotLine(draw, _ref3) {
-    var x = _ref3.x,
-        y = _ref3.y;
+  var x = _ref3.x,
+      y = _ref3.y;
 
-    draw.line(x - 3, y, x + 3, y).stroke({ width: 1, color: COLOR });
+  draw.line(x - 3, y, x + 3, y).stroke({ width: 1, color: COLOR });
 };
 
 var drawArrow = function drawArrow(draw, shiftToCenterPoint, nX, nY) {
-    var fileIconPath = 'resources/right-arrow.svg';
-    var fileIconSize = 7;
-    var fileIconPointShiftX = -4;
-    var fileIconPointShiftY = 9.5;
-    var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
+  var fileIconPath = 'resources/right-arrow.svg';
+  var fileIconSize = 7;
+  var fileIconPointShiftX = -4;
+  var fileIconPointShiftY = 9.5;
+  var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
 
-    draw.rect(5, 6).fill('#fff').move(fileIconPoint.x + 2, fileIconPoint.y);
+  draw.rect(5, 6).fill('#fff').move(fileIconPoint.x + 2, fileIconPoint.y);
 
-    draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
+  draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
 };
 
 /***/ }),
@@ -87181,7 +87170,7 @@ var drawArrow = function drawArrow(draw, shiftToCenterPoint, nX, nY) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -87207,148 +87196,147 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var SourceTree = function (_React$Component) {
-    _inherits(SourceTree, _React$Component);
+  _inherits(SourceTree, _React$Component);
 
-    function SourceTree() {
-        _classCallCheck(this, SourceTree);
+  function SourceTree() {
+    _classCallCheck(this, SourceTree);
 
-        return _possibleConstructorReturn(this, (SourceTree.__proto__ || Object.getPrototypeOf(SourceTree)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (SourceTree.__proto__ || Object.getPrototypeOf(SourceTree)).apply(this, arguments));
+  }
+
+  _createClass(SourceTree, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.drawSet = (0, _SvgSet.createSet)(this.props.primaryDraw);
+      this.drawTree();
     }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.clearPrimaryDraw();
+      this.clearSecondaryDraw();
+      this.drawTree();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.clearPrimaryDraw();
+    }
+  }, {
+    key: 'clearPrimaryDraw',
+    value: function clearPrimaryDraw() {
+      this.drawSet.clearAll();
+    }
+  }, {
+    key: 'clearSecondaryDraw',
+    value: function clearSecondaryDraw() {
+      this.props.secondaryDraw.clear();
+    }
+  }, {
+    key: 'drawTree',
+    value: function drawTree() {
+      var _props = this.props,
+          primaryDraw = _props.primaryDraw,
+          secondaryDraw = _props.secondaryDraw,
+          layoutNodes = _props.layoutNodes,
+          closedFolders = _props.closedFolders,
+          shiftToCenterPoint = _props.shiftToCenterPoint,
+          dependenciesDiagramOn = _props.dependenciesDiagramOn,
+          codeCrumbsMinimize = _props.codeCrumbsMinimize,
+          onFileSelect = _props.onFileSelect,
+          onFileIconClick = _props.onFileIconClick,
+          onFolderClick = _props.onFolderClick;
+      var add = this.drawSet.add;
 
-    _createClass(SourceTree, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.drawSet = (0, _SvgSet.createSet)(this.props.primaryDraw);
-            this.drawTree();
+      //note: instance from d3-flex tree, not Array
+
+      layoutNodes.each(function (node) {
+        var _ref = [node.y, node.x],
+            nX = _ref[0],
+            nY = _ref[1];
+
+        var parent = node.parent;
+
+        if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
+          var _ref2 = [parent.y, parent.x],
+              pX = _ref2[0],
+              pY = _ref2[1];
+
+
+          (0, _drawHelpers.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
+            disabled: dependenciesDiagramOn,
+            target: {
+              x: nX,
+              y: nY
+            },
+            source: {
+              x: pX,
+              y: pY
+            },
+            singleChild: parent.children.length === 1
+          });
         }
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-            this.clearPrimaryDraw();
-            this.clearSecondaryDraw();
 
-            this.drawTree();
+        if (node.data.type === _constants.FILE_NODE_TYPE) {
+          (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
+            x: nX,
+            y: nY,
+            disabled: dependenciesDiagramOn
+          });
+
+          add((0, _drawHelpers.drawFileText)(primaryDraw, shiftToCenterPoint, {
+            x: nX,
+            y: nY,
+            purple: node.children && codeCrumbsMinimize,
+            name: node.data.name,
+            onClick: function onClick() {
+              onFileSelect(node.data);
+            }
+          }));
+          add((0, _drawHelpers.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
+            x: nX,
+            y: nY,
+            purple: node.children && codeCrumbsMinimize,
+            onClick: function onClick() {
+              dependenciesDiagramOn && onFileIconClick(node.data);
+            }
+          }));
+          return;
         }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            this.clearPrimaryDraw();
+
+        if (node.data.type === _constants.DIR_NODE_TYPE) {
+          (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
+            x: nX,
+            y: nY,
+            disabled: dependenciesDiagramOn
+          });
+
+          add((0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
+            x: nX,
+            y: nY,
+            name: node.data.name,
+            disabled: dependenciesDiagramOn
+          }));
+          add((0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
+            x: nX,
+            y: nY,
+            disabled: dependenciesDiagramOn,
+            closed: closedFolders[node.data.path],
+            onClick: function onClick() {
+              onFolderClick(node.data);
+            }
+          }));
         }
-    }, {
-        key: 'clearPrimaryDraw',
-        value: function clearPrimaryDraw() {
-            this.drawSet.clearAll();
-        }
-    }, {
-        key: 'clearSecondaryDraw',
-        value: function clearSecondaryDraw() {
-            this.props.secondaryDraw.clear();
-        }
-    }, {
-        key: 'drawTree',
-        value: function drawTree() {
-            var _props = this.props,
-                primaryDraw = _props.primaryDraw,
-                secondaryDraw = _props.secondaryDraw,
-                layoutNodes = _props.layoutNodes,
-                closedFolders = _props.closedFolders,
-                shiftToCenterPoint = _props.shiftToCenterPoint,
-                dependenciesDiagramOn = _props.dependenciesDiagramOn,
-                codeCrumbsMinimize = _props.codeCrumbsMinimize,
-                onFileSelect = _props.onFileSelect,
-                onFileIconClick = _props.onFileIconClick,
-                onFolderClick = _props.onFolderClick;
-            var add = this.drawSet.add;
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return null;
+    }
+  }]);
 
-            //note: instance from d3-flex tree, not Array
-
-            layoutNodes.each(function (node) {
-                var _ref = [node.y, node.x],
-                    nX = _ref[0],
-                    nY = _ref[1];
-
-                var parent = node.parent;
-
-                if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
-                    var _ref2 = [parent.y, parent.x],
-                        pX = _ref2[0],
-                        pY = _ref2[1];
-
-
-                    (0, _drawHelpers.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
-                        disabled: dependenciesDiagramOn,
-                        target: {
-                            x: nX,
-                            y: nY
-                        },
-                        source: {
-                            x: pX,
-                            y: pY
-                        },
-                        singleChild: parent.children.length === 1
-                    });
-                }
-
-                if (node.data.type === _constants.FILE_NODE_TYPE) {
-                    (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
-                        x: nX,
-                        y: nY,
-                        disabled: dependenciesDiagramOn
-                    });
-
-                    add((0, _drawHelpers.drawFileText)(primaryDraw, shiftToCenterPoint, {
-                        x: nX,
-                        y: nY,
-                        purple: node.children && codeCrumbsMinimize,
-                        name: node.data.name,
-                        onClick: function onClick() {
-                            onFileSelect(node.data);
-                        }
-                    }));
-                    add((0, _drawHelpers.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
-                        x: nX,
-                        y: nY,
-                        purple: node.children && codeCrumbsMinimize,
-                        onClick: function onClick() {
-                            dependenciesDiagramOn && onFileIconClick(node.data);
-                        }
-                    }));
-                    return;
-                }
-
-                if (node.data.type === _constants.DIR_NODE_TYPE) {
-                    (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
-                        x: nX,
-                        y: nY,
-                        disabled: dependenciesDiagramOn
-                    });
-
-                    add((0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
-                        x: nX,
-                        y: nY,
-                        name: node.data.name,
-                        disabled: dependenciesDiagramOn
-                    }));
-                    add((0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
-                        x: nX,
-                        y: nY,
-                        disabled: dependenciesDiagramOn,
-                        closed: closedFolders[node.data.path],
-                        onClick: function onClick() {
-                            onFolderClick(node.data);
-                        }
-                    }));
-                }
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return null;
-        }
-    }]);
-
-    return SourceTree;
+  return SourceTree;
 }(_react2.default.Component);
 
 exports.default = (0, _SvgDraw.withSvgDraw)(SourceTree);
@@ -87366,7 +87354,7 @@ exports.default = (0, _SvgDraw.withSvgDraw)(SourceTree);
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.drawFolderIcon = exports.drawFolderText = exports.drawFileIcon = exports.drawFileText = exports.drawSourceEdge = exports.drawDot = undefined;
 
@@ -87379,149 +87367,149 @@ var _constants = __webpack_require__(/*! ../../store/constants */ "./js/componen
 var ICONS_DIR = 'resources/';
 
 var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, _ref) {
-    var x = _ref.x,
-        y = _ref.y,
-        disabled = _ref.disabled,
-        highlighted = _ref.highlighted;
+  var x = _ref.x,
+      y = _ref.y,
+      disabled = _ref.disabled,
+      highlighted = _ref.highlighted;
 
-    var radius = 5;
-    var halfRadius = radius / 2;
-    var circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
+  var radius = 5;
+  var halfRadius = radius / 2;
+  var circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
 
-    var color = '#BFBFBF';
-    if (disabled) {
-        color = '#ccc';
-    }
-    if (highlighted) {
-        color = _constants.BLUE_COLOR;
-    }
+  var color = '#BFBFBF';
+  if (disabled) {
+    color = '#ccc';
+  }
+  if (highlighted) {
+    color = _constants.BLUE_COLOR;
+  }
 
-    return draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
+  return draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
 };
 
 var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shiftToCenterPoint, _ref2) {
-    var target = _ref2.target,
-        source = _ref2.source,
-        disabled = _ref2.disabled,
-        singleChild = _ref2.singleChild;
+  var target = _ref2.target,
+      source = _ref2.source,
+      disabled = _ref2.disabled,
+      singleChild = _ref2.singleChild;
 
-    var edgeTurnDistance = 20;
+  var edgeTurnDistance = 20;
 
-    var START_PT = shiftToCenterPoint(source.x, source.y);
-    var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
-    var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
-    var END_PT = shiftToCenterPoint(target.x, target.y);
+  var START_PT = shiftToCenterPoint(source.x, source.y);
+  var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
+  var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
+  var END_PT = shiftToCenterPoint(target.x, target.y);
 
-    var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
+  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
 
-    var polyline = draw.polyline(points);
+  var polyline = draw.polyline(points);
 
-    var color = !disabled ? '#BFBFBF' : '#ccc';
-    polyline.fill('none').stroke({
-        color: color
-    });
+  var color = !disabled ? '#BFBFBF' : '#ccc';
+  polyline.fill('none').stroke({
+    color: color
+  });
 
-    return polyline;
+  return polyline;
 };
 
 var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, _ref3) {
-    var x = _ref3.x,
-        y = _ref3.y,
-        purple = _ref3.purple,
-        _ref3$name = _ref3.name,
-        name = _ref3$name === undefined ? '' : _ref3$name,
-        onClick = _ref3.onClick;
+  var x = _ref3.x,
+      y = _ref3.y,
+      purple = _ref3.purple,
+      _ref3$name = _ref3.name,
+      name = _ref3$name === undefined ? '' : _ref3$name,
+      onClick = _ref3.onClick;
 
-    var text = draw.text(name);
-    text.font({ fill: purple ? _constants.PURPLE_COLOR : '#595959', family: 'Menlo' });
+  var text = draw.text(name);
+  text.font({ fill: purple ? _constants.PURPLE_COLOR : '#595959', family: 'Menlo' });
 
-    var fileTextPointShiftX = 16;
-    var fileTextPointShiftY = 8;
-    var fileTextPoint = shiftToCenterPoint(x + fileTextPointShiftX, y - fileTextPointShiftY);
-    text.move(fileTextPoint.x, fileTextPoint.y);
+  var fileTextPointShiftX = 16;
+  var fileTextPointShiftY = 8;
+  var fileTextPoint = shiftToCenterPoint(x + fileTextPointShiftX, y - fileTextPointShiftY);
+  text.move(fileTextPoint.x, fileTextPoint.y);
 
-    if (onClick) {
-        text.style({ cursor: 'pointer' }).on('click', onClick);
-    }
+  if (onClick) {
+    text.style({ cursor: 'pointer' }).on('click', onClick);
+  }
 
-    return text;
+  return text;
 };
 
 var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, _ref4) {
-    var x = _ref4.x,
-        y = _ref4.y,
-        purple = _ref4.purple,
-        onClick = _ref4.onClick;
+  var x = _ref4.x,
+      y = _ref4.y,
+      purple = _ref4.purple,
+      onClick = _ref4.onClick;
 
-    var fileIconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
-    var fileIconSize = 15;
-    var fileIconPointShiftX = 2;
-    var fileIconPointShiftY = 10;
-    var fileIconPoint = shiftToCenterPoint(x + fileIconPointShiftX, y - fileIconPointShiftY);
+  var fileIconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
+  var fileIconSize = 15;
+  var fileIconPointShiftX = 2;
+  var fileIconPointShiftY = 10;
+  var fileIconPoint = shiftToCenterPoint(x + fileIconPointShiftX, y - fileIconPointShiftY);
 
-    var icon = draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
+  var icon = draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
 
-    if (onClick) {
-        icon.style({ cursor: 'pointer' }).on('click', onClick);
-    }
+  if (onClick) {
+    icon.style({ cursor: 'pointer' }).on('click', onClick);
+  }
 
-    return icon;
+  return icon;
 };
 
 var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, _ref5) {
-    var x = _ref5.x,
-        y = _ref5.y,
-        _ref5$name = _ref5.name,
-        name = _ref5$name === undefined ? '' : _ref5$name,
-        disabled = _ref5.disabled;
+  var x = _ref5.x,
+      y = _ref5.y,
+      _ref5$name = _ref5.name,
+      name = _ref5$name === undefined ? '' : _ref5$name,
+      disabled = _ref5.disabled;
 
-    var folderTextPointShiftX = 20;
-    var folderTextPointShiftY = 16;
+  var folderTextPointShiftX = 20;
+  var folderTextPointShiftY = 16;
 
-    var folderTextPoint = shiftToCenterPoint(x + folderTextPointShiftX, y - folderTextPointShiftY);
+  var folderTextPoint = shiftToCenterPoint(x + folderTextPointShiftX, y - folderTextPointShiftY);
 
-    var fill = !disabled ? '#595959' : '#A9A8A8';
-    var text = draw.text(name);
+  var fill = !disabled ? '#595959' : '#A9A8A8';
+  var text = draw.text(name);
 
-    text.font({ fill: fill, family: 'Menlo' });
-    text.move(folderTextPoint.x, folderTextPoint.y);
+  text.font({ fill: fill, family: 'Menlo' });
+  text.move(folderTextPoint.x, folderTextPoint.y);
 
-    return text;
+  return text;
 };
 
 var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, _ref6) {
-    var x = _ref6.x,
-        y = _ref6.y,
-        disabled = _ref6.disabled,
-        closed = _ref6.closed,
-        onClick = _ref6.onClick;
+  var x = _ref6.x,
+      y = _ref6.y,
+      disabled = _ref6.disabled,
+      closed = _ref6.closed,
+      onClick = _ref6.onClick;
 
-    var folderIconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (disabled ? '-disabled' : '') + '.svg';
+  var folderIconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (disabled ? '-disabled' : '') + '.svg';
 
-    var folderIconSize = closed ? 14 : 15;
-    var folderIconPointShiftX = closed ? 3 : 3;
-    var folderIconPointShiftY = closed ? 16 : 17;
-    var folderIconPoint = shiftToCenterPoint(x + folderIconPointShiftX, y - folderIconPointShiftY);
+  var folderIconSize = closed ? 14 : 15;
+  var folderIconPointShiftX = closed ? 3 : 3;
+  var folderIconPointShiftY = closed ? 16 : 17;
+  var folderIconPoint = shiftToCenterPoint(x + folderIconPointShiftX, y - folderIconPointShiftY);
 
-    var polyline = null;
-    if (closed) {
-        polyline = draw.polyline([folderIconPoint.x - 1, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 14]);
+  var polyline = null;
+  if (closed) {
+    polyline = draw.polyline([folderIconPoint.x - 1, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 14]);
 
-        var color = !disabled ? '#BFBFBF' : '#ccc';
-        polyline.fill('none').stroke({
-            color: color
-        });
-    }
+    var color = !disabled ? '#BFBFBF' : '#ccc';
+    polyline.fill('none').stroke({
+      color: color
+    });
+  }
 
-    var icon = draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
+  var icon = draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
 
-    if (onClick) {
-        icon.style({ cursor: 'pointer' }).on('click', onClick);
-    }
+  if (onClick) {
+    icon.style({ cursor: 'pointer' }).on('click', onClick);
+  }
 
-    if (!polyline) return icon;
+  if (!polyline) return icon;
 
-    return [icon, polyline];
+  return [icon, polyline];
 };
 
 /***/ }),
@@ -87567,7 +87555,7 @@ if(false) {}
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -87601,126 +87589,126 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var TreeDiagram = function (_React$Component) {
-    _inherits(TreeDiagram, _React$Component);
+  _inherits(TreeDiagram, _React$Component);
 
-    function TreeDiagram(props) {
-        _classCallCheck(this, TreeDiagram);
+  function TreeDiagram(props) {
+    _classCallCheck(this, TreeDiagram);
 
-        var _this = _possibleConstructorReturn(this, (TreeDiagram.__proto__ || Object.getPrototypeOf(TreeDiagram)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (TreeDiagram.__proto__ || Object.getPrototypeOf(TreeDiagram)).call(this, props));
 
-        _this.state = {};
-        return _this;
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(TreeDiagram, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.setState({ layersReady: true });
     }
 
-    _createClass(TreeDiagram, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.setState({ layersReady: true });
-        }
+    //cc: layers
 
-        //cc: layers
+  }, {
+    key: 'renderLayers',
+    value: function renderLayers() {
+      var _this2 = this;
 
-    }, {
-        key: 'renderLayers',
-        value: function renderLayers() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'TreeDiagram-layers' },
-                _react2.default.createElement('div', {
-                    'data-name': 'sourceEdgesLayer',
-                    className: 'TreeDiagram-layer',
-                    ref: function ref(_ref) {
-                        return _this2.sourceEdgesLayer = _ref;
-                    }
-                }),
-                _react2.default.createElement('div', {
-                    'data-name': 'dependenciesEdgesLayer',
-                    className: 'TreeDiagram-layer',
-                    ref: function ref(_ref2) {
-                        return _this2.dependenciesEdgesLayer = _ref2;
-                    }
-                }),
-                _react2.default.createElement('div', {
-                    'data-name': 'iconsAndTextLayer',
-                    className: 'TreeDiagram-layer',
-                    ref: function ref(_ref3) {
-                        return _this2.iconsAndTextLayer = _ref3;
-                    }
-                })
-            );
-        }
-    }, {
-        key: 'renderDiagrams',
-        value: function renderDiagrams() {
-            var _props = this.props,
-                filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
-                dependenciesList = _props.dependenciesList,
-                closedFolders = _props.closedFolders,
-                dependenciesEntryPoint = _props.dependenciesEntryPoint,
-                sourceDiagramOn = _props.sourceDiagramOn,
-                dependenciesDiagramOn = _props.dependenciesDiagramOn,
-                dependenciesShowOneModule = _props.dependenciesShowOneModule,
-                codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
-                codeCrumbsMinimize = _props.codeCrumbsMinimize,
-                codeCrumbsDetails = _props.codeCrumbsDetails,
-                onFileSelect = _props.onFileSelect,
-                onFileIconClick = _props.onFileIconClick,
-                onFolderClick = _props.onFolderClick,
-                onCodeCrumbSelect = _props.onCodeCrumbSelect;
+      return _react2.default.createElement(
+        'div',
+        { className: 'TreeDiagram-layers' },
+        _react2.default.createElement('div', {
+          'data-name': 'sourceEdgesLayer',
+          className: 'TreeDiagram-layer',
+          ref: function ref(_ref) {
+            return _this2.sourceEdgesLayer = _ref;
+          }
+        }),
+        _react2.default.createElement('div', {
+          'data-name': 'dependenciesEdgesLayer',
+          className: 'TreeDiagram-layer',
+          ref: function ref(_ref2) {
+            return _this2.dependenciesEdgesLayer = _ref2;
+          }
+        }),
+        _react2.default.createElement('div', {
+          'data-name': 'iconsAndTextLayer',
+          className: 'TreeDiagram-layer',
+          ref: function ref(_ref3) {
+            return _this2.iconsAndTextLayer = _ref3;
+          }
+        })
+      );
+    }
+  }, {
+    key: 'renderDiagrams',
+    value: function renderDiagrams() {
+      var _props = this.props,
+          filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+          dependenciesList = _props.dependenciesList,
+          closedFolders = _props.closedFolders,
+          dependenciesEntryPoint = _props.dependenciesEntryPoint,
+          sourceDiagramOn = _props.sourceDiagramOn,
+          dependenciesDiagramOn = _props.dependenciesDiagramOn,
+          dependenciesShowOneModule = _props.dependenciesShowOneModule,
+          codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
+          codeCrumbsMinimize = _props.codeCrumbsMinimize,
+          codeCrumbsDetails = _props.codeCrumbsDetails,
+          onFileSelect = _props.onFileSelect,
+          onFileIconClick = _props.onFileIconClick,
+          onFolderClick = _props.onFolderClick,
+          onCodeCrumbSelect = _props.onCodeCrumbSelect;
 
 
-            var sharedProps = {
-                sourceDiagramOn: sourceDiagramOn,
-                dependenciesDiagramOn: dependenciesDiagramOn,
-                codeCrumbsDiagramOn: codeCrumbsDiagramOn,
-                codeCrumbsMinimize: codeCrumbsMinimize,
-                codeCrumbsDetails: codeCrumbsDetails
-            };
+      var sharedProps = {
+        sourceDiagramOn: sourceDiagramOn,
+        dependenciesDiagramOn: dependenciesDiagramOn,
+        codeCrumbsDiagramOn: codeCrumbsDiagramOn,
+        codeCrumbsMinimize: codeCrumbsMinimize,
+        codeCrumbsDetails: codeCrumbsDetails
+      };
 
-            return _react2.default.createElement(
-                _react2.default.Fragment,
-                null,
-                filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, _extends({
-                    layoutNodes: filesTreeLayoutNodes,
-                    closedFolders: closedFolders,
-                    secondaryLayer: this.sourceEdgesLayer,
-                    primaryLayer: this.iconsAndTextLayer,
-                    onFileSelect: onFileSelect,
-                    onFileIconClick: onFileIconClick,
-                    onFolderClick: onFolderClick
-                }, sharedProps)),
-                dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, _extends({
-                    dependenciesList: dependenciesList,
-                    filesTreeLayoutNodes: filesTreeLayoutNodes,
-                    dependenciesEntryPoint: dependenciesEntryPoint,
-                    dependenciesShowOneModule: dependenciesShowOneModule,
-                    primaryLayer: this.dependenciesEdgesLayer
-                }, sharedProps)),
-                filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({
-                    filesTreeLayoutNodes: filesTreeLayoutNodes,
-                    primaryLayer: this.iconsAndTextLayer,
-                    onCodeCrumbSelect: onCodeCrumbSelect
-                }, sharedProps))
-            );
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var layersReady = this.state.layersReady;
+      return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, _extends({
+          layoutNodes: filesTreeLayoutNodes,
+          closedFolders: closedFolders,
+          secondaryLayer: this.sourceEdgesLayer,
+          primaryLayer: this.iconsAndTextLayer,
+          onFileSelect: onFileSelect,
+          onFileIconClick: onFileIconClick,
+          onFolderClick: onFolderClick
+        }, sharedProps)),
+        dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, _extends({
+          dependenciesList: dependenciesList,
+          filesTreeLayoutNodes: filesTreeLayoutNodes,
+          dependenciesEntryPoint: dependenciesEntryPoint,
+          dependenciesShowOneModule: dependenciesShowOneModule,
+          primaryLayer: this.dependenciesEdgesLayer
+        }, sharedProps)),
+        filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({
+          filesTreeLayoutNodes: filesTreeLayoutNodes,
+          primaryLayer: this.iconsAndTextLayer,
+          onCodeCrumbSelect: onCodeCrumbSelect
+        }, sharedProps))
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var layersReady = this.state.layersReady;
 
 
-            return _react2.default.createElement(
-                'div',
-                { className: 'TreeDiagram-container' },
-                this.renderLayers(),
-                layersReady && this.renderDiagrams()
-            );
-        }
-    }]);
+      return _react2.default.createElement(
+        'div',
+        { className: 'TreeDiagram-container' },
+        this.renderLayers(),
+        layersReady && this.renderDiagrams()
+      );
+    }
+  }]);
 
-    return TreeDiagram;
+  return TreeDiagram;
 }(_react2.default.Component);
 
 exports.default = TreeDiagram;
@@ -87738,7 +87726,7 @@ exports.default = TreeDiagram;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.withSvgDraw = undefined;
 
@@ -87769,110 +87757,110 @@ var cachedSvgDraws = {};
 
 var BOX_SIZE = { W: 1000, H: 800 };
 var DOT = {
-    x: 50,
-    y: 500
+  x: 50,
+  y: 500
 };
 
 var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(DOT);
 
 var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
-    return function (_React$Component) {
-        _inherits(_class2, _React$Component);
+  return function (_React$Component) {
+    _inherits(_class2, _React$Component);
 
-        function _class2() {
-            var _ref;
+    function _class2() {
+      var _ref;
 
-            var _temp, _this, _ret;
+      var _temp, _this, _ret;
 
-            _classCallCheck(this, _class2);
+      _classCallCheck(this, _class2);
 
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-            }
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
 
-            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class2.__proto__ || Object.getPrototypeOf(_class2)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class2.__proto__ || Object.getPrototypeOf(_class2)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(_class2, [{
+      key: 'createSvg',
+      value: function createSvg(layer) {
+        var _props = this.props,
+            _props$width = _props.width,
+            width = _props$width === undefined ? BOX_SIZE.W : _props$width,
+            _props$height = _props.height,
+            height = _props$height === undefined ? BOX_SIZE.H : _props$height;
+
+
+        return (0, _svg2.default)(layer).size(width, height);
+      }
+    }, {
+      key: 'getPrimaryDraw',
+      value: function getPrimaryDraw() {
+        var primaryLayer = this.props.primaryLayer;
+
+
+        var primaryLayerName = primaryLayer.dataset.name;
+        if (primaryLayerName !== IconsAndTextLayer) {
+          return this.createSvg(primaryLayer);
         }
 
-        _createClass(_class2, [{
-            key: 'createSvg',
-            value: function createSvg(layer) {
-                var _props = this.props,
-                    _props$width = _props.width,
-                    width = _props$width === undefined ? BOX_SIZE.W : _props$width,
-                    _props$height = _props.height,
-                    height = _props$height === undefined ? BOX_SIZE.H : _props$height;
+        if (cachedSvgDraws[primaryLayerName]) {
+          return cachedSvgDraws[primaryLayerName];
+        }
+
+        cachedSvgDraws[primaryLayerName] = this.createSvg(primaryLayer);
+        return cachedSvgDraws[primaryLayerName];
+      }
+    }, {
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var secondaryLayer = this.props.secondaryLayer;
 
 
-                return (0, _svg2.default)(layer).size(width, height);
-            }
-        }, {
-            key: 'getPrimaryDraw',
-            value: function getPrimaryDraw() {
-                var primaryLayer = this.props.primaryLayer;
+        var subState = {
+          primaryDraw: this.getPrimaryDraw()
+        };
+
+        if (secondaryLayer) {
+          subState = _extends({}, subState, {
+            secondaryDraw: this.createSvg(secondaryLayer)
+          });
+        }
+
+        this.setState(subState);
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        var _props2 = this.props,
+            primaryLayer = _props2.primaryLayer,
+            secondaryLayer = _props2.secondaryLayer;
 
 
-                var primaryLayerName = primaryLayer.dataset.name;
-                if (primaryLayerName !== IconsAndTextLayer) {
-                    return this.createSvg(primaryLayer);
-                }
+        if (primaryLayer.dataset.name !== IconsAndTextLayer) {
+          primaryLayer.removeChild(this.state.primaryDraw.node);
+        }
 
-                if (cachedSvgDraws[primaryLayerName]) {
-                    return cachedSvgDraws[primaryLayerName];
-                }
-
-                cachedSvgDraws[primaryLayerName] = this.createSvg(primaryLayer);
-                return cachedSvgDraws[primaryLayerName];
-            }
-        }, {
-            key: 'componentDidMount',
-            value: function componentDidMount() {
-                var secondaryLayer = this.props.secondaryLayer;
+        secondaryLayer && secondaryLayer.removeChild(this.state.secondaryDraw.node);
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _state = this.state,
+            primaryDraw = _state.primaryDraw,
+            secondaryDraw = _state.secondaryDraw;
 
 
-                var subState = {
-                    primaryDraw: this.getPrimaryDraw()
-                };
+        return primaryDraw && _react2.default.createElement(Component, _extends({}, this.props, {
+          primaryDraw: primaryDraw,
+          secondaryDraw: secondaryDraw,
+          shiftToCenterPoint: shiftToCenterPoint
+        })) || null;
+      }
+    }]);
 
-                if (secondaryLayer) {
-                    subState = _extends({}, subState, {
-                        secondaryDraw: this.createSvg(secondaryLayer)
-                    });
-                }
-
-                this.setState(subState);
-            }
-        }, {
-            key: 'componentWillUnmount',
-            value: function componentWillUnmount() {
-                var _props2 = this.props,
-                    primaryLayer = _props2.primaryLayer,
-                    secondaryLayer = _props2.secondaryLayer;
-
-
-                if (primaryLayer.dataset.name !== IconsAndTextLayer) {
-                    primaryLayer.removeChild(this.state.primaryDraw.node);
-                }
-
-                secondaryLayer && secondaryLayer.removeChild(this.state.secondaryDraw.node);
-            }
-        }, {
-            key: 'render',
-            value: function render() {
-                var _state = this.state,
-                    primaryDraw = _state.primaryDraw,
-                    secondaryDraw = _state.secondaryDraw;
-
-
-                return primaryDraw && _react2.default.createElement(Component, _extends({}, this.props, {
-                    primaryDraw: primaryDraw,
-                    secondaryDraw: secondaryDraw,
-                    shiftToCenterPoint: shiftToCenterPoint
-                })) || null;
-            }
-        }]);
-
-        return _class2;
-    }(_react2.default.Component);
+    return _class2;
+  }(_react2.default.Component);
 };
 
 /***/ }),
@@ -87888,23 +87876,23 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var createSet = exports.createSet = function createSet(draw) {
-    var drawSet = draw.set();
+  var drawSet = draw.set();
 
-    return {
-        add: function add(list) {
-            drawSet.add.apply(drawSet, [].concat(list));
-        },
-        clearAll: function clearAll() {
-            drawSet.each(function () {
-                this.off();
-                this.remove();
-            });
-            drawSet.clear();
-        }
-    };
+  return {
+    add: function add(list) {
+      drawSet.add.apply(drawSet, [].concat(list));
+    },
+    clearAll: function clearAll() {
+      drawSet.each(function () {
+        this.off();
+        this.remove();
+      });
+      drawSet.clear();
+    }
+  };
 };
 
 /***/ }),
@@ -87920,7 +87908,7 @@ var createSet = exports.createSet = function createSet(draw) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var PURPLE_COLOR = exports.PURPLE_COLOR = '#ff18a6';
 var BLUE_COLOR = exports.BLUE_COLOR = '#1890ff';
@@ -87928,10 +87916,10 @@ var BLUE_COLOR = exports.BLUE_COLOR = '#1890ff';
 var SYMBOL_WIDTH = exports.SYMBOL_WIDTH = 8.4;
 
 var LAYOUT_CONFIG = exports.LAYOUT_CONFIG = {
-    symbolWidth: SYMBOL_WIDTH,
-    nodeSizeX: 20,
-    nodeSizeY: 60,
-    spacing: 20
+  symbolWidth: SYMBOL_WIDTH,
+  nodeSizeX: 20,
+  nodeSizeY: 60,
+  spacing: 20
 };
 
 /***/ }),
@@ -87972,9 +87960,9 @@ var MOUNT_NODE_ID = 'mount-node';
 
 var store = (0, _createStore2.default)();
 _reactDom2.default.render(_react2.default.createElement(
-    _reactRedux.Provider,
-    { store: store },
-    _react2.default.createElement(_App2.default, null)
+  _reactRedux.Provider,
+  { store: store },
+  _react2.default.createElement(_App2.default, null)
 ), document.getElementById(MOUNT_NODE_ID));
 
 /***/ }),
@@ -87990,7 +87978,7 @@ _reactDom2.default.render(_react2.default.createElement(
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _redux = __webpack_require__(/*! redux */ "../../node_modules/redux/es/redux.js");
@@ -88018,14 +88006,14 @@ var _sagas2 = _interopRequireDefault(_sagas);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function () {
-    var sagaMiddleware = (0, _reduxSaga2.default)();
-    var store = (0, _redux.createStore)((0, _redux.combineReducers)({
-        viewSwitches: _reducer2.default,
-        dataBus: _reducer4.default
-    }), (0, _redux.applyMiddleware)(_reduxThunk2.default, sagaMiddleware));
+  var sagaMiddleware = (0, _reduxSaga2.default)();
+  var store = (0, _redux.createStore)((0, _redux.combineReducers)({
+    viewSwitches: _reducer2.default,
+    dataBus: _reducer4.default
+  }), (0, _redux.applyMiddleware)(_reduxThunk2.default, sagaMiddleware));
 
-    sagaMiddleware.run(_sagas2.default);
-    return store;
+  sagaMiddleware.run(_sagas2.default);
+  return store;
 };
 
 /***/ }),
@@ -88041,7 +88029,7 @@ exports.default = function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.default = rootSaga;
 
@@ -88069,205 +88057,205 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(reactOnSwitchToggle),
     _marked6 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
 
 function reactOnSwitchToggle(action) {
-    var switchKey, isDisabled;
-    return regeneratorRuntime.wrap(function reactOnSwitchToggle$(_context) {
-        while (1) {
-            switch (_context.prev = _context.next) {
-                case 0:
-                    switchKey = action.payload.switchKey;
+  var switchKey, isDisabled;
+  return regeneratorRuntime.wrap(function reactOnSwitchToggle$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          switchKey = action.payload.switchKey;
 
-                    if (!(switchKey === _constants2.CONTROLS_KEYS.CODE_CRUMBS)) {
-                        _context.next = 4;
-                        break;
-                    }
+          if (!(switchKey === _constants2.CONTROLS_KEYS.CODE_CRUMBS)) {
+            _context.next = 4;
+            break;
+          }
 
-                    _context.next = 4;
-                    return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
+          _context.next = 4;
+          return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
 
-                case 4:
-                    if (!(switchKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)) {
-                        _context.next = 10;
-                        break;
-                    }
+        case 4:
+          if (!(switchKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)) {
+            _context.next = 10;
+            break;
+          }
 
-                    _context.next = 7;
-                    return isDependenciesShowAllDisabled();
+          _context.next = 7;
+          return isDependenciesShowAllDisabled();
 
-                case 7:
-                    isDisabled = _context.sent;
-                    _context.next = 10;
-                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
+        case 7:
+          isDisabled = _context.sent;
+          _context.next = 10;
+          return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
 
-                case 10:
-                case 'end':
-                    return _context.stop();
-            }
-        }
-    }, _marked, this);
+        case 10:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, _marked, this);
 }
 
 function reactOnButtonAction(action) {
-    var buttonKey;
-    return regeneratorRuntime.wrap(function reactOnButtonAction$(_context2) {
-        while (1) {
-            switch (_context2.prev = _context2.next) {
-                case 0:
-                    buttonKey = action.payload;
+  var buttonKey;
+  return regeneratorRuntime.wrap(function reactOnButtonAction$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          buttonKey = action.payload;
 
-                    if (!(buttonKey === _constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)) {
-                        _context2.next = 5;
-                        break;
-                    }
+          if (!(buttonKey === _constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)) {
+            _context2.next = 5;
+            break;
+          }
 
-                    _context2.next = 4;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)), (0, _effects.put)((0, _actions.openAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
+          _context2.next = 4;
+          return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)), (0, _effects.put)((0, _actions.openAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
 
-                case 4:
-                    return _context2.abrupt('return', _context2.sent);
+        case 4:
+          return _context2.abrupt('return', _context2.sent);
 
-                case 5:
-                    if (!(buttonKey === _constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)) {
-                        _context2.next = 9;
-                        break;
-                    }
+        case 5:
+          if (!(buttonKey === _constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)) {
+            _context2.next = 9;
+            break;
+          }
 
-                    _context2.next = 8;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)), (0, _effects.put)((0, _actions.closeAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
+          _context2.next = 8;
+          return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL)), (0, _effects.put)((0, _actions.closeAllFolders)()), (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)())]);
 
-                case 8:
-                    return _context2.abrupt('return', _context2.sent);
+        case 8:
+          return _context2.abrupt('return', _context2.sent);
 
-                case 9:
-                    if (!(buttonKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL)) {
-                        _context2.next = 13;
-                        break;
-                    }
+        case 9:
+          if (!(buttonKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL)) {
+            _context2.next = 13;
+            break;
+          }
 
-                    _context2.next = 12;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.toggleSwitch)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)), (0, _effects.put)((0, _actions.setDependenciesEntryPoint)(null))]);
+          _context2.next = 12;
+          return (0, _effects.all)([(0, _effects.put)((0, _actions2.toggleSwitch)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)), (0, _effects.put)((0, _actions.setDependenciesEntryPoint)(null))]);
 
-                case 12:
-                    return _context2.abrupt('return', _context2.sent);
+        case 12:
+          return _context2.abrupt('return', _context2.sent);
 
-                case 13:
-                case 'end':
-                    return _context2.stop();
-            }
-        }
-    }, _marked2, this);
+        case 13:
+        case 'end':
+          return _context2.stop();
+      }
+    }
+  }, _marked2, this);
 }
 
 function reactOnToggledFolder(action) {
-    var dataBusState, closedFolders, firstLevelFolders;
-    return regeneratorRuntime.wrap(function reactOnToggledFolder$(_context3) {
-        while (1) {
-            switch (_context3.prev = _context3.next) {
-                case 0:
-                    _context3.next = 2;
-                    return (0, _effects.select)(function (state) {
-                        return state.dataBus;
-                    });
+  var dataBusState, closedFolders, firstLevelFolders;
+  return regeneratorRuntime.wrap(function reactOnToggledFolder$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return (0, _effects.select)(function (state) {
+            return state.dataBus;
+          });
 
-                case 2:
-                    dataBusState = _context3.sent;
-                    closedFolders = dataBusState.closedFolders, firstLevelFolders = dataBusState.firstLevelFolders;
-                    _context3.next = 6;
-                    return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL, (0, _every2.default)(Object.keys(closedFolders), function (item) {
-                        return !closedFolders[item];
-                    }))), (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN, (0, _every2.default)(Object.keys(firstLevelFolders), function (item) {
-                        return closedFolders[item];
-                    })))]);
+        case 2:
+          dataBusState = _context3.sent;
+          closedFolders = dataBusState.closedFolders, firstLevelFolders = dataBusState.firstLevelFolders;
+          _context3.next = 6;
+          return (0, _effects.all)([(0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_EXPAND_ALL, (0, _every2.default)(Object.keys(closedFolders), function (item) {
+            return !closedFolders[item];
+          }))), (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN, (0, _every2.default)(Object.keys(firstLevelFolders), function (item) {
+            return closedFolders[item];
+          })))]);
 
-                case 6:
-                    _context3.next = 8;
-                    return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
+        case 6:
+          _context3.next = 8;
+          return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
 
-                case 8:
-                case 'end':
-                    return _context3.stop();
-            }
-        }
-    }, _marked3, this);
+        case 8:
+        case 'end':
+          return _context3.stop();
+      }
+    }
+  }, _marked3, this);
 }
 
 function reactDependenciesEntryPointChange(action) {
-    var isDisabled;
-    return regeneratorRuntime.wrap(function reactDependenciesEntryPointChange$(_context4) {
-        while (1) {
-            switch (_context4.prev = _context4.next) {
-                case 0:
-                    if (action.payload) {
-                        _context4.next = 4;
-                        break;
-                    }
+  var isDisabled;
+  return regeneratorRuntime.wrap(function reactDependenciesEntryPointChange$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          if (action.payload) {
+            _context4.next = 4;
+            break;
+          }
 
-                    _context4.next = 3;
-                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true));
+          _context4.next = 3;
+          return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true));
 
-                case 3:
-                    return _context4.abrupt('return', _context4.sent);
+        case 3:
+          return _context4.abrupt('return', _context4.sent);
 
-                case 4:
-                    _context4.next = 6;
-                    return isDependenciesShowAllDisabled();
+        case 4:
+          _context4.next = 6;
+          return isDependenciesShowAllDisabled();
 
-                case 6:
-                    isDisabled = _context4.sent;
-                    _context4.next = 9;
-                    return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
+        case 6:
+          isDisabled = _context4.sent;
+          _context4.next = 9;
+          return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
 
-                case 9:
-                case 'end':
-                    return _context4.stop();
-            }
-        }
-    }, _marked4, this);
+        case 9:
+        case 'end':
+          return _context4.stop();
+      }
+    }
+  }, _marked4, this);
 }
 
 function isDependenciesShowAllDisabled() {
-    var isRoot, dependenciesShowOneModule;
-    return regeneratorRuntime.wrap(function isDependenciesShowAllDisabled$(_context5) {
-        while (1) {
-            switch (_context5.prev = _context5.next) {
-                case 0:
-                    _context5.next = 2;
-                    return (0, _effects.select)(function (state) {
-                        return state.dataBus.isCurrentDependenciesEntryPointRoot;
-                    });
+  var isRoot, dependenciesShowOneModule;
+  return regeneratorRuntime.wrap(function isDependenciesShowAllDisabled$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.next = 2;
+          return (0, _effects.select)(function (state) {
+            return state.dataBus.isCurrentDependenciesEntryPointRoot;
+          });
 
-                case 2:
-                    isRoot = _context5.sent;
-                    _context5.next = 5;
-                    return (0, _effects.select)(function (state) {
-                        return state.viewSwitches.checkedState.dependenciesShowOneModule;
-                    });
+        case 2:
+          isRoot = _context5.sent;
+          _context5.next = 5;
+          return (0, _effects.select)(function (state) {
+            return state.viewSwitches.checkedState.dependenciesShowOneModule;
+          });
 
-                case 5:
-                    dependenciesShowOneModule = _context5.sent;
-                    return _context5.abrupt('return', isRoot && !dependenciesShowOneModule);
+        case 5:
+          dependenciesShowOneModule = _context5.sent;
+          return _context5.abrupt('return', isRoot && !dependenciesShowOneModule);
 
-                case 7:
-                case 'end':
-                    return _context5.stop();
-            }
-        }
-    }, _marked5, this);
+        case 7:
+        case 'end':
+          return _context5.stop();
+      }
+    }
+  }, _marked5, this);
 }
 
 function rootSaga() {
-    return regeneratorRuntime.wrap(function rootSaga$(_context6) {
-        while (1) {
-            switch (_context6.prev = _context6.next) {
-                case 0:
-                    _context6.next = 2;
-                    return (0, _effects.all)([(0, _effects.takeEvery)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeEvery)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeEvery)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder), (0, _effects.takeEvery)(_constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactDependenciesEntryPointChange)]);
+  return regeneratorRuntime.wrap(function rootSaga$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.next = 2;
+          return (0, _effects.all)([(0, _effects.takeEvery)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeEvery)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeEvery)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder), (0, _effects.takeEvery)(_constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactDependenciesEntryPointChange)]);
 
-                case 2:
-                case 'end':
-                    return _context6.stop();
-            }
-        }
-    }, _marked6, this);
+        case 2:
+        case 'end':
+          return _context6.stop();
+      }
+    }
+  }, _marked6, this);
 }
 
 /***/ }),
@@ -88283,23 +88271,23 @@ function rootSaga() {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var createConnection = exports.createConnection = function createConnection(onMessage) {
-    var route = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'ws://127.0.0.1:2018/';
+  var route = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'ws://127.0.0.1:2018/';
 
-    var ws = new WebSocket(route);
-    ws.onmessage = function (event) {
-        onMessage(JSON.parse(event.data));
-    };
+  var ws = new WebSocket(route);
+  ws.onmessage = function (event) {
+    onMessage(JSON.parse(event.data));
+  };
 
-    return function (msg) {
-        try {
-            ws.send(msg);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  return function (msg) {
+    try {
+      ws.send(msg);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 };
 
 /***/ }),
@@ -88315,15 +88303,15 @@ var createConnection = exports.createConnection = function createConnection(onMe
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var buildShiftToPoint = exports.buildShiftToPoint = function buildShiftToPoint(shift) {
-    return function (x, y) {
-        return {
-            x: shift.x + x,
-            y: shift.y + y
-        };
+  return function (x, y) {
+    return {
+      x: shift.x + x,
+      y: shift.y + y
     };
+  };
 };
 
 /***/ }),
@@ -88339,50 +88327,50 @@ var buildShiftToPoint = exports.buildShiftToPoint = function buildShiftToPoint(s
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var getCurvedPath = exports.getCurvedPath = function getCurvedPath(points, theme) {
-    var pointStr = points.map(function (point, i) {
-        if (!i) return 'M' + point.x + ', ' + point.y;
+  var pointStr = points.map(function (point, i) {
+    if (!i) return 'M' + point.x + ', ' + point.y;
 
-        var previousPoint = points[i - 1];
+    var previousPoint = points[i - 1];
 
-        if (i <= 1) {
-            return getLinePointStr(point, previousPoint, theme.curveTurnRadius);
-        }
+    if (i <= 1) {
+      return getLinePointStr(point, previousPoint, theme.curveTurnRadius);
+    }
 
-        return 'Q' + previousPoint.x + ' ' + previousPoint.y + '\n                ' + getArcEndPointStr(point, previousPoint, theme.curveTurnRadius) + '\n                ' + getLinePointStr(point, previousPoint, 2 * theme.curveTurnRadius);
-    }).join(' ');
+    return 'Q' + previousPoint.x + ' ' + previousPoint.y + '\n                ' + getArcEndPointStr(point, previousPoint, theme.curveTurnRadius) + '\n                ' + getLinePointStr(point, previousPoint, 2 * theme.curveTurnRadius);
+  }).join(' ');
 
-    return pointStr;
+  return pointStr;
 };
 
 var getLinePointStr = function getLinePointStr(point, previousPoint, radius) {
-    if (point.x === previousPoint.x) {
-        return 'L' + point.x + ' ' + getShiftedByArcNextPointValue(point.y, previousPoint.y, radius);
-    }
+  if (point.x === previousPoint.x) {
+    return 'L' + point.x + ' ' + getShiftedByArcNextPointValue(point.y, previousPoint.y, radius);
+  }
 
-    if (point.y === previousPoint.y) {
-        return 'L' + getShiftedByArcNextPointValue(point.x, previousPoint.x, radius) + ' ' + point.y + ' ';
-    }
+  if (point.y === previousPoint.y) {
+    return 'L' + getShiftedByArcNextPointValue(point.x, previousPoint.x, radius) + ' ' + point.y + ' ';
+  }
 };
 
 var getShiftedByArcNextPointValue = function getShiftedByArcNextPointValue(pointValue, previousPointValue, radius) {
-    return pointValue > previousPointValue ? pointValue - radius : pointValue + radius;
+  return pointValue > previousPointValue ? pointValue - radius : pointValue + radius;
 };
 
 var getArcEndPointStr = function getArcEndPointStr(point, previousPoint, radius) {
-    if (point.x === previousPoint.x) {
-        return previousPoint.x + ' ' + getArcEndPointValue(point.y, previousPoint.y, radius);
-    }
+  if (point.x === previousPoint.x) {
+    return previousPoint.x + ' ' + getArcEndPointValue(point.y, previousPoint.y, radius);
+  }
 
-    if (point.y === previousPoint.y) {
-        return getArcEndPointValue(point.x, previousPoint.x, radius) + ' ' + previousPoint.y;
-    }
+  if (point.y === previousPoint.y) {
+    return getArcEndPointValue(point.x, previousPoint.x, radius) + ' ' + previousPoint.y;
+  }
 };
 
 var getArcEndPointValue = function getArcEndPointValue(pointValue, previousPointValue, radius) {
-    return pointValue > previousPointValue ? previousPointValue + radius : previousPointValue - radius;
+  return pointValue > previousPointValue ? previousPointValue + radius : previousPointValue - radius;
 };
 
 /***/ }),
@@ -88398,7 +88386,7 @@ var getArcEndPointValue = function getArcEndPointValue(pointValue, previousPoint
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.getFilesList = exports.getTreeLayout = undefined;
 
@@ -88413,55 +88401,55 @@ var _constants2 = __webpack_require__(/*! ../components/tree-diagram/store/const
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData, _ref) {
-    var includeFileChildren = _ref.includeFileChildren,
-        _ref$config = _ref.config,
-        config = _ref$config === undefined ? _constants2.LAYOUT_CONFIG : _ref$config,
-        closedFolders = _ref.closedFolders;
+  var includeFileChildren = _ref.includeFileChildren,
+      _ref$config = _ref.config,
+      config = _ref$config === undefined ? _constants2.LAYOUT_CONFIG : _ref$config,
+      closedFolders = _ref.closedFolders;
 
-    var layoutStructure = d3FlexTree.flextree({
-        children: function children(data) {
-            if (data.type === _constants.DIR_NODE_TYPE) {
-                return !closedFolders[data.path] ? data.children : [];
-            }
+  var layoutStructure = d3FlexTree.flextree({
+    children: function children(data) {
+      if (data.type === _constants.DIR_NODE_TYPE) {
+        return !closedFolders[data.path] ? data.children : [];
+      }
 
-            return includeFileChildren ? data.children : [];
-        },
-        nodeSize: function nodeSize(node) {
-            var nameLength = node.data.name.length;
+      return includeFileChildren ? data.children : [];
+    },
+    nodeSize: function nodeSize(node) {
+      var nameLength = node.data.name.length;
 
-            //cc: layout calc
-            if (node.parent && node.data.type === _constants.DIR_NODE_TYPE) {
-                var children = node.parent.children;
-                nameLength = children.reduce(function (max, item) {
-                    if (item.data.type === _constants.DIR_NODE_TYPE && item.data.name.length > max) {
-                        return item.data.name.length;
-                    }
+      //cc: layout calc
+      if (node.parent && node.data.type === _constants.DIR_NODE_TYPE) {
+        var children = node.parent.children;
+        nameLength = children.reduce(function (max, item) {
+          if (item.data.type === _constants.DIR_NODE_TYPE && item.data.name.length > max) {
+            return item.data.name.length;
+          }
 
-                    return max;
-                }, 0);
-            }
+          return max;
+        }, 0);
+      }
 
-            return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
-        },
-        spacing: function spacing(nodeA, nodeB) {
-            return config.spacing;
-        }
-    });
+      return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
+    },
+    spacing: function spacing(nodeA, nodeB) {
+      return config.spacing;
+    }
+  });
 
-    var tree = layoutStructure.hierarchy(treeData);
-    return layoutStructure(tree);
+  var tree = layoutStructure.hierarchy(treeData);
+  return layoutStructure(tree);
 };
 
 var getFilesList = exports.getFilesList = function getFilesList(layoutNodes) {
-    var list = [];
+  var list = [];
 
-    layoutNodes.each(function (node) {
-        if (node.data && node.data.type === _constants.FILE_NODE_TYPE) {
-            list.push(node);
-        }
-    });
+  layoutNodes.each(function (node) {
+    if (node.data && node.data.type === _constants.FILE_NODE_TYPE) {
+      list.push(node);
+    }
+  });
 
-    return list;
+  return list;
 };
 
 /***/ })

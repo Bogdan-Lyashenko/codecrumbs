@@ -7,15 +7,15 @@ import dataBus from '../components/data-bus/store/reducer';
 import rootSaga from './sagas';
 
 export default () => {
-    const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(
-        combineReducers({
-            viewSwitches,
-            dataBus
-        }),
-        applyMiddleware(thunk, sagaMiddleware)
-    );
+  const sagaMiddleware = createSagaMiddleware();
+  const store = createStore(
+    combineReducers({
+      viewSwitches,
+      dataBus
+    }),
+    applyMiddleware(thunk, sagaMiddleware)
+  );
 
-    sagaMiddleware.run(rootSaga);
-    return store;
+  sagaMiddleware.run(rootSaga);
+  return store;
 };

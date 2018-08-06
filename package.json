@@ -7,7 +7,8 @@
   "scripts": {
     "start": "yarn start:client & yarn start:server",
     "start:client": "cd src/public && webpack --progress --colors --watch --env dev",
-    "start:server": "nodemon --inspect ./src/server/index.js",
+    "start:server": "nodemon ./src/server/index.js",
+    "start:server-debug": "nodemon --inspect ./src/server/index.js",
     "start:demo": "node ./src/server/index.js"
   },
   "dependencies": {

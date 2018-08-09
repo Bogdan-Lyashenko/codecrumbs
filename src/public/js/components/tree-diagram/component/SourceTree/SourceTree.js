@@ -11,21 +11,23 @@ import {
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../../../../../shared/constants';
 import { createSet } from '../utils/SvgSet';
+import { FolderName, FileName } from '../utils/NodeText/';
+import { Dot } from '../utils/Dot/';
 
 class SourceTree extends React.Component {
   componentDidMount() {
-    this.drawSet = createSet(this.props.primaryDraw);
-    this.drawTree();
+    //this.drawSet = createSet(this.props.primaryDraw);
+    //this.drawTree();
   }
 
   componentDidUpdate() {
-    this.clearPrimaryDraw();
+    /*this.clearPrimaryDraw();
     this.clearSecondaryDraw();
-    this.drawTree();
+    this.drawTree();*/
   }
 
   componentWillUnmount() {
-    this.clearPrimaryDraw();
+    //this.clearPrimaryDraw();
   }
 
   clearPrimaryDraw() {
@@ -136,7 +138,45 @@ class SourceTree extends React.Component {
   }
 
   render() {
-    return null;
+    const {
+      layoutNodes,
+      closedFolders,
+      shiftToCenterPoint,
+      dependenciesDiagramOn,
+      codeCrumbsMinimize,
+      onFileSelect,
+      onFileIconClick,
+      onFolderClick
+    } = this.props;
+    const nodeArray = [];
+
+    layoutNodes.each(node => {
+      nodeArray.push(node);
+    });
+
+    return (
+      <React.Fragment>
+        {nodeArray.map((node, i) => {
+          const [nX, nY] = [node.y, node.x];
+          const parent = node.parent;
+          const position = shiftToCenterPoint(nX, nY);
+          const name = node.data.name;
+
+          if (node.data.type === FILE_NODE_TYPE) {
+            return (
+              <React.Fragment key={name + i}>
+                <Dot position={position} />
+                <FileName
+                  position={position}
+                  text={name}
+                  purple={node.children && codeCrumbsMinimize}
+                />
+              </React.Fragment>
+            );
+          }
+        })}
+      </React.Fragment>
+    );
   }
 }
 

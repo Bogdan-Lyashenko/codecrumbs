@@ -15174,7 +15174,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}", ""]);
 
 // exports
 
@@ -81067,8 +81067,6 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree-diagram/component/utils/SvgDraw.js");
-
 var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/CodeCrumbsTree/drawHelpers.js");
 
 var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
@@ -81233,7 +81231,7 @@ var CodeCrumbsTree = function (_React$Component) {
   return CodeCrumbsTree;
 }(_react2.default.Component);
 
-exports.default = (0, _SvgDraw.withSvgDraw)(CodeCrumbsTree);
+exports.default = CodeCrumbsTree;
 
 /***/ }),
 
@@ -81385,6 +81383,7 @@ var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenter
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.collectDependencies = exports.getFilteredDependenciesList = exports.findNodeByPathName = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -81392,17 +81391,15 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/DependenciesTree/drawHelpers.js");
-
-var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
-
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree-diagram/component/utils/SvgDraw.js");
+var _Edge = __webpack_require__(/*! ../utils/Edge */ "./js/components/tree-diagram/component/utils/Edge/index.js");
+
+var _NodeText = __webpack_require__(/*! ../utils/NodeText */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
+
+var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon */ "./js/components/tree-diagram/component/utils/NodeIcon/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -81410,168 +81407,145 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+//move to utils
+var findNodeByPathName = exports.findNodeByPathName = function findNodeByPathName() {
+  var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var pathName = arguments[1];
+
+  return list.find(function (l) {
+    return l.data.path === pathName;
+  });
+};
+
+var getFilteredDependenciesList = exports.getFilteredDependenciesList = function getFilteredDependenciesList(_ref) {
+  var dependenciesList = _ref.dependenciesList,
+      dependenciesEntryPoint = _ref.dependenciesEntryPoint,
+      dependenciesShowOneModule = _ref.dependenciesShowOneModule;
+
+  var entryPoint = dependenciesEntryPoint || {
+    path: dependenciesList[0].moduleName
+  };
+
+  if (dependenciesShowOneModule) {
+    return [dependenciesList.find(function (d) {
+      return d.moduleName === entryPoint.path;
+    })];
+  }
+
+  return collectDependencies(entryPoint.path, dependenciesList);
+};
+
+var collectDependencies = exports.collectDependencies = function collectDependencies(entryModuleName, dependenciesList) {
+  var queue = [].concat(entryModuleName),
+      store = [];
+
+  var _loop = function _loop() {
+    var moduleName = queue.shift(),
+        entryModule = dependenciesList.find(function (d) {
+      return d.moduleName === moduleName;
+    });
+
+    store.push(entryModule);
+
+    var nodeBody = entryModule.importedModuleNames;
+    if (nodeBody) {
+      queue = [].concat(_toConsumableArray(queue), _toConsumableArray(nodeBody));
+    }
+  };
+
+  while (queue.length) {
+    _loop();
+  }
+
+  return store;
+};
+
 var DependenciesTree = function (_React$Component) {
   _inherits(DependenciesTree, _React$Component);
 
   function DependenciesTree() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
     _classCallCheck(this, DependenciesTree);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DependenciesTree.__proto__ || Object.getPrototypeOf(DependenciesTree)).call.apply(_ref, [this].concat(args))), _this), _this.findNodeByPathName = function () {
-      var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-      var pathName = arguments[1];
-
-      return list.find(function (l) {
-        return l.data.path === pathName;
-      });
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _possibleConstructorReturn(this, (DependenciesTree.__proto__ || Object.getPrototypeOf(DependenciesTree)).apply(this, arguments));
   }
 
   _createClass(DependenciesTree, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.drawTree();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var primaryDraw = this.props.primaryDraw;
-
-
-      primaryDraw.clear();
-      this.drawTree();
-    }
-    //move to utils
-
-  }, {
-    key: 'getFilteredDependenciesList',
-    value: function getFilteredDependenciesList() {
+    key: 'render',
+    value: function render() {
       var _props = this.props,
-          dependenciesList = _props.dependenciesList,
-          dependenciesEntryPoint = _props.dependenciesEntryPoint,
-          dependenciesShowOneModule = _props.dependenciesShowOneModule;
-
-
-      var entryPoint = dependenciesEntryPoint || {
-        path: dependenciesList[0].moduleName
-      };
-
-      if (dependenciesShowOneModule) {
-        return [dependenciesList.find(function (d) {
-          return d.moduleName === entryPoint.path;
-        })];
-      }
-
-      return this.collectDependencies(entryPoint.path, dependenciesList);
-    }
-  }, {
-    key: 'collectDependencies',
-    value: function collectDependencies(entryModuleName, dependenciesList) {
-      var queue = [].concat(entryModuleName),
-          store = [];
-
-      var _loop = function _loop() {
-        var moduleName = queue.shift(),
-            entryModule = dependenciesList.find(function (d) {
-          return d.moduleName === moduleName;
-        });
-
-        store.push(entryModule);
-
-        var nodeBody = entryModule.importedModuleNames;
-        if (nodeBody) {
-          queue = [].concat(_toConsumableArray(queue), _toConsumableArray(nodeBody));
-        }
-      };
-
-      while (queue.length) {
-        _loop();
-      }
-
-      return store;
-    }
-  }, {
-    key: 'drawTree',
-    value: function drawTree() {
-      var _this2 = this;
-
-      var _props2 = this.props,
-          primaryDraw = _props2.primaryDraw,
-          filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
-          shiftToCenterPoint = _props2.shiftToCenterPoint,
-          sourceDiagramOn = _props2.sourceDiagramOn;
+          filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+          shiftToCenterPoint = _props.shiftToCenterPoint,
+          sourceDiagramOn = _props.sourceDiagramOn;
 
 
       var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
-      var filteredDependenciesList = this.getFilteredDependenciesList();
+      var filteredDependenciesList = getFilteredDependenciesList(this.props);
 
-      filteredDependenciesList.forEach(function (_ref2) {
-        var moduleName = _ref2.moduleName,
-            importedModuleNames = _ref2.importedModuleNames;
+      return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        filteredDependenciesList.map(function (_ref2, i) {
+          var moduleName = _ref2.moduleName,
+              importedModuleNames = _ref2.importedModuleNames;
 
-        var moduleNode = _this2.findNodeByPathName(moduleFilesList, moduleName);
+          var moduleNode = findNodeByPathName(moduleFilesList, moduleName);
 
-        if (!moduleNode) return;
+          if (!moduleNode) return;
 
-        var _ref3 = [moduleNode.y, moduleNode.x],
-            mX = _ref3[0],
-            mY = _ref3[1];
+          var _ref3 = [moduleNode.y, moduleNode.x],
+              mX = _ref3[0],
+              mY = _ref3[1];
 
+          var targetPosition = shiftToCenterPoint(mX, mY);
 
-        if (!sourceDiagramOn) {
-          (0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
-            x: mX,
-            y: mY,
-            name: moduleNode.data.name
-          });
-          (0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
-            x: mX,
-            y: mY
-          });
-        }
+          var prevSourcePosition = null;
+          return _react2.default.createElement(
+            _react2.default.Fragment,
+            { key: moduleName + i },
+            !sourceDiagramOn ? _react2.default.createElement(
+              _react2.default.Fragment,
+              null,
+              _react2.default.createElement(_NodeText.FileName, { position: targetPosition, name: moduleNode.data.name }),
+              _react2.default.createElement(_NodeIcon.FileIcon, { position: targetPosition })
+            ) : null,
+            importedModuleNames.map(function (name, i) {
+              var importedNode = findNodeByPathName(moduleFilesList, name);
 
-        importedModuleNames.reduce(function (prevSource, name) {
-          var importedNode = _this2.findNodeByPathName(moduleFilesList, name);
+              if (!importedNode) return null;
 
-          if (!importedNode) return;
+              var _ref4 = [importedNode.y, importedNode.x],
+                  iX = _ref4[0],
+                  iY = _ref4[1];
+              //TODO: implementation iterations:
+              //1) done: first with sharp angles + overlay
+              //2) done: without overlaying, not fot all cases
+              //3) rounded angles
 
-          var _ref4 = [importedNode.y, importedNode.x],
-              iX = _ref4[0],
-              iY = _ref4[1];
-          //TODO: implementation iterations:
-          //1) done: first with sharp angles + overlay
-          //2) done: without overlaying, not fot all cases
-          //3) rounded angles
+              var sourcePosition = shiftToCenterPoint(iX, iY);
 
-          var source = { x: iX, y: iY };
-          (0, _drawHelpers.drawDependenciesEdge)(primaryDraw, shiftToCenterPoint, {
-            source: source,
-            target: { x: mX, y: mY },
-            prevSource: prevSource
-          });
+              var dependenciesEdge = _react2.default.createElement(_Edge.DependenciesEdge, {
+                key: name + i,
+                sourcePosition: sourcePosition,
+                targetPosition: targetPosition,
+                prevSourcePosition: prevSourcePosition
+              });
 
-          return source;
-        }, null);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return null;
+              prevSourcePosition = sourcePosition;
+
+              return dependenciesEdge;
+            })
+          );
+        })
+      );
     }
   }]);
 
   return DependenciesTree;
 }(_react2.default.Component);
 
-exports.default = (0, _SvgDraw.withSvgDraw)(DependenciesTree);
+exports.default = DependenciesTree;
 
 /***/ }),
 
@@ -81696,8 +81670,6 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree-diagram/component/utils/SvgDraw.js");
-
 var _constants = __webpack_require__(/*! ../../../../../../shared/constants */ "../shared/constants.js");
 
 var _NodeText = __webpack_require__(/*! ../utils/NodeText/ */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
@@ -81707,6 +81679,10 @@ var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon/ */ "./js/components/t
 var _Dot = __webpack_require__(/*! ../utils/Dot/ */ "./js/components/tree-diagram/component/utils/Dot/index.js");
 
 var _Edge = __webpack_require__(/*! ../utils/Edge */ "./js/components/tree-diagram/component/utils/Edge/index.js");
+
+var _DependenciesTree = __webpack_require__(/*! ../DependenciesTree/DependenciesTree */ "./js/components/tree-diagram/component/DependenciesTree/DependenciesTree.js");
+
+var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81726,6 +81702,43 @@ var SourceTree = function (_React$Component) {
   }
 
   _createClass(SourceTree, [{
+    key: 'renderDependenciesTree',
+    value: function renderDependenciesTree() {
+      return _react2.default.createElement(_DependenciesTree2.default, this.props);
+    }
+  }, {
+    key: 'renderSourceEdges',
+    value: function renderSourceEdges() {
+      /*return (
+        <React.Fragment>
+          {nodeArray.map((node, i) => {
+            const [nX, nY] = [node.y, node.x];
+            const position = shiftToCenterPoint(nX, nY);
+            const name = node.data.name;
+             const parent = node.parent;
+            let sourcePosition = null;
+            if (parent && parent.data.type === DIR_NODE_TYPE) {
+              const [pX, pY] = [parent.y, parent.x];
+              sourcePosition = shiftToCenterPoint(pX, pY);
+            }
+             return (
+              <React.Fragment key={name + i}>
+                {sourcePosition ? (
+                  <SourceEdge
+                    targetPosition={position}
+                    sourcePosition={sourcePosition}
+                    disabled={dependenciesDiagramOn}
+                    singleChild={parent.children.length === 1}
+                  />
+                ) : null}
+                <Dot position={position} disabled={dependenciesDiagramOn}/>
+              </React.Fragment>
+            )
+          })}
+        </React.Fragment>    )
+      */
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -81736,78 +81749,82 @@ var SourceTree = function (_React$Component) {
           codeCrumbsMinimize = _props.codeCrumbsMinimize,
           onFileSelect = _props.onFileSelect,
           onFileIconClick = _props.onFileIconClick,
-          onFolderClick = _props.onFolderClick;
+          onFolderClick = _props.onFolderClick,
+          dependenciesList = _props.dependenciesList,
+          filesTreeLayoutNodes = _props.filesTreeLayoutNodes;
 
-      var nodeArray = [];
 
-      layoutNodes.each(function (node) {
-        nodeArray.push(node);
+      var sourceEdges = [];
+      var sourceNodes = [];
+
+      layoutNodes.each(function (node, i) {
+        var _ref = [node.y, node.x],
+            nX = _ref[0],
+            nY = _ref[1];
+
+        var position = shiftToCenterPoint(nX, nY);
+        var name = node.data.name;
+
+        var parent = node.parent;
+        if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
+          var _ref2 = [parent.y, parent.x],
+              pX = _ref2[0],
+              pY = _ref2[1];
+
+          var sourcePosition = shiftToCenterPoint(pX, pY);
+
+          sourceEdges.push(_react2.default.createElement(_Edge.SourceEdge, {
+            targetPosition: position,
+            sourcePosition: sourcePosition,
+            disabled: dependenciesDiagramOn,
+            singleChild: parent.children.length === 1
+          }));
+        }
+
+        sourceNodes.push(_react2.default.createElement(
+          _react2.default.Fragment,
+          { key: name + i },
+          _react2.default.createElement(_Dot.Dot, { position: position, disabled: dependenciesDiagramOn }),
+          node.data.type === _constants.FILE_NODE_TYPE ? _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            _react2.default.createElement(_NodeText.FileName, {
+              position: position,
+              name: name,
+              purple: node.children && codeCrumbsMinimize,
+              onClick: function onClick() {
+                return onFileSelect(node.data);
+              }
+            }),
+            _react2.default.createElement(_NodeIcon.FileIcon, {
+              position: position,
+              purple: node.children && codeCrumbsMinimize,
+              onClick: function onClick() {
+                return dependenciesDiagramOn && onFileIconClick(node.data);
+              }
+            })
+          ) : _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            _react2.default.createElement(_NodeText.FolderName, { position: position, name: name, disabled: dependenciesDiagramOn }),
+            _react2.default.createElement(_NodeIcon.FolderIcon, {
+              position: position,
+              disabled: dependenciesDiagramOn,
+              closed: closedFolders[node.data.path],
+              onClick: function onClick() {
+                return onFolderClick(node.data);
+              }
+            })
+          )
+        ));
       });
 
       return _react2.default.createElement(
         _react2.default.Fragment,
         null,
-        nodeArray.map(function (node, i) {
-          var _ref = [node.y, node.x],
-              nX = _ref[0],
-              nY = _ref[1];
-
-          var position = shiftToCenterPoint(nX, nY);
-          var name = node.data.name;
-
-          var parent = node.parent;
-          var sourcePosition = null;
-          if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
-            var _ref2 = [parent.y, parent.x],
-                pX = _ref2[0],
-                pY = _ref2[1];
-
-            sourcePosition = shiftToCenterPoint(pX, pY);
-          }
-
-          return _react2.default.createElement(
-            _react2.default.Fragment,
-            { key: name + i },
-            sourcePosition ? _react2.default.createElement(_Edge.SourceEdge, {
-              targetPosition: position,
-              sourcePosition: sourcePosition,
-              disabled: dependenciesDiagramOn,
-              singleChild: parent.children.length === 1
-            }) : null,
-            _react2.default.createElement(_Dot.Dot, { position: position, disabled: dependenciesDiagramOn }),
-            node.data.type === _constants.FILE_NODE_TYPE ? _react2.default.createElement(
-              _react2.default.Fragment,
-              null,
-              _react2.default.createElement(_NodeText.FileName, {
-                position: position,
-                name: name,
-                purple: node.children && codeCrumbsMinimize,
-                onClick: function onClick() {
-                  return onFileSelect(node.data);
-                }
-              }),
-              _react2.default.createElement(_NodeIcon.FileIcon, {
-                position: position,
-                purple: node.children && codeCrumbsMinimize,
-                onClick: function onClick() {
-                  return dependenciesDiagramOn && onFileIconClick(node.data);
-                }
-              })
-            ) : _react2.default.createElement(
-              _react2.default.Fragment,
-              null,
-              _react2.default.createElement(_NodeText.FolderName, { position: position, name: name, disabled: dependenciesDiagramOn }),
-              _react2.default.createElement(_NodeIcon.FolderIcon, {
-                position: position,
-                disabled: dependenciesDiagramOn,
-                closed: closedFolders[node.data.path],
-                onClick: function onClick() {
-                  return onFolderClick(node.data);
-                }
-              })
-            )
-          );
-        })
+        sourceEdges,
+        dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && this.renderDependenciesTree(),
+        sourceNodes
       );
     }
   }]);
@@ -81815,7 +81832,7 @@ var SourceTree = function (_React$Component) {
   return SourceTree;
 }(_react2.default.Component);
 
-exports.default = (0, _SvgDraw.withSvgDraw)(SourceTree);
+exports.default = SourceTree;
 
 /***/ }),
 
@@ -81929,6 +81946,7 @@ if(false) {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.DOT = exports.BOX_SIZE = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -81952,6 +81970,8 @@ var _CodeCrumbsTree2 = _interopRequireDefault(_CodeCrumbsTree);
 
 __webpack_require__(/*! ./TreeDiagram.css */ "./js/components/tree-diagram/component/TreeDiagram.css");
 
+var _geometry = __webpack_require__(/*! ../../../utils/geometry */ "./js/utils/geometry.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -81960,75 +81980,49 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var BOX_SIZE = exports.BOX_SIZE = { W: 1000, H: 800 };
+var DOT = exports.DOT = {
+  x: 50,
+  y: 500
+};
+
 var TreeDiagram = function (_React$Component) {
   _inherits(TreeDiagram, _React$Component);
 
-  function TreeDiagram(props) {
+  function TreeDiagram() {
     _classCallCheck(this, TreeDiagram);
 
-    var _this = _possibleConstructorReturn(this, (TreeDiagram.__proto__ || Object.getPrototypeOf(TreeDiagram)).call(this, props));
-
-    _this.state = {};
-    return _this;
+    return _possibleConstructorReturn(this, (TreeDiagram.__proto__ || Object.getPrototypeOf(TreeDiagram)).apply(this, arguments));
   }
 
   _createClass(TreeDiagram, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.setState({ layersReady: true });
-    }
-
-    //cc: layers
-
-  }, {
-    key: 'renderLayers',
-    value: function renderLayers() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'TreeDiagram-layers' },
-        _react2.default.createElement('div', {
-          'data-name': 'sourceEdgesLayer',
-          className: 'TreeDiagram-layer',
-          ref: function ref(_ref) {
-            return _this2.sourceEdgesLayer = _ref;
-          }
-        }),
-        _react2.default.createElement('div', {
-          'data-name': 'dependenciesEdgesLayer',
-          className: 'TreeDiagram-layer',
-          ref: function ref(_ref2) {
-            return _this2.dependenciesEdgesLayer = _ref2;
-          }
-        }),
-        _react2.default.createElement('div', {
-          'data-name': 'iconsAndTextLayer',
-          className: 'TreeDiagram-layer',
-          ref: function ref(_ref3) {
-            return _this2.iconsAndTextLayer = _ref3;
-          }
-        })
-      );
-    }
-  }, {
-    key: 'renderDiagrams',
-    value: function renderDiagrams() {
+    key: 'render',
+    value: function render() {
       var _props = this.props,
-          filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
-          dependenciesList = _props.dependenciesList,
-          closedFolders = _props.closedFolders,
-          dependenciesEntryPoint = _props.dependenciesEntryPoint,
-          sourceDiagramOn = _props.sourceDiagramOn,
-          dependenciesDiagramOn = _props.dependenciesDiagramOn,
-          dependenciesShowOneModule = _props.dependenciesShowOneModule,
-          codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
-          codeCrumbsMinimize = _props.codeCrumbsMinimize,
-          codeCrumbsDetails = _props.codeCrumbsDetails,
-          onFileSelect = _props.onFileSelect,
-          onFileIconClick = _props.onFileIconClick,
-          onFolderClick = _props.onFolderClick,
-          onCodeCrumbSelect = _props.onCodeCrumbSelect;
+          _props$width = _props.width,
+          width = _props$width === undefined ? BOX_SIZE.W : _props$width,
+          _props$height = _props.height,
+          height = _props$height === undefined ? BOX_SIZE.H : _props$height,
+          _props$dot = _props.dot,
+          dot = _props$dot === undefined ? DOT : _props$dot;
+
+      var shiftToCenterPoint = (0, _geometry.buildShiftToPoint)(dot);
+
+      var _props2 = this.props,
+          filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
+          dependenciesList = _props2.dependenciesList,
+          closedFolders = _props2.closedFolders,
+          dependenciesEntryPoint = _props2.dependenciesEntryPoint,
+          sourceDiagramOn = _props2.sourceDiagramOn,
+          dependenciesDiagramOn = _props2.dependenciesDiagramOn,
+          dependenciesShowOneModule = _props2.dependenciesShowOneModule,
+          codeCrumbsDiagramOn = _props2.codeCrumbsDiagramOn,
+          codeCrumbsMinimize = _props2.codeCrumbsMinimize,
+          codeCrumbsDetails = _props2.codeCrumbsDetails,
+          onFileSelect = _props2.onFileSelect,
+          onFileIconClick = _props2.onFileIconClick,
+          onFolderClick = _props2.onFolderClick,
+          onCodeCrumbSelect = _props2.onCodeCrumbSelect;
 
 
       var sharedProps = {
@@ -82036,46 +82030,32 @@ var TreeDiagram = function (_React$Component) {
         dependenciesDiagramOn: dependenciesDiagramOn,
         codeCrumbsDiagramOn: codeCrumbsDiagramOn,
         codeCrumbsMinimize: codeCrumbsMinimize,
-        codeCrumbsDetails: codeCrumbsDetails
+        codeCrumbsDetails: codeCrumbsDetails,
+        shiftToCenterPoint: shiftToCenterPoint
       };
-
-      return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
-        filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, _extends({
-          layoutNodes: filesTreeLayoutNodes,
-          closedFolders: closedFolders,
-          secondaryLayer: this.sourceEdgesLayer,
-          primaryLayer: this.iconsAndTextLayer,
-          onFileSelect: onFileSelect,
-          onFileIconClick: onFileIconClick,
-          onFolderClick: onFolderClick
-        }, sharedProps)),
-        dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, _extends({
-          dependenciesList: dependenciesList,
-          filesTreeLayoutNodes: filesTreeLayoutNodes,
-          dependenciesEntryPoint: dependenciesEntryPoint,
-          dependenciesShowOneModule: dependenciesShowOneModule,
-          primaryLayer: this.dependenciesEdgesLayer
-        }, sharedProps)),
-        filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({
-          filesTreeLayoutNodes: filesTreeLayoutNodes,
-          primaryLayer: this.iconsAndTextLayer,
-          onCodeCrumbSelect: onCodeCrumbSelect
-        }, sharedProps))
-      );
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var layersReady = this.state.layersReady;
-
 
       return _react2.default.createElement(
         'div',
         { className: 'TreeDiagram-container' },
-        this.renderLayers(),
-        layersReady && this.renderDiagrams()
+        _react2.default.createElement(
+          'svg',
+          { width: width, height: height, xmlns: 'http://www.w3.org/2000/svg' },
+          filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, _extends({
+            layoutNodes: filesTreeLayoutNodes,
+            closedFolders: closedFolders,
+            onFileSelect: onFileSelect,
+            onFileIconClick: onFileIconClick,
+            onFolderClick: onFolderClick,
+            dependenciesList: dependenciesList,
+            filesTreeLayoutNodes: filesTreeLayoutNodes,
+            dependenciesEntryPoint: dependenciesEntryPoint,
+            dependenciesShowOneModule: dependenciesShowOneModule
+          }, sharedProps)),
+          filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({
+            filesTreeLayoutNodes: filesTreeLayoutNodes,
+            onCodeCrumbSelect: onCodeCrumbSelect
+          }, sharedProps))
+        )
       );
     }
   }]);
@@ -82207,7 +82187,7 @@ if(false) {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SourceEdge = undefined;
+exports.DependenciesEdge = exports.SourceEdge = undefined;
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
@@ -82218,6 +82198,8 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 var _classnames2 = _interopRequireDefault(_classnames);
 
 __webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
+
+var _drawHelpers = __webpack_require__(/*! ../../DependenciesTree/drawHelpers */ "./js/components/tree-diagram/component/DependenciesTree/drawHelpers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -82252,6 +82234,65 @@ var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
     }),
     _react2.default.createElement('polyline', { onClick: onClick, points: points.join(', '), className: 'EdgeMouseHandler' })
   );
+};
+
+var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(props) {
+  var targetPosition = props.targetPosition,
+      sourcePosition = props.sourcePosition,
+      prevSourcePosition = props.prevSourcePosition;
+
+
+  var padding = 30;
+  var halfPadding = padding / 2 - 5;
+
+  var sourcePt = {
+    x: targetPosition.y > sourcePosition.y ? sourcePosition.x + 10 : sourcePosition.x + 8,
+    y: targetPosition.y > sourcePosition.y ? sourcePosition.y + 7 : sourcePosition.y - 12
+  };
+  //drawSourceDotLine(draw, sourcePt);
+
+  if (!prevSourcePosition) {
+    var P1 = { x: sourcePt.x, y: targetPosition.y + padding - 6 };
+    var P2 = { x: targetPosition.x - halfPadding, y: targetPosition.y + padding - 6 };
+    var P3 = { x: targetPosition.x - halfPadding, y: targetPosition.y };
+
+    /*drawConnectionLine(draw, [
+      [sourcePt.x, sourcePt.y],
+      [P1.x, P1.y],
+      [P2.x, P2.y],
+      [P3.x, P3.y],
+      [targetPosition.x, targetPosition.y]
+    ]);
+    */
+    //drawArrow(draw, shiftToCenterPoint, targetPosition.x, targetPosition.y + 6);
+    var points = [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPosition.x, targetPosition.y]];
+
+    return _react2.default.createElement(
+      _react2.default.Fragment,
+      null,
+      _react2.default.createElement('polyline', { points: points.join(', '), className: 'DependenciesEdge' })
+    );
+  } else {
+    if (prevSourcePosition.x < sourcePt.x) {
+      //TODO: handle other cases
+      var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding - 3 };
+      var _P2 = {
+        x: prevSourcePosition.x + halfPadding,
+        y: sourcePt.y + halfPadding - 3
+      };
+
+      //drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y]]);
+
+      //drawDot(draw, P2);
+
+      var _points = [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]];
+      return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        _react2.default.createElement('polyline', { points: _points.join(', '), className: 'DependenciesEdge' })
+      );
+    }
+  }
 };
 
 /***/ }),
@@ -82479,58 +82520,6 @@ var FolderName = exports.FolderName = function FolderName(props) {
     },
     name
   );
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/SvgDraw.js":
-/*!***************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/SvgDraw.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.withSvgDraw = exports.DOT = exports.BOX_SIZE = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _geometry = __webpack_require__(/*! ../../../../utils/geometry */ "./js/utils/geometry.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var BOX_SIZE = exports.BOX_SIZE = { W: 1000, H: 800 };
-var DOT = exports.DOT = {
-  x: 50,
-  y: 500
-};
-
-var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
-  return function (props) {
-    var _props$width = props.width,
-        width = _props$width === undefined ? BOX_SIZE.W : _props$width,
-        _props$height = props.height,
-        height = _props$height === undefined ? BOX_SIZE.H : _props$height,
-        _props$dot = props.dot,
-        dot = _props$dot === undefined ? DOT : _props$dot;
-
-    //TODO: maybe replace with <g> if it doesn't handle on edge click
-
-    return _react2.default.createElement(
-      'svg',
-      { width: width, height: height, xmlns: 'http://www.w3.org/2000/svg' },
-      _react2.default.createElement(Component, _extends({}, props, { shiftToCenterPoint: (0, _geometry.buildShiftToPoint)(dot) }))
-    );
-  };
 };
 
 /***/ }),

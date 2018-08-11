@@ -13,3 +13,8 @@
 .SourceEdge-disabled {
     stroke: #ccc;
 }
+
+.DependenciesEdge {
+    fill: none;
+    stroke: #1890ff;
+}

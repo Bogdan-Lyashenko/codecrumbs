@@ -1,108 +1,107 @@
 import React from 'react';
-import { drawDependenciesEdge } from './drawHelpers';
-import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 import { getFilesList } from '../../../../utils/treeLayout';
-import { withSvgDraw } from '../utils/SvgDraw';
 
-class DependenciesTree extends React.Component {
-  componentDidMount() {
-    this.drawTree();
-  }
+import { DependenciesEdge } from '../utils/Edge';
+import { FileName } from '../utils/NodeText';
+import { FileIcon } from '../utils/NodeIcon';
 
-  componentDidUpdate() {
-    const { primaryDraw } = this.props;
+//move to utils
+export const findNodeByPathName = (list = [], pathName) => {
+  return list.find(l => l.data.path === pathName);
+};
 
-    primaryDraw.clear();
-    this.drawTree();
-  }
-  //move to utils
-  findNodeByPathName = (list = [], pathName) => {
-    return list.find(l => l.data.path === pathName);
+export const getFilteredDependenciesList = ({
+  dependenciesList,
+  dependenciesEntryPoint,
+  dependenciesShowOneModule
+}) => {
+  const entryPoint = dependenciesEntryPoint || {
+    path: dependenciesList[0].moduleName
   };
 
-  getFilteredDependenciesList() {
-    const { dependenciesList, dependenciesEntryPoint, dependenciesShowOneModule } = this.props;
-
-    const entryPoint = dependenciesEntryPoint || {
-      path: dependenciesList[0].moduleName
-    };
-
-    if (dependenciesShowOneModule) {
-      return [dependenciesList.find(d => d.moduleName === entryPoint.path)];
-    }
-
-    return this.collectDependencies(entryPoint.path, dependenciesList);
+  if (dependenciesShowOneModule) {
+    return [dependenciesList.find(d => d.moduleName === entryPoint.path)];
   }
 
-  collectDependencies(entryModuleName, dependenciesList) {
-    let queue = [].concat(entryModuleName),
-      store = [];
+  return collectDependencies(entryPoint.path, dependenciesList);
+};
 
-    while (queue.length) {
-      let moduleName = queue.shift(),
-        entryModule = dependenciesList.find(d => d.moduleName === moduleName);
+export const collectDependencies = (entryModuleName, dependenciesList) => {
+  let queue = [].concat(entryModuleName),
+    store = [];
 
-      store.push(entryModule);
+  while (queue.length) {
+    let moduleName = queue.shift(),
+      entryModule = dependenciesList.find(d => d.moduleName === moduleName);
 
-      const nodeBody = entryModule.importedModuleNames;
-      if (nodeBody) {
-        queue = [...queue, ...nodeBody];
-      }
+    store.push(entryModule);
+
+    const nodeBody = entryModule.importedModuleNames;
+    if (nodeBody) {
+      queue = [...queue, ...nodeBody];
     }
-
-    return store;
   }
 
-  drawTree() {
-    const { primaryDraw, filesTreeLayoutNodes, shiftToCenterPoint, sourceDiagramOn } = this.props;
+  return store;
+};
+
+class DependenciesTree extends React.Component {
+  render() {
+    const { filesTreeLayoutNodes, shiftToCenterPoint, sourceDiagramOn } = this.props;
 
     const moduleFilesList = getFilesList(filesTreeLayoutNodes);
-    const filteredDependenciesList = this.getFilteredDependenciesList();
+    const filteredDependenciesList = getFilteredDependenciesList(this.props);
 
-    filteredDependenciesList.forEach(({ moduleName, importedModuleNames }) => {
-      const moduleNode = this.findNodeByPathName(moduleFilesList, moduleName);
+    return (
+      <React.Fragment>
+        {filteredDependenciesList.map(({ moduleName, importedModuleNames }, i) => {
+          const moduleNode = findNodeByPathName(moduleFilesList, moduleName);
 
-      if (!moduleNode) return;
+          if (!moduleNode) return;
 
-      const [mX, mY] = [moduleNode.y, moduleNode.x];
+          const [mX, mY] = [moduleNode.y, moduleNode.x];
+          const targetPosition = shiftToCenterPoint(mX, mY);
 
-      if (!sourceDiagramOn) {
-        drawFileText(primaryDraw, shiftToCenterPoint, {
-          x: mX,
-          y: mY,
-          name: moduleNode.data.name
-        });
-        drawFileIcon(primaryDraw, shiftToCenterPoint, {
-          x: mX,
-          y: mY
-        });
-      }
+          let prevSourcePosition = null;
+          return (
+            <React.Fragment key={moduleName + i}>
+              {!sourceDiagramOn ? (
+                <React.Fragment>
+                  <FileName position={targetPosition} name={moduleNode.data.name} />
+                  <FileIcon position={targetPosition} />
+                </React.Fragment>
+              ) : null}
+              {importedModuleNames.map((name, i) => {
+                const importedNode = findNodeByPathName(moduleFilesList, name);
 
-      importedModuleNames.reduce((prevSource, name) => {
-        const importedNode = this.findNodeByPathName(moduleFilesList, name);
+                if (!importedNode) return null;
 
-        if (!importedNode) return;
+                const [iX, iY] = [importedNode.y, importedNode.x];
+                //TODO: implementation iterations:
+                //1) done: first with sharp angles + overlay
+                //2) done: without overlaying, not fot all cases
+                //3) rounded angles
+                const sourcePosition = shiftToCenterPoint(iX, iY);
 
-        const [iX, iY] = [importedNode.y, importedNode.x];
-        //TODO: implementation iterations:
-        //1) done: first with sharp angles + overlay
-        //2) done: without overlaying, not fot all cases
-        //3) rounded angles
-        const source = { x: iX, y: iY };
-        drawDependenciesEdge(primaryDraw, shiftToCenterPoint, {
-          source,
-          target: { x: mX, y: mY },
-          prevSource
-        });
+                const dependenciesEdge = (
+                  <DependenciesEdge
+                    key={name + i}
+                    sourcePosition={sourcePosition}
+                    targetPosition={targetPosition}
+                    prevSourcePosition={prevSourcePosition}
+                  />
+                );
 
-        return source;
-      }, null);
-    });
-  }
+                prevSourcePosition = sourcePosition;
 
-  render() {
-    return null;
+                return dependenciesEdge;
+              })}
+            </React.Fragment>
+          );
+        })}
+      </React.Fragment>
+    );
   }
 }
 
-export default withSvgDraw(DependenciesTree);
+export default DependenciesTree;

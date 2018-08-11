@@ -1,5 +1,4 @@
 import React from 'react';
-import { withSvgDraw } from '../utils/SvgDraw';
 import { drawCodeCrumbEdge, drawPartEdge, drawCodeCrumbLoc, drawPopOver } from './drawHelpers';
 import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 
@@ -145,4 +144,4 @@ class CodeCrumbsTree extends React.Component {
   }
 }
 
-export default withSvgDraw(CodeCrumbsTree);
+export default CodeCrumbsTree;

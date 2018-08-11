@@ -7,7 +7,7 @@ export const DOT = {
   y: 500
 };
 
-export const withSvgDraw = Component => props => {
+export const withSvgDraw = Component => (props = {}) => {
   const { width = BOX_SIZE.W, height = BOX_SIZE.H, dot = DOT } = props;
 
   //TODO: maybe replace with <g> if it doesn't handle on edge click

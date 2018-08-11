@@ -1,142 +1,13 @@
 import React from 'react';
 import { withSvgDraw } from '../utils/SvgDraw';
-import {
-  drawDot,
-  drawSourceEdge,
-  drawFileText,
-  drawFileIcon,
-  drawFolderText,
-  drawFolderIcon
-} from './drawHelpers';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../../../../../shared/constants';
-import { createSet } from '../utils/SvgSet';
 import { FolderName, FileName } from '../utils/NodeText/';
+import { FolderIcon, FileIcon } from '../utils/NodeIcon/';
 import { Dot } from '../utils/Dot/';
+import { SourceEdge } from '../utils/Edge';
 
 class SourceTree extends React.Component {
-  componentDidMount() {
-    //this.drawSet = createSet(this.props.primaryDraw);
-    //this.drawTree();
-  }
-
-  componentDidUpdate() {
-    /*this.clearPrimaryDraw();
-    this.clearSecondaryDraw();
-    this.drawTree();*/
-  }
-
-  componentWillUnmount() {
-    //this.clearPrimaryDraw();
-  }
-
-  clearPrimaryDraw() {
-    this.drawSet.clearAll();
-  }
-
-  clearSecondaryDraw() {
-    this.props.secondaryDraw.clear();
-  }
-
-  drawTree() {
-    const {
-      primaryDraw,
-      secondaryDraw,
-      layoutNodes,
-      closedFolders,
-      shiftToCenterPoint,
-      dependenciesDiagramOn,
-      codeCrumbsMinimize,
-      onFileSelect,
-      onFileIconClick,
-      onFolderClick
-    } = this.props;
-
-    const { add } = this.drawSet;
-
-    //note: instance from d3-flex tree, not Array
-    layoutNodes.each(node => {
-      const [nX, nY] = [node.y, node.x];
-      const parent = node.parent;
-
-      if (parent && parent.data.type === DIR_NODE_TYPE) {
-        const [pX, pY] = [parent.y, parent.x];
-
-        drawSourceEdge(secondaryDraw, shiftToCenterPoint, {
-          disabled: dependenciesDiagramOn,
-          target: {
-            x: nX,
-            y: nY
-          },
-          source: {
-            x: pX,
-            y: pY
-          },
-          singleChild: parent.children.length === 1
-        });
-      }
-
-      if (node.data.type === FILE_NODE_TYPE) {
-        drawDot(secondaryDraw, shiftToCenterPoint, {
-          x: nX,
-          y: nY,
-          disabled: dependenciesDiagramOn
-        });
-
-        add(
-          drawFileText(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            purple: node.children && codeCrumbsMinimize,
-            name: node.data.name,
-            onClick() {
-              onFileSelect(node.data);
-            }
-          })
-        );
-        add(
-          drawFileIcon(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            purple: node.children && codeCrumbsMinimize,
-            onClick() {
-              dependenciesDiagramOn && onFileIconClick(node.data);
-            }
-          })
-        );
-        return;
-      }
-
-      if (node.data.type === DIR_NODE_TYPE) {
-        drawDot(secondaryDraw, shiftToCenterPoint, {
-          x: nX,
-          y: nY,
-          disabled: dependenciesDiagramOn
-        });
-
-        add(
-          drawFolderText(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            name: node.data.name,
-            disabled: dependenciesDiagramOn
-          })
-        );
-        add(
-          drawFolderIcon(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            disabled: dependenciesDiagramOn,
-            closed: closedFolders[node.data.path],
-            onClick() {
-              onFolderClick(node.data);
-            }
-          })
-        );
-      }
-    });
-  }
-
   render() {
     const {
       layoutNodes,
@@ -158,22 +29,54 @@ class SourceTree extends React.Component {
       <React.Fragment>
         {nodeArray.map((node, i) => {
           const [nX, nY] = [node.y, node.x];
-          const parent = node.parent;
           const position = shiftToCenterPoint(nX, nY);
           const name = node.data.name;
 
-          if (node.data.type === FILE_NODE_TYPE) {
-            return (
-              <React.Fragment key={name + i}>
-                <Dot position={position} />
-                <FileName
-                  position={position}
-                  text={name}
-                  purple={node.children && codeCrumbsMinimize}
-                />
-              </React.Fragment>
-            );
+          const parent = node.parent;
+          let sourcePosition = null;
+          if (parent && parent.data.type === DIR_NODE_TYPE) {
+            const [pX, pY] = [parent.y, parent.x];
+            sourcePosition = shiftToCenterPoint(pX, pY);
           }
+
+          return (
+            <React.Fragment key={name + i}>
+              {sourcePosition ? (
+                <SourceEdge
+                  targetPosition={position}
+                  sourcePosition={sourcePosition}
+                  disabled={dependenciesDiagramOn}
+                  singleChild={parent.children.length === 1}
+                />
+              ) : null}
+              <Dot position={position} disabled={dependenciesDiagramOn} />
+              {node.data.type === FILE_NODE_TYPE ? (
+                <React.Fragment>
+                  <FileName
+                    position={position}
+                    name={name}
+                    purple={node.children && codeCrumbsMinimize}
+                    onClick={() => onFileSelect(node.data)}
+                  />
+                  <FileIcon
+                    position={position}
+                    purple={node.children && codeCrumbsMinimize}
+                    onClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
+                  />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <FolderName position={position} name={name} disabled={dependenciesDiagramOn} />
+                  <FolderIcon
+                    position={position}
+                    disabled={dependenciesDiagramOn}
+                    closed={closedFolders[node.data.path]}
+                    onClick={() => onFolderClick(node.data)}
+                  />
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          );
         })}
       </React.Fragment>
     );

@@ -10,6 +10,7 @@ export const DOT = {
 export const withSvgDraw = Component => props => {
   const { width = BOX_SIZE.W, height = BOX_SIZE.H, dot = DOT } = props;
 
+  //TODO: maybe replace with <g> if it doesn't handle on edge click
   return (
     <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
       <Component {...props} shiftToCenterPoint={buildShiftToPoint(dot)} />

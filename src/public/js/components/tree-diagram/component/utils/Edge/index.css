@@ -1,0 +1,15 @@
+.EdgeMouseHandler {
+    cursor: pointer;
+    fill: none;
+    stroke-width: 8px;
+    stroke: rgba(0,0,0,0);
+}
+
+.SourceEdge {
+    fill: none;
+    stroke: #BFBFBF;
+}
+
+.SourceEdge-disabled {
+    stroke: #ccc;
+}

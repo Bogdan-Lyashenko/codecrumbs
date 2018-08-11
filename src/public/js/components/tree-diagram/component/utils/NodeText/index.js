@@ -5,33 +5,40 @@ import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../../../../../../shared/const
 import './index.css';
 
 export const FileName = props => {
-  const { position, text, purple } = props;
+  const { position, name, onClick, purple } = props;
 
-  const fileTextPointShiftX = 16;
-  const fileTextPointShiftY = -8;
+  const shiftX = 16;
+  const shiftY = 5;
 
   return (
     <text
-      x={position.x + fileTextPointShiftX}
-      y={position.y + fileTextPointShiftY}
+      x={position.x + shiftX}
+      y={position.y + shiftY}
+      onClick={onClick}
       className={classNames('NodeText-file-name', {
-        'NodeText-file-name-purple': !!purple
+        'NodeText-file-name-purple': purple
       })}
     >
-      {text}
+      {name}
     </text>
   );
 };
 
-export const FolderName = (props) => {
-  const { position, text } = props;
+export const FolderName = props => {
+  const { position, name, disabled } = props;
+
+  const shiftX = 20;
+  const shiftY = -3;
 
   return (
     <text
-      x={position.x}
-      y={position.y}
+      x={position.x + shiftX}
+      y={position.y + shiftY}
+      className={classNames('NodeText-folder-name', {
+        'NodeText-folder-name-disabled': disabled
+      })}
     >
-      {text}
+      {name}
     </text>
   );
 };

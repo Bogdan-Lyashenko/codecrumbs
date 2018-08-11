@@ -1,8 +1,18 @@
 .NodeText-file-name {
     fill: #595959;
     font-family: 'Menlo';
+    cursor: pointer;
 }
 
 .NodeText-file-name-purple {
     fill: #ff18a6;
+}
+
+.NodeText-folder-name {
+    fill: #595959;
+    font-family: 'Menlo';
+}
+
+.NodeText-folder-name-disabled {
+    fill: #A9A8A8;
 }

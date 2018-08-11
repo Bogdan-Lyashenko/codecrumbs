@@ -15155,7 +15155,45 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_
 
 
 // module
-exports.push([module.i, ".Dot {\n    fill: #BFBFBF;\n}", ""]);
+exports.push([module.i, ".Dot {\n    fill: #BFBFBF;\n}\n\n.Dot-disabled {\n    fill: #ccc;\n}\n\n.Dot-highlighted {\n    fill: #1890ff;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/Edge/index.css":
+/*!*********************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/utils/Edge/index.css ***!
+  \*********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/NodeIcon/index.css":
+/*!*************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/utils/NodeIcon/index.css ***!
+  \*************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}", ""]);
 
 // exports
 
@@ -15174,7 +15212,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_
 
 
 // module
-exports.push([module.i, ".NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}", ""]);
+exports.push([module.i, ".NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}", ""]);
 
 // exports
 
@@ -81660,15 +81698,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _SvgDraw = __webpack_require__(/*! ../utils/SvgDraw */ "./js/components/tree-diagram/component/utils/SvgDraw.js");
 
-var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
-
 var _constants = __webpack_require__(/*! ../../../../../../shared/constants */ "../shared/constants.js");
-
-var _SvgSet = __webpack_require__(/*! ../utils/SvgSet */ "./js/components/tree-diagram/component/utils/SvgSet.js");
 
 var _NodeText = __webpack_require__(/*! ../utils/NodeText/ */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
 
+var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon/ */ "./js/components/tree-diagram/component/utils/NodeIcon/index.js");
+
 var _Dot = __webpack_require__(/*! ../utils/Dot/ */ "./js/components/tree-diagram/component/utils/Dot/index.js");
+
+var _Edge = __webpack_require__(/*! ../utils/Edge */ "./js/components/tree-diagram/component/utils/Edge/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81688,39 +81726,9 @@ var SourceTree = function (_React$Component) {
   }
 
   _createClass(SourceTree, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      //this.drawSet = createSet(this.props.primaryDraw);
-      //this.drawTree();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      /*this.clearPrimaryDraw();
-      this.clearSecondaryDraw();
-      this.drawTree();*/
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      //this.clearPrimaryDraw();
-    }
-  }, {
-    key: 'clearPrimaryDraw',
-    value: function clearPrimaryDraw() {
-      this.drawSet.clearAll();
-    }
-  }, {
-    key: 'clearSecondaryDraw',
-    value: function clearSecondaryDraw() {
-      this.props.secondaryDraw.clear();
-    }
-  }, {
-    key: 'drawTree',
-    value: function drawTree() {
+    key: 'render',
+    value: function render() {
       var _props = this.props,
-          primaryDraw = _props.primaryDraw,
-          secondaryDraw = _props.secondaryDraw,
           layoutNodes = _props.layoutNodes,
           closedFolders = _props.closedFolders,
           shiftToCenterPoint = _props.shiftToCenterPoint,
@@ -81729,101 +81737,6 @@ var SourceTree = function (_React$Component) {
           onFileSelect = _props.onFileSelect,
           onFileIconClick = _props.onFileIconClick,
           onFolderClick = _props.onFolderClick;
-      var add = this.drawSet.add;
-
-      //note: instance from d3-flex tree, not Array
-
-      layoutNodes.each(function (node) {
-        var _ref = [node.y, node.x],
-            nX = _ref[0],
-            nY = _ref[1];
-
-        var parent = node.parent;
-
-        if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
-          var _ref2 = [parent.y, parent.x],
-              pX = _ref2[0],
-              pY = _ref2[1];
-
-
-          (0, _drawHelpers.drawSourceEdge)(secondaryDraw, shiftToCenterPoint, {
-            disabled: dependenciesDiagramOn,
-            target: {
-              x: nX,
-              y: nY
-            },
-            source: {
-              x: pX,
-              y: pY
-            },
-            singleChild: parent.children.length === 1
-          });
-        }
-
-        if (node.data.type === _constants.FILE_NODE_TYPE) {
-          (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            disabled: dependenciesDiagramOn
-          });
-
-          add((0, _drawHelpers.drawFileText)(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            purple: node.children && codeCrumbsMinimize,
-            name: node.data.name,
-            onClick: function onClick() {
-              onFileSelect(node.data);
-            }
-          }));
-          add((0, _drawHelpers.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            purple: node.children && codeCrumbsMinimize,
-            onClick: function onClick() {
-              dependenciesDiagramOn && onFileIconClick(node.data);
-            }
-          }));
-          return;
-        }
-
-        if (node.data.type === _constants.DIR_NODE_TYPE) {
-          (0, _drawHelpers.drawDot)(secondaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            disabled: dependenciesDiagramOn
-          });
-
-          add((0, _drawHelpers.drawFolderText)(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            name: node.data.name,
-            disabled: dependenciesDiagramOn
-          }));
-          add((0, _drawHelpers.drawFolderIcon)(primaryDraw, shiftToCenterPoint, {
-            x: nX,
-            y: nY,
-            disabled: dependenciesDiagramOn,
-            closed: closedFolders[node.data.path],
-            onClick: function onClick() {
-              onFolderClick(node.data);
-            }
-          }));
-        }
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props2 = this.props,
-          layoutNodes = _props2.layoutNodes,
-          closedFolders = _props2.closedFolders,
-          shiftToCenterPoint = _props2.shiftToCenterPoint,
-          dependenciesDiagramOn = _props2.dependenciesDiagramOn,
-          codeCrumbsMinimize = _props2.codeCrumbsMinimize,
-          onFileSelect = _props2.onFileSelect,
-          onFileIconClick = _props2.onFileIconClick,
-          onFolderClick = _props2.onFolderClick;
 
       var nodeArray = [];
 
@@ -81835,26 +81748,65 @@ var SourceTree = function (_React$Component) {
         _react2.default.Fragment,
         null,
         nodeArray.map(function (node, i) {
-          var _ref3 = [node.y, node.x],
-              nX = _ref3[0],
-              nY = _ref3[1];
+          var _ref = [node.y, node.x],
+              nX = _ref[0],
+              nY = _ref[1];
 
-          var parent = node.parent;
           var position = shiftToCenterPoint(nX, nY);
           var name = node.data.name;
 
-          if (node.data.type === _constants.FILE_NODE_TYPE) {
-            return _react2.default.createElement(
+          var parent = node.parent;
+          var sourcePosition = null;
+          if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
+            var _ref2 = [parent.y, parent.x],
+                pX = _ref2[0],
+                pY = _ref2[1];
+
+            sourcePosition = shiftToCenterPoint(pX, pY);
+          }
+
+          return _react2.default.createElement(
+            _react2.default.Fragment,
+            { key: name + i },
+            sourcePosition ? _react2.default.createElement(_Edge.SourceEdge, {
+              targetPosition: position,
+              sourcePosition: sourcePosition,
+              disabled: dependenciesDiagramOn,
+              singleChild: parent.children.length === 1
+            }) : null,
+            _react2.default.createElement(_Dot.Dot, { position: position, disabled: dependenciesDiagramOn }),
+            node.data.type === _constants.FILE_NODE_TYPE ? _react2.default.createElement(
               _react2.default.Fragment,
-              { key: name + i },
-              _react2.default.createElement(_Dot.Dot, { position: position }),
+              null,
               _react2.default.createElement(_NodeText.FileName, {
                 position: position,
-                text: name,
-                purple: node.children && codeCrumbsMinimize
+                name: name,
+                purple: node.children && codeCrumbsMinimize,
+                onClick: function onClick() {
+                  return onFileSelect(node.data);
+                }
+              }),
+              _react2.default.createElement(_NodeIcon.FileIcon, {
+                position: position,
+                purple: node.children && codeCrumbsMinimize,
+                onClick: function onClick() {
+                  return dependenciesDiagramOn && onFileIconClick(node.data);
+                }
               })
-            );
-          }
+            ) : _react2.default.createElement(
+              _react2.default.Fragment,
+              null,
+              _react2.default.createElement(_NodeText.FolderName, { position: position, name: name, disabled: dependenciesDiagramOn }),
+              _react2.default.createElement(_NodeIcon.FolderIcon, {
+                position: position,
+                disabled: dependenciesDiagramOn,
+                closed: closedFolders[node.data.path],
+                onClick: function onClick() {
+                  return onFolderClick(node.data);
+                }
+              })
+            )
+          );
         })
       );
     }
@@ -81880,9 +81832,7 @@ exports.default = (0, _SvgDraw.withSvgDraw)(SourceTree);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.drawFolderIcon = exports.drawFolderText = exports.drawFileIcon = exports.drawFileText = exports.drawSourceEdge = exports.drawDot = undefined;
-
-var _svgPrimitives = __webpack_require__(/*! ../../../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
+exports.drawFileIcon = exports.drawFileText = undefined;
 
 var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
 
@@ -81890,59 +81840,13 @@ var _constants = __webpack_require__(/*! ../../store/constants */ "./js/componen
 //create object instead
 var ICONS_DIR = 'resources/';
 
-var drawDot = exports.drawDot = function drawDot(draw, shiftToCenterPoint, _ref) {
+var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, _ref) {
   var x = _ref.x,
       y = _ref.y,
-      disabled = _ref.disabled,
-      highlighted = _ref.highlighted;
-
-  var radius = 5;
-  var halfRadius = radius / 2;
-  var circlePoint = shiftToCenterPoint(x - halfRadius, y - halfRadius);
-
-  var color = '#BFBFBF';
-  if (disabled) {
-    color = '#ccc';
-  }
-  if (highlighted) {
-    color = _constants.BLUE_COLOR;
-  }
-
-  return draw.circle(radius).fill(color).move(circlePoint.x, circlePoint.y);
-};
-
-var drawSourceEdge = exports.drawSourceEdge = function drawSourceEdge(draw, shiftToCenterPoint, _ref2) {
-  var target = _ref2.target,
-      source = _ref2.source,
-      disabled = _ref2.disabled,
-      singleChild = _ref2.singleChild;
-
-  var edgeTurnDistance = 20;
-
-  var START_PT = shiftToCenterPoint(source.x, source.y);
-  var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
-  var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
-  var END_PT = shiftToCenterPoint(target.x, target.y);
-
-  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
-
-  var polyline = draw.polyline(points);
-
-  var color = !disabled ? '#BFBFBF' : '#ccc';
-  polyline.fill('none').stroke({
-    color: color
-  });
-
-  return polyline;
-};
-
-var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, _ref3) {
-  var x = _ref3.x,
-      y = _ref3.y,
-      purple = _ref3.purple,
-      _ref3$name = _ref3.name,
-      name = _ref3$name === undefined ? '' : _ref3$name,
-      onClick = _ref3.onClick;
+      purple = _ref.purple,
+      _ref$name = _ref.name,
+      name = _ref$name === undefined ? '' : _ref$name,
+      onClick = _ref.onClick;
 
   var text = draw.text(name);
   text.font({ fill: purple ? _constants.PURPLE_COLOR : '#595959', family: 'Menlo' });
@@ -81959,11 +81863,11 @@ var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCen
   return text;
 };
 
-var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, _ref4) {
-  var x = _ref4.x,
-      y = _ref4.y,
-      purple = _ref4.purple,
-      onClick = _ref4.onClick;
+var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, _ref2) {
+  var x = _ref2.x,
+      y = _ref2.y,
+      purple = _ref2.purple,
+      onClick = _ref2.onClick;
 
   var fileIconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
   var fileIconSize = 15;
@@ -81978,62 +81882,6 @@ var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCen
   }
 
   return icon;
-};
-
-var drawFolderText = exports.drawFolderText = function drawFolderText(draw, shiftToCenterPoint, _ref5) {
-  var x = _ref5.x,
-      y = _ref5.y,
-      _ref5$name = _ref5.name,
-      name = _ref5$name === undefined ? '' : _ref5$name,
-      disabled = _ref5.disabled;
-
-  var folderTextPointShiftX = 20;
-  var folderTextPointShiftY = 16;
-
-  var folderTextPoint = shiftToCenterPoint(x + folderTextPointShiftX, y - folderTextPointShiftY);
-
-  var fill = !disabled ? '#595959' : '#A9A8A8';
-  var text = draw.text(name);
-
-  text.font({ fill: fill, family: 'Menlo' });
-  text.move(folderTextPoint.x, folderTextPoint.y);
-
-  return text;
-};
-
-var drawFolderIcon = exports.drawFolderIcon = function drawFolderIcon(draw, shiftToCenterPoint, _ref6) {
-  var x = _ref6.x,
-      y = _ref6.y,
-      disabled = _ref6.disabled,
-      closed = _ref6.closed,
-      onClick = _ref6.onClick;
-
-  var folderIconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (disabled ? '-disabled' : '') + '.svg';
-
-  var folderIconSize = closed ? 14 : 15;
-  var folderIconPointShiftX = closed ? 3 : 3;
-  var folderIconPointShiftY = closed ? 16 : 17;
-  var folderIconPoint = shiftToCenterPoint(x + folderIconPointShiftX, y - folderIconPointShiftY);
-
-  var polyline = null;
-  if (closed) {
-    polyline = draw.polyline([folderIconPoint.x - 1, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 16, folderIconPoint.x + 16, folderIconPoint.y + 14]);
-
-    var color = !disabled ? '#BFBFBF' : '#ccc';
-    polyline.fill('none').stroke({
-      color: color
-    });
-  }
-
-  var icon = draw.image(folderIconPath, folderIconSize, folderIconSize).move(folderIconPoint.x, folderIconPoint.y);
-
-  if (onClick) {
-    icon.style({ cursor: 'pointer' }).on('click', onClick);
-  }
-
-  if (!polyline) return icon;
-
-  return [icon, polyline];
 };
 
 /***/ }),
@@ -82301,15 +82149,229 @@ var Dot = exports.Dot = function Dot(props) {
       disabled = props.disabled,
       highlighted = props.highlighted;
 
-  var radius = 5;
-  var halfRadius = radius / 2;
+  var radius = 2.5;
 
   return _react2.default.createElement('circle', {
     r: radius,
-    cx: position.x - halfRadius,
-    cy: position.y - halfRadius,
-    className: (0, _classnames2.default)('Dot')
+    cx: position.x,
+    cy: position.y,
+    className: (0, _classnames2.default)('Dot', {
+      'Dot-disabled': !!disabled,
+      'Dot-highlighted': !!highlighted
+    })
   });
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/Edge/index.css":
+/*!*******************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/Edge/index.css ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/Edge/index.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/Edge/index.js":
+/*!******************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/Edge/index.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SourceEdge = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
+  var targetPosition = props.targetPosition,
+      sourcePosition = props.sourcePosition,
+      disabled = props.disabled,
+      singleChild = props.singleChild,
+      _props$onClick = props.onClick,
+      onClick = _props$onClick === undefined ? function () {
+    return console.log('on edge');
+  } : _props$onClick;
+
+
+  var edgeTurnDistance = 20;
+
+  var START_PT = sourcePosition;
+  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
+  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
+  var END_PT = targetPosition;
+
+  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', {
+      points: points.join(', '),
+      className: (0, _classnames2.default)('SourceEdge', {
+        'SourceEdge-disabled': disabled
+      })
+    }),
+    _react2.default.createElement('polyline', { onClick: onClick, points: points.join(', '), className: 'EdgeMouseHandler' })
+  );
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/NodeIcon/index.css":
+/*!***********************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/NodeIcon/index.css ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/NodeIcon/index.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/NodeIcon/index.js":
+/*!**********************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/NodeIcon/index.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FolderIcon = exports.FileIcon = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/NodeIcon/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ICONS_DIR = 'resources/';
+
+var FileIcon = exports.FileIcon = function FileIcon(props) {
+  var position = props.position,
+      onClick = props.onClick,
+      purple = props.purple;
+
+
+  var iconSize = 15;
+  var shiftX = 2;
+  var shiftY = -10;
+
+  var iconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
+
+  return _react2.default.createElement('image', {
+    x: position.x + shiftX,
+    y: position.y + shiftY,
+    onClick: onClick,
+    xlinkHref: iconPath,
+    height: iconSize,
+    width: iconSize,
+    className: 'NodeIcon'
+  });
+};
+
+var FolderIcon = exports.FolderIcon = function FolderIcon(props) {
+  var position = props.position,
+      onClick = props.onClick,
+      closed = props.closed,
+      disabled = props.disabled;
+
+
+  var iconSize = closed ? 14 : 15;
+  var shiftX = 3;
+  var shiftY = closed ? -16 : -17;
+
+  var iconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (disabled ? '-disabled' : '') + '.svg';
+  var iconPositionX = position.x + shiftX;
+  var iconPositionY = position.y + shiftY;
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    closed ? _react2.default.createElement('polyline', {
+      points: [iconPositionX - 1, iconPositionY + 16, iconPositionX + 16, iconPositionY + 16, iconPositionX + 16, iconPositionY + 14].join(', '),
+      className: (0, _classnames2.default)('NodeIcon-folder-line', {
+        'NodeIcon-folder-line-disabled': disabled
+      })
+    }) : null,
+    _react2.default.createElement('image', {
+      x: iconPositionX,
+      y: iconPositionY,
+      onClick: onClick,
+      xlinkHref: iconPath,
+      height: iconSize,
+      width: iconSize,
+      className: 'NodeIcon'
+    })
+  );
 };
 
 /***/ }),
@@ -82375,38 +82437,47 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var FileName = exports.FileName = function FileName(props) {
   var position = props.position,
-      text = props.text,
+      name = props.name,
+      onClick = props.onClick,
       purple = props.purple;
 
 
-  var fileTextPointShiftX = 16;
-  var fileTextPointShiftY = -8;
+  var shiftX = 16;
+  var shiftY = 5;
 
   return _react2.default.createElement(
     'text',
     {
-      x: position.x + fileTextPointShiftX,
-      y: position.y + fileTextPointShiftY,
+      x: position.x + shiftX,
+      y: position.y + shiftY,
+      onClick: onClick,
       className: (0, _classnames2.default)('NodeText-file-name', {
-        'NodeText-file-name-purple': !!purple
+        'NodeText-file-name-purple': purple
       })
     },
-    text
+    name
   );
 };
 
 var FolderName = exports.FolderName = function FolderName(props) {
   var position = props.position,
-      text = props.text;
+      name = props.name,
+      disabled = props.disabled;
 
+
+  var shiftX = 20;
+  var shiftY = -3;
 
   return _react2.default.createElement(
     'text',
     {
-      x: position.x,
-      y: position.y
+      x: position.x + shiftX,
+      y: position.y + shiftY,
+      className: (0, _classnames2.default)('NodeText-folder-name', {
+        'NodeText-folder-name-disabled': disabled
+      })
     },
-    text
+    name
   );
 };
 
@@ -82452,6 +82523,7 @@ var withSvgDraw = exports.withSvgDraw = function withSvgDraw(Component) {
         _props$dot = props.dot,
         dot = _props$dot === undefined ? DOT : _props$dot;
 
+    //TODO: maybe replace with <g> if it doesn't handle on edge click
 
     return _react2.default.createElement(
       'svg',

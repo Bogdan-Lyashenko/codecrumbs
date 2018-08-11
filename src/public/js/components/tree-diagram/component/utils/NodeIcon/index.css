@@ -1,0 +1,12 @@
+.NodeIcon {
+    cursor: pointer;
+}
+
+.NodeIcon-folder-line {
+    fill: none;
+    stroke: #BFBFBF;
+}
+
+.NodeIcon-folder-line-disabled {
+    stroke: #ccc;
+}

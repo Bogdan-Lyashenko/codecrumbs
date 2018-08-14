@@ -18,3 +18,7 @@
     fill: none;
     stroke: #1890ff;
 }
+
+.DependenciesEdge-end-dot {
+    fill: #1890ff;
+}

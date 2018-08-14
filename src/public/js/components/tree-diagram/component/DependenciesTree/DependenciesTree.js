@@ -1,7 +1,7 @@
 import React from 'react';
 import { getFilesList } from '../../../../utils/treeLayout';
 
-import { DependenciesEdge } from '../utils/Edge';
+import { DependenciesEdge } from '../utils/Edge/DepenenciesEdge';
 import { FileName } from '../utils/NodeText';
 import { FileIcon } from '../utils/NodeIcon';
 

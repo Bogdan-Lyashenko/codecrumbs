@@ -15174,7 +15174,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}\n\n.DependenciesEdge-end-dot {\n    fill: #1890ff;\n}", ""]);
 
 // exports
 
@@ -81393,7 +81393,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _Edge = __webpack_require__(/*! ../utils/Edge */ "./js/components/tree-diagram/component/utils/Edge/index.js");
+var _DepenenciesEdge = __webpack_require__(/*! ../utils/Edge/DepenenciesEdge */ "./js/components/tree-diagram/component/utils/Edge/DepenenciesEdge.js");
 
 var _NodeText = __webpack_require__(/*! ../utils/NodeText */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
 
@@ -81525,7 +81525,7 @@ var DependenciesTree = function (_React$Component) {
 
               var sourcePosition = shiftToCenterPoint(iX, iY);
 
-              var dependenciesEdge = _react2.default.createElement(_Edge.DependenciesEdge, {
+              var dependenciesEdge = _react2.default.createElement(_DepenenciesEdge.DependenciesEdge, {
                 key: name + i,
                 sourcePosition: sourcePosition,
                 targetPosition: targetPosition,
@@ -81546,107 +81546,6 @@ var DependenciesTree = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = DependenciesTree;
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/DependenciesTree/drawHelpers.js":
-/*!******************************************************************************!*\
-  !*** ./js/components/tree-diagram/component/DependenciesTree/drawHelpers.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.drawDot = exports.drawDependenciesEdge = undefined;
-
-var _svgPrimitives = __webpack_require__(/*! ../../../../utils/svgPrimitives */ "./js/utils/svgPrimitives.js");
-
-var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
-
-//TODO: move numbers to config per function
-
-var COLOR = _constants.BLUE_COLOR;
-
-var drawDependenciesEdge = exports.drawDependenciesEdge = function drawDependenciesEdge(draw, shiftToCenterPoint, _ref) {
-  var source = _ref.source,
-      target = _ref.target,
-      prevSource = _ref.prevSource;
-
-  var padding = 30;
-  var halfPadding = padding / 2 - 5;
-
-  var sourcePt = shiftToCenterPoint(target.y > source.y ? source.x + 10 : source.x + 8, target.y > source.y ? source.y + 7 : source.y - 12);
-  drawSourceDotLine(draw, sourcePt);
-
-  if (!prevSource) {
-    var targetPt = shiftToCenterPoint(target.x, target.y);
-
-    var P1 = { x: sourcePt.x, y: targetPt.y + padding - 6 };
-    var P2 = { x: targetPt.x - halfPadding, y: targetPt.y + padding - 6 };
-    var P3 = { x: targetPt.x - halfPadding, y: targetPt.y };
-
-    drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPt.x, targetPt.y]]);
-
-    drawArrow(draw, shiftToCenterPoint, target.x, target.y + 6);
-  } else {
-    if (prevSource.x < sourcePt.x) {
-      //TODO: handle other cases
-      var prevSourcePt = shiftToCenterPoint(prevSource.x, prevSource.y);
-
-      var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding - 3 };
-      var _P2 = {
-        x: prevSourcePt.x + halfPadding,
-        y: sourcePt.y + halfPadding - 3
-      };
-
-      drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]]);
-
-      drawDot(draw, _P2);
-    }
-  }
-};
-
-var drawDot = exports.drawDot = function drawDot(draw, _ref2) {
-  var x = _ref2.x,
-      y = _ref2.y;
-
-  var radius = 4;
-  var halfRadius = radius / 2;
-
-  draw.circle(radius).fill(_constants.BLUE_COLOR).move(x - halfRadius, y - halfRadius);
-};
-
-var drawConnectionLine = function drawConnectionLine(draw, points) {
-  var polyline = draw.polyline(points);
-
-  polyline.fill('none').stroke({
-    color: COLOR
-  });
-};
-
-var drawSourceDotLine = function drawSourceDotLine(draw, _ref3) {
-  var x = _ref3.x,
-      y = _ref3.y;
-
-  draw.line(x - 3, y, x + 3, y).stroke({ width: 1, color: COLOR });
-};
-
-var drawArrow = function drawArrow(draw, shiftToCenterPoint, nX, nY) {
-  var fileIconPath = 'resources/right-arrow.svg';
-  var fileIconSize = 7;
-  var fileIconPointShiftX = -4;
-  var fileIconPointShiftY = 9.5;
-  var fileIconPoint = shiftToCenterPoint(nX + fileIconPointShiftX, nY - fileIconPointShiftY);
-
-  draw.rect(5, 6).fill('#fff').move(fileIconPoint.x + 2, fileIconPoint.y);
-
-  draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
-};
 
 /***/ }),
 
@@ -81678,7 +81577,7 @@ var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon/ */ "./js/components/t
 
 var _Dot = __webpack_require__(/*! ../utils/Dot/ */ "./js/components/tree-diagram/component/utils/Dot/index.js");
 
-var _Edge = __webpack_require__(/*! ../utils/Edge */ "./js/components/tree-diagram/component/utils/Edge/index.js");
+var _SourceEdge = __webpack_require__(/*! ../utils/Edge/SourceEdge */ "./js/components/tree-diagram/component/utils/Edge/SourceEdge.js");
 
 var _DependenciesTree = __webpack_require__(/*! ../DependenciesTree/DependenciesTree */ "./js/components/tree-diagram/component/DependenciesTree/DependenciesTree.js");
 
@@ -81692,6 +81591,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// TODO: add webpack resolve to not have these ../ .../ ../
+
+
 var SourceTree = function (_React$Component) {
   _inherits(SourceTree, _React$Component);
 
@@ -81702,43 +81604,6 @@ var SourceTree = function (_React$Component) {
   }
 
   _createClass(SourceTree, [{
-    key: 'renderDependenciesTree',
-    value: function renderDependenciesTree() {
-      return _react2.default.createElement(_DependenciesTree2.default, this.props);
-    }
-  }, {
-    key: 'renderSourceEdges',
-    value: function renderSourceEdges() {
-      /*return (
-        <React.Fragment>
-          {nodeArray.map((node, i) => {
-            const [nX, nY] = [node.y, node.x];
-            const position = shiftToCenterPoint(nX, nY);
-            const name = node.data.name;
-             const parent = node.parent;
-            let sourcePosition = null;
-            if (parent && parent.data.type === DIR_NODE_TYPE) {
-              const [pX, pY] = [parent.y, parent.x];
-              sourcePosition = shiftToCenterPoint(pX, pY);
-            }
-             return (
-              <React.Fragment key={name + i}>
-                {sourcePosition ? (
-                  <SourceEdge
-                    targetPosition={position}
-                    sourcePosition={sourcePosition}
-                    disabled={dependenciesDiagramOn}
-                    singleChild={parent.children.length === 1}
-                  />
-                ) : null}
-                <Dot position={position} disabled={dependenciesDiagramOn}/>
-              </React.Fragment>
-            )
-          })}
-        </React.Fragment>    )
-      */
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -81756,8 +81621,13 @@ var SourceTree = function (_React$Component) {
 
       var sourceEdges = [];
       var sourceNodes = [];
+      var sourceDotes = [];
 
-      layoutNodes.each(function (node, i) {
+      // TODO: add normal id generators for keys to not use i
+      var i = 0;
+      layoutNodes.each(function (node) {
+        i++;
+
         var _ref = [node.y, node.x],
             nX = _ref[0],
             nY = _ref[1];
@@ -81773,7 +81643,8 @@ var SourceTree = function (_React$Component) {
 
           var sourcePosition = shiftToCenterPoint(pX, pY);
 
-          sourceEdges.push(_react2.default.createElement(_Edge.SourceEdge, {
+          sourceEdges.push(_react2.default.createElement(_SourceEdge.SourceEdge, {
+            key: 'edge-' + i,
             targetPosition: position,
             sourcePosition: sourcePosition,
             disabled: dependenciesDiagramOn,
@@ -81781,10 +81652,11 @@ var SourceTree = function (_React$Component) {
           }));
         }
 
+        sourceDotes.push(_react2.default.createElement(_Dot.Dot, { key: 'dot-' + i, position: position, disabled: dependenciesDiagramOn }));
+
         sourceNodes.push(_react2.default.createElement(
           _react2.default.Fragment,
           { key: name + i },
-          _react2.default.createElement(_Dot.Dot, { position: position, disabled: dependenciesDiagramOn }),
           node.data.type === _constants.FILE_NODE_TYPE ? _react2.default.createElement(
             _react2.default.Fragment,
             null,
@@ -81823,7 +81695,8 @@ var SourceTree = function (_React$Component) {
         _react2.default.Fragment,
         null,
         sourceEdges,
-        dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && this.renderDependenciesTree(),
+        sourceDotes,
+        dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, this.props),
         sourceNodes
       );
     }
@@ -82144,6 +82017,186 @@ var Dot = exports.Dot = function Dot(props) {
 
 /***/ }),
 
+/***/ "./js/components/tree-diagram/component/utils/Edge/DepenenciesEdge.js":
+/*!****************************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/Edge/DepenenciesEdge.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DependenciesEdge = exports.getConnectionLinePoints = exports.getSourceDotLinePoints = exports.getSourcePt = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PADDING = 30;
+var HALF_PADDING = PADDING / 2 - 5;
+
+var getSourcePt = exports.getSourcePt = function getSourcePt(sourcePosition, targetPosition) {
+  return {
+    x: targetPosition.y > sourcePosition.y ? sourcePosition.x + 10 : sourcePosition.x + 8,
+    y: targetPosition.y > sourcePosition.y ? sourcePosition.y + 7 : sourcePosition.y - 12
+  };
+};
+
+var getSourceDotLinePoints = exports.getSourceDotLinePoints = function getSourceDotLinePoints(sourcePt) {
+  return [[sourcePt.x - 3, sourcePt.y], [sourcePt.x + 3, sourcePt.y]];
+};
+
+var getConnectionLinePoints = exports.getConnectionLinePoints = function getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt) {
+  if (!prevSourcePosition) {
+    var P1 = { x: sourcePt.x, y: targetPosition.y + PADDING - 6 };
+    var P2 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y + PADDING - 6 };
+    var P3 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y };
+
+    return [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPosition.x, targetPosition.y]];
+  }
+
+  if (prevSourcePosition.x < sourcePt.x) {
+    //TODO: handle other cases
+    var _P = { x: sourcePt.x, y: sourcePt.y + HALF_PADDING - 3 };
+    var _P2 = {
+      x: prevSourcePosition.x + HALF_PADDING,
+      y: sourcePt.y + HALF_PADDING - 3
+    };
+
+    return [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]];
+  }
+};
+
+var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(props) {
+  var targetPosition = props.targetPosition,
+      sourcePosition = props.sourcePosition,
+      prevSourcePosition = props.prevSourcePosition,
+      _props$onClick = props.onClick,
+      onClick = _props$onClick === undefined ? function () {
+    return console.log('on dependencies edge');
+  } : _props$onClick;
+
+
+  var sourcePt = getSourcePt(sourcePosition, targetPosition);
+  var sourceDotLinePoints = getSourceDotLinePoints(sourcePt);
+  var connectionLinePoints = getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt);
+  if (!connectionLinePoints) {
+    return null;
+  }
+
+  var lastPt = connectionLinePoints[connectionLinePoints.length - 1];
+  var endPointConfig = {
+    radius: 2,
+    x: lastPt[0],
+    y: lastPt[1]
+  };
+
+  if (prevSourcePosition) {
+    endPointConfig.radius = 2; // TODO: maybe we can use right away in SVG? it's static anyway!!
+  } else {
+    endPointConfig.x -= 5;
+    endPointConfig.y -= 4;
+    endPointConfig.iconSize = 8;
+    endPointConfig.iconPath = 'resources/right-arrow.svg'; // TODO: move to getter
+  }
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', { points: sourceDotLinePoints.join(', '), className: 'DependenciesEdge' }),
+    _react2.default.createElement('polyline', { points: connectionLinePoints.join(', '), className: 'DependenciesEdge' }),
+    _react2.default.createElement('polyline', {
+      onClick: onClick,
+      points: connectionLinePoints.join(', '),
+      className: 'EdgeMouseHandler'
+    }),
+    prevSourcePosition ? _react2.default.createElement('circle', {
+      className: 'DependenciesEdge-end-dot',
+      r: endPointConfig.radius,
+      cx: endPointConfig.x,
+      cy: endPointConfig.y
+    }) : _react2.default.createElement('image', {
+      x: endPointConfig.x,
+      y: endPointConfig.y,
+      xlinkHref: endPointConfig.iconPath,
+      height: endPointConfig.iconSize,
+      width: endPointConfig.iconSize
+    })
+  );
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/Edge/SourceEdge.js":
+/*!***********************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/Edge/SourceEdge.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SourceEdge = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
+  var targetPosition = props.targetPosition,
+      sourcePosition = props.sourcePosition,
+      disabled = props.disabled,
+      singleChild = props.singleChild,
+      _props$onClick = props.onClick,
+      onClick = _props$onClick === undefined ? function () {
+    return console.log('on source edge');
+  } : _props$onClick;
+
+
+  var edgeTurnDistance = 20;
+
+  var START_PT = sourcePosition;
+  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
+  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
+  var END_PT = targetPosition;
+
+  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', {
+      points: points.join(', '),
+      className: (0, _classnames2.default)('SourceEdge', {
+        'SourceEdge-disabled': disabled
+      })
+    }),
+    _react2.default.createElement('polyline', { onClick: onClick, points: points.join(', '), className: 'EdgeMouseHandler' })
+  );
+};
+
+/***/ }),
+
 /***/ "./js/components/tree-diagram/component/utils/Edge/index.css":
 /*!*******************************************************************!*\
   !*** ./js/components/tree-diagram/component/utils/Edge/index.css ***!
@@ -82171,129 +82224,6 @@ var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-
 if(content.locals) module.exports = content.locals;
 
 if(false) {}
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/Edge/index.js":
-/*!******************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/Edge/index.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DependenciesEdge = exports.SourceEdge = undefined;
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
-
-var _drawHelpers = __webpack_require__(/*! ../../DependenciesTree/drawHelpers */ "./js/components/tree-diagram/component/DependenciesTree/drawHelpers.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
-  var targetPosition = props.targetPosition,
-      sourcePosition = props.sourcePosition,
-      disabled = props.disabled,
-      singleChild = props.singleChild,
-      _props$onClick = props.onClick,
-      onClick = _props$onClick === undefined ? function () {
-    return console.log('on edge');
-  } : _props$onClick;
-
-
-  var edgeTurnDistance = 20;
-
-  var START_PT = sourcePosition;
-  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
-  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
-  var END_PT = targetPosition;
-
-  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
-
-  return _react2.default.createElement(
-    _react2.default.Fragment,
-    null,
-    _react2.default.createElement('polyline', {
-      points: points.join(', '),
-      className: (0, _classnames2.default)('SourceEdge', {
-        'SourceEdge-disabled': disabled
-      })
-    }),
-    _react2.default.createElement('polyline', { onClick: onClick, points: points.join(', '), className: 'EdgeMouseHandler' })
-  );
-};
-
-var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(props) {
-  var targetPosition = props.targetPosition,
-      sourcePosition = props.sourcePosition,
-      prevSourcePosition = props.prevSourcePosition;
-
-
-  var padding = 30;
-  var halfPadding = padding / 2 - 5;
-
-  var sourcePt = {
-    x: targetPosition.y > sourcePosition.y ? sourcePosition.x + 10 : sourcePosition.x + 8,
-    y: targetPosition.y > sourcePosition.y ? sourcePosition.y + 7 : sourcePosition.y - 12
-  };
-  //drawSourceDotLine(draw, sourcePt);
-
-  if (!prevSourcePosition) {
-    var P1 = { x: sourcePt.x, y: targetPosition.y + padding - 6 };
-    var P2 = { x: targetPosition.x - halfPadding, y: targetPosition.y + padding - 6 };
-    var P3 = { x: targetPosition.x - halfPadding, y: targetPosition.y };
-
-    /*drawConnectionLine(draw, [
-      [sourcePt.x, sourcePt.y],
-      [P1.x, P1.y],
-      [P2.x, P2.y],
-      [P3.x, P3.y],
-      [targetPosition.x, targetPosition.y]
-    ]);
-    */
-    //drawArrow(draw, shiftToCenterPoint, targetPosition.x, targetPosition.y + 6);
-    var points = [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPosition.x, targetPosition.y]];
-
-    return _react2.default.createElement(
-      _react2.default.Fragment,
-      null,
-      _react2.default.createElement('polyline', { points: points.join(', '), className: 'DependenciesEdge' })
-    );
-  } else {
-    if (prevSourcePosition.x < sourcePt.x) {
-      //TODO: handle other cases
-      var _P = { x: sourcePt.x, y: sourcePt.y + halfPadding - 3 };
-      var _P2 = {
-        x: prevSourcePosition.x + halfPadding,
-        y: sourcePt.y + halfPadding - 3
-      };
-
-      //drawConnectionLine(draw, [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y]]);
-
-      //drawDot(draw, P2);
-
-      var _points = [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]];
-      return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
-        _react2.default.createElement('polyline', { points: _points.join(', '), className: 'DependenciesEdge' })
-      );
-    }
-  }
-};
 
 /***/ }),
 
@@ -82971,65 +82901,6 @@ var buildShiftToPoint = exports.buildShiftToPoint = function buildShiftToPoint(s
       y: shift.y + y
     };
   };
-};
-
-/***/ }),
-
-/***/ "./js/utils/svgPrimitives.js":
-/*!***********************************!*\
-  !*** ./js/utils/svgPrimitives.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var getCurvedPath = exports.getCurvedPath = function getCurvedPath(points, theme) {
-  var pointStr = points.map(function (point, i) {
-    if (!i) return 'M' + point.x + ', ' + point.y;
-
-    var previousPoint = points[i - 1];
-
-    if (i <= 1) {
-      return getLinePointStr(point, previousPoint, theme.curveTurnRadius);
-    }
-
-    return 'Q' + previousPoint.x + ' ' + previousPoint.y + '\n                ' + getArcEndPointStr(point, previousPoint, theme.curveTurnRadius) + '\n                ' + getLinePointStr(point, previousPoint, 2 * theme.curveTurnRadius);
-  }).join(' ');
-
-  return pointStr;
-};
-
-var getLinePointStr = function getLinePointStr(point, previousPoint, radius) {
-  if (point.x === previousPoint.x) {
-    return 'L' + point.x + ' ' + getShiftedByArcNextPointValue(point.y, previousPoint.y, radius);
-  }
-
-  if (point.y === previousPoint.y) {
-    return 'L' + getShiftedByArcNextPointValue(point.x, previousPoint.x, radius) + ' ' + point.y + ' ';
-  }
-};
-
-var getShiftedByArcNextPointValue = function getShiftedByArcNextPointValue(pointValue, previousPointValue, radius) {
-  return pointValue > previousPointValue ? pointValue - radius : pointValue + radius;
-};
-
-var getArcEndPointStr = function getArcEndPointStr(point, previousPoint, radius) {
-  if (point.x === previousPoint.x) {
-    return previousPoint.x + ' ' + getArcEndPointValue(point.y, previousPoint.y, radius);
-  }
-
-  if (point.y === previousPoint.y) {
-    return getArcEndPointValue(point.x, previousPoint.x, radius) + ' ' + previousPoint.y;
-  }
-};
-
-var getArcEndPointValue = function getArcEndPointValue(pointValue, previousPointValue, radius) {
-  return pointValue > previousPointValue ? previousPointValue + radius : previousPointValue - radius;
 };
 
 /***/ }),

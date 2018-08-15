@@ -81073,7 +81073,9 @@ var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/c
 
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _SvgSet = __webpack_require__(/*! ../utils/SvgSet */ "./js/components/tree-diagram/component/utils/SvgSet.js");
+var _NodeText = __webpack_require__(/*! ../utils/NodeText */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
+
+var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon */ "./js/components/tree-diagram/component/utils/NodeIcon/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81095,32 +81097,24 @@ var CodeCrumbsTree = function (_React$Component) {
   _createClass(CodeCrumbsTree, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.drawSet = (0, _SvgSet.createSet)(this.props.primaryDraw);
-      this.drawTree();
+      // this.drawSet = createSet(this.props.primaryDraw);
+      // this.drawTree();
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      this.clearDraw();
-      this.drawTree();
+      //this.clearDraw();
+      //this.drawTree();
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.clearDraw();
-    }
-  }, {
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps) {
-      return true;
-      //TODO: missing overlapping elements: text&icons
-      /*const oldProps = this.props;
-          return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;*/
+      //this.clearDraw();
     }
   }, {
     key: 'clearDraw',
     value: function clearDraw() {
-      this.drawSet.clearAll();
+      //this.drawSet.clearAll();
     }
   }, {
     key: 'drawTree',
@@ -81145,19 +81139,23 @@ var CodeCrumbsTree = function (_React$Component) {
 
 
         if (node.children) {
-          if (!sourceDiagramOn && !dependenciesDiagramOn) {
-            add((0, _drawHelpers2.drawFileText)(primaryDraw, shiftToCenterPoint, {
-              x: nX,
-              y: nY,
-              name: node.data.name
-            }));
-
-            add((0, _drawHelpers2.drawFileIcon)(primaryDraw, shiftToCenterPoint, {
-              x: nX,
-              y: nY,
-              codeCrumbsMinimize: codeCrumbsMinimize
-            }));
-          }
+          // done
+          /*if (!sourceDiagramOn && !dependenciesDiagramOn) {
+            add(
+              drawFileText(primaryDraw, shiftToCenterPoint, {
+                x: nX,
+                y: nY,
+                name: node.data.name
+              })
+            );
+             add(
+              drawFileIcon(primaryDraw, shiftToCenterPoint, {
+                x: nX,
+                y: nY,
+                codeCrumbsMinimize
+              })
+            );
+          }*/
 
           !codeCrumbsMinimize && add((0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
             source: {
@@ -81224,7 +81222,43 @@ var CodeCrumbsTree = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return null;
+      var _props2 = this.props,
+          filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
+          shiftToCenterPoint = _props2.shiftToCenterPoint,
+          sourceDiagramOn = _props2.sourceDiagramOn,
+          dependenciesDiagramOn = _props2.dependenciesDiagramOn,
+          codeCrumbsMinimize = _props2.codeCrumbsMinimize,
+          codeCrumbsDetails = _props2.codeCrumbsDetails,
+          onCodeCrumbSelect = _props2.onCodeCrumbSelect;
+
+
+      var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
+      return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        filesList.map(function (node) {
+          var _ref3 = [node.y, node.x],
+              nX = _ref3[0],
+              nY = _ref3[1];
+
+          var position = shiftToCenterPoint(nX, nY);
+
+          if (!node.children) {
+            return null;
+          }
+
+          return _react2.default.createElement(
+            _react2.default.Fragment,
+            { key: 'code-crumb-' + node.data.name },
+            !sourceDiagramOn && !dependenciesDiagramOn ? _react2.default.createElement(
+              _react2.default.Fragment,
+              null,
+              _react2.default.createElement(_NodeText.FileName, { position: position, name: node.data.name }),
+              _react2.default.createElement(_NodeIcon.FileIcon, { position: position, purple: codeCrumbsMinimize })
+            ) : null
+          );
+        })
+      );
     }
   }]);
 
@@ -81583,6 +81617,10 @@ var _DependenciesTree = __webpack_require__(/*! ../DependenciesTree/Dependencies
 
 var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
 
+var _CodeCrumbsTree = __webpack_require__(/*! ../CodeCrumbsTree/CodeCrumbsTree */ "./js/components/tree-diagram/component/CodeCrumbsTree/CodeCrumbsTree.js");
+
+var _CodeCrumbsTree2 = _interopRequireDefault(_CodeCrumbsTree);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -81607,16 +81645,17 @@ var SourceTree = function (_React$Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
-          layoutNodes = _props.layoutNodes,
+          sourceDiagramOn = _props.sourceDiagramOn,
+          dependenciesDiagramOn = _props.dependenciesDiagramOn,
+          codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
+          filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
           closedFolders = _props.closedFolders,
           shiftToCenterPoint = _props.shiftToCenterPoint,
-          dependenciesDiagramOn = _props.dependenciesDiagramOn,
           codeCrumbsMinimize = _props.codeCrumbsMinimize,
           onFileSelect = _props.onFileSelect,
           onFileIconClick = _props.onFileIconClick,
           onFolderClick = _props.onFolderClick,
-          dependenciesList = _props.dependenciesList,
-          filesTreeLayoutNodes = _props.filesTreeLayoutNodes;
+          dependenciesList = _props.dependenciesList;
 
 
       var sourceEdges = [];
@@ -81625,7 +81664,7 @@ var SourceTree = function (_React$Component) {
 
       // TODO: add normal id generators for keys to not use i
       var i = 0;
-      layoutNodes.each(function (node) {
+      filesTreeLayoutNodes.each(function (node) {
         i++;
 
         var _ref = [node.y, node.x],
@@ -81652,12 +81691,13 @@ var SourceTree = function (_React$Component) {
           }));
         }
 
-        sourceDotes.push(_react2.default.createElement(_Dot.Dot, { key: 'dot-' + i, position: position, disabled: dependenciesDiagramOn }));
+        if ([_constants.FILE_NODE_TYPE, _constants.DIR_NODE_TYPE].includes(node.data.type)) {
+          sourceDotes.push(_react2.default.createElement(_Dot.Dot, { key: 'dot-' + i, position: position, disabled: dependenciesDiagramOn }));
+        }
 
-        sourceNodes.push(_react2.default.createElement(
-          _react2.default.Fragment,
-          { key: name + i },
-          node.data.type === _constants.FILE_NODE_TYPE ? _react2.default.createElement(
+        var nodeBasedOnType = null;
+        if (node.data.type === _constants.FILE_NODE_TYPE) {
+          nodeBasedOnType = _react2.default.createElement(
             _react2.default.Fragment,
             null,
             _react2.default.createElement(_NodeText.FileName, {
@@ -81675,7 +81715,9 @@ var SourceTree = function (_React$Component) {
                 return dependenciesDiagramOn && onFileIconClick(node.data);
               }
             })
-          ) : _react2.default.createElement(
+          );
+        } else if (node.data.type === _constants.DIR_NODE_TYPE) {
+          nodeBasedOnType = _react2.default.createElement(
             _react2.default.Fragment,
             null,
             _react2.default.createElement(_NodeText.FolderName, { position: position, name: name, disabled: dependenciesDiagramOn }),
@@ -81687,17 +81729,24 @@ var SourceTree = function (_React$Component) {
                 return onFolderClick(node.data);
               }
             })
-          )
+          );
+        }
+
+        sourceNodes.push(_react2.default.createElement(
+          _react2.default.Fragment,
+          { key: name + i },
+          nodeBasedOnType
         ));
       });
 
       return _react2.default.createElement(
         _react2.default.Fragment,
         null,
-        sourceEdges,
-        sourceDotes,
-        dependenciesList && filesTreeLayoutNodes && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, this.props),
-        sourceNodes
+        sourceDiagramOn && sourceEdges || null,
+        sourceDiagramOn && sourceDotes || null,
+        dependenciesList && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, this.props),
+        sourceDiagramOn && sourceNodes || null,
+        codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, this.props) || null
       );
     }
   }]);
@@ -81833,19 +81882,13 @@ var _SourceTree = __webpack_require__(/*! ./SourceTree/SourceTree */ "./js/compo
 
 var _SourceTree2 = _interopRequireDefault(_SourceTree);
 
-var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree/DependenciesTree */ "./js/components/tree-diagram/component/DependenciesTree/DependenciesTree.js");
-
-var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
-
-var _CodeCrumbsTree = __webpack_require__(/*! ./CodeCrumbsTree/CodeCrumbsTree */ "./js/components/tree-diagram/component/CodeCrumbsTree/CodeCrumbsTree.js");
-
-var _CodeCrumbsTree2 = _interopRequireDefault(_CodeCrumbsTree);
-
 __webpack_require__(/*! ./TreeDiagram.css */ "./js/components/tree-diagram/component/TreeDiagram.css");
 
 var _geometry = __webpack_require__(/*! ../../../utils/geometry */ "./js/utils/geometry.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -81883,29 +81926,7 @@ var TreeDiagram = function (_React$Component) {
 
       var _props2 = this.props,
           filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
-          dependenciesList = _props2.dependenciesList,
-          closedFolders = _props2.closedFolders,
-          dependenciesEntryPoint = _props2.dependenciesEntryPoint,
-          sourceDiagramOn = _props2.sourceDiagramOn,
-          dependenciesDiagramOn = _props2.dependenciesDiagramOn,
-          dependenciesShowOneModule = _props2.dependenciesShowOneModule,
-          codeCrumbsDiagramOn = _props2.codeCrumbsDiagramOn,
-          codeCrumbsMinimize = _props2.codeCrumbsMinimize,
-          codeCrumbsDetails = _props2.codeCrumbsDetails,
-          onFileSelect = _props2.onFileSelect,
-          onFileIconClick = _props2.onFileIconClick,
-          onFolderClick = _props2.onFolderClick,
-          onCodeCrumbSelect = _props2.onCodeCrumbSelect;
-
-
-      var sharedProps = {
-        sourceDiagramOn: sourceDiagramOn,
-        dependenciesDiagramOn: dependenciesDiagramOn,
-        codeCrumbsDiagramOn: codeCrumbsDiagramOn,
-        codeCrumbsMinimize: codeCrumbsMinimize,
-        codeCrumbsDetails: codeCrumbsDetails,
-        shiftToCenterPoint: shiftToCenterPoint
-      };
+          otherProps = _objectWithoutProperties(_props2, ['filesTreeLayoutNodes']);
 
       return _react2.default.createElement(
         'div',
@@ -81913,21 +81934,10 @@ var TreeDiagram = function (_React$Component) {
         _react2.default.createElement(
           'svg',
           { width: width, height: height, xmlns: 'http://www.w3.org/2000/svg' },
-          filesTreeLayoutNodes && sourceDiagramOn && _react2.default.createElement(_SourceTree2.default, _extends({
-            layoutNodes: filesTreeLayoutNodes,
-            closedFolders: closedFolders,
-            onFileSelect: onFileSelect,
-            onFileIconClick: onFileIconClick,
-            onFolderClick: onFolderClick,
-            dependenciesList: dependenciesList,
+          filesTreeLayoutNodes && _react2.default.createElement(_SourceTree2.default, _extends({
             filesTreeLayoutNodes: filesTreeLayoutNodes,
-            dependenciesEntryPoint: dependenciesEntryPoint,
-            dependenciesShowOneModule: dependenciesShowOneModule
-          }, sharedProps)),
-          filesTreeLayoutNodes && codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, _extends({
-            filesTreeLayoutNodes: filesTreeLayoutNodes,
-            onCodeCrumbSelect: onCodeCrumbSelect
-          }, sharedProps))
+            shiftToCenterPoint: shiftToCenterPoint
+          }, otherProps))
         )
       );
     }
@@ -82450,38 +82460,6 @@ var FolderName = exports.FolderName = function FolderName(props) {
     },
     name
   );
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/SvgSet.js":
-/*!**************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/SvgSet.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var createSet = exports.createSet = function createSet(draw) {
-  var drawSet = draw.set();
-
-  return {
-    add: function add(list) {
-      drawSet.add.apply(drawSet, [].concat(list));
-    },
-    clearAll: function clearAll() {
-      drawSet.each(function () {
-        this.off();
-        this.remove();
-      });
-      drawSet.clear();
-    }
-  };
 };
 
 /***/ }),

@@ -8,20 +8,23 @@ import { Dot } from '../utils/Dot/';
 import { SourceEdge } from '../utils/Edge/SourceEdge';
 
 import DependenciesTree from '../DependenciesTree/DependenciesTree';
+import CodeCrumbsTree from '../CodeCrumbsTree/CodeCrumbsTree';
 
 class SourceTree extends React.Component {
   render() {
     const {
-      layoutNodes,
+      sourceDiagramOn,
+      dependenciesDiagramOn,
+      codeCrumbsDiagramOn,
+
+      filesTreeLayoutNodes,
       closedFolders,
       shiftToCenterPoint,
-      dependenciesDiagramOn,
       codeCrumbsMinimize,
       onFileSelect,
       onFileIconClick,
       onFolderClick,
-      dependenciesList,
-      filesTreeLayoutNodes
+      dependenciesList
     } = this.props;
 
     const sourceEdges = [];
@@ -30,7 +33,7 @@ class SourceTree extends React.Component {
 
     // TODO: add normal id generators for keys to not use i
     let i = 0;
-    layoutNodes.each(node => {
+    filesTreeLayoutNodes.each(node => {
       i++;
 
       const [nX, nY] = [node.y, node.x];
@@ -53,51 +56,62 @@ class SourceTree extends React.Component {
         );
       }
 
-      sourceDotes.push(
-        <Dot key={`dot-${i}`} position={position} disabled={dependenciesDiagramOn} />
-      );
+      if ([FILE_NODE_TYPE, DIR_NODE_TYPE].includes(node.data.type)) {
+        sourceDotes.push(
+          <Dot key={`dot-${i}`} position={position} disabled={dependenciesDiagramOn}/>
+        );
+      }
+
+      let nodeBasedOnType = null;
+      if (node.data.type === FILE_NODE_TYPE) {
+        nodeBasedOnType = (
+          <React.Fragment>
+            <FileName
+              position={position}
+              name={name}
+              purple={node.children && codeCrumbsMinimize}
+              onClick={() => onFileSelect(node.data)}
+            />
+            <FileIcon
+              position={position}
+              purple={node.children && codeCrumbsMinimize}
+              onClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
+            />
+          </React.Fragment>
+        );
+      } else if (node.data.type === DIR_NODE_TYPE) {
+        nodeBasedOnType = (
+          <React.Fragment>
+            <FolderName position={position} name={name} disabled={dependenciesDiagramOn}/>
+            <FolderIcon
+              position={position}
+              disabled={dependenciesDiagramOn}
+              closed={closedFolders[node.data.path]}
+              onClick={() => onFolderClick(node.data)}
+            />
+          </React.Fragment>
+        );
+      }
 
       sourceNodes.push(
         <React.Fragment key={name + i}>
-          {node.data.type === FILE_NODE_TYPE ? (
-            <React.Fragment>
-              <FileName
-                position={position}
-                name={name}
-                purple={node.children && codeCrumbsMinimize}
-                onClick={() => onFileSelect(node.data)}
-              />
-              <FileIcon
-                position={position}
-                purple={node.children && codeCrumbsMinimize}
-                onClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
-              />
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <FolderName position={position} name={name} disabled={dependenciesDiagramOn} />
-              <FolderIcon
-                position={position}
-                disabled={dependenciesDiagramOn}
-                closed={closedFolders[node.data.path]}
-                onClick={() => onFolderClick(node.data)}
-              />
-            </React.Fragment>
-          )}
+          {nodeBasedOnType}
         </React.Fragment>
       );
     });
 
     return (
       <React.Fragment>
-        {sourceEdges}
-        {sourceDotes}
+        { sourceDiagramOn && sourceEdges || null }
+        { sourceDiagramOn && sourceDotes || null}
 
         {dependenciesList &&
-          filesTreeLayoutNodes &&
           dependenciesDiagramOn && <DependenciesTree {...this.props} />}
 
-        {sourceNodes}
+        { sourceDiagramOn && sourceNodes || null }
+
+        { codeCrumbsDiagramOn && <CodeCrumbsTree {...this.props}/> || null }
+
       </React.Fragment>
     );
   }

@@ -3,32 +3,26 @@ import { drawCodeCrumbEdge, drawPartEdge, drawCodeCrumbLoc, drawPopOver } from '
 import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 
 import { getFilesList } from '../../../../utils/treeLayout';
-import { createSet } from '../utils/SvgSet';
+import { FileName } from '../utils/NodeText';
+import { FileIcon } from '../utils/NodeIcon';
 
 class CodeCrumbsTree extends React.Component {
   componentDidMount() {
-    this.drawSet = createSet(this.props.primaryDraw);
-    this.drawTree();
+   // this.drawSet = createSet(this.props.primaryDraw);
+   // this.drawTree();
   }
 
   componentDidUpdate() {
-    this.clearDraw();
-    this.drawTree();
+    //this.clearDraw();
+    //this.drawTree();
   }
 
   componentWillUnmount() {
-    this.clearDraw();
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return true;
-    //TODO: missing overlapping elements: text&icons
-    /*const oldProps = this.props;
-        return oldProps.filesTreeLayoutNodes !== nextProps.filesTreeLayoutNodes;*/
+    //this.clearDraw();
   }
 
   clearDraw() {
-    this.drawSet.clearAll();
+    //this.drawSet.clearAll();
   }
 
   drawTree() {
@@ -50,7 +44,8 @@ class CodeCrumbsTree extends React.Component {
       const [nX, nY] = [node.y, node.x];
 
       if (node.children) {
-        if (!sourceDiagramOn && !dependenciesDiagramOn) {
+        // done
+        /*if (!sourceDiagramOn && !dependenciesDiagramOn) {
           add(
             drawFileText(primaryDraw, shiftToCenterPoint, {
               x: nX,
@@ -66,7 +61,7 @@ class CodeCrumbsTree extends React.Component {
               codeCrumbsMinimize
             })
           );
-        }
+        }*/
 
         !codeCrumbsMinimize &&
           add(
@@ -140,7 +135,42 @@ class CodeCrumbsTree extends React.Component {
   }
 
   render() {
-    return null;
+    const {
+      filesTreeLayoutNodes,
+      shiftToCenterPoint,
+      sourceDiagramOn,
+      dependenciesDiagramOn,
+      codeCrumbsMinimize,
+      codeCrumbsDetails,
+      onCodeCrumbSelect
+    } = this.props;
+
+    const filesList = getFilesList(filesTreeLayoutNodes);
+    return (
+      <React.Fragment>
+        {
+          filesList.map(node => {
+            const [nX, nY] = [node.y, node.x];
+            const position = shiftToCenterPoint(nX, nY);
+
+            if (!node.children) {
+              return null;
+            }
+
+            return (
+              <React.Fragment key={`code-crumb-${node.data.name}`}>
+                {(!sourceDiagramOn && !dependenciesDiagramOn) ? (
+                  <React.Fragment>
+                    <FileName position={position} name={node.data.name} />
+                    <FileIcon position={position} purple={codeCrumbsMinimize} />
+                  </React.Fragment>
+                ) : null}
+              </React.Fragment>
+            );
+          })
+        }
+      </React.Fragment>
+    );
   }
 }
 

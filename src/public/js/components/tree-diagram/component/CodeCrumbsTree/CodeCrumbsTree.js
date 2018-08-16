@@ -5,7 +5,7 @@ import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 import { getFilesList } from '../../../../utils/treeLayout';
 import { FileName } from '../utils/NodeText';
 import { FileIcon } from '../utils/NodeIcon';
-import { PartEdge } from '../utils/Edge/CodeCrumbEdge';
+import { PartEdge, CodeCrumbEdge } from '../utils/Edge/CodeCrumbEdge';
 
 class CodeCrumbsTree extends React.Component {
   componentDidMount() {
@@ -64,7 +64,8 @@ class CodeCrumbsTree extends React.Component {
           );
         }*/
 
-        !codeCrumbsMinimize &&
+        // done
+        /*!codeCrumbsMinimize &&
           add(
             drawPartEdge(primaryDraw, shiftToCenterPoint, {
               source: {
@@ -73,7 +74,7 @@ class CodeCrumbsTree extends React.Component {
               },
               parentName: node.data.name
             })
-          );
+          );*/
 
         !codeCrumbsMinimize &&
           node.children.forEach((crumb, i, list) => {
@@ -163,12 +164,33 @@ class CodeCrumbsTree extends React.Component {
                 <React.Fragment>
                   <FileName position={position} name={node.data.name} />
                   <FileIcon position={position} purple={codeCrumbsMinimize} />
-                  {(!codeCrumbsMinimize && (
-                    <PartEdge sourcePostion={position} parentName={node.data.name} />
-                  )) ||
-                    null}
                 </React.Fragment>
               ) : null}
+
+              {(!codeCrumbsMinimize && (
+                <PartEdge sourcePosition={position} parentName={node.data.name} />
+              )) ||
+                null}
+
+              {!codeCrumbsMinimize &&
+                node.children.map((crumb, i, list) => {
+                  const [cX, cY] = [crumb.y, crumb.x];
+                  const crumbPosition = shiftToCenterPoint(cX, cY);
+                  const singleCrumb = list.length === 1;
+
+                  return (
+                    <React.Fragment key={`code-crumb-edge-${i}`}>
+                      {(!singleCrumb && (
+                        <CodeCrumbEdge
+                          sourcePosition={position}
+                          targetPosition={crumbPosition}
+                          parentName={node.data.name}
+                        />
+                      )) ||
+                        null}
+                    </React.Fragment>
+                  );
+                })}
             </React.Fragment>
           );
         })}

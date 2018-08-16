@@ -81159,13 +81159,17 @@ var CodeCrumbsTree = function (_React$Component) {
             );
           }*/
 
-          !codeCrumbsMinimize && add((0, _drawHelpers.drawPartEdge)(primaryDraw, shiftToCenterPoint, {
-            source: {
-              x: nX,
-              y: nY
-            },
-            parentName: node.data.name
-          }));
+          // done
+          /*!codeCrumbsMinimize &&
+            add(
+              drawPartEdge(primaryDraw, shiftToCenterPoint, {
+                source: {
+                  x: nX,
+                  y: nY
+                },
+                parentName: node.data.name
+              })
+            );*/
 
           !codeCrumbsMinimize && node.children.forEach(function (crumb, i, list) {
             var _ref2 = [crumb.y, crumb.x],
@@ -81256,9 +81260,27 @@ var CodeCrumbsTree = function (_React$Component) {
               _react2.default.Fragment,
               null,
               _react2.default.createElement(_NodeText.FileName, { position: position, name: node.data.name }),
-              _react2.default.createElement(_NodeIcon.FileIcon, { position: position, purple: codeCrumbsMinimize }),
-              !codeCrumbsMinimize && _react2.default.createElement(_CodeCrumbEdge.PartEdge, { sourcePostion: position, parentName: node.data.name }) || null
-            ) : null
+              _react2.default.createElement(_NodeIcon.FileIcon, { position: position, purple: codeCrumbsMinimize })
+            ) : null,
+            !codeCrumbsMinimize && _react2.default.createElement(_CodeCrumbEdge.PartEdge, { sourcePosition: position, parentName: node.data.name }) || null,
+            !codeCrumbsMinimize && node.children.map(function (crumb, i, list) {
+              var _ref4 = [crumb.y, crumb.x],
+                  cX = _ref4[0],
+                  cY = _ref4[1];
+
+              var crumbPosition = shiftToCenterPoint(cX, cY);
+              var singleCrumb = list.length === 1;
+
+              return _react2.default.createElement(
+                _react2.default.Fragment,
+                { key: 'code-crumb-edge-' + i },
+                !singleCrumb && _react2.default.createElement(_CodeCrumbEdge.CodeCrumbEdge, {
+                  sourcePosition: position,
+                  targetPosition: crumbPosition,
+                  parentName: node.data.name
+                }) || null
+              );
+            })
           );
         })
       );
@@ -81380,6 +81402,7 @@ var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw
   return [locRec, locText];
 };
 
+//TODO: maybe use React cmp here? not svg??
 var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenterPoint, _ref4) {
   var x = _ref4.x,
       y = _ref4.y,
@@ -82043,7 +82066,7 @@ var Dot = exports.Dot = function Dot(props) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PartEdge = undefined;
+exports.CodeCrumbEdge = exports.PartEdge = undefined;
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
@@ -82056,14 +82079,14 @@ var _constants = __webpack_require__(/*! ../../../store/constants */ "./js/compo
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PartEdge = exports.PartEdge = function PartEdge(props) {
-  var sourcePoistion = props.sourcePOistion,
+  var sourcePosition = props.sourcePosition,
       parentName = props.parentName;
 
 
   var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
   var padding = 17;
 
-  var P1 = { x: sourcePoistion.x + nameWidth + padding, y: sourcePoistion.y };
+  var P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
   var P2 = { x: P1.x + padding + 6, y: P1.y };
 
   var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y]];
@@ -82074,6 +82097,27 @@ var PartEdge = exports.PartEdge = function PartEdge(props) {
     _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' }),
     _react2.default.createElement('line', { x1: P1.x, y1: P1.y - 2, x2: P1.x, y2: P1.y + 2, className: 'CodeCrumbEdge' })
   );
+};
+
+var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
+  var sourcePosition = props.sourcePosition,
+      targetPosition = props.targetPosition,
+      parentName = props.parentName;
+
+
+  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+  var padding = 40;
+  var edgeTurnDistance = 20;
+
+  var P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
+
+  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
+  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
+  var P4 = targetPosition;
+
+  var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
+
+  return _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' });
 };
 
 /***/ }),

@@ -22,3 +22,8 @@
 .DependenciesEdge-end-dot {
     fill: #1890ff;
 }
+
+.CodeCrumbEdge {
+    fill: none;
+    stroke: #ff18a6;
+}

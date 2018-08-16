@@ -15174,7 +15174,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}\n\n.DependenciesEdge-end-dot {\n    fill: #1890ff;\n}", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}\n\n.DependenciesEdge-end-dot {\n    fill: #1890ff;\n}\n\n.CodeCrumbEdge {\n    fill: none;\n    stroke: #ff18a6;\n}", ""]);
 
 // exports
 
@@ -81077,6 +81077,8 @@ var _NodeText = __webpack_require__(/*! ../utils/NodeText */ "./js/components/tr
 
 var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon */ "./js/components/tree-diagram/component/utils/NodeIcon/index.js");
 
+var _CodeCrumbEdge = __webpack_require__(/*! ../utils/Edge/CodeCrumbEdge */ "./js/components/tree-diagram/component/utils/Edge/CodeCrumbEdge.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -81254,7 +81256,8 @@ var CodeCrumbsTree = function (_React$Component) {
               _react2.default.Fragment,
               null,
               _react2.default.createElement(_NodeText.FileName, { position: position, name: node.data.name }),
-              _react2.default.createElement(_NodeIcon.FileIcon, { position: position, purple: codeCrumbsMinimize })
+              _react2.default.createElement(_NodeIcon.FileIcon, { position: position, purple: codeCrumbsMinimize }),
+              !codeCrumbsMinimize && _react2.default.createElement(_CodeCrumbEdge.PartEdge, { sourcePostion: position, parentName: node.data.name }) || null
             ) : null
           );
         })
@@ -82023,6 +82026,54 @@ var Dot = exports.Dot = function Dot(props) {
       'Dot-highlighted': !!highlighted
     })
   });
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/utils/Edge/CodeCrumbEdge.js":
+/*!**************************************************************************!*\
+  !*** ./js/components/tree-diagram/component/utils/Edge/CodeCrumbEdge.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PartEdge = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
+
+var _constants = __webpack_require__(/*! ../../../store/constants */ "./js/components/tree-diagram/store/constants.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PartEdge = exports.PartEdge = function PartEdge(props) {
+  var sourcePoistion = props.sourcePOistion,
+      parentName = props.parentName;
+
+
+  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+  var padding = 17;
+
+  var P1 = { x: sourcePoistion.x + nameWidth + padding, y: sourcePoistion.y };
+  var P2 = { x: P1.x + padding + 6, y: P1.y };
+
+  var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y]];
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' }),
+    _react2.default.createElement('line', { x1: P1.x, y1: P1.y - 2, x2: P1.x, y2: P1.y + 2, className: 'CodeCrumbEdge' })
+  );
 };
 
 /***/ }),

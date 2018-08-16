@@ -5,11 +5,12 @@ import { drawFileText, drawFileIcon } from '../SourceTree/drawHelpers';
 import { getFilesList } from '../../../../utils/treeLayout';
 import { FileName } from '../utils/NodeText';
 import { FileIcon } from '../utils/NodeIcon';
+import { PartEdge } from '../utils/Edge/CodeCrumbEdge';
 
 class CodeCrumbsTree extends React.Component {
   componentDidMount() {
-   // this.drawSet = createSet(this.props.primaryDraw);
-   // this.drawTree();
+    // this.drawSet = createSet(this.props.primaryDraw);
+    // this.drawTree();
   }
 
   componentDidUpdate() {
@@ -148,27 +149,29 @@ class CodeCrumbsTree extends React.Component {
     const filesList = getFilesList(filesTreeLayoutNodes);
     return (
       <React.Fragment>
-        {
-          filesList.map(node => {
-            const [nX, nY] = [node.y, node.x];
-            const position = shiftToCenterPoint(nX, nY);
+        {filesList.map(node => {
+          const [nX, nY] = [node.y, node.x];
+          const position = shiftToCenterPoint(nX, nY);
 
-            if (!node.children) {
-              return null;
-            }
+          if (!node.children) {
+            return null;
+          }
 
-            return (
-              <React.Fragment key={`code-crumb-${node.data.name}`}>
-                {(!sourceDiagramOn && !dependenciesDiagramOn) ? (
-                  <React.Fragment>
-                    <FileName position={position} name={node.data.name} />
-                    <FileIcon position={position} purple={codeCrumbsMinimize} />
-                  </React.Fragment>
-                ) : null}
-              </React.Fragment>
-            );
-          })
-        }
+          return (
+            <React.Fragment key={`code-crumb-${node.data.name}`}>
+              {!sourceDiagramOn && !dependenciesDiagramOn ? (
+                <React.Fragment>
+                  <FileName position={position} name={node.data.name} />
+                  <FileIcon position={position} purple={codeCrumbsMinimize} />
+                  {(!codeCrumbsMinimize && (
+                    <PartEdge sourcePostion={position} parentName={node.data.name} />
+                  )) ||
+                    null}
+                </React.Fragment>
+              ) : null}
+            </React.Fragment>
+          );
+        })}
       </React.Fragment>
     );
   }

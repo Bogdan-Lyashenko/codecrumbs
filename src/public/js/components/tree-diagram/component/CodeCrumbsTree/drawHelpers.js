@@ -86,6 +86,7 @@ export const drawCodeCrumbLoc = (
   return [locRec, locText];
 };
 
+//TODO: maybe use React cmp here? not svg??
 export const drawPopOver = (draw, shiftToCenterPoint, { x, y, name = '', singleCrumb }) => {
   const tPt = shiftToCenterPoint(x - 15 + (singleCrumb ? 0 : 20), y - 24);
   const nameWidth = name.length * 6;

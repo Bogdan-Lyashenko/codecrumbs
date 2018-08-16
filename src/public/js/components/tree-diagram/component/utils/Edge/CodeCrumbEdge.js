@@ -4,12 +4,12 @@ import './index.css';
 import { PURPLE_COLOR, SYMBOL_WIDTH } from '../../../store/constants';
 
 export const PartEdge = props => {
-  const { sourcePOistion: sourcePoistion, parentName } = props;
+  const { sourcePosition, parentName } = props;
 
   const nameWidth = SYMBOL_WIDTH * parentName.length;
   const padding = 17;
 
-  const P1 = { x: sourcePoistion.x + nameWidth + padding, y: sourcePoistion.y };
+  const P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
   const P2 = { x: P1.x + padding + 6, y: P1.y };
 
   const polylinePoints = [[P1.x, P1.y], [P2.x, P2.y]];
@@ -20,4 +20,22 @@ export const PartEdge = props => {
       <line x1={P1.x} y1={P1.y - 2} x2={P1.x} y2={P1.y + 2} className={'CodeCrumbEdge'} />
     </React.Fragment>
   );
+};
+
+export const CodeCrumbEdge = (props) => {
+  const { sourcePosition, targetPosition, parentName } = props;
+
+  const nameWidth = SYMBOL_WIDTH * parentName.length;
+  const padding = 40;
+  const edgeTurnDistance = 20;
+
+  const P1 = {x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y};
+
+  const P2 = {x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y};
+  const P3 = {x: targetPosition.x - edgeTurnDistance, y: targetPosition.y};
+  const P4 = targetPosition;
+
+  const polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
+
+  return <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} />
 };

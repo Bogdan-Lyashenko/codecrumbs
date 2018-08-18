@@ -1,5 +1,6 @@
 import ViewSwitchList from './component/ViewsSwitchList';
 import { connect } from 'react-redux';
+
 import { toggleSwitch, fireButtonAction } from './store/actions';
 import { CONTROLS_KEYS } from './store/constants';
 

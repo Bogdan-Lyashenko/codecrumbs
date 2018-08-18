@@ -1,7 +1,8 @@
 import React from 'react';
 import { Switch, Checkbox, Button } from 'antd';
+
 import './ViewSwitchList.css';
-import { VIEW_TYPES } from '../store/constants';
+import { VIEW_TYPES } from 'components/controls/ViewSwitches/store/constants';
 
 class ViewsSwitchList extends React.Component {
   renderChildren(controls) {

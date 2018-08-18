@@ -1,8 +1,8 @@
 import React from 'react';
-import { getFilesList } from '../../../../utils/treeLayout';
+import { getFilesList } from 'utils/treeLayout';
 
-import { DependenciesEdge } from '../Edge/DepenenciesEdge';
-import { FileName } from '../Node/File';
+import { DependenciesEdge } from 'components/tree-diagram/component/Edge/DepenenciesEdge';
+import { FileName } from 'components/tree-diagram/component/Node/File';
 
 //move to utils
 export const findNodeByPathName = (list = [], pathName) => {

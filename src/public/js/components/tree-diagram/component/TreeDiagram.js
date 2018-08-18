@@ -2,7 +2,7 @@ import React from 'react';
 import SourceTree from './Tree/SourceTree';
 import './TreeDiagram.css';
 
-import { buildShiftToPoint } from '../../../utils/geometry';
+import { buildShiftToPoint } from 'utils/geometry';
 
 export const BOX_SIZE = { W: 1000, H: 800 };
 export const DOT = {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { createConnection } from '../../utils/connection';
-import { SOCKET_EVENT_TYPE } from '../../../../shared/constants';
+import { createConnection } from 'utils/connection';
+import { SOCKET_EVENT_TYPE } from 'utils/constants';
 import { setInitialSourceData, calcFilesTreeLayoutNodes } from './store/actions';
 
 class DataBusContainer extends React.Component {

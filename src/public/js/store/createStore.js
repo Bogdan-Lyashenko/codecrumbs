@@ -2,8 +2,8 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 
-import viewSwitches from '../components/controls/ViewSwitches/store/reducer';
-import dataBus from '../components/data-bus/store/reducer';
+import viewSwitches from 'components/controls/ViewSwitches/store/reducer';
+import dataBus from 'components/data-bus/store/reducer';
 import rootSaga from './sagas';
 
 export default () => {

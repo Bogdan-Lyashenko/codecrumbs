@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import SideBar from './component/SideBar';
-import { selectFile } from '../data-bus/store/actions';
+import { selectFile } from 'components/data-bus/store/actions';
 
 const SideBarContainer = ({ selectedFile, selectedCodeCrumb, onClose }) => {
   if (!selectedFile) return null;

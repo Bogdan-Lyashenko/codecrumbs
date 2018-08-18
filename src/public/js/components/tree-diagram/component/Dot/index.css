@@ -1,0 +1,11 @@
+.Dot {
+    fill: #BFBFBF;
+}
+
+.Dot-disabled {
+    fill: #ccc;
+}
+
+.Dot-highlighted {
+    fill: #1890ff;
+}

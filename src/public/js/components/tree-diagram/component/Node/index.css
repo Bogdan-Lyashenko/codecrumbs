@@ -1,0 +1,50 @@
+.NodeIcon {
+    cursor: pointer;
+}
+
+.NodeIcon-folder-line {
+    fill: none;
+    stroke: #BFBFBF;
+}
+
+.NodeIcon-folder-line-disabled {
+    stroke: #ccc;
+}
+
+.NodeText-file-name {
+    fill: #595959;
+    font-family: 'Menlo';
+    cursor: pointer;
+}
+
+.NodeText-file-name-purple {
+    fill: #ff18a6;
+}
+
+.NodeText-folder-name {
+    fill: #595959;
+    font-family: 'Menlo';
+}
+
+.NodeText-folder-name-disabled {
+    fill: #A9A8A8;
+}
+
+.CodeCrumbName-rect {
+    fill: #fff;
+    stroke: #ff18a6;
+}
+
+.CodeCrumbName-loc {
+    fill: #595959;
+    font-family: 'Menlo';
+    font-size: 8px;
+    cursor: pointer;
+}
+
+.CodeCrumbName-text {
+    fill: #ff18a6;
+    font-family: 'Menlo';
+    font-size: 12px;
+    cursor: pointer;
+}

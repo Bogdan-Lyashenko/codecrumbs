@@ -5,38 +5,14 @@ import './index.css';
 
 const ICONS_DIR = 'resources/';
 
-export const FileIcon = props => {
-  const { position, onClick, purple } = props;
-
-  const iconSize = 15;
-  const shiftX = 2;
-  const shiftY = -10;
-
-  const iconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
-
-  return (
-    <image
-      x={position.x + shiftX}
-      y={position.y + shiftY}
-      onClick={onClick}
-      xlinkHref={iconPath}
-      height={iconSize}
-      width={iconSize}
-      className={'NodeIcon'}
-    />
-  );
-};
-
-export const FolderIcon = props => {
-  const { position, onClick, closed, disabled } = props;
-
-  const iconSize = closed ? 14 : 15;
-  const shiftX = 3;
-  const shiftY = closed ? -16 : -17;
+export const FolderName = props => {
+  const { position, name, disabled, closed, onClick } = props;
 
   const iconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${disabled ? '-disabled' : ''}.svg`;
-  const iconPositionX = position.x + shiftX;
-  const iconPositionY = position.y + shiftY;
+  const iconSize = closed ? 14 : 15;
+
+  const iconPositionX = position.x + 3;
+  const iconPositionY = position.y + (closed ? -16 : -17);
 
   return (
     <React.Fragment>
@@ -64,6 +40,15 @@ export const FolderIcon = props => {
         width={iconSize}
         className={'NodeIcon'}
       />
+      <text
+        x={position.x + 20}
+        y={position.y - 3}
+        className={classNames('NodeText-folder-name', {
+          'NodeText-folder-name-disabled': disabled
+        })}
+      >
+        {name}
+      </text>
     </React.Fragment>
   );
 };

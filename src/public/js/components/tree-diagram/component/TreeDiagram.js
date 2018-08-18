@@ -1,5 +1,5 @@
 import React from 'react';
-import SourceTree from './SourceTree/SourceTree';
+import SourceTree from './Tree/SourceTree';
 import './TreeDiagram.css';
 
 import { buildShiftToPoint } from '../../../utils/geometry';
@@ -15,21 +15,18 @@ class TreeDiagram extends React.Component {
     const { width = BOX_SIZE.W, height = BOX_SIZE.H, dot = DOT } = this.props;
     const shiftToCenterPoint = buildShiftToPoint(dot);
 
-    const {
-      filesTreeLayoutNodes,
-      ...otherProps
-    } = this.props;
+    const { filesTreeLayoutNodes, ...otherProps } = this.props;
 
     return (
       <div className="TreeDiagram-container">
         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
           {filesTreeLayoutNodes && (
-              <SourceTree
-                filesTreeLayoutNodes={filesTreeLayoutNodes}
-                shiftToCenterPoint={shiftToCenterPoint}
-                {...otherProps}
-              />
-            )}
+            <SourceTree
+              filesTreeLayoutNodes={filesTreeLayoutNodes}
+              shiftToCenterPoint={shiftToCenterPoint}
+              {...otherProps}
+            />
+          )}
         </svg>
       </div>
     );

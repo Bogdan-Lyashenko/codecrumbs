@@ -2,13 +2,13 @@ import React from 'react';
 
 // TODO: add webpack resolve to not have these ../ .../ ../
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../../../../../shared/constants';
-import { FolderName, FileName } from '../utils/NodeText/';
-import { FolderIcon, FileIcon } from '../utils/NodeIcon/';
-import { Dot } from '../utils/Dot/';
-import { SourceEdge } from '../utils/Edge/SourceEdge';
+import { FileName } from '../Node/File';
+import { FolderName } from '../Node/Folder';
+import { Dot } from '../Dot/';
+import { SourceEdge } from '../Edge/SourceEdge';
 
-import DependenciesTree from '../DependenciesTree/DependenciesTree';
-import CodeCrumbsTree from '../CodeCrumbsTree/CodeCrumbsTree';
+import DependenciesTree from './DependenciesTree';
+import CodeCrumbsTree from './CodeCrumbsTree';
 
 class SourceTree extends React.Component {
   render() {
@@ -58,60 +58,46 @@ class SourceTree extends React.Component {
 
       if ([FILE_NODE_TYPE, DIR_NODE_TYPE].includes(node.data.type)) {
         sourceDotes.push(
-          <Dot key={`dot-${i}`} position={position} disabled={dependenciesDiagramOn}/>
+          <Dot key={`dot-${i}`} position={position} disabled={dependenciesDiagramOn} />
         );
       }
 
       let nodeBasedOnType = null;
       if (node.data.type === FILE_NODE_TYPE) {
         nodeBasedOnType = (
-          <React.Fragment>
-            <FileName
-              position={position}
-              name={name}
-              purple={node.children && codeCrumbsMinimize}
-              onClick={() => onFileSelect(node.data)}
-            />
-            <FileIcon
-              position={position}
-              purple={node.children && codeCrumbsMinimize}
-              onClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
-            />
-          </React.Fragment>
+          <FileName
+            position={position}
+            name={name}
+            purple={node.children && codeCrumbsMinimize}
+            onTextClick={() => onFileSelect(node.data)}
+            onIconClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
+          />
         );
       } else if (node.data.type === DIR_NODE_TYPE) {
         nodeBasedOnType = (
-          <React.Fragment>
-            <FolderName position={position} name={name} disabled={dependenciesDiagramOn}/>
-            <FolderIcon
-              position={position}
-              disabled={dependenciesDiagramOn}
-              closed={closedFolders[node.data.path]}
-              onClick={() => onFolderClick(node.data)}
-            />
-          </React.Fragment>
+          <FolderName
+            position={position}
+            name={name}
+            disabled={dependenciesDiagramOn}
+            closed={closedFolders[node.data.path]}
+            onClick={() => onFolderClick(node.data)}
+          />
         );
       }
 
-      sourceNodes.push(
-        <React.Fragment key={name + i}>
-          {nodeBasedOnType}
-        </React.Fragment>
-      );
+      sourceNodes.push(<React.Fragment key={name + i}>{nodeBasedOnType}</React.Fragment>);
     });
 
     return (
       <React.Fragment>
-        { sourceDiagramOn && sourceEdges || null }
-        { sourceDiagramOn && sourceDotes || null}
+        {(sourceDiagramOn && sourceEdges) || null}
+        {(sourceDiagramOn && sourceDotes) || null}
 
-        {dependenciesList &&
-          dependenciesDiagramOn && <DependenciesTree {...this.props} />}
+        {dependenciesList && dependenciesDiagramOn && <DependenciesTree {...this.props} />}
 
-        { sourceDiagramOn && sourceNodes || null }
+        {(sourceDiagramOn && sourceNodes) || null}
 
-        { codeCrumbsDiagramOn && <CodeCrumbsTree {...this.props}/> || null }
-
+        {(codeCrumbsDiagramOn && <CodeCrumbsTree {...this.props} />) || null}
       </React.Fragment>
     );
   }

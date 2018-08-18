@@ -15124,6 +15124,63 @@ exports.push([module.i, ".SideBar-container {\n    position: absolute;\n    righ
 
 /***/ }),
 
+/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Dot/index.css":
+/*!**************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/Dot/index.css ***!
+  \**************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".Dot {\n    fill: #BFBFBF;\n}\n\n.Dot-disabled {\n    fill: #ccc;\n}\n\n.Dot-highlighted {\n    fill: #1890ff;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Edge/index.css":
+/*!***************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/Edge/index.css ***!
+  \***************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}\n\n.DependenciesEdge-end-dot {\n    fill: #1890ff;\n}\n\n.CodeCrumbEdge {\n    fill: none;\n    stroke: #ff18a6;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Node/index.css":
+/*!***************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/Node/index.css ***!
+  \***************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}\n\n.NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}\n\n.CodeCrumbName-rect {\n    fill: #fff;\n    stroke: #ff18a6;\n}\n\n.CodeCrumbName-loc {\n    fill: #595959;\n    font-family: 'Menlo';\n    font-size: 8px;\n    cursor: pointer;\n}\n\n.CodeCrumbName-text {\n    fill: #ff18a6;\n    font-family: 'Menlo';\n    font-size: 12px;\n    cursor: pointer;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/TreeDiagram.css":
 /*!****************************************************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/TreeDiagram.css ***!
@@ -15137,82 +15194,6 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 // module
 exports.push([module.i, ".TreeDiagram-layers {\n    position: relative;\n}\n\n.TreeDiagram-layer, .TreeDiagram-layer svg {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/Dot/index.css":
-/*!********************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/utils/Dot/index.css ***!
-  \********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".Dot {\n    fill: #BFBFBF;\n}\n\n.Dot-disabled {\n    fill: #ccc;\n}\n\n.Dot-highlighted {\n    fill: #1890ff;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/Edge/index.css":
-/*!*********************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/utils/Edge/index.css ***!
-  \*********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}\n\n.DependenciesEdge-end-dot {\n    fill: #1890ff;\n}\n\n.CodeCrumbEdge {\n    fill: none;\n    stroke: #ff18a6;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/NodeIcon/index.css":
-/*!*************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/utils/NodeIcon/index.css ***!
-  \*************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/NodeText/index.css":
-/*!*************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/utils/NodeText/index.css ***!
-  \*************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}", ""]);
 
 // exports
 
@@ -80383,7 +80364,7 @@ var DefaultState = {
       title: 'Minimize code crumbs',
       key: _constants.CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
     }, {
-      name: 'show details',
+      name: 'show details (remove it)',
       title: 'Show all Details',
       key: _constants.CONTROLS_KEYS.CODE_CRUMBS_DETAILS
     }]
@@ -81047,10 +81028,615 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/CodeCrumbsTree/CodeCrumbsTree.js":
-/*!*******************************************************************************!*\
-  !*** ./js/components/tree-diagram/component/CodeCrumbsTree/CodeCrumbsTree.js ***!
-  \*******************************************************************************/
+/***/ "./js/components/tree-diagram/component/Dot/index.css":
+/*!************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Dot/index.css ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Dot/index.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Dot/index.js":
+/*!***********************************************************!*\
+  !*** ./js/components/tree-diagram/component/Dot/index.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Dot = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Dot/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Dot = exports.Dot = function Dot(props) {
+  var position = props.position,
+      disabled = props.disabled,
+      highlighted = props.highlighted;
+
+  var radius = 2.5;
+
+  return _react2.default.createElement('circle', {
+    r: radius,
+    cx: position.x,
+    cy: position.y,
+    className: (0, _classnames2.default)('Dot', {
+      'Dot-disabled': !!disabled,
+      'Dot-highlighted': !!highlighted
+    })
+  });
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js":
+/*!********************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CodeCrumbEdge = exports.PartEdge = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
+
+var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PartEdge = exports.PartEdge = function PartEdge(props) {
+  var sourcePosition = props.sourcePosition,
+      parentName = props.parentName;
+
+
+  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+  var padding = 17;
+
+  var P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
+  var P2 = { x: P1.x + padding + 6, y: P1.y };
+
+  var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y]];
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' }),
+    _react2.default.createElement('line', { x1: P1.x, y1: P1.y - 2, x2: P1.x, y2: P1.y + 2, className: 'CodeCrumbEdge' })
+  );
+};
+
+var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
+  var sourcePosition = props.sourcePosition,
+      targetPosition = props.targetPosition,
+      parentName = props.parentName;
+
+
+  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
+  var padding = 40;
+  var edgeTurnDistance = 20;
+
+  var P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
+
+  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
+  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
+  var P4 = targetPosition;
+
+  var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
+
+  return _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' });
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Edge/DepenenciesEdge.js":
+/*!**********************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Edge/DepenenciesEdge.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DependenciesEdge = exports.getConnectionLinePoints = exports.getSourceDotLinePoints = exports.getSourcePt = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PADDING = 30;
+var HALF_PADDING = PADDING / 2 - 5;
+
+var getSourcePt = exports.getSourcePt = function getSourcePt(sourcePosition, targetPosition) {
+  return {
+    x: targetPosition.y > sourcePosition.y ? sourcePosition.x + 10 : sourcePosition.x + 8,
+    y: targetPosition.y > sourcePosition.y ? sourcePosition.y + 7 : sourcePosition.y - 12
+  };
+};
+
+var getSourceDotLinePoints = exports.getSourceDotLinePoints = function getSourceDotLinePoints(sourcePt) {
+  return [[sourcePt.x - 3, sourcePt.y], [sourcePt.x + 3, sourcePt.y]];
+};
+
+var getConnectionLinePoints = exports.getConnectionLinePoints = function getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt) {
+  if (!prevSourcePosition) {
+    var P1 = { x: sourcePt.x, y: targetPosition.y + PADDING - 6 };
+    var P2 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y + PADDING - 6 };
+    var P3 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y };
+
+    return [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPosition.x, targetPosition.y]];
+  }
+
+  if (prevSourcePosition.x < sourcePt.x) {
+    //TODO: handle other cases
+    var _P = { x: sourcePt.x, y: sourcePt.y + HALF_PADDING - 3 };
+    var _P2 = {
+      x: prevSourcePosition.x + HALF_PADDING,
+      y: sourcePt.y + HALF_PADDING - 3
+    };
+
+    return [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]];
+  }
+};
+
+var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(props) {
+  var targetPosition = props.targetPosition,
+      sourcePosition = props.sourcePosition,
+      prevSourcePosition = props.prevSourcePosition,
+      _props$onClick = props.onClick,
+      onClick = _props$onClick === undefined ? function () {
+    return console.log('on dependencies edge');
+  } : _props$onClick;
+
+
+  var sourcePt = getSourcePt(sourcePosition, targetPosition);
+  var sourceDotLinePoints = getSourceDotLinePoints(sourcePt);
+  var connectionLinePoints = getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt);
+  if (!connectionLinePoints) {
+    return null;
+  }
+
+  var lastPt = connectionLinePoints[connectionLinePoints.length - 1];
+  var endPointConfig = {
+    radius: 2,
+    x: lastPt[0],
+    y: lastPt[1]
+  };
+
+  if (prevSourcePosition) {
+    endPointConfig.radius = 2; // TODO: maybe we can use right away in SVG? it's static anyway!!
+  } else {
+    endPointConfig.x -= 5;
+    endPointConfig.y -= 4;
+    endPointConfig.iconSize = 8;
+    endPointConfig.iconPath = 'resources/right-arrow.svg'; // TODO: move to getter
+  }
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', { points: sourceDotLinePoints.join(', '), className: 'DependenciesEdge' }),
+    _react2.default.createElement('polyline', { points: connectionLinePoints.join(', '), className: 'DependenciesEdge' }),
+    _react2.default.createElement('polyline', {
+      onClick: onClick,
+      points: connectionLinePoints.join(', '),
+      className: 'EdgeMouseHandler'
+    }),
+    prevSourcePosition ? _react2.default.createElement('circle', {
+      className: 'DependenciesEdge-end-dot',
+      r: endPointConfig.radius,
+      cx: endPointConfig.x,
+      cy: endPointConfig.y
+    }) : _react2.default.createElement('image', {
+      x: endPointConfig.x,
+      y: endPointConfig.y,
+      xlinkHref: endPointConfig.iconPath,
+      height: endPointConfig.iconSize,
+      width: endPointConfig.iconSize
+    })
+  );
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Edge/SourceEdge.js":
+/*!*****************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Edge/SourceEdge.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SourceEdge = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
+  var targetPosition = props.targetPosition,
+      sourcePosition = props.sourcePosition,
+      disabled = props.disabled,
+      singleChild = props.singleChild,
+      _props$onClick = props.onClick,
+      onClick = _props$onClick === undefined ? function () {
+    return console.log('on source edge');
+  } : _props$onClick;
+
+
+  var edgeTurnDistance = 20;
+
+  var START_PT = sourcePosition;
+  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
+  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
+  var END_PT = targetPosition;
+
+  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', {
+      points: points.join(', '),
+      className: (0, _classnames2.default)('SourceEdge', {
+        'SourceEdge-disabled': disabled
+      })
+    }),
+    _react2.default.createElement('polyline', { onClick: onClick, points: points.join(', '), className: 'EdgeMouseHandler' })
+  );
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Edge/index.css":
+/*!*************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Edge/index.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Edge/index.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Node/CodeCrumb.js":
+/*!****************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Node/CodeCrumb.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CodeCrumbName = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Node/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CodeCrumbName = exports.CodeCrumbName = function CodeCrumbName(props) {
+  // onMouseOver maybe use onMouseOver to show crumb details in popover
+  var position = props.position,
+      loc = props.loc,
+      name = props.name,
+      singleCrumb = props.singleCrumb,
+      onMouseOver = props.onMouseOver,
+      onClick = props.onClick;
+
+
+  var textPoint = { x: singleCrumb ? position.x - 20 : position.x, y: position.y };
+  var symbolWidth = 6;
+  var locWidth = loc.length * symbolWidth;
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('rect', {
+      x: textPoint.x,
+      y: textPoint.y - 6,
+      width: locWidth,
+      height: 12,
+      className: 'CodeCrumbName-rect'
+    }),
+    _react2.default.createElement(
+      'text',
+      {
+        x: textPoint.x + 3,
+        y: textPoint.y + 3,
+        onClick: onClick,
+        className: 'CodeCrumbName-loc'
+      },
+      loc
+    ),
+    name && _react2.default.createElement(
+      'text',
+      {
+        x: textPoint.x + 3 + locWidth - 1,
+        y: textPoint.y + 4,
+        onClick: onClick,
+        className: 'CodeCrumbName-text'
+      },
+      ':',
+      name
+    ) || null
+  );
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Node/File.js":
+/*!***********************************************************!*\
+  !*** ./js/components/tree-diagram/component/Node/File.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FileName = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Node/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ICONS_DIR = 'resources/';
+
+var FileName = exports.FileName = function FileName(props) {
+  var position = props.position,
+      name = props.name,
+      onTextClick = props.onTextClick,
+      onIconClick = props.onIconClick,
+      purple = props.purple;
+
+
+  var iconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
+  var iconSize = 15;
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('image', {
+      x: position.x + 2,
+      y: position.y - 10,
+      onClick: onIconClick,
+      xlinkHref: iconPath,
+      height: iconSize,
+      width: iconSize,
+      className: 'NodeIcon'
+    }),
+    _react2.default.createElement(
+      'text',
+      {
+        x: position.x + 16,
+        y: position.y + 5,
+        onClick: onTextClick,
+        className: (0, _classnames2.default)('NodeText-file-name', {
+          'NodeText-file-name-purple': purple
+        })
+      },
+      name
+    )
+  );
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Node/Folder.js":
+/*!*************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Node/Folder.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FolderName = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Node/index.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ICONS_DIR = 'resources/';
+
+var FolderName = exports.FolderName = function FolderName(props) {
+  var position = props.position,
+      name = props.name,
+      disabled = props.disabled,
+      closed = props.closed,
+      onClick = props.onClick;
+
+
+  var iconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (disabled ? '-disabled' : '') + '.svg';
+  var iconSize = closed ? 14 : 15;
+
+  var iconPositionX = position.x + 3;
+  var iconPositionY = position.y + (closed ? -16 : -17);
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    closed ? _react2.default.createElement('polyline', {
+      points: [iconPositionX - 1, iconPositionY + 16, iconPositionX + 16, iconPositionY + 16, iconPositionX + 16, iconPositionY + 14].join(', '),
+      className: (0, _classnames2.default)('NodeIcon-folder-line', {
+        'NodeIcon-folder-line-disabled': disabled
+      })
+    }) : null,
+    _react2.default.createElement('image', {
+      x: iconPositionX,
+      y: iconPositionY,
+      onClick: onClick,
+      xlinkHref: iconPath,
+      height: iconSize,
+      width: iconSize,
+      className: 'NodeIcon'
+    }),
+    _react2.default.createElement(
+      'text',
+      {
+        x: position.x + 20,
+        y: position.y - 3,
+        className: (0, _classnames2.default)('NodeText-folder-name', {
+          'NodeText-folder-name-disabled': disabled
+        })
+      },
+      name
+    )
+  );
+};
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Node/index.css":
+/*!*************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Node/index.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Node/index.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/Tree/CodeCrumbsTree.js":
+/*!*********************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Tree/CodeCrumbsTree.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -81067,17 +81653,13 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _drawHelpers = __webpack_require__(/*! ./drawHelpers */ "./js/components/tree-diagram/component/CodeCrumbsTree/drawHelpers.js");
-
-var _drawHelpers2 = __webpack_require__(/*! ../SourceTree/drawHelpers */ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js");
-
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _NodeText = __webpack_require__(/*! ../utils/NodeText */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
+var _CodeCrumb = __webpack_require__(/*! ../Node/CodeCrumb */ "./js/components/tree-diagram/component/Node/CodeCrumb.js");
 
-var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon */ "./js/components/tree-diagram/component/utils/NodeIcon/index.js");
+var _File = __webpack_require__(/*! ../Node/File */ "./js/components/tree-diagram/component/Node/File.js");
 
-var _CodeCrumbEdge = __webpack_require__(/*! ../utils/Edge/CodeCrumbEdge */ "./js/components/tree-diagram/component/utils/Edge/CodeCrumbEdge.js");
+var _CodeCrumbEdge = __webpack_require__(/*! ../Edge/CodeCrumbEdge */ "./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81097,32 +81679,9 @@ var CodeCrumbsTree = function (_React$Component) {
   }
 
   _createClass(CodeCrumbsTree, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      // this.drawSet = createSet(this.props.primaryDraw);
-      // this.drawTree();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      //this.clearDraw();
-      //this.drawTree();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      //this.clearDraw();
-    }
-  }, {
-    key: 'clearDraw',
-    value: function clearDraw() {
-      //this.drawSet.clearAll();
-    }
-  }, {
-    key: 'drawTree',
-    value: function drawTree() {
+    key: 'render',
+    value: function render() {
       var _props = this.props,
-          primaryDraw = _props.primaryDraw,
           filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
           shiftToCenterPoint = _props.shiftToCenterPoint,
           sourceDiagramOn = _props.sourceDiagramOn,
@@ -81130,112 +81689,6 @@ var CodeCrumbsTree = function (_React$Component) {
           codeCrumbsMinimize = _props.codeCrumbsMinimize,
           codeCrumbsDetails = _props.codeCrumbsDetails,
           onCodeCrumbSelect = _props.onCodeCrumbSelect;
-      var add = this.drawSet.add;
-
-
-      var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
-      filesList.forEach(function (node) {
-        var _ref = [node.y, node.x],
-            nX = _ref[0],
-            nY = _ref[1];
-
-
-        if (node.children) {
-          // done
-          /*if (!sourceDiagramOn && !dependenciesDiagramOn) {
-            add(
-              drawFileText(primaryDraw, shiftToCenterPoint, {
-                x: nX,
-                y: nY,
-                name: node.data.name
-              })
-            );
-             add(
-              drawFileIcon(primaryDraw, shiftToCenterPoint, {
-                x: nX,
-                y: nY,
-                codeCrumbsMinimize
-              })
-            );
-          }*/
-
-          // done
-          /*!codeCrumbsMinimize &&
-            add(
-              drawPartEdge(primaryDraw, shiftToCenterPoint, {
-                source: {
-                  x: nX,
-                  y: nY
-                },
-                parentName: node.data.name
-              })
-            );*/
-
-          !codeCrumbsMinimize && node.children.forEach(function (crumb, i, list) {
-            var _ref2 = [crumb.y, crumb.x],
-                cX = _ref2[0],
-                cY = _ref2[1];
-
-            var singleCrumb = list.length === 1;
-
-            !singleCrumb && add((0, _drawHelpers.drawCodeCrumbEdge)(primaryDraw, shiftToCenterPoint, {
-              source: {
-                x: nX,
-                y: nY
-              },
-              target: {
-                x: cX,
-                y: cY
-              },
-              parentName: node.data.name
-            }));
-
-            //TODO: refactor mess
-            var loc = crumb.data.crumbedLineNode.loc.start;
-            add((0, _drawHelpers.drawCodeCrumbLoc)(primaryDraw, shiftToCenterPoint, {
-              x: cX,
-              y: cY,
-              loc: '(' + loc.line + ',' + loc.column + ')',
-              name: crumb.data.name,
-              singleCrumb: singleCrumb,
-              onMouseOver: function onMouseOver() {
-                if (!crumb.data.params.details || codeCrumbsDetails) return null;
-
-                return (0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
-                  x: cX,
-                  y: cY,
-                  name: crumb.data.params.details,
-                  singleCrumb: singleCrumb
-                });
-              },
-              onClick: function onClick() {
-                onCodeCrumbSelect(node.data, crumb.data);
-              }
-            }));
-
-            if (codeCrumbsDetails && crumb.data.params.details) {
-              add((0, _drawHelpers.drawPopOver)(primaryDraw, shiftToCenterPoint, {
-                x: cX,
-                y: cY,
-                name: crumb.data.params.details,
-                singleCrumb: singleCrumb
-              }));
-            }
-          });
-        }
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props2 = this.props,
-          filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
-          shiftToCenterPoint = _props2.shiftToCenterPoint,
-          sourceDiagramOn = _props2.sourceDiagramOn,
-          dependenciesDiagramOn = _props2.dependenciesDiagramOn,
-          codeCrumbsMinimize = _props2.codeCrumbsMinimize,
-          codeCrumbsDetails = _props2.codeCrumbsDetails,
-          onCodeCrumbSelect = _props2.onCodeCrumbSelect;
 
 
       var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
@@ -81243,9 +81696,9 @@ var CodeCrumbsTree = function (_React$Component) {
         _react2.default.Fragment,
         null,
         filesList.map(function (node) {
-          var _ref3 = [node.y, node.x],
-              nX = _ref3[0],
-              nY = _ref3[1];
+          var _ref = [node.y, node.x],
+              nX = _ref[0],
+              nY = _ref[1];
 
           var position = shiftToCenterPoint(nX, nY);
 
@@ -81256,17 +81709,12 @@ var CodeCrumbsTree = function (_React$Component) {
           return _react2.default.createElement(
             _react2.default.Fragment,
             { key: 'code-crumb-' + node.data.name },
-            !sourceDiagramOn && !dependenciesDiagramOn ? _react2.default.createElement(
-              _react2.default.Fragment,
-              null,
-              _react2.default.createElement(_NodeText.FileName, { position: position, name: node.data.name }),
-              _react2.default.createElement(_NodeIcon.FileIcon, { position: position, purple: codeCrumbsMinimize })
-            ) : null,
+            !sourceDiagramOn && !dependenciesDiagramOn ? _react2.default.createElement(_File.FileName, { position: position, name: node.data.name, purple: codeCrumbsMinimize }) : null,
             !codeCrumbsMinimize && _react2.default.createElement(_CodeCrumbEdge.PartEdge, { sourcePosition: position, parentName: node.data.name }) || null,
             !codeCrumbsMinimize && node.children.map(function (crumb, i, list) {
-              var _ref4 = [crumb.y, crumb.x],
-                  cX = _ref4[0],
-                  cY = _ref4[1];
+              var _ref2 = [crumb.y, crumb.x],
+                  cX = _ref2[0],
+                  cY = _ref2[1];
 
               var crumbPosition = shiftToCenterPoint(cX, cY);
               var singleCrumb = list.length === 1;
@@ -81278,7 +81726,16 @@ var CodeCrumbsTree = function (_React$Component) {
                   sourcePosition: position,
                   targetPosition: crumbPosition,
                   parentName: node.data.name
-                }) || null
+                }) || null,
+                _react2.default.createElement(_CodeCrumb.CodeCrumbName, {
+                  position: crumbPosition,
+                  loc: crumb.data.displayLoc,
+                  name: crumb.data.name,
+                  singleCrumb: singleCrumb,
+                  onClick: function onClick() {
+                    return onCodeCrumbSelect(node.data, crumb.data);
+                  }
+                })
               );
             })
           );
@@ -81294,146 +81751,10 @@ exports.default = CodeCrumbsTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/CodeCrumbsTree/drawHelpers.js":
-/*!****************************************************************************!*\
-  !*** ./js/components/tree-diagram/component/CodeCrumbsTree/drawHelpers.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.drawPopOver = exports.drawCodeCrumbLoc = exports.drawPartEdge = exports.drawCodeCrumbEdge = undefined;
-
-var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
-
-var drawCodeCrumbEdge = exports.drawCodeCrumbEdge = function drawCodeCrumbEdge(draw, shiftToCenterPoint, _ref) {
-  var target = _ref.target,
-      source = _ref.source,
-      parentName = _ref.parentName;
-
-  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
-  var padding = 40;
-  var edgeTurnDistance = 20;
-
-  var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
-
-  var P2 = shiftToCenterPoint(target.x - edgeTurnDistance, source.y);
-  var P3 = shiftToCenterPoint(target.x - edgeTurnDistance, target.y);
-  var P4 = shiftToCenterPoint(target.x, target.y);
-
-  var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]]);
-
-  polyline.fill('none').stroke({
-    color: _constants.PURPLE_COLOR
-  });
-
-  return polyline;
-};
-
-var drawPartEdge = exports.drawPartEdge = function drawPartEdge(draw, shiftToCenterPoint, _ref2) {
-  var source = _ref2.source,
-      parentName = _ref2.parentName;
-
-  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
-  var padding = 17;
-
-  var P1 = shiftToCenterPoint(source.x + nameWidth + padding, source.y);
-  var P2 = { x: P1.x + padding + 6, y: P1.y };
-
-  var polyline = draw.polyline([[P1.x, P1.y], [P2.x, P2.y]]);
-
-  polyline.fill('none').stroke({
-    color: _constants.PURPLE_COLOR
-  });
-
-  var smallLine = draw.line(P1.x, P1.y - 2, P1.x, P1.y + 2).stroke({ color: _constants.PURPLE_COLOR });
-
-  return [polyline, smallLine];
-};
-
-var drawCodeCrumbLoc = exports.drawCodeCrumbLoc = function drawCodeCrumbLoc(draw, shiftToCenterPoint, _ref3) {
-  var x = _ref3.x,
-      y = _ref3.y,
-      _ref3$name = _ref3.name,
-      name = _ref3$name === undefined ? '' : _ref3$name,
-      loc = _ref3.loc,
-      singleCrumb = _ref3.singleCrumb,
-      onClick = _ref3.onClick,
-      onMouseOver = _ref3.onMouseOver;
-
-  var textPointShiftX = 3;
-  var textPointShiftY = 5;
-  var textPoint = shiftToCenterPoint(singleCrumb ? x - 20 : x, y);
-
-  var locWidth = loc.length * 6;
-  var locRec = draw.rect(locWidth, 12).fill('#fff').stroke(_constants.PURPLE_COLOR).move(textPoint.x, textPoint.y - 6);
-
-  var locText = draw.text(loc);
-  locText.font({ fill: '#595959', family: 'Menlo', size: '8px' }).style({ cursor: 'pointer' }).move(textPoint.x + textPointShiftX, textPoint.y - textPointShiftY);
-
-  if (onMouseOver) {
-    var popOver = null;
-    locText.on('mouseover', function () {
-      popOver = onMouseOver();
-    });
-    locText.on('mouseout', function () {
-      popOver && popOver[0].remove() && popOver[1].remove();
-    });
-  }
-
-  if (onClick) {
-    locText.on('click', onClick);
-  }
-
-  if (name) {
-    var nameText = draw.text(':' + name);
-    nameText.font({ fill: '#595959', family: 'Menlo', size: '12px' });
-    //TODO: refactor to use one way, plus or minus
-    nameText.move(textPoint.x + textPointShiftX + locWidth - 1, textPoint.y - textPointShiftY - 2);
-
-    return [locRec, locText, nameText];
-  }
-
-  return [locRec, locText];
-};
-
-//TODO: maybe use React cmp here? not svg??
-var drawPopOver = exports.drawPopOver = function drawPopOver(draw, shiftToCenterPoint, _ref4) {
-  var x = _ref4.x,
-      y = _ref4.y,
-      _ref4$name = _ref4.name,
-      name = _ref4$name === undefined ? '' : _ref4$name,
-      singleCrumb = _ref4.singleCrumb;
-
-  var tPt = shiftToCenterPoint(x - 15 + (singleCrumb ? 0 : 20), y - 24);
-  var nameWidth = name.length * 6;
-  var nameHeight = 8;
-  var padding = 5;
-
-  var polyline = draw.polyline([[tPt.x - padding, tPt.y + nameHeight + padding + 3], [tPt.x - padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y - padding], [tPt.x + nameWidth + 2 * padding, tPt.y + nameHeight + padding], [tPt.x - padding + 3, tPt.y + nameHeight + padding], [tPt.x - padding, tPt.y + nameHeight + padding + 3]]);
-
-  polyline.fill('#fff').stroke({
-    color: _constants.PURPLE_COLOR
-  });
-
-  var text = draw.text(name);
-  text.font({ fill: '#595959', family: 'Menlo', size: '10px' });
-  text.move(tPt.x + 2, tPt.y - 1);
-
-  return [text, polyline];
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/DependenciesTree/DependenciesTree.js":
-/*!***********************************************************************************!*\
-  !*** ./js/components/tree-diagram/component/DependenciesTree/DependenciesTree.js ***!
-  \***********************************************************************************/
+/***/ "./js/components/tree-diagram/component/Tree/DependenciesTree.js":
+/*!***********************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Tree/DependenciesTree.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -81453,11 +81774,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _DepenenciesEdge = __webpack_require__(/*! ../utils/Edge/DepenenciesEdge */ "./js/components/tree-diagram/component/utils/Edge/DepenenciesEdge.js");
+var _DepenenciesEdge = __webpack_require__(/*! ../Edge/DepenenciesEdge */ "./js/components/tree-diagram/component/Edge/DepenenciesEdge.js");
 
-var _NodeText = __webpack_require__(/*! ../utils/NodeText */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
-
-var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon */ "./js/components/tree-diagram/component/utils/NodeIcon/index.js");
+var _File = __webpack_require__(/*! ../Node/File */ "./js/components/tree-diagram/component/Node/File.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81564,12 +81883,7 @@ var DependenciesTree = function (_React$Component) {
           return _react2.default.createElement(
             _react2.default.Fragment,
             { key: moduleName + i },
-            !sourceDiagramOn ? _react2.default.createElement(
-              _react2.default.Fragment,
-              null,
-              _react2.default.createElement(_NodeText.FileName, { position: targetPosition, name: moduleNode.data.name }),
-              _react2.default.createElement(_NodeIcon.FileIcon, { position: targetPosition })
-            ) : null,
+            !sourceDiagramOn ? _react2.default.createElement(_File.FileName, { position: targetPosition, name: moduleNode.data.name }) : null,
             importedModuleNames.map(function (name, i) {
               var importedNode = findNodeByPathName(moduleFilesList, name);
 
@@ -81609,10 +81923,10 @@ exports.default = DependenciesTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/SourceTree/SourceTree.js":
-/*!***********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/SourceTree/SourceTree.js ***!
-  \***********************************************************************/
+/***/ "./js/components/tree-diagram/component/Tree/SourceTree.js":
+/*!*****************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Tree/SourceTree.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -81631,19 +81945,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _constants = __webpack_require__(/*! ../../../../../../shared/constants */ "../shared/constants.js");
 
-var _NodeText = __webpack_require__(/*! ../utils/NodeText/ */ "./js/components/tree-diagram/component/utils/NodeText/index.js");
+var _File = __webpack_require__(/*! ../Node/File */ "./js/components/tree-diagram/component/Node/File.js");
 
-var _NodeIcon = __webpack_require__(/*! ../utils/NodeIcon/ */ "./js/components/tree-diagram/component/utils/NodeIcon/index.js");
+var _Folder = __webpack_require__(/*! ../Node/Folder */ "./js/components/tree-diagram/component/Node/Folder.js");
 
-var _Dot = __webpack_require__(/*! ../utils/Dot/ */ "./js/components/tree-diagram/component/utils/Dot/index.js");
+var _Dot = __webpack_require__(/*! ../Dot/ */ "./js/components/tree-diagram/component/Dot/index.js");
 
-var _SourceEdge = __webpack_require__(/*! ../utils/Edge/SourceEdge */ "./js/components/tree-diagram/component/utils/Edge/SourceEdge.js");
+var _SourceEdge = __webpack_require__(/*! ../Edge/SourceEdge */ "./js/components/tree-diagram/component/Edge/SourceEdge.js");
 
-var _DependenciesTree = __webpack_require__(/*! ../DependenciesTree/DependenciesTree */ "./js/components/tree-diagram/component/DependenciesTree/DependenciesTree.js");
+var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree */ "./js/components/tree-diagram/component/Tree/DependenciesTree.js");
 
 var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
 
-var _CodeCrumbsTree = __webpack_require__(/*! ../CodeCrumbsTree/CodeCrumbsTree */ "./js/components/tree-diagram/component/CodeCrumbsTree/CodeCrumbsTree.js");
+var _CodeCrumbsTree = __webpack_require__(/*! ./CodeCrumbsTree */ "./js/components/tree-diagram/component/Tree/CodeCrumbsTree.js");
 
 var _CodeCrumbsTree2 = _interopRequireDefault(_CodeCrumbsTree);
 
@@ -81723,39 +82037,27 @@ var SourceTree = function (_React$Component) {
 
         var nodeBasedOnType = null;
         if (node.data.type === _constants.FILE_NODE_TYPE) {
-          nodeBasedOnType = _react2.default.createElement(
-            _react2.default.Fragment,
-            null,
-            _react2.default.createElement(_NodeText.FileName, {
-              position: position,
-              name: name,
-              purple: node.children && codeCrumbsMinimize,
-              onClick: function onClick() {
-                return onFileSelect(node.data);
-              }
-            }),
-            _react2.default.createElement(_NodeIcon.FileIcon, {
-              position: position,
-              purple: node.children && codeCrumbsMinimize,
-              onClick: function onClick() {
-                return dependenciesDiagramOn && onFileIconClick(node.data);
-              }
-            })
-          );
+          nodeBasedOnType = _react2.default.createElement(_File.FileName, {
+            position: position,
+            name: name,
+            purple: node.children && codeCrumbsMinimize,
+            onTextClick: function onTextClick() {
+              return onFileSelect(node.data);
+            },
+            onIconClick: function onIconClick() {
+              return dependenciesDiagramOn && onFileIconClick(node.data);
+            }
+          });
         } else if (node.data.type === _constants.DIR_NODE_TYPE) {
-          nodeBasedOnType = _react2.default.createElement(
-            _react2.default.Fragment,
-            null,
-            _react2.default.createElement(_NodeText.FolderName, { position: position, name: name, disabled: dependenciesDiagramOn }),
-            _react2.default.createElement(_NodeIcon.FolderIcon, {
-              position: position,
-              disabled: dependenciesDiagramOn,
-              closed: closedFolders[node.data.path],
-              onClick: function onClick() {
-                return onFolderClick(node.data);
-              }
-            })
-          );
+          nodeBasedOnType = _react2.default.createElement(_Folder.FolderName, {
+            position: position,
+            name: name,
+            disabled: dependenciesDiagramOn,
+            closed: closedFolders[node.data.path],
+            onClick: function onClick() {
+              return onFolderClick(node.data);
+            }
+          });
         }
 
         sourceNodes.push(_react2.default.createElement(
@@ -81781,73 +82083,6 @@ var SourceTree = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SourceTree;
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/SourceTree/drawHelpers.js":
-/*!************************************************************************!*\
-  !*** ./js/components/tree-diagram/component/SourceTree/drawHelpers.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.drawFileIcon = exports.drawFileText = undefined;
-
-var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
-
-//TODO: move numbers to config per function
-//create object instead
-var ICONS_DIR = 'resources/';
-
-var drawFileText = exports.drawFileText = function drawFileText(draw, shiftToCenterPoint, _ref) {
-  var x = _ref.x,
-      y = _ref.y,
-      purple = _ref.purple,
-      _ref$name = _ref.name,
-      name = _ref$name === undefined ? '' : _ref$name,
-      onClick = _ref.onClick;
-
-  var text = draw.text(name);
-  text.font({ fill: purple ? _constants.PURPLE_COLOR : '#595959', family: 'Menlo' });
-
-  var fileTextPointShiftX = 16;
-  var fileTextPointShiftY = 8;
-  var fileTextPoint = shiftToCenterPoint(x + fileTextPointShiftX, y - fileTextPointShiftY);
-  text.move(fileTextPoint.x, fileTextPoint.y);
-
-  if (onClick) {
-    text.style({ cursor: 'pointer' }).on('click', onClick);
-  }
-
-  return text;
-};
-
-var drawFileIcon = exports.drawFileIcon = function drawFileIcon(draw, shiftToCenterPoint, _ref2) {
-  var x = _ref2.x,
-      y = _ref2.y,
-      purple = _ref2.purple,
-      onClick = _ref2.onClick;
-
-  var fileIconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
-  var fileIconSize = 15;
-  var fileIconPointShiftX = 2;
-  var fileIconPointShiftY = 10;
-  var fileIconPoint = shiftToCenterPoint(x + fileIconPointShiftX, y - fileIconPointShiftY);
-
-  var icon = draw.image(fileIconPath, fileIconSize, fileIconSize).move(fileIconPoint.x, fileIconPoint.y);
-
-  if (onClick) {
-    icon.style({ cursor: 'pointer' }).on('click', onClick);
-  }
-
-  return icon;
-};
 
 /***/ }),
 
@@ -81904,7 +82139,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SourceTree = __webpack_require__(/*! ./SourceTree/SourceTree */ "./js/components/tree-diagram/component/SourceTree/SourceTree.js");
+var _SourceTree = __webpack_require__(/*! ./Tree/SourceTree */ "./js/components/tree-diagram/component/Tree/SourceTree.js");
 
 var _SourceTree2 = _interopRequireDefault(_SourceTree);
 
@@ -81973,589 +82208,6 @@ var TreeDiagram = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = TreeDiagram;
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/Dot/index.css":
-/*!******************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/Dot/index.css ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/Dot/index.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/Dot/index.js":
-/*!*****************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/Dot/index.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Dot = undefined;
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Dot/index.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Dot = exports.Dot = function Dot(props) {
-  var position = props.position,
-      disabled = props.disabled,
-      highlighted = props.highlighted;
-
-  var radius = 2.5;
-
-  return _react2.default.createElement('circle', {
-    r: radius,
-    cx: position.x,
-    cy: position.y,
-    className: (0, _classnames2.default)('Dot', {
-      'Dot-disabled': !!disabled,
-      'Dot-highlighted': !!highlighted
-    })
-  });
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/Edge/CodeCrumbEdge.js":
-/*!**************************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/Edge/CodeCrumbEdge.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CodeCrumbEdge = exports.PartEdge = undefined;
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
-
-var _constants = __webpack_require__(/*! ../../../store/constants */ "./js/components/tree-diagram/store/constants.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PartEdge = exports.PartEdge = function PartEdge(props) {
-  var sourcePosition = props.sourcePosition,
-      parentName = props.parentName;
-
-
-  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
-  var padding = 17;
-
-  var P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
-  var P2 = { x: P1.x + padding + 6, y: P1.y };
-
-  var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y]];
-
-  return _react2.default.createElement(
-    _react2.default.Fragment,
-    null,
-    _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' }),
-    _react2.default.createElement('line', { x1: P1.x, y1: P1.y - 2, x2: P1.x, y2: P1.y + 2, className: 'CodeCrumbEdge' })
-  );
-};
-
-var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
-  var sourcePosition = props.sourcePosition,
-      targetPosition = props.targetPosition,
-      parentName = props.parentName;
-
-
-  var nameWidth = _constants.SYMBOL_WIDTH * parentName.length;
-  var padding = 40;
-  var edgeTurnDistance = 20;
-
-  var P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
-
-  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
-  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
-  var P4 = targetPosition;
-
-  var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
-
-  return _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' });
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/Edge/DepenenciesEdge.js":
-/*!****************************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/Edge/DepenenciesEdge.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DependenciesEdge = exports.getConnectionLinePoints = exports.getSourceDotLinePoints = exports.getSourcePt = undefined;
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PADDING = 30;
-var HALF_PADDING = PADDING / 2 - 5;
-
-var getSourcePt = exports.getSourcePt = function getSourcePt(sourcePosition, targetPosition) {
-  return {
-    x: targetPosition.y > sourcePosition.y ? sourcePosition.x + 10 : sourcePosition.x + 8,
-    y: targetPosition.y > sourcePosition.y ? sourcePosition.y + 7 : sourcePosition.y - 12
-  };
-};
-
-var getSourceDotLinePoints = exports.getSourceDotLinePoints = function getSourceDotLinePoints(sourcePt) {
-  return [[sourcePt.x - 3, sourcePt.y], [sourcePt.x + 3, sourcePt.y]];
-};
-
-var getConnectionLinePoints = exports.getConnectionLinePoints = function getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt) {
-  if (!prevSourcePosition) {
-    var P1 = { x: sourcePt.x, y: targetPosition.y + PADDING - 6 };
-    var P2 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y + PADDING - 6 };
-    var P3 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y };
-
-    return [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPosition.x, targetPosition.y]];
-  }
-
-  if (prevSourcePosition.x < sourcePt.x) {
-    //TODO: handle other cases
-    var _P = { x: sourcePt.x, y: sourcePt.y + HALF_PADDING - 3 };
-    var _P2 = {
-      x: prevSourcePosition.x + HALF_PADDING,
-      y: sourcePt.y + HALF_PADDING - 3
-    };
-
-    return [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]];
-  }
-};
-
-var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(props) {
-  var targetPosition = props.targetPosition,
-      sourcePosition = props.sourcePosition,
-      prevSourcePosition = props.prevSourcePosition,
-      _props$onClick = props.onClick,
-      onClick = _props$onClick === undefined ? function () {
-    return console.log('on dependencies edge');
-  } : _props$onClick;
-
-
-  var sourcePt = getSourcePt(sourcePosition, targetPosition);
-  var sourceDotLinePoints = getSourceDotLinePoints(sourcePt);
-  var connectionLinePoints = getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt);
-  if (!connectionLinePoints) {
-    return null;
-  }
-
-  var lastPt = connectionLinePoints[connectionLinePoints.length - 1];
-  var endPointConfig = {
-    radius: 2,
-    x: lastPt[0],
-    y: lastPt[1]
-  };
-
-  if (prevSourcePosition) {
-    endPointConfig.radius = 2; // TODO: maybe we can use right away in SVG? it's static anyway!!
-  } else {
-    endPointConfig.x -= 5;
-    endPointConfig.y -= 4;
-    endPointConfig.iconSize = 8;
-    endPointConfig.iconPath = 'resources/right-arrow.svg'; // TODO: move to getter
-  }
-
-  return _react2.default.createElement(
-    _react2.default.Fragment,
-    null,
-    _react2.default.createElement('polyline', { points: sourceDotLinePoints.join(', '), className: 'DependenciesEdge' }),
-    _react2.default.createElement('polyline', { points: connectionLinePoints.join(', '), className: 'DependenciesEdge' }),
-    _react2.default.createElement('polyline', {
-      onClick: onClick,
-      points: connectionLinePoints.join(', '),
-      className: 'EdgeMouseHandler'
-    }),
-    prevSourcePosition ? _react2.default.createElement('circle', {
-      className: 'DependenciesEdge-end-dot',
-      r: endPointConfig.radius,
-      cx: endPointConfig.x,
-      cy: endPointConfig.y
-    }) : _react2.default.createElement('image', {
-      x: endPointConfig.x,
-      y: endPointConfig.y,
-      xlinkHref: endPointConfig.iconPath,
-      height: endPointConfig.iconSize,
-      width: endPointConfig.iconSize
-    })
-  );
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/Edge/SourceEdge.js":
-/*!***********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/Edge/SourceEdge.js ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SourceEdge = undefined;
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/Edge/index.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
-  var targetPosition = props.targetPosition,
-      sourcePosition = props.sourcePosition,
-      disabled = props.disabled,
-      singleChild = props.singleChild,
-      _props$onClick = props.onClick,
-      onClick = _props$onClick === undefined ? function () {
-    return console.log('on source edge');
-  } : _props$onClick;
-
-
-  var edgeTurnDistance = 20;
-
-  var START_PT = sourcePosition;
-  var P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
-  var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
-  var END_PT = targetPosition;
-
-  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
-
-  return _react2.default.createElement(
-    _react2.default.Fragment,
-    null,
-    _react2.default.createElement('polyline', {
-      points: points.join(', '),
-      className: (0, _classnames2.default)('SourceEdge', {
-        'SourceEdge-disabled': disabled
-      })
-    }),
-    _react2.default.createElement('polyline', { onClick: onClick, points: points.join(', '), className: 'EdgeMouseHandler' })
-  );
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/Edge/index.css":
-/*!*******************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/Edge/index.css ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/Edge/index.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/NodeIcon/index.css":
-/*!***********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/NodeIcon/index.css ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/NodeIcon/index.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/NodeIcon/index.js":
-/*!**********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/NodeIcon/index.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.FolderIcon = exports.FileIcon = undefined;
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/NodeIcon/index.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ICONS_DIR = 'resources/';
-
-var FileIcon = exports.FileIcon = function FileIcon(props) {
-  var position = props.position,
-      onClick = props.onClick,
-      purple = props.purple;
-
-
-  var iconSize = 15;
-  var shiftX = 2;
-  var shiftY = -10;
-
-  var iconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
-
-  return _react2.default.createElement('image', {
-    x: position.x + shiftX,
-    y: position.y + shiftY,
-    onClick: onClick,
-    xlinkHref: iconPath,
-    height: iconSize,
-    width: iconSize,
-    className: 'NodeIcon'
-  });
-};
-
-var FolderIcon = exports.FolderIcon = function FolderIcon(props) {
-  var position = props.position,
-      onClick = props.onClick,
-      closed = props.closed,
-      disabled = props.disabled;
-
-
-  var iconSize = closed ? 14 : 15;
-  var shiftX = 3;
-  var shiftY = closed ? -16 : -17;
-
-  var iconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (disabled ? '-disabled' : '') + '.svg';
-  var iconPositionX = position.x + shiftX;
-  var iconPositionY = position.y + shiftY;
-
-  return _react2.default.createElement(
-    _react2.default.Fragment,
-    null,
-    closed ? _react2.default.createElement('polyline', {
-      points: [iconPositionX - 1, iconPositionY + 16, iconPositionX + 16, iconPositionY + 16, iconPositionX + 16, iconPositionY + 14].join(', '),
-      className: (0, _classnames2.default)('NodeIcon-folder-line', {
-        'NodeIcon-folder-line-disabled': disabled
-      })
-    }) : null,
-    _react2.default.createElement('image', {
-      x: iconPositionX,
-      y: iconPositionY,
-      onClick: onClick,
-      xlinkHref: iconPath,
-      height: iconSize,
-      width: iconSize,
-      className: 'NodeIcon'
-    })
-  );
-};
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/NodeText/index.css":
-/*!***********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/NodeText/index.css ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/utils/NodeText/index.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./js/components/tree-diagram/component/utils/NodeText/index.js":
-/*!**********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/utils/NodeText/index.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.FolderName = exports.FileName = undefined;
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _constants = __webpack_require__(/*! ../../../../../../../shared/constants */ "../shared/constants.js");
-
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/utils/NodeText/index.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FileName = exports.FileName = function FileName(props) {
-  var position = props.position,
-      name = props.name,
-      onClick = props.onClick,
-      purple = props.purple;
-
-
-  var shiftX = 16;
-  var shiftY = 5;
-
-  return _react2.default.createElement(
-    'text',
-    {
-      x: position.x + shiftX,
-      y: position.y + shiftY,
-      onClick: onClick,
-      className: (0, _classnames2.default)('NodeText-file-name', {
-        'NodeText-file-name-purple': purple
-      })
-    },
-    name
-  );
-};
-
-var FolderName = exports.FolderName = function FolderName(props) {
-  var position = props.position,
-      name = props.name,
-      disabled = props.disabled;
-
-
-  var shiftX = 20;
-  var shiftY = -3;
-
-  return _react2.default.createElement(
-    'text',
-    {
-      x: position.x + shiftX,
-      y: position.y + shiftY,
-      className: (0, _classnames2.default)('NodeText-folder-name', {
-        'NodeText-folder-name-disabled': disabled
-      })
-    },
-    name
-  );
-};
 
 /***/ }),
 

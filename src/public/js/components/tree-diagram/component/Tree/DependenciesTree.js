@@ -1,9 +1,8 @@
 import React from 'react';
 import { getFilesList } from '../../../../utils/treeLayout';
 
-import { DependenciesEdge } from '../utils/Edge/DepenenciesEdge';
-import { FileName } from '../utils/NodeText';
-import { FileIcon } from '../utils/NodeIcon';
+import { DependenciesEdge } from '../Edge/DepenenciesEdge';
+import { FileName } from '../Node/File';
 
 //move to utils
 export const findNodeByPathName = (list = [], pathName) => {
@@ -66,10 +65,7 @@ class DependenciesTree extends React.Component {
           return (
             <React.Fragment key={moduleName + i}>
               {!sourceDiagramOn ? (
-                <React.Fragment>
-                  <FileName position={targetPosition} name={moduleNode.data.name} />
-                  <FileIcon position={targetPosition} />
-                </React.Fragment>
+                <FileName position={targetPosition} name={moduleNode.data.name} />
               ) : null}
               {importedModuleNames.map((name, i) => {
                 const importedNode = findNodeByPathName(moduleFilesList, name);

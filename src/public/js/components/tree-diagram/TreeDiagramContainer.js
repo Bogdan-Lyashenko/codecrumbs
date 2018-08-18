@@ -5,7 +5,7 @@ import {
   selectFile,
   setDependenciesEntryPoint,
   toggleFolder
-} from '../data-bus/store/actions';
+} from 'components/data-bus/store/actions';
 
 const mapStateToProps = state => {
   const { checkedState } = state.viewSwitches;

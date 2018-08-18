@@ -1,21 +1,18 @@
 import every from 'lodash/every';
 import { put, takeEvery, select, all } from 'redux-saga/effects';
-import { ACTIONS as DATA_BUS_ACTIONS } from '../components/data-bus/store/constants';
+import { ACTIONS as DATA_BUS_ACTIONS } from 'components/data-bus/store/constants';
 import {
   calcFilesTreeLayoutNodes,
   openAllFolders,
   closeAllFolders,
   setDependenciesEntryPoint
-} from '../components/data-bus/store/actions';
+} from 'components/data-bus/store/actions';
 
 import {
   ACTIONS as SWITCHES_ACTIONS,
   CONTROLS_KEYS
-} from '../components/controls/ViewSwitches/store/constants';
-import {
-  setDisabledControl,
-  toggleSwitch
-} from '../components/controls/ViewSwitches/store/actions';
+} from 'components/controls/ViewSwitches/store/constants';
+import { setDisabledControl, toggleSwitch } from 'components/controls/ViewSwitches/store/actions';
 
 function* reactOnSwitchToggle(action) {
   const { switchKey } = action.payload;

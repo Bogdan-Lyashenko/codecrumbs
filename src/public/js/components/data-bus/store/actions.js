@@ -1,5 +1,5 @@
 import { ACTIONS } from './constants';
-import { getTreeLayout } from '../../../utils/treeLayout';
+import { getTreeLayout } from 'utils/treeLayout';
 
 export const setInitialSourceData = data => ({
   type: ACTIONS.SET_INITIAL_SOURCE_DATA,

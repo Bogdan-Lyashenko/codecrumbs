@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { getFilesList } from '../../../../utils/treeLayout';
-import { CodeCrumbName } from '../Node/CodeCrumb';
-import { FileName } from '../Node/File';
-import { PartEdge, CodeCrumbEdge } from '../Edge/CodeCrumbEdge';
+import { getFilesList } from 'utils/treeLayout';
+import { CodeCrumbName } from 'components/tree-diagram/component/Node/CodeCrumb';
+import { FileName } from 'components/tree-diagram/component/Node/File';
+import { PartEdge, CodeCrumbEdge } from 'components/tree-diagram/component/Edge/CodeCrumbEdge';
 
 class CodeCrumbsTree extends React.Component {
   render() {

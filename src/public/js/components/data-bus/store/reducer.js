@@ -1,5 +1,5 @@
 import safeGet from 'lodash/get';
-import { DIR_NODE_TYPE } from '../../../../../shared/constants';
+import { DIR_NODE_TYPE } from 'utils/constants';
 import { ACTIONS } from './constants';
 
 const DefaultState = {

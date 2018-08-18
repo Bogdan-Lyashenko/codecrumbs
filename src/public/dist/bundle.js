@@ -79944,19 +79944,19 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _DataBusContainer = __webpack_require__(/*! ./components/data-bus/DataBusContainer */ "./js/components/data-bus/DataBusContainer.js");
+var _DataBusContainer = __webpack_require__(/*! components/data-bus/DataBusContainer */ "./js/components/data-bus/DataBusContainer.js");
 
 var _DataBusContainer2 = _interopRequireDefault(_DataBusContainer);
 
-var _ViewSwitchesContainer = __webpack_require__(/*! ./components/controls/ViewSwitches/ViewSwitchesContainer */ "./js/components/controls/ViewSwitches/ViewSwitchesContainer.js");
+var _ViewSwitchesContainer = __webpack_require__(/*! components/controls/ViewSwitches/ViewSwitchesContainer */ "./js/components/controls/ViewSwitches/ViewSwitchesContainer.js");
 
 var _ViewSwitchesContainer2 = _interopRequireDefault(_ViewSwitchesContainer);
 
-var _TreeDiagramContainer = __webpack_require__(/*! ./components/tree-diagram/TreeDiagramContainer */ "./js/components/tree-diagram/TreeDiagramContainer.js");
+var _TreeDiagramContainer = __webpack_require__(/*! components/tree-diagram/TreeDiagramContainer */ "./js/components/tree-diagram/TreeDiagramContainer.js");
 
 var _TreeDiagramContainer2 = _interopRequireDefault(_TreeDiagramContainer);
 
-var _SideBarContainer = __webpack_require__(/*! ./components/side-bar/SideBarContainer */ "./js/components/side-bar/SideBarContainer.js");
+var _SideBarContainer = __webpack_require__(/*! components/side-bar/SideBarContainer */ "./js/components/side-bar/SideBarContainer.js");
 
 var _SideBarContainer2 = _interopRequireDefault(_SideBarContainer);
 
@@ -80112,7 +80112,7 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(/*! ./ViewSwitchList.css */ "./js/components/controls/ViewSwitches/component/ViewSwitchList.css");
 
-var _constants = __webpack_require__(/*! ../store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
+var _constants = __webpack_require__(/*! components/controls/ViewSwitches/store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -80436,9 +80436,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 
-var _connection = __webpack_require__(/*! ../../utils/connection */ "./js/utils/connection.js");
+var _connection = __webpack_require__(/*! utils/connection */ "./js/utils/connection.js");
 
-var _constants = __webpack_require__(/*! ../../../../shared/constants */ "../shared/constants.js");
+var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
 var _actions = __webpack_require__(/*! ./store/actions */ "./js/components/data-bus/store/actions.js");
 
@@ -80533,7 +80533,7 @@ exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFo
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
 
-var _treeLayout = __webpack_require__(/*! ../../../utils/treeLayout */ "./js/utils/treeLayout.js");
+var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
 var setInitialSourceData = exports.setInitialSourceData = function setInitialSourceData(data) {
   return {
@@ -80651,7 +80651,7 @@ var _get = __webpack_require__(/*! lodash/get */ "../../node_modules/lodash/get.
 
 var _get2 = _interopRequireDefault(_get);
 
-var _constants = __webpack_require__(/*! ../../../../../shared/constants */ "../shared/constants.js");
+var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
 var _constants2 = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
 
@@ -80767,7 +80767,7 @@ var _SideBar = __webpack_require__(/*! ./component/SideBar */ "./js/components/s
 
 var _SideBar2 = _interopRequireDefault(_SideBar);
 
-var _actions = __webpack_require__(/*! ../data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
+var _actions = __webpack_require__(/*! components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -80990,7 +80990,7 @@ var _TreeDiagram = __webpack_require__(/*! ./component/TreeDiagram */ "./js/comp
 
 var _TreeDiagram2 = _interopRequireDefault(_TreeDiagram);
 
-var _actions = __webpack_require__(/*! ../data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
+var _actions = __webpack_require__(/*! components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81126,7 +81126,7 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
 
-var _constants = __webpack_require__(/*! ../../store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81653,13 +81653,13 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
+var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _CodeCrumb = __webpack_require__(/*! ../Node/CodeCrumb */ "./js/components/tree-diagram/component/Node/CodeCrumb.js");
+var _CodeCrumb = __webpack_require__(/*! components/tree-diagram/component/Node/CodeCrumb */ "./js/components/tree-diagram/component/Node/CodeCrumb.js");
 
-var _File = __webpack_require__(/*! ../Node/File */ "./js/components/tree-diagram/component/Node/File.js");
+var _File = __webpack_require__(/*! components/tree-diagram/component/Node/File */ "./js/components/tree-diagram/component/Node/File.js");
 
-var _CodeCrumbEdge = __webpack_require__(/*! ../Edge/CodeCrumbEdge */ "./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js");
+var _CodeCrumbEdge = __webpack_require__(/*! components/tree-diagram/component/Edge/CodeCrumbEdge */ "./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81772,11 +81772,11 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeLayout = __webpack_require__(/*! ../../../../utils/treeLayout */ "./js/utils/treeLayout.js");
+var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _DepenenciesEdge = __webpack_require__(/*! ../Edge/DepenenciesEdge */ "./js/components/tree-diagram/component/Edge/DepenenciesEdge.js");
+var _DepenenciesEdge = __webpack_require__(/*! components/tree-diagram/component/Edge/DepenenciesEdge */ "./js/components/tree-diagram/component/Edge/DepenenciesEdge.js");
 
-var _File = __webpack_require__(/*! ../Node/File */ "./js/components/tree-diagram/component/Node/File.js");
+var _File = __webpack_require__(/*! components/tree-diagram/component/Node/File */ "./js/components/tree-diagram/component/Node/File.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81943,15 +81943,15 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _constants = __webpack_require__(/*! ../../../../../../shared/constants */ "../shared/constants.js");
+var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-var _File = __webpack_require__(/*! ../Node/File */ "./js/components/tree-diagram/component/Node/File.js");
+var _File = __webpack_require__(/*! components/tree-diagram/component/Node/File */ "./js/components/tree-diagram/component/Node/File.js");
 
-var _Folder = __webpack_require__(/*! ../Node/Folder */ "./js/components/tree-diagram/component/Node/Folder.js");
+var _Folder = __webpack_require__(/*! components/tree-diagram/component/Node/Folder */ "./js/components/tree-diagram/component/Node/Folder.js");
 
-var _Dot = __webpack_require__(/*! ../Dot/ */ "./js/components/tree-diagram/component/Dot/index.js");
+var _Dot = __webpack_require__(/*! components/tree-diagram/component/Dot/ */ "./js/components/tree-diagram/component/Dot/index.js");
 
-var _SourceEdge = __webpack_require__(/*! ../Edge/SourceEdge */ "./js/components/tree-diagram/component/Edge/SourceEdge.js");
+var _SourceEdge = __webpack_require__(/*! components/tree-diagram/component/Edge/SourceEdge */ "./js/components/tree-diagram/component/Edge/SourceEdge.js");
 
 var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree */ "./js/components/tree-diagram/component/Tree/DependenciesTree.js");
 
@@ -81968,9 +81968,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// TODO: add webpack resolve to not have these ../ .../ ../
-
 
 var SourceTree = function (_React$Component) {
   _inherits(SourceTree, _React$Component);
@@ -82145,7 +82142,7 @@ var _SourceTree2 = _interopRequireDefault(_SourceTree);
 
 __webpack_require__(/*! ./TreeDiagram.css */ "./js/components/tree-diagram/component/TreeDiagram.css");
 
-var _geometry = __webpack_require__(/*! ../../../utils/geometry */ "./js/utils/geometry.js");
+var _geometry = __webpack_require__(/*! utils/geometry */ "./js/utils/geometry.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -82264,7 +82261,7 @@ var _App = __webpack_require__(/*! ./App */ "./js/App.js");
 
 var _App2 = _interopRequireDefault(_App);
 
-var _createStore = __webpack_require__(/*! ./store/createStore */ "./js/store/createStore.js");
+var _createStore = __webpack_require__(/*! store/createStore */ "./js/store/createStore.js");
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
@@ -82305,11 +82302,11 @@ var _reduxSaga = __webpack_require__(/*! redux-saga */ "../../node_modules/redux
 
 var _reduxSaga2 = _interopRequireDefault(_reduxSaga);
 
-var _reducer = __webpack_require__(/*! ../components/controls/ViewSwitches/store/reducer */ "./js/components/controls/ViewSwitches/store/reducer.js");
+var _reducer = __webpack_require__(/*! components/controls/ViewSwitches/store/reducer */ "./js/components/controls/ViewSwitches/store/reducer.js");
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
-var _reducer3 = __webpack_require__(/*! ../components/data-bus/store/reducer */ "./js/components/data-bus/store/reducer.js");
+var _reducer3 = __webpack_require__(/*! components/data-bus/store/reducer */ "./js/components/data-bus/store/reducer.js");
 
 var _reducer4 = _interopRequireDefault(_reducer3);
 
@@ -82353,13 +82350,13 @@ var _every2 = _interopRequireDefault(_every);
 
 var _effects = __webpack_require__(/*! redux-saga/effects */ "../../node_modules/redux-saga/es/effects.js");
 
-var _constants = __webpack_require__(/*! ../components/data-bus/store/constants */ "./js/components/data-bus/store/constants.js");
+var _constants = __webpack_require__(/*! components/data-bus/store/constants */ "./js/components/data-bus/store/constants.js");
 
-var _actions = __webpack_require__(/*! ../components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
+var _actions = __webpack_require__(/*! components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
 
-var _constants2 = __webpack_require__(/*! ../components/controls/ViewSwitches/store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
+var _constants2 = __webpack_require__(/*! components/controls/ViewSwitches/store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
-var _actions2 = __webpack_require__(/*! ../components/controls/ViewSwitches/store/actions */ "./js/components/controls/ViewSwitches/store/actions.js");
+var _actions2 = __webpack_require__(/*! components/controls/ViewSwitches/store/actions */ "./js/components/controls/ViewSwitches/store/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -82606,6 +82603,29 @@ var createConnection = exports.createConnection = function createConnection(onMe
 
 /***/ }),
 
+/***/ "./js/utils/constants.js":
+/*!*******************************!*\
+  !*** ./js/utils/constants.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SOCKET_EVENT_TYPE = exports.DIR_NODE_TYPE = exports.FILE_NODE_TYPE = undefined;
+
+var _constants = __webpack_require__(/*! ../../../shared/constants */ "../shared/constants.js");
+
+exports.FILE_NODE_TYPE = _constants.FILE_NODE_TYPE;
+exports.DIR_NODE_TYPE = _constants.DIR_NODE_TYPE;
+exports.SOCKET_EVENT_TYPE = _constants.SOCKET_EVENT_TYPE;
+
+/***/ }),
+
 /***/ "./js/utils/geometry.js":
 /*!******************************!*\
   !*** ./js/utils/geometry.js ***!
@@ -82649,9 +82669,9 @@ var _d3Flextree = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-
 
 var d3FlexTree = _interopRequireWildcard(_d3Flextree);
 
-var _constants = __webpack_require__(/*! ../../../shared/constants */ "../shared/constants.js");
+var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-var _constants2 = __webpack_require__(/*! ../components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants2 = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

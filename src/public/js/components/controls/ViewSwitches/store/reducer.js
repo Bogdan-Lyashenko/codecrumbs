@@ -47,7 +47,7 @@ const DefaultState = {
           key: CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
         },
         {
-          name: 'show details',
+          name: 'show details (remove it)',
           title: 'Show all Details',
           key: CONTROLS_KEYS.CODE_CRUMBS_DETAILS
         }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-import { PURPLE_COLOR, SYMBOL_WIDTH } from '../../../store/constants';
+import { SYMBOL_WIDTH } from '../../store/constants';
 
 export const PartEdge = props => {
   const { sourcePosition, parentName } = props;
@@ -22,20 +22,20 @@ export const PartEdge = props => {
   );
 };
 
-export const CodeCrumbEdge = (props) => {
+export const CodeCrumbEdge = props => {
   const { sourcePosition, targetPosition, parentName } = props;
 
   const nameWidth = SYMBOL_WIDTH * parentName.length;
   const padding = 40;
   const edgeTurnDistance = 20;
 
-  const P1 = {x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y};
+  const P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
 
-  const P2 = {x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y};
-  const P3 = {x: targetPosition.x - edgeTurnDistance, y: targetPosition.y};
+  const P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
+  const P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
   const P4 = targetPosition;
 
   const polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
 
-  return <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} />
+  return <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} />;
 };

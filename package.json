@@ -39,7 +39,6 @@
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "style-loader": "^0.21.0",
-    "svg.js": "^2.6.4",
     "webpack": "^4.6.0",
     "websocket": "^1.0.26"
   },

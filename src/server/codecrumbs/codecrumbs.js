@@ -59,8 +59,10 @@ const getCrumbs = fileCode => {
                 if (comment && isCodecrumb(comment)) {
                     const params = parseCodecrumbComment(comment);
 
+                  const loc = node.loc.start;
                     crumbsList.push({
                         name: params.name || '', //TODO: check, can be bug with layout calc
+                        displayLoc: `(${loc.line},${loc.column})`,
                         crumbedLineNode: node,
                         crumbNode: comment,
                         params

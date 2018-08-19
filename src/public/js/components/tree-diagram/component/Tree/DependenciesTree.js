@@ -65,7 +65,7 @@ class DependenciesTree extends React.Component {
           return (
             <React.Fragment key={moduleName + i}>
               {!sourceDiagramOn ? (
-                <FileName position={targetPosition} name={moduleNode.data.name} />
+                <FileName position={targetPosition} name={moduleNode.data.name} cover={true} />
               ) : null}
               {importedModuleNames.map((name, i) => {
                 const importedNode = findNodeByPathName(moduleFilesList, name);

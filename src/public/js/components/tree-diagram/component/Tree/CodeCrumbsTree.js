@@ -59,6 +59,7 @@ class CodeCrumbsTree extends React.Component {
                         loc={crumb.data.displayLoc}
                         name={crumb.data.name}
                         singleCrumb={singleCrumb}
+                        cover={dependenciesDiagramOn}
                         onClick={() => onCodeCrumbSelect(node.data, crumb.data)}
                       />
                     </React.Fragment>

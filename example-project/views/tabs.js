@@ -6,6 +6,7 @@ const tabsSwitch = index => {
     console.log(index);
 };
 
+//codecrumb:3rd cc;details 2
 export default {
     tabsSwitch,//codecrumb:setup call;details 2
     render: () => {

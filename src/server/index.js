@@ -7,7 +7,7 @@ const SOCKET_EVENT_TYPE = require('../shared/constants').SOCKET_EVENT_TYPE;
 
 const PORT = 2018;
 const PROJECT_DIR = 'example-project'; //, src/public/js, example-project, get as param to server script
-const ENTRY = '/index.js'; //, index.js, app.js get as param to server script
+const ENTRY = '/index.js'; //, index.js, get as param to server script
 
 const httpServer = http.createServer((request, response) => {
     const url = request.url.substr(1);

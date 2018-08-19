@@ -15174,7 +15174,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}\n\n.NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}\n\n.CodeCrumbName-rect {\n    fill: #fff;\n    stroke: #ff18a6;\n}\n\n.CodeCrumbName-loc {\n    fill: #595959;\n    font-family: 'Menlo';\n    font-size: 8px;\n    cursor: pointer;\n}\n\n.CodeCrumbName-text {\n    fill: #ff18a6;\n    font-family: 'Menlo';\n    font-size: 12px;\n    cursor: pointer;\n}", ""]);
+exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeText-cover {\n    stroke: none;\n    fill: rgba(255, 255, 255, 0.5);\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}\n\n.NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}\n\n.CodeCrumbName-rect {\n    fill: #fff;\n    stroke: #ff18a6;\n}\n\n.CodeCrumbName-loc {\n    fill: #595959;\n    font-family: 'Menlo';\n    font-size: 8px;\n    cursor: pointer;\n}\n\n.CodeCrumbName-text {\n    fill: #ff18a6;\n    font-family: 'Menlo';\n    font-size: 12px;\n    cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -81187,7 +81187,7 @@ var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DependenciesEdge = exports.getConnectionLinePoints = exports.getSourceDotLinePoints = exports.getSourcePt = undefined;
+exports.DependenciesEdge = undefined;
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
@@ -81195,40 +81195,48 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
 
+var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var V_SPACE = _constants.LAYOUT_CONFIG.spacing + _constants.LAYOUT_CONFIG.nodeSizeX;
 
 var PADDING = 30;
 var HALF_PADDING = PADDING / 2 - 5;
 
-var getSourcePt = exports.getSourcePt = function getSourcePt(sourcePosition, targetPosition) {
+// Arrow can go from top ot bottom of file icon
+var getSourcePt = function getSourcePt(sourcePosition, targetPosition) {
   return {
     x: targetPosition.y > sourcePosition.y ? sourcePosition.x + 10 : sourcePosition.x + 8,
     y: targetPosition.y > sourcePosition.y ? sourcePosition.y + 7 : sourcePosition.y - 12
   };
 };
 
-var getSourceDotLinePoints = exports.getSourceDotLinePoints = function getSourceDotLinePoints(sourcePt) {
+var getSourceDotLinePoints = function getSourceDotLinePoints(sourcePt) {
   return [[sourcePt.x - 3, sourcePt.y], [sourcePt.x + 3, sourcePt.y]];
 };
 
-var getConnectionLinePoints = exports.getConnectionLinePoints = function getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt) {
-  if (!prevSourcePosition) {
-    var P1 = { x: sourcePt.x, y: targetPosition.y + PADDING - 6 };
-    var P2 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y + PADDING - 6 };
-    var P3 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y };
+var getConnectionLine = function getConnectionLine(targetPosition, sourcePosition, sourcePt) {
+  var yDiff = targetPosition.y - sourcePosition.y;
+  var vPadding = Math.abs(yDiff) <= V_SPACE ? V_SPACE / 2 : V_SPACE / 2;
 
-    return [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPosition.x, targetPosition.y]];
-  }
+  var P1 = { x: sourcePt.x, y: targetPosition.y - vPadding };
+  var P2 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y - vPadding };
+  var P3 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y };
 
+  return [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [targetPosition.x, targetPosition.y]];
+};
+
+var getConnectionLineWithPrevSource = function getConnectionLineWithPrevSource(targetPosition, prevSourcePosition, sourcePt) {
   if (prevSourcePosition.x < sourcePt.x) {
     //TODO: handle other cases
-    var _P = { x: sourcePt.x, y: sourcePt.y + HALF_PADDING - 3 };
-    var _P2 = {
+    var P1 = { x: sourcePt.x, y: sourcePt.y + HALF_PADDING - 3 };
+    var P2 = {
       x: prevSourcePosition.x + HALF_PADDING,
       y: sourcePt.y + HALF_PADDING - 3
     };
 
-    return [[sourcePt.x, sourcePt.y], [_P.x, _P.y], [_P2.x, _P2.y]];
+    return [[sourcePt.x, sourcePt.y], [P1.x, P1.y], [P2.x, P2.y]];
   }
 };
 
@@ -81244,21 +81252,19 @@ var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(prop
 
   var sourcePt = getSourcePt(sourcePosition, targetPosition);
   var sourceDotLinePoints = getSourceDotLinePoints(sourcePt);
-  var connectionLinePoints = getConnectionLinePoints(targetPosition, prevSourcePosition, sourcePt);
+  var connectionLinePoints = !prevSourcePosition ? getConnectionLine(targetPosition, sourcePosition, sourcePt) : getConnectionLineWithPrevSource(targetPosition, prevSourcePosition, sourcePt);
+
   if (!connectionLinePoints) {
     return null;
   }
 
   var lastPt = connectionLinePoints[connectionLinePoints.length - 1];
   var endPointConfig = {
-    radius: 2,
     x: lastPt[0],
     y: lastPt[1]
   };
 
-  if (prevSourcePosition) {
-    endPointConfig.radius = 2; // TODO: maybe we can use right away in SVG? it's static anyway!!
-  } else {
+  if (!prevSourcePosition) {
     endPointConfig.x -= 5;
     endPointConfig.y -= 4;
     endPointConfig.iconSize = 8;
@@ -81277,10 +81283,12 @@ var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(prop
     }),
     prevSourcePosition ? _react2.default.createElement('circle', {
       className: 'DependenciesEdge-end-dot',
-      r: endPointConfig.radius,
+      r: 2,
       cx: endPointConfig.x,
       cy: endPointConfig.y
-    }) : _react2.default.createElement('image', {
+    }) :
+    // use rotate to handle different directions
+    _react2.default.createElement('image', {
       x: endPointConfig.x,
       y: endPointConfig.y,
       xlinkHref: endPointConfig.iconPath,
@@ -81413,6 +81421,7 @@ var CodeCrumbName = exports.CodeCrumbName = function CodeCrumbName(props) {
       loc = props.loc,
       name = props.name,
       singleCrumb = props.singleCrumb,
+      cover = props.cover,
       onMouseOver = props.onMouseOver,
       onClick = props.onClick;
 
@@ -81424,6 +81433,13 @@ var CodeCrumbName = exports.CodeCrumbName = function CodeCrumbName(props) {
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
+    cover && _react2.default.createElement('rect', {
+      x: textPoint.x - 3,
+      y: position.y - 9,
+      width: locWidth + 4,
+      height: 18,
+      className: 'NodeText-cover'
+    }) || null,
     _react2.default.createElement('rect', {
       x: textPoint.x,
       y: textPoint.y - 6,
@@ -81442,15 +81458,26 @@ var CodeCrumbName = exports.CodeCrumbName = function CodeCrumbName(props) {
       loc
     ),
     name && _react2.default.createElement(
-      'text',
-      {
-        x: textPoint.x + 3 + locWidth - 1,
-        y: textPoint.y + 4,
-        onClick: onClick,
-        className: 'CodeCrumbName-text'
-      },
-      ':',
-      name
+      _react2.default.Fragment,
+      null,
+      cover && _react2.default.createElement('rect', {
+        x: textPoint.x + 2 + locWidth,
+        y: position.y - 6,
+        width: (name.length + 1) * 7.5,
+        height: 13,
+        className: 'NodeText-cover'
+      }) || null,
+      _react2.default.createElement(
+        'text',
+        {
+          x: textPoint.x + 3 + locWidth - 1,
+          y: textPoint.y + 4,
+          onClick: onClick,
+          className: 'CodeCrumbName-text'
+        },
+        ':',
+        name
+      )
     ) || null
   );
 };
@@ -81480,6 +81507,8 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+
 __webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Node/index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -81491,15 +81520,35 @@ var FileName = exports.FileName = function FileName(props) {
       name = props.name,
       onTextClick = props.onTextClick,
       onIconClick = props.onIconClick,
-      purple = props.purple;
+      purple = props.purple,
+      cover = props.cover;
 
 
   var iconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
   var iconSize = 15;
+  var nameWidth = name.length * _constants.SYMBOL_WIDTH;
 
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
+    cover && _react2.default.createElement(
+      _react2.default.Fragment,
+      null,
+      _react2.default.createElement('rect', {
+        x: position.x + 3,
+        y: position.y - 12,
+        width: 14,
+        height: 19,
+        className: 'NodeText-cover'
+      }),
+      _react2.default.createElement('rect', {
+        x: position.x + 16,
+        y: position.y - 8,
+        width: nameWidth,
+        height: 16,
+        className: 'NodeText-cover'
+      })
+    ) || null,
     _react2.default.createElement('image', {
       x: position.x + 2,
       y: position.y - 10,
@@ -81560,6 +81609,7 @@ var FolderName = exports.FolderName = function FolderName(props) {
       name = props.name,
       disabled = props.disabled,
       closed = props.closed,
+      cover = props.cover,
       onClick = props.onClick;
 
 
@@ -81569,6 +81619,7 @@ var FolderName = exports.FolderName = function FolderName(props) {
   var iconPositionX = position.x + 3;
   var iconPositionY = position.y + (closed ? -16 : -17);
 
+  // TODO: add cover for text, same as in File (check `cover` var)
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
@@ -81732,6 +81783,7 @@ var CodeCrumbsTree = function (_React$Component) {
                   loc: crumb.data.displayLoc,
                   name: crumb.data.name,
                   singleCrumb: singleCrumb,
+                  cover: dependenciesDiagramOn,
                   onClick: function onClick() {
                     return onCodeCrumbSelect(node.data, crumb.data);
                   }
@@ -81883,7 +81935,7 @@ var DependenciesTree = function (_React$Component) {
           return _react2.default.createElement(
             _react2.default.Fragment,
             { key: moduleName + i },
-            !sourceDiagramOn ? _react2.default.createElement(_File.FileName, { position: targetPosition, name: moduleNode.data.name }) : null,
+            !sourceDiagramOn ? _react2.default.createElement(_File.FileName, { position: targetPosition, name: moduleNode.data.name, cover: true }) : null,
             importedModuleNames.map(function (name, i) {
               var importedNode = findNodeByPathName(moduleFilesList, name);
 
@@ -82038,6 +82090,7 @@ var SourceTree = function (_React$Component) {
             position: position,
             name: name,
             purple: node.children && codeCrumbsMinimize,
+            cover: dependenciesDiagramOn,
             onTextClick: function onTextClick() {
               return onFileSelect(node.data);
             },
@@ -82050,6 +82103,7 @@ var SourceTree = function (_React$Component) {
             position: position,
             name: name,
             disabled: dependenciesDiagramOn,
+            cover: dependenciesDiagramOn,
             closed: closedFolders[node.data.path],
             onClick: function onClick() {
               return onFolderClick(node.data);

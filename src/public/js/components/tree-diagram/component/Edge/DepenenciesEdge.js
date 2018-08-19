@@ -1,34 +1,42 @@
 import React from 'react';
 import './index.css';
 
+import { LAYOUT_CONFIG } from 'components/tree-diagram/store/constants';
+
+const V_SPACE = LAYOUT_CONFIG.spacing + LAYOUT_CONFIG.nodeSizeX;
+
 const PADDING = 30;
 const HALF_PADDING = PADDING / 2 - 5;
 
-export const getSourcePt = (sourcePosition, targetPosition) => ({
+// Arrow can go from top ot bottom of file icon
+const getSourcePt = (sourcePosition, targetPosition) => ({
   x: targetPosition.y > sourcePosition.y ? sourcePosition.x + 10 : sourcePosition.x + 8,
   y: targetPosition.y > sourcePosition.y ? sourcePosition.y + 7 : sourcePosition.y - 12
 });
 
-export const getSourceDotLinePoints = sourcePt => [
+const getSourceDotLinePoints = sourcePt => [
   [sourcePt.x - 3, sourcePt.y],
   [sourcePt.x + 3, sourcePt.y]
 ];
 
-export const getConnectionLinePoints = (targetPosition, prevSourcePosition, sourcePt) => {
-  if (!prevSourcePosition) {
-    const P1 = { x: sourcePt.x, y: targetPosition.y + PADDING - 6 };
-    const P2 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y + PADDING - 6 };
-    const P3 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y };
+const getConnectionLine = (targetPosition, sourcePosition, sourcePt) => {
+  const yDiff = targetPosition.y - sourcePosition.y;
+  const vPadding = Math.abs(yDiff) <= V_SPACE ? V_SPACE / 2 : V_SPACE / 2;
 
-    return [
-      [sourcePt.x, sourcePt.y],
-      [P1.x, P1.y],
-      [P2.x, P2.y],
-      [P3.x, P3.y],
-      [targetPosition.x, targetPosition.y]
-    ];
-  }
+  const P1 = { x: sourcePt.x, y: targetPosition.y - vPadding };
+  const P2 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y - vPadding };
+  const P3 = { x: targetPosition.x - HALF_PADDING, y: targetPosition.y };
 
+  return [
+    [sourcePt.x, sourcePt.y],
+    [P1.x, P1.y],
+    [P2.x, P2.y],
+    [P3.x, P3.y],
+    [targetPosition.x, targetPosition.y]
+  ];
+};
+
+const getConnectionLineWithPrevSource = (targetPosition, prevSourcePosition, sourcePt) => {
   if (prevSourcePosition.x < sourcePt.x) {
     //TODO: handle other cases
     const P1 = { x: sourcePt.x, y: sourcePt.y + HALF_PADDING - 3 };
@@ -51,25 +59,21 @@ export const DependenciesEdge = props => {
 
   const sourcePt = getSourcePt(sourcePosition, targetPosition);
   const sourceDotLinePoints = getSourceDotLinePoints(sourcePt);
-  const connectionLinePoints = getConnectionLinePoints(
-    targetPosition,
-    prevSourcePosition,
-    sourcePt
-  );
+  const connectionLinePoints = !prevSourcePosition
+    ? getConnectionLine(targetPosition, sourcePosition, sourcePt)
+    : getConnectionLineWithPrevSource(targetPosition, prevSourcePosition, sourcePt);
+
   if (!connectionLinePoints) {
     return null;
   }
 
   const lastPt = connectionLinePoints[connectionLinePoints.length - 1];
   const endPointConfig = {
-    radius: 2,
     x: lastPt[0],
     y: lastPt[1]
   };
 
-  if (prevSourcePosition) {
-    endPointConfig.radius = 2; // TODO: maybe we can use right away in SVG? it's static anyway!!
-  } else {
+  if (!prevSourcePosition) {
     endPointConfig.x -= 5;
     endPointConfig.y -= 4;
     endPointConfig.iconSize = 8;
@@ -88,11 +92,12 @@ export const DependenciesEdge = props => {
       {prevSourcePosition ? (
         <circle
           className={'DependenciesEdge-end-dot'}
-          r={endPointConfig.radius}
+          r={2}
           cx={endPointConfig.x}
           cy={endPointConfig.y}
         />
       ) : (
+        // use rotate to handle different directions
         <image
           x={endPointConfig.x}
           y={endPointConfig.y}

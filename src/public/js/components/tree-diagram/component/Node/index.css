@@ -2,6 +2,11 @@
     cursor: pointer;
 }
 
+.NodeText-cover {
+    stroke: none;
+    fill: rgba(255, 255, 255, 0.5);
+}
+
 .NodeIcon-folder-line {
     fill: none;
     stroke: #BFBFBF;

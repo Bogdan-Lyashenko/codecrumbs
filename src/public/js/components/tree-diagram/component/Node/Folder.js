@@ -6,7 +6,7 @@ import './index.css';
 const ICONS_DIR = 'resources/';
 
 export const FolderName = props => {
-  const { position, name, disabled, closed, onClick } = props;
+  const { position, name, disabled, closed, cover, onClick } = props;
 
   const iconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${disabled ? '-disabled' : ''}.svg`;
   const iconSize = closed ? 14 : 15;
@@ -14,6 +14,7 @@ export const FolderName = props => {
   const iconPositionX = position.x + 3;
   const iconPositionY = position.y + (closed ? -16 : -17);
 
+  // TODO: add cover for text, same as in File (check `cover` var)
   return (
     <React.Fragment>
       {closed ? (

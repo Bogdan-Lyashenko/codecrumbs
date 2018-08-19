@@ -68,6 +68,7 @@ class SourceTree extends React.Component {
             position={position}
             name={name}
             purple={node.children && codeCrumbsMinimize}
+            cover={dependenciesDiagramOn}
             onTextClick={() => onFileSelect(node.data)}
             onIconClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
           />
@@ -78,6 +79,7 @@ class SourceTree extends React.Component {
             position={position}
             name={name}
             disabled={dependenciesDiagramOn}
+            cover={dependenciesDiagramOn}
             closed={closedFolders[node.data.path]}
             onClick={() => onFolderClick(node.data)}
           />

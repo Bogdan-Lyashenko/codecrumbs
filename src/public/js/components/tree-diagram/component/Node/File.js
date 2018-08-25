@@ -7,21 +7,24 @@ import './index.css';
 const ICONS_DIR = 'resources/';
 
 export const FileName = props => {
-  const { position, name, onTextClick, onIconClick, purple, cover } = props;
+  const { position, name, onTextClick, onIconClick, purple, dependency } = props;
 
-  const iconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : 'js-file.svg');
+  const iconPath =
+    ICONS_DIR + (purple ? 'js-file-purple.svg' : dependency ? 'two-circles.svg' : 'js-file.svg');
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 
+  const imageOffset = !dependency ? { x: 2, y: -10 } : { x: 0, y: -7.5 };
+
   return (
     <React.Fragment>
-      {(cover && (
+      {(dependency && (
         <React.Fragment>
           <rect
-            x={position.x + 3}
-            y={position.y - 12}
-            width={14}
-            height={19}
+            x={position.x - 1}
+            y={position.y - 3}
+            width={16}
+            height={5}
             className={'NodeText-cover'}
           />
           <rect
@@ -35,8 +38,8 @@ export const FileName = props => {
       )) ||
         null}
       <image
-        x={position.x + 2}
-        y={position.y - 10}
+        x={position.x + imageOffset.x}
+        y={position.y + imageOffset.y}
         onClick={onIconClick}
         xlinkHref={iconPath}
         height={iconSize}

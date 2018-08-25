@@ -55,10 +55,9 @@ class SourceTree extends React.Component {
         );
       }
 
-      if ([FILE_NODE_TYPE, DIR_NODE_TYPE].includes(node.data.type)) {
-        sourceDotes.push(
-          <Dot key={`dot-${i}`} position={position} disabled={dependenciesDiagramOn} />
-        );
+      const type = node.data.type;
+      if (type === DIR_NODE_TYPE || (type === FILE_NODE_TYPE && !dependenciesDiagramOn)) {
+        sourceDotes.push(<Dot key={`dot-${i}`} position={position} disabled={false} />);
       }
 
       let nodeBasedOnType = null;
@@ -68,7 +67,7 @@ class SourceTree extends React.Component {
             position={position}
             name={name}
             purple={node.children && codeCrumbsMinimize}
-            cover={dependenciesDiagramOn}
+            dependency={dependenciesDiagramOn}
             onTextClick={() => onFileSelect(node.data)}
             onIconClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
           />
@@ -78,8 +77,7 @@ class SourceTree extends React.Component {
           <FolderName
             position={position}
             name={name}
-            disabled={dependenciesDiagramOn}
-            cover={dependenciesDiagramOn}
+            dependency={dependenciesDiagramOn}
             closed={closedFolders[node.data.path]}
             onClick={() => onFolderClick(node.data)}
           />

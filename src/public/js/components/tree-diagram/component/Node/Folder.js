@@ -6,17 +6,27 @@ import './index.css';
 const ICONS_DIR = 'resources/';
 
 export const FolderName = props => {
-  const { position, name, disabled, closed, cover, onClick } = props;
+  const { position, name, dependency, closed, onClick } = props;
 
-  const iconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${disabled ? '-disabled' : ''}.svg`;
+  const iconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${
+    dependency ? '-disabled' : ''
+  }.svg`;
   const iconSize = closed ? 14 : 15;
 
   const iconPositionX = position.x + 3;
   const iconPositionY = position.y + (closed ? -16 : -17);
 
-  // TODO: add cover for text, same as in File (check `cover` var)
   return (
     <React.Fragment>
+      {dependency ? (
+        <rect
+          x={position.x + 2}
+          y={position.y - 16}
+          width={16}
+          height={15}
+          className={'NodeText-cover'}
+        />
+      ) : null}
       {closed ? (
         <polyline
           points={[
@@ -28,7 +38,7 @@ export const FolderName = props => {
             iconPositionY + 14
           ].join(', ')}
           className={classNames('NodeIcon-folder-line', {
-            'NodeIcon-folder-line-disabled': disabled
+            'NodeIcon-folder-line-disabled': dependency
           })}
         />
       ) : null}
@@ -45,7 +55,7 @@ export const FolderName = props => {
         x={position.x + 20}
         y={position.y - 3}
         className={classNames('NodeText-folder-name', {
-          'NodeText-folder-name-disabled': disabled
+          'NodeText-folder-name-disabled': dependency
         })}
       >
         {name}

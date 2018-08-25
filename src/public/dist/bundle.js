@@ -81209,6 +81209,7 @@ var V_SPACE = _constants.LAYOUT_CONFIG.spacing + _constants.LAYOUT_CONFIG.nodeSi
 
 var PADDING = 30;
 var HALF_PADDING = PADDING / 2;
+var crossShift = 2;
 
 // Arrow can go from top ot bottom of file icon
 var getSourcePt = function getSourcePt(groupName, sourcePosition) {
@@ -81224,18 +81225,19 @@ var getSourceDotLinePoints = function getSourceDotLinePoints(groupName, sourcePt
 };
 
 var getConnectionLine = function getConnectionLine(groupName, targetPosition, sourcePosition, sourcePt) {
-  var yDiff = targetPosition.y - sourcePosition.y;
-  var vPadding = Math.abs(yDiff) <= V_SPACE ? V_SPACE / 2 : V_SPACE / 2; //TODO
-
   var direction = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
-  return [[sourcePt.x, sourcePt.y], [sourcePt.x, targetPosition.y - vPadding * direction], [targetPosition.x + 2, targetPosition.y - vPadding * direction], [targetPosition.x + 2, targetPosition.y - 5 * direction]];
+  var vPadding = (V_SPACE / 2 - crossShift) * direction;
+
+  return [[sourcePt.x, sourcePt.y], [sourcePt.x, targetPosition.y - vPadding], [targetPosition.x + 2, targetPosition.y - vPadding], [targetPosition.x + 2, targetPosition.y - 5 * direction]];
 };
 
 var getConnectionLineToFirstSource = function getConnectionLineToFirstSource(groupName, targetPosition, firstSourcePosition, sourcePosition, sourcePt) {
   var directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
+  var vPadding = V_SPACE / 2 * directionY;
+
   var directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
 
-  return [[sourcePt.x, sourcePt.y], [sourcePt.x, sourcePosition.y + V_SPACE / 2 * directionY], [firstSourcePosition.x + (directionLeft ? V_SPACE : -PADDING / 2), sourcePosition.y + V_SPACE / 2 * directionY], [firstSourcePosition.x + (directionLeft ? V_SPACE : -PADDING / 2), targetPosition.y - V_SPACE / 2 * directionY]];
+  return [[sourcePt.x, sourcePt.y], [sourcePt.x, sourcePosition.y + vPadding], [firstSourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING), sourcePosition.y + vPadding], [firstSourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING), targetPosition.y - vPadding + crossShift * directionY]];
 };
 
 var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(props) {

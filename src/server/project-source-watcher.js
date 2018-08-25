@@ -60,8 +60,10 @@ const grabProjectSourceState = (projectDir, entryPoint) => {
                 if (codecrumbsList.length) {
                     item.children = codecrumbsList;
                     item.hasCodecrumbs = true;
-                    item.fileCode = code;
                 }
+
+                // TODO: load on click
+                item.fileCode = code;
             })
         )
     ]).then(([dependenciesList]) => ({

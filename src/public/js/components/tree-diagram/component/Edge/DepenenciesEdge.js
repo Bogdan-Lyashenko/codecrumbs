@@ -8,6 +8,7 @@ const V_SPACE = LAYOUT_CONFIG.spacing + LAYOUT_CONFIG.nodeSizeX;
 
 const PADDING = 30;
 const HALF_PADDING = PADDING / 2;
+const crossShift = 2;
 
 // Arrow can go from top ot bottom of file icon
 const getSourcePt = (groupName, sourcePosition) => ({
@@ -25,14 +26,13 @@ const getSourceDotLinePoints = (groupName, sourcePt) => {
 };
 
 const getConnectionLine = (groupName, targetPosition, sourcePosition, sourcePt) => {
-  const yDiff = targetPosition.y - sourcePosition.y;
-  const vPadding = Math.abs(yDiff) <= V_SPACE ? V_SPACE / 2 : V_SPACE / 2; //TODO
-
   const direction = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
+  const vPadding = (V_SPACE / 2 - crossShift) * direction;
+
   return [
     [sourcePt.x, sourcePt.y],
-    [sourcePt.x, targetPosition.y - vPadding * direction],
-    [targetPosition.x + 2, targetPosition.y - vPadding * direction],
+    [sourcePt.x, targetPosition.y - vPadding],
+    [targetPosition.x + 2, targetPosition.y - vPadding],
     [targetPosition.x + 2, targetPosition.y - 5 * direction]
   ];
 };
@@ -45,18 +45,20 @@ const getConnectionLineToFirstSource = (
   sourcePt
 ) => {
   const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
+  const vPadding = (V_SPACE / 2) * directionY;
+
   let directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
 
   return [
     [sourcePt.x, sourcePt.y],
-    [sourcePt.x, sourcePosition.y + (V_SPACE / 2) * directionY],
+    [sourcePt.x, sourcePosition.y + vPadding],
     [
-      firstSourcePosition.x + (directionLeft ? V_SPACE : -PADDING / 2),
-      sourcePosition.y + (V_SPACE / 2) * directionY
+      firstSourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING),
+      sourcePosition.y + vPadding
     ],
     [
-      firstSourcePosition.x + (directionLeft ? V_SPACE : -PADDING / 2),
-      targetPosition.y - (V_SPACE / 2) * directionY
+      firstSourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING),
+      targetPosition.y - vPadding + crossShift * directionY
     ]
   ];
 };

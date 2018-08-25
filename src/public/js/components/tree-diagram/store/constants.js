@@ -9,3 +9,10 @@ export const LAYOUT_CONFIG = {
   nodeSizeY: 60,
   spacing: 20
 };
+
+export const DepEdgeGroups = {
+  TOP_LEFT: 'topLeft',
+  TOP_RIGHT: 'topRight',
+  BOTTOM_LEFT: 'bottomLeft',
+  BOTTOM_RIGHT: 'bottomRight'
+};

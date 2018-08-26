@@ -29,6 +29,7 @@
 .NodeText-folder-name {
     fill: #595959;
     font-family: 'Menlo';
+    cursor: pointer;
 }
 
 .NodeText-folder-name-disabled {

@@ -2,26 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import SideBar from './component/SideBar';
-import { selectFile } from 'components/data-bus/store/actions';
+import { selectNode } from 'components/data-bus/store/actions';
+import { FILE_NODE_TYPE } from 'utils/constants';
 
-const SideBarContainer = ({ selectedFile, selectedCodeCrumb, onClose }) => {
-  if (!selectedFile) return null;
+const SideBarContainer = ({ selectedNode, selectedCodeCrumb, onClose }) => {
+  if (!selectedNode || selectedNode.type !== FILE_NODE_TYPE) return null;
 
   //TODO: add animation slide
-  return <SideBar file={selectedFile} codeCrumb={selectedCodeCrumb} onClose={onClose} />;
+  return <SideBar file={selectedNode} codeCrumb={selectedCodeCrumb} onClose={onClose} />;
 };
 
 const mapStateToProps = state => {
-  const { selectedFile, selectedCodeCrumb } = state.dataBus;
+  const { selectedNode, selectedCodeCrumb } = state.dataBus;
 
   return {
-    selectedFile,
+    selectedNode,
     selectedCodeCrumb
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  onClose: () => dispatch(selectFile(null))
+  onClose: () => dispatch(selectNode(null))
 });
 
 export default connect(

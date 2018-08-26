@@ -35,11 +35,11 @@ export default (state = DefaultState, action) => {
         filesTreeLayoutNodes: action.payload
       };
 
-    case ACTIONS.SELECT_FILE:
+    case ACTIONS.SELECT_NODE:
       return {
         ...state,
         selectedCodeCrumb: null,
-        selectedFile: action.payload
+        selectedNode: action.payload
       };
 
     case ACTIONS.TOGGLE_FOLDER:
@@ -70,9 +70,10 @@ export default (state = DefaultState, action) => {
 
     case ACTIONS.SELECT_CODE_CRUMB:
       const { fileNode, codeCrumb } = action.payload;
+      //TODO: fileNode also can be folder, maybe don't use SELECT_CODE_CRUMB at all and use selected node as well
       return {
         ...state,
-        selectedFile: fileNode,
+        selectedNode: fileNode,
         selectedCodeCrumb: codeCrumb
       };
 

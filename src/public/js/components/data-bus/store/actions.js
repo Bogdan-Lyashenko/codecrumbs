@@ -22,8 +22,8 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   });
 };
 
-export const selectFile = fileNode => ({
-  type: ACTIONS.SELECT_FILE,
+export const selectNode = fileNode => ({
+  type: ACTIONS.SELECT_NODE,
   payload: fileNode
 });
 

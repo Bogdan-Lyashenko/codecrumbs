@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import TreeDiagram from './component/TreeDiagram';
 import {
   selectCodeCrumb,
-  selectFile,
+  selectNode,
   setDependenciesEntryPoint,
   toggleFolder
 } from 'components/data-bus/store/actions';
@@ -32,9 +32,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   onCodeCrumbSelect: selectCodeCrumb,
-  onFileSelect: selectFile,
+  onNodeTextClick: selectNode,
   onFileIconClick: setDependenciesEntryPoint,
-  onFolderClick: toggleFolder
+  onFolderIconClick: toggleFolder
 };
 
 export default connect(

@@ -4,6 +4,7 @@ import DataBus from 'components/data-bus/DataBusContainer';
 import ViewsSwitches from 'components/controls/ViewSwitches/ViewSwitchesContainer';
 import TreeDiagram from 'components/tree-diagram/TreeDiagramContainer';
 import SideBar from 'components/side-bar/SideBarContainer';
+import TopBar from 'components/top-bar/TopBarContainer';
 
 import './App.css';
 
@@ -13,6 +14,7 @@ const App = () => {
       <header className="App-header">
         <DataBus />
         <ViewsSwitches />
+        <TopBar />
       </header>
 
       <div className="App-body">

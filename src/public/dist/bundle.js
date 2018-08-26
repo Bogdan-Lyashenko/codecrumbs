@@ -530,6 +530,323 @@ var warned = {};
 
 /***/ }),
 
+/***/ "../../node_modules/antd/es/breadcrumb/Breadcrumb.js":
+/*!*******************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/breadcrumb/Breadcrumb.js ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/helpers/classCallCheck */ "../../node_modules/babel-runtime/helpers/classCallCheck.js");
+/* harmony import */ var babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babel-runtime/helpers/createClass */ "../../node_modules/babel-runtime/helpers/createClass.js");
+/* harmony import */ var babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! babel-runtime/helpers/possibleConstructorReturn */ "../../node_modules/babel-runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! babel-runtime/helpers/inherits */ "../../node_modules/babel-runtime/helpers/inherits.js");
+/* harmony import */ var babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "../../node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _util_warning__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_util/warning */ "../../node_modules/antd/es/_util/warning.js");
+/* harmony import */ var _BreadcrumbItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./BreadcrumbItem */ "../../node_modules/antd/es/breadcrumb/BreadcrumbItem.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
+
+
+
+
+
+
+function getBreadcrumbName(route, params) {
+    if (!route.breadcrumbName) {
+        return null;
+    }
+    var paramsKeys = Object.keys(params).join('|');
+    var name = route.breadcrumbName.replace(new RegExp(':(' + paramsKeys + ')', 'g'), function (replacement, key) {
+        return params[key] || replacement;
+    });
+    return name;
+}
+function defaultItemRender(route, params, routes, paths) {
+    var isLastItem = routes.indexOf(route) === routes.length - 1;
+    var name = getBreadcrumbName(route, params);
+    return isLastItem ? react__WEBPACK_IMPORTED_MODULE_4__["createElement"](
+        'span',
+        null,
+        name
+    ) : react__WEBPACK_IMPORTED_MODULE_4__["createElement"](
+        'a',
+        { href: '#/' + paths.join('/') },
+        name
+    );
+}
+
+var Breadcrumb = function (_React$Component) {
+    babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default()(Breadcrumb, _React$Component);
+
+    function Breadcrumb() {
+        babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Breadcrumb);
+
+        return babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (Breadcrumb.__proto__ || Object.getPrototypeOf(Breadcrumb)).apply(this, arguments));
+    }
+
+    babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Breadcrumb, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var props = this.props;
+            Object(_util_warning__WEBPACK_IMPORTED_MODULE_6__["default"])(!('linkRender' in props || 'nameRender' in props), '`linkRender` and `nameRender` are removed, please use `itemRender` instead, ' + 'see: https://u.ant.design/item-render.');
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var crumbs = void 0;
+            var _props = this.props,
+                separator = _props.separator,
+                prefixCls = _props.prefixCls,
+                style = _props.style,
+                className = _props.className,
+                routes = _props.routes,
+                _props$params = _props.params,
+                params = _props$params === undefined ? {} : _props$params,
+                children = _props.children,
+                _props$itemRender = _props.itemRender,
+                itemRender = _props$itemRender === undefined ? defaultItemRender : _props$itemRender;
+
+            if (routes && routes.length > 0) {
+                var paths = [];
+                crumbs = routes.map(function (route) {
+                    route.path = route.path || '';
+                    var path = route.path.replace(/^\//, '');
+                    Object.keys(params).forEach(function (key) {
+                        path = path.replace(':' + key, params[key]);
+                    });
+                    if (path) {
+                        paths.push(path);
+                    }
+                    return react__WEBPACK_IMPORTED_MODULE_4__["createElement"](
+                        _BreadcrumbItem__WEBPACK_IMPORTED_MODULE_7__["default"],
+                        { separator: separator, key: route.breadcrumbName || path },
+                        itemRender(route, params, routes, paths)
+                    );
+                });
+            } else if (children) {
+                crumbs = react__WEBPACK_IMPORTED_MODULE_4__["Children"].map(children, function (element, index) {
+                    if (!element) {
+                        return element;
+                    }
+                    Object(_util_warning__WEBPACK_IMPORTED_MODULE_6__["default"])(element.type && element.type.__ANT_BREADCRUMB_ITEM, 'Breadcrumb only accepts Breadcrumb.Item as it\'s children');
+                    return Object(react__WEBPACK_IMPORTED_MODULE_4__["cloneElement"])(element, {
+                        separator: separator,
+                        key: index
+                    });
+                });
+            }
+            return react__WEBPACK_IMPORTED_MODULE_4__["createElement"](
+                'div',
+                { className: classnames__WEBPACK_IMPORTED_MODULE_8___default()(className, prefixCls), style: style },
+                crumbs
+            );
+        }
+    }]);
+
+    return Breadcrumb;
+}(react__WEBPACK_IMPORTED_MODULE_4__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Breadcrumb);
+
+Breadcrumb.defaultProps = {
+    prefixCls: 'ant-breadcrumb',
+    separator: '/'
+};
+Breadcrumb.propTypes = {
+    prefixCls: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
+    separator: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.node,
+    routes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.array,
+    params: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object,
+    linkRender: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.func,
+    nameRender: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.func
+};
+
+/***/ }),
+
+/***/ "../../node_modules/antd/es/breadcrumb/BreadcrumbItem.js":
+/*!***********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/breadcrumb/BreadcrumbItem.js ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/helpers/extends */ "../../node_modules/babel-runtime/helpers/extends.js");
+/* harmony import */ var babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babel-runtime/helpers/classCallCheck */ "../../node_modules/babel-runtime/helpers/classCallCheck.js");
+/* harmony import */ var babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! babel-runtime/helpers/createClass */ "../../node_modules/babel-runtime/helpers/createClass.js");
+/* harmony import */ var babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! babel-runtime/helpers/possibleConstructorReturn */ "../../node_modules/babel-runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! babel-runtime/helpers/inherits */ "../../node_modules/babel-runtime/helpers/inherits.js");
+/* harmony import */ var babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! prop-types */ "../../node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
+
+
+var __rest = undefined && undefined.__rest || function (s, e) {
+    var t = {};
+    for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+    }if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+        if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
+    }return t;
+};
+
+
+
+var BreadcrumbItem = function (_React$Component) {
+    babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(BreadcrumbItem, _React$Component);
+
+    function BreadcrumbItem() {
+        babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, BreadcrumbItem);
+
+        return babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, (BreadcrumbItem.__proto__ || Object.getPrototypeOf(BreadcrumbItem)).apply(this, arguments));
+    }
+
+    babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(BreadcrumbItem, [{
+        key: 'render',
+        value: function render() {
+            var _a = this.props,
+                prefixCls = _a.prefixCls,
+                separator = _a.separator,
+                children = _a.children,
+                restProps = __rest(_a, ["prefixCls", "separator", "children"]);
+            var link = void 0;
+            if ('href' in this.props) {
+                link = react__WEBPACK_IMPORTED_MODULE_5__["createElement"](
+                    'a',
+                    babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({ className: prefixCls + '-link' }, restProps),
+                    children
+                );
+            } else {
+                link = react__WEBPACK_IMPORTED_MODULE_5__["createElement"](
+                    'span',
+                    babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({ className: prefixCls + '-link' }, restProps),
+                    children
+                );
+            }
+            if (children) {
+                return react__WEBPACK_IMPORTED_MODULE_5__["createElement"](
+                    'span',
+                    null,
+                    link,
+                    react__WEBPACK_IMPORTED_MODULE_5__["createElement"](
+                        'span',
+                        { className: prefixCls + '-separator' },
+                        separator
+                    )
+                );
+            }
+            return null;
+        }
+    }]);
+
+    return BreadcrumbItem;
+}(react__WEBPACK_IMPORTED_MODULE_5__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (BreadcrumbItem);
+
+BreadcrumbItem.__ANT_BREADCRUMB_ITEM = true;
+BreadcrumbItem.defaultProps = {
+    prefixCls: 'ant-breadcrumb',
+    separator: '/'
+};
+BreadcrumbItem.propTypes = {
+    prefixCls: prop_types__WEBPACK_IMPORTED_MODULE_6___default.a.string,
+    separator: prop_types__WEBPACK_IMPORTED_MODULE_6___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_6___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_6___default.a.element]),
+    href: prop_types__WEBPACK_IMPORTED_MODULE_6___default.a.string
+};
+
+/***/ }),
+
+/***/ "../../node_modules/antd/es/breadcrumb/index.js":
+/*!**************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/breadcrumb/index.js ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Breadcrumb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Breadcrumb */ "../../node_modules/antd/es/breadcrumb/Breadcrumb.js");
+/* harmony import */ var _BreadcrumbItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BreadcrumbItem */ "../../node_modules/antd/es/breadcrumb/BreadcrumbItem.js");
+
+
+_Breadcrumb__WEBPACK_IMPORTED_MODULE_0__["default"].Item = _BreadcrumbItem__WEBPACK_IMPORTED_MODULE_1__["default"];
+/* harmony default export */ __webpack_exports__["default"] = (_Breadcrumb__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/***/ }),
+
+/***/ "../../node_modules/antd/es/breadcrumb/style/css.js":
+/*!******************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/breadcrumb/style/css.js ***!
+  \******************************************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _style_index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../style/index.css */ "../../node_modules/antd/es/style/index.css");
+/* harmony import */ var _style_index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_index_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "../../node_modules/antd/es/breadcrumb/style/index.css");
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/***/ }),
+
+/***/ "../../node_modules/antd/es/breadcrumb/style/index.css":
+/*!*********************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/breadcrumb/style/index.css ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../css-loader!./index.css */ "../../node_modules/css-loader/index.js!../../node_modules/antd/es/breadcrumb/style/index.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "../../node_modules/antd/es/button/button-group.js":
 /*!*****************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/button/button-group.js ***!
@@ -14972,6 +15289,25 @@ module.exports = factory(
 
 /***/ }),
 
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/antd/es/breadcrumb/style/index.css":
+/*!***********************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/breadcrumb/style/index.css ***!
+  \***********************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */\n/* stylelint-disable no-duplicate-selectors */\n/* stylelint-disable declaration-bang-space-before,no-duplicate-selectors */\n/* stylelint-disable declaration-bang-space-before,no-duplicate-selectors,string-no-newline */\n.ant-breadcrumb {\n  font-family: \"Monospaced Number\", \"Chinese Quote\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  line-height: 1.5;\n  color: rgba(0, 0, 0, 0.65);\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  color: rgba(0, 0, 0, 0.45);\n  font-size: 14px;\n}\n.ant-breadcrumb .anticon {\n  font-size: 12px;\n}\n.ant-breadcrumb a {\n  color: rgba(0, 0, 0, 0.45);\n  -webkit-transition: color .3s;\n  transition: color .3s;\n}\n.ant-breadcrumb a:hover {\n  color: #40a9ff;\n}\n.ant-breadcrumb > span:last-child {\n  color: rgba(0, 0, 0, 0.65);\n}\n.ant-breadcrumb > span:last-child .ant-breadcrumb-separator {\n  display: none;\n}\n.ant-breadcrumb-separator {\n  margin: 0 8px;\n  color: rgba(0, 0, 0, 0.45);\n}\n.ant-breadcrumb-link > .anticon + span {\n  margin-left: 4px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../node_modules/css-loader/index.js!../../node_modules/antd/es/button/style/index.css":
 /*!*******************************************************************************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/antd/es/button/style/index.css ***!
@@ -15098,7 +15434,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".ViewSwitchList-container {\n    z-index: 3;\n    position: absolute;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n}\n\n.ViewSwitchList-group {\n    margin-right: 16px;\n    padding: 8px 0;\n    display: flex;\n    flex-direction: column;\n}\n\n.ViewSwitchList-big-item {\n    padding: 0 8px;\n}\n\n.ViewSwitchList-small-group {\n    background-color: white;\n    display: flex;\n    align-items: center;\n    border-bottom: 1px solid #ebedf0;\n    border-right: 1px solid #ebedf0;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 8px 8px 8px;\n    min-height: 42px;\n}\n\n.ViewSwitchList-small-item {\n    margin-right: 10px;\n}\n\n.ViewSwitchList-small-item .anticon {\n    padding: 2px 8px 0 0px;\n}\n", ""]);
+exports.push([module.i, ".ViewSwitchList-container {\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n}\n\n.ViewSwitchList-group {\n    margin-right: 16px;\n    display: flex;\n    flex-direction: column;\n}\n\n.ViewSwitchList-big-item {\n    padding: 0 8px;\n}\n\n.ViewSwitchList-small-group {\n    background-color: white;\n    display: flex;\n    align-items: center;\n    border-bottom: 1px solid #ebedf0;\n    border-right: 1px solid #ebedf0;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 8px 8px 8px;\n    min-height: 42px;\n}\n\n.ViewSwitchList-small-item {\n    margin-right: 10px;\n}\n\n.ViewSwitchList-small-item .anticon {\n    padding: 2px 8px 0 0px;\n}\n", ""]);
 
 // exports
 
@@ -15174,7 +15510,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeText-cover {\n    stroke: none;\n    fill: rgba(255, 255, 255, 0.5);\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}\n\n.NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}\n\n.CodeCrumbName-rect {\n    fill: #fff;\n    stroke: #ff18a6;\n}\n\n.CodeCrumbName-loc {\n    fill: #595959;\n    font-family: 'Menlo';\n    font-size: 8px;\n    cursor: pointer;\n}\n\n.CodeCrumbName-text {\n    fill: #ff18a6;\n    font-family: 'Menlo';\n    font-size: 12px;\n    cursor: pointer;\n}", ""]);
+exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeText-cover {\n    stroke: none;\n    fill: rgba(255, 255, 255, 0.5);\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}\n\n.NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}\n\n.CodeCrumbName-rect {\n    fill: #fff;\n    stroke: #ff18a6;\n}\n\n.CodeCrumbName-loc {\n    fill: #595959;\n    font-family: 'Menlo';\n    font-size: 8px;\n    cursor: pointer;\n}\n\n.CodeCrumbName-text {\n    fill: #ff18a6;\n    font-family: 'Menlo';\n    font-size: 12px;\n    cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -79960,6 +80296,10 @@ var _SideBarContainer = __webpack_require__(/*! components/side-bar/SideBarConta
 
 var _SideBarContainer2 = _interopRequireDefault(_SideBarContainer);
 
+var _TopBarContainer = __webpack_require__(/*! components/top-bar/TopBarContainer */ "./js/components/top-bar/TopBarContainer.js");
+
+var _TopBarContainer2 = _interopRequireDefault(_TopBarContainer);
+
 __webpack_require__(/*! ./App.css */ "./js/App.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -79972,7 +80312,8 @@ var App = function App() {
       'header',
       { className: 'App-header' },
       _react2.default.createElement(_DataBusContainer2.default, null),
-      _react2.default.createElement(_ViewSwitchesContainer2.default, null)
+      _react2.default.createElement(_ViewSwitchesContainer2.default, null),
+      _react2.default.createElement(_TopBarContainer2.default, null)
     ),
     _react2.default.createElement(
       'div',
@@ -80529,7 +80870,7 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DataBusCont
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectFile = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
+exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectNode = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
 
@@ -80563,9 +80904,9 @@ var calcFilesTreeLayoutNodes = exports.calcFilesTreeLayoutNodes = function calcF
   };
 };
 
-var selectFile = exports.selectFile = function selectFile(fileNode) {
+var selectNode = exports.selectNode = function selectNode(fileNode) {
   return {
-    type: _constants.ACTIONS.SELECT_FILE,
+    type: _constants.ACTIONS.SELECT_NODE,
     payload: fileNode
   };
 };
@@ -80621,7 +80962,7 @@ Object.defineProperty(exports, "__esModule", {
 var ACTIONS = exports.ACTIONS = {
   SET_INITIAL_SOURCE_DATA: 'DATA_BUS.SET_INITIAL_SOURCE_DATA',
   UPDATE_FILES_TREE_LAYOUT_NODES: 'DATA_BUS.UPDATE_FILES_TREE_LAYOUT_NODES',
-  SELECT_FILE: 'DATA_BUS.SELECT_FILE',
+  SELECT_NODE: 'DATA_BUS.SELECT_NODE',
   TOGGLE_FOLDER: 'DATA_BUS.TOGGLE_FOLDER',
   OPEN_ALL_FOLDERS: 'DATA_BUS.OPEN_ALL_FOLDERS',
   CLOSE_ALL_FOLDERS: 'DATA_BUS.CLOSE_ALL_FOLDERS',
@@ -80692,10 +81033,10 @@ exports.default = function () {
         filesTreeLayoutNodes: action.payload
       });
 
-    case _constants2.ACTIONS.SELECT_FILE:
+    case _constants2.ACTIONS.SELECT_NODE:
       return _extends({}, state, {
         selectedCodeCrumb: null,
-        selectedFile: action.payload
+        selectedNode: action.payload
       });
 
     case _constants2.ACTIONS.TOGGLE_FOLDER:
@@ -80721,9 +81062,10 @@ exports.default = function () {
       var _action$payload = action.payload,
           fileNode = _action$payload.fileNode,
           codeCrumb = _action$payload.codeCrumb;
+      //TODO: fileNode also can be folder, maybe don't use SELECT_CODE_CRUMB at all and use selected node as well
 
       return _extends({}, state, {
-        selectedFile: fileNode,
+        selectedNode: fileNode,
         selectedCodeCrumb: codeCrumb
       });
 
@@ -80769,27 +81111,29 @@ var _SideBar2 = _interopRequireDefault(_SideBar);
 
 var _actions = __webpack_require__(/*! components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
 
+var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SideBarContainer = function SideBarContainer(_ref) {
-  var selectedFile = _ref.selectedFile,
+  var selectedNode = _ref.selectedNode,
       selectedCodeCrumb = _ref.selectedCodeCrumb,
       onClose = _ref.onClose;
 
-  if (!selectedFile) return null;
+  if (!selectedNode || selectedNode.type !== _constants.FILE_NODE_TYPE) return null;
 
   //TODO: add animation slide
-  return _react2.default.createElement(_SideBar2.default, { file: selectedFile, codeCrumb: selectedCodeCrumb, onClose: onClose });
+  return _react2.default.createElement(_SideBar2.default, { file: selectedNode, codeCrumb: selectedCodeCrumb, onClose: onClose });
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   var _state$dataBus = state.dataBus,
-      selectedFile = _state$dataBus.selectedFile,
+      selectedNode = _state$dataBus.selectedNode,
       selectedCodeCrumb = _state$dataBus.selectedCodeCrumb;
 
 
   return {
-    selectedFile: selectedFile,
+    selectedNode: selectedNode,
     selectedCodeCrumb: selectedCodeCrumb
   };
 };
@@ -80797,7 +81141,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     onClose: function onClose() {
-      return dispatch((0, _actions.selectFile)(null));
+      return dispatch((0, _actions.selectNode)(null));
     }
   };
 };
@@ -80970,6 +81314,89 @@ exports.default = function (_ref) {
 
 /***/ }),
 
+/***/ "./js/components/top-bar/TopBarContainer.js":
+/*!**************************************************!*\
+  !*** ./js/components/top-bar/TopBarContainer.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _breadcrumb = __webpack_require__(/*! antd/es/breadcrumb */ "../../node_modules/antd/es/breadcrumb/index.js");
+
+var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
+
+__webpack_require__(/*! antd/es/breadcrumb/style/css */ "../../node_modules/antd/es/breadcrumb/style/css.js");
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
+
+var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TopBarContainer = function TopBarContainer(_ref) {
+  var selectedNode = _ref.selectedNode;
+
+  if (!selectedNode) return null;
+
+  var pathParts = selectedNode.path.split('/');
+  var lastNode = selectedNode.type === _constants.FILE_NODE_TYPE ? pathParts.pop() : null;
+
+  // TODO: close folder on click
+  return _react2.default.createElement(
+    _breadcrumb2.default,
+    null,
+    pathParts.map(function (part, i) {
+      return _react2.default.createElement(
+        _breadcrumb2.default.Item,
+        { key: part + i },
+        _react2.default.createElement(
+          'a',
+          {
+            href: '#',
+            onClick: function onClick() {
+              return console.log('close folder ' + pathParts.slice(0, i).join('/'));
+            }
+          },
+          part
+        )
+      );
+    }),
+    lastNode && _react2.default.createElement(
+      _breadcrumb2.default.Item,
+      null,
+      lastNode
+    )
+  );
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  var selectedNode = state.dataBus.selectedNode;
+
+
+  return {
+    selectedNode: selectedNode
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TopBarContainer);
+
+/***/ }),
+
 /***/ "./js/components/tree-diagram/TreeDiagramContainer.js":
 /*!************************************************************!*\
   !*** ./js/components/tree-diagram/TreeDiagramContainer.js ***!
@@ -81019,9 +81446,9 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = {
   onCodeCrumbSelect: _actions.selectCodeCrumb,
-  onFileSelect: _actions.selectFile,
+  onNodeTextClick: _actions.selectNode,
   onFileIconClick: _actions.setDependenciesEntryPoint,
-  onFolderClick: _actions.toggleFolder
+  onFolderIconClick: _actions.toggleFolder
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TreeDiagram2.default);
@@ -81617,7 +82044,8 @@ var FolderName = exports.FolderName = function FolderName(props) {
       name = props.name,
       dependency = props.dependency,
       closed = props.closed,
-      onClick = props.onClick;
+      onIconClick = props.onIconClick,
+      onTextClick = props.onTextClick;
 
 
   var iconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (dependency ? '-disabled' : '') + '.svg';
@@ -81645,7 +82073,7 @@ var FolderName = exports.FolderName = function FolderName(props) {
     _react2.default.createElement('image', {
       x: iconPositionX,
       y: iconPositionY,
-      onClick: onClick,
+      onClick: onIconClick,
       xlinkHref: iconPath,
       height: iconSize,
       width: iconSize,
@@ -81656,6 +82084,7 @@ var FolderName = exports.FolderName = function FolderName(props) {
       {
         x: position.x + 20,
         y: position.y - 3,
+        onClick: onTextClick,
         className: (0, _classnames2.default)('NodeText-folder-name', {
           'NodeText-folder-name-disabled': dependency
         })
@@ -82120,9 +82549,9 @@ var SourceTree = function (_React$Component) {
           closedFolders = _props.closedFolders,
           shiftToCenterPoint = _props.shiftToCenterPoint,
           codeCrumbsMinimize = _props.codeCrumbsMinimize,
-          onFileSelect = _props.onFileSelect,
+          onNodeTextClick = _props.onNodeTextClick,
           onFileIconClick = _props.onFileIconClick,
-          onFolderClick = _props.onFolderClick,
+          onFolderIconClick = _props.onFolderIconClick,
           dependenciesList = _props.dependenciesList;
 
 
@@ -82172,7 +82601,7 @@ var SourceTree = function (_React$Component) {
             purple: node.children && codeCrumbsMinimize,
             dependency: dependenciesDiagramOn,
             onTextClick: function onTextClick() {
-              return onFileSelect(node.data);
+              return onNodeTextClick(node.data);
             },
             onIconClick: function onIconClick() {
               return dependenciesDiagramOn && onFileIconClick(node.data);
@@ -82184,8 +82613,11 @@ var SourceTree = function (_React$Component) {
             name: name,
             dependency: dependenciesDiagramOn,
             closed: closedFolders[node.data.path],
-            onClick: function onClick() {
-              return onFolderClick(node.data);
+            onTextClick: function onTextClick() {
+              return onNodeTextClick(node.data);
+            },
+            onIconClick: function onIconClick() {
+              return onFolderIconClick(node.data);
             }
           });
         }

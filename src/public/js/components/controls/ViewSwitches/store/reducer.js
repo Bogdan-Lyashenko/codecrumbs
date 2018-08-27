@@ -45,11 +45,6 @@ const DefaultState = {
           name: 'minimize',
           title: 'Minimize code crumbs',
           key: CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
-        },
-        {
-          name: 'show details (remove it)',
-          title: 'Show all Details',
-          key: CONTROLS_KEYS.CODE_CRUMBS_DETAILS
         }
       ]
     }

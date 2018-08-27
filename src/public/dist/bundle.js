@@ -16613,7 +16613,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".App-container {\n    padding: 10px;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n}\n\n.App-header {\n    position: relative;\n    border-bottom: 1px solid #ebedf0;\n}\n\n.App-body {\n    position: relative;\n    height: 100%;\n}\n\n.App-footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px;\n}\n", ""]);
+exports.push([module.i, ".App-container {\n    padding: 10px;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n}\n\n.App-header {\n    position: relative;\n}\n\n.App-body {\n    position: relative;\n    height: 100%;\n    background-color: white;\n}\n\n.App-footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px;\n}\n", ""]);
 
 // exports
 
@@ -16632,7 +16632,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".ViewSwitchList-container {\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    margin-bottom: 10px;\n}\n\n.ViewSwitchList-group {\n    margin-right: 16px;\n    display: flex;\n}\n\n.ViewSwitchList-big-item {\n    padding-right: 8px;\n}\n\n.ViewSwitchList-small-group {\n    background-color: white;\n    display: flex;\n    align-items: center;\n    border-bottom: 1px solid #ebedf0;\n    border-right: 1px solid #ebedf0;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 8px 8px 8px;\n    min-height: 42px;\n}\n\n.ViewSwitch-name {\n    padding-right: 4px;\n}\n\n.ViewSwitchList-small-item {\n    margin-right: 10px;\n}\n\n.ViewSwitchList-small-item .anticon {\n    padding: 2px 8px 0 0px;\n}\n", ""]);
+exports.push([module.i, ".ViewSwitchList-container {\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    margin-bottom: 8px;\n}\n\n.ViewSwitchList-group {\n    margin-right: 16px;\n    display: flex;\n}\n\n.ViewSwitchList-big-item {\n    padding-right: 8px;\n}\n\n.ViewSwitchList-small-group {\n    background-color: white;\n    display: flex;\n    align-items: center;\n    border-bottom: 1px solid #ebedf0;\n    border-right: 1px solid #ebedf0;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 8px 8px 8px;\n    min-height: 42px;\n}\n\n.ViewSwitch-name {\n    padding-right: 4px;\n}\n\n.ViewSwitchList-small-item {\n    margin-right: 10px;\n}\n\n.ViewSwitchList-small-item .anticon {\n    padding: 2px 8px 0 0px;\n}\n", ""]);
 
 // exports
 
@@ -16670,7 +16670,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".TopBarContainer-wrapper {\n    padding-top: 5px;\n    border-top: 1px solid #F5F5F5;\n}", ""]);
+exports.push([module.i, ".TopBarContainer-wrapper {\n    padding: 3px 0;\n    border-top: 1px solid #ebedf0;\n    border-bottom: 1px solid #F5F5F5;\n}", ""]);
 
 // exports
 

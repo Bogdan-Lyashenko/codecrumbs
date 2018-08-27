@@ -89434,10 +89434,10 @@ var CONTROLS_KEYS = exports.CONTROLS_KEYS = {
   SOURCE: 'source',
   SOURCE_COLLAPSE_TO_MIN: 'sourceCollapseToMin',
   SOURCE_EXPAND_ALL: 'sourceExpandAll',
+  SOURCE_DIM_FOLDERS: 'sourceDimFolders',
   DEPENDENCIES: 'dependencies',
   DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
   DEPENDENCIES_SHOW_ONE_MODULE: 'dependenciesShowOneModule',
-  DEPENDENCIES_DIM_SOURCE: 'dependenciesDimSource',
   CODE_CRUMBS: 'codeCrumbs',
   CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
   CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'
@@ -89465,7 +89465,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _checkedState, _disabledState;
+var _disabledState;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
@@ -89485,6 +89485,10 @@ var DefaultState = {
       title: 'Open all folders',
       key: _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL,
       type: _constants.VIEW_TYPES.BUTTON
+    }, {
+      name: 'dim source',
+      title: 'Dim source tree folders',
+      key: _constants.CONTROLS_KEYS.SOURCE_DIM_FOLDERS
     }]
   }, {
     name: 'Dependencies',
@@ -89498,10 +89502,6 @@ var DefaultState = {
       name: 'direct only',
       title: 'Show One module dependencies',
       key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
-    }, {
-      name: 'dim source',
-      title: 'Dim source tree folders',
-      key: _constants.CONTROLS_KEYS.DEPENDENCIES_DIM_SOURCE
     }]
   }, {
     name: 'CodeCrumbs',
@@ -89512,7 +89512,7 @@ var DefaultState = {
       key: _constants.CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
     }]
   }],
-  checkedState: (_checkedState = {}, _defineProperty(_checkedState, _constants.CONTROLS_KEYS.SOURCE, true), _defineProperty(_checkedState, _constants.CONTROLS_KEYS.DEPENDENCIES_DIM_SOURCE, true), _checkedState),
+  checkedState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE, true),
   disabledState: (_disabledState = {}, _defineProperty(_disabledState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_disabledState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _disabledState)
 };
 
@@ -90300,7 +90300,7 @@ var mapStateToProps = function mapStateToProps(state) {
     sourceDiagramOn: checkedState.source,
     dependenciesDiagramOn: checkedState.dependencies,
     dependenciesShowOneModule: checkedState.dependenciesShowOneModule,
-    dependenciesDimSource: checkedState.dependenciesDimSource,
+    sourceDimFolders: checkedState.sourceDimFolders,
     codeCrumbsDiagramOn: checkedState.codeCrumbs,
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
     codeCrumbsDetails: checkedState.codeCrumbsDetails,
@@ -91412,7 +91412,7 @@ var SourceTree = function (_React$Component) {
       var _props = this.props,
           sourceDiagramOn = _props.sourceDiagramOn,
           dependenciesDiagramOn = _props.dependenciesDiagramOn,
-          dependenciesDimSource = _props.dependenciesDimSource,
+          sourceDimFolders = _props.sourceDimFolders,
           codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
           filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
           closedFolders = _props.closedFolders,
@@ -91452,7 +91452,7 @@ var SourceTree = function (_React$Component) {
             key: 'edge-' + i,
             targetPosition: position,
             sourcePosition: sourcePosition,
-            disabled: dependenciesDiagramOn && dependenciesDimSource,
+            disabled: sourceDimFolders,
             singleChild: parent.children.length === 1
           }));
         }
@@ -91481,7 +91481,7 @@ var SourceTree = function (_React$Component) {
             position: position,
             name: name,
             dependency: dependenciesDiagramOn,
-            disabled: dependenciesDiagramOn && dependenciesDimSource,
+            disabled: sourceDimFolders,
             closed: closedFolders[node.data.path],
             onTextClick: function onTextClick() {
               return onNodeTextClick(node.data);

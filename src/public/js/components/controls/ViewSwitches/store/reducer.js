@@ -17,6 +17,11 @@ const DefaultState = {
           title: 'Open all folders',
           key: CONTROLS_KEYS.SOURCE_EXPAND_ALL,
           type: VIEW_TYPES.BUTTON
+        },
+        {
+          name: 'dim source',
+          title: 'Dim source tree folders',
+          key: CONTROLS_KEYS.SOURCE_DIM_FOLDERS
         }
       ]
     },
@@ -34,11 +39,6 @@ const DefaultState = {
           name: 'direct only',
           title: 'Show One module dependencies',
           key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
-        },
-        {
-          name: 'dim source',
-          title: 'Dim source tree folders',
-          key: CONTROLS_KEYS.DEPENDENCIES_DIM_SOURCE
         }
       ]
     },
@@ -55,8 +55,7 @@ const DefaultState = {
     }
   ],
   checkedState: {
-    [CONTROLS_KEYS.SOURCE]: true,
-    [CONTROLS_KEYS.DEPENDENCIES_DIM_SOURCE]: true
+    [CONTROLS_KEYS.SOURCE]: true
   },
   disabledState: {
     [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true,

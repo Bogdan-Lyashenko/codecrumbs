@@ -7,12 +7,12 @@
 
 .App-header {
     position: relative;
-    border-bottom: 1px solid #ebedf0;
 }
 
 .App-body {
     position: relative;
     height: 100%;
+    background-color: white;
 }
 
 .App-footer {

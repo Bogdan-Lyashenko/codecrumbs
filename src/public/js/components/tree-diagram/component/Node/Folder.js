@@ -6,11 +6,9 @@ import './index.css';
 const ICONS_DIR = 'resources/';
 
 export const FolderName = props => {
-  const { position, name, dependency, closed, onIconClick, onTextClick } = props;
+  const { position, name, dependency, disabled, closed, onIconClick, onTextClick } = props;
 
-  const iconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${
-    dependency ? '-disabled' : ''
-  }.svg`;
+  const iconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${disabled ? '-disabled' : ''}.svg`;
   const iconSize = closed ? 14 : 15;
 
   const iconPositionX = position.x + 3;
@@ -38,7 +36,7 @@ export const FolderName = props => {
             iconPositionY + 14
           ].join(', ')}
           className={classNames('NodeIcon-folder-line', {
-            'NodeIcon-folder-line-disabled': dependency
+            'NodeIcon-folder-line-disabled': disabled
           })}
         />
       ) : null}
@@ -56,7 +54,7 @@ export const FolderName = props => {
         y={position.y - 3}
         onClick={onTextClick}
         className={classNames('NodeText-folder-name', {
-          'NodeText-folder-name-disabled': dependency
+          'NodeText-folder-name-disabled': disabled
         })}
       >
         {name}

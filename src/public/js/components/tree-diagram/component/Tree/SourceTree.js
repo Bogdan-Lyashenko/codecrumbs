@@ -14,6 +14,7 @@ class SourceTree extends React.Component {
     const {
       sourceDiagramOn,
       dependenciesDiagramOn,
+      dependenciesDimSource,
       codeCrumbsDiagramOn,
 
       filesTreeLayoutNodes,
@@ -49,7 +50,7 @@ class SourceTree extends React.Component {
             key={`edge-${i}`}
             targetPosition={position}
             sourcePosition={sourcePosition}
-            disabled={dependenciesDiagramOn}
+            disabled={dependenciesDiagramOn && dependenciesDimSource}
             singleChild={parent.children.length === 1}
           />
         );
@@ -78,6 +79,7 @@ class SourceTree extends React.Component {
             position={position}
             name={name}
             dependency={dependenciesDiagramOn}
+            disabled={dependenciesDiagramOn && dependenciesDimSource}
             closed={closedFolders[node.data.path]}
             onTextClick={() => onNodeTextClick(node.data)}
             onIconClick={() => onFolderIconClick(node.data)}

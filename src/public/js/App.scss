@@ -1,23 +1,23 @@
-.App-container {
-    padding: 10px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
+.App {
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-.App-header {
+  .header {
     position: relative;
-}
+  }
 
-.App-body {
+  .body {
     position: relative;
     height: 100%;
     background-color: white;
-}
+  }
 
-.App-footer {
+  .footer {
     position: absolute;
     bottom: 10px;
     right: 10px;
     font-size: 10px;
+  }
 }

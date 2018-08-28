@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import './index.css';
+import './index.scss';
 
 export const SourceEdge = props => {
   const {

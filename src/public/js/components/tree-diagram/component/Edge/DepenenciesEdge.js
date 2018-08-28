@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import './index.scss';
 
 import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/tree-diagram/store/constants';
 const { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT } = DepEdgeGroups;

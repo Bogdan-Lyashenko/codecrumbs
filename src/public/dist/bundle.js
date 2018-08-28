@@ -16601,10 +16601,10 @@ exports.push([module.i, "/* stylelint-disable at-rule-empty-line-before,at-rule-
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/App.css":
-/*!**********************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/App.css ***!
-  \**********************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/App.scss":
+/*!****************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/App.scss ***!
+  \****************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16613,17 +16613,17 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".App-container {\n    padding: 10px;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n}\n\n.App-header {\n    position: relative;\n}\n\n.App-body {\n    position: relative;\n    height: 100%;\n    background-color: white;\n}\n\n.App-footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px;\n}\n", ""]);
+exports.push([module.i, ".App {\n  padding: 10px;\n  height: 100%;\n  display: flex;\n  flex-direction: column; }\n  .App .header {\n    position: relative; }\n  .App .body {\n    position: relative;\n    height: 100%;\n    background-color: white; }\n  .App .footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/components/controls/ViewSwitches/component/ViewSwitchList.css":
-/*!****************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/controls/ViewSwitches/component/ViewSwitchList.css ***!
-  \****************************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/controls/ViewSwitches/component/ViewSwitchList.scss":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/controls/ViewSwitches/component/ViewSwitchList.scss ***!
+  \**********************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16632,17 +16632,17 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".ViewSwitchList-container {\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    margin-bottom: 8px;\n}\n\n.ViewSwitchList-group {\n    margin-right: 16px;\n    display: flex;\n}\n\n.ViewSwitchList-big-item {\n    padding-right: 8px;\n}\n\n.ViewSwitchList-small-group {\n    background-color: white;\n    display: flex;\n    align-items: center;\n    border-bottom: 1px solid #ebedf0;\n    border-right: 1px solid #ebedf0;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 8px 8px 8px;\n    min-height: 42px;\n}\n\n.ViewSwitch-name {\n    padding-right: 4px;\n}\n\n.ViewSwitchList-small-item {\n    margin-right: 10px;\n}\n\n.ViewSwitchList-small-item .anticon {\n    padding: 2px 8px 0 0px;\n}\n", ""]);
+exports.push([module.i, ".ViewSwitchList {\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 8px; }\n  .ViewSwitchList .group {\n    margin-right: 16px;\n    display: flex; }\n  .ViewSwitchList .big-item {\n    padding-right: 8px; }\n  .ViewSwitchList .viewSwitchName {\n    padding-right: 4px; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/components/side-bar/component/SideBar.css":
-/*!********************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/side-bar/component/SideBar.css ***!
-  \********************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/side-bar/component/SideBar.scss":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/side-bar/component/SideBar.scss ***!
+  \**************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16651,17 +16651,17 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".SideBar-container {\n    position: absolute;\n    right: 0px;\n    top: 0px;\n    height: 100%;\n    width: 650px;\n    z-index: 4;\n    background-color: white;\n    border-left: 1px solid #ebedf0;\n    padding: 8px 16px;\n}\n\n.SideBar-header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between;\n}\n\n\n.SideBar-body {\n    height: calc(100% - 25px);\n    overflow: auto;\n}", ""]);
+exports.push([module.i, ".SideBar {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  width: 650px;\n  z-index: 4;\n  background-color: white;\n  border-left: 1px solid #ebedf0;\n  padding: 8px 16px; }\n  .SideBar .header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between; }\n  .SideBar .body {\n    height: calc(100% - 25px);\n    overflow: auto; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/components/top-bar/TopBarContainer.css":
-/*!*****************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/top-bar/TopBarContainer.css ***!
-  \*****************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/top-bar/TopBarContainer.scss":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/top-bar/TopBarContainer.scss ***!
+  \***********************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16670,17 +16670,17 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".TopBarContainer-wrapper {\n    padding: 3px 0;\n    border-top: 1px solid #ebedf0;\n    border-bottom: 1px solid #F5F5F5;\n}", ""]);
+exports.push([module.i, ".TopBarContainer {\n  padding: 3px 0;\n  border-top: 1px solid #ebedf0;\n  border-bottom: 1px solid #F5F5F5; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Dot/index.css":
-/*!**************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/Dot/index.css ***!
-  \**************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Dot/index.scss":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Dot/index.scss ***!
+  \********************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16689,17 +16689,17 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".Dot {\n    fill: #BFBFBF;\n}\n\n.Dot-disabled {\n    fill: #ccc;\n}\n\n.Dot-highlighted {\n    fill: #1890ff;\n}", ""]);
+exports.push([module.i, ".Dot {\n  fill: #BFBFBF; }\n\n.Dot-disabled {\n  fill: #ccc; }\n\n.Dot-highlighted {\n  fill: #1890ff; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Edge/index.css":
-/*!***************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/Edge/index.css ***!
-  \***************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Edge/index.scss":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Edge/index.scss ***!
+  \*********************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16708,17 +16708,17 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n    cursor: pointer;\n    fill: none;\n    stroke-width: 8px;\n    stroke: rgba(0,0,0,0);\n}\n\n.SourceEdge {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.SourceEdge-disabled {\n    stroke: #ccc;\n}\n\n.DependenciesEdge {\n    fill: none;\n    stroke: #1890ff;\n}\n\n.DependenciesEdge-end-dot {\n    fill: #1890ff;\n}\n\n.CodeCrumbEdge {\n    fill: none;\n    stroke: #ff18a6;\n}", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Node/index.css":
-/*!***************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/Node/index.css ***!
-  \***************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Node/index.scss":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Node/index.scss ***!
+  \*********************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16727,17 +16727,17 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".NodeIcon {\n    cursor: pointer;\n}\n\n.NodeText-cover {\n    stroke: none;\n    fill: rgba(255, 255, 255, 0.5);\n}\n\n.NodeIcon-folder-line {\n    fill: none;\n    stroke: #BFBFBF;\n}\n\n.NodeIcon-folder-line-disabled {\n    stroke: #ccc;\n}\n\n.NodeText-file-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-file-name-purple {\n    fill: #ff18a6;\n}\n\n.NodeText-folder-name {\n    fill: #595959;\n    font-family: 'Menlo';\n    cursor: pointer;\n}\n\n.NodeText-folder-name-disabled {\n    fill: #A9A8A8;\n}\n\n.CodeCrumbName-rect {\n    fill: #fff;\n    stroke: #ff18a6;\n}\n\n.CodeCrumbName-loc {\n    fill: #595959;\n    font-family: 'Menlo';\n    font-size: 8px;\n    cursor: pointer;\n}\n\n.CodeCrumbName-text {\n    fill: #ff18a6;\n    font-family: 'Menlo';\n    font-size: 12px;\n    cursor: pointer;\n}", ""]);
+exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.5); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: 'Menlo';\n  font-size: 8px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: 'Menlo';\n  font-size: 12px;\n  cursor: pointer; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/TreeDiagram.css":
-/*!****************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!./js/components/tree-diagram/component/TreeDiagram.css ***!
-  \****************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/TreeDiagram.scss":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/TreeDiagram.scss ***!
+  \**********************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16746,7 +16746,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".TreeDiagram-layers {\n    position: relative;\n}\n\n.TreeDiagram-layer, .TreeDiagram-layer svg {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n", ""]);
+exports.push([module.i, ".TreeDiagram {\n  position: relative; }\n", ""]);
 
 // exports
 
@@ -88930,36 +88930,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./js/App.css":
-/*!********************!*\
-  !*** ./js/App.css ***!
-  \********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../node_modules/css-loader!./App.css */ "../../node_modules/css-loader/index.js!./js/App.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./js/App.js":
 /*!*******************!*\
   !*** ./js/App.js ***!
@@ -88998,30 +88968,30 @@ var _TopBarContainer = __webpack_require__(/*! components/top-bar/TopBarContaine
 
 var _TopBarContainer2 = _interopRequireDefault(_TopBarContainer);
 
-__webpack_require__(/*! ./App.css */ "./js/App.css");
+__webpack_require__(/*! ./App.scss */ "./js/App.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
   return _react2.default.createElement(
     'div',
-    { className: 'App-container' },
+    { className: 'App' },
     _react2.default.createElement(
       'header',
-      { className: 'App-header' },
+      { className: 'header' },
       _react2.default.createElement(_DataBusContainer2.default, null),
       _react2.default.createElement(_ViewSwitchesContainer2.default, null),
       _react2.default.createElement(_TopBarContainer2.default, null)
     ),
     _react2.default.createElement(
       'div',
-      { className: 'App-body' },
+      { className: 'body' },
       _react2.default.createElement(_TreeDiagramContainer2.default, null),
       _react2.default.createElement(_SideBarContainer2.default, null)
     ),
     _react2.default.createElement(
       'footer',
-      { className: 'App-footer' },
+      { className: 'footer' },
       'Bohdan Liashenko ',
       _react2.default.createElement(
         'a',
@@ -89033,6 +89003,36 @@ var App = function App() {
 };
 
 exports.default = App;
+
+/***/ }),
+
+/***/ "./js/App.scss":
+/*!*********************!*\
+  !*** ./js/App.scss ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/sass-loader/lib/loader.js!./App.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/App.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -89050,17 +89050,47 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ViewsSwitchList = __webpack_require__(/*! ./component/ViewsSwitchList */ "./js/components/controls/ViewSwitches/component/ViewsSwitchList.js");
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
-var _ViewsSwitchList2 = _interopRequireDefault(_ViewsSwitchList);
+var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 
 var _actions = __webpack_require__(/*! ./store/actions */ "./js/components/controls/ViewSwitches/store/actions.js");
 
-var _constants = __webpack_require__(/*! ./store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
+var _ViewSwitch = __webpack_require__(/*! ./component/ViewSwitch */ "./js/components/controls/ViewSwitches/component/ViewSwitch.js");
+
+var _ViewSwitch2 = _interopRequireDefault(_ViewSwitch);
+
+__webpack_require__(/*! ./component/ViewSwitchList.scss */ "./js/components/controls/ViewSwitches/component/ViewSwitchList.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ViewSwitchList = function ViewSwitchList(props) {
+  var switches = props.switches,
+      toggleSwitch = props.toggleSwitch,
+      fireButtonAction = props.fireButtonAction,
+      checkedState = props.checkedState,
+      disabledState = props.disabledState;
+
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'ViewSwitchList' },
+    switches.map(function (item, i) {
+      return _react2.default.createElement(_ViewSwitch2.default, {
+        key: item.key,
+        itemKey: item.key,
+        name: item.name,
+        subMenuItems: item.children,
+        checkedState: checkedState,
+        disabledState: disabledState,
+        toggleSwitch: toggleSwitch,
+        fireButtonAction: fireButtonAction
+      });
+    })
+  );
+};
 
 var mapStateToProps = function mapStateToProps(state) {
   var _state$viewSwitches = state.viewSwitches,
@@ -89077,7 +89107,7 @@ var mapDispatchToProps = {
   fireButtonAction: _actions.fireButtonAction
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_ViewsSwitchList2.default);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ViewSwitchList);
 
 /***/ }),
 
@@ -89127,7 +89157,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _constants = __webpack_require__(/*! components/controls/ViewSwitches/store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
-__webpack_require__(/*! ./ViewSwitchList.css */ "./js/components/controls/ViewSwitches/component/ViewSwitchList.css");
+__webpack_require__(/*! ./ViewSwitchList.scss */ "./js/components/controls/ViewSwitches/component/ViewSwitchList.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -89213,7 +89243,7 @@ var ViewSwitch = function (_React$Component) {
           { href: '#' },
           _react2.default.createElement(
             'span',
-            { className: 'ViewSwitch-name' },
+            { className: 'viewSwitchName' },
             name,
             _react2.default.createElement(_icon2.default, { type: 'down' })
           )
@@ -89233,13 +89263,13 @@ var ViewSwitch = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'ViewSwitchList-group' },
+        { className: 'group' },
         _react2.default.createElement(
           'div',
-          { className: 'ViewSwitchList-big-item' },
+          { className: 'big-item' },
           checkedState[itemKey] && subMenuItems.length ? this.renderMenu() : _react2.default.createElement(
             'span',
-            { className: 'ViewSwitch-name' },
+            { className: 'viewSwitchName' },
             name
           ),
           _react2.default.createElement(_switch2.default, {
@@ -89261,15 +89291,15 @@ exports.default = ViewSwitch;
 
 /***/ }),
 
-/***/ "./js/components/controls/ViewSwitches/component/ViewSwitchList.css":
-/*!**************************************************************************!*\
-  !*** ./js/components/controls/ViewSwitches/component/ViewSwitchList.css ***!
-  \**************************************************************************/
+/***/ "./js/components/controls/ViewSwitches/component/ViewSwitchList.scss":
+/*!***************************************************************************!*\
+  !*** ./js/components/controls/ViewSwitches/component/ViewSwitchList.scss ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!./ViewSwitchList.css */ "../../node_modules/css-loader/index.js!./js/components/controls/ViewSwitches/component/ViewSwitchList.css");
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./ViewSwitchList.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/controls/ViewSwitches/component/ViewSwitchList.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -89288,86 +89318,6 @@ var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loa
 if(content.locals) module.exports = content.locals;
 
 if(false) {}
-
-/***/ }),
-
-/***/ "./js/components/controls/ViewSwitches/component/ViewsSwitchList.js":
-/*!**************************************************************************!*\
-  !*** ./js/components/controls/ViewSwitches/component/ViewsSwitchList.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(/*! ./ViewSwitchList.css */ "./js/components/controls/ViewSwitches/component/ViewSwitchList.css");
-
-var _ViewSwitch = __webpack_require__(/*! ./ViewSwitch */ "./js/components/controls/ViewSwitches/component/ViewSwitch.js");
-
-var _ViewSwitch2 = _interopRequireDefault(_ViewSwitch);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ViewsSwitchList = function (_React$Component) {
-  _inherits(ViewsSwitchList, _React$Component);
-
-  function ViewsSwitchList() {
-    _classCallCheck(this, ViewsSwitchList);
-
-    return _possibleConstructorReturn(this, (ViewsSwitchList.__proto__ || Object.getPrototypeOf(ViewsSwitchList)).apply(this, arguments));
-  }
-
-  _createClass(ViewsSwitchList, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          switches = _props.switches,
-          toggleSwitch = _props.toggleSwitch,
-          fireButtonAction = _props.fireButtonAction,
-          checkedState = _props.checkedState,
-          disabledState = _props.disabledState;
-
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'ViewSwitchList-container' },
-        switches.map(function (item, i) {
-          return _react2.default.createElement(_ViewSwitch2.default, {
-            key: item.key,
-            itemKey: item.key,
-            name: item.name,
-            subMenuItems: item.children,
-            checkedState: checkedState,
-            disabledState: disabledState,
-            toggleSwitch: toggleSwitch,
-            fireButtonAction: fireButtonAction
-          });
-        })
-      );
-    }
-  }]);
-
-  return ViewsSwitchList;
-}(_react2.default.Component);
-
-exports.default = ViewsSwitchList;
 
 /***/ }),
 
@@ -89999,36 +89949,6 @@ exports.default = function (_ref) {
 
 /***/ }),
 
-/***/ "./js/components/side-bar/component/SideBar.css":
-/*!******************************************************!*\
-  !*** ./js/components/side-bar/component/SideBar.css ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!./SideBar.css */ "../../node_modules/css-loader/index.js!./js/components/side-bar/component/SideBar.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./js/components/side-bar/component/SideBar.js":
 /*!*****************************************************!*\
   !*** ./js/components/side-bar/component/SideBar.js ***!
@@ -90053,7 +89973,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./SideBar.css */ "./js/components/side-bar/component/SideBar.css");
+__webpack_require__(/*! ./SideBar.scss */ "./js/components/side-bar/component/SideBar.scss");
 
 var _Code = __webpack_require__(/*! ./Code/Code */ "./js/components/side-bar/component/Code/Code.js");
 
@@ -90073,10 +89993,10 @@ exports.default = function (_ref) {
 
   return _react2.default.createElement(
     'div',
-    { className: 'SideBar-container' },
+    { className: 'SideBar' },
     _react2.default.createElement(
       'div',
-      { className: 'SideBar-header' },
+      { className: 'header' },
       _react2.default.createElement(
         'div',
         null,
@@ -90090,7 +90010,7 @@ exports.default = function (_ref) {
     ),
     _react2.default.createElement(
       'div',
-      { className: 'SideBar-body' },
+      { className: 'body' },
       file.fileCode && _react2.default.createElement(
         _tabs2.default,
         { defaultActiveKey: '1', onChange: function onChange() {} },
@@ -90116,15 +90036,15 @@ exports.default = function (_ref) {
 
 /***/ }),
 
-/***/ "./js/components/top-bar/TopBarContainer.css":
-/*!***************************************************!*\
-  !*** ./js/components/top-bar/TopBarContainer.css ***!
-  \***************************************************/
+/***/ "./js/components/side-bar/component/SideBar.scss":
+/*!*******************************************************!*\
+  !*** ./js/components/side-bar/component/SideBar.scss ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!./TopBarContainer.css */ "../../node_modules/css-loader/index.js!./js/components/top-bar/TopBarContainer.css");
+var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!../../../../../../node_modules/sass-loader/lib/loader.js!./SideBar.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/side-bar/component/SideBar.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -90138,7 +90058,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+var update = __webpack_require__(/*! ../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -90180,7 +90100,7 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/rea
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-__webpack_require__(/*! ./TopBarContainer.css */ "./js/components/top-bar/TopBarContainer.css");
+__webpack_require__(/*! ./TopBarContainer.scss */ "./js/components/top-bar/TopBarContainer.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90189,7 +90109,7 @@ var TopBarContainer = function TopBarContainer(_ref) {
 
   if (!selectedNode) return _react2.default.createElement(
     'div',
-    { className: 'TopBarContainer-wrapper' },
+    { className: 'TopBarContainer' },
     _react2.default.createElement(
       _breadcrumb2.default,
       null,
@@ -90212,7 +90132,7 @@ var TopBarContainer = function TopBarContainer(_ref) {
   // TODO: close folder on click
   return _react2.default.createElement(
     'div',
-    { className: 'TopBarContainer-wrapper' },
+    { className: 'TopBarContainer' },
     _react2.default.createElement(
       _breadcrumb2.default,
       null,
@@ -90260,6 +90180,36 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TopBarContainer);
+
+/***/ }),
+
+/***/ "./js/components/top-bar/TopBarContainer.scss":
+/*!****************************************************!*\
+  !*** ./js/components/top-bar/TopBarContainer.scss ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/sass-loader/lib/loader.js!./TopBarContainer.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/top-bar/TopBarContainer.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -90322,36 +90272,6 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Dot/index.css":
-/*!************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Dot/index.css ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Dot/index.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./js/components/tree-diagram/component/Dot/index.js":
 /*!***********************************************************!*\
   !*** ./js/components/tree-diagram/component/Dot/index.js ***!
@@ -90375,7 +90295,7 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Dot/index.css");
+__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Dot/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90399,6 +90319,36 @@ var Dot = exports.Dot = function Dot(props) {
 
 /***/ }),
 
+/***/ "./js/components/tree-diagram/component/Dot/index.scss":
+/*!*************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Dot/index.scss ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Dot/index.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js":
 /*!********************************************************************!*\
   !*** ./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js ***!
@@ -90418,7 +90368,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
+__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Edge/index.scss");
 
 var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
 
@@ -90487,7 +90437,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
+__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Edge/index.scss");
 
 var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
 
@@ -90623,7 +90573,7 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Edge/index.css");
+__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Edge/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90662,15 +90612,15 @@ var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Edge/index.css":
-/*!*************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Edge/index.css ***!
-  \*************************************************************/
+/***/ "./js/components/tree-diagram/component/Edge/index.scss":
+/*!**************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Edge/index.scss ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Edge/index.css");
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Edge/index.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -90711,7 +90661,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Node/index.css");
+__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Node/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90809,7 +90759,7 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
 
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Node/index.css");
+__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Node/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90900,7 +90850,7 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-__webpack_require__(/*! ./index.css */ "./js/components/tree-diagram/component/Node/index.css");
+__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Node/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90964,15 +90914,15 @@ var FolderName = exports.FolderName = function FolderName(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Node/index.css":
-/*!*************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Node/index.css ***!
-  \*************************************************************/
+/***/ "./js/components/tree-diagram/component/Node/index.scss":
+/*!**************************************************************!*\
+  !*** ./js/components/tree-diagram/component/Node/index.scss ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!./index.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/Node/index.css");
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Node/index.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -91518,36 +91468,6 @@ exports.default = SourceTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/TreeDiagram.css":
-/*!**************************************************************!*\
-  !*** ./js/components/tree-diagram/component/TreeDiagram.css ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!./TreeDiagram.css */ "../../node_modules/css-loader/index.js!./js/components/tree-diagram/component/TreeDiagram.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./js/components/tree-diagram/component/TreeDiagram.js":
 /*!*************************************************************!*\
   !*** ./js/components/tree-diagram/component/TreeDiagram.js ***!
@@ -91575,7 +91495,7 @@ var _SourceTree = __webpack_require__(/*! ./Tree/SourceTree */ "./js/components/
 
 var _SourceTree2 = _interopRequireDefault(_SourceTree);
 
-__webpack_require__(/*! ./TreeDiagram.css */ "./js/components/tree-diagram/component/TreeDiagram.css");
+__webpack_require__(/*! ./TreeDiagram.scss */ "./js/components/tree-diagram/component/TreeDiagram.scss");
 
 var _geometry = __webpack_require__(/*! utils/geometry */ "./js/utils/geometry.js");
 
@@ -91623,7 +91543,7 @@ var TreeDiagram = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'TreeDiagram-container' },
+        { className: 'TreeDiagram' },
         _react2.default.createElement(
           'svg',
           { width: width, height: height, xmlns: 'http://www.w3.org/2000/svg' },
@@ -91640,6 +91560,36 @@ var TreeDiagram = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = TreeDiagram;
+
+/***/ }),
+
+/***/ "./js/components/tree-diagram/component/TreeDiagram.scss":
+/*!***************************************************************!*\
+  !*** ./js/components/tree-diagram/component/TreeDiagram.scss ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!../../../../../../node_modules/sass-loader/lib/loader.js!./TreeDiagram.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/TreeDiagram.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 

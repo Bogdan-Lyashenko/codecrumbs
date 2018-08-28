@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import './index.css';
+import './index.scss';
 
 const ICONS_DIR = 'resources/';
 

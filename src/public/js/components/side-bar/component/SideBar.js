@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 
-import './SideBar.css';
+import './SideBar.scss';
 import Code from './Code/Code';
 
 //TODO: Add slide from right animation
@@ -10,15 +10,15 @@ export default ({ file, codeCrumb, onClose }) => {
   const crumbedLines = !codeCrumb ? [] : codeCrumb.crumbedLineNode.loc.start.line;
 
   return (
-    <div className="SideBar-container">
-      <div className="SideBar-header">
+    <div className="SideBar">
+      <div className="header">
         <div>{file.path}</div>
         <a href="#" onClick={onClose}>
           X
         </a>
       </div>
 
-      <div className="SideBar-body">
+      <div className="body">
         {file.fileCode && (
           <Tabs defaultActiveKey="1" onChange={() => {}}>
             <TabPane tab="Code" key="1">

@@ -1,6 +1,6 @@
 import React from 'react';
 import SourceTree from './Tree/SourceTree';
-import './TreeDiagram.css';
+import './TreeDiagram.scss';
 
 import { buildShiftToPoint } from 'utils/geometry';
 
@@ -18,7 +18,7 @@ class TreeDiagram extends React.Component {
     const { filesTreeLayoutNodes, ...otherProps } = this.props;
 
     return (
-      <div className="TreeDiagram-container">
+      <div className="TreeDiagram">
         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
           {filesTreeLayoutNodes && (
             <SourceTree

@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Breadcrumb, Icon } from 'antd';
 
 import { FILE_NODE_TYPE } from 'utils/constants';
-import './TopBarContainer.css';
+import './TopBarContainer.scss';
 
 const TopBarContainer = ({ selectedNode }) => {
   if (!selectedNode)
     return (
-      <div className={'TopBarContainer-wrapper'}>
+      <div className="TopBarContainer">
         <Breadcrumb>
           <Breadcrumb.Item>
             <Icon type="home" />
@@ -23,7 +23,7 @@ const TopBarContainer = ({ selectedNode }) => {
 
   // TODO: close folder on click
   return (
-    <div className={'TopBarContainer-wrapper'}>
+    <div className="TopBarContainer">
       <Breadcrumb>
         <Breadcrumb.Item>
           <Icon type="home" />

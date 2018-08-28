@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Checkbox, Switch, Menu, Dropdown, Icon } from 'antd';
 
 import { VIEW_TYPES } from 'components/controls/ViewSwitches/store/constants';
-import './ViewSwitchList.css';
+import './ViewSwitchList.scss';
 
 class ViewSwitch extends React.Component {
   renderMenu() {
@@ -55,7 +55,7 @@ class ViewSwitch extends React.Component {
     return (
       <Dropdown overlay={menu} trigger={['click']}>
         <a href="#">
-          <span className={'ViewSwitch-name'}>
+          <span className="viewSwitchName">
             {name}
             <Icon type="down" />
           </span>
@@ -68,12 +68,12 @@ class ViewSwitch extends React.Component {
     const { name, itemKey, subMenuItems, checkedState, toggleSwitch } = this.props;
 
     return (
-      <div className="ViewSwitchList-group">
-        <div className="ViewSwitchList-big-item">
+      <div className="group">
+        <div className="big-item">
           {checkedState[itemKey] && subMenuItems.length ? (
             this.renderMenu()
           ) : (
-            <span className={'ViewSwitch-name'}>{name}</span>
+            <span className="viewSwitchName">{name}</span>
           )}
           <Switch
             size="small"

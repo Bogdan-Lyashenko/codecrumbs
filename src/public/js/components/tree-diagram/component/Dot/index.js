@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import './index.css';
+import './index.scss';
 
 export const Dot = props => {
   const { position, disabled, highlighted } = props;

@@ -6,23 +6,23 @@ import TreeDiagram from 'components/tree-diagram/TreeDiagramContainer';
 import SideBar from 'components/side-bar/SideBarContainer';
 import TopBar from 'components/top-bar/TopBarContainer';
 
-import './App.css';
+import './App.scss';
 
 const App = () => {
   return (
-    <div className="App-container">
-      <header className="App-header">
+    <div className="App">
+      <header className="header">
         <DataBus />
         <ViewsSwitches />
         <TopBar />
       </header>
 
-      <div className="App-body">
+      <div className="body">
         <TreeDiagram />
         <SideBar />
       </div>
 
-      <footer className="App-footer">
+      <footer className="footer">
         Bohdan Liashenko <a href="https://github.com/Bogdan-Lyashenko/codecrumbs">Project Github</a>
       </footer>
     </div>

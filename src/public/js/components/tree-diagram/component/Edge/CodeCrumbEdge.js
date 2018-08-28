@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import './index.scss';
 
 import { SYMBOL_WIDTH } from 'components/tree-diagram/store/constants';
 

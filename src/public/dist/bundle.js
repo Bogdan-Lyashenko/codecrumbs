@@ -89386,8 +89386,7 @@ var CONTROLS_KEYS = exports.CONTROLS_KEYS = {
   SOURCE_EXPAND_ALL: 'sourceExpandAll',
   SOURCE_DIM_FOLDERS: 'sourceDimFolders',
   DEPENDENCIES: 'dependencies',
-  DEPENDENCIES_SHOW_ALL: 'dependenciesShowAll',
-  DEPENDENCIES_SHOW_ONE_MODULE: 'dependenciesShowOneModule',
+  DEPENDENCIES_SHOW_DIRECT_ONLY: 'dependenciesShowDirectOnly',
   CODE_CRUMBS: 'codeCrumbs',
   CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
   CODE_CRUMBS_DETAILS: 'codeCrumbsDetails'
@@ -89415,7 +89414,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _disabledState;
+var _checkedState;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
@@ -89444,14 +89443,9 @@ var DefaultState = {
     name: 'Dependencies',
     key: _constants.CONTROLS_KEYS.DEPENDENCIES,
     children: [{
-      name: 'show all',
-      title: 'Show All dependencies',
-      key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
-      type: _constants.VIEW_TYPES.BUTTON
-    }, {
       name: 'direct only',
       title: 'Show One module dependencies',
-      key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
+      key: _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY
     }]
   }, {
     name: 'CodeCrumbs',
@@ -89462,8 +89456,8 @@ var DefaultState = {
       key: _constants.CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
     }]
   }],
-  checkedState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE, true),
-  disabledState: (_disabledState = {}, _defineProperty(_disabledState, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true), _defineProperty(_disabledState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true), _disabledState)
+  checkedState: (_checkedState = {}, _defineProperty(_checkedState, _constants.CONTROLS_KEYS.SOURCE, true), _defineProperty(_checkedState, _constants.CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY, true), _checkedState),
+  disabledState: _defineProperty({}, _constants.CONTROLS_KEYS.SOURCE_EXPAND_ALL, true)
 };
 
 exports.default = function () {
@@ -89580,7 +89574,8 @@ var DataBusContainer = function (_React$Component) {
           _setInitialSourceData({
             filesTree: filesTree,
             filesList: filesList,
-            dependenciesList: dependenciesList
+            dependenciesList: dependenciesList,
+            dependenciesRootEntryName: 'example-project/index.js' // TODO: fix, should be passed from server
           });
 
           _calcFilesTreeLayoutNodes();
@@ -89769,8 +89764,7 @@ exports.default = function () {
   switch (action.type) {
     case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
       return _extends({}, state, action.payload, {
-        dependenciesRootEntryPoint: action.payload.dependenciesList[0],
-        isCurrentDependenciesEntryPointRoot: true,
+        dependenciesEntryPoint: { path: action.payload.dependenciesRootEntryName },
 
         firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
           return item.type === _constants.DIR_NODE_TYPE;
@@ -89823,11 +89817,9 @@ exports.default = function () {
 
     case _constants2.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
       var entry = action.payload;
-      var rootEntryPointModuleName = state.dependenciesRootEntryPoint.moduleName;
 
       return _extends({}, state, {
-        dependenciesEntryPoint: entry,
-        isCurrentDependenciesEntryPointRoot: entry && entry.path === rootEntryPointModuleName
+        dependenciesEntryPoint: entry
       });
 
     default:
@@ -90249,7 +90241,7 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     sourceDiagramOn: checkedState.source,
     dependenciesDiagramOn: checkedState.dependencies,
-    dependenciesShowOneModule: checkedState.dependenciesShowOneModule,
+    dependenciesShowDirectOnly: checkedState.dependenciesShowDirectOnly,
     sourceDimFolders: checkedState.sourceDimFolders,
     codeCrumbsDiagramOn: checkedState.codeCrumbs,
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
@@ -91119,19 +91111,20 @@ var findNodeByPathName = exports.findNodeByPathName = function findNodeByPathNam
 var getFilteredDependenciesList = exports.getFilteredDependenciesList = function getFilteredDependenciesList(_ref) {
   var dependenciesList = _ref.dependenciesList,
       dependenciesEntryPoint = _ref.dependenciesEntryPoint,
-      dependenciesShowOneModule = _ref.dependenciesShowOneModule;
+      dependenciesShowDirectOnly = _ref.dependenciesShowDirectOnly;
 
-  var entryPoint = dependenciesEntryPoint || {
-    path: dependenciesList[0].moduleName
-  };
-
-  if (dependenciesShowOneModule) {
-    return [dependenciesList.find(function (d) {
-      return d.moduleName === entryPoint.path;
-    })];
+  if (!dependenciesEntryPoint) {
+    return [];
   }
 
-  return collectDependencies(entryPoint.path, dependenciesList);
+  if (dependenciesShowDirectOnly) {
+    var dependency = dependenciesList.find(function (d) {
+      return d.moduleName === dependenciesEntryPoint.path;
+    });
+    return dependency ? [dependency] : [];
+  }
+
+  return collectDependencies(dependenciesEntryPoint.path, dependenciesList);
 };
 
 var getGroupsAroundNode = exports.getGroupsAroundNode = function getGroupsAroundNode(moduleNode, importedNodes) {
@@ -91755,12 +91748,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(reactOnSwitchToggle),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(reactOnButtonAction),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(reactOnToggledFolder),
-    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(reactDependenciesEntryPointChange),
-    _marked5 = /*#__PURE__*/regeneratorRuntime.mark(isDependenciesShowAllDisabled),
-    _marked6 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
 
 function reactOnSwitchToggle(action) {
-  var switchKey, isDisabled;
+  var switchKey;
   return regeneratorRuntime.wrap(function reactOnSwitchToggle$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -91776,20 +91767,6 @@ function reactOnSwitchToggle(action) {
           return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
 
         case 4:
-          if (!(switchKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)) {
-            _context.next = 10;
-            break;
-          }
-
-          _context.next = 7;
-          return isDependenciesShowAllDisabled();
-
-        case 7:
-          isDisabled = _context.sent;
-          _context.next = 10;
-          return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
-
-        case 10:
         case 'end':
           return _context.stop();
       }
@@ -91829,18 +91806,6 @@ function reactOnButtonAction(action) {
           return _context2.abrupt('return', _context2.sent);
 
         case 9:
-          if (!(buttonKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL)) {
-            _context2.next = 13;
-            break;
-          }
-
-          _context2.next = 12;
-          return (0, _effects.all)([(0, _effects.put)((0, _actions2.toggleSwitch)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE)), (0, _effects.put)((0, _actions.setDependenciesEntryPoint)(null))]);
-
-        case 12:
-          return _context2.abrupt('return', _context2.sent);
-
-        case 13:
         case 'end':
           return _context2.stop();
       }
@@ -91881,84 +91846,20 @@ function reactOnToggledFolder(action) {
   }, _marked3, this);
 }
 
-function reactDependenciesEntryPointChange(action) {
-  var isDisabled;
-  return regeneratorRuntime.wrap(function reactDependenciesEntryPointChange$(_context4) {
+function rootSaga() {
+  return regeneratorRuntime.wrap(function rootSaga$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          if (action.payload) {
-            _context4.next = 4;
-            break;
-          }
+          _context4.next = 2;
+          return (0, _effects.all)([(0, _effects.takeLatest)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeLatest)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeLatest)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder)]);
 
-          _context4.next = 3;
-          return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, true));
-
-        case 3:
-          return _context4.abrupt('return', _context4.sent);
-
-        case 4:
-          _context4.next = 6;
-          return isDependenciesShowAllDisabled();
-
-        case 6:
-          isDisabled = _context4.sent;
-          _context4.next = 9;
-          return (0, _effects.put)((0, _actions2.setDisabledControl)(_constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL, isDisabled));
-
-        case 9:
+        case 2:
         case 'end':
           return _context4.stop();
       }
     }
   }, _marked4, this);
-}
-
-function isDependenciesShowAllDisabled() {
-  var isRoot, dependenciesShowOneModule;
-  return regeneratorRuntime.wrap(function isDependenciesShowAllDisabled$(_context5) {
-    while (1) {
-      switch (_context5.prev = _context5.next) {
-        case 0:
-          _context5.next = 2;
-          return (0, _effects.select)(function (state) {
-            return state.dataBus.isCurrentDependenciesEntryPointRoot;
-          });
-
-        case 2:
-          isRoot = _context5.sent;
-          _context5.next = 5;
-          return (0, _effects.select)(function (state) {
-            return state.viewSwitches.checkedState.dependenciesShowOneModule;
-          });
-
-        case 5:
-          dependenciesShowOneModule = _context5.sent;
-          return _context5.abrupt('return', isRoot && !dependenciesShowOneModule);
-
-        case 7:
-        case 'end':
-          return _context5.stop();
-      }
-    }
-  }, _marked5, this);
-}
-
-function rootSaga() {
-  return regeneratorRuntime.wrap(function rootSaga$(_context6) {
-    while (1) {
-      switch (_context6.prev = _context6.next) {
-        case 0:
-          _context6.next = 2;
-          return (0, _effects.all)([(0, _effects.takeEvery)(_constants2.ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle), (0, _effects.takeEvery)(_constants2.ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction), (0, _effects.takeEvery)(_constants.ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder), (0, _effects.takeEvery)(_constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactDependenciesEntryPointChange)]);
-
-        case 2:
-        case 'end':
-          return _context6.stop();
-      }
-    }
-  }, _marked6, this);
 }
 
 /***/ }),

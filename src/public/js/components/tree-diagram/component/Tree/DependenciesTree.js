@@ -13,17 +13,18 @@ export const findNodeByPathName = (list = [], pathName) => {
 export const getFilteredDependenciesList = ({
   dependenciesList,
   dependenciesEntryPoint,
-  dependenciesShowOneModule
+  dependenciesShowDirectOnly
 }) => {
-  const entryPoint = dependenciesEntryPoint || {
-    path: dependenciesList[0].moduleName
-  };
-
-  if (dependenciesShowOneModule) {
-    return [dependenciesList.find(d => d.moduleName === entryPoint.path)];
+  if (!dependenciesEntryPoint) {
+    return [];
   }
 
-  return collectDependencies(entryPoint.path, dependenciesList);
+  if (dependenciesShowDirectOnly) {
+    const dependency = dependenciesList.find(d => d.moduleName === dependenciesEntryPoint.path);
+    return dependency ? [dependency] : [];
+  }
+
+  return collectDependencies(dependenciesEntryPoint.path, dependenciesList);
 };
 
 export const getGroupsAroundNode = (moduleNode, importedNodes) => {

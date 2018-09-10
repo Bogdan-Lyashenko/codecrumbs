@@ -30,15 +30,9 @@ const DefaultState = {
       key: CONTROLS_KEYS.DEPENDENCIES,
       children: [
         {
-          name: 'show all',
-          title: 'Show All dependencies',
-          key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL,
-          type: VIEW_TYPES.BUTTON
-        },
-        {
           name: 'direct only',
           title: 'Show One module dependencies',
-          key: CONTROLS_KEYS.DEPENDENCIES_SHOW_ONE_MODULE
+          key: CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY
         }
       ]
     },
@@ -55,11 +49,11 @@ const DefaultState = {
     }
   ],
   checkedState: {
-    [CONTROLS_KEYS.SOURCE]: true
+    [CONTROLS_KEYS.SOURCE]: true,
+    [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true
   },
   disabledState: {
-    [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true,
-    [CONTROLS_KEYS.DEPENDENCIES_SHOW_ALL]: true
+    [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true
   }
 };
 

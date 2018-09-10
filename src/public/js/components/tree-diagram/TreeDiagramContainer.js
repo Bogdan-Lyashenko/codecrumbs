@@ -19,7 +19,7 @@ const mapStateToProps = state => {
   return {
     sourceDiagramOn: checkedState.source,
     dependenciesDiagramOn: checkedState.dependencies,
-    dependenciesShowOneModule: checkedState.dependenciesShowOneModule,
+    dependenciesShowDirectOnly: checkedState.dependenciesShowDirectOnly,
     sourceDimFolders: checkedState.sourceDimFolders,
     codeCrumbsDiagramOn: checkedState.codeCrumbs,
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize,

@@ -19,7 +19,8 @@ class DataBusContainer extends React.Component {
         setInitialSourceData({
           filesTree,
           filesList,
-          dependenciesList
+          dependenciesList,
+          dependenciesRootEntryName: 'example-project/index.js' // TODO: fix, should be passed from server
         });
 
         calcFilesTreeLayoutNodes();

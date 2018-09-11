@@ -67,7 +67,7 @@ class SourceTree extends React.Component {
           <FileName
             position={position}
             name={name}
-            purple={node.children && codeCrumbsMinimize}
+            purple={node.children}
             dependency={dependenciesDiagramOn}
             onTextClick={() => onNodeTextClick(node.data)}
             onIconClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}

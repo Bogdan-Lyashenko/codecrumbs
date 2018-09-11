@@ -90766,7 +90766,7 @@ var FileName = exports.FileName = function FileName(props) {
       dependency = props.dependency;
 
 
-  var iconPath = ICONS_DIR + (purple ? 'js-file-purple.svg' : dependency ? 'two-circles.svg' : 'js-file.svg');
+  var iconPath = ICONS_DIR + (purple ? 'purple-' : '') + (dependency ? 'two-circles.svg' : 'js-file.svg');
   var iconSize = 15;
   var nameWidth = name.length * _constants.SYMBOL_WIDTH;
 
@@ -91410,7 +91410,7 @@ var SourceTree = function (_React$Component) {
           nodeBasedOnType = _react2.default.createElement(_File.FileName, {
             position: position,
             name: name,
-            purple: node.children && codeCrumbsMinimize,
+            purple: node.children,
             dependency: dependenciesDiagramOn,
             onTextClick: function onTextClick() {
               return onNodeTextClick(node.data);

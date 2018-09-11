@@ -10,7 +10,7 @@ export const FileName = props => {
   const { position, name, onTextClick, onIconClick, purple, dependency } = props;
 
   const iconPath =
-    ICONS_DIR + (purple ? 'js-file-purple.svg' : dependency ? 'two-circles.svg' : 'js-file.svg');
+    ICONS_DIR + (purple ? 'purple-' : '') + (dependency ? 'two-circles.svg' : 'js-file.svg');
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 

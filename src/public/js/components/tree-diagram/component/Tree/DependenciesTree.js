@@ -112,6 +112,17 @@ class DependenciesTree extends React.Component {
 
           const [mX, mY] = [moduleNode.y, moduleNode.x];
           const targetPosition = shiftToCenterPoint(mX, mY);
+          const sourceNodes = [];
+          if (!sourceDiagramOn) {
+            sourceNodes.push(
+              <FileName
+                key={`module-file-${i}`}
+                position={targetPosition}
+                name={moduleNode.data.name}
+                dependency={true}
+              />
+            );
+          }
 
           const importedNodes = importedModuleNames
             .map(name => findNodeByPathName(moduleFilesList, name))
@@ -139,6 +150,17 @@ class DependenciesTree extends React.Component {
                     firstSourcePosition={i ? firstSourcePosition : null}
                   />
                 );
+
+                if (!sourceDiagramOn) {
+                  sourceNodes.push(
+                    <FileName
+                      key={`imported-node-${i}`}
+                      position={sourcePosition}
+                      name={importedNode.data.name}
+                      dependency={true}
+                    />
+                  );
+                }
               });
             }
           );
@@ -146,9 +168,7 @@ class DependenciesTree extends React.Component {
           return (
             <React.Fragment key={moduleName + i}>
               {edges}
-              {!sourceDiagramOn ? (
-                <FileName position={targetPosition} name={moduleNode.data.name} dependency={true} />
-              ) : null}
+              {!sourceDiagramOn ? sourceNodes : null}
             </React.Fragment>
           );
         })}

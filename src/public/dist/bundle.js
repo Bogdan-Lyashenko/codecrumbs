@@ -91240,6 +91240,15 @@ var DependenciesTree = function (_React$Component) {
               mY = _ref5[1];
 
           var targetPosition = shiftToCenterPoint(mX, mY);
+          var sourceNodes = [];
+          if (!sourceDiagramOn) {
+            sourceNodes.push(_react2.default.createElement(_File.FileName, {
+              key: 'module-file-' + i,
+              position: targetPosition,
+              name: moduleNode.data.name,
+              dependency: true
+            }));
+          }
 
           var importedNodes = importedModuleNames.map(function (name) {
             return findNodeByPathName(moduleFilesList, name);
@@ -91273,6 +91282,15 @@ var DependenciesTree = function (_React$Component) {
                 targetPosition: targetPosition,
                 firstSourcePosition: i ? firstSourcePosition : null
               }));
+
+              if (!sourceDiagramOn) {
+                sourceNodes.push(_react2.default.createElement(_File.FileName, {
+                  key: 'imported-node-' + i,
+                  position: sourcePosition,
+                  name: importedNode.data.name,
+                  dependency: true
+                }));
+              }
             });
           });
 
@@ -91280,7 +91298,7 @@ var DependenciesTree = function (_React$Component) {
             _react2.default.Fragment,
             { key: moduleName + i },
             edges,
-            !sourceDiagramOn ? _react2.default.createElement(_File.FileName, { position: targetPosition, name: moduleNode.data.name, dependency: true }) : null
+            !sourceDiagramOn ? sourceNodes : null
           );
         })
       );

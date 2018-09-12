@@ -1,29 +1,34 @@
 .EdgeMouseHandler {
-    cursor: pointer;
-    fill: none;
-    stroke-width: 8px;
-    stroke: rgba(0,0,0,0);
+  cursor: pointer;
+  fill: none;
+  stroke-width: 8px;
+  stroke: rgba(0,0,0,0);
 }
 
 .SourceEdge {
-    fill: none;
-    stroke: #BFBFBF;
+  fill: none;
+  stroke: #BFBFBF;
+  stroke-width: 1px;
 }
 
 .SourceEdge-disabled {
-    stroke: #ccc;
+  stroke: #ccc;
+}
+
+.SourceEdge-selected {
+  stroke: #555555;
 }
 
 .DependenciesEdge {
-    fill: none;
-    stroke: #1890ff;
+  fill: none;
+  stroke: #1890ff;
 }
 
 .DependenciesEdge-end-dot {
-    fill: #1890ff;
+  fill: #1890ff;
 }
 
 .CodeCrumbEdge {
-    fill: none;
-    stroke: #ff18a6;
+  fill: none;
+  stroke: #ff18a6;
 }

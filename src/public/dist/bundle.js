@@ -16689,7 +16689,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".Dot {\n  fill: #BFBFBF; }\n\n.Dot-disabled {\n  fill: #ccc; }\n\n.Dot-highlighted {\n  fill: #1890ff; }\n", ""]);
+exports.push([module.i, ".Dot {\n  fill: #BFBFBF; }\n\n.Dot-disabled {\n  fill: #ccc; }\n\n.Dot-selected {\n  fill: #777777; }\n", ""]);
 
 // exports
 
@@ -16708,7 +16708,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF;\n  stroke-width: 1px; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.SourceEdge-selected {\n  stroke: #555555; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
 
 // exports
 
@@ -90235,7 +90235,8 @@ var mapStateToProps = function mapStateToProps(state) {
       filesTreeLayoutNodes = _state$dataBus.filesTreeLayoutNodes,
       dependenciesList = _state$dataBus.dependenciesList,
       closedFolders = _state$dataBus.closedFolders,
-      dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint;
+      dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint,
+      selectedNode = _state$dataBus.selectedNode;
 
 
   return {
@@ -90249,7 +90250,8 @@ var mapStateToProps = function mapStateToProps(state) {
     filesTreeLayoutNodes: filesTreeLayoutNodes,
     dependenciesList: dependenciesList,
     closedFolders: closedFolders,
-    dependenciesEntryPoint: dependenciesEntryPoint
+    dependenciesEntryPoint: dependenciesEntryPoint,
+    selectedNode: selectedNode
   };
 };
 
@@ -90294,7 +90296,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Dot = exports.Dot = function Dot(props) {
   var position = props.position,
       disabled = props.disabled,
-      highlighted = props.highlighted;
+      selected = props.selected;
 
   var radius = 2.5;
 
@@ -90304,7 +90306,7 @@ var Dot = exports.Dot = function Dot(props) {
     cy: position.y,
     className: (0, _classnames2.default)('Dot', {
       'Dot-disabled': !!disabled,
-      'Dot-highlighted': !!highlighted
+      'Dot-selected': !!selected
     })
   });
 };
@@ -90577,7 +90579,8 @@ var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
       _props$onClick = props.onClick,
       onClick = _props$onClick === undefined ? function () {
     return console.log('on source edge');
-  } : _props$onClick;
+  } : _props$onClick,
+      selected = props.selected;
 
 
   var edgeTurnDistance = 20;
@@ -90587,7 +90590,7 @@ var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
   var P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
   var END_PT = targetPosition;
 
-  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
+  var points = singleChild ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y], [END_PT.x, END_PT.y]] : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
 
   return _react2.default.createElement(
     _react2.default.Fragment,
@@ -90595,7 +90598,8 @@ var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
     _react2.default.createElement('polyline', {
       points: points.join(', '),
       className: (0, _classnames2.default)('SourceEdge', {
-        'SourceEdge-disabled': disabled
+        'SourceEdge-disabled': disabled,
+        'SourceEdge-selected': selected
       })
     }),
     _react2.default.createElement('polyline', { onClick: onClick, points: points.join(', '), className: 'EdgeMouseHandler' })
@@ -91377,8 +91381,8 @@ var SourceTree = function (_React$Component) {
           codeCrumbsDiagramOn = _props.codeCrumbsDiagramOn,
           filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
           closedFolders = _props.closedFolders,
+          selectedNode = _props.selectedNode,
           shiftToCenterPoint = _props.shiftToCenterPoint,
-          codeCrumbsMinimize = _props.codeCrumbsMinimize,
           onNodeTextClick = _props.onNodeTextClick,
           onFileIconClick = _props.onFileIconClick,
           onFolderIconClick = _props.onFolderIconClick,
@@ -91386,12 +91390,13 @@ var SourceTree = function (_React$Component) {
 
 
       var sourceEdges = [];
+      var selectedSourceEdges = [];
       var sourceNodes = [];
       var sourceDotes = [];
 
       // TODO: add normal id generators for keys to not use i
       var i = 0;
-      filesTreeLayoutNodes.each(function (node) {
+      sourceDiagramOn && filesTreeLayoutNodes.each(function (node) {
         i++;
 
         var _ref = [node.y, node.x],
@@ -91399,9 +91404,14 @@ var SourceTree = function (_React$Component) {
             nY = _ref[1];
 
         var position = shiftToCenterPoint(nX, nY);
-        var name = node.data.name;
+        var _node$data = node.data,
+            name = _node$data.name,
+            path = _node$data.path;
+
 
         var parent = node.parent;
+        var selected = selectedNode && selectedNode.path.indexOf(path) !== -1;
+
         if (parent && parent.data.type === _constants.DIR_NODE_TYPE) {
           var _ref2 = [parent.y, parent.x],
               pX = _ref2[0],
@@ -91409,18 +91419,21 @@ var SourceTree = function (_React$Component) {
 
           var sourcePosition = shiftToCenterPoint(pX, pY);
 
-          sourceEdges.push(_react2.default.createElement(_SourceEdge.SourceEdge, {
+          var edge = _react2.default.createElement(_SourceEdge.SourceEdge, {
             key: 'edge-' + i,
             targetPosition: position,
             sourcePosition: sourcePosition,
             disabled: sourceDimFolders,
-            singleChild: parent.children.length === 1
-          }));
+            singleChild: parent.children.length === 1,
+            selected: selected
+          });
+
+          selected ? selectedSourceEdges.push(edge) : sourceEdges.push(edge);
         }
 
         var type = node.data.type;
         if (type === _constants.DIR_NODE_TYPE || type === _constants.FILE_NODE_TYPE && !dependenciesDiagramOn) {
-          sourceDotes.push(_react2.default.createElement(_Dot.Dot, { key: 'dot-' + i, position: position, disabled: false }));
+          sourceDotes.push(_react2.default.createElement(_Dot.Dot, { key: 'dot-' + i, position: position, disabled: false, selected: selected }));
         }
 
         var nodeBasedOnType = null;
@@ -91464,6 +91477,7 @@ var SourceTree = function (_React$Component) {
         _react2.default.Fragment,
         null,
         sourceDiagramOn && sourceEdges || null,
+        sourceDiagramOn && selectedSourceEdges || null,
         sourceDiagramOn && sourceDotes || null,
         dependenciesList && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, this.props),
         sourceDiagramOn && sourceNodes || null,

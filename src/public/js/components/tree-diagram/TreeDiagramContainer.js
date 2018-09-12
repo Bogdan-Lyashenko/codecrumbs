@@ -13,7 +13,8 @@ const mapStateToProps = state => {
     filesTreeLayoutNodes,
     dependenciesList,
     closedFolders,
-    dependenciesEntryPoint
+    dependenciesEntryPoint,
+    selectedNode
   } = state.dataBus;
 
   return {
@@ -27,7 +28,8 @@ const mapStateToProps = state => {
     filesTreeLayoutNodes,
     dependenciesList,
     closedFolders,
-    dependenciesEntryPoint
+    dependenciesEntryPoint,
+    selectedNode
   };
 };
 

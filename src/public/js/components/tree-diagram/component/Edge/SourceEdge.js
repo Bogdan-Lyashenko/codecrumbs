@@ -8,7 +8,8 @@ export const SourceEdge = props => {
     sourcePosition,
     disabled,
     singleChild,
-    onClick = () => console.log('on source edge')
+    onClick = () => console.log('on source edge'),
+    selected
   } = props;
 
   const edgeTurnDistance = 20;
@@ -19,7 +20,7 @@ export const SourceEdge = props => {
   const END_PT = targetPosition;
 
   const points = singleChild
-    ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y]]
+    ? [[START_PT.x, START_PT.y], [END_PT.x, END_PT.y], [END_PT.x, END_PT.y]]
     : [[START_PT.x, START_PT.y], [P2.x, P2.y], [P3.x, P3.y], [END_PT.x, END_PT.y]];
 
   return (
@@ -27,7 +28,8 @@ export const SourceEdge = props => {
       <polyline
         points={points.join(', ')}
         className={classNames('SourceEdge', {
-          'SourceEdge-disabled': disabled
+          'SourceEdge-disabled': disabled,
+          'SourceEdge-selected': selected
         })}
       />
       <polyline onClick={onClick} points={points.join(', ')} className={'EdgeMouseHandler'} />

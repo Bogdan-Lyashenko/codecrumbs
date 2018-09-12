@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './index.scss';
 
 export const Dot = props => {
-  const { position, disabled, highlighted } = props;
+  const { position, disabled, selected } = props;
   const radius = 2.5;
 
   return (
@@ -14,7 +14,7 @@ export const Dot = props => {
       cy={position.y}
       className={classNames('Dot', {
         'Dot-disabled': !!disabled,
-        'Dot-highlighted': !!highlighted
+        'Dot-selected': !!selected
       })}
     />
   );

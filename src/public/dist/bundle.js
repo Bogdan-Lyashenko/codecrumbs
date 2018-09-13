@@ -16708,7 +16708,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF;\n  stroke-width: 1px; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.SourceEdge-selected {\n  stroke: #555555; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF;\n  stroke-width: 1px; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.SourceEdge-selected {\n  stroke: #555555; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-selected {\n  stroke: #ff5f4a; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
 
 // exports
 
@@ -89617,7 +89617,7 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DataBusCont
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectNode = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
+exports.selectDependencyEdge = exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectNode = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
 
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
 
@@ -89691,6 +89691,13 @@ var setDependenciesEntryPoint = exports.setDependenciesEntryPoint = function set
   };
 };
 
+var selectDependencyEdge = exports.selectDependencyEdge = function selectDependencyEdge(targetNode, sourceNode) {
+  return {
+    type: _constants.ACTIONS.SELECT_DEPENDENCY_EDGE,
+    payload: { targetNode: targetNode, sourceNode: sourceNode }
+  };
+};
+
 /***/ }),
 
 /***/ "./js/components/data-bus/store/constants.js":
@@ -89714,7 +89721,8 @@ var ACTIONS = exports.ACTIONS = {
   OPEN_ALL_FOLDERS: 'DATA_BUS.OPEN_ALL_FOLDERS',
   CLOSE_ALL_FOLDERS: 'DATA_BUS.CLOSE_ALL_FOLDERS',
   SELECT_CODE_CRUMB: 'DATA_BUS.SELECT_CODE_CRUMB',
-  SET_DEPENDENCIES_ENTRY_POINT: 'DATA_BUS.SET_DEPENDENCIES_ENTRY_POINT'
+  SET_DEPENDENCIES_ENTRY_POINT: 'DATA_BUS.SET_DEPENDENCIES_ENTRY_POINT',
+  SELECT_DEPENDENCY_EDGE: 'DATA_BUS.SELECT_DEPENDENCY_EDGE'
 };
 
 /***/ }),
@@ -89820,6 +89828,13 @@ exports.default = function () {
 
       return _extends({}, state, {
         dependenciesEntryPoint: entry
+      });
+
+    case _constants2.ACTIONS.SELECT_DEPENDENCY_EDGE:
+      var selectedDependencyEdgeNodes = action.payload;
+
+      return _extends({}, state, {
+        selectedDependencyEdgeNodes: selectedDependencyEdgeNodes
       });
 
     default:
@@ -90236,7 +90251,8 @@ var mapStateToProps = function mapStateToProps(state) {
       dependenciesList = _state$dataBus.dependenciesList,
       closedFolders = _state$dataBus.closedFolders,
       dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint,
-      selectedNode = _state$dataBus.selectedNode;
+      selectedNode = _state$dataBus.selectedNode,
+      selectedDependencyEdgeNodes = _state$dataBus.selectedDependencyEdgeNodes;
 
 
   return {
@@ -90251,7 +90267,8 @@ var mapStateToProps = function mapStateToProps(state) {
     dependenciesList: dependenciesList,
     closedFolders: closedFolders,
     dependenciesEntryPoint: dependenciesEntryPoint,
-    selectedNode: selectedNode
+    selectedNode: selectedNode,
+    selectedDependencyEdgeNodes: selectedDependencyEdgeNodes
   };
 };
 
@@ -90259,7 +90276,8 @@ var mapDispatchToProps = {
   onCodeCrumbSelect: _actions.selectCodeCrumb,
   onNodeTextClick: _actions.selectNode,
   onFileIconClick: _actions.setDependenciesEntryPoint,
-  onFolderIconClick: _actions.toggleFolder
+  onFolderIconClick: _actions.toggleFolder,
+  onDependencyEdgeClick: _actions.selectDependencyEdge
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TreeDiagram2.default);
@@ -90425,7 +90443,7 @@ var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DependenciesEdge = undefined;
+exports.DependenciesOverlappingEdge = exports.DependenciesEdge = undefined;
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
@@ -90434,6 +90452,10 @@ var _react2 = _interopRequireDefault(_react);
 __webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Edge/index.scss");
 
 var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+
+var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90483,10 +90505,8 @@ var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(prop
       targetPosition = props.targetPosition,
       sourcePosition = props.sourcePosition,
       firstSourcePosition = props.firstSourcePosition,
-      _props$onClick = props.onClick,
-      onClick = _props$onClick === undefined ? function () {
-    return console.log('on dependencies edge');
-  } : _props$onClick;
+      selected = props.selected,
+      onClick = props.onClick;
 
   //TODO: replace groupName with direction boolean if no need for sides
 
@@ -90517,8 +90537,18 @@ var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(prop
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
-    _react2.default.createElement('polyline', { points: sourceDotLinePoints.join(', '), className: 'DependenciesEdge' }),
-    _react2.default.createElement('polyline', { points: connectionLinePoints.join(', '), className: 'DependenciesEdge' }),
+    _react2.default.createElement('polyline', {
+      points: sourceDotLinePoints.join(', '),
+      className: (0, _classnames2.default)('DependenciesEdge', {
+        'DependenciesEdge-selected': selected
+      })
+    }),
+    _react2.default.createElement('polyline', {
+      points: connectionLinePoints.join(', '),
+      className: (0, _classnames2.default)('DependenciesEdge', {
+        'DependenciesEdge-selected': selected
+      })
+    }),
     _react2.default.createElement('polyline', {
       onClick: onClick,
       points: connectionLinePoints.join(', '),
@@ -90538,6 +90568,45 @@ var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(prop
       height: endPointConfig.iconSize,
       width: endPointConfig.iconSize,
       transform: 'rotate(' + endPointConfig.angle + ' ' + (endPointConfig.x + endPointConfig.iconSize / 2) + ' ' + (endPointConfig.y + endPointConfig.iconSize / 2) + ')'
+    })
+  );
+};
+
+var getOverlappingConnectionLine = function getOverlappingConnectionLine(groupName, targetPosition, sourcePosition) {
+  var directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
+  var directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
+
+  return [[sourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING), targetPosition.y - V_SPACE / 2 * directionY + crossShift * directionY], [targetPosition.x + 2, targetPosition.y - (V_SPACE / 2 - crossShift) * directionY], [targetPosition.x + 2, targetPosition.y - 5 * directionY]];
+};
+
+var DependenciesOverlappingEdge = exports.DependenciesOverlappingEdge = function DependenciesOverlappingEdge(props) {
+  var groupName = props.groupName,
+      targetPosition = props.targetPosition,
+      sourcePosition = props.sourcePosition,
+      selected = props.selected,
+      onClick = props.onClick;
+
+
+  var sourcePt = getSourcePt(groupName, sourcePosition);
+  var connectionLinePoints = getOverlappingConnectionLine(groupName, targetPosition, sourcePosition, sourcePt);
+
+  if (!connectionLinePoints) {
+    return null;
+  }
+
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement('polyline', {
+      points: connectionLinePoints.join(', '),
+      className: (0, _classnames2.default)('DependenciesEdge', {
+        'DependenciesEdge-selected': selected
+      })
+    }),
+    _react2.default.createElement('polyline', {
+      onClick: onClick,
+      points: connectionLinePoints.join(', '),
+      className: 'EdgeMouseHandler'
     })
   );
 };
@@ -91207,6 +91276,18 @@ var collectDependencies = exports.collectDependencies = function collectDependen
   return store;
 };
 
+var checkIsEdgeSelected = function checkIsEdgeSelected(selectedEdge, target, source) {
+  if (selectedEdge.targetNode && !selectedEdge.sourceNode) {
+    return selectedEdge.targetNode.data.path === target.data.path;
+  }
+
+  if (!source) {
+    return selectedEdge.targetNode.data.path === target.data.path;
+  }
+
+  return selectedEdge.targetNode.data.path === target.data.path && selectedEdge.sourceNode.data.path === source.data.path;
+};
+
 var DependenciesTree = function (_React$Component) {
   _inherits(DependenciesTree, _React$Component);
 
@@ -91222,7 +91303,9 @@ var DependenciesTree = function (_React$Component) {
       var _props = this.props,
           filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
           shiftToCenterPoint = _props.shiftToCenterPoint,
-          sourceDiagramOn = _props.sourceDiagramOn;
+          sourceDiagramOn = _props.sourceDiagramOn,
+          onDependencyEdgeClick = _props.onDependencyEdgeClick,
+          selectedDependencyEdgeNodes = _props.selectedDependencyEdgeNodes;
 
 
       var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
@@ -91261,6 +91344,9 @@ var DependenciesTree = function (_React$Component) {
           });
 
           var edges = [];
+          var selectedEdges = [];
+          var overlappingEdge = null;
+
           Object.entries(getGroupsAroundNode(moduleNode, importedNodes)).forEach(function (_ref6) {
             var _ref7 = _slicedToArray(_ref6, 2),
                 groupName = _ref7[0],
@@ -91271,7 +91357,8 @@ var DependenciesTree = function (_React$Component) {
             }
 
             // swap here as well
-            var firstSourcePosition = shiftToCenterPoint(groupNodes[0].y, groupNodes[0].x);
+            var firstSourceNode = groupNodes[0];
+            var firstSourcePosition = shiftToCenterPoint(firstSourceNode.y, firstSourceNode.x);
             groupNodes.forEach(function (importedNode, i) {
               var _ref8 = [importedNode.y, importedNode.x],
                   iX = _ref8[0],
@@ -91279,13 +91366,34 @@ var DependenciesTree = function (_React$Component) {
 
               var sourcePosition = shiftToCenterPoint(iX, iY);
 
-              edges.push(_react2.default.createElement(_DepenenciesEdge.DependenciesEdge, {
+              var selected = selectedDependencyEdgeNodes && checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode, importedNode);
+
+              var edge = _react2.default.createElement(_DepenenciesEdge.DependenciesEdge, {
                 key: 'edge' + i,
                 groupName: groupName,
                 sourcePosition: sourcePosition,
                 targetPosition: targetPosition,
-                firstSourcePosition: i ? firstSourcePosition : null
-              }));
+                firstSourcePosition: i ? firstSourcePosition : null,
+                onClick: function onClick() {
+                  return onDependencyEdgeClick(moduleNode, importedNode);
+                },
+                selected: selected
+              });
+
+              selected ? selectedEdges.push(edge) : edges.push(edge);
+
+              if (!i && groupNodes.length > 1) {
+                overlappingEdge = _react2.default.createElement(_DepenenciesEdge.DependenciesOverlappingEdge, {
+                  key: 'overlap-edge' + i,
+                  groupName: groupName,
+                  sourcePosition: sourcePosition,
+                  targetPosition: targetPosition,
+                  onClick: function onClick() {
+                    return onDependencyEdgeClick(moduleNode);
+                  },
+                  selected: selectedDependencyEdgeNodes && checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode)
+                });
+              }
 
               if (!sourceDiagramOn) {
                 sourceNodes.push(_react2.default.createElement(_File.FileName, {
@@ -91302,6 +91410,8 @@ var DependenciesTree = function (_React$Component) {
             _react2.default.Fragment,
             { key: moduleName + i },
             edges,
+            selectedEdges,
+            overlappingEdge,
             !sourceDiagramOn ? sourceNodes : null
           );
         })

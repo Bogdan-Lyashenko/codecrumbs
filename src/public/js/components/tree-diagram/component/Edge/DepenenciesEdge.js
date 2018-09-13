@@ -2,6 +2,7 @@ import React from 'react';
 import './index.scss';
 
 import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/tree-diagram/store/constants';
+import classNames from 'classnames';
 const { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT } = DepEdgeGroups;
 
 const V_SPACE = LAYOUT_CONFIG.spacing + LAYOUT_CONFIG.nodeSizeX;
@@ -47,7 +48,7 @@ const getConnectionLineToFirstSource = (
   const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
   const vPadding = (V_SPACE / 2) * directionY;
 
-  let directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
+  const directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
 
   return [
     [sourcePt.x, sourcePt.y],
@@ -69,7 +70,8 @@ export const DependenciesEdge = props => {
     targetPosition,
     sourcePosition,
     firstSourcePosition,
-    onClick = () => console.log('on dependencies edge')
+    selected,
+    onClick
   } = props;
 
   //TODO: replace groupName with direction boolean if no need for sides
@@ -107,8 +109,18 @@ export const DependenciesEdge = props => {
 
   return (
     <React.Fragment>
-      <polyline points={sourceDotLinePoints.join(', ')} className={'DependenciesEdge'} />
-      <polyline points={connectionLinePoints.join(', ')} className={'DependenciesEdge'} />
+      <polyline
+        points={sourceDotLinePoints.join(', ')}
+        className={classNames('DependenciesEdge', {
+          'DependenciesEdge-selected': selected
+        })}
+      />
+      <polyline
+        points={connectionLinePoints.join(', ')}
+        className={classNames('DependenciesEdge', {
+          'DependenciesEdge-selected': selected
+        })}
+      />
       <polyline
         onClick={onClick}
         points={connectionLinePoints.join(', ')}
@@ -133,6 +145,52 @@ export const DependenciesEdge = props => {
             endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
         />
       )}
+    </React.Fragment>
+  );
+};
+
+const getOverlappingConnectionLine = (groupName, targetPosition, sourcePosition) => {
+  const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
+  const directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
+
+  return [
+    [
+      sourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING),
+      targetPosition.y - (V_SPACE / 2) * directionY + crossShift * directionY
+    ],
+    [targetPosition.x + 2, targetPosition.y - (V_SPACE / 2 - crossShift) * directionY],
+    [targetPosition.x + 2, targetPosition.y - 5 * directionY]
+  ];
+};
+
+export const DependenciesOverlappingEdge = props => {
+  const { groupName, targetPosition, sourcePosition, selected, onClick } = props;
+
+  const sourcePt = getSourcePt(groupName, sourcePosition);
+  const connectionLinePoints = getOverlappingConnectionLine(
+    groupName,
+    targetPosition,
+    sourcePosition,
+    sourcePt
+  );
+
+  if (!connectionLinePoints) {
+    return null;
+  }
+
+  return (
+    <React.Fragment>
+      <polyline
+        points={connectionLinePoints.join(', ')}
+        className={classNames('DependenciesEdge', {
+          'DependenciesEdge-selected': selected
+        })}
+      />
+      <polyline
+        onClick={onClick}
+        points={connectionLinePoints.join(', ')}
+        className={'EdgeMouseHandler'}
+      />
     </React.Fragment>
   );
 };

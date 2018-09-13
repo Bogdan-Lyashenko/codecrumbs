@@ -1,7 +1,10 @@
 import React from 'react';
 import { getFilesList } from 'utils/treeLayout';
 
-import { DependenciesEdge } from 'components/tree-diagram/component/Edge/DepenenciesEdge';
+import {
+  DependenciesEdge,
+  DependenciesOverlappingEdge
+} from 'components/tree-diagram/component/Edge/DepenenciesEdge';
 import { FileName } from 'components/tree-diagram/component/Node/File';
 import { DepEdgeGroups } from 'components/tree-diagram/store/constants';
 
@@ -96,9 +99,30 @@ export const collectDependencies = (entryModuleName, dependenciesList) => {
   return store;
 };
 
+const checkIsEdgeSelected = (selectedEdge, target, source) => {
+  if (selectedEdge.targetNode && !selectedEdge.sourceNode) {
+    return selectedEdge.targetNode.data.path === target.data.path;
+  }
+
+  if (!source) {
+    return selectedEdge.targetNode.data.path === target.data.path;
+  }
+
+  return (
+    selectedEdge.targetNode.data.path === target.data.path &&
+    selectedEdge.sourceNode.data.path === source.data.path
+  );
+};
+
 class DependenciesTree extends React.Component {
   render() {
-    const { filesTreeLayoutNodes, shiftToCenterPoint, sourceDiagramOn } = this.props;
+    const {
+      filesTreeLayoutNodes,
+      shiftToCenterPoint,
+      sourceDiagramOn,
+      onDependencyEdgeClick,
+      selectedDependencyEdgeNodes
+    } = this.props;
 
     const moduleFilesList = getFilesList(filesTreeLayoutNodes);
     const filteredDependenciesList = getFilteredDependenciesList(this.props);
@@ -129,6 +153,9 @@ class DependenciesTree extends React.Component {
             .filter(node => !!node);
 
           const edges = [];
+          const selectedEdges = [];
+          let overlappingEdge = null;
+
           Object.entries(getGroupsAroundNode(moduleNode, importedNodes)).forEach(
             ([groupName, groupNodes]) => {
               if (!groupNodes.length) {
@@ -136,20 +163,45 @@ class DependenciesTree extends React.Component {
               }
 
               // swap here as well
-              const firstSourcePosition = shiftToCenterPoint(groupNodes[0].y, groupNodes[0].x);
+              const firstSourceNode = groupNodes[0];
+              const firstSourcePosition = shiftToCenterPoint(firstSourceNode.y, firstSourceNode.x);
               groupNodes.forEach((importedNode, i) => {
                 const [iX, iY] = [importedNode.y, importedNode.x];
                 const sourcePosition = shiftToCenterPoint(iX, iY);
 
-                edges.push(
+                const selected =
+                  selectedDependencyEdgeNodes &&
+                  checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode, importedNode);
+
+                const edge = (
                   <DependenciesEdge
                     key={'edge' + i}
                     groupName={groupName}
                     sourcePosition={sourcePosition}
                     targetPosition={targetPosition}
                     firstSourcePosition={i ? firstSourcePosition : null}
+                    onClick={() => onDependencyEdgeClick(moduleNode, importedNode)}
+                    selected={selected}
                   />
                 );
+
+                selected ? selectedEdges.push(edge) : edges.push(edge);
+
+                if (!i && groupNodes.length > 1) {
+                  overlappingEdge = (
+                    <DependenciesOverlappingEdge
+                      key={'overlap-edge' + i}
+                      groupName={groupName}
+                      sourcePosition={sourcePosition}
+                      targetPosition={targetPosition}
+                      onClick={() => onDependencyEdgeClick(moduleNode)}
+                      selected={
+                        selectedDependencyEdgeNodes &&
+                        checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode)
+                      }
+                    />
+                  );
+                }
 
                 if (!sourceDiagramOn) {
                   sourceNodes.push(
@@ -168,6 +220,8 @@ class DependenciesTree extends React.Component {
           return (
             <React.Fragment key={moduleName + i}>
               {edges}
+              {selectedEdges}
+              {overlappingEdge}
               {!sourceDiagramOn ? sourceNodes : null}
             </React.Fragment>
           );

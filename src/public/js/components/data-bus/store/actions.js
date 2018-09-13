@@ -49,3 +49,8 @@ export const setDependenciesEntryPoint = fileNode => ({
   type: ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
   payload: fileNode
 });
+
+export const selectDependencyEdge = (targetNode, sourceNode) => ({
+  type: ACTIONS.SELECT_DEPENDENCY_EDGE,
+  payload: { targetNode, sourceNode }
+});

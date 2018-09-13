@@ -84,6 +84,14 @@ export default (state = DefaultState, action) => {
         dependenciesEntryPoint: entry
       };
 
+    case ACTIONS.SELECT_DEPENDENCY_EDGE:
+      const selectedDependencyEdgeNodes = action.payload;
+
+      return {
+        ...state,
+        selectedDependencyEdgeNodes
+      };
+
     default:
       return state;
   }

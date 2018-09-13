@@ -4,7 +4,8 @@ import {
   selectCodeCrumb,
   selectNode,
   setDependenciesEntryPoint,
-  toggleFolder
+  toggleFolder,
+  selectDependencyEdge
 } from 'components/data-bus/store/actions';
 
 const mapStateToProps = state => {
@@ -14,7 +15,8 @@ const mapStateToProps = state => {
     dependenciesList,
     closedFolders,
     dependenciesEntryPoint,
-    selectedNode
+    selectedNode,
+    selectedDependencyEdgeNodes
   } = state.dataBus;
 
   return {
@@ -29,7 +31,8 @@ const mapStateToProps = state => {
     dependenciesList,
     closedFolders,
     dependenciesEntryPoint,
-    selectedNode
+    selectedNode,
+    selectedDependencyEdgeNodes
   };
 };
 
@@ -37,7 +40,8 @@ const mapDispatchToProps = {
   onCodeCrumbSelect: selectCodeCrumb,
   onNodeTextClick: selectNode,
   onFileIconClick: setDependenciesEntryPoint,
-  onFolderIconClick: toggleFolder
+  onFolderIconClick: toggleFolder,
+  onDependencyEdgeClick: selectDependencyEdge
 };
 
 export default connect(

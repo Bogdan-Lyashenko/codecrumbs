@@ -52,5 +52,5 @@ export const setDependenciesEntryPoint = fileNode => ({
 
 export const selectDependencyEdge = (target, sources) => ({
   type: ACTIONS.SELECT_DEPENDENCY_EDGE,
-  payload: { target, sources }
+  payload: target ? { target, sources } : null
 });

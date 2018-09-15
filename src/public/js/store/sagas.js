@@ -4,7 +4,8 @@ import { ACTIONS as DATA_BUS_ACTIONS } from 'components/data-bus/store/constants
 import {
   calcFilesTreeLayoutNodes,
   openAllFolders,
-  closeAllFolders
+  closeAllFolders,
+  selectDependencyEdge
 } from 'components/data-bus/store/actions';
 
 import {
@@ -18,6 +19,10 @@ function* reactOnSwitchToggle(action) {
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
     yield put(calcFilesTreeLayoutNodes());
+  }
+
+  if (switchKey === CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY) {
+    yield put(selectDependencyEdge(null));
   }
 }
 

@@ -16708,7 +16708,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF;\n  stroke-width: 1px; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.SourceEdge-selected {\n  stroke: #555555; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-selected {\n  stroke: #ff5f4a; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF;\n  stroke-width: 1px; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.SourceEdge-selected {\n  stroke: #555555; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-selected {\n  stroke: #754BC3; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
 
 // exports
 
@@ -16727,7 +16727,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.5); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: 'Menlo';\n  font-size: 8px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: 'Menlo';\n  font-size: 12px;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.5); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-file-name-selected {\n  fill: #754BC3; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: 'Menlo';\n  font-size: 8px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: 'Menlo';\n  font-size: 12px;\n  cursor: pointer; }\n", ""]);
 
 // exports
 
@@ -89691,10 +89691,10 @@ var setDependenciesEntryPoint = exports.setDependenciesEntryPoint = function set
   };
 };
 
-var selectDependencyEdge = exports.selectDependencyEdge = function selectDependencyEdge(targetNode, sourceNode) {
+var selectDependencyEdge = exports.selectDependencyEdge = function selectDependencyEdge(target, sources) {
   return {
     type: _constants.ACTIONS.SELECT_DEPENDENCY_EDGE,
-    payload: { targetNode: targetNode, sourceNode: sourceNode }
+    payload: { target: target, sources: sources }
   };
 };
 
@@ -89827,7 +89827,8 @@ exports.default = function () {
       var entry = action.payload;
 
       return _extends({}, state, {
-        dependenciesEntryPoint: entry
+        dependenciesEntryPoint: entry,
+        selectedDependencyEdgeNodes: null
       });
 
     case _constants2.ACTIONS.SELECT_DEPENDENCY_EDGE:
@@ -90402,7 +90403,11 @@ var PartEdge = exports.PartEdge = function PartEdge(props) {
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
-    _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' }),
+    _react2.default.createElement('polyline', {
+      points: polylinePoints.join(', '),
+      className: 'CodeCrumbEdge',
+      strokeDasharray: '2'
+    }),
     _react2.default.createElement('line', { x1: P1.x, y1: P1.y - 2, x2: P1.x, y2: P1.y + 2, className: 'CodeCrumbEdge' })
   );
 };
@@ -90425,7 +90430,7 @@ var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
 
   var polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
 
-  return _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge' });
+  return _react2.default.createElement('polyline', { points: polylinePoints.join(', '), className: 'CodeCrumbEdge', strokeDasharray: '2' });
 };
 
 /***/ }),
@@ -90443,7 +90448,7 @@ var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DependenciesOverlappingEdge = exports.DependenciesEdge = undefined;
+exports.getLineEndIcon = exports.DependenciesOverlappingEdge = exports.DependenciesEdge = undefined;
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
@@ -90470,6 +90475,7 @@ var V_SPACE = _constants.LAYOUT_CONFIG.spacing + _constants.LAYOUT_CONFIG.nodeSi
 var PADDING = 30;
 var HALF_PADDING = PADDING / 2;
 var crossShift = 2;
+var ICONS_DIR = 'resources/';
 
 // Arrow can go from top ot bottom of file icon
 var getSourcePt = function getSourcePt(groupName, sourcePosition) {
@@ -90518,22 +90524,6 @@ var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(prop
     return null;
   }
 
-  var lastPt = connectionLinePoints[connectionLinePoints.length - 1];
-  var endPointConfig = {
-    x: lastPt[0],
-    y: lastPt[1]
-  };
-
-  if (!firstSourcePosition) {
-    var directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
-
-    endPointConfig.x -= 3;
-    endPointConfig.y -= directionTop ? 6 : 1;
-    endPointConfig.iconSize = 7;
-    endPointConfig.iconPath = 'resources/right-arrow.svg'; // TODO: move to getter
-    endPointConfig.angle = directionTop ? 90 : -90;
-  }
-
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
@@ -90554,20 +90544,11 @@ var DependenciesEdge = exports.DependenciesEdge = function DependenciesEdge(prop
       points: connectionLinePoints.join(', '),
       className: 'EdgeMouseHandler'
     }),
-    firstSourcePosition ? _react2.default.createElement('circle', {
-      className: 'DependenciesEdge-end-dot',
-      r: 2,
-      cx: endPointConfig.x,
-      cy: endPointConfig.y
-    }) :
-    // use rotate to handle different directions
-    _react2.default.createElement('image', {
-      x: endPointConfig.x,
-      y: endPointConfig.y,
-      xlinkHref: endPointConfig.iconPath,
-      height: endPointConfig.iconSize,
-      width: endPointConfig.iconSize,
-      transform: 'rotate(' + endPointConfig.angle + ' ' + (endPointConfig.x + endPointConfig.iconSize / 2) + ' ' + (endPointConfig.y + endPointConfig.iconSize / 2) + ')'
+    getLineEndIcon({
+      lastPt: connectionLinePoints[connectionLinePoints.length - 1],
+      groupName: groupName,
+      isArrow: !firstSourcePosition,
+      selected: selected
     })
   );
 };
@@ -90607,8 +90588,50 @@ var DependenciesOverlappingEdge = exports.DependenciesOverlappingEdge = function
       onClick: onClick,
       points: connectionLinePoints.join(', '),
       className: 'EdgeMouseHandler'
+    }),
+    getLineEndIcon({
+      lastPt: connectionLinePoints[connectionLinePoints.length - 1],
+      groupName: groupName,
+      isArrow: true,
+      selected: selected
     })
   );
+};
+
+var getLineEndIcon = exports.getLineEndIcon = function getLineEndIcon(_ref) {
+  var lastPt = _ref.lastPt,
+      groupName = _ref.groupName,
+      isArrow = _ref.isArrow,
+      selected = _ref.selected;
+
+  var endPointConfig = {
+    x: lastPt[0],
+    y: lastPt[1]
+  };
+
+  if (isArrow) {
+    var directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
+
+    endPointConfig.x -= directionTop ? 3 : 3.5;
+    endPointConfig.y -= directionTop ? 6 : 1;
+    endPointConfig.iconSize = 7;
+    endPointConfig.iconPath = '' + ICONS_DIR + (selected ? 'selected-' : '') + 'arrow.svg'; // TODO: move to getter
+    endPointConfig.angle = directionTop ? 90 : -90;
+  }
+
+  return isArrow ? _react2.default.createElement('image', {
+    x: endPointConfig.x,
+    y: endPointConfig.y,
+    xlinkHref: endPointConfig.iconPath,
+    height: endPointConfig.iconSize,
+    width: endPointConfig.iconSize,
+    transform: 'rotate(' + endPointConfig.angle + ' ' + (endPointConfig.x + endPointConfig.iconSize / 2) + ' ' + (endPointConfig.y + endPointConfig.iconSize / 2) + ')'
+  }) : _react2.default.createElement('circle', {
+    className: 'DependenciesEdge-end-dot',
+    r: 2,
+    cx: endPointConfig.x,
+    cy: endPointConfig.y
+  });
 };
 
 /***/ }),
@@ -90760,6 +90783,7 @@ var CodeCrumbName = exports.CodeCrumbName = function CodeCrumbName(props) {
       y: textPoint.y - 6,
       width: locWidth,
       height: 12,
+      strokeDasharray: '2',
       className: 'CodeCrumbName-rect'
     }),
     _react2.default.createElement(
@@ -90836,10 +90860,13 @@ var FileName = exports.FileName = function FileName(props) {
       onTextClick = props.onTextClick,
       onIconClick = props.onIconClick,
       purple = props.purple,
+      selected = props.selected,
       dependency = props.dependency;
 
+  // TODO: move out to switch
 
-  var iconPath = ICONS_DIR + (purple ? 'purple-' : '') + (dependency ? 'two-circles.svg' : 'js-file.svg');
+  var iconPath = '' + ICONS_DIR + (purple ? 'purple-' : '') + (dependency ? selected && !purple ? 'selected-two-circles.svg' : 'two-circles.svg' : 'js-file.svg');
+  console.log(iconPath, selected);
   var iconSize = 15;
   var nameWidth = name.length * _constants.SYMBOL_WIDTH;
 
@@ -90882,7 +90909,8 @@ var FileName = exports.FileName = function FileName(props) {
         y: position.y + 5,
         onClick: onTextClick,
         className: (0, _classnames2.default)('NodeText-file-name', {
-          'NodeText-file-name-purple': purple
+          'NodeText-file-name-purple': purple,
+          'NodeText-file-name-selected': dependency && selected && !purple
         })
       },
       name
@@ -90931,7 +90959,7 @@ var FolderName = exports.FolderName = function FolderName(props) {
       onTextClick = props.onTextClick;
 
 
-  var iconPath = '' + ICONS_DIR + (closed ? 'closed-' : '') + 'folder' + (disabled ? '-disabled' : '') + '.svg';
+  var iconPath = '' + ICONS_DIR + (disabled ? 'disabled-' : '') + (closed ? 'closed-' : 'open-') + 'folder.svg';
   var iconSize = closed ? 14 : 15;
 
   var iconPositionX = position.x + 3;
@@ -91277,15 +91305,15 @@ var collectDependencies = exports.collectDependencies = function collectDependen
 };
 
 var checkIsEdgeSelected = function checkIsEdgeSelected(selectedEdge, target, source) {
-  if (selectedEdge.targetNode && !selectedEdge.sourceNode) {
-    return selectedEdge.targetNode.data.path === target.data.path;
+  if (selectedEdge.target && selectedEdge.sources.length > 1) {
+    return selectedEdge.target === target;
   }
 
   if (!source) {
-    return selectedEdge.targetNode.data.path === target.data.path;
+    return selectedEdge.target === target;
   }
 
-  return selectedEdge.targetNode.data.path === target.data.path && selectedEdge.sourceNode.data.path === source.data.path;
+  return selectedEdge.target === target && selectedEdge.sources[0] === source;
 };
 
 var DependenciesTree = function (_React$Component) {
@@ -91345,7 +91373,7 @@ var DependenciesTree = function (_React$Component) {
 
           var edges = [];
           var selectedEdges = [];
-          var overlappingEdge = null;
+          var overlappingEdges = [];
 
           Object.entries(getGroupsAroundNode(moduleNode, importedNodes)).forEach(function (_ref6) {
             var _ref7 = _slicedToArray(_ref6, 2),
@@ -91365,8 +91393,9 @@ var DependenciesTree = function (_React$Component) {
                   iY = _ref8[1];
 
               var sourcePosition = shiftToCenterPoint(iX, iY);
+              var importedNodeName = importedNode.data.path;
 
-              var selected = selectedDependencyEdgeNodes && checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode, importedNode);
+              var selected = selectedDependencyEdgeNodes && checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName, importedNodeName);
 
               var edge = _react2.default.createElement(_DepenenciesEdge.DependenciesEdge, {
                 key: 'edge' + i,
@@ -91375,7 +91404,7 @@ var DependenciesTree = function (_React$Component) {
                 targetPosition: targetPosition,
                 firstSourcePosition: i ? firstSourcePosition : null,
                 onClick: function onClick() {
-                  return onDependencyEdgeClick(moduleNode, importedNode);
+                  return onDependencyEdgeClick(moduleName, [importedNodeName]);
                 },
                 selected: selected
               });
@@ -91383,16 +91412,16 @@ var DependenciesTree = function (_React$Component) {
               selected ? selectedEdges.push(edge) : edges.push(edge);
 
               if (!i && groupNodes.length > 1) {
-                overlappingEdge = _react2.default.createElement(_DepenenciesEdge.DependenciesOverlappingEdge, {
+                overlappingEdges.push(_react2.default.createElement(_DepenenciesEdge.DependenciesOverlappingEdge, {
                   key: 'overlap-edge' + i,
                   groupName: groupName,
                   sourcePosition: sourcePosition,
                   targetPosition: targetPosition,
                   onClick: function onClick() {
-                    return onDependencyEdgeClick(moduleNode);
+                    return onDependencyEdgeClick(moduleName, importedModuleNames);
                   },
-                  selected: selectedDependencyEdgeNodes && checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode)
-                });
+                  selected: selectedDependencyEdgeNodes && checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName)
+                }));
               }
 
               if (!sourceDiagramOn) {
@@ -91411,7 +91440,7 @@ var DependenciesTree = function (_React$Component) {
             { key: moduleName + i },
             edges,
             selectedEdges,
-            overlappingEdge,
+            overlappingEdges,
             !sourceDiagramOn ? sourceNodes : null
           );
         })
@@ -91496,7 +91525,8 @@ var SourceTree = function (_React$Component) {
           onNodeTextClick = _props.onNodeTextClick,
           onFileIconClick = _props.onFileIconClick,
           onFolderIconClick = _props.onFolderIconClick,
-          dependenciesList = _props.dependenciesList;
+          dependenciesList = _props.dependenciesList,
+          selectedDependencyEdgeNodes = _props.selectedDependencyEdgeNodes;
 
 
       var sourceEdges = [];
@@ -91552,6 +91582,7 @@ var SourceTree = function (_React$Component) {
             position: position,
             name: name,
             purple: node.children,
+            selected: selectedDependencyEdgeNodes && (selectedDependencyEdgeNodes.target === path || selectedDependencyEdgeNodes.sources.includes(path)),
             dependency: dependenciesDiagramOn,
             onTextClick: function onTextClick() {
               return onNodeTextClick(node.data);

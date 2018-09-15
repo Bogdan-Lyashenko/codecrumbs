@@ -16,7 +16,11 @@ export const PartEdge = props => {
 
   return (
     <React.Fragment>
-      <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} />
+      <polyline
+        points={polylinePoints.join(', ')}
+        className={'CodeCrumbEdge'}
+        strokeDasharray="2"
+      />
       <line x1={P1.x} y1={P1.y - 2} x2={P1.x} y2={P1.y + 2} className={'CodeCrumbEdge'} />
     </React.Fragment>
   );
@@ -37,5 +41,7 @@ export const CodeCrumbEdge = props => {
 
   const polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
 
-  return <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} />;
+  return (
+    <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} strokeDasharray="2" />
+  );
 };

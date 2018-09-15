@@ -7,10 +7,17 @@ import './index.scss';
 const ICONS_DIR = 'resources/';
 
 export const FileName = props => {
-  const { position, name, onTextClick, onIconClick, purple, dependency } = props;
+  const { position, name, onTextClick, onIconClick, purple, selected, dependency } = props;
 
-  const iconPath =
-    ICONS_DIR + (purple ? 'purple-' : '') + (dependency ? 'two-circles.svg' : 'js-file.svg');
+  // TODO: move out to switch
+  const iconPath = `${ICONS_DIR}${purple ? 'purple-' : ''}${
+    dependency
+      ? selected && !purple
+        ? 'selected-two-circles.svg'
+        : 'two-circles.svg'
+      : 'js-file.svg'
+  }`;
+  console.log(iconPath, selected);
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 
@@ -51,7 +58,8 @@ export const FileName = props => {
         y={position.y + 5}
         onClick={onTextClick}
         className={classNames('NodeText-file-name', {
-          'NodeText-file-name-purple': purple
+          'NodeText-file-name-purple': purple,
+          'NodeText-file-name-selected': dependency && selected && !purple
         })}
       >
         {name}

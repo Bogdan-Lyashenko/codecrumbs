@@ -100,18 +100,15 @@ export const collectDependencies = (entryModuleName, dependenciesList) => {
 };
 
 const checkIsEdgeSelected = (selectedEdge, target, source) => {
-  if (selectedEdge.targetNode && !selectedEdge.sourceNode) {
-    return selectedEdge.targetNode.data.path === target.data.path;
+  if (selectedEdge.target && selectedEdge.sources.length > 1) {
+    return selectedEdge.target === target;
   }
 
   if (!source) {
-    return selectedEdge.targetNode.data.path === target.data.path;
+    return selectedEdge.target === target;
   }
 
-  return (
-    selectedEdge.targetNode.data.path === target.data.path &&
-    selectedEdge.sourceNode.data.path === source.data.path
-  );
+  return selectedEdge.target === target && selectedEdge.sources[0] === source;
 };
 
 class DependenciesTree extends React.Component {
@@ -154,7 +151,7 @@ class DependenciesTree extends React.Component {
 
           const edges = [];
           const selectedEdges = [];
-          let overlappingEdge = null;
+          const overlappingEdges = [];
 
           Object.entries(getGroupsAroundNode(moduleNode, importedNodes)).forEach(
             ([groupName, groupNodes]) => {
@@ -168,10 +165,11 @@ class DependenciesTree extends React.Component {
               groupNodes.forEach((importedNode, i) => {
                 const [iX, iY] = [importedNode.y, importedNode.x];
                 const sourcePosition = shiftToCenterPoint(iX, iY);
+                const importedNodeName = importedNode.data.path;
 
                 const selected =
                   selectedDependencyEdgeNodes &&
-                  checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode, importedNode);
+                  checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName, importedNodeName);
 
                 const edge = (
                   <DependenciesEdge
@@ -180,7 +178,7 @@ class DependenciesTree extends React.Component {
                     sourcePosition={sourcePosition}
                     targetPosition={targetPosition}
                     firstSourcePosition={i ? firstSourcePosition : null}
-                    onClick={() => onDependencyEdgeClick(moduleNode, importedNode)}
+                    onClick={() => onDependencyEdgeClick(moduleName, [importedNodeName])}
                     selected={selected}
                   />
                 );
@@ -188,16 +186,16 @@ class DependenciesTree extends React.Component {
                 selected ? selectedEdges.push(edge) : edges.push(edge);
 
                 if (!i && groupNodes.length > 1) {
-                  overlappingEdge = (
+                  overlappingEdges.push(
                     <DependenciesOverlappingEdge
                       key={'overlap-edge' + i}
                       groupName={groupName}
                       sourcePosition={sourcePosition}
                       targetPosition={targetPosition}
-                      onClick={() => onDependencyEdgeClick(moduleNode)}
+                      onClick={() => onDependencyEdgeClick(moduleName, importedModuleNames)}
                       selected={
                         selectedDependencyEdgeNodes &&
-                        checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleNode)
+                        checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName)
                       }
                     />
                   );
@@ -221,7 +219,7 @@ class DependenciesTree extends React.Component {
             <React.Fragment key={moduleName + i}>
               {edges}
               {selectedEdges}
-              {overlappingEdge}
+              {overlappingEdges}
               {!sourceDiagramOn ? sourceNodes : null}
             </React.Fragment>
           );

@@ -24,7 +24,8 @@ class SourceTree extends React.Component {
       onNodeTextClick,
       onFileIconClick,
       onFolderIconClick,
-      dependenciesList
+      dependenciesList,
+      selectedDependencyEdgeNodes
     } = this.props;
 
     const sourceEdges = [];
@@ -77,6 +78,11 @@ class SourceTree extends React.Component {
               position={position}
               name={name}
               purple={node.children}
+              selected={
+                selectedDependencyEdgeNodes &&
+                (selectedDependencyEdgeNodes.target === path ||
+                  selectedDependencyEdgeNodes.sources.includes(path))
+              }
               dependency={dependenciesDiagramOn}
               onTextClick={() => onNodeTextClick(node.data)}
               onIconClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}

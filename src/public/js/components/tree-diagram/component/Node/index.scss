@@ -1,56 +1,60 @@
 .NodeIcon {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .NodeText-cover {
-    stroke: none;
-    fill: rgba(255, 255, 255, 0.5);
+  stroke: none;
+  fill: rgba(255, 255, 255, 0.5);
 }
 
 .NodeIcon-folder-line {
-    fill: none;
-    stroke: #BFBFBF;
+  fill: none;
+  stroke: #BFBFBF;
 }
 
 .NodeIcon-folder-line-disabled {
-    stroke: #ccc;
+  stroke: #ccc;
 }
 
 .NodeText-file-name {
-    fill: #595959;
-    font-family: 'Menlo';
-    cursor: pointer;
+  fill: #595959;
+  font-family: 'Menlo';
+  cursor: pointer;
 }
 
 .NodeText-file-name-purple {
-    fill: #ff18a6;
+  fill: #ff18a6;
+}
+
+.NodeText-file-name-selected {
+  fill: #754BC3;
 }
 
 .NodeText-folder-name {
-    fill: #595959;
-    font-family: 'Menlo';
-    cursor: pointer;
+  fill: #595959;
+  font-family: 'Menlo';
+  cursor: pointer;
 }
 
 .NodeText-folder-name-disabled {
-    fill: #A9A8A8;
+  fill: #A9A8A8;
 }
 
 .CodeCrumbName-rect {
-    fill: #fff;
-    stroke: #ff18a6;
+  fill: #fff;
+  stroke: #ff18a6;
 }
 
 .CodeCrumbName-loc {
-    fill: #595959;
-    font-family: 'Menlo';
-    font-size: 8px;
-    cursor: pointer;
+  fill: #595959;
+  font-family: 'Menlo';
+  font-size: 8px;
+  cursor: pointer;
 }
 
 .CodeCrumbName-text {
-    fill: #ff18a6;
-    font-family: 'Menlo';
-    font-size: 12px;
-    cursor: pointer;
+  fill: #ff18a6;
+  font-family: 'Menlo';
+  font-size: 12px;
+  cursor: pointer;
 }

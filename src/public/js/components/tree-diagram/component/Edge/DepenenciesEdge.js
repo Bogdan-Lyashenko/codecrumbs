@@ -10,6 +10,7 @@ const V_SPACE = LAYOUT_CONFIG.spacing + LAYOUT_CONFIG.nodeSizeX;
 const PADDING = 30;
 const HALF_PADDING = PADDING / 2;
 const crossShift = 2;
+const ICONS_DIR = 'resources/';
 
 // Arrow can go from top ot bottom of file icon
 const getSourcePt = (groupName, sourcePosition) => ({
@@ -91,22 +92,6 @@ export const DependenciesEdge = props => {
     return null;
   }
 
-  const lastPt = connectionLinePoints[connectionLinePoints.length - 1];
-  const endPointConfig = {
-    x: lastPt[0],
-    y: lastPt[1]
-  };
-
-  if (!firstSourcePosition) {
-    const directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
-
-    endPointConfig.x -= 3;
-    endPointConfig.y -= directionTop ? 6 : 1;
-    endPointConfig.iconSize = 7;
-    endPointConfig.iconPath = 'resources/right-arrow.svg'; // TODO: move to getter
-    endPointConfig.angle = directionTop ? 90 : -90;
-  }
-
   return (
     <React.Fragment>
       <polyline
@@ -126,25 +111,12 @@ export const DependenciesEdge = props => {
         points={connectionLinePoints.join(', ')}
         className={'EdgeMouseHandler'}
       />
-      {firstSourcePosition ? (
-        <circle
-          className={'DependenciesEdge-end-dot'}
-          r={2}
-          cx={endPointConfig.x}
-          cy={endPointConfig.y}
-        />
-      ) : (
-        // use rotate to handle different directions
-        <image
-          x={endPointConfig.x}
-          y={endPointConfig.y}
-          xlinkHref={endPointConfig.iconPath}
-          height={endPointConfig.iconSize}
-          width={endPointConfig.iconSize}
-          transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
-            endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
-        />
-      )}
+      {getLineEndIcon({
+        lastPt: connectionLinePoints[connectionLinePoints.length - 1],
+        groupName,
+        isArrow: !firstSourcePosition,
+        selected
+      })}
     </React.Fragment>
   );
 };
@@ -191,6 +163,48 @@ export const DependenciesOverlappingEdge = props => {
         points={connectionLinePoints.join(', ')}
         className={'EdgeMouseHandler'}
       />
+      {getLineEndIcon({
+        lastPt: connectionLinePoints[connectionLinePoints.length - 1],
+        groupName,
+        isArrow: true,
+        selected
+      })}
     </React.Fragment>
+  );
+};
+
+export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
+  const endPointConfig = {
+    x: lastPt[0],
+    y: lastPt[1]
+  };
+
+  if (isArrow) {
+    const directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
+
+    endPointConfig.x -= directionTop ? 3 : 3.5;
+    endPointConfig.y -= directionTop ? 6 : 1;
+    endPointConfig.iconSize = 7;
+    endPointConfig.iconPath = `${ICONS_DIR}${selected ? 'selected-' : ''}arrow.svg`; // TODO: move to getter
+    endPointConfig.angle = directionTop ? 90 : -90;
+  }
+
+  return isArrow ? (
+    <image
+      x={endPointConfig.x}
+      y={endPointConfig.y}
+      xlinkHref={endPointConfig.iconPath}
+      height={endPointConfig.iconSize}
+      width={endPointConfig.iconSize}
+      transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
+        endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
+    />
+  ) : (
+    <circle
+      className={'DependenciesEdge-end-dot'}
+      r={2}
+      cx={endPointConfig.x}
+      cy={endPointConfig.y}
+    />
   );
 };

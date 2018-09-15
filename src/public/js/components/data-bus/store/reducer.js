@@ -81,7 +81,8 @@ export default (state = DefaultState, action) => {
 
       return {
         ...state,
-        dependenciesEntryPoint: entry
+        dependenciesEntryPoint: entry,
+        selectedDependencyEdgeNodes: null
       };
 
     case ACTIONS.SELECT_DEPENDENCY_EDGE:

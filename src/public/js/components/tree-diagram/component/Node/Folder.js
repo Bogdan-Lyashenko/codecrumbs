@@ -8,7 +8,9 @@ const ICONS_DIR = 'resources/';
 export const FolderName = props => {
   const { position, name, dependency, disabled, closed, onIconClick, onTextClick } = props;
 
-  const iconPath = `${ICONS_DIR}${closed ? 'closed-' : ''}folder${disabled ? '-disabled' : ''}.svg`;
+  const iconPath = `${ICONS_DIR}${disabled ? 'disabled-' : ''}${
+    closed ? 'closed-' : 'open-'
+  }folder.svg`;
   const iconSize = closed ? 14 : 15;
 
   const iconPositionX = position.x + 3;

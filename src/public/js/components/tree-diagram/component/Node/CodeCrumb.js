@@ -27,6 +27,7 @@ export const CodeCrumbName = props => {
         y={textPoint.y - 6}
         width={locWidth}
         height={12}
+        strokeDasharray="2"
         className={'CodeCrumbName-rect'}
       />
       <text

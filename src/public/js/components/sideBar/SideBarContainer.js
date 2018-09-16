@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import SideBar from './component/SideBar';
-import { selectNode } from 'components/data-bus/store/actions';
+import { selectNode } from 'components/dataBus/store/actions';
 import { FILE_NODE_TYPE } from 'utils/constants';
 
 const SideBarContainer = ({ selectedNode, selectedCodeCrumb, onClose }) => {

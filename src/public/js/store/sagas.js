@@ -1,12 +1,12 @@
 import every from 'lodash/every';
 import { put, takeLatest, select, all } from 'redux-saga/effects';
-import { ACTIONS as DATA_BUS_ACTIONS } from 'components/data-bus/store/constants';
+import { ACTIONS as DATA_BUS_ACTIONS } from 'components/dataBus/store/constants';
 import {
   calcFilesTreeLayoutNodes,
   openAllFolders,
   closeAllFolders,
   selectDependencyEdge
-} from 'components/data-bus/store/actions';
+} from 'components/dataBus/store/actions';
 
 import {
   ACTIONS as SWITCHES_ACTIONS,

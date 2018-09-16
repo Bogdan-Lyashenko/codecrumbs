@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 
-import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/tree-diagram/store/constants';
+import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/store/constants';
 import classNames from 'classnames';
 const { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT } = DepEdgeGroups;
 

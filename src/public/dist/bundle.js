@@ -16727,7 +16727,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.5); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-file-name-selected {\n  fill: #754BC3; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: 'Menlo';\n  font-size: 8px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: 'Menlo';\n  font-size: 12px;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.5); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-file-name-selected {\n  fill: #754BC3; }\n\n.NodeText-file-dependencyImportedOnly {\n  stroke: #cccccc;\n  fill: white; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: 'Menlo';\n  font-size: 8px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: 'Menlo';\n  font-size: 12px;\n  cursor: pointer; }\n", ""]);
 
 // exports
 
@@ -91924,7 +91924,8 @@ var DataBusContainer = function (_React$Component) {
           var _data$body = data.body,
               filesTree = _data$body.filesTree,
               filesList = _data$body.filesList,
-              dependenciesList = _data$body.dependenciesList;
+              dependenciesList = _data$body.dependenciesList,
+              dependenciesMap = _data$body.dependenciesMap;
           var _props = this.props,
               _setInitialSourceData = _props.setInitialSourceData,
               _calcFilesTreeLayoutNodes = _props.calcFilesTreeLayoutNodes;
@@ -91934,6 +91935,7 @@ var DataBusContainer = function (_React$Component) {
             filesTree: filesTree,
             filesList: filesList,
             dependenciesList: dependenciesList,
+            dependenciesMap: dependenciesMap,
             dependenciesRootEntryName: 'example-project/index.js' // TODO: fix, should be passed from server
           });
 
@@ -92118,7 +92120,7 @@ var ACTIONS = exports.ACTIONS = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.collectDependencies = exports.getFilteredDependenciesList = undefined;
+exports.getDependenciesAllModules = exports.collectDependencies = exports.getFilteredDependencies = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -92159,18 +92161,18 @@ exports.default = function () {
     case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
       var _action$payload = action.payload,
           dependenciesRootEntryName = _action$payload.dependenciesRootEntryName,
-          dependenciesList = _action$payload.dependenciesList,
+          dependenciesMap = _action$payload.dependenciesMap,
           dependenciesShowDirectOnly = _action$payload.dependenciesShowDirectOnly;
 
       var dependenciesEntryPoint = { path: dependenciesRootEntryName };
 
       return _extends({}, state, action.payload, {
+        dependenciesEntryPoint: dependenciesEntryPoint
+      }, getFilteredDependencies({
+        dependenciesMap: dependenciesMap,
         dependenciesEntryPoint: dependenciesEntryPoint,
-        filteredDependenciesList: getFilteredDependenciesList({
-          dependenciesList: dependenciesList,
-          dependenciesEntryPoint: dependenciesEntryPoint,
-          dependenciesShowDirectOnly: dependenciesShowDirectOnly
-        }),
+        dependenciesShowDirectOnly: dependenciesShowDirectOnly
+      }), {
         firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
           return item.type === _constants.DIR_NODE_TYPE;
         }).reduce(function (res, item) {
@@ -92224,12 +92226,12 @@ exports.default = function () {
     case _constants2.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
       var depEntryPoint = action.payload.fileNode || state.dependenciesEntryPoint;
       return _extends({}, state, {
+        dependenciesEntryPoint: depEntryPoint
+      }, getFilteredDependencies({
+        dependenciesMap: state.dependenciesMap,
         dependenciesEntryPoint: depEntryPoint,
-        filteredDependenciesList: getFilteredDependenciesList({
-          dependenciesList: state.dependenciesList,
-          dependenciesEntryPoint: depEntryPoint,
-          dependenciesShowDirectOnly: action.payload.dependenciesShowDirectOnly
-        }),
+        dependenciesShowDirectOnly: action.payload.dependenciesShowDirectOnly
+      }), {
         selectedDependencyEdgeNodes: null
       });
 
@@ -92245,37 +92247,54 @@ exports.default = function () {
   }
 };
 
-var getFilteredDependenciesList = exports.getFilteredDependenciesList = function getFilteredDependenciesList(_ref) {
-  var dependenciesList = _ref.dependenciesList,
+var getFilteredDependencies = exports.getFilteredDependencies = function getFilteredDependencies(_ref) {
+  var dependenciesMap = _ref.dependenciesMap,
       dependenciesEntryPoint = _ref.dependenciesEntryPoint,
       dependenciesShowDirectOnly = _ref.dependenciesShowDirectOnly;
 
   if (!dependenciesEntryPoint) {
-    return [];
+    return {
+      filteredDependenciesList: [],
+      filteredDependenciesMap: {},
+      filteredDependenciesAllModulesMap: {}
+    };
   }
+
+  var filteredDependenciesList = void 0,
+      filteredDependenciesMap = void 0;
 
   if (dependenciesShowDirectOnly) {
-    var dependency = dependenciesList.find(function (d) {
-      return d.moduleName === dependenciesEntryPoint.path;
-    });
-    return dependency ? [dependency] : [];
+    var depEntryNode = dependenciesMap[dependenciesEntryPoint.path];
+    filteredDependenciesList = depEntryNode ? [depEntryNode] : [];
+    filteredDependenciesMap = depEntryNode ? _defineProperty({}, dependenciesEntryPoint.path, depEntryNode) : {};
+  } else {
+    var _collectDependencies = collectDependencies(dependenciesEntryPoint.path, dependenciesMap),
+        list = _collectDependencies.list,
+        map = _collectDependencies.map;
+
+    filteredDependenciesList = list;
+    filteredDependenciesMap = map;
   }
 
-  return collectDependencies(dependenciesEntryPoint.path, dependenciesList);
+  return {
+    filteredDependenciesList: filteredDependenciesList,
+    filteredDependenciesMap: filteredDependenciesMap,
+    filteredDependenciesAllModulesMap: getDependenciesAllModules(filteredDependenciesMap)
+  };
 };
 
-var collectDependencies = exports.collectDependencies = function collectDependencies(entryModuleName, dependenciesList) {
+var collectDependencies = exports.collectDependencies = function collectDependencies(entryModuleName, dependenciesMap) {
   var queue = [].concat(entryModuleName),
-      store = [];
+      list = [],
+      map = {};
 
-  var _loop = function _loop() {
+  while (queue.length) {
     var moduleName = queue.shift(),
-        entryModule = dependenciesList.find(function (d) {
-      return d.moduleName === moduleName;
-    });
+        entryModule = dependenciesMap[moduleName];
 
     if (entryModule) {
-      store.push(entryModule);
+      list.push(entryModule);
+      map[moduleName] = entryModule;
 
       var nodeBody = entryModule.importedModuleNames;
       if (nodeBody) {
@@ -92284,13 +92303,25 @@ var collectDependencies = exports.collectDependencies = function collectDependen
     } else {
       console.error('looks like ' + entryModuleName + 'is not imported anywhere');
     }
-  };
-
-  while (queue.length) {
-    _loop();
   }
 
-  return store;
+  return {
+    list: list,
+    map: map
+  };
+};
+
+var getDependenciesAllModules = exports.getDependenciesAllModules = function getDependenciesAllModules(dependenciesMap) {
+  var allNodes = {};
+
+  Object.values(dependenciesMap).forEach(function (depModule) {
+    allNodes[depModule.moduleName] = 1;
+    (depModule.importedModuleNames || []).forEach(function (impModuleName) {
+      return allNodes[impModuleName] = 1;
+    });
+  });
+
+  return allNodes;
 };
 
 /***/ }),
@@ -92703,6 +92734,7 @@ var mapStateToProps = function mapStateToProps(state) {
       dependenciesList = _state$dataBus.dependenciesList,
       dependenciesMap = _state$dataBus.dependenciesMap,
       filteredDependenciesList = _state$dataBus.filteredDependenciesList,
+      filteredDependenciesAllModulesMap = _state$dataBus.filteredDependenciesAllModulesMap,
       closedFolders = _state$dataBus.closedFolders,
       dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint,
       selectedNode = _state$dataBus.selectedNode,
@@ -92720,6 +92752,7 @@ var mapStateToProps = function mapStateToProps(state) {
     filesTreeLayoutNodes: filesTreeLayoutNodes,
     fileNodesMap: fileNodesMap,
     dependenciesList: dependenciesList,
+    filteredDependenciesAllModulesMap: filteredDependenciesAllModulesMap,
     dependenciesMap: dependenciesMap,
     filteredDependenciesList: filteredDependenciesList,
     closedFolders: closedFolders,
@@ -93319,7 +93352,8 @@ var FileName = exports.FileName = function FileName(props) {
       onIconClick = props.onIconClick,
       purple = props.purple,
       selected = props.selected,
-      dependency = props.dependency;
+      dependency = props.dependency,
+      dependencyImportedOnly = props.dependencyImportedOnly;
 
   // TODO: move out to switch
 
@@ -93359,6 +93393,12 @@ var FileName = exports.FileName = function FileName(props) {
       height: iconSize,
       width: iconSize,
       className: 'NodeIcon'
+    }),
+    dependency && dependencyImportedOnly && _react2.default.createElement('circle', {
+      cx: position.x + 2.5,
+      cy: position.y,
+      r: 2.5,
+      className: 'NodeText-file-dependencyImportedOnly'
     }),
     _react2.default.createElement(
       'text',
@@ -93749,6 +93789,7 @@ var DependenciesTree = function (_React$Component) {
           var targetPosition = shiftToCenterPoint(mX, mY);
           var sourceNodes = [];
           if (!sourceDiagramOn) {
+            //TODO: un sync with FileName in SourceTree, duplication
             sourceNodes.push(_react2.default.createElement(_File.FileName, {
               key: 'module-file-' + i,
               position: targetPosition,
@@ -93917,7 +93958,9 @@ var SourceTree = function (_React$Component) {
           onNodeTextClick = _props.onNodeTextClick,
           onFileIconClick = _props.onFileIconClick,
           onFolderIconClick = _props.onFolderIconClick,
-          dependenciesList = _props.dependenciesList,
+          filteredDependenciesList = _props.filteredDependenciesList,
+          dependenciesMap = _props.dependenciesMap,
+          filteredDependenciesAllModulesMap = _props.filteredDependenciesAllModulesMap,
           selectedDependencyEdgeNodes = _props.selectedDependencyEdgeNodes;
 
 
@@ -93964,7 +94007,7 @@ var SourceTree = function (_React$Component) {
         }
 
         var type = node.data.type;
-        if (type === _constants.DIR_NODE_TYPE || type === _constants.FILE_NODE_TYPE && !dependenciesDiagramOn) {
+        if (type === _constants.DIR_NODE_TYPE || type === _constants.FILE_NODE_TYPE && !(dependenciesDiagramOn && filteredDependenciesAllModulesMap[path])) {
           sourceDotes.push(_react2.default.createElement(_Dot.Dot, { key: 'dot-' + i, position: position, disabled: false, selected: selected }));
         }
 
@@ -93975,7 +94018,8 @@ var SourceTree = function (_React$Component) {
             name: name,
             purple: node.children,
             selected: selectedDependencyEdgeNodes && (selectedDependencyEdgeNodes.target === path || selectedDependencyEdgeNodes.sources.includes(path)),
-            dependency: dependenciesDiagramOn,
+            dependency: dependenciesDiagramOn && filteredDependenciesAllModulesMap[path],
+            dependencyImportedOnly: dependenciesDiagramOn && dependenciesMap[path] && !dependenciesMap[path].importedModuleNames.length,
             onTextClick: function onTextClick() {
               return onNodeTextClick(node.data);
             },
@@ -94012,7 +94056,7 @@ var SourceTree = function (_React$Component) {
         sourceDiagramOn && sourceEdges || null,
         sourceDiagramOn && selectedSourceEdges || null,
         sourceDiagramOn && sourceDotes || null,
-        dependenciesList && dependenciesDiagramOn && _react2.default.createElement(_DependenciesTree2.default, this.props),
+        dependenciesDiagramOn && filteredDependenciesList && filteredDependenciesList.length && _react2.default.createElement(_DependenciesTree2.default, this.props),
         sourceDiagramOn && sourceNodes || null,
         codeCrumbsDiagramOn && _react2.default.createElement(_CodeCrumbsTree2.default, this.props) || null
       );

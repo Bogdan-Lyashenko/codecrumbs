@@ -24,7 +24,9 @@ class SourceTree extends React.Component {
       onNodeTextClick,
       onFileIconClick,
       onFolderIconClick,
-      dependenciesList,
+      filteredDependenciesList,
+      dependenciesMap,
+      filteredDependenciesAllModulesMap,
       selectedDependencyEdgeNodes
     } = this.props;
 
@@ -65,7 +67,11 @@ class SourceTree extends React.Component {
         }
 
         const type = node.data.type;
-        if (type === DIR_NODE_TYPE || (type === FILE_NODE_TYPE && !dependenciesDiagramOn)) {
+        if (
+          type === DIR_NODE_TYPE ||
+          (type === FILE_NODE_TYPE &&
+            !(dependenciesDiagramOn && filteredDependenciesAllModulesMap[path]))
+        ) {
           sourceDotes.push(
             <Dot key={`dot-${i}`} position={position} disabled={false} selected={selected} />
           );
@@ -83,7 +89,12 @@ class SourceTree extends React.Component {
                 (selectedDependencyEdgeNodes.target === path ||
                   selectedDependencyEdgeNodes.sources.includes(path))
               }
-              dependency={dependenciesDiagramOn}
+              dependency={dependenciesDiagramOn && filteredDependenciesAllModulesMap[path]}
+              dependencyImportedOnly={
+                dependenciesDiagramOn &&
+                dependenciesMap[path] &&
+                !dependenciesMap[path].importedModuleNames.length
+              }
               onTextClick={() => onNodeTextClick(node.data)}
               onIconClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
             />
@@ -111,7 +122,9 @@ class SourceTree extends React.Component {
         {(sourceDiagramOn && selectedSourceEdges) || null}
         {(sourceDiagramOn && sourceDotes) || null}
 
-        {dependenciesList && dependenciesDiagramOn && <DependenciesTree {...this.props} />}
+        {dependenciesDiagramOn &&
+          filteredDependenciesList &&
+          filteredDependenciesList.length && <DependenciesTree {...this.props} />}
 
         {(sourceDiagramOn && sourceNodes) || null}
 

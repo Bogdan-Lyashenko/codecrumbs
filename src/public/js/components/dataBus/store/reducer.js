@@ -21,7 +21,7 @@ export default (state = DefaultState, action) => {
     case ACTIONS.SET_INITIAL_SOURCE_DATA:
       const {
         dependenciesRootEntryName,
-        dependenciesList,
+        dependenciesMap,
         dependenciesShowDirectOnly
       } = action.payload;
       const dependenciesEntryPoint = { path: dependenciesRootEntryName };
@@ -30,8 +30,8 @@ export default (state = DefaultState, action) => {
         ...state,
         ...action.payload,
         dependenciesEntryPoint,
-        filteredDependenciesList: getFilteredDependenciesList({
-          dependenciesList,
+        ...getFilteredDependencies({
+          dependenciesMap,
           dependenciesEntryPoint,
           dependenciesShowDirectOnly
         }),
@@ -97,8 +97,8 @@ export default (state = DefaultState, action) => {
       return {
         ...state,
         dependenciesEntryPoint: depEntryPoint,
-        filteredDependenciesList: getFilteredDependenciesList({
-          dependenciesList: state.dependenciesList,
+        ...getFilteredDependencies({
+          dependenciesMap: state.dependenciesMap,
           dependenciesEntryPoint: depEntryPoint,
           dependenciesShowDirectOnly: action.payload.dependenciesShowDirectOnly
         }),
@@ -118,33 +118,50 @@ export default (state = DefaultState, action) => {
   }
 };
 
-export const getFilteredDependenciesList = ({
-  dependenciesList,
+export const getFilteredDependencies = ({
+  dependenciesMap,
   dependenciesEntryPoint,
   dependenciesShowDirectOnly
 }) => {
   if (!dependenciesEntryPoint) {
-    return [];
+    return {
+      filteredDependenciesList: [],
+      filteredDependenciesMap: {},
+      filteredDependenciesAllModulesMap: {}
+    };
   }
+
+  let filteredDependenciesList, filteredDependenciesMap;
 
   if (dependenciesShowDirectOnly) {
-    const dependency = dependenciesList.find(d => d.moduleName === dependenciesEntryPoint.path);
-    return dependency ? [dependency] : [];
+    const depEntryNode = dependenciesMap[dependenciesEntryPoint.path];
+    filteredDependenciesList = depEntryNode ? [depEntryNode] : [];
+    filteredDependenciesMap = depEntryNode ? { [dependenciesEntryPoint.path]: depEntryNode } : {};
+  } else {
+    const { list, map } = collectDependencies(dependenciesEntryPoint.path, dependenciesMap);
+    filteredDependenciesList = list;
+    filteredDependenciesMap = map;
   }
 
-  return collectDependencies(dependenciesEntryPoint.path, dependenciesList);
+  return {
+    filteredDependenciesList,
+    filteredDependenciesMap,
+    filteredDependenciesAllModulesMap: getDependenciesAllModules(filteredDependenciesMap)
+  };
 };
 
-export const collectDependencies = (entryModuleName, dependenciesList) => {
+export const collectDependencies = (entryModuleName, dependenciesMap) => {
   let queue = [].concat(entryModuleName),
-    store = [];
+    list = [],
+    map = {};
 
   while (queue.length) {
     let moduleName = queue.shift(),
-      entryModule = dependenciesList.find(d => d.moduleName === moduleName);
+      entryModule = dependenciesMap[moduleName];
 
     if (entryModule) {
-      store.push(entryModule);
+      list.push(entryModule);
+      map[moduleName] = entryModule;
 
       const nodeBody = entryModule.importedModuleNames;
       if (nodeBody) {
@@ -155,5 +172,19 @@ export const collectDependencies = (entryModuleName, dependenciesList) => {
     }
   }
 
-  return store;
+  return {
+    list,
+    map
+  };
+};
+
+export const getDependenciesAllModules = dependenciesMap => {
+  const allNodes = {};
+
+  Object.values(dependenciesMap).forEach(depModule => {
+    allNodes[depModule.moduleName] = 1;
+    (depModule.importedModuleNames || []).forEach(impModuleName => (allNodes[impModuleName] = 1));
+  });
+
+  return allNodes;
 };

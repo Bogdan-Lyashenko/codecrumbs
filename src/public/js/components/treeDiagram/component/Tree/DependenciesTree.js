@@ -87,6 +87,7 @@ class DependenciesTree extends React.Component {
           const targetPosition = shiftToCenterPoint(mX, mY);
           const sourceNodes = [];
           if (!sourceDiagramOn) {
+            //TODO: un sync with FileName in SourceTree, duplication
             sourceNodes.push(
               <FileName
                 key={`module-file-${i}`}

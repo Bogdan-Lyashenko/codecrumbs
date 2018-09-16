@@ -27,6 +27,7 @@ class SourceTree extends React.Component {
       filteredDependenciesList,
       dependenciesMap,
       filteredDependenciesAllModulesMap,
+      dependenciesEntryPoint,
       selectedDependencyEdgeNodes
     } = this.props;
 
@@ -89,6 +90,7 @@ class SourceTree extends React.Component {
                 (selectedDependencyEdgeNodes.target === path ||
                   selectedDependencyEdgeNodes.sources.includes(path))
               }
+              depEntryPoint={path === dependenciesEntryPoint.path}
               dependency={dependenciesDiagramOn && filteredDependenciesAllModulesMap[path]}
               dependencyImportedOnly={
                 dependenciesDiagramOn &&

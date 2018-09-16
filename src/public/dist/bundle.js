@@ -16727,7 +16727,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.5); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-file-name-selected {\n  fill: #754BC3; }\n\n.NodeText-file-dependencyImportedOnly {\n  stroke: #cccccc;\n  fill: white; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: 'Menlo';\n  font-size: 8px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: 'Menlo';\n  font-size: 12px;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.5); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-file-name-selected {\n  fill: #754BC3; }\n\n.NodeText-file-name-entry-point {\n  fill: #40a2fd; }\n\n.NodeText-file-dependencyImportedOnly {\n  stroke: #cccccc;\n  fill: white; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: 'Menlo';\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: 'Menlo';\n  font-size: 8px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: 'Menlo';\n  font-size: 12px;\n  cursor: pointer; }\n", ""]);
 
 // exports
 
@@ -93353,7 +93353,8 @@ var FileName = exports.FileName = function FileName(props) {
       purple = props.purple,
       selected = props.selected,
       dependency = props.dependency,
-      dependencyImportedOnly = props.dependencyImportedOnly;
+      dependencyImportedOnly = props.dependencyImportedOnly,
+      depEntryPoint = props.depEntryPoint;
 
   // TODO: move out to switch
 
@@ -93361,6 +93362,8 @@ var FileName = exports.FileName = function FileName(props) {
 
   var iconSize = 15;
   var nameWidth = name.length * _constants.SYMBOL_WIDTH;
+
+  depEntryPoint && console.log(name);
 
   var imageOffset = !dependency ? { x: 2, y: -10 } : { x: 0, y: -7.5 };
 
@@ -93408,6 +93411,7 @@ var FileName = exports.FileName = function FileName(props) {
         onClick: onTextClick,
         className: (0, _classnames2.default)('NodeText-file-name', {
           'NodeText-file-name-purple': purple,
+          'NodeText-file-name-entry-point': dependency && depEntryPoint && !purple,
           'NodeText-file-name-selected': dependency && selected && !purple
         })
       },
@@ -93961,6 +93965,7 @@ var SourceTree = function (_React$Component) {
           filteredDependenciesList = _props.filteredDependenciesList,
           dependenciesMap = _props.dependenciesMap,
           filteredDependenciesAllModulesMap = _props.filteredDependenciesAllModulesMap,
+          dependenciesEntryPoint = _props.dependenciesEntryPoint,
           selectedDependencyEdgeNodes = _props.selectedDependencyEdgeNodes;
 
 
@@ -94018,6 +94023,7 @@ var SourceTree = function (_React$Component) {
             name: name,
             purple: node.children,
             selected: selectedDependencyEdgeNodes && (selectedDependencyEdgeNodes.target === path || selectedDependencyEdgeNodes.sources.includes(path)),
+            depEntryPoint: path === dependenciesEntryPoint.path,
             dependency: dependenciesDiagramOn && filteredDependenciesAllModulesMap[path],
             dependencyImportedOnly: dependenciesDiagramOn && dependenciesMap[path] && !dependenciesMap[path].importedModuleNames.length,
             onTextClick: function onTextClick() {

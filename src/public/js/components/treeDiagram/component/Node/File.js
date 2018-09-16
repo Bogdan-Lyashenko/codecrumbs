@@ -15,7 +15,8 @@ export const FileName = props => {
     purple,
     selected,
     dependency,
-    dependencyImportedOnly
+    dependencyImportedOnly,
+    depEntryPoint
   } = props;
 
   // TODO: move out to switch
@@ -29,6 +30,8 @@ export const FileName = props => {
 
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
+
+  depEntryPoint && console.log(name)
 
   const imageOffset = !dependency ? { x: 2, y: -10 } : { x: 0, y: -7.5 };
 
@@ -77,6 +80,7 @@ export const FileName = props => {
         onClick={onTextClick}
         className={classNames('NodeText-file-name', {
           'NodeText-file-name-purple': purple,
+          'NodeText-file-name-entry-point': dependency && depEntryPoint && !purple,
           'NodeText-file-name-selected': dependency && selected && !purple
         })}
       >

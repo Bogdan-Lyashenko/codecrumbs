@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SYMBOL_WIDTH } from 'components/tree-diagram/store/constants';
+import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
 import './index.scss';
 
 const ICONS_DIR = 'resources/';

@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'utils/constants';
-import { FileName } from 'components/tree-diagram/component/Node/File';
-import { FolderName } from 'components/tree-diagram/component/Node/Folder';
-import { Dot } from 'components/tree-diagram/component/Dot/';
-import { SourceEdge } from 'components/tree-diagram/component/Edge/SourceEdge';
+import { FileName } from 'components/treeDiagram/component/Node/File';
+import { FolderName } from 'components/treeDiagram/component/Node/Folder';
+import { Dot } from 'components/treeDiagram/component/Dot/';
+import { SourceEdge } from 'components/treeDiagram/component/Edge/SourceEdge';
 
 import DependenciesTree from './DependenciesTree';
 import CodeCrumbsTree from './CodeCrumbsTree';

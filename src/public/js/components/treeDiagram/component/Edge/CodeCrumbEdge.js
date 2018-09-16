@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 
-import { SYMBOL_WIDTH } from 'components/tree-diagram/store/constants';
+import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
 
 export const PartEdge = props => {
   const { sourcePosition, parentName } = props;

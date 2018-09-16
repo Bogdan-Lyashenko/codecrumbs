@@ -4,9 +4,9 @@ import { getFilesList } from 'utils/treeLayout';
 import {
   DependenciesEdge,
   DependenciesOverlappingEdge
-} from 'components/tree-diagram/component/Edge/DepenenciesEdge';
-import { FileName } from 'components/tree-diagram/component/Node/File';
-import { DepEdgeGroups } from 'components/tree-diagram/store/constants';
+} from 'components/treeDiagram/component/Edge/DepenenciesEdge';
+import { FileName } from 'components/treeDiagram/component/Node/File';
+import { DepEdgeGroups } from 'components/treeDiagram/store/constants';
 
 //move to utils
 export const findNodeByPathName = (list = [], pathName) => {

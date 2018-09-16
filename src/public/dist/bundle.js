@@ -16639,10 +16639,10 @@ exports.push([module.i, ".ViewSwitchList {\n  width: 100%;\n  display: flex;\n  
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/side-bar/component/SideBar.scss":
-/*!**************************************************************************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/side-bar/component/SideBar.scss ***!
-  \**************************************************************************************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/sideBar/component/SideBar.scss":
+/*!*************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/sideBar/component/SideBar.scss ***!
+  \*************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16658,10 +16658,10 @@ exports.push([module.i, ".SideBar {\n  position: absolute;\n  right: 0;\n  top: 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/top-bar/TopBarContainer.scss":
-/*!***********************************************************************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/top-bar/TopBarContainer.scss ***!
-  \***********************************************************************************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/topBar/TopBarContainer.scss":
+/*!**********************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/topBar/TopBarContainer.scss ***!
+  \**********************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16677,10 +16677,10 @@ exports.push([module.i, ".TopBarContainer {\n  padding: 3px 0;\n  border-top: 1p
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Dot/index.scss":
-/*!********************************************************************************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Dot/index.scss ***!
-  \********************************************************************************************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Dot/index.scss":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Dot/index.scss ***!
+  \*******************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16696,10 +16696,10 @@ exports.push([module.i, ".Dot {\n  fill: #BFBFBF; }\n\n.Dot-disabled {\n  fill: 
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Edge/index.scss":
-/*!*********************************************************************************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Edge/index.scss ***!
-  \*********************************************************************************************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Edge/index.scss":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Edge/index.scss ***!
+  \********************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16715,10 +16715,10 @@ exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Node/index.scss":
-/*!*********************************************************************************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Node/index.scss ***!
-  \*********************************************************************************************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Node/index.scss":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Node/index.scss ***!
+  \********************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16734,10 +16734,10 @@ exports.push([module.i, ".NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\
 
 /***/ }),
 
-/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/TreeDiagram.scss":
-/*!**********************************************************************************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/TreeDiagram.scss ***!
-  \**********************************************************************************************************************************************************************************************************/
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/TreeDiagram.scss":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/TreeDiagram.scss ***!
+  \*********************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -91307,7 +91307,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _DataBusContainer = __webpack_require__(/*! components/data-bus/DataBusContainer */ "./js/components/data-bus/DataBusContainer.js");
+var _DataBusContainer = __webpack_require__(/*! components/dataBus/DataBusContainer */ "./js/components/dataBus/DataBusContainer.js");
 
 var _DataBusContainer2 = _interopRequireDefault(_DataBusContainer);
 
@@ -91315,15 +91315,15 @@ var _ViewSwitchesContainer = __webpack_require__(/*! components/controls/ViewSwi
 
 var _ViewSwitchesContainer2 = _interopRequireDefault(_ViewSwitchesContainer);
 
-var _TreeDiagramContainer = __webpack_require__(/*! components/tree-diagram/TreeDiagramContainer */ "./js/components/tree-diagram/TreeDiagramContainer.js");
+var _TreeDiagramContainer = __webpack_require__(/*! components/treeDiagram/TreeDiagramContainer */ "./js/components/treeDiagram/TreeDiagramContainer.js");
 
 var _TreeDiagramContainer2 = _interopRequireDefault(_TreeDiagramContainer);
 
-var _SideBarContainer = __webpack_require__(/*! components/side-bar/SideBarContainer */ "./js/components/side-bar/SideBarContainer.js");
+var _SideBarContainer = __webpack_require__(/*! components/sideBar/SideBarContainer */ "./js/components/sideBar/SideBarContainer.js");
 
 var _SideBarContainer2 = _interopRequireDefault(_SideBarContainer);
 
-var _TopBarContainer = __webpack_require__(/*! components/top-bar/TopBarContainer */ "./js/components/top-bar/TopBarContainer.js");
+var _TopBarContainer = __webpack_require__(/*! components/topBar/TopBarContainer */ "./js/components/topBar/TopBarContainer.js");
 
 var _TopBarContainer2 = _interopRequireDefault(_TopBarContainer);
 
@@ -91860,10 +91860,10 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ "./js/components/data-bus/DataBusContainer.js":
-/*!****************************************************!*\
-  !*** ./js/components/data-bus/DataBusContainer.js ***!
-  \****************************************************/
+/***/ "./js/components/dataBus/DataBusContainer.js":
+/*!***************************************************!*\
+  !*** ./js/components/dataBus/DataBusContainer.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -91886,7 +91886,7 @@ var _connection = __webpack_require__(/*! utils/connection */ "./js/utils/connec
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-var _actions = __webpack_require__(/*! ./store/actions */ "./js/components/data-bus/store/actions.js");
+var _actions = __webpack_require__(/*! ./store/actions */ "./js/components/dataBus/store/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -91963,10 +91963,10 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DataBusCont
 
 /***/ }),
 
-/***/ "./js/components/data-bus/store/actions.js":
-/*!*************************************************!*\
-  !*** ./js/components/data-bus/store/actions.js ***!
-  \*************************************************/
+/***/ "./js/components/dataBus/store/actions.js":
+/*!************************************************!*\
+  !*** ./js/components/dataBus/store/actions.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -91978,7 +91978,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.selectDependencyEdge = exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectNode = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
 
-var _constants = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "./js/components/dataBus/store/constants.js");
 
 var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
@@ -92059,10 +92059,10 @@ var selectDependencyEdge = exports.selectDependencyEdge = function selectDepende
 
 /***/ }),
 
-/***/ "./js/components/data-bus/store/constants.js":
-/*!***************************************************!*\
-  !*** ./js/components/data-bus/store/constants.js ***!
-  \***************************************************/
+/***/ "./js/components/dataBus/store/constants.js":
+/*!**************************************************!*\
+  !*** ./js/components/dataBus/store/constants.js ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92086,10 +92086,10 @@ var ACTIONS = exports.ACTIONS = {
 
 /***/ }),
 
-/***/ "./js/components/data-bus/store/reducer.js":
-/*!*************************************************!*\
-  !*** ./js/components/data-bus/store/reducer.js ***!
-  \*************************************************/
+/***/ "./js/components/dataBus/store/reducer.js":
+/*!************************************************!*\
+  !*** ./js/components/dataBus/store/reducer.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92108,7 +92108,7 @@ var _get2 = _interopRequireDefault(_get);
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-var _constants2 = __webpack_require__(/*! ./constants */ "./js/components/data-bus/store/constants.js");
+var _constants2 = __webpack_require__(/*! ./constants */ "./js/components/dataBus/store/constants.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92204,10 +92204,10 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ "./js/components/side-bar/SideBarContainer.js":
-/*!****************************************************!*\
-  !*** ./js/components/side-bar/SideBarContainer.js ***!
-  \****************************************************/
+/***/ "./js/components/sideBar/SideBarContainer.js":
+/*!***************************************************!*\
+  !*** ./js/components/sideBar/SideBarContainer.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92224,11 +92224,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 
-var _SideBar = __webpack_require__(/*! ./component/SideBar */ "./js/components/side-bar/component/SideBar.js");
+var _SideBar = __webpack_require__(/*! ./component/SideBar */ "./js/components/sideBar/component/SideBar.js");
 
 var _SideBar2 = _interopRequireDefault(_SideBar);
 
-var _actions = __webpack_require__(/*! components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
+var _actions = __webpack_require__(/*! components/dataBus/store/actions */ "./js/components/dataBus/store/actions.js");
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
@@ -92269,10 +92269,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./js/components/side-bar/component/Code/Code.js":
-/*!*******************************************************!*\
-  !*** ./js/components/side-bar/component/Code/Code.js ***!
-  \*******************************************************/
+/***/ "./js/components/sideBar/component/Code/Code.js":
+/*!******************************************************!*\
+  !*** ./js/components/sideBar/component/Code/Code.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92316,10 +92316,10 @@ exports.default = function (_ref) {
 
 /***/ }),
 
-/***/ "./js/components/side-bar/component/SideBar.js":
-/*!*****************************************************!*\
-  !*** ./js/components/side-bar/component/SideBar.js ***!
-  \*****************************************************/
+/***/ "./js/components/sideBar/component/SideBar.js":
+/*!****************************************************!*\
+  !*** ./js/components/sideBar/component/SideBar.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92340,9 +92340,9 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./SideBar.scss */ "./js/components/side-bar/component/SideBar.scss");
+__webpack_require__(/*! ./SideBar.scss */ "./js/components/sideBar/component/SideBar.scss");
 
-var _Code = __webpack_require__(/*! ./Code/Code */ "./js/components/side-bar/component/Code/Code.js");
+var _Code = __webpack_require__(/*! ./Code/Code */ "./js/components/sideBar/component/Code/Code.js");
 
 var _Code2 = _interopRequireDefault(_Code);
 
@@ -92403,15 +92403,15 @@ exports.default = function (_ref) {
 
 /***/ }),
 
-/***/ "./js/components/side-bar/component/SideBar.scss":
-/*!*******************************************************!*\
-  !*** ./js/components/side-bar/component/SideBar.scss ***!
-  \*******************************************************/
+/***/ "./js/components/sideBar/component/SideBar.scss":
+/*!******************************************************!*\
+  !*** ./js/components/sideBar/component/SideBar.scss ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!../../../../../../node_modules/sass-loader/lib/loader.js!./SideBar.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/side-bar/component/SideBar.scss");
+var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!../../../../../../node_modules/sass-loader/lib/loader.js!./SideBar.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/sideBar/component/SideBar.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -92433,10 +92433,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./js/components/top-bar/TopBarContainer.js":
-/*!**************************************************!*\
-  !*** ./js/components/top-bar/TopBarContainer.js ***!
-  \**************************************************/
+/***/ "./js/components/topBar/TopBarContainer.js":
+/*!*************************************************!*\
+  !*** ./js/components/topBar/TopBarContainer.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92467,7 +92467,7 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/rea
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-__webpack_require__(/*! ./TopBarContainer.scss */ "./js/components/top-bar/TopBarContainer.scss");
+__webpack_require__(/*! ./TopBarContainer.scss */ "./js/components/topBar/TopBarContainer.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92550,15 +92550,15 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./js/components/top-bar/TopBarContainer.scss":
-/*!****************************************************!*\
-  !*** ./js/components/top-bar/TopBarContainer.scss ***!
-  \****************************************************/
+/***/ "./js/components/topBar/TopBarContainer.scss":
+/*!***************************************************!*\
+  !*** ./js/components/topBar/TopBarContainer.scss ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/sass-loader/lib/loader.js!./TopBarContainer.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/top-bar/TopBarContainer.scss");
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/sass-loader/lib/loader.js!./TopBarContainer.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/topBar/TopBarContainer.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -92580,10 +92580,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/TreeDiagramContainer.js":
-/*!************************************************************!*\
-  !*** ./js/components/tree-diagram/TreeDiagramContainer.js ***!
-  \************************************************************/
+/***/ "./js/components/treeDiagram/TreeDiagramContainer.js":
+/*!***********************************************************!*\
+  !*** ./js/components/treeDiagram/TreeDiagramContainer.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92596,11 +92596,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 
-var _TreeDiagram = __webpack_require__(/*! ./component/TreeDiagram */ "./js/components/tree-diagram/component/TreeDiagram.js");
+var _TreeDiagram = __webpack_require__(/*! ./component/TreeDiagram */ "./js/components/treeDiagram/component/TreeDiagram.js");
 
 var _TreeDiagram2 = _interopRequireDefault(_TreeDiagram);
 
-var _actions = __webpack_require__(/*! components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
+var _actions = __webpack_require__(/*! components/dataBus/store/actions */ "./js/components/dataBus/store/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92644,10 +92644,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Dot/index.js":
-/*!***********************************************************!*\
-  !*** ./js/components/tree-diagram/component/Dot/index.js ***!
-  \***********************************************************/
+/***/ "./js/components/treeDiagram/component/Dot/index.js":
+/*!**********************************************************!*\
+  !*** ./js/components/treeDiagram/component/Dot/index.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92667,7 +92667,7 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Dot/index.scss");
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Dot/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92691,15 +92691,15 @@ var Dot = exports.Dot = function Dot(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Dot/index.scss":
-/*!*************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Dot/index.scss ***!
-  \*************************************************************/
+/***/ "./js/components/treeDiagram/component/Dot/index.scss":
+/*!************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Dot/index.scss ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Dot/index.scss");
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Dot/index.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -92721,10 +92721,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js":
-/*!********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js ***!
-  \********************************************************************/
+/***/ "./js/components/treeDiagram/component/Edge/CodeCrumbEdge.js":
+/*!*******************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Edge/CodeCrumbEdge.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92740,9 +92740,9 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Edge/index.scss");
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Edge/index.scss");
 
-var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92794,10 +92794,10 @@ var CodeCrumbEdge = exports.CodeCrumbEdge = function CodeCrumbEdge(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Edge/DepenenciesEdge.js":
-/*!**********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Edge/DepenenciesEdge.js ***!
-  \**********************************************************************/
+/***/ "./js/components/treeDiagram/component/Edge/DepenenciesEdge.js":
+/*!*********************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Edge/DepenenciesEdge.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92813,9 +92813,9 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Edge/index.scss");
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Edge/index.scss");
 
-var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
 
 var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
 
@@ -92995,10 +92995,10 @@ var getLineEndIcon = exports.getLineEndIcon = function getLineEndIcon(_ref) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Edge/SourceEdge.js":
-/*!*****************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Edge/SourceEdge.js ***!
-  \*****************************************************************/
+/***/ "./js/components/treeDiagram/component/Edge/SourceEdge.js":
+/*!****************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Edge/SourceEdge.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93018,7 +93018,7 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Edge/index.scss");
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Edge/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -93059,15 +93059,15 @@ var SourceEdge = exports.SourceEdge = function SourceEdge(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Edge/index.scss":
-/*!**************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Edge/index.scss ***!
-  \**************************************************************/
+/***/ "./js/components/treeDiagram/component/Edge/index.scss":
+/*!*************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Edge/index.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Edge/index.scss");
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Edge/index.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -93089,10 +93089,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Node/CodeCrumb.js":
-/*!****************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Node/CodeCrumb.js ***!
-  \****************************************************************/
+/***/ "./js/components/treeDiagram/component/Node/CodeCrumb.js":
+/*!***************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Node/CodeCrumb.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93108,7 +93108,7 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Node/index.scss");
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Node/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -93182,10 +93182,10 @@ var CodeCrumbName = exports.CodeCrumbName = function CodeCrumbName(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Node/File.js":
-/*!***********************************************************!*\
-  !*** ./js/components/tree-diagram/component/Node/File.js ***!
-  \***********************************************************/
+/***/ "./js/components/treeDiagram/component/Node/File.js":
+/*!**********************************************************!*\
+  !*** ./js/components/treeDiagram/component/Node/File.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93205,9 +93205,9 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
 
-__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Node/index.scss");
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Node/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -93279,10 +93279,10 @@ var FileName = exports.FileName = function FileName(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Node/Folder.js":
-/*!*************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Node/Folder.js ***!
-  \*************************************************************/
+/***/ "./js/components/treeDiagram/component/Node/Folder.js":
+/*!************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Node/Folder.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93302,7 +93302,7 @@ var _classnames = __webpack_require__(/*! classnames */ "../../node_modules/clas
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-__webpack_require__(/*! ./index.scss */ "./js/components/tree-diagram/component/Node/index.scss");
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Node/index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -93366,15 +93366,15 @@ var FolderName = exports.FolderName = function FolderName(props) {
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Node/index.scss":
-/*!**************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Node/index.scss ***!
-  \**************************************************************/
+/***/ "./js/components/treeDiagram/component/Node/index.scss":
+/*!*************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Node/index.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/Node/index.scss");
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Node/index.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -93396,10 +93396,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Tree/CodeCrumbsTree.js":
-/*!*********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Tree/CodeCrumbsTree.js ***!
-  \*********************************************************************/
+/***/ "./js/components/treeDiagram/component/Tree/CodeCrumbsTree.js":
+/*!********************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Tree/CodeCrumbsTree.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93418,11 +93418,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _CodeCrumb = __webpack_require__(/*! components/tree-diagram/component/Node/CodeCrumb */ "./js/components/tree-diagram/component/Node/CodeCrumb.js");
+var _CodeCrumb = __webpack_require__(/*! components/treeDiagram/component/Node/CodeCrumb */ "./js/components/treeDiagram/component/Node/CodeCrumb.js");
 
-var _File = __webpack_require__(/*! components/tree-diagram/component/Node/File */ "./js/components/tree-diagram/component/Node/File.js");
+var _File = __webpack_require__(/*! components/treeDiagram/component/Node/File */ "./js/components/treeDiagram/component/Node/File.js");
 
-var _CodeCrumbEdge = __webpack_require__(/*! components/tree-diagram/component/Edge/CodeCrumbEdge */ "./js/components/tree-diagram/component/Edge/CodeCrumbEdge.js");
+var _CodeCrumbEdge = __webpack_require__(/*! components/treeDiagram/component/Edge/CodeCrumbEdge */ "./js/components/treeDiagram/component/Edge/CodeCrumbEdge.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -93515,10 +93515,10 @@ exports.default = CodeCrumbsTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Tree/DependenciesTree.js":
-/*!***********************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Tree/DependenciesTree.js ***!
-  \***********************************************************************/
+/***/ "./js/components/treeDiagram/component/Tree/DependenciesTree.js":
+/*!**********************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Tree/DependenciesTree.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93540,11 +93540,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
-var _DepenenciesEdge = __webpack_require__(/*! components/tree-diagram/component/Edge/DepenenciesEdge */ "./js/components/tree-diagram/component/Edge/DepenenciesEdge.js");
+var _DepenenciesEdge = __webpack_require__(/*! components/treeDiagram/component/Edge/DepenenciesEdge */ "./js/components/treeDiagram/component/Edge/DepenenciesEdge.js");
 
-var _File = __webpack_require__(/*! components/tree-diagram/component/Node/File */ "./js/components/tree-diagram/component/Node/File.js");
+var _File = __webpack_require__(/*! components/treeDiagram/component/Node/File */ "./js/components/treeDiagram/component/Node/File.js");
 
-var _constants = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -93814,10 +93814,10 @@ exports.default = DependenciesTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/Tree/SourceTree.js":
-/*!*****************************************************************!*\
-  !*** ./js/components/tree-diagram/component/Tree/SourceTree.js ***!
-  \*****************************************************************/
+/***/ "./js/components/treeDiagram/component/Tree/SourceTree.js":
+/*!****************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Tree/SourceTree.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93836,19 +93836,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-var _File = __webpack_require__(/*! components/tree-diagram/component/Node/File */ "./js/components/tree-diagram/component/Node/File.js");
+var _File = __webpack_require__(/*! components/treeDiagram/component/Node/File */ "./js/components/treeDiagram/component/Node/File.js");
 
-var _Folder = __webpack_require__(/*! components/tree-diagram/component/Node/Folder */ "./js/components/tree-diagram/component/Node/Folder.js");
+var _Folder = __webpack_require__(/*! components/treeDiagram/component/Node/Folder */ "./js/components/treeDiagram/component/Node/Folder.js");
 
-var _Dot = __webpack_require__(/*! components/tree-diagram/component/Dot/ */ "./js/components/tree-diagram/component/Dot/index.js");
+var _Dot = __webpack_require__(/*! components/treeDiagram/component/Dot/ */ "./js/components/treeDiagram/component/Dot/index.js");
 
-var _SourceEdge = __webpack_require__(/*! components/tree-diagram/component/Edge/SourceEdge */ "./js/components/tree-diagram/component/Edge/SourceEdge.js");
+var _SourceEdge = __webpack_require__(/*! components/treeDiagram/component/Edge/SourceEdge */ "./js/components/treeDiagram/component/Edge/SourceEdge.js");
 
-var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree */ "./js/components/tree-diagram/component/Tree/DependenciesTree.js");
+var _DependenciesTree = __webpack_require__(/*! ./DependenciesTree */ "./js/components/treeDiagram/component/Tree/DependenciesTree.js");
 
 var _DependenciesTree2 = _interopRequireDefault(_DependenciesTree);
 
-var _CodeCrumbsTree = __webpack_require__(/*! ./CodeCrumbsTree */ "./js/components/tree-diagram/component/Tree/CodeCrumbsTree.js");
+var _CodeCrumbsTree = __webpack_require__(/*! ./CodeCrumbsTree */ "./js/components/treeDiagram/component/Tree/CodeCrumbsTree.js");
 
 var _CodeCrumbsTree2 = _interopRequireDefault(_CodeCrumbsTree);
 
@@ -93993,10 +93993,10 @@ exports.default = SourceTree;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/TreeDiagram.js":
-/*!*************************************************************!*\
-  !*** ./js/components/tree-diagram/component/TreeDiagram.js ***!
-  \*************************************************************/
+/***/ "./js/components/treeDiagram/component/TreeDiagram.js":
+/*!************************************************************!*\
+  !*** ./js/components/treeDiagram/component/TreeDiagram.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -94016,11 +94016,11 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SourceTree = __webpack_require__(/*! ./Tree/SourceTree */ "./js/components/tree-diagram/component/Tree/SourceTree.js");
+var _SourceTree = __webpack_require__(/*! ./Tree/SourceTree */ "./js/components/treeDiagram/component/Tree/SourceTree.js");
 
 var _SourceTree2 = _interopRequireDefault(_SourceTree);
 
-__webpack_require__(/*! ./TreeDiagram.scss */ "./js/components/tree-diagram/component/TreeDiagram.scss");
+__webpack_require__(/*! ./TreeDiagram.scss */ "./js/components/treeDiagram/component/TreeDiagram.scss");
 
 var _geometry = __webpack_require__(/*! utils/geometry */ "./js/utils/geometry.js");
 
@@ -94088,15 +94088,15 @@ exports.default = TreeDiagram;
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/component/TreeDiagram.scss":
-/*!***************************************************************!*\
-  !*** ./js/components/tree-diagram/component/TreeDiagram.scss ***!
-  \***************************************************************/
+/***/ "./js/components/treeDiagram/component/TreeDiagram.scss":
+/*!**************************************************************!*\
+  !*** ./js/components/treeDiagram/component/TreeDiagram.scss ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!../../../../../../node_modules/sass-loader/lib/loader.js!./TreeDiagram.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/tree-diagram/component/TreeDiagram.scss");
+var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader!../../../../../../node_modules/sass-loader/lib/loader.js!./TreeDiagram.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/TreeDiagram.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -94118,10 +94118,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./js/components/tree-diagram/store/constants.js":
-/*!*******************************************************!*\
-  !*** ./js/components/tree-diagram/store/constants.js ***!
-  \*******************************************************/
+/***/ "./js/components/treeDiagram/store/constants.js":
+/*!******************************************************!*\
+  !*** ./js/components/treeDiagram/store/constants.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -94223,7 +94223,7 @@ var _reducer = __webpack_require__(/*! components/controls/ViewSwitches/store/re
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
-var _reducer3 = __webpack_require__(/*! components/data-bus/store/reducer */ "./js/components/data-bus/store/reducer.js");
+var _reducer3 = __webpack_require__(/*! components/dataBus/store/reducer */ "./js/components/dataBus/store/reducer.js");
 
 var _reducer4 = _interopRequireDefault(_reducer3);
 
@@ -94267,9 +94267,9 @@ var _every2 = _interopRequireDefault(_every);
 
 var _effects = __webpack_require__(/*! redux-saga/effects */ "../../node_modules/redux-saga/es/effects.js");
 
-var _constants = __webpack_require__(/*! components/data-bus/store/constants */ "./js/components/data-bus/store/constants.js");
+var _constants = __webpack_require__(/*! components/dataBus/store/constants */ "./js/components/dataBus/store/constants.js");
 
-var _actions = __webpack_require__(/*! components/data-bus/store/actions */ "./js/components/data-bus/store/actions.js");
+var _actions = __webpack_require__(/*! components/dataBus/store/actions */ "./js/components/dataBus/store/actions.js");
 
 var _constants2 = __webpack_require__(/*! components/controls/ViewSwitches/store/constants */ "./js/components/controls/ViewSwitches/store/constants.js");
 
@@ -94505,7 +94505,7 @@ var d3FlexTree = _interopRequireWildcard(_d3Flextree);
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
-var _constants2 = __webpack_require__(/*! components/tree-diagram/store/constants */ "./js/components/tree-diagram/store/constants.js");
+var _constants2 = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

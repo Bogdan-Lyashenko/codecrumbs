@@ -1,10 +1,10 @@
 import React from 'react';
 
-import DataBus from 'components/data-bus/DataBusContainer';
+import DataBus from 'components/dataBus/DataBusContainer';
 import ViewsSwitches from 'components/controls/ViewSwitches/ViewSwitchesContainer';
-import TreeDiagram from 'components/tree-diagram/TreeDiagramContainer';
-import SideBar from 'components/side-bar/SideBarContainer';
-import TopBar from 'components/top-bar/TopBarContainer';
+import TreeDiagram from 'components/treeDiagram/TreeDiagramContainer';
+import SideBar from 'components/sideBar/SideBarContainer';
+import TopBar from 'components/topBar/TopBarContainer';
 
 import './App.scss';
 

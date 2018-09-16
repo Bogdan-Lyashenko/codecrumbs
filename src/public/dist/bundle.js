@@ -91978,14 +91978,24 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.selectDependencyEdge = exports.setDependenciesEntryPoint = exports.selectCodeCrumb = exports.closeAllFolders = exports.openAllFolders = exports.toggleFolder = exports.selectNode = exports.calcFilesTreeLayoutNodes = exports.setInitialSourceData = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _constants = __webpack_require__(/*! ./constants */ "./js/components/dataBus/store/constants.js");
 
 var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
 var setInitialSourceData = exports.setInitialSourceData = function setInitialSourceData(data) {
-  return {
-    type: _constants.ACTIONS.SET_INITIAL_SOURCE_DATA,
-    payload: data
+  return function (dispatch, getState) {
+    var state = getState();
+    var dependenciesShowDirectOnly = state.viewSwitches.checkedState.dependenciesShowDirectOnly;
+
+
+    return dispatch({
+      type: _constants.ACTIONS.SET_INITIAL_SOURCE_DATA,
+      payload: _extends({}, data, {
+        dependenciesShowDirectOnly: dependenciesShowDirectOnly
+      })
+    });
   };
 };
 
@@ -92044,9 +92054,18 @@ var selectCodeCrumb = exports.selectCodeCrumb = function selectCodeCrumb(fileNod
 };
 
 var setDependenciesEntryPoint = exports.setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode) {
-  return {
-    type: _constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
-    payload: fileNode
+  return function (dispatch, getState) {
+    var state = getState();
+    var dependenciesShowDirectOnly = state.viewSwitches.checkedState.dependenciesShowDirectOnly;
+
+
+    return dispatch({
+      type: _constants.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
+      payload: {
+        fileNode: fileNode,
+        dependenciesShowDirectOnly: dependenciesShowDirectOnly
+      }
+    });
   };
 };
 
@@ -92099,6 +92118,7 @@ var ACTIONS = exports.ACTIONS = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.collectDependencies = exports.getFilteredDependenciesList = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -92114,17 +92134,21 @@ var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLa
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var DefaultState = {
   filesTree: null,
   filesList: null,
   dependenciesList: null,
+  dependenciesMap: null,
 
   filesTreeLayoutNodes: null,
   closedFolders: {},
   firstLevelFolders: {},
-  fileNodesMap: {}
+  fileNodesMap: {},
+  filteredDependenciesList: []
 };
 
 exports.default = function () {
@@ -92133,8 +92157,20 @@ exports.default = function () {
 
   switch (action.type) {
     case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
+      var _action$payload = action.payload,
+          dependenciesRootEntryName = _action$payload.dependenciesRootEntryName,
+          dependenciesList = _action$payload.dependenciesList,
+          dependenciesShowDirectOnly = _action$payload.dependenciesShowDirectOnly;
+
+      var dependenciesEntryPoint = { path: dependenciesRootEntryName };
+
       return _extends({}, state, action.payload, {
-        dependenciesEntryPoint: { path: action.payload.dependenciesRootEntryName },
+        dependenciesEntryPoint: dependenciesEntryPoint,
+        filteredDependenciesList: getFilteredDependenciesList({
+          dependenciesList: dependenciesList,
+          dependenciesEntryPoint: dependenciesEntryPoint,
+          dependenciesShowDirectOnly: dependenciesShowDirectOnly
+        }),
         firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
           return item.type === _constants.DIR_NODE_TYPE;
         }).reduce(function (res, item) {
@@ -92175,9 +92211,9 @@ exports.default = function () {
       });
 
     case _constants2.ACTIONS.SELECT_CODE_CRUMB:
-      var _action$payload = action.payload,
-          fileNode = _action$payload.fileNode,
-          codeCrumb = _action$payload.codeCrumb;
+      var _action$payload2 = action.payload,
+          fileNode = _action$payload2.fileNode,
+          codeCrumb = _action$payload2.codeCrumb;
       //TODO: fileNode also can be folder, maybe don't use SELECT_CODE_CRUMB at all and use selected node as well
 
       return _extends({}, state, {
@@ -92186,10 +92222,14 @@ exports.default = function () {
       });
 
     case _constants2.ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
-      var entry = action.payload;
-
+      var depEntryPoint = action.payload.fileNode || state.dependenciesEntryPoint;
       return _extends({}, state, {
-        dependenciesEntryPoint: entry,
+        dependenciesEntryPoint: depEntryPoint,
+        filteredDependenciesList: getFilteredDependenciesList({
+          dependenciesList: state.dependenciesList,
+          dependenciesEntryPoint: depEntryPoint,
+          dependenciesShowDirectOnly: action.payload.dependenciesShowDirectOnly
+        }),
         selectedDependencyEdgeNodes: null
       });
 
@@ -92203,6 +92243,54 @@ exports.default = function () {
     default:
       return state;
   }
+};
+
+var getFilteredDependenciesList = exports.getFilteredDependenciesList = function getFilteredDependenciesList(_ref) {
+  var dependenciesList = _ref.dependenciesList,
+      dependenciesEntryPoint = _ref.dependenciesEntryPoint,
+      dependenciesShowDirectOnly = _ref.dependenciesShowDirectOnly;
+
+  if (!dependenciesEntryPoint) {
+    return [];
+  }
+
+  if (dependenciesShowDirectOnly) {
+    var dependency = dependenciesList.find(function (d) {
+      return d.moduleName === dependenciesEntryPoint.path;
+    });
+    return dependency ? [dependency] : [];
+  }
+
+  return collectDependencies(dependenciesEntryPoint.path, dependenciesList);
+};
+
+var collectDependencies = exports.collectDependencies = function collectDependencies(entryModuleName, dependenciesList) {
+  var queue = [].concat(entryModuleName),
+      store = [];
+
+  var _loop = function _loop() {
+    var moduleName = queue.shift(),
+        entryModule = dependenciesList.find(function (d) {
+      return d.moduleName === moduleName;
+    });
+
+    if (entryModule) {
+      store.push(entryModule);
+
+      var nodeBody = entryModule.importedModuleNames;
+      if (nodeBody) {
+        queue = [].concat(_toConsumableArray(queue), _toConsumableArray(nodeBody));
+      }
+    } else {
+      console.error('looks like ' + entryModuleName + 'is not imported anywhere');
+    }
+  };
+
+  while (queue.length) {
+    _loop();
+  }
+
+  return store;
 };
 
 /***/ }),
@@ -92613,6 +92701,8 @@ var mapStateToProps = function mapStateToProps(state) {
       filesTreeLayoutNodes = _state$dataBus.filesTreeLayoutNodes,
       fileNodesMap = _state$dataBus.fileNodesMap,
       dependenciesList = _state$dataBus.dependenciesList,
+      dependenciesMap = _state$dataBus.dependenciesMap,
+      filteredDependenciesList = _state$dataBus.filteredDependenciesList,
       closedFolders = _state$dataBus.closedFolders,
       dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint,
       selectedNode = _state$dataBus.selectedNode,
@@ -92630,6 +92720,8 @@ var mapStateToProps = function mapStateToProps(state) {
     filesTreeLayoutNodes: filesTreeLayoutNodes,
     fileNodesMap: fileNodesMap,
     dependenciesList: dependenciesList,
+    dependenciesMap: dependenciesMap,
+    filteredDependenciesList: filteredDependenciesList,
     closedFolders: closedFolders,
     dependenciesEntryPoint: dependenciesEntryPoint,
     selectedNode: selectedNode,
@@ -93232,7 +93324,7 @@ var FileName = exports.FileName = function FileName(props) {
   // TODO: move out to switch
 
   var iconPath = '' + ICONS_DIR + (purple ? 'purple-' : '') + (dependency ? selected && !purple ? 'selected-two-circles.svg' : 'two-circles.svg' : 'js-file.svg');
-  console.log(iconPath, selected);
+
   var iconSize = 15;
   var nameWidth = name.length * _constants.SYMBOL_WIDTH;
 
@@ -93533,7 +93625,7 @@ exports.default = CodeCrumbsTree;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.collectDependencies = exports.getGroupsAroundNode = exports.getFilteredDependenciesList = undefined;
+exports.getGroupsAroundNode = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -93557,37 +93649,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var getFilteredDependenciesList = exports.getFilteredDependenciesList = function getFilteredDependenciesList(_ref) {
-  var dependenciesList = _ref.dependenciesList,
-      dependenciesEntryPoint = _ref.dependenciesEntryPoint,
-      dependenciesShowDirectOnly = _ref.dependenciesShowDirectOnly;
-
-  if (!dependenciesEntryPoint) {
-    return [];
-  }
-
-  if (dependenciesShowDirectOnly) {
-    var dependency = dependenciesList.find(function (d) {
-      return d.moduleName === dependenciesEntryPoint.path;
-    });
-    return dependency ? [dependency] : [];
-  }
-
-  return collectDependencies(dependenciesEntryPoint.path, dependenciesList);
-};
 
 var getGroupsAroundNode = exports.getGroupsAroundNode = function getGroupsAroundNode(moduleNode, importedNodes) {
   var _groups;
 
   var groups = (_groups = {}, _defineProperty(_groups, _constants.DepEdgeGroups.TOP_LEFT, []), _defineProperty(_groups, _constants.DepEdgeGroups.TOP_RIGHT, []), _defineProperty(_groups, _constants.DepEdgeGroups.BOTTOM_LEFT, []), _defineProperty(_groups, _constants.DepEdgeGroups.BOTTOM_RIGHT, []), _groups);
 
-  var _ref2 = [moduleNode.y, moduleNode.x],
-      mX = _ref2[0],
-      mY = _ref2[1];
+  var _ref = [moduleNode.y, moduleNode.x],
+      mX = _ref[0],
+      mY = _ref[1];
 
 
   importedNodes.sort(function (a, b) {
@@ -93604,9 +93675,9 @@ var getGroupsAroundNode = exports.getGroupsAroundNode = function getGroupsAround
 
     return 0;
   }).forEach(function (importedNode) {
-    var _ref3 = [importedNode.y, importedNode.x],
-        iX = _ref3[0],
-        iY = _ref3[1];
+    var _ref2 = [importedNode.y, importedNode.x],
+        iX = _ref2[0],
+        iY = _ref2[1];
 
 
     if (iY < mY) {
@@ -93625,35 +93696,6 @@ var getGroupsAroundNode = exports.getGroupsAroundNode = function getGroupsAround
   });
 
   return groups;
-};
-
-var collectDependencies = exports.collectDependencies = function collectDependencies(entryModuleName, dependenciesList) {
-  var queue = [].concat(entryModuleName),
-      store = [];
-
-  var _loop = function _loop() {
-    var moduleName = queue.shift(),
-        entryModule = dependenciesList.find(function (d) {
-      return d.moduleName === moduleName;
-    });
-
-    if (entryModule) {
-      store.push(entryModule);
-
-      var nodeBody = entryModule.importedModuleNames;
-      if (nodeBody) {
-        queue = [].concat(_toConsumableArray(queue), _toConsumableArray(nodeBody));
-      }
-    } else {
-      console.error('looks like ' + entryModuleName + 'is not imported anywhere');
-    }
-  };
-
-  while (queue.length) {
-    _loop();
-  }
-
-  return store;
 };
 
 var checkIsEdgeSelected = function checkIsEdgeSelected(selectedEdge, target, source) {
@@ -93681,6 +93723,7 @@ var DependenciesTree = function (_React$Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          filteredDependenciesList = _props.filteredDependenciesList,
           fileNodesMap = _props.fileNodesMap,
           shiftToCenterPoint = _props.shiftToCenterPoint,
           sourceDiagramOn = _props.sourceDiagramOn,
@@ -93688,22 +93731,20 @@ var DependenciesTree = function (_React$Component) {
           selectedDependencyEdgeNodes = _props.selectedDependencyEdgeNodes;
 
 
-      var filteredDependenciesList = getFilteredDependenciesList(this.props);
-
       return _react2.default.createElement(
         _react2.default.Fragment,
         null,
-        filteredDependenciesList.map(function (_ref4, i) {
-          var moduleName = _ref4.moduleName,
-              importedModuleNames = _ref4.importedModuleNames;
+        filteredDependenciesList.map(function (_ref3, i) {
+          var moduleName = _ref3.moduleName,
+              importedModuleNames = _ref3.importedModuleNames;
 
           var moduleNode = fileNodesMap[moduleName];
 
           if (!moduleNode) return;
 
-          var _ref5 = [moduleNode.y, moduleNode.x],
-              mX = _ref5[0],
-              mY = _ref5[1];
+          var _ref4 = [moduleNode.y, moduleNode.x],
+              mX = _ref4[0],
+              mY = _ref4[1];
 
           var targetPosition = shiftToCenterPoint(mX, mY);
           var sourceNodes = [];
@@ -93726,10 +93767,10 @@ var DependenciesTree = function (_React$Component) {
           var selectedEdges = [];
           var overlappingEdges = [];
 
-          Object.entries(getGroupsAroundNode(moduleNode, importedNodes)).forEach(function (_ref6) {
-            var _ref7 = _slicedToArray(_ref6, 2),
-                groupName = _ref7[0],
-                groupNodes = _ref7[1];
+          Object.entries(getGroupsAroundNode(moduleNode, importedNodes)).forEach(function (_ref5) {
+            var _ref6 = _slicedToArray(_ref5, 2),
+                groupName = _ref6[0],
+                groupNodes = _ref6[1];
 
             if (!groupNodes.length) {
               return;
@@ -93739,9 +93780,9 @@ var DependenciesTree = function (_React$Component) {
             var firstSourceNode = groupNodes[0];
             var firstSourcePosition = shiftToCenterPoint(firstSourceNode.y, firstSourceNode.x);
             groupNodes.forEach(function (importedNode, i) {
-              var _ref8 = [importedNode.y, importedNode.x],
-                  iX = _ref8[0],
-                  iY = _ref8[1];
+              var _ref7 = [importedNode.y, importedNode.x],
+                  iX = _ref7[0],
+                  iY = _ref7[1];
 
               var sourcePosition = shiftToCenterPoint(iX, iY);
               var importedNodeName = importedNode.data.path;
@@ -94298,7 +94339,7 @@ function reactOnSwitchToggle(action) {
           }
 
           _context.next = 7;
-          return (0, _effects.put)((0, _actions.selectDependencyEdge)(null));
+          return (0, _effects.all)([(0, _effects.put)((0, _actions.selectDependencyEdge)(null)), (0, _effects.put)((0, _actions.setDependenciesEntryPoint)())]);
 
         case 7:
         case 'end':

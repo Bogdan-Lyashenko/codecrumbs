@@ -7,20 +7,34 @@ const DefaultState = {
   filesTree: null,
   filesList: null,
   dependenciesList: null,
+  dependenciesMap: null,
 
   filesTreeLayoutNodes: null,
   closedFolders: {},
   firstLevelFolders: {},
   fileNodesMap: {},
+  filteredDependenciesList: []
 };
 
 export default (state = DefaultState, action) => {
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA:
+      const {
+        dependenciesRootEntryName,
+        dependenciesList,
+        dependenciesShowDirectOnly
+      } = action.payload;
+      const dependenciesEntryPoint = { path: dependenciesRootEntryName };
+
       return {
         ...state,
         ...action.payload,
-        dependenciesEntryPoint: { path: action.payload.dependenciesRootEntryName },
+        dependenciesEntryPoint,
+        filteredDependenciesList: getFilteredDependenciesList({
+          dependenciesList,
+          dependenciesEntryPoint,
+          dependenciesShowDirectOnly
+        }),
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
           .reduce((res, item) => {
@@ -79,11 +93,15 @@ export default (state = DefaultState, action) => {
       };
 
     case ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
-      const entry = action.payload;
-
+      const depEntryPoint = action.payload.fileNode || state.dependenciesEntryPoint;
       return {
         ...state,
-        dependenciesEntryPoint: entry,
+        dependenciesEntryPoint: depEntryPoint,
+        filteredDependenciesList: getFilteredDependenciesList({
+          dependenciesList: state.dependenciesList,
+          dependenciesEntryPoint: depEntryPoint,
+          dependenciesShowDirectOnly: action.payload.dependenciesShowDirectOnly
+        }),
         selectedDependencyEdgeNodes: null
       };
 
@@ -98,4 +116,44 @@ export default (state = DefaultState, action) => {
     default:
       return state;
   }
+};
+
+export const getFilteredDependenciesList = ({
+  dependenciesList,
+  dependenciesEntryPoint,
+  dependenciesShowDirectOnly
+}) => {
+  if (!dependenciesEntryPoint) {
+    return [];
+  }
+
+  if (dependenciesShowDirectOnly) {
+    const dependency = dependenciesList.find(d => d.moduleName === dependenciesEntryPoint.path);
+    return dependency ? [dependency] : [];
+  }
+
+  return collectDependencies(dependenciesEntryPoint.path, dependenciesList);
+};
+
+export const collectDependencies = (entryModuleName, dependenciesList) => {
+  let queue = [].concat(entryModuleName),
+    store = [];
+
+  while (queue.length) {
+    let moduleName = queue.shift(),
+      entryModule = dependenciesList.find(d => d.moduleName === moduleName);
+
+    if (entryModule) {
+      store.push(entryModule);
+
+      const nodeBody = entryModule.importedModuleNames;
+      if (nodeBody) {
+        queue = [...queue, ...nodeBody];
+      }
+    } else {
+      console.error('looks like ' + entryModuleName + 'is not imported anywhere');
+    }
+  }
+
+  return store;
 };

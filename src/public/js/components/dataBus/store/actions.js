@@ -1,10 +1,18 @@
 import { ACTIONS } from './constants';
 import { getTreeLayout } from 'utils/treeLayout';
 
-export const setInitialSourceData = data => ({
-  type: ACTIONS.SET_INITIAL_SOURCE_DATA,
-  payload: data
-});
+export const setInitialSourceData = data => (dispatch, getState) => {
+  const state = getState();
+  const { dependenciesShowDirectOnly } = state.viewSwitches.checkedState;
+
+  return dispatch({
+    type: ACTIONS.SET_INITIAL_SOURCE_DATA,
+    payload: {
+      ...data,
+      dependenciesShowDirectOnly
+    }
+  });
+};
 
 export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   const state = getState();
@@ -45,10 +53,18 @@ export const selectCodeCrumb = (fileNode, codeCrumb) => ({
   payload: { fileNode, codeCrumb }
 });
 
-export const setDependenciesEntryPoint = fileNode => ({
-  type: ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
-  payload: fileNode
-});
+export const setDependenciesEntryPoint = fileNode => (dispatch, getState) => {
+  const state = getState();
+  const { dependenciesShowDirectOnly } = state.viewSwitches.checkedState;
+
+  return dispatch({
+    type: ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
+    payload: {
+      fileNode,
+      dependenciesShowDirectOnly
+    }
+  });
+};
 
 export const selectDependencyEdge = (target, sources) => ({
   type: ACTIONS.SELECT_DEPENDENCY_EDGE,

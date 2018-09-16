@@ -17,7 +17,7 @@ export const FileName = props => {
         : 'two-circles.svg'
       : 'js-file.svg'
   }`;
-  console.log(iconPath, selected);
+
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 

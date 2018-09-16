@@ -5,7 +5,8 @@ import {
   calcFilesTreeLayoutNodes,
   openAllFolders,
   closeAllFolders,
-  selectDependencyEdge
+  selectDependencyEdge,
+  setDependenciesEntryPoint
 } from 'components/dataBus/store/actions';
 
 import {
@@ -22,7 +23,7 @@ function* reactOnSwitchToggle(action) {
   }
 
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY) {
-    yield put(selectDependencyEdge(null));
+    yield all([put(selectDependencyEdge(null)), put(setDependenciesEntryPoint())]);
   }
 }
 

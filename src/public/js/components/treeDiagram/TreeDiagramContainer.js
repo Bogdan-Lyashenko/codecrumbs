@@ -12,6 +12,7 @@ const mapStateToProps = state => {
   const { checkedState } = state.viewSwitches;
   const {
     filesTreeLayoutNodes,
+    fileNodesMap,
     dependenciesList,
     closedFolders,
     dependenciesEntryPoint,
@@ -28,6 +29,7 @@ const mapStateToProps = state => {
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
     codeCrumbsDetails: checkedState.codeCrumbsDetails,
     filesTreeLayoutNodes,
+    fileNodesMap,
     dependenciesList,
     closedFolders,
     dependenciesEntryPoint,

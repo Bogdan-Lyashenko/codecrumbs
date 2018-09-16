@@ -1,6 +1,7 @@
 import safeGet from 'lodash/get';
 import { DIR_NODE_TYPE } from 'utils/constants';
 import { ACTIONS } from './constants';
+import { getFileNodesMap } from 'utils/treeLayout';
 
 const DefaultState = {
   filesTree: null,
@@ -9,7 +10,8 @@ const DefaultState = {
 
   filesTreeLayoutNodes: null,
   closedFolders: {},
-  firstLevelFolders: {}
+  firstLevelFolders: {},
+  fileNodesMap: {},
 };
 
 export default (state = DefaultState, action) => {
@@ -19,7 +21,6 @@ export default (state = DefaultState, action) => {
         ...state,
         ...action.payload,
         dependenciesEntryPoint: { path: action.payload.dependenciesRootEntryName },
-
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
           .reduce((res, item) => {
@@ -31,7 +32,8 @@ export default (state = DefaultState, action) => {
     case ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES:
       return {
         ...state,
-        filesTreeLayoutNodes: action.payload
+        filesTreeLayoutNodes: action.payload,
+        fileNodesMap: getFileNodesMap(action.payload)
       };
 
     case ACTIONS.SELECT_NODE:

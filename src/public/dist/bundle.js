@@ -94235,10 +94235,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function () {
   var sagaMiddleware = (0, _reduxSaga2.default)();
+  var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
   var store = (0, _redux.createStore)((0, _redux.combineReducers)({
     viewSwitches: _reducer2.default,
     dataBus: _reducer4.default
-  }), (0, _redux.applyMiddleware)(_reduxThunk2.default, sagaMiddleware));
+  }), composeEnhancers((0, _redux.applyMiddleware)(_reduxThunk2.default, sagaMiddleware)));
 
   sagaMiddleware.run(_sagas2.default);
   return store;

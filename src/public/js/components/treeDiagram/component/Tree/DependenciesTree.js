@@ -1,5 +1,4 @@
 import React from 'react';
-import { getFilesList } from 'utils/treeLayout';
 
 import {
   DependenciesEdge,
@@ -7,11 +6,6 @@ import {
 } from 'components/treeDiagram/component/Edge/DepenenciesEdge';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { DepEdgeGroups } from 'components/treeDiagram/store/constants';
-
-//move to utils
-export const findNodeByPathName = (list = [], pathName) => {
-  return list.find(l => l.data.path === pathName);
-};
 
 export const getFilteredDependenciesList = ({
   dependenciesList,
@@ -114,20 +108,19 @@ const checkIsEdgeSelected = (selectedEdge, target, source) => {
 class DependenciesTree extends React.Component {
   render() {
     const {
-      filesTreeLayoutNodes,
+      fileNodesMap,
       shiftToCenterPoint,
       sourceDiagramOn,
       onDependencyEdgeClick,
       selectedDependencyEdgeNodes
     } = this.props;
 
-    const moduleFilesList = getFilesList(filesTreeLayoutNodes);
     const filteredDependenciesList = getFilteredDependenciesList(this.props);
 
     return (
       <React.Fragment>
         {filteredDependenciesList.map(({ moduleName, importedModuleNames }, i) => {
-          const moduleNode = findNodeByPathName(moduleFilesList, moduleName);
+          const moduleNode = fileNodesMap[moduleName];
 
           if (!moduleNode) return;
 
@@ -146,7 +139,7 @@ class DependenciesTree extends React.Component {
           }
 
           const importedNodes = importedModuleNames
-            .map(name => findNodeByPathName(moduleFilesList, name))
+            .map(name => fileNodesMap[name])
             .filter(node => !!node);
 
           const edges = [];

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getFilesList } from 'utils/treeLayout';
 import { CodeCrumbName } from 'components/treeDiagram/component/Node/CodeCrumb';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
@@ -8,19 +7,19 @@ import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/C
 class CodeCrumbsTree extends React.Component {
   render() {
     const {
-      filesTreeLayoutNodes,
+      fileNodesMap,
       shiftToCenterPoint,
       sourceDiagramOn,
       dependenciesDiagramOn,
       codeCrumbsMinimize,
-      codeCrumbsDetails,
       onCodeCrumbSelect
     } = this.props;
 
-    const filesList = getFilesList(filesTreeLayoutNodes);
     return (
       <React.Fragment>
-        {filesList.map(node => {
+        {Object.keys(fileNodesMap).map(key => {
+          const node = fileNodesMap[key];
+
           const [nX, nY] = [node.y, node.x];
           const position = shiftToCenterPoint(nX, nY);
 

@@ -38,14 +38,14 @@ export const getTreeLayout = (
   return layoutStructure(tree);
 };
 
-export const getFilesList = layoutNodes => {
-  const list = [];
+export const getFileNodesMap = layoutNodes => {
+  const map = {};
 
   layoutNodes.each(node => {
     if (node.data && node.data.type === FILE_NODE_TYPE) {
-      list.push(node);
+      map[node.data.path] = node;
     }
   });
 
-  return list;
+  return map;
 };

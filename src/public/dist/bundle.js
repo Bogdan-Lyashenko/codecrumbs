@@ -16708,7 +16708,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF;\n  stroke-width: 1px; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.SourceEdge-selected {\n  stroke: #555555; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-selected {\n  stroke: #754BC3; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
+exports.push([module.i, ".EdgeMouseHandler {\n  cursor: pointer;\n  fill: none;\n  stroke-width: 8px;\n  stroke: rgba(0, 0, 0, 0); }\n\n.SourceEdge {\n  fill: none;\n  stroke: #BFBFBF;\n  stroke-width: 1px; }\n\n.SourceEdge-disabled {\n  stroke: #ccc; }\n\n.SourceEdge-selected {\n  stroke: #555555; }\n\n.DependenciesEdge {\n  fill: none;\n  stroke: #1890ff; }\n\n.DependenciesEdge-selected {\n  stroke: #754BC3; }\n\n.DependenciesEdge-end-dot {\n  fill: #1890ff; }\n\n.DependenciesEdge-end-dot-selected {\n  fill: #754BC3; }\n\n.CodeCrumbEdge {\n  fill: none;\n  stroke: #ff18a6; }\n", ""]);
 
 // exports
 
@@ -92110,6 +92110,8 @@ var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constant
 
 var _constants2 = __webpack_require__(/*! ./constants */ "./js/components/dataBus/store/constants.js");
 
+var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -92121,7 +92123,8 @@ var DefaultState = {
 
   filesTreeLayoutNodes: null,
   closedFolders: {},
-  firstLevelFolders: {}
+  firstLevelFolders: {},
+  fileNodesMap: {}
 };
 
 exports.default = function () {
@@ -92132,7 +92135,6 @@ exports.default = function () {
     case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
       return _extends({}, state, action.payload, {
         dependenciesEntryPoint: { path: action.payload.dependenciesRootEntryName },
-
         firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
           return item.type === _constants.DIR_NODE_TYPE;
         }).reduce(function (res, item) {
@@ -92143,7 +92145,8 @@ exports.default = function () {
 
     case _constants2.ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES:
       return _extends({}, state, {
-        filesTreeLayoutNodes: action.payload
+        filesTreeLayoutNodes: action.payload,
+        fileNodesMap: (0, _treeLayout.getFileNodesMap)(action.payload)
       });
 
     case _constants2.ACTIONS.SELECT_NODE:
@@ -92608,6 +92611,7 @@ var mapStateToProps = function mapStateToProps(state) {
   var checkedState = state.viewSwitches.checkedState;
   var _state$dataBus = state.dataBus,
       filesTreeLayoutNodes = _state$dataBus.filesTreeLayoutNodes,
+      fileNodesMap = _state$dataBus.fileNodesMap,
       dependenciesList = _state$dataBus.dependenciesList,
       closedFolders = _state$dataBus.closedFolders,
       dependenciesEntryPoint = _state$dataBus.dependenciesEntryPoint,
@@ -92624,6 +92628,7 @@ var mapStateToProps = function mapStateToProps(state) {
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
     codeCrumbsDetails: checkedState.codeCrumbsDetails,
     filesTreeLayoutNodes: filesTreeLayoutNodes,
+    fileNodesMap: fileNodesMap,
     dependenciesList: dependenciesList,
     closedFolders: closedFolders,
     dependenciesEntryPoint: dependenciesEntryPoint,
@@ -92986,7 +92991,9 @@ var getLineEndIcon = exports.getLineEndIcon = function getLineEndIcon(_ref) {
     width: endPointConfig.iconSize,
     transform: 'rotate(' + endPointConfig.angle + ' ' + (endPointConfig.x + endPointConfig.iconSize / 2) + ' ' + (endPointConfig.y + endPointConfig.iconSize / 2) + ')'
   }) : _react2.default.createElement('circle', {
-    className: 'DependenciesEdge-end-dot',
+    className: (0, _classnames2.default)('DependenciesEdge-end-dot', {
+      'DependenciesEdge-end-dot-selected': selected
+    }),
     r: 2,
     cx: endPointConfig.x,
     cy: endPointConfig.y
@@ -93416,8 +93423,6 @@ var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js
 
 var _react2 = _interopRequireDefault(_react);
 
-var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
-
 var _CodeCrumb = __webpack_require__(/*! components/treeDiagram/component/Node/CodeCrumb */ "./js/components/treeDiagram/component/Node/CodeCrumb.js");
 
 var _File = __webpack_require__(/*! components/treeDiagram/component/Node/File */ "./js/components/treeDiagram/component/Node/File.js");
@@ -93445,20 +93450,20 @@ var CodeCrumbsTree = function (_React$Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
-          filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+          fileNodesMap = _props.fileNodesMap,
           shiftToCenterPoint = _props.shiftToCenterPoint,
           sourceDiagramOn = _props.sourceDiagramOn,
           dependenciesDiagramOn = _props.dependenciesDiagramOn,
           codeCrumbsMinimize = _props.codeCrumbsMinimize,
-          codeCrumbsDetails = _props.codeCrumbsDetails,
           onCodeCrumbSelect = _props.onCodeCrumbSelect;
 
 
-      var filesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
       return _react2.default.createElement(
         _react2.default.Fragment,
         null,
-        filesList.map(function (node) {
+        Object.keys(fileNodesMap).map(function (key) {
+          var node = fileNodesMap[key];
+
           var _ref = [node.y, node.x],
               nX = _ref[0],
               nY = _ref[1];
@@ -93528,7 +93533,7 @@ exports.default = CodeCrumbsTree;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.collectDependencies = exports.getGroupsAroundNode = exports.getFilteredDependenciesList = exports.findNodeByPathName = undefined;
+exports.collectDependencies = exports.getGroupsAroundNode = exports.getFilteredDependenciesList = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -93537,8 +93542,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
-
-var _treeLayout = __webpack_require__(/*! utils/treeLayout */ "./js/utils/treeLayout.js");
 
 var _DepenenciesEdge = __webpack_require__(/*! components/treeDiagram/component/Edge/DepenenciesEdge */ "./js/components/treeDiagram/component/Edge/DepenenciesEdge.js");
 
@@ -93557,16 +93560,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//move to utils
-var findNodeByPathName = exports.findNodeByPathName = function findNodeByPathName() {
-  var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var pathName = arguments[1];
-
-  return list.find(function (l) {
-    return l.data.path === pathName;
-  });
-};
 
 var getFilteredDependenciesList = exports.getFilteredDependenciesList = function getFilteredDependenciesList(_ref) {
   var dependenciesList = _ref.dependenciesList,
@@ -93688,14 +93681,13 @@ var DependenciesTree = function (_React$Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
-          filesTreeLayoutNodes = _props.filesTreeLayoutNodes,
+          fileNodesMap = _props.fileNodesMap,
           shiftToCenterPoint = _props.shiftToCenterPoint,
           sourceDiagramOn = _props.sourceDiagramOn,
           onDependencyEdgeClick = _props.onDependencyEdgeClick,
           selectedDependencyEdgeNodes = _props.selectedDependencyEdgeNodes;
 
 
-      var moduleFilesList = (0, _treeLayout.getFilesList)(filesTreeLayoutNodes);
       var filteredDependenciesList = getFilteredDependenciesList(this.props);
 
       return _react2.default.createElement(
@@ -93705,7 +93697,7 @@ var DependenciesTree = function (_React$Component) {
           var moduleName = _ref4.moduleName,
               importedModuleNames = _ref4.importedModuleNames;
 
-          var moduleNode = findNodeByPathName(moduleFilesList, moduleName);
+          var moduleNode = fileNodesMap[moduleName];
 
           if (!moduleNode) return;
 
@@ -93725,7 +93717,7 @@ var DependenciesTree = function (_React$Component) {
           }
 
           var importedNodes = importedModuleNames.map(function (name) {
-            return findNodeByPathName(moduleFilesList, name);
+            return fileNodesMap[name];
           }).filter(function (node) {
             return !!node;
           });
@@ -94498,7 +94490,7 @@ var buildShiftToPoint = exports.buildShiftToPoint = function buildShiftToPoint(s
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getFilesList = exports.getTreeLayout = undefined;
+exports.getFileNodesMap = exports.getTreeLayout = undefined;
 
 var _d3Flextree = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-flextree/index.js");
 
@@ -94550,16 +94542,16 @@ var getTreeLayout = exports.getTreeLayout = function getTreeLayout(treeData, _re
   return layoutStructure(tree);
 };
 
-var getFilesList = exports.getFilesList = function getFilesList(layoutNodes) {
-  var list = [];
+var getFileNodesMap = exports.getFileNodesMap = function getFileNodesMap(layoutNodes) {
+  var map = {};
 
   layoutNodes.each(function (node) {
     if (node.data && node.data.type === _constants.FILE_NODE_TYPE) {
-      list.push(node);
+      map[node.data.path] = node;
     }
   });
 
-  return list;
+  return map;
 };
 
 /***/ })

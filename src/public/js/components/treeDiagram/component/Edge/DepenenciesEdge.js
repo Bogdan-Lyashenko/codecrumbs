@@ -201,7 +201,9 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
     />
   ) : (
     <circle
-      className={'DependenciesEdge-end-dot'}
+      className={classNames('DependenciesEdge-end-dot', {
+        'DependenciesEdge-end-dot-selected': selected
+      })}
       r={2}
       cx={endPointConfig.x}
       cy={endPointConfig.y}

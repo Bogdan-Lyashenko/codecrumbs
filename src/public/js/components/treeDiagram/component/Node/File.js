@@ -7,7 +7,16 @@ import './index.scss';
 const ICONS_DIR = 'resources/';
 
 export const FileName = props => {
-  const { position, name, onTextClick, onIconClick, purple, selected, dependency } = props;
+  const {
+    position,
+    name,
+    onTextClick,
+    onIconClick,
+    purple,
+    selected,
+    dependency,
+    dependencyImportedOnly
+  } = props;
 
   // TODO: move out to switch
   const iconPath = `${ICONS_DIR}${purple ? 'purple-' : ''}${
@@ -53,6 +62,15 @@ export const FileName = props => {
         width={iconSize}
         className={'NodeIcon'}
       />
+      {dependency &&
+        dependencyImportedOnly && (
+          <circle
+            cx={position.x + 2.5}
+            cy={position.y}
+            r={2.5}
+            className={'NodeText-file-dependencyImportedOnly'}
+          />
+        )}
       <text
         x={position.x + 16}
         y={position.y + 5}

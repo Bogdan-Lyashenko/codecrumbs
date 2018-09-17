@@ -5692,9 +5692,9 @@ react-slick@~0.23.1:
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
 
-react-syntax-highlighter@^7.0.4:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-7.0.4.tgz#38d0cabada32fd4a7d08db4b7fbdb33565c9420d"
+react-syntax-highlighter@8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-8.0.1.tgz#88f7833e3a2d3c718799f2e7776266486c82c566"
   dependencies:
     babel-runtime "^6.18.0"
     highlight.js "~9.12.0"

@@ -6,8 +6,8 @@ import './SideBar.scss';
 import Code from './Code/Code';
 
 //TODO: Add slide from right animation
-export default ({ file, codeCrumb, onClose }) => {
-  const crumbedLines = !codeCrumb ? [] : codeCrumb.crumbedLineNode.loc.start.line;
+export default ({ file, codeCrumbs = [], onClose }) => {
+  const crumbedLines = codeCrumbs.map(codeCrumb => codeCrumb.crumbedLineNode.loc.start.line);
 
   return (
     <div className="SideBar">

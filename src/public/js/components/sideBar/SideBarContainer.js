@@ -9,7 +9,7 @@ const SideBarContainer = ({ selectedNode, selectedCodeCrumb, onClose }) => {
   if (!selectedNode || selectedNode.type !== FILE_NODE_TYPE) return null;
 
   //TODO: add animation slide
-  return <SideBar file={selectedNode} codeCrumb={selectedCodeCrumb} onClose={onClose} />;
+  return <SideBar file={selectedNode} codeCrumbs={selectedNode.children} onClose={onClose} />;
 };
 
 const mapStateToProps = state => {

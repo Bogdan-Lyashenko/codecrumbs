@@ -73674,7 +73674,11 @@ function createElement(_ref) {
     return value;
   } else if (TagName) {
     var childrenCreator = createChildren(stylesheet, useInlineStyles);
-    var props = useInlineStyles ? (0, _extends3.default)({}, properties, { className: undefined }, {
+    var nonStylesheetClassNames = useInlineStyles && properties.className && properties.className.filter(function (className) {
+      return !stylesheet[className];
+    });
+    var className = nonStylesheetClassNames && nonStylesheetClassNames.length ? nonStylesheetClassNames : undefined;
+    var props = useInlineStyles ? (0, _extends3.default)({}, properties, { className: className }, {
       style: createStyleObject(properties.className, (0, _assign2.default)({}, properties.style, style), stylesheet)
     }) : (0, _extends3.default)({}, properties, { className: createClassNameString(properties.className) });
     var children = childrenCreator(node.children);
@@ -73889,10 +73893,10 @@ function wrapLinesInSpan(codeTree, lineProps) {
             var newElem = createLineElement({ children: [lastLineInPreviousSpan], className: node.properties.className });
             tree.splice(index + 1, 0, newElem);
           } else {
-            newTree.push(createLineElement({ children: [newChild], lineNumber: lineNumber, lineProps: lineProps }));
+            newTree.push(createLineElement({ children: [newChild], lineNumber: lineNumber, lineProps: lineProps, className: node.properties.className }));
           }
         } else {
-          newTree.push(createLineElement({ children: [newChild], lineNumber: lineNumber, lineProps: lineProps }));
+          newTree.push(createLineElement({ children: [newChild], lineNumber: lineNumber, lineProps: lineProps, className: node.properties.className }));
         }
       });
       lastLineBreakIndex = index;
@@ -92364,7 +92368,7 @@ var SideBarContainer = function SideBarContainer(_ref) {
   if (!selectedNode || selectedNode.type !== _constants.FILE_NODE_TYPE) return null;
 
   //TODO: add animation slide
-  return _react2.default.createElement(_SideBar2.default, { file: selectedNode, codeCrumb: selectedCodeCrumb, onClose: onClose });
+  return _react2.default.createElement(_SideBar2.default, { file: selectedNode, codeCrumbs: selectedNode.children, onClose: onClose });
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -92430,7 +92434,15 @@ exports.default = function (_ref) {
       language: 'javascript',
       style: _hljs.atomOneLight,
       customStyle: { fontSize: '13px' },
-      showLineNumbers: true
+      showLineNumbers: true,
+      wrapLines: true,
+      lineProps: function lineProps(lineNumber) {
+        if (crumbedLines.includes(lineNumber)) {
+          return { style: { display: 'block', backgroundColor: 'rgba(255, 225, 244, 0.8)' } };
+        }
+
+        return {};
+      }
     },
     code
   );
@@ -92475,10 +92487,13 @@ var TabPane = _tabs2.default.TabPane;
 //TODO: Add slide from right animation
 exports.default = function (_ref) {
   var file = _ref.file,
-      codeCrumb = _ref.codeCrumb,
+      _ref$codeCrumbs = _ref.codeCrumbs,
+      codeCrumbs = _ref$codeCrumbs === undefined ? [] : _ref$codeCrumbs,
       onClose = _ref.onClose;
 
-  var crumbedLines = !codeCrumb ? [] : codeCrumb.crumbedLineNode.loc.start.line;
+  var crumbedLines = codeCrumbs.map(function (codeCrumb) {
+    return codeCrumb.crumbedLineNode.loc.start.line;
+  });
 
   return _react2.default.createElement(
     'div',

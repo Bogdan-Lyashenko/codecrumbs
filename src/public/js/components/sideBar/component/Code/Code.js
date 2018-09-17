@@ -11,6 +11,14 @@ export default ({ code, crumbedLines = [] }) => (
     style={atomOneLight}
     customStyle={{ fontSize: '13px' }}
     showLineNumbers={true}
+    wrapLines={true}
+    lineProps={lineNumber => {
+      if (crumbedLines.includes(lineNumber)) {
+        return { style: { display: 'block', backgroundColor: 'rgba(255, 225, 244, 0.8)' } };
+      }
+
+      return {};
+    }}
   >
     {code}
   </SyntaxHighlighter>

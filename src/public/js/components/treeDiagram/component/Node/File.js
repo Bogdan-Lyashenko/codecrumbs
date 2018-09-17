@@ -31,8 +31,6 @@ export const FileName = props => {
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 
-  depEntryPoint && console.log(name)
-
   const imageOffset = !dependency ? { x: 2, y: -10 } : { x: 0, y: -7.5 };
 
   return (
@@ -53,6 +51,21 @@ export const FileName = props => {
             height={16}
             className={'NodeText-cover'}
           />
+          {(depEntryPoint && (
+            <polyline
+              points={[
+                [position.x + 18 + nameWidth, position.y - 3],
+                [position.x + 20 + nameWidth, position.y - 3],
+                [position.x + 20 + nameWidth, position.y + 10],
+                [position.x + 10, position.y + 10],
+                [position.x + 10, position.y - 3]
+              ].join(',')}
+              className={classNames('NodeText-file-name-entry-point', {
+                'NodeText-file-name-entry-point-selected': selected
+              })}
+            />
+          )) ||
+            null}
         </React.Fragment>
       )) ||
         null}
@@ -80,7 +93,6 @@ export const FileName = props => {
         onClick={onTextClick}
         className={classNames('NodeText-file-name', {
           'NodeText-file-name-purple': purple,
-          'NodeText-file-name-entry-point': dependency && depEntryPoint && !purple,
           'NodeText-file-name-selected': dependency && selected && !purple
         })}
       >

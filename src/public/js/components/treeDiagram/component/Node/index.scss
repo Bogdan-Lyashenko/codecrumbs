@@ -31,7 +31,12 @@
 }
 
 .NodeText-file-name-entry-point {
-  fill: #40a2fd;
+  stroke: #1890ff;
+  fill: none;
+}
+
+.NodeText-file-name-entry-point-selected {
+  stroke: #754BC3;
 }
 
 .NodeText-file-dependencyImportedOnly {

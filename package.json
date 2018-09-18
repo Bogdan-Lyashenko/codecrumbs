@@ -21,6 +21,7 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-traverse": "^6.26.0",
+    "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
     "chokidar": "^2.0.3",
     "classnames": "^2.2.6",

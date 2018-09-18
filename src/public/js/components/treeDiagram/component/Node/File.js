@@ -51,21 +51,6 @@ export const FileName = props => {
             height={16}
             className={'NodeText-cover'}
           />
-          {(depEntryPoint && (
-            <polyline
-              points={[
-                [position.x + 18 + nameWidth, position.y - 3],
-                [position.x + 20 + nameWidth, position.y - 3],
-                [position.x + 20 + nameWidth, position.y + 10],
-                [position.x + 10, position.y + 10],
-                [position.x + 10, position.y - 3]
-              ].join(',')}
-              className={classNames('NodeText-file-name-entry-point', {
-                'NodeText-file-name-entry-point-selected': selected
-              })}
-            />
-          )) ||
-            null}
         </React.Fragment>
       )) ||
         null}

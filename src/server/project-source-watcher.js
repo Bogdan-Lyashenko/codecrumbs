@@ -1,5 +1,6 @@
 const directoryTree = require('directory-tree');
 const codecrumbs = require('./codecrumbs/codecrumbs');
+const dependencies = require('./dependencies/dependencies');
 const file = require('./utils/file');
 const treeTraversal = require('../shared/utils/tree').traversal;
 const DIR_NODE_TYPE = require('../shared/constants').DIR_NODE_TYPE;
@@ -66,10 +67,16 @@ const grabProjectSourceState = (projectDir, entryPoint) => {
     ...dirFiles.list.map(item =>
       file.read(item.path, 'utf8').then(code => {
         const codecrumbsList = codecrumbs.getCrumbs(code);
+        const importedDependencies = dependencies.getImports(code);
 
         if (codecrumbsList.length) {
           item.children = codecrumbsList;
           item.hasCodecrumbs = true;
+        }
+
+        if (importedDependencies.length) {
+          item.importedDependencies = importedDependencies;
+          item.hasDependenciesImports = true;
         }
 
         // TODO: load on click

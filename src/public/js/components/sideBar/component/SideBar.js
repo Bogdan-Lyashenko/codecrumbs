@@ -6,8 +6,12 @@ import './SideBar.scss';
 import Code from './Code/Code';
 
 //TODO: Add slide from right animation
-export default ({ file, codeCrumbs = [], onClose }) => {
+export default ({ file, codeCrumbs = [], importedDependencies = [], onClose }) => {
   const crumbedLines = codeCrumbs.map(codeCrumb => codeCrumb.crumbedLineNode.loc.start.line);
+  const importedDependenciesLines = importedDependencies.map(({ node }) => [
+    node.loc.start.line,
+    node.loc.end.line
+  ]);
 
   return (
     <div className="SideBar">
@@ -22,7 +26,11 @@ export default ({ file, codeCrumbs = [], onClose }) => {
         {file.fileCode && (
           <Tabs defaultActiveKey="1" onChange={() => {}}>
             <TabPane tab="Code" key="1">
-              <Code code={file.fileCode} crumbedLines={crumbedLines} />
+              <Code
+                code={file.fileCode}
+                crumbedLines={crumbedLines}
+                importedDependenciesLines={importedDependenciesLines}
+              />
             </TabPane>
             <TabPane tab="FlowChart" key="2">
               Content of Tab Pane 2

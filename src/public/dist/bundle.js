@@ -92343,6 +92343,7 @@ var getDependenciesAllModules = exports.getDependenciesAllModules = function get
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.filterImportedDependencies = undefined;
 
 var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 
@@ -92363,23 +92364,52 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var SideBarContainer = function SideBarContainer(_ref) {
   var selectedNode = _ref.selectedNode,
       selectedCodeCrumb = _ref.selectedCodeCrumb,
+      selectedDependencyEdgeNodes = _ref.selectedDependencyEdgeNodes,
+      dependenciesDiagramOn = _ref.dependenciesDiagramOn,
+      codeCrumbsDiagramOn = _ref.codeCrumbsDiagramOn,
       onClose = _ref.onClose;
 
   if (!selectedNode || selectedNode.type !== _constants.FILE_NODE_TYPE) return null;
 
   //TODO: add animation slide
-  return _react2.default.createElement(_SideBar2.default, { file: selectedNode, codeCrumbs: selectedNode.children, onClose: onClose });
+  return _react2.default.createElement(_SideBar2.default, {
+    file: selectedNode,
+    codeCrumbs: codeCrumbsDiagramOn ? selectedNode.children : [],
+    importedDependencies: dependenciesDiagramOn ? filterImportedDependencies(selectedNode.importedDependencies, selectedDependencyEdgeNodes) : [],
+    onClose: onClose
+  });
+};
+
+var filterImportedDependencies = exports.filterImportedDependencies = function filterImportedDependencies(importedDependencies, selectedDependencyEdgeNodes) {
+  if (!selectedDependencyEdgeNodes) {
+    return [];
+  }
+
+  return importedDependencies.filter(function (dependency) {
+    var sources = selectedDependencyEdgeNodes.sources;
+
+    return sources.find(function (source) {
+      var pathIndexMath = /\w/.exec(dependency.sourceFile);
+      var pathName = dependency.sourceFile.substr(pathIndexMath && pathIndexMath.index);
+      return source.indexOf(pathName) !== -1;
+    });
+  });
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   var _state$dataBus = state.dataBus,
       selectedNode = _state$dataBus.selectedNode,
-      selectedCodeCrumb = _state$dataBus.selectedCodeCrumb;
+      selectedCodeCrumb = _state$dataBus.selectedCodeCrumb,
+      selectedDependencyEdgeNodes = _state$dataBus.selectedDependencyEdgeNodes;
+  var checkedState = state.viewSwitches.checkedState;
 
 
   return {
     selectedNode: selectedNode,
-    selectedCodeCrumb: selectedCodeCrumb
+    selectedCodeCrumb: selectedCodeCrumb,
+    selectedDependencyEdgeNodes: selectedDependencyEdgeNodes,
+    dependenciesDiagramOn: checkedState.dependencies,
+    codeCrumbsDiagramOn: checkedState.codeCrumbs
   };
 };
 
@@ -92427,7 +92457,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function (_ref) {
   var code = _ref.code,
       _ref$crumbedLines = _ref.crumbedLines,
-      crumbedLines = _ref$crumbedLines === undefined ? [] : _ref$crumbedLines;
+      crumbedLines = _ref$crumbedLines === undefined ? [] : _ref$crumbedLines,
+      _ref$importedDependen = _ref.importedDependenciesLines,
+      importedDependenciesLines = _ref$importedDependen === undefined ? [] : _ref$importedDependen;
   return _react2.default.createElement(
     _reactSyntaxHighlighter2.default,
     {
@@ -92439,6 +92471,15 @@ exports.default = function (_ref) {
       lineProps: function lineProps(lineNumber) {
         if (crumbedLines.includes(lineNumber)) {
           return { style: { display: 'block', backgroundColor: 'rgba(255, 225, 244, 0.8)' } };
+        }
+
+        if (importedDependenciesLines.find(function (lines) {
+          if (lines[0] === lineNumber && lines[1] === lineNumber) {
+            return true;
+          }
+          return lines[0] <= lineNumber && lines[1] >= lineNumber;
+        })) {
+          return { style: { display: 'block', backgroundColor: 'rgba(0, 148, 249, 0.1)' } };
         }
 
         return {};
@@ -92489,10 +92530,16 @@ exports.default = function (_ref) {
   var file = _ref.file,
       _ref$codeCrumbs = _ref.codeCrumbs,
       codeCrumbs = _ref$codeCrumbs === undefined ? [] : _ref$codeCrumbs,
+      _ref$importedDependen = _ref.importedDependencies,
+      importedDependencies = _ref$importedDependen === undefined ? [] : _ref$importedDependen,
       onClose = _ref.onClose;
 
   var crumbedLines = codeCrumbs.map(function (codeCrumb) {
     return codeCrumb.crumbedLineNode.loc.start.line;
+  });
+  var importedDependenciesLines = importedDependencies.map(function (_ref2) {
+    var node = _ref2.node;
+    return [node.loc.start.line, node.loc.end.line];
   });
 
   return _react2.default.createElement(
@@ -92521,7 +92568,11 @@ exports.default = function (_ref) {
         _react2.default.createElement(
           TabPane,
           { tab: 'Code', key: '1' },
-          _react2.default.createElement(_Code2.default, { code: file.fileCode, crumbedLines: crumbedLines })
+          _react2.default.createElement(_Code2.default, {
+            code: file.fileCode,
+            crumbedLines: crumbedLines,
+            importedDependenciesLines: importedDependenciesLines
+          })
         ),
         _react2.default.createElement(
           TabPane,
@@ -93399,13 +93450,7 @@ var FileName = exports.FileName = function FileName(props) {
         width: nameWidth,
         height: 16,
         className: 'NodeText-cover'
-      }),
-      depEntryPoint && _react2.default.createElement('polyline', {
-        points: [[position.x + 18 + nameWidth, position.y - 3], [position.x + 20 + nameWidth, position.y - 3], [position.x + 20 + nameWidth, position.y + 10], [position.x + 10, position.y + 10], [position.x + 10, position.y - 3]].join(','),
-        className: (0, _classnames2.default)('NodeText-file-name-entry-point', {
-          'NodeText-file-name-entry-point-selected': selected
-        })
-      }) || null
+      })
     ) || null,
     _react2.default.createElement('image', {
       x: position.x + imageOffset.x,

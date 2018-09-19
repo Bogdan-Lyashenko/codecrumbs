@@ -4,6 +4,7 @@ const TabPane = Tabs.TabPane;
 
 import './SideBar.scss';
 import Code from './Code/Code';
+import { Copy } from 'components/controls/Copy';
 
 //TODO: Add slide from right animation
 export default ({ file, codeCrumbs = [], importedDependencies = [], onClose }) => {
@@ -16,7 +17,12 @@ export default ({ file, codeCrumbs = [], importedDependencies = [], onClose }) =
   return (
     <div className="SideBar">
       <div className="header">
-        <div>{file.path}</div>
+        <div className={'filePath'}>
+          <div>{file.path}</div>
+          <div className={'copyIcon'}>
+            <Copy copyText={file.path} />
+          </div>
+        </div>
         <a href="#" onClick={onClose}>
           X
         </a>

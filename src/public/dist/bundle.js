@@ -3593,6 +3593,59 @@ module.exports = function(arr, obj){
 
 /***/ }),
 
+/***/ "../../node_modules/copy-text-to-clipboard/index.js":
+/*!******************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/copy-text-to-clipboard/index.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = input => {
+	const el = document.createElement('textarea');
+
+	el.value = input;
+
+	// Prevent keyboard from showing on mobile
+	el.setAttribute('readonly', '');
+
+	el.style.contain = 'strict';
+	el.style.position = 'absolute';
+	el.style.left = '-9999px';
+	el.style.fontSize = '12pt'; // Prevent zooming on iOS
+
+	const selection = document.getSelection();
+	let originalRange = false;
+	if (selection.rangeCount > 0) {
+		originalRange = selection.getRangeAt(0);
+	}
+
+	document.body.appendChild(el);
+	el.select();
+
+	// Explicit selection workaround for iOS
+	el.selectionStart = 0;
+	el.selectionEnd = input.length;
+
+	let success = false;
+	try {
+		success = document.execCommand('copy');
+	} catch (err) {}
+
+	document.body.removeChild(el);
+
+	if (originalRange) {
+		selection.removeAllRanges();
+		selection.addRange(originalRange);
+	}
+
+	return success;
+};
+
+
+/***/ }),
+
 /***/ "../../node_modules/core-js/fn/regexp/escape.js":
 /*!**************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/core-js/fn/regexp/escape.js ***!
@@ -16651,7 +16704,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".SideBar {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  width: 650px;\n  z-index: 4;\n  background-color: white;\n  border-left: 1px solid #ebedf0;\n  padding: 8px 16px; }\n  .SideBar .header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between; }\n  .SideBar .body {\n    height: calc(100% - 25px);\n    overflow: auto; }\n", ""]);
+exports.push([module.i, ".SideBar {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  width: 650px;\n  z-index: 4;\n  background-color: white;\n  border-left: 1px solid #ebedf0;\n  padding: 8px 16px; }\n  .SideBar .header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between; }\n    .SideBar .header .filePath {\n      display: flex; }\n      .SideBar .header .filePath .copyIcon {\n        margin-left: 5px; }\n  .SideBar .body {\n    height: calc(100% - 25px);\n    overflow: auto; }\n", ""]);
 
 // exports
 
@@ -16670,7 +16723,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".TopBarContainer {\n  padding: 3px 0;\n  border-top: 1px solid #ebedf0;\n  border-bottom: 1px solid #F5F5F5; }\n", ""]);
+exports.push([module.i, ".TopBarContainer {\n  padding: 3px 0;\n  border-top: 1px solid #ebedf0;\n  border-bottom: 1px solid #F5F5F5;\n  display: flex; }\n\n.copyIcon {\n  margin-left: 5px; }\n", ""]);
 
 // exports
 
@@ -91418,6 +91471,50 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./js/components/controls/Copy/index.js":
+/*!**********************************************!*\
+  !*** ./js/components/controls/Copy/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Copy = undefined;
+
+var _icon = __webpack_require__(/*! antd/es/icon */ "../../node_modules/antd/es/icon/index.js");
+
+var _icon2 = _interopRequireDefault(_icon);
+
+__webpack_require__(/*! antd/es/icon/style/css */ "../../node_modules/antd/es/icon/style/css.js");
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _copyTextToClipboard = __webpack_require__(/*! copy-text-to-clipboard */ "../../node_modules/copy-text-to-clipboard/index.js");
+
+var _copyTextToClipboard2 = _interopRequireDefault(_copyTextToClipboard);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Copy = exports.Copy = function Copy(_ref) {
+  var copyText = _ref.copyText;
+  return _react2.default.createElement(
+    'a',
+    { href: '#', onClick: function onClick() {
+        return (0, _copyTextToClipboard2.default)(copyText);
+      }, title: 'Copy path' },
+    _react2.default.createElement(_icon2.default, { type: 'copy', theme: 'outlined' })
+  );
+};
+
+/***/ }),
+
 /***/ "./js/components/controls/ViewSwitches/ViewSwitchesContainer.js":
 /*!**********************************************************************!*\
   !*** ./js/components/controls/ViewSwitches/ViewSwitchesContainer.js ***!
@@ -92536,6 +92633,8 @@ var _Code = __webpack_require__(/*! ./Code/Code */ "./js/components/sideBar/comp
 
 var _Code2 = _interopRequireDefault(_Code);
 
+var _Copy = __webpack_require__(/*! components/controls/Copy */ "./js/components/controls/Copy/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TabPane = _tabs2.default.TabPane;
@@ -92565,8 +92664,17 @@ exports.default = function (_ref) {
       { className: 'header' },
       _react2.default.createElement(
         'div',
-        null,
-        file.path
+        { className: 'filePath' },
+        _react2.default.createElement(
+          'div',
+          null,
+          file.path
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'copyIcon' },
+          _react2.default.createElement(_Copy.Copy, { copyText: file.path })
+        )
       ),
       _react2.default.createElement(
         'a',
@@ -92670,6 +92778,8 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "../../node_modules/rea
 
 var _constants = __webpack_require__(/*! utils/constants */ "./js/utils/constants.js");
 
+var _Copy = __webpack_require__(/*! components/controls/Copy */ "./js/components/controls/Copy/index.js");
+
 __webpack_require__(/*! ./TopBarContainer.scss */ "./js/components/topBar/TopBarContainer.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -92732,6 +92842,11 @@ var TopBarContainer = function TopBarContainer(_ref) {
         null,
         lastNode
       )
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'copyIcon' },
+      _react2.default.createElement(_Copy.Copy, { copyText: selectedNode.path })
     )
   );
 };

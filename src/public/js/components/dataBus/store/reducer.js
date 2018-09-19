@@ -1,5 +1,5 @@
 import safeGet from 'lodash/get';
-import { DIR_NODE_TYPE } from 'utils/constants';
+import { DIR_NODE_TYPE, FILE_NODE_TYPE } from 'utils/constants';
 import { ACTIONS } from './constants';
 import { getFileNodesMap } from 'utils/treeLayout';
 
@@ -19,22 +19,12 @@ const DefaultState = {
 export default (state = DefaultState, action) => {
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA:
-      const {
-        dependenciesRootEntryName,
-        dependenciesMap,
-        dependenciesShowDirectOnly
-      } = action.payload;
-      const dependenciesEntryPoint = { path: dependenciesRootEntryName };
+      const { dependenciesRootEntryName } = action.payload;
 
       return {
         ...state,
         ...action.payload,
-        dependenciesEntryPoint,
-        ...getFilteredDependencies({
-          dependenciesMap,
-          dependenciesEntryPoint,
-          dependenciesShowDirectOnly
-        }),
+        dependenciesEntryPoint: { path: dependenciesRootEntryName },
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
           .reduce((res, item) => {
@@ -54,7 +44,12 @@ export default (state = DefaultState, action) => {
       return {
         ...state,
         selectedCodeCrumb: null,
-        selectedNode: action.payload
+        selectedNode: action.payload,
+        ...(action.payload.type === FILE_NODE_TYPE
+          ? {
+              dependenciesEntryPoint: action.payload
+            }
+          : {})
       };
 
     case ACTIONS.TOGGLE_FOLDER:

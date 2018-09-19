@@ -33,7 +33,10 @@ const SideBarContainer = ({
   );
 };
 
-export const filterImportedDependencies = (importedDependencies, selectedDependencyEdgeNodes) => {
+export const filterImportedDependencies = (
+  importedDependencies = [],
+  selectedDependencyEdgeNodes
+) => {
   if (!selectedDependencyEdgeNodes) {
     return [];
   }

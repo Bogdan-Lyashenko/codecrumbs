@@ -25,6 +25,7 @@
     "babylon": "^6.18.0",
     "chokidar": "^2.0.3",
     "classnames": "^2.2.6",
+    "copy-text-to-clipboard": "^1.0.4",
     "css-loader": "^0.28.11",
     "d3-flextree": "^2.1.1",
     "directory-tree": "^2.1.0",

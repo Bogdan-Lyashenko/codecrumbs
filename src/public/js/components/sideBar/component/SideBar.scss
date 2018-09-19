@@ -13,6 +13,14 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+
+    .filePath {
+      display: flex;
+
+      .copyIcon {
+        margin-left: 5px;
+      }
+    }
   }
 
   .body {

@@ -16753,6 +16753,25 @@ exports.push([module.i, ".TreeDiagram {\n  position: relative; }\n", ""]);
 
 /***/ }),
 
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/UnderLayer/index.scss":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/UnderLayer/index.scss ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".UnderLayer {\n  fill: #ffffff;\n  stroke: none; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../node_modules/css-loader/lib/css-base.js":
 /*!*************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader/lib/css-base.js ***!
@@ -92186,7 +92205,7 @@ exports.default = function () {
       return _extends({}, state, {
         selectedCodeCrumb: null,
         selectedNode: action.payload
-      }, action.payload.type === _constants.FILE_NODE_TYPE ? {
+      }, action.payload && action.payload.type === _constants.FILE_NODE_TYPE ? {
         dependenciesEntryPoint: action.payload
       } : {});
 
@@ -92829,7 +92848,10 @@ var mapDispatchToProps = {
   onNodeTextClick: _actions.selectNode,
   onFileIconClick: _actions.setDependenciesEntryPoint,
   onFolderIconClick: _actions.toggleFolder,
-  onDependencyEdgeClick: _actions.selectDependencyEdge
+  onDependencyEdgeClick: _actions.selectDependencyEdge,
+  onUnderLayerClick: function onUnderLayerClick() {
+    return (0, _actions.selectDependencyEdge)(null);
+  }
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TreeDiagram2.default);
@@ -94161,6 +94183,8 @@ var _SourceTree = __webpack_require__(/*! ./Tree/SourceTree */ "./js/components/
 
 var _SourceTree2 = _interopRequireDefault(_SourceTree);
 
+var _UnderLayer = __webpack_require__(/*! ./UnderLayer */ "./js/components/treeDiagram/component/UnderLayer/index.js");
+
 __webpack_require__(/*! ./TreeDiagram.scss */ "./js/components/treeDiagram/component/TreeDiagram.scss");
 
 var _geometry = __webpack_require__(/*! utils/geometry */ "./js/utils/geometry.js");
@@ -94205,7 +94229,8 @@ var TreeDiagram = function (_React$Component) {
 
       var _props2 = this.props,
           filesTreeLayoutNodes = _props2.filesTreeLayoutNodes,
-          otherProps = _objectWithoutProperties(_props2, ['filesTreeLayoutNodes']);
+          onUnderLayerClick = _props2.onUnderLayerClick,
+          otherProps = _objectWithoutProperties(_props2, ['filesTreeLayoutNodes', 'onUnderLayerClick']);
 
       return _react2.default.createElement(
         'div',
@@ -94213,10 +94238,15 @@ var TreeDiagram = function (_React$Component) {
         _react2.default.createElement(
           'svg',
           { width: width, height: height, xmlns: 'http://www.w3.org/2000/svg' },
-          filesTreeLayoutNodes && _react2.default.createElement(_SourceTree2.default, _extends({
-            filesTreeLayoutNodes: filesTreeLayoutNodes,
-            shiftToCenterPoint: shiftToCenterPoint
-          }, otherProps))
+          filesTreeLayoutNodes && _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            _react2.default.createElement(_UnderLayer.UnderLayer, { width: width, height: height, onClick: onUnderLayerClick }),
+            _react2.default.createElement(_SourceTree2.default, _extends({
+              filesTreeLayoutNodes: filesTreeLayoutNodes,
+              shiftToCenterPoint: shiftToCenterPoint
+            }, otherProps))
+          )
         )
       );
     }
@@ -94252,6 +94282,70 @@ options.transform = transform
 options.insertInto = undefined;
 
 var update = __webpack_require__(/*! ../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/UnderLayer/index.js":
+/*!*****************************************************************!*\
+  !*** ./js/components/treeDiagram/component/UnderLayer/index.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UnderLayer = undefined;
+
+var _react = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/UnderLayer/index.scss");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var UnderLayer = exports.UnderLayer = function UnderLayer(props) {
+  var width = props.width,
+      height = props.height,
+      onClick = props.onClick;
+
+
+  return _react2.default.createElement('rect', { x: 0, y: 0, width: width, height: height, className: 'UnderLayer', onClick: onClick });
+};
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/UnderLayer/index.scss":
+/*!*******************************************************************!*\
+  !*** ./js/components/treeDiagram/component/UnderLayer/index.scss ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/UnderLayer/index.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
 
 if(content.locals) module.exports = content.locals;
 

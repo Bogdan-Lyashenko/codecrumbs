@@ -45,7 +45,7 @@ export default (state = DefaultState, action) => {
         ...state,
         selectedCodeCrumb: null,
         selectedNode: action.payload,
-        ...(action.payload.type === FILE_NODE_TYPE
+        ...(action.payload && action.payload.type === FILE_NODE_TYPE
           ? {
               dependenciesEntryPoint: action.payload
             }

@@ -12,6 +12,7 @@ export const FileName = props => {
     name,
     onTextClick,
     onIconClick,
+    onNodeClick,
     purple,
     selected,
     dependency,
@@ -57,7 +58,7 @@ export const FileName = props => {
       <image
         x={position.x + imageOffset.x}
         y={position.y + imageOffset.y}
-        onClick={onIconClick}
+        onClick={onIconClick || onNodeClick}
         xlinkHref={iconPath}
         height={iconSize}
         width={iconSize}
@@ -75,7 +76,7 @@ export const FileName = props => {
       <text
         x={position.x + 16}
         y={position.y + 5}
-        onClick={onTextClick}
+        onClick={onTextClick || onNodeClick}
         className={classNames('NodeText-file-name', {
           'NodeText-file-name-purple': purple,
           'NodeText-file-name-selected': dependency && selected && !purple

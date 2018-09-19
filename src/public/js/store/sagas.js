@@ -16,10 +16,14 @@ import {
 import { setDisabledControl } from 'components/controls/ViewSwitches/store/actions';
 
 function* reactOnSwitchToggle(action) {
-  const { switchKey } = action.payload;
+  const { switchKey, checked } = action.payload;
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
     yield put(calcFilesTreeLayoutNodes());
+  }
+
+  if (switchKey === CONTROLS_KEYS.DEPENDENCIES && checked) {
+    yield put(setDependenciesEntryPoint());
   }
 
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY) {

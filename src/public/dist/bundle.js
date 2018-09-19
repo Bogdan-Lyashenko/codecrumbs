@@ -92163,20 +92163,11 @@ exports.default = function () {
 
   switch (action.type) {
     case _constants2.ACTIONS.SET_INITIAL_SOURCE_DATA:
-      var _action$payload = action.payload,
-          dependenciesRootEntryName = _action$payload.dependenciesRootEntryName,
-          dependenciesMap = _action$payload.dependenciesMap,
-          dependenciesShowDirectOnly = _action$payload.dependenciesShowDirectOnly;
+      var dependenciesRootEntryName = action.payload.dependenciesRootEntryName;
 
-      var dependenciesEntryPoint = { path: dependenciesRootEntryName };
 
       return _extends({}, state, action.payload, {
-        dependenciesEntryPoint: dependenciesEntryPoint
-      }, getFilteredDependencies({
-        dependenciesMap: dependenciesMap,
-        dependenciesEntryPoint: dependenciesEntryPoint,
-        dependenciesShowDirectOnly: dependenciesShowDirectOnly
-      }), {
+        dependenciesEntryPoint: { path: dependenciesRootEntryName },
         firstLevelFolders: (0, _get2.default)(action.payload, 'filesTree.children', []).filter(function (item) {
           return item.type === _constants.DIR_NODE_TYPE;
         }).reduce(function (res, item) {
@@ -92195,7 +92186,9 @@ exports.default = function () {
       return _extends({}, state, {
         selectedCodeCrumb: null,
         selectedNode: action.payload
-      });
+      }, action.payload.type === _constants.FILE_NODE_TYPE ? {
+        dependenciesEntryPoint: action.payload
+      } : {});
 
     case _constants2.ACTIONS.TOGGLE_FOLDER:
       var closedFolders = state.closedFolders;
@@ -92217,9 +92210,9 @@ exports.default = function () {
       });
 
     case _constants2.ACTIONS.SELECT_CODE_CRUMB:
-      var _action$payload2 = action.payload,
-          fileNode = _action$payload2.fileNode,
-          codeCrumb = _action$payload2.codeCrumb;
+      var _action$payload = action.payload,
+          fileNode = _action$payload.fileNode,
+          codeCrumb = _action$payload.codeCrumb;
       //TODO: fileNode also can be folder, maybe don't use SELECT_CODE_CRUMB at all and use selected node as well
 
       return _extends({}, state, {
@@ -92380,7 +92373,10 @@ var SideBarContainer = function SideBarContainer(_ref) {
   });
 };
 
-var filterImportedDependencies = exports.filterImportedDependencies = function filterImportedDependencies(importedDependencies, selectedDependencyEdgeNodes) {
+var filterImportedDependencies = exports.filterImportedDependencies = function filterImportedDependencies() {
+  var importedDependencies = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var selectedDependencyEdgeNodes = arguments[1];
+
   if (!selectedDependencyEdgeNodes) {
     return [];
   }
@@ -93416,6 +93412,7 @@ var FileName = exports.FileName = function FileName(props) {
       name = props.name,
       onTextClick = props.onTextClick,
       onIconClick = props.onIconClick,
+      onNodeClick = props.onNodeClick,
       purple = props.purple,
       selected = props.selected,
       dependency = props.dependency,
@@ -93455,7 +93452,7 @@ var FileName = exports.FileName = function FileName(props) {
     _react2.default.createElement('image', {
       x: position.x + imageOffset.x,
       y: position.y + imageOffset.y,
-      onClick: onIconClick,
+      onClick: onIconClick || onNodeClick,
       xlinkHref: iconPath,
       height: iconSize,
       width: iconSize,
@@ -93472,7 +93469,7 @@ var FileName = exports.FileName = function FileName(props) {
       {
         x: position.x + 16,
         y: position.y + 5,
-        onClick: onTextClick,
+        onClick: onTextClick || onNodeClick,
         className: (0, _classnames2.default)('NodeText-file-name', {
           'NodeText-file-name-purple': purple,
           'NodeText-file-name-selected': dependency && selected && !purple
@@ -94089,11 +94086,9 @@ var SourceTree = function (_React$Component) {
             depEntryPoint: path === dependenciesEntryPoint.path,
             dependency: dependenciesDiagramOn && filteredDependenciesAllModulesMap[path],
             dependencyImportedOnly: dependenciesDiagramOn && dependenciesMap[path] && !dependenciesMap[path].importedModuleNames.length,
-            onTextClick: function onTextClick() {
-              return onNodeTextClick(node.data);
-            },
-            onIconClick: function onIconClick() {
-              return dependenciesDiagramOn && onFileIconClick(node.data);
+            onNodeClick: function onNodeClick() {
+              onNodeTextClick(node.data);
+              dependenciesDiagramOn && onFileIconClick(node.data);
             }
           });
         } else if (node.data.type === _constants.DIR_NODE_TYPE) {
@@ -94430,12 +94425,13 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(reactOnSwitchToggle),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
 
 function reactOnSwitchToggle(action) {
-  var switchKey;
+  var _action$payload, switchKey, checked;
+
   return regeneratorRuntime.wrap(function reactOnSwitchToggle$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          switchKey = action.payload.switchKey;
+          _action$payload = action.payload, switchKey = _action$payload.switchKey, checked = _action$payload.checked;
 
           if (!(switchKey === _constants2.CONTROLS_KEYS.CODE_CRUMBS)) {
             _context.next = 4;
@@ -94446,15 +94442,24 @@ function reactOnSwitchToggle(action) {
           return (0, _effects.put)((0, _actions.calcFilesTreeLayoutNodes)());
 
         case 4:
-          if (!(switchKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY)) {
+          if (!(switchKey === _constants2.CONTROLS_KEYS.DEPENDENCIES && checked)) {
             _context.next = 7;
             break;
           }
 
           _context.next = 7;
-          return (0, _effects.all)([(0, _effects.put)((0, _actions.selectDependencyEdge)(null)), (0, _effects.put)((0, _actions.setDependenciesEntryPoint)())]);
+          return (0, _effects.put)((0, _actions.setDependenciesEntryPoint)());
 
         case 7:
+          if (!(switchKey === _constants2.CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY)) {
+            _context.next = 10;
+            break;
+          }
+
+          _context.next = 10;
+          return (0, _effects.all)([(0, _effects.put)((0, _actions.selectDependencyEdge)(null)), (0, _effects.put)((0, _actions.setDependenciesEntryPoint)())]);
+
+        case 10:
         case 'end':
           return _context.stop();
       }

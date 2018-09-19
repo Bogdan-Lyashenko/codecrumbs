@@ -97,8 +97,10 @@ class SourceTree extends React.Component {
                 dependenciesMap[path] &&
                 !dependenciesMap[path].importedModuleNames.length
               }
-              onTextClick={() => onNodeTextClick(node.data)}
-              onIconClick={() => dependenciesDiagramOn && onFileIconClick(node.data)}
+              onNodeClick={() => {
+                onNodeTextClick(node.data);
+                dependenciesDiagramOn && onFileIconClick(node.data);
+              }}
             />
           );
         } else if (node.data.type === DIR_NODE_TYPE) {

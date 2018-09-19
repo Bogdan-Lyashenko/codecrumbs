@@ -1,5 +1,6 @@
 import React from 'react';
 import SourceTree from './Tree/SourceTree';
+import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
 import { buildShiftToPoint } from 'utils/geometry';
@@ -15,17 +16,20 @@ class TreeDiagram extends React.Component {
     const { width = BOX_SIZE.W, height = BOX_SIZE.H, dot = DOT } = this.props;
     const shiftToCenterPoint = buildShiftToPoint(dot);
 
-    const { filesTreeLayoutNodes, ...otherProps } = this.props;
+    const { filesTreeLayoutNodes, onUnderLayerClick, ...otherProps } = this.props;
 
     return (
       <div className="TreeDiagram">
         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
           {filesTreeLayoutNodes && (
-            <SourceTree
-              filesTreeLayoutNodes={filesTreeLayoutNodes}
-              shiftToCenterPoint={shiftToCenterPoint}
-              {...otherProps}
-            />
+            <React.Fragment>
+              <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
+              <SourceTree
+                filesTreeLayoutNodes={filesTreeLayoutNodes}
+                shiftToCenterPoint={shiftToCenterPoint}
+                {...otherProps}
+              />
+            </React.Fragment>
           )}
         </svg>
       </div>

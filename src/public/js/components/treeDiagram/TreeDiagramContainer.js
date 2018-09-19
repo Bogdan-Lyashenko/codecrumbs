@@ -49,7 +49,8 @@ const mapDispatchToProps = {
   onNodeTextClick: selectNode,
   onFileIconClick: setDependenciesEntryPoint,
   onFolderIconClick: toggleFolder,
-  onDependencyEdgeClick: selectDependencyEdge
+  onDependencyEdgeClick: selectDependencyEdge,
+  onUnderLayerClick: () => selectDependencyEdge(null)
 };
 
 export default connect(

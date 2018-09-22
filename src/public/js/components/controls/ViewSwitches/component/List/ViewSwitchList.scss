@@ -1,0 +1,16 @@
+.ViewSwitchList {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+  justify-content: space-between;
+
+  .side {
+    display: flex;
+    flex-direction: row;
+
+    .itemSpacingWrapper {
+      margin-right: 16px;
+    }
+  }
+}

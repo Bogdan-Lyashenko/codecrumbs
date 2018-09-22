@@ -46,6 +46,11 @@ const DefaultState = {
           key: CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
         }
       ]
+    },
+    {
+      name: 'SideBar',
+      key: CONTROLS_KEYS.SIDE_BAR,
+      children: []
     }
   ],
   checkedState: {

@@ -13,7 +13,7 @@
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""
   },
   "dependencies": {
-    "antd": "^3.5.0",
+    "antd": "^3.9.2",
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
     "babel-loader": "^7.1.4",

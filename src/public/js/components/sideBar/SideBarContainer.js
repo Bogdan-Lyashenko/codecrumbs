@@ -2,53 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import SideBar from './component/SideBar';
-import { selectNode } from 'components/dataBus/store/actions';
+import { toggleSwitch } from 'components/controls/ViewSwitches/store/actions';
 import { FILE_NODE_TYPE } from 'utils/constants';
 
-const SideBarContainer = ({
-  selectedNode,
-  selectedCodeCrumb,
-  selectedDependencyEdgeNodes,
-  dependenciesDiagramOn,
-  codeCrumbsDiagramOn,
-  onClose
-}) => {
-  if (!selectedNode || selectedNode.type !== FILE_NODE_TYPE) return null;
+const SideBarContainer = ({ sideBarOn, ...otherProps }) => {
+  if (!sideBarOn) return null;
 
   //TODO: add animation slide
-  return (
-    <SideBar
-      file={selectedNode}
-      codeCrumbs={codeCrumbsDiagramOn ? selectedNode.children : []}
-      importedDependencies={
-        dependenciesDiagramOn
-          ? filterImportedDependencies(
-              selectedNode.importedDependencies,
-              selectedDependencyEdgeNodes
-            )
-          : []
-      }
-      onClose={onClose}
-    />
-  );
-};
-
-export const filterImportedDependencies = (
-  importedDependencies = [],
-  selectedDependencyEdgeNodes
-) => {
-  if (!selectedDependencyEdgeNodes) {
-    return [];
-  }
-
-  return importedDependencies.filter(dependency => {
-    const { sources } = selectedDependencyEdgeNodes;
-    return sources.find(source => {
-      const pathIndexMath = /\w/.exec(dependency.sourceFile);
-      const pathName = dependency.sourceFile.substr(pathIndexMath && pathIndexMath.index);
-      return source.indexOf(pathName) !== -1;
-    });
-  });
+  return <SideBar {...otherProps} />;
 };
 
 const mapStateToProps = state => {
@@ -59,13 +20,14 @@ const mapStateToProps = state => {
     selectedNode,
     selectedCodeCrumb,
     selectedDependencyEdgeNodes,
+    sideBarOn: checkedState.sideBar,
     dependenciesDiagramOn: checkedState.dependencies,
     codeCrumbsDiagramOn: checkedState.codeCrumbs
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  onClose: () => dispatch(selectNode(null))
+  onClose: () => dispatch(toggleSwitch('sideBar', false))
 });
 
 export default connect(

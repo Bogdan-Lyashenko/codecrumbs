@@ -49,7 +49,7 @@ export default ({
       </React.Fragment>
     );
 
-    const codeCrumbs = codeCrumbsDiagramOn ? file.children : [];
+    const codeCrumbs = codeCrumbsDiagramOn && file.children ? file.children : [];
     const importedDependencies = dependenciesDiagramOn
       ? filterImportedDependencies(file.importedDependencies, selectedDependencyEdgeNodes)
       : [];

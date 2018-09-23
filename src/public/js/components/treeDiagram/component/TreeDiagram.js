@@ -1,4 +1,6 @@
 import React from 'react';
+import Draggable from 'react-draggable';
+
 import SourceTree from './Tree/SourceTree';
 import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
@@ -25,18 +27,20 @@ class TreeDiagram extends React.Component {
 
     return (
       <div className="TreeDiagram">
-        <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
-          {filesTreeLayoutNodes && (
-            <React.Fragment>
-              <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-              <SourceTree
-                filesTreeLayoutNodes={filesTreeLayoutNodes}
-                shiftToCenterPoint={shiftToCenterPoint}
-                {...otherProps}
-              />
-            </React.Fragment>
-          )}
-        </svg>
+        <Draggable>
+          <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
+            {filesTreeLayoutNodes && (
+              <React.Fragment>
+                <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
+                <SourceTree
+                  filesTreeLayoutNodes={filesTreeLayoutNodes}
+                  shiftToCenterPoint={shiftToCenterPoint}
+                  {...otherProps}
+                />
+              </React.Fragment>
+            )}
+          </svg>
+        </Draggable>
       </div>
     );
   }

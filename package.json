@@ -35,6 +35,7 @@
     "mime-types": "^2.1.18",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
+    "react-draggable": "^3.0.5",
     "react-redux": "^5.0.7",
     "react-syntax-highlighter": "8.0.1",
     "redux": "^4.0.0",

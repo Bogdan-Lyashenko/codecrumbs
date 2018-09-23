@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { calculateLayoutSize } from 'utils/geometry';
 import TreeDiagram from './component/TreeDiagram';
 import {
   selectCodeCrumb,
@@ -7,6 +8,8 @@ import {
   toggleFolder,
   selectDependencyEdge
 } from 'components/dataBus/store/actions';
+
+export const LAYOUT_PADDING = 200;
 
 const mapStateToProps = state => {
   const { checkedState } = state.viewSwitches;
@@ -40,7 +43,8 @@ const mapStateToProps = state => {
     closedFolders,
     dependenciesEntryPoint,
     selectedNode,
-    selectedDependencyEdgeNodes
+    selectedDependencyEdgeNodes,
+    layoutSize: calculateLayoutSize(filesTreeLayoutNodes, LAYOUT_PADDING)
   };
 };
 

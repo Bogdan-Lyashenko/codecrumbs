@@ -7,14 +7,19 @@ import { buildShiftToPoint } from 'utils/geometry';
 
 export const BOX_SIZE = { W: 1000, H: 800 };
 export const DOT = {
-  x: 50,
-  y: 500
+  x: 20,
+  y: 70
 };
 
 class TreeDiagram extends React.Component {
   render() {
-    const { width = BOX_SIZE.W, height = BOX_SIZE.H, dot = DOT } = this.props;
-    const shiftToCenterPoint = buildShiftToPoint(dot);
+    const { layoutSize } = this.props;
+    const { width = BOX_SIZE.W, height = BOX_SIZE.H, padding } = layoutSize;
+
+    const shiftToCenterPoint = buildShiftToPoint({
+      x: DOT.x,
+      y: (height - padding) / 2 + DOT.y
+    });
 
     const { filesTreeLayoutNodes, onUnderLayerClick, ...otherProps } = this.props;
 

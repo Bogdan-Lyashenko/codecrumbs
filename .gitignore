@@ -4,3 +4,4 @@ node_modules
 # Remove some common IDE working directories
 .idea
 .DS_STORE
+yarn.lock

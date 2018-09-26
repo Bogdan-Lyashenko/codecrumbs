@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 
 import { createConnection } from 'utils/connection';
 import { SOCKET_EVENT_TYPE } from 'utils/constants';
-import {
-  setInitialSourceData,
-  setChangedSourceData,
-  calcFilesTreeLayoutNodes
-} from './store/actions';
+import { setInitialSourceData, setChangedSourceData } from './store/actions';
 
 class DataBusContainer extends React.Component {
   componentDidMount() {
@@ -15,7 +11,7 @@ class DataBusContainer extends React.Component {
   }
 
   handleInitSyncEvent({ filesTree, filesList, dependenciesList, dependenciesMap }) {
-    const { setInitialSourceData, calcFilesTreeLayoutNodes } = this.props;
+    const { setInitialSourceData } = this.props;
 
     setInitialSourceData({
       filesTree,
@@ -24,12 +20,10 @@ class DataBusContainer extends React.Component {
       dependenciesMap,
       dependenciesRootEntryName: 'example-project/index.js' // TODO: fix, should be passed from server
     });
-
-    calcFilesTreeLayoutNodes();
   }
 
   handleUpdateSyncEvent({ filesTree, filesList, dependenciesList, dependenciesMap }) {
-    const { setChangedSourceData, calcFilesTreeLayoutNodes } = this.props;
+    const { setChangedSourceData } = this.props;
 
     setChangedSourceData({
       filesTree,
@@ -37,8 +31,6 @@ class DataBusContainer extends React.Component {
       dependenciesList,
       dependenciesMap
     });
-
-    calcFilesTreeLayoutNodes();
   }
 
   onSocketEvent(type, data) {
@@ -61,8 +53,7 @@ class DataBusContainer extends React.Component {
 
 const mapDispatchToProps = {
   setInitialSourceData,
-  setChangedSourceData,
-  calcFilesTreeLayoutNodes
+  setChangedSourceData
 };
 
 export default connect(

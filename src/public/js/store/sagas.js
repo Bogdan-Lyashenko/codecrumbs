@@ -74,10 +74,25 @@ function* reactOnToggledFolder(action) {
   yield put(calcFilesTreeLayoutNodes());
 }
 
+function* reactOnSourceInit() {
+  yield put(calcFilesTreeLayoutNodes());
+}
+
+function* reactOnSourceChange() {
+  yield put(calcFilesTreeLayoutNodes());
+
+  const viewSwitchesState = yield select(state => state.viewSwitches);
+  if (viewSwitchesState.checkedState.dependencies) {
+    yield put(setDependenciesEntryPoint());
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeLatest(SWITCHES_ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle),
     takeLatest(SWITCHES_ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction),
-    takeLatest(DATA_BUS_ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder)
+    takeLatest(DATA_BUS_ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder),
+    takeLatest(DATA_BUS_ACTIONS.SET_INITIAL_SOURCE_DATA, reactOnSourceInit),
+    takeLatest(DATA_BUS_ACTIONS.SET_CHANGED_SOURCE_DATA, reactOnSourceChange)
   ]);
 }

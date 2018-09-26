@@ -134,6 +134,7 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
         return onChange({
           filesTree: dirFiles.tree,
           filesList: dirFiles.list.map(node => {
+            //TODO: fix duplication
             if (node.path === path) {
               delete node.children;
               Object.keys(file).forEach(key => {

@@ -1,18 +1,15 @@
 import { ACTIONS } from './constants';
 import { getTreeLayout } from 'utils/treeLayout';
 
-export const setInitialSourceData = data => (dispatch, getState) => {
-  const state = getState();
-  const { dependenciesShowDirectOnly } = state.viewSwitches.checkedState;
+export const setInitialSourceData = payload => ({
+  type: ACTIONS.SET_INITIAL_SOURCE_DATA,
+  payload
+});
 
-  return dispatch({
-    type: ACTIONS.SET_INITIAL_SOURCE_DATA,
-    payload: {
-      ...data,
-      dependenciesShowDirectOnly
-    }
-  });
-};
+export const setChangedSourceData = payload => ({
+  type: ACTIONS.SET_CHANGED_SOURCE_DATA,
+  payload
+});
 
 export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   const state = getState();

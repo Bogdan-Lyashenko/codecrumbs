@@ -33,6 +33,12 @@ export default (state = DefaultState, action) => {
           }, {})
       };
 
+    case ACTIONS.SET_CHANGED_SOURCE_DATA:
+      return {
+        ...state,
+        ...action.payload
+      };
+
     case ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES:
       return {
         ...state,

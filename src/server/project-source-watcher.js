@@ -1,12 +1,14 @@
 const directoryTree = require('directory-tree');
-const codecrumbs = require('./codecrumbs/codecrumbs');
-const dependencies = require('./dependencies/dependencies');
-const file = require('./utils/file');
-const treeTraversal = require('../shared/utils/tree').traversal;
-const DIR_NODE_TYPE = require('../shared/constants').DIR_NODE_TYPE;
 const madge = require('madge');
 const chokidar = require('chokidar');
 const debounce = require('lodash.debounce');
+
+const codecrumbs = require('./codecrumbs/codecrumbs');
+const dependencies = require('./dependencies/dependencies');
+const file = require('./utils/file');
+const traversalSearch = require('./utils/traversal').search;
+const treeTraversal = require('../shared/utils/tree').traversal;
+const DIR_NODE_TYPE = require('../shared/constants').DIR_NODE_TYPE;
 
 const getDirFiles = projectDir => {
   const filesList = [];
@@ -35,7 +37,7 @@ const getDirFiles = projectDir => {
 };
 
 const getDependencies = (projectDir, entryPoint) => {
-  return madge(projectDir + entryPoint)
+  return madge(entryPoint)
     .then(res => res.obj())
     .then(obj => {
       const map = {};
@@ -59,12 +61,10 @@ const getDependencies = (projectDir, entryPoint) => {
     });
 };
 
-const grabProjectSourceState = (projectDir, entryPoint) => {
-  const dirFiles = getDirFiles(projectDir);
-
+const grabProjectSourceState = ({ filesList, projectDir, entryPoint }) => {
   return Promise.all([
     getDependencies(projectDir, entryPoint),
-    ...dirFiles.list.map(item =>
+    ...filesList.map(item =>
       file.read(item.path, 'utf8').then(code => {
         const codecrumbsList = codecrumbs.getCrumbs(code);
         const importedDependencies = dependencies.getImports(code);
@@ -83,31 +83,76 @@ const grabProjectSourceState = (projectDir, entryPoint) => {
         item.fileCode = code;
       })
     )
-  ]).then(([dependencies]) => ({
-    filesTree: dirFiles.tree,
-    filesList: dirFiles.list,
-    dependenciesList: dependencies.list,
-    dependenciesMap: dependencies.map,
-    reversedDependenciesList: [],
-    reversedDependenciesMap: {}
-  }));
+  ]);
 };
 
 const createWatcher = (dir, fn) => {
-  const DELAY = 500;
+  const DELAY = 100;
 
   const watcher = chokidar.watch(dir);
-  watcher.on('all', debounce(fn, DELAY));
+  watcher.on('change', debounce(fn, DELAY));
 
   return watcher;
 };
 
-const subscribeOnChange = (projectDir, entryPoint, fn) => {
+const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
+  const dirFiles = getDirFiles(projectDir);
+  const dirDependencies = {};
+
+  grabProjectSourceState({ filesList: dirFiles.list, projectDir, entryPoint }).then(
+    ([dependencies]) => {
+      dirDependencies.list = dependencies.list;
+      dirDependencies.map = dependencies.map;
+
+      return onInit({
+        filesTree: dirFiles.tree,
+        filesList: dirFiles.list,
+        dependenciesList: dependencies.list,
+        dependenciesMap: dependencies.map
+      });
+    }
+  );
+
   //use watcher.close(); to stop watching
-  return createWatcher(projectDir, () => {
-    console.log('Update project source state...');
-    //TODO: add more specific handling, to re-draw only changed files
-    grabProjectSourceState(projectDir, entryPoint).then(fn);
+  return createWatcher(projectDir, path => {
+    if (!dirDependencies.list) return;
+
+    const file = { path };
+    grabProjectSourceState({ filesList: [file], projectDir, entryPoint: path }).then(
+      ([{ list, map }]) => {
+        traversalSearch(dirFiles.tree, node => {
+          if (node.path === path) {
+            delete node.children;
+            Object.keys(file).forEach(key => {
+              node[key] = file[key];
+            });
+
+            return true;
+          }
+        });
+
+        return onChange({
+          filesTree: dirFiles.tree,
+          filesList: dirFiles.list.map(node => {
+            if (node.path === path) {
+              delete node.children;
+              Object.keys(file).forEach(key => {
+                node[key] = file[key];
+              });
+            }
+
+            return node;
+          }),
+          dependenciesList: dirDependencies.list.map(
+            item => (item.moduleName === path ? { ...list[0] } : item)
+          ),
+          dependenciesMap: {
+            ...dirDependencies.map,
+            ...map
+          }
+        });
+      }
+    );
   });
 };
 

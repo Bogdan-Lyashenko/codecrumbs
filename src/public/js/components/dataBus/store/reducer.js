@@ -13,7 +13,9 @@ const DefaultState = {
   closedFolders: {},
   firstLevelFolders: {},
   fileNodesMap: {},
-  filteredDependenciesList: []
+  filteredDependenciesList: [],
+  filteredDependenciesMap: {},
+  filteredDependenciesAllModulesMap: {}
 };
 
 export default (state = DefaultState, action) => {

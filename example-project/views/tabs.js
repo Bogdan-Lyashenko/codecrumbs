@@ -8,7 +8,7 @@ const tabsSwitch = index => {
     console.log(index);
 };
 
-//codecrumb:3rd cc;details 2
+//codecrumb:#render#1;do init;some more details about init
 export default {
     tabsSwitch,//codecrumb:setup call;details 2
     render: () => {

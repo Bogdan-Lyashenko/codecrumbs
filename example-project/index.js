@@ -6,7 +6,7 @@ import s from './utils/string/format/string'
 
 const App = {
     init() {
-        tabs.render(); //cc:render;CallLong line check out tabs.js for more details
+        tabs.render(); //cc:#render#0;start;Call Long line check out tabs.js for more details
     }
 };
 

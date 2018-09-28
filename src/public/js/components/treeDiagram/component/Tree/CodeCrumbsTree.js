@@ -12,6 +12,7 @@ class CodeCrumbsTree extends React.Component {
       sourceDiagramOn,
       dependenciesDiagramOn,
       codeCrumbsMinimize,
+      codeCrumbsLineNumbers,
       onCodeCrumbSelect
     } = this.props;
 
@@ -55,7 +56,7 @@ class CodeCrumbsTree extends React.Component {
                         null}
                       <CodeCrumbName
                         position={crumbPosition}
-                        loc={crumb.data.displayLoc}
+                        loc={codeCrumbsLineNumbers ? crumb.data.displayLoc : ''}
                         name={crumb.data.name}
                         singleCrumb={singleCrumb}
                         cover={dependenciesDiagramOn}

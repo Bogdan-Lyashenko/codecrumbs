@@ -13,6 +13,7 @@ export const CONTROLS_KEYS = {
   DEPENDENCIES_SHOW_DIRECT_ONLY: 'dependenciesShowDirectOnly',
   CODE_CRUMBS: 'codeCrumbs',
   CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
+  CODE_CRUMBS_LINE_NUMBERS: 'codeCrumbsLineNumbers',
   CODE_CRUMBS_DETAILS: 'codeCrumbsDetails',
   SIDE_BAR: 'sideBar'
 };

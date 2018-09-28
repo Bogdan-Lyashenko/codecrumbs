@@ -44,6 +44,11 @@ const DefaultState = {
           name: 'minimize',
           title: 'Minimize code crumbs',
           key: CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
+        },
+        {
+          name: 'line numbers',
+          title: 'Show crumbed line numbers',
+          key: CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS
         }
       ]
     },
@@ -55,7 +60,8 @@ const DefaultState = {
   ],
   checkedState: {
     [CONTROLS_KEYS.SOURCE]: true,
-    [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true
+    [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true,
+    [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true
   },
   disabledState: {
     [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true

@@ -33,6 +33,7 @@ const mapStateToProps = state => {
     sourceDimFolders: checkedState.sourceDimFolders,
     codeCrumbsDiagramOn: checkedState.codeCrumbs,
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
+    codeCrumbsLineNumbers: checkedState.codeCrumbsLineNumbers,
     codeCrumbsDetails: checkedState.codeCrumbsDetails,
     filesTreeLayoutNodes,
     fileNodesMap,

@@ -35,11 +35,18 @@ class ViewSwitch extends React.Component {
               itemName
             );
           } else {
-            menuItem = (
-              <a title={item.title} onClick={() => toggleSwitch(item.key, !checkedState[item.key])}>
+            const tickAndName = (
+              <React.Fragment>
                 {checkedState[item.key] ? <Icon type={'check'} /> : null}
                 <span title={item.title}>{item.name}</span>
+              </React.Fragment>
+            );
+            menuItem = !disabledState[item.key] ? (
+              <a title={item.title} onClick={() => toggleSwitch(item.key, !checkedState[item.key])}>
+                {tickAndName}
               </a>
+            ) : (
+              tickAndName
             );
           }
 

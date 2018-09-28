@@ -22,6 +22,10 @@ function* reactOnSwitchToggle(action) {
     yield put(calcFilesTreeLayoutNodes());
   }
 
+  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE) {
+    yield put(setDisabledControl(CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS, checked));
+  }
+
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES && checked) {
     yield put(setDependenciesEntryPoint());
   }

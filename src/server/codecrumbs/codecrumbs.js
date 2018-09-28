@@ -62,7 +62,7 @@ const getCrumbs = fileCode => {
                   const loc = node.loc.start;
                     crumbsList.push({
                         name: params.name || '', //TODO: check, can be bug with layout calc
-                        displayLoc: `(${loc.line},${loc.column})`,
+                        displayLoc: `#${loc.line}`,
                         crumbedLineNode: node,
                         crumbNode: comment,
                         params

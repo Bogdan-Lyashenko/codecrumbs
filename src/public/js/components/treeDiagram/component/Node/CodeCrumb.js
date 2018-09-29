@@ -70,7 +70,7 @@ export const CodeCrumbName = props => {
         <React.Fragment>
           {(cover && (
             <rect
-              x={textPoint.x + 2 + !flow ? locWidth : 0}
+              x={textPoint.x + 2 + (!flow ? locWidth : 0)}
               y={position.y - 6}
               width={(name.length + 1) * 7.5}
               height={13}

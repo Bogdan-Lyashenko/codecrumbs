@@ -16,6 +16,7 @@ class SourceTree extends React.Component {
       dependenciesDiagramOn,
       sourceDimFolders,
       codeCrumbsDiagramOn,
+      codeCrumbsMinimize,
 
       filesTreeLayoutNodes,
       closedFolders,
@@ -85,7 +86,7 @@ class SourceTree extends React.Component {
               position={position}
               name={name}
               path={node.data.path}
-              purple={node.children}
+              purple={node.children && codeCrumbsMinimize}
               selected={
                 selectedDependencyEdgeNodes &&
                 (selectedDependencyEdgeNodes.target === path ||

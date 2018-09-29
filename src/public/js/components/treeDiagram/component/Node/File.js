@@ -10,6 +10,7 @@ export const FileName = props => {
   const {
     position,
     name,
+    path,
     onTextClick,
     onIconClick,
     onNodeClick,
@@ -73,17 +74,20 @@ export const FileName = props => {
             className={'NodeText-file-dependencyImportedOnly'}
           />
         )}
-      <text
-        x={position.x + 16}
-        y={position.y + 5}
-        onClick={onTextClick || onNodeClick}
-        className={classNames('NodeText-file-name', {
-          'NodeText-file-name-purple': purple,
-          'NodeText-file-name-selected': dependency && selected && !purple
-        })}
-      >
-        {name}
-      </text>
+      <g>
+        <title>{path}</title>
+        <text
+          x={position.x + 16}
+          y={position.y + 5}
+          onClick={onTextClick || onNodeClick}
+          className={classNames('NodeText-file-name', {
+            'NodeText-file-name-purple': purple,
+            'NodeText-file-name-selected': dependency && selected && !purple
+          })}
+        >
+          {name}
+        </text>
+      </g>
     </React.Fragment>
   );
 };

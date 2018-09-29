@@ -84,6 +84,7 @@ class SourceTree extends React.Component {
             <FileName
               position={position}
               name={name}
+              path={node.data.path}
               purple={node.children}
               selected={
                 selectedDependencyEdgeNodes &&

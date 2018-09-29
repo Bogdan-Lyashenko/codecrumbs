@@ -1,7 +1,9 @@
 import React from 'react';
-import './index.scss';
 
+import './index.scss';
 import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
+
+const ICONS_DIR = 'resources/';
 
 export const PartEdge = props => {
   const { sourcePosition, parentName } = props;
@@ -47,13 +49,51 @@ export const CodeCrumbEdge = props => {
 };
 
 export const CodeCrumbedFlowEdge = props => {
-  const { sourcePosition, targetPosition } = props;
+  const { sourcePosition, targetPosition, singleCrumbSource, singleCrumbTarget } = props;
+  const direction = targetPosition.y > sourcePosition.y ? 1 : -1;
+
+  const rHalf = 6;
+  const sourcePt = {
+    x: -rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
+    y: sourcePosition.y + rHalf * direction
+  };
+  const targetPt = {
+    x: -rHalf + (singleCrumbTarget ? targetPosition.x - 22 : targetPosition.x),
+    y: targetPosition.y + -1 * rHalf * direction
+  };
+
+  const padding = 15 - rHalf;
 
   const polylinePoints = [
-    [sourcePosition.x, sourcePosition.y],
-    [targetPosition.x, targetPosition.y]
+    [sourcePt.x, sourcePt.y],
+    [sourcePt.x, sourcePt.y + padding * direction],
+    [targetPt.x, sourcePt.y + padding * direction],
+    [targetPt.x, targetPt.y]
   ];
-  return null; //TODO:
 
-  return <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} />;
+  const directionTop = targetPosition.y > sourcePosition.y;
+  const endPointConfig = {
+    ...targetPt
+  };
+
+  endPointConfig.x -= 3.5;
+  endPointConfig.y -= directionTop ? 8 : 0;
+  endPointConfig.iconSize = 7;
+  endPointConfig.iconPath = `${ICONS_DIR}purple-arrow.svg`; // TODO: move to getter
+  endPointConfig.angle = directionTop ? 90 : -90;
+
+  return (
+    <React.Fragment>
+      <image
+        x={endPointConfig.x}
+        y={endPointConfig.y}
+        xlinkHref={endPointConfig.iconPath}
+        height={endPointConfig.iconSize}
+        width={endPointConfig.iconSize}
+        transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
+        endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
+      />
+      <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-flow'} />
+    </React.Fragment>
+  );
 };

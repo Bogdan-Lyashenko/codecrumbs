@@ -84,7 +84,7 @@ class CodeCrumbsTree extends React.Component {
             </React.Fragment>
           );
         })}
-        {sortedFlowSteps.map((toItem, i, list) => {
+        {!codeCrumbsMinimize && sortedFlowSteps.map((toItem, i, list) => {
           if (!i) return null;
 
           const fromItem = list[i - 1];
@@ -102,6 +102,8 @@ class CodeCrumbsTree extends React.Component {
           return (
             <CodeCrumbedFlowEdge
               key={`cc-flow-edge-${i}`}
+              singleCrumbSource={fromFile.children.length === 1}
+              singleCrumbTarget={toFile.children.length === 1}
               sourcePosition={edgePoints[0]}
               targetPosition={edgePoints[1]}
             />

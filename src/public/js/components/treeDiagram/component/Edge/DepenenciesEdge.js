@@ -182,7 +182,7 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
   if (isArrow) {
     const directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
 
-    endPointConfig.x -= directionTop ? 3 : 3.5;
+    endPointConfig.x -= 3.5;
     endPointConfig.y -= directionTop ? 6 : 1;
     endPointConfig.iconSize = 7;
     endPointConfig.iconPath = `${ICONS_DIR}${selected ? 'selected-' : ''}arrow.svg`; // TODO: move to getter

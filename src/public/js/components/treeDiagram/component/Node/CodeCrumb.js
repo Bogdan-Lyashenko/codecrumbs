@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './index.scss';
+import classNames from 'classnames';
 
 export const CodeCrumbName = props => {
   // onMouseOver maybe use onMouseOver to show crumb details in popover
@@ -82,7 +83,9 @@ export const CodeCrumbName = props => {
             x={textPoint.x + 3 + (!flow ? locWidth : 0) - 1}
             y={textPoint.y + 4}
             onClick={onClick}
-            className={'CodeCrumbName-text'}
+            className={classNames('CodeCrumbName-text', {
+              'CodeCrumbName-text-flow': flow
+            })}
           >
             {!locWidth && !flow ? (
               <React.Fragment>

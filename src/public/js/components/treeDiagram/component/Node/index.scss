@@ -1,3 +1,5 @@
+$font: 'Menlo';
+
 .NodeIcon {
   cursor: pointer;
 }
@@ -18,7 +20,7 @@
 
 .NodeText-file-name {
   fill: #595959;
-  font-family: 'Menlo';
+  font-family: $font;
   cursor: pointer;
 }
 
@@ -46,7 +48,7 @@
 
 .NodeText-folder-name {
   fill: #595959;
-  font-family: 'Menlo';
+  font-family: $font;
   cursor: pointer;
 }
 
@@ -66,20 +68,24 @@
 
 .CodeCrumbName-flow {
   fill: #ffffff;
-  font-family: 'Menlo';
+  font-family: $font;
   font-size: 12px;
 }
 
 .CodeCrumbName-loc {
   fill: #595959;
-  font-family: 'Menlo';
+  font-family: $font;
   font-size: 9px;
   cursor: pointer;
 }
 
 .CodeCrumbName-text {
   fill: #ff18a6;
-  font-family: 'Menlo';
+  font-family: $font;
   font-size: 12px;
   cursor: pointer;
+}
+
+.CodeCrumbName-text-flow {
+  fill: #e91e63;
 }

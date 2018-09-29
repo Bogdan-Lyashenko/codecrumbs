@@ -45,3 +45,15 @@ export const CodeCrumbEdge = props => {
     <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} strokeDasharray="2" />
   );
 };
+
+export const CodeCrumbedFlowEdge = props => {
+  const { sourcePosition, targetPosition } = props;
+
+  const polylinePoints = [
+    [sourcePosition.x, sourcePosition.y],
+    [targetPosition.x, targetPosition.y]
+  ];
+  return null; //TODO:
+
+  return <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} />;
+};

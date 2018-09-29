@@ -67,3 +67,11 @@ export const selectDependencyEdge = (target, sources) => ({
   type: ACTIONS.SELECT_DEPENDENCY_EDGE,
   payload: target ? { target, sources } : null
 });
+
+export const renderCodeCrumbedFlow = flow => (dispatch, getState) => {
+  const state = getState();
+
+  /**
+   * render flow edges based on selected flow (same as dependency edges based on selected files)
+   */
+};

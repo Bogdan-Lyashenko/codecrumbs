@@ -10,26 +10,20 @@ class DataBusContainer extends React.Component {
     createConnection(({ type, data }) => this.onSocketEvent(type, data));
   }
 
-  handleInitSyncEvent({ filesTree, filesList, dependenciesList, dependenciesMap }) {
+  handleInitSyncEvent(dataBody) {
     const { setInitialSourceData } = this.props;
 
     setInitialSourceData({
-      filesTree,
-      filesList,
-      dependenciesList,
-      dependenciesMap,
+      ...dataBody,
       dependenciesRootEntryName: 'example-project/index.js' // TODO: fix, should be passed from server
     });
   }
 
-  handleUpdateSyncEvent({ filesTree, filesList, dependenciesList, dependenciesMap }) {
+  handleUpdateSyncEvent(dataBody) {
     const { setChangedSourceData } = this.props;
 
     setChangedSourceData({
-      filesTree,
-      filesList,
-      dependenciesList,
-      dependenciesMap
+      ...dataBody
     });
   }
 

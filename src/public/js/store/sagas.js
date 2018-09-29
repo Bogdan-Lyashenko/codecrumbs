@@ -6,7 +6,8 @@ import {
   openAllFolders,
   closeAllFolders,
   selectDependencyEdge,
-  setDependenciesEntryPoint
+  setDependenciesEntryPoint,
+  renderCodeCrumbedFlow
 } from 'components/dataBus/store/actions';
 
 import {
@@ -84,6 +85,10 @@ function* reactOnSourceSet() {
   const viewSwitchesState = yield select(state => state.viewSwitches);
   if (viewSwitchesState.checkedState.dependencies) {
     yield put(setDependenciesEntryPoint());
+  }
+
+  if (viewSwitchesState.checkedState.codeCrumbs) {
+    yield put(renderCodeCrumbedFlow());
   }
 }
 

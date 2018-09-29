@@ -2,19 +2,32 @@ import React from 'react';
 
 import { CodeCrumbName } from 'components/treeDiagram/component/Node/CodeCrumb';
 import { FileName } from 'components/treeDiagram/component/Node/File';
-import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
+import {
+  PartEdge,
+  CodeCrumbEdge,
+  CodeCrumbedFlowEdge
+} from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
 
 class CodeCrumbsTree extends React.Component {
   render() {
     const {
-      fileNodesMap,
+      fileNodesMap, // TODO: should come from BE
       shiftToCenterPoint,
       sourceDiagramOn,
       dependenciesDiagramOn,
       codeCrumbsMinimize,
       codeCrumbsLineNumbers,
+      codeCrumbedFlowsMap,
       onCodeCrumbSelect
     } = this.props;
+
+    //TODO: will be key for combobox
+    const selectedCrumbedFlowKey = 'render';
+    const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
+
+    const sortedFlowSteps = Object.entries(currentFlow)
+      .map(([filePath, step]) => ({ filePath, step, flow: selectedCrumbedFlowKey }))
+      .sort((a, b) => a.step - b.step);
 
     return (
       <React.Fragment>
@@ -43,6 +56,7 @@ class CodeCrumbsTree extends React.Component {
                   const [cX, cY] = [crumb.y, crumb.x];
                   const crumbPosition = shiftToCenterPoint(cX, cY);
                   const singleCrumb = list.length === 1;
+                  const crumbData = crumb.data;
 
                   return (
                     <React.Fragment key={`code-crumb-edge-${i}`}>
@@ -56,16 +70,41 @@ class CodeCrumbsTree extends React.Component {
                         null}
                       <CodeCrumbName
                         position={crumbPosition}
-                        loc={codeCrumbsLineNumbers ? crumb.data.displayLoc : ''}
-                        name={crumb.data.name}
+                        loc={codeCrumbsLineNumbers ? crumbData.displayLoc : ''}
+                        name={crumbData.name}
                         singleCrumb={singleCrumb}
                         cover={dependenciesDiagramOn}
-                        onClick={() => onCodeCrumbSelect(node.data, crumb.data)}
+                        flow={crumbData.params.flow}
+                        flowStep={crumbData.params.flowStep}
+                        onClick={() => onCodeCrumbSelect(node.data, crumbData)}
                       />
                     </React.Fragment>
                   );
                 })}
             </React.Fragment>
+          );
+        })}
+        {sortedFlowSteps.map((toItem, i, list) => {
+          if (!i) return null;
+
+          const fromItem = list[i - 1];
+          const fromFile = fileNodesMap[fromItem.filePath];
+          const toFile = fileNodesMap[toItem.filePath];
+
+          const fromCc = fromFile.children.find(({ data }) => data.params.flow === fromItem.flow);
+          const toCc = toFile.children.find(({ data }) => data.params.flow === toItem.flow);
+
+          const edgePoints = [fromCc, toCc].map(crumb => {
+            const [cX, cY] = [crumb.y, crumb.x];
+            return shiftToCenterPoint(cX, cY);
+          });
+
+          return (
+            <CodeCrumbedFlowEdge
+              key={`cc-flow-edge-${i}`}
+              sourcePosition={edgePoints[0]}
+              targetPosition={edgePoints[1]}
+            />
           );
         })}
       </React.Fragment>

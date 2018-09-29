@@ -15,7 +15,11 @@ const DefaultState = {
   fileNodesMap: {},
   filteredDependenciesList: [],
   filteredDependenciesMap: {},
-  filteredDependenciesAllModulesMap: {}
+  filteredDependenciesAllModulesMap: {},
+
+  // get existing flows from BE
+  // render them as combobox near CC switch
+  codeCrumbedFlowsMap: {}
 };
 
 export default (state = DefaultState, action) => {

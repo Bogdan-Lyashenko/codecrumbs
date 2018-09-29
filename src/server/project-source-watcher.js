@@ -72,11 +72,25 @@ const grabProjectSourceState = ({ filesList, projectDir, entryPoint }) => {
         if (codecrumbsList.length) {
           item.children = codecrumbsList;
           item.hasCodecrumbs = true;
+          item.flows = codecrumbsList
+            .filter(cc => cc.params.flow)
+            .map(cc => cc.params)
+            .reduce((acc, { flow, flowStep }) => {
+              acc[flow] = flowStep;
+              return acc;
+            }, {});
+        } else {
+          item.children = undefined;
+          item.hasCodecrumbs = false;
+          item.flows = undefined;
         }
 
         if (importedDependencies.length) {
           item.importedDependencies = importedDependencies;
           item.hasDependenciesImports = true;
+        } else {
+          item.importedDependencies = undefined;
+          item.hasDependenciesImports = false;
         }
 
         // TODO: load on click
@@ -95,20 +109,30 @@ const createWatcher = (dir, fn) => {
   return watcher;
 };
 
+//TODO: refactor mess, method does too much spaghetti
 const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
   const dirFiles = getDirFiles(projectDir);
   const dirDependencies = {};
+  const codeCrumbs = {
+    flows: {}
+  };
 
   grabProjectSourceState({ filesList: dirFiles.list, projectDir, entryPoint }).then(
     ([dependencies]) => {
       dirDependencies.list = dependencies.list;
       dirDependencies.map = dependencies.map;
+      dirFiles.list.forEach(file => {
+        if (file.hasCodecrumbs) {
+          addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
+        }
+      });
 
       return onInit({
         filesTree: dirFiles.tree,
         filesList: dirFiles.list,
         dependenciesList: dependencies.list,
-        dependenciesMap: dependencies.map
+        dependenciesMap: dependencies.map,
+        codeCrumbedFlowsMap: codeCrumbs.flows
       });
     }
   );
@@ -117,43 +141,65 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
   return createWatcher(projectDir, path => {
     if (!dirDependencies.list) return;
 
-    const file = { path };
+    const file = dirFiles.list.find(f => f.path === path);
+    if (file.hasCodecrumbs) {
+      resetCodeCrumbedFlowsByFile(codeCrumbs.flows, file);
+    }
+
     grabProjectSourceState({ filesList: [file], projectDir, entryPoint: path }).then(
       ([{ list, map }]) => {
         traversalSearch(dirFiles.tree, node => {
           if (node.path === path) {
-            delete node.children;
-            Object.keys(file).forEach(key => {
-              node[key] = file[key];
-            });
-
+            mergeFileIntoNode(file, node);
             return true;
           }
         });
 
+        if (file.hasCodecrumbs) {
+          addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
+        }
+
         return onChange({
           filesTree: dirFiles.tree,
-          filesList: dirFiles.list.map(node => {
-            //TODO: fix duplication
-            if (node.path === path) {
-              delete node.children;
-              Object.keys(file).forEach(key => {
-                node[key] = file[key];
-              });
-            }
-
-            return node;
-          }),
+          filesList: dirFiles.list.map(
+            node => (node.path === path ? mergeFileIntoNode(file, node) : node)
+          ),
           dependenciesList: dirDependencies.list.map(
             item => (item.moduleName === path ? { ...list[0] } : item)
           ),
           dependenciesMap: {
             ...dirDependencies.map,
             ...map
-          }
+          },
+          codeCrumbedFlowsMap: codeCrumbs.flows
         });
       }
     );
+  });
+};
+
+const addFileFlowsToCodeCrumbedFlows = (codeCrumbedFlows, file) => {
+  Object.keys(file.flows).forEach(key => {
+    if (!codeCrumbedFlows[key]) {
+      codeCrumbedFlows[key] = {};
+    }
+    codeCrumbedFlows[key][file.path] = file.flows[key];
+  });
+};
+
+const resetCodeCrumbedFlowsByFile = (codeCrumbedFlows, file) => {
+  Object.keys(file.flows).forEach(key => {
+    if (Object.keys(codeCrumbedFlows[key]).length === 1) {
+      delete codeCrumbedFlows[key];
+    } else {
+      delete codeCrumbedFlows[key][file.path];
+    }
+  });
+};
+
+const mergeFileIntoNode = (file, node) => {
+  Object.keys(file).forEach(key => {
+    node[key] = file[key];
   });
 };
 

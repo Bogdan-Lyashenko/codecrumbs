@@ -23,7 +23,8 @@ const mapStateToProps = state => {
     closedFolders,
     dependenciesEntryPoint,
     selectedNode,
-    selectedDependencyEdgeNodes
+    selectedDependencyEdgeNodes,
+    codeCrumbedFlowsMap
   } = state.dataBus;
 
   return {
@@ -45,6 +46,7 @@ const mapStateToProps = state => {
     dependenciesEntryPoint,
     selectedNode,
     selectedDependencyEdgeNodes,
+    codeCrumbedFlowsMap,
     layoutSize: calculateLayoutSize(filesTreeLayoutNodes, LAYOUT_PADDING)
   };
 };

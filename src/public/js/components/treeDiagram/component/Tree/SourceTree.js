@@ -7,7 +7,7 @@ import { Dot } from 'components/treeDiagram/component/Dot/';
 import { SourceEdge } from 'components/treeDiagram/component/Edge/SourceEdge';
 
 import DependenciesTree from './DependenciesTree';
-import CodeCrumbsTree from './CodeCrumbsTree';
+import CodeCrumbsTree, { CodeCrumbedFlowEdges } from './CodeCrumbsTree';
 
 class SourceTree extends React.Component {
   render() {
@@ -86,6 +86,7 @@ class SourceTree extends React.Component {
               position={position}
               name={name}
               path={node.data.path}
+              codeCrumbs={codeCrumbsDiagramOn}
               purple={node.children && codeCrumbsMinimize}
               selected={
                 selectedDependencyEdgeNodes &&
@@ -131,6 +132,8 @@ class SourceTree extends React.Component {
         {dependenciesDiagramOn &&
           filteredDependenciesList &&
           filteredDependenciesList.length && <DependenciesTree {...this.props} />}
+
+        {(codeCrumbsDiagramOn && <CodeCrumbedFlowEdges {...this.props} />) || null}
 
         {(sourceDiagramOn && sourceNodes) || null}
 

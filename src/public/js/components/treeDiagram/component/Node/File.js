@@ -14,6 +14,7 @@ export const FileName = props => {
     onTextClick,
     onIconClick,
     onNodeClick,
+    codeCrumbs,
     purple,
     selected,
     dependency,
@@ -37,7 +38,7 @@ export const FileName = props => {
 
   return (
     <React.Fragment>
-      {(dependency && (
+      {((dependency || codeCrumbs) && (
         <React.Fragment>
           <rect
             x={position.x - 1}

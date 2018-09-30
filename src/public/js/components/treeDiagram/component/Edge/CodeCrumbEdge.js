@@ -91,7 +91,7 @@ export const CodeCrumbedFlowEdge = props => {
         height={endPointConfig.iconSize}
         width={endPointConfig.iconSize}
         transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
-        endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
+          endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
       />
       <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-flow'} />
     </React.Fragment>

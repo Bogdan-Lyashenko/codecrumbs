@@ -19,9 +19,22 @@ export const CodeCrumbedFlowEdges = props => {
 
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
 
-  const sortedFlowSteps = Object.entries(currentFlow)
-    .map(([filePath, step]) => ({ filePath, step, flow: selectedCrumbedFlowKey }))
-    .sort((a, b) => a.step - b.step);
+  let sortedFlowSteps = [];
+  Object.keys(currentFlow).forEach(filePath => {
+    const steps = fileNodesMap[filePath].children
+      .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
+      .map(({ data, x, y }) => ({
+        filePath,
+        step: data.params.flowStep,
+        flow: selectedCrumbedFlowKey,
+        x,
+        y
+      }));
+
+    sortedFlowSteps = sortedFlowSteps.concat(steps);
+  });
+
+  sortedFlowSteps.sort((a, b) => a.step - b.step);
 
   return (
     <React.Fragment>
@@ -33,10 +46,7 @@ export const CodeCrumbedFlowEdges = props => {
           const fromFile = fileNodesMap[fromItem.filePath];
           const toFile = fileNodesMap[toItem.filePath];
 
-          const fromCc = fromFile.children.find(({ data }) => data.params.flow === fromItem.flow);
-          const toCc = toFile.children.find(({ data }) => data.params.flow === toItem.flow);
-
-          const edgePoints = [fromCc, toCc].map(crumb => {
+          const edgePoints = [fromItem, toItem].map(crumb => {
             const [cX, cY] = [crumb.y, crumb.x];
             return shiftToCenterPoint(cX, cY);
           });

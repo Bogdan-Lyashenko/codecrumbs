@@ -49,6 +49,13 @@ export const CodeCrumbName = props => {
       {(flow && (
         <React.Fragment>
           <rect
+            x={textPoint.x - 7.5}
+            y={textPoint.y - 10}
+            width={3}
+            height={3}
+            className={'CodeCrumbName-flow-step'}
+          />
+          <rect
             x={textPoint.x - 13}
             y={textPoint.y - 7}
             width={13}

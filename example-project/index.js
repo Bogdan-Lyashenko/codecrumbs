@@ -10,4 +10,5 @@ const App = {
     }
 };
 
+//cc:#render#3;promise resolve
 App.init();

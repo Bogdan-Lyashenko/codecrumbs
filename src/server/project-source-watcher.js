@@ -75,8 +75,8 @@ const grabProjectSourceState = ({ filesList, projectDir, entryPoint }) => {
           item.flows = codecrumbsList
             .filter(cc => cc.params.flow)
             .map(cc => cc.params)
-            .reduce((acc, { flow, flowStep }) => {
-              acc[flow] = flowStep;
+            .reduce((acc, { flow }) => {
+              acc[flow] = true;
               return acc;
             }, {});
         } else {
@@ -183,7 +183,7 @@ const addFileFlowsToCodeCrumbedFlows = (codeCrumbedFlows, file) => {
     if (!codeCrumbedFlows[key]) {
       codeCrumbedFlows[key] = {};
     }
-    codeCrumbedFlows[key][file.path] = file.flows[key];
+    codeCrumbedFlows[key][file.path] = key;
   });
 };
 

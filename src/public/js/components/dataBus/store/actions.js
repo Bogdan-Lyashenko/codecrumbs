@@ -68,10 +68,14 @@ export const selectDependencyEdge = (target, sources) => ({
   payload: target ? { target, sources } : null
 });
 
-export const renderCodeCrumbedFlow = flow => (dispatch, getState) => {
+export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
   const state = getState();
 
-  /**
-   * render flow edges based on selected flow (same as dependency edges based on selected files)
-   */
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
+  const firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
+
+  dispatch({
+    type: ACTIONS.SELECT_CODE_CRUMBED_FLOW,
+    payload: flow ? flow : selectedCrumbedFlowKey || firstFlow
+  });
 };

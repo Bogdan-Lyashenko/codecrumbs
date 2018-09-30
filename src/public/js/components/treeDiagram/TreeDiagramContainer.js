@@ -11,6 +11,7 @@ import {
 
 export const LAYOUT_PADDING = 200;
 
+//TODO: refactor, add separate connect to all 3 trees, don't use one, it's too big now, perf issues
 const mapStateToProps = state => {
   const { checkedState } = state.viewSwitches;
   const {
@@ -24,7 +25,8 @@ const mapStateToProps = state => {
     dependenciesEntryPoint,
     selectedNode,
     selectedDependencyEdgeNodes,
-    codeCrumbedFlowsMap
+    codeCrumbedFlowsMap,
+    selectedCrumbedFlowKey
   } = state.dataBus;
 
   return {
@@ -47,6 +49,7 @@ const mapStateToProps = state => {
     selectedNode,
     selectedDependencyEdgeNodes,
     codeCrumbedFlowsMap,
+    selectedCrumbedFlowKey,
     layoutSize: calculateLayoutSize(filesTreeLayoutNodes, LAYOUT_PADDING)
   };
 };

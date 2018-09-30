@@ -17,8 +17,6 @@ const DefaultState = {
   filteredDependenciesMap: {},
   filteredDependenciesAllModulesMap: {},
 
-  // get existing flows from BE
-  // render them as combobox near CC switch
   codeCrumbedFlowsMap: {}
 };
 
@@ -97,6 +95,12 @@ export default (state = DefaultState, action) => {
         ...state,
         selectedNode: fileNode,
         selectedCodeCrumb: codeCrumb
+      };
+
+    case ACTIONS.SELECT_CODE_CRUMBED_FLOW:
+      return {
+        ...state,
+        selectedCrumbedFlowKey: action.payload
       };
 
     case ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:

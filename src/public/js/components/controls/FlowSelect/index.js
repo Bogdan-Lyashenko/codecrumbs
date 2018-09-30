@@ -1,0 +1,57 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import { Menu, Dropdown, Button } from 'antd';
+
+import { selectCodeCrumbedFlow } from 'components/dataBus/store/actions';
+import './index.scss';
+
+const FlowSelect = ({ codeCrumbedFlowsMap, onCodeCrumbedFlowSelect, selectedCrumbedFlowKey }) => {
+  const menu = (
+    <Menu>
+      {Object.keys(codeCrumbedFlowsMap).map(flow => (
+        <Menu.Item key={flow}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => onCodeCrumbedFlowSelect(flow)}
+          >
+            {flow}
+          </a>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
+  return (
+    <div className={'FlowSelect'}>
+      <Dropdown overlay={menu} placement="bottomLeft">
+        <Button size={'small'}>
+          trail
+          {selectedCrumbedFlowKey ? (
+            <span className={'flow'}>{` #${selectedCrumbedFlowKey}`}</span>
+          ) : null}
+        </Button>
+      </Dropdown>
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  const { checkedState } = state.viewSwitches;
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = state.dataBus;
+
+  return {
+    codeCrumbsDiagramOn: checkedState.codeCrumbs,
+    codeCrumbedFlowsMap,
+    selectedCrumbedFlowKey
+  };
+};
+
+const mapDispatchToProps = {
+  onCodeCrumbedFlowSelect: selectCodeCrumbedFlow
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FlowSelect);

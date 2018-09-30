@@ -7,7 +7,7 @@ import {
   closeAllFolders,
   selectDependencyEdge,
   setDependenciesEntryPoint,
-  renderCodeCrumbedFlow
+  selectCodeCrumbedFlow
 } from 'components/dataBus/store/actions';
 
 import {
@@ -88,7 +88,7 @@ function* reactOnSourceSet() {
   }
 
   if (viewSwitchesState.checkedState.codeCrumbs) {
-    yield put(renderCodeCrumbedFlow());
+    yield put(selectCodeCrumbedFlow());
   }
 }
 

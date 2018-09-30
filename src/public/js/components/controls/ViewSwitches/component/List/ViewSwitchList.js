@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-
+import FlowSelect from 'components/controls/FlowSelect';
 import ViewSwitch from '../Item/ViewSwitch';
 import './ViewSwitchList.scss';
 
@@ -30,7 +30,10 @@ const ViewSwitchList = props => {
 
   return (
     <div className="ViewSwitchList">
-      <div className={'side'}>{leftSide}</div>
+      <div className={'side'}>
+        {leftSide}
+        <FlowSelect />
+      </div>
       <div className={'side'}>{rightSide}</div>
     </div>
   );

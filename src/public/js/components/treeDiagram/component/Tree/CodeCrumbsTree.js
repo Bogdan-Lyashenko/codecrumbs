@@ -13,11 +13,10 @@ export const CodeCrumbedFlowEdges = props => {
     fileNodesMap, // TODO: should come from BE
     shiftToCenterPoint,
     codeCrumbsMinimize,
-    codeCrumbedFlowsMap
+    codeCrumbedFlowsMap,
+    selectedCrumbedFlowKey
   } = props;
 
-  //TODO: will be key for combobox
-  const selectedCrumbedFlowKey = 'render';
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
 
   const sortedFlowSteps = Object.entries(currentFlow)
@@ -60,6 +59,7 @@ class CodeCrumbsTree extends React.Component {
   render() {
     const {
       fileNodesMap, // TODO: should come from BE
+      selectedCrumbedFlowKey,
       shiftToCenterPoint,
       sourceDiagramOn,
       dependenciesDiagramOn,
@@ -96,6 +96,7 @@ class CodeCrumbsTree extends React.Component {
                   const crumbPosition = shiftToCenterPoint(cX, cY);
                   const singleCrumb = list.length === 1;
                   const crumbData = crumb.data;
+                  const ccParams = crumbData.params;
 
                   return (
                     <React.Fragment key={`code-crumb-edge-${i}`}>
@@ -113,8 +114,8 @@ class CodeCrumbsTree extends React.Component {
                         name={crumbData.name}
                         singleCrumb={singleCrumb}
                         cover={dependenciesDiagramOn}
-                        flow={crumbData.params.flow}
-                        flowStep={crumbData.params.flowStep}
+                        flow={ccParams.flow && ccParams.flow === selectedCrumbedFlowKey}
+                        flowStep={ccParams.flowStep}
                         onClick={() => onCodeCrumbSelect(node.data, crumbData)}
                       />
                     </React.Fragment>

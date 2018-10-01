@@ -24,6 +24,7 @@ export const CodeCrumbedFlowEdges = props => {
     const steps = fileNodesMap[filePath].children
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data, x, y }) => ({
+        name: data.name,
         filePath,
         step: data.params.flowStep,
         flow: selectedCrumbedFlowKey,
@@ -58,6 +59,8 @@ export const CodeCrumbedFlowEdges = props => {
               singleCrumbTarget={toFile.children.length === 1}
               sourcePosition={edgePoints[0]}
               targetPosition={edgePoints[1]}
+              sourceName={fromItem.name}
+              targetName={toItem.name}
             />
           );
         })}
@@ -123,7 +126,7 @@ class CodeCrumbsTree extends React.Component {
                         loc={codeCrumbsLineNumbers ? crumbData.displayLoc : ''}
                         name={crumbData.name}
                         singleCrumb={singleCrumb}
-                        cover={dependenciesDiagramOn}
+                        cover={true}
                         flow={ccParams.flow && ccParams.flow === selectedCrumbedFlowKey}
                         flowStep={ccParams.flowStep}
                         onClick={() => onCodeCrumbSelect(node.data, crumbData)}

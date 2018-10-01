@@ -1,7 +1,8 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import './index.scss';
-import classNames from 'classnames';
+import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
 
 export const CodeCrumbName = props => {
   // onMouseOver maybe use onMouseOver to show crumb details in popover
@@ -49,13 +50,6 @@ export const CodeCrumbName = props => {
       {(flow && (
         <React.Fragment>
           <rect
-            x={textPoint.x - 7.5}
-            y={textPoint.y - 10}
-            width={3}
-            height={3}
-            className={'CodeCrumbName-flow-step'}
-          />
-          <rect
             x={textPoint.x - 13}
             y={textPoint.y - 7}
             width={13}
@@ -80,7 +74,7 @@ export const CodeCrumbName = props => {
             <rect
               x={textPoint.x + 2 + (!flow ? locWidth : 0)}
               y={position.y - 6}
-              width={(name.length + 1) * 7.5}
+              width={name.length * 7.7}
               height={13}
               className={'NodeText-cover'}
             />

@@ -49,41 +49,79 @@ export const CodeCrumbEdge = props => {
 };
 
 export const CodeCrumbedFlowEdge = props => {
-  const { sourcePosition, targetPosition, singleCrumbSource, singleCrumbTarget } = props;
-  const direction = targetPosition.y > sourcePosition.y ? 1 : -1;
+  const {
+    sourcePosition,
+    targetPosition,
+    sourceName,
+    singleCrumbSource,
+    singleCrumbTarget,
+    onClick = () => console.log('cc edge')
+  } = props;
 
-  const rHalf = 6;
+  const rHalf = 6.5;
   const sourcePt = {
     x: -rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
-    y: sourcePosition.y + rHalf * direction
+    y: sourcePosition.y - rHalf
   };
   const targetPt = {
     x: -rHalf + (singleCrumbTarget ? targetPosition.x - 22 : targetPosition.x),
-    y: targetPosition.y + -1 * rHalf * direction
+    y: targetPosition.y + rHalf
   };
 
   const padding = 15 - rHalf;
+  const vTurn = 13.5;
 
-  const polylinePoints = [
-    [sourcePt.x, sourcePt.y],
-    [sourcePt.x, sourcePt.y + padding * direction],
-    [targetPt.x, sourcePt.y + padding * direction],
-    [targetPt.x, targetPt.y]
-  ];
+  let polylinePoints = [];
 
-  const directionTop = targetPosition.y > sourcePosition.y;
+  if (targetPt.y > sourcePt.y) {
+    if (targetPt.x > sourcePt.x) {
+      polylinePoints = [
+        [sourcePt.x, sourcePt.y],
+        [sourcePt.x, sourcePt.y - padding],
+        [targetPt.x - 11, sourcePt.y - padding],
+        [targetPt.x - 11, targetPt.y + vTurn],
+        [targetPt.x, targetPt.y + vTurn],
+        [targetPt.x, targetPt.y]
+      ];
+    } else {
+      const nLength = sourceName.length < 10 ? sourceName.length * SYMBOL_WIDTH + 6 : 30;
+      polylinePoints = [
+        [sourcePt.x, sourcePt.y],
+        [sourcePt.x, sourcePt.y - padding],
+        [sourcePt.x + nLength, sourcePt.y - padding],
+        [sourcePt.x + nLength, targetPt.y + vTurn],
+        [targetPt.x, targetPt.y + vTurn],
+        [targetPt.x, targetPt.y]
+      ];
+    }
+  } else {
+    polylinePoints = [
+      [sourcePt.x, sourcePt.y],
+      [sourcePt.x, sourcePt.y - padding],
+      [targetPt.x, sourcePt.y - padding],
+      [targetPt.x, targetPt.y]
+    ];
+  }
+
   const endPointConfig = {
     ...targetPt
   };
 
   endPointConfig.x -= 3.5;
-  endPointConfig.y -= directionTop ? 8 : 0;
+  endPointConfig.y += 1;
   endPointConfig.iconSize = 7;
   endPointConfig.iconPath = `${ICONS_DIR}purple-arrow.svg`; // TODO: move to getter
-  endPointConfig.angle = directionTop ? 90 : -90;
+  endPointConfig.angle = -90;
 
   return (
     <React.Fragment>
+      <rect
+        x={sourcePt.x - 1.5}
+        y={sourcePt.y - 3}
+        width={3}
+        height={2}
+        className={'CodeCrumbEdge-flow-source'}
+      />
       <image
         x={endPointConfig.x}
         y={endPointConfig.y}
@@ -94,6 +132,12 @@ export const CodeCrumbedFlowEdge = props => {
           endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
       />
       <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-flow'} />
+
+      <polyline
+        onClick={onClick}
+        points={polylinePoints.join(', ')}
+        className={'EdgeMouseHandler'}
+      />
     </React.Fragment>
   );
 };

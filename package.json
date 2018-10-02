@@ -13,16 +13,10 @@
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""
   },
   "dependencies": {
+    "@babel/parser": "^7.1.2",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/traverse": "^7.1.0",
     "antd": "^3.9.2",
-    "babel-core": "^6.26.3",
-    "babel-generator": "^6.26.1",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-import": "^1.7.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-polyfill": "^6.26.0",
-    "babel-traverse": "^6.26.0",
-    "babel-types": "^6.26.0",
-    "babylon": "^6.18.0",
     "chokidar": "^2.0.3",
     "classnames": "^2.2.6",
     "copy-text-to-clipboard": "^1.0.4",
@@ -43,16 +37,20 @@
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "style-loader": "^0.21.0",
-    "webpack": "^4.6.0",
     "websocket": "^1.0.26"
   },
   "devDependencies": {
-    "babel-preset-stage-2": "^6.24.1",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-import": "^1.9.1",
     "node-sass": "^4.9.3",
     "nodemon": "^1.17.3",
     "prettier": "^1.14.0",
     "sass-loader": "^7.1.0",
-    "webpack-cli": "^2.1.2"
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   },
   "nodemonConfig": {
     "ignore": [

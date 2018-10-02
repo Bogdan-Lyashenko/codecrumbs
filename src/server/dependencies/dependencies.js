@@ -1,5 +1,5 @@
-const babylon = require('babylon');
-const babelTraverse = require('babel-traverse');
+const babylon = require('@babel/parser');
+const babelTraverse = require('@babel/traverse');
 
 const getImports = fileCode => {
   let ast = {};

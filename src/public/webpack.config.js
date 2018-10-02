@@ -20,14 +20,15 @@ const config = {
     rules: [
       {
         test: /(\.jsx?)$/,
-        loader: 'babel-loader',
         exclude: /(node_modules)/,
-        query: {
-          presets: ['es2015', 'stage-2'],
-          plugins: [
-            'transform-react-jsx',
-            ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]
-          ]
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [
+              ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]
+            ]
+          }
         }
       },
       {

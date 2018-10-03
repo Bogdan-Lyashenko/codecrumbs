@@ -21,7 +21,7 @@ export const CodeCrumbedFlowEdges = props => {
 
   let sortedFlowSteps = [];
   Object.keys(currentFlow).forEach(filePath => {
-    const steps = (fileNodesMap[filePath].children || [])
+    const steps = (fileNodesMap[filePath] && fileNodesMap[filePath].children || [])
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data, x, y }) => ({
         name: data.name,

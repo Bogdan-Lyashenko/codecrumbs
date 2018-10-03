@@ -21,6 +21,10 @@ function* reactOnSwitchToggle(action) {
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
     yield put(calcFilesTreeLayoutNodes());
+
+    if (checked) {
+      yield put(selectCodeCrumbedFlow());
+    }
   }
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE) {

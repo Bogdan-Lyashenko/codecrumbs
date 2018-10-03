@@ -10,7 +10,7 @@ import {
 
 export const CodeCrumbedFlowEdges = props => {
   const {
-    fileNodesMap, // TODO: should come from BE
+    fileNodesMap,
     shiftToCenterPoint,
     codeCrumbsMinimize,
     codeCrumbedFlowsMap,
@@ -21,7 +21,7 @@ export const CodeCrumbedFlowEdges = props => {
 
   let sortedFlowSteps = [];
   Object.keys(currentFlow).forEach(filePath => {
-    const steps = fileNodesMap[filePath].children
+    const steps = (fileNodesMap[filePath].children || [])
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data, x, y }) => ({
         name: data.name,
@@ -71,7 +71,7 @@ export const CodeCrumbedFlowEdges = props => {
 class CodeCrumbsTree extends React.Component {
   render() {
     const {
-      fileNodesMap, // TODO: should come from BE
+      fileNodesMap,
       selectedCrumbedFlowKey,
       shiftToCenterPoint,
       sourceDiagramOn,

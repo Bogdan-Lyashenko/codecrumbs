@@ -11,10 +11,10 @@ const treeTraversal = require('../shared/utils/tree').traversal;
 const DIR_NODE_TYPE = require('../shared/constants').DIR_NODE_TYPE;
 
 const getDirFiles = projectDir => {
-  const filesList = [];
+  const filesMap = {};
 
   const filesTree = directoryTree(projectDir, { extensions: /\.jsx?$/ }, (item, PATH) => {
-    filesList.push(item);
+    filesMap[item.path] = item;
   });
 
   treeTraversal(filesTree, node => {
@@ -33,7 +33,7 @@ const getDirFiles = projectDir => {
     }
   });
 
-  return { list: filesList, tree: filesTree };
+  return { tree: filesTree, map: filesMap };
 };
 
 const getDependencies = (projectDir, entryPoint) => {
@@ -41,31 +41,29 @@ const getDependencies = (projectDir, entryPoint) => {
     .then(res => res.obj())
     .then(obj => {
       const map = {};
-      const list = [];
 
       Object.entries(obj).forEach(([key, value]) => {
         const moduleName = `${projectDir}/${key}`;
-        const node = {
+
+        map[moduleName] = {
           moduleName,
           importedModuleNames: value.map(v => `${projectDir}/${v}`)
         };
-
-        list.push(node);
-        map[moduleName] = node;
       });
 
       return {
-        map,
-        list
+        map
       };
     });
 };
 
-const grabProjectSourceState = ({ filesList, projectDir, entryPoint }) => {
+const grabProjectSourceState = ({ filesMap, projectDir, entryPoint }) => {
   return Promise.all([
     getDependencies(projectDir, entryPoint),
-    ...filesList.map(item =>
-      file.read(item.path, 'utf8').then(code => {
+    ...Object.keys(filesMap).map(itemPath =>
+      file.read(itemPath, 'utf8').then(code => {
+        const item = filesMap[itemPath];
+
         const codecrumbsList = codecrumbs.getCrumbs(code);
         const importedDependencies = dependencies.getImports(code);
 
@@ -117,11 +115,10 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
     flows: {}
   };
 
-  grabProjectSourceState({ filesList: dirFiles.list, projectDir, entryPoint }).then(
+  grabProjectSourceState({ filesMap: dirFiles.map, projectDir, entryPoint }).then(
     ([dependencies]) => {
-      dirDependencies.list = dependencies.list;
       dirDependencies.map = dependencies.map;
-      dirFiles.list.forEach(file => {
+      Object.entries(dirFiles.map).forEach(([path, file]) => {
         if (file.hasCodecrumbs) {
           addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
         }
@@ -129,8 +126,7 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
 
       return onInit({
         filesTree: dirFiles.tree,
-        filesList: dirFiles.list,
-        dependenciesList: dependencies.list,
+        filesMap: dirFiles.map,
         dependenciesMap: dependencies.map,
         codeCrumbedFlowsMap: codeCrumbs.flows
       });
@@ -139,14 +135,13 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
 
   //use watcher.close(); to stop watching
   return createWatcher(projectDir, path => {
-    if (!dirDependencies.list) return;
+    const file = dirFiles.map[path];
 
-    const file = dirFiles.list.find(f => f.path === path);
     if (file.hasCodecrumbs) {
       resetCodeCrumbedFlowsByFile(codeCrumbs.flows, file);
     }
 
-    grabProjectSourceState({ filesList: [file], projectDir, entryPoint: path }).then(
+    grabProjectSourceState({ filesMap: {[path]: file}, projectDir, entryPoint: path }).then(
       ([{ list, map }]) => {
         traversalSearch(dirFiles.tree, node => {
           if (node.path === path) {
@@ -161,12 +156,10 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
 
         return onChange({
           filesTree: dirFiles.tree,
-          filesList: dirFiles.list.map(
-            node => (node.path === path ? mergeFileIntoNode(file, node) : node)
-          ),
-          dependenciesList: dirDependencies.list.map(
-            item => (item.moduleName === path ? { ...list[0] } : item)
-          ),
+          filesMap: {
+            ...dirFiles.map,
+            [file.path]: dirFiles.map[file.path]
+          },
           dependenciesMap: {
             ...dirDependencies.map,
             ...map
@@ -201,6 +194,8 @@ const mergeFileIntoNode = (file, node) => {
   Object.keys(file).forEach(key => {
     node[key] = file[key];
   });
+
+  return node;
 };
 
 module.exports = {

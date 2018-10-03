@@ -5,7 +5,16 @@ import { Menu, Dropdown, Button } from 'antd';
 import { selectCodeCrumbedFlow } from 'components/dataBus/store/actions';
 import './index.scss';
 
-const FlowSelect = ({ codeCrumbedFlowsMap, onCodeCrumbedFlowSelect, selectedCrumbedFlowKey }) => {
+const FlowSelect = ({
+  codeCrumbsDiagramOn,
+  codeCrumbedFlowsMap,
+  onCodeCrumbedFlowSelect,
+  selectedCrumbedFlowKey
+}) => {
+  if (!codeCrumbsDiagramOn || !Object.keys(codeCrumbedFlowsMap).length) {
+    return null;
+  }
+
   const menu = (
     <Menu>
       {Object.keys(codeCrumbedFlowsMap).map(flow => (

@@ -5,8 +5,7 @@ import { getFileNodesMap } from 'utils/treeLayout';
 
 const DefaultState = {
   filesTree: null,
-  filesList: null,
-  dependenciesList: null,
+  filesMap: null,
   dependenciesMap: null,
 
   filesTreeLayoutNodes: null,
@@ -23,12 +22,13 @@ const DefaultState = {
 export default (state = DefaultState, action) => {
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA:
-      const { dependenciesRootEntryName } = action.payload;
+      const { dependenciesRootEntryName, filesMap } = action.payload;
 
       return {
         ...state,
         ...action.payload,
-        dependenciesEntryPoint: { path: dependenciesRootEntryName },
+        selectedNode: filesMap[dependenciesRootEntryName],
+        dependenciesEntryPoint: filesMap[dependenciesRootEntryName],
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
           .reduce((res, item) => {

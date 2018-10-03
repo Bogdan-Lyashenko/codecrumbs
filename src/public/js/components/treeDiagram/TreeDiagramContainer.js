@@ -17,7 +17,6 @@ const mapStateToProps = state => {
   const {
     filesTreeLayoutNodes,
     fileNodesMap,
-    dependenciesList,
     dependenciesMap,
     filteredDependenciesList,
     filteredDependenciesAllModulesMap,
@@ -40,7 +39,6 @@ const mapStateToProps = state => {
     codeCrumbsDetails: checkedState.codeCrumbsDetails,
     filesTreeLayoutNodes,
     fileNodesMap,
-    dependenciesList,
     filteredDependenciesAllModulesMap,
     dependenciesMap,
     filteredDependenciesList,

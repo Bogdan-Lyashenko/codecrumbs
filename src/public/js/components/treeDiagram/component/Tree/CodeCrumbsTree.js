@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { CodeCrumbName } from 'components/treeDiagram/component/Node/CodeCrumb';
 import { FileName } from 'components/treeDiagram/component/Node/File';
@@ -7,21 +8,42 @@ import {
   CodeCrumbEdge,
   CodeCrumbedFlowEdge
 } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
+import { selectCodeCrumb } from 'components/dataBus/store/actions';
 
-export const CodeCrumbedFlowEdges = props => {
-  const {
+const mapStateToProps = state => {
+  const { checkedState } = state.viewSwitches;
+  const { fileNodesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
+
+  return {
     fileNodesMap,
-    shiftToCenterPoint,
-    codeCrumbsMinimize,
+    selectedCrumbedFlowKey,
     codeCrumbedFlowsMap,
-    selectedCrumbedFlowKey
+    sourceDiagramOn: checkedState.source,
+    dependenciesDiagramOn: checkedState.dependencies,
+    codeCrumbsDiagramOn: checkedState.codeCrumbs,
+    codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
+    codeCrumbsLineNumbers: checkedState.codeCrumbsLineNumbers
+  };
+};
+
+const mapDispatchToProps = {
+  onCodeCrumbSelect: selectCodeCrumb
+};
+
+export const CodeCrumbedFlowEdges = connect(mapStateToProps)(props => {
+  const {
+    shiftToCenterPoint,
+    fileNodesMap,
+    selectedCrumbedFlowKey,
+    codeCrumbedFlowsMap,
+    codeCrumbsMinimize
   } = props;
 
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
 
   let sortedFlowSteps = [];
   Object.keys(currentFlow).forEach(filePath => {
-    const steps = (fileNodesMap[filePath] && fileNodesMap[filePath].children || [])
+    const steps = ((fileNodesMap[filePath] && fileNodesMap[filePath].children) || [])
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data, x, y }) => ({
         name: data.name,
@@ -66,14 +88,14 @@ export const CodeCrumbedFlowEdges = props => {
         })}
     </React.Fragment>
   );
-};
+});
 
 class CodeCrumbsTree extends React.Component {
   render() {
     const {
+      shiftToCenterPoint,
       fileNodesMap,
       selectedCrumbedFlowKey,
-      shiftToCenterPoint,
       sourceDiagramOn,
       dependenciesDiagramOn,
       codeCrumbsMinimize,
@@ -142,4 +164,7 @@ class CodeCrumbsTree extends React.Component {
   }
 }
 
-export default CodeCrumbsTree;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CodeCrumbsTree);

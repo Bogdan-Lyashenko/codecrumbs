@@ -15,15 +15,13 @@ export const DOT = {
 
 class TreeDiagram extends React.Component {
   render() {
-    const { layoutSize } = this.props;
+    const { layoutSize, filesTreeLayoutNodes, onUnderLayerClick } = this.props;
     const { width = BOX_SIZE.W, height = BOX_SIZE.H, padding } = layoutSize;
 
     const shiftToCenterPoint = buildShiftToPoint({
       x: DOT.x,
       y: (height - padding) / 2 + DOT.y
     });
-
-    const { filesTreeLayoutNodes, onUnderLayerClick, ...otherProps } = this.props;
 
     return (
       <div className="TreeDiagram">
@@ -32,11 +30,7 @@ class TreeDiagram extends React.Component {
             {filesTreeLayoutNodes && (
               <React.Fragment>
                 <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-                <SourceTree
-                  filesTreeLayoutNodes={filesTreeLayoutNodes}
-                  shiftToCenterPoint={shiftToCenterPoint}
-                  {...otherProps}
-                />
+                <SourceTree shiftToCenterPoint={shiftToCenterPoint} />
               </React.Fragment>
             )}
           </svg>

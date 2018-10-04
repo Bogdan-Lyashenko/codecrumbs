@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import {
   DependenciesEdge,
@@ -6,6 +7,7 @@ import {
 } from 'components/treeDiagram/component/Edge/DepenenciesEdge';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { DepEdgeGroups } from 'components/treeDiagram/store/constants';
+import { selectDependencyEdge } from 'components/dataBus/store/actions';
 
 export const getGroupsAroundNode = (moduleNode, importedNodes) => {
   const groups = {
@@ -182,4 +184,23 @@ class DependenciesTree extends React.Component {
   }
 }
 
-export default DependenciesTree;
+const mapStateToProps = state => {
+  const { checkedState } = state.viewSwitches;
+  const { fileNodesMap, filteredDependenciesList, selectedDependencyEdgeNodes } = state.dataBus;
+
+  return {
+    sourceDiagramOn: checkedState.source,
+    fileNodesMap,
+    filteredDependenciesList,
+    selectedDependencyEdgeNodes
+  };
+};
+
+const mapDispatchToProps = {
+  onDependencyEdgeClick: selectDependencyEdge
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DependenciesTree);

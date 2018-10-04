@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'utils/constants';
 import { FileName } from 'components/treeDiagram/component/Node/File';
@@ -8,6 +9,11 @@ import { SourceEdge } from 'components/treeDiagram/component/Edge/SourceEdge';
 
 import DependenciesTree from './DependenciesTree';
 import CodeCrumbsTree, { CodeCrumbedFlowEdges } from './CodeCrumbsTree';
+import {
+  selectNode,
+  setDependenciesEntryPoint,
+  toggleFolder
+} from 'components/dataBus/store/actions';
 
 class SourceTree extends React.Component {
   render() {
@@ -131,16 +137,61 @@ class SourceTree extends React.Component {
 
         {dependenciesDiagramOn &&
           filteredDependenciesList &&
-          filteredDependenciesList.length && <DependenciesTree {...this.props} />}
+          filteredDependenciesList.length && (
+            <DependenciesTree shiftToCenterPoint={shiftToCenterPoint} />
+          )}
 
-        {(codeCrumbsDiagramOn && <CodeCrumbedFlowEdges {...this.props} />) || null}
+        {(codeCrumbsDiagramOn && (
+          <CodeCrumbedFlowEdges shiftToCenterPoint={shiftToCenterPoint} />
+        )) ||
+          null}
 
         {(sourceDiagramOn && sourceNodes) || null}
 
-        {(codeCrumbsDiagramOn && <CodeCrumbsTree {...this.props} />) || null}
+        {(codeCrumbsDiagramOn && <CodeCrumbsTree shiftToCenterPoint={shiftToCenterPoint} />) ||
+          null}
       </React.Fragment>
     );
   }
 }
 
-export default SourceTree;
+const mapStateToProps = state => {
+  const { checkedState } = state.viewSwitches;
+  const {
+    filesTreeLayoutNodes,
+    dependenciesMap,
+    filteredDependenciesList,
+    filteredDependenciesAllModulesMap,
+    closedFolders,
+    dependenciesEntryPoint,
+    selectedNode,
+    selectedDependencyEdgeNodes
+  } = state.dataBus;
+
+  return {
+    sourceDiagramOn: checkedState.source,
+    dependenciesDiagramOn: checkedState.dependencies,
+    sourceDimFolders: checkedState.sourceDimFolders,
+    codeCrumbsDiagramOn: checkedState.codeCrumbs,
+    codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
+    filesTreeLayoutNodes,
+    filteredDependenciesAllModulesMap,
+    dependenciesMap,
+    filteredDependenciesList,
+    closedFolders,
+    dependenciesEntryPoint,
+    selectedNode,
+    selectedDependencyEdgeNodes
+  };
+};
+
+const mapDispatchToProps = {
+  onNodeTextClick: selectNode,
+  onFileIconClick: setDependenciesEntryPoint,
+  onFolderIconClick: toggleFolder
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SourceTree);

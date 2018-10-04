@@ -55,7 +55,7 @@ export default ({
       ? filterImportedDependencies(file.importedDependencies, selectedDependencyEdgeNodes)
       : [];
 
-    const crumbedLines = codeCrumbs.map(codeCrumb => codeCrumb.crumbedLineNode.loc.start.line);
+    const crumbedLines = codeCrumbs.map(codeCrumb => codeCrumb.crumbNode.loc.start.line);
     const importedDependenciesLines = importedDependencies.map(({ node }) => [
       node.loc.start.line,
       node.loc.end.line

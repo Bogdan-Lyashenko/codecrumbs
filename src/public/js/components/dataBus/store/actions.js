@@ -21,7 +21,7 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   return dispatch({
     type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
     payload: getTreeLayout(filesTree, {
-      includeFileChildren: checkedState.codeCrumbs,
+      includeFileChildren: checkedState.codeCrumbs && !checkedState.codeCrumbsMinimize,
       closedFolders
     })
   });

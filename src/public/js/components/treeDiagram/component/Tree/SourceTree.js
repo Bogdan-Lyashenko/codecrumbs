@@ -93,7 +93,7 @@ class SourceTree extends React.Component {
               name={name}
               path={node.data.path}
               codeCrumbs={codeCrumbsDiagramOn}
-              purple={node.children && codeCrumbsMinimize}
+              purple={codeCrumbsDiagramOn && node.data.hasCodecrumbs && codeCrumbsMinimize}
               selected={
                 selectedDependencyEdgeNodes &&
                 (selectedDependencyEdgeNodes.target === path ||

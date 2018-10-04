@@ -23,12 +23,8 @@ export const FileName = props => {
   } = props;
 
   // TODO: move out to switch
-  const iconPath = `${ICONS_DIR}${purple ? 'purple-' : ''}${
-    dependency
-      ? selected && !purple
-        ? 'selected-two-circles.svg'
-        : 'two-circles.svg'
-      : 'js-file.svg'
+  const iconPath = `${ICONS_DIR}${
+    dependency ? (selected ? 'selected-two-circles.svg' : 'two-circles.svg') : 'js-file.svg'
   }`;
 
   const iconSize = 15;

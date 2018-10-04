@@ -7,11 +7,12 @@ import './index.scss';
 
 const FlowSelect = ({
   codeCrumbsDiagramOn,
+  codeCrumbsMinimize,
   codeCrumbedFlowsMap,
   onCodeCrumbedFlowSelect,
   selectedCrumbedFlowKey
 }) => {
-  if (!codeCrumbsDiagramOn || !Object.keys(codeCrumbedFlowsMap).length) {
+  if (!codeCrumbsDiagramOn || !Object.keys(codeCrumbedFlowsMap).length || codeCrumbsMinimize) {
     return null;
   }
 
@@ -51,6 +52,7 @@ const mapStateToProps = state => {
 
   return {
     codeCrumbsDiagramOn: checkedState.codeCrumbs,
+    codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
     codeCrumbedFlowsMap,
     selectedCrumbedFlowKey
   };

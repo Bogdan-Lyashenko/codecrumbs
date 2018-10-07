@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import SideBar from './component/SideBar';
 import { toggleSwitch } from 'components/controls/ViewSwitches/store/actions';
-import { FILE_NODE_TYPE } from 'utils/constants';
 
 const SideBarContainer = ({ sideBarOn, ...otherProps }) => {
   if (!sideBarOn) return null;
@@ -13,16 +12,12 @@ const SideBarContainer = ({ sideBarOn, ...otherProps }) => {
 };
 
 const mapStateToProps = state => {
-  const { selectedNode, selectedCodeCrumb, selectedDependencyEdgeNodes } = state.dataBus;
+  const { selectedNode } = state.dataBus;
   const { checkedState } = state.viewSwitches;
 
   return {
     selectedNode,
-    selectedCodeCrumb,
-    selectedDependencyEdgeNodes,
-    sideBarOn: checkedState.sideBar,
-    dependenciesDiagramOn: checkedState.dependencies,
-    codeCrumbsDiagramOn: checkedState.codeCrumbs
+    sideBarOn: checkedState.sideBar
   };
 };
 

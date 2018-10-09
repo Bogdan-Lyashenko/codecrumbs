@@ -18,8 +18,12 @@ const getImports = fileCode => {
 
       if (node.type === 'ImportDeclaration') {
         importedDependencies.push({
+          node,
           sourceFile: node.source && node.source.value,
-          node
+          specifiers: node.specifiers.map(({ type, imported, local }) => ({
+            type,
+            name: (imported || local || {}).name
+          }))
         });
       }
     }

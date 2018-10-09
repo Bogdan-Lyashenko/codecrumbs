@@ -48,6 +48,7 @@ const getCrumbs = fileCode => {
     return crumbsList;
   }
 
+  // TODO: ast has comments array, maybe use it
   babelTraverse.default(ast, {
     enter(path) {
       const node = path.node;

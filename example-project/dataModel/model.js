@@ -6,3 +6,7 @@ import {
 
 //cc:#data fetching#0;load here
 export default () => Promise.resolve({ data: [] });
+
+export const dataModelMethod = () => {
+  console.log(1);
+};

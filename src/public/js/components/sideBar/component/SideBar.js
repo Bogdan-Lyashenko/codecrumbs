@@ -10,10 +10,7 @@ import './SideBar.scss';
 const TabPane = Tabs.TabPane;
 
 //TODO: Add slide from right animation
-export default ({
-  selectedNode,
-  onClose
-}) => {
+export default ({ selectedNode, onClose }) => {
   const file = selectedNode && selectedNode.type === FILE_NODE_TYPE ? selectedNode : null;
 
   let header = null;
@@ -34,11 +31,15 @@ export default ({
         <TabPane tab="Code" key="1">
           <CodeTab />
         </TabPane>
-        <TabPane tab="FlowChart" key="2">
-          Here is gonna be flow charts
+        <TabPane tab="Dependencies" key="2">
+          Here is gonna be more dependencies features, like only code on implementation of imports,
+          etc
         </TabPane>
         <TabPane tab="Crumbs" key="3">
           Here is gonna be some magic with code crumbs
+        </TabPane>
+        <TabPane tab="FlowChart" key="4">
+          Here is gonna be flow charts
         </TabPane>
       </Tabs>
     );

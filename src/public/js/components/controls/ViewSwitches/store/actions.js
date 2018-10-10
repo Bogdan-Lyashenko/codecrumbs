@@ -14,3 +14,8 @@ export const setDisabledControl = (controlKey, disabled) => ({
   type: ACTIONS.SET_DISABLED_CONTROL,
   payload: { controlKey, disabled }
 });
+
+export const selectSideBarTab = tabIndex => ({
+  type: ACTIONS.SELECT_SIDE_BAR_TAB,
+  payload: tabIndex
+});

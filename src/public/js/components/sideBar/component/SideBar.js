@@ -10,7 +10,7 @@ import './SideBar.scss';
 const TabPane = Tabs.TabPane;
 
 //TODO: Add slide from right animation
-export default ({ selectedNode, onClose }) => {
+export default ({ selectedNode, onClose, selectedTabInSideBar, onTabSelect }) => {
   const file = selectedNode && selectedNode.type === FILE_NODE_TYPE ? selectedNode : null;
 
   let header = null;
@@ -27,7 +27,7 @@ export default ({ selectedNode, onClose }) => {
     );
 
     content = (
-      <Tabs defaultActiveKey="1" onChange={() => {}}>
+      <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
         <TabPane tab="Code" key="1">
           <CodeTab />
         </TabPane>

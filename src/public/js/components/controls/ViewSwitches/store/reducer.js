@@ -65,7 +65,8 @@ const DefaultState = {
   },
   disabledState: {
     [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true
-  }
+  },
+  selectedTabInSideBar: '1'
 };
 
 export default (state = DefaultState, action) => {
@@ -80,7 +81,6 @@ export default (state = DefaultState, action) => {
           [switchKey]: checked
         }
       };
-      break;
 
     case ACTIONS.FIRE_BUTTON_ACTION:
       const buttonKey = action.payload;
@@ -103,7 +103,12 @@ export default (state = DefaultState, action) => {
           [controlKey]: disabled
         }
       };
-      break;
+
+    case ACTIONS.SELECT_SIDE_BAR_TAB:
+      return {
+        ...state,
+        selectedTabInSideBar: action.payload
+      };
 
     default:
       return state;

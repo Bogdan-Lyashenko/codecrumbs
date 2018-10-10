@@ -10,7 +10,8 @@
 
   .body {
     position: relative;
-    height: 100%;
+    display: flex;
+    flex-grow: 1;
     background-color: white;
   }
 
@@ -19,5 +20,6 @@
     bottom: 10px;
     right: 10px;
     font-size: 10px;
+    z-index: 4;
   }
 }

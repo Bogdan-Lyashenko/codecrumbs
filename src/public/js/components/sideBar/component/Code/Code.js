@@ -19,15 +19,30 @@ export default ({ code, crumbedLines = [], dependenciesLines = [] }) => (
     <SyntaxHighlighter
       language="javascript"
       style={atomOneLight}
-      customStyle={{ fontSize: '13px' }}
       showLineNumbers={true}
       wrapLines={true}
+      PreTag={({ children }) => (
+        <pre style={{ fontSize: '13px' }} ref={e => {}}>
+          {children}
+        </pre>
+      )}
       lineProps={lineNumber => {
         if (isMatchLineNumber(crumbedLines, lineNumber)) {
           return { className: 'crumbedLine' };
         }
 
         if (isMatchLineNumber(dependenciesLines, lineNumber)) {
+          if (dependenciesLines[0][0] === lineNumber) {
+            // TODO: do better logic
+            const config = { className: 'importedDependencyLine' };
+            /*config.ref = el => {
+              console.log(el);
+            }*/
+            //setTimeout(() => el && el.scrollIntoView && el.scrollIntoView(true), 1000);
+
+            return config;
+          }
+
           return { className: 'importedDependencyLine' };
         }
 

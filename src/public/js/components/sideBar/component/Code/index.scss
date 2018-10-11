@@ -1,0 +1,16 @@
+.Code {
+  max-height: 300px;
+  height: 100%;
+  position: relative;
+  overflow: auto;
+
+  .crumbedLine {
+    display: block;
+    background-color: rgba(255, 225, 244, 0.8);
+  }
+
+  .importedDependencyLine {
+    display: block;
+    background-color: rgba(0, 148, 249, 0.1);
+  }
+}

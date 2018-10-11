@@ -24,3 +24,7 @@ long();
 export const dataModelMethod = () => {
   console.log(1);
 };
+
+a();
+a();
+a();

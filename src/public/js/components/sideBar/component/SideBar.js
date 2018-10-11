@@ -4,13 +4,22 @@ import { Skeleton, Alert } from 'antd';
 
 import { FILE_NODE_TYPE } from 'utils/constants';
 import { Copy } from 'components/controls/Copy';
-import CodeTab from './CodeTab';
+
+import Code from './Code';
+import DependenciesTab from './DependenciesTab';
 import './SideBar.scss';
 
 const TabPane = Tabs.TabPane;
 
 //TODO: Add slide from right animation
-export default ({ selectedNode, onClose, selectedTabInSideBar, onTabSelect }) => {
+export default ({
+  selectedNode,
+  onClose,
+  selectedTabInSideBar,
+  dependenciesOn,
+  codeCrumbsOn,
+  onTabSelect
+}) => {
   const file = selectedNode && selectedNode.type === FILE_NODE_TYPE ? selectedNode : null;
 
   let header = null;
@@ -29,15 +38,20 @@ export default ({ selectedNode, onClose, selectedTabInSideBar, onTabSelect }) =>
     content = (
       <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
         <TabPane tab="Code" key="1">
-          <CodeTab />
+          <Code code={file.fileCode} />
         </TabPane>
-        <TabPane tab="Dependencies" key="2">
-          Here is gonna be more dependencies features, like only code on implementation of imports,
-          etc
-        </TabPane>
-        <TabPane tab="Crumbs" key="3">
-          Here is gonna be some magic with code crumbs
-        </TabPane>
+        {(dependenciesOn && (
+          <TabPane tab="Dependencies" key="2">
+            <DependenciesTab />
+          </TabPane>
+        )) ||
+          null}
+        {(codeCrumbsOn && (
+          <TabPane tab="Crumbs" key="3">
+            Here is gonna be some magic with code crumbs
+          </TabPane>
+        )) ||
+          null}
         <TabPane tab="FlowChart" key="4">
           Here is gonna be flow charts
         </TabPane>
@@ -58,7 +72,7 @@ export default ({ selectedNode, onClose, selectedTabInSideBar, onTabSelect }) =>
           X
         </a>
       </div>
-      <div className="body">{content}</div>
+      <div className="bodySideBar">{content}</div>
     </div>
   );
 };

@@ -23,8 +23,16 @@
     }
   }
 
-  .body {
+  .bodySideBar {
     height: calc(100% - 25px);
-    overflow: auto;
+    position: relative;
+
+    .ant-tabs {
+      height: 100%;
+    }
+
+    .ant-tabs-content, .ant-tabs-tabpane {
+      height: calc(100% - 25px);
+    }
   }
 }

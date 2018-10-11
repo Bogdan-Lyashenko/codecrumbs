@@ -18,6 +18,8 @@ const mapStateToProps = state => {
   return {
     selectedNode,
     sideBarOn: checkedState.sideBar,
+    dependenciesOn: checkedState.dependencies,
+    codeCrumbsOn: checkedState.codeCrumbs,
     selectedTabInSideBar
   };
 };

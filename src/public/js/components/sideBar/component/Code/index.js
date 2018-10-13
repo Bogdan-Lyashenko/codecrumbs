@@ -17,7 +17,12 @@ const isMatchLineNumber = (lines, lineNumber) =>
 export default class extends React.Component {
   fixScroll() {
     const { dependenciesLines } = this.props;
-    if (!this.codeRef || !this.codeRef.scrollTo || !dependenciesLines.length) {
+    if (
+      !this.codeRef ||
+      !this.codeRef.scrollTo ||
+      !dependenciesLines ||
+      !dependenciesLines.length
+    ) {
       return;
     }
 

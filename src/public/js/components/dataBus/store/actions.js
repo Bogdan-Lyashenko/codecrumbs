@@ -1,5 +1,6 @@
 import { ACTIONS } from './constants';
 import { getTreeLayout } from 'utils/treeLayout';
+import { DIR_NODE_TYPE } from 'utils/constants';
 
 export const setInitialSourceData = payload => ({
   type: ACTIONS.SET_INITIAL_SOURCE_DATA,
@@ -78,4 +79,73 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
     type: ACTIONS.SELECT_CODE_CRUMBED_FLOW,
     payload: flow ? flow : selectedCrumbedFlowKey || firstFlow
   });
+};
+
+export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
+  const state = getState();
+  const {
+    filesMap,
+    filesTree,
+    firstLevelFolders,
+    filteredDependenciesAllModulesMap,
+    dependenciesEntryPoint
+  } = state.dataBus;
+  const { dependencies, codeCrumbs } = state.viewSwitches.checkedState;
+
+  const emitDispatchForFolders = (payload = firstLevelFolders) =>
+    dispatch({
+      type: ACTIONS.SET_FOLDERS_STATE,
+      payload
+    });
+
+  if (!dependencies && !codeCrumbs) {
+    return emitDispatchForFolders();
+  }
+
+  const ccFilePaths = codeCrumbs
+    ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
+    : [];
+
+  if (!dependencies && !ccFilePaths.length) {
+    return emitDispatchForFolders();
+  }
+
+  const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
+  if (!codeCrumbs && !depFilePaths.length) {
+    return emitDispatchForFolders();
+  }
+
+  const payload = {};
+  traverseTree(filesTree, node => {
+    if (node.type === DIR_NODE_TYPE) {
+      const inActive =
+        !ccFilePaths.find(p => p.indexOf(node.path) === 0) &&
+        !depFilePaths.find(dep => dep.indexOf(node.path) === 0) &&
+        !(dependenciesEntryPoint.path.indexOf(node.path) === 0);
+
+      if (inActive) {
+        payload[node.path] = true;
+      }
+
+      return inActive;
+    }
+  });
+
+  dispatch({
+    type: ACTIONS.SET_FOLDERS_STATE,
+    payload
+  });
+};
+
+const traverseTree = (tree, fn) => {
+  let queue = [].concat(tree);
+
+  while (queue.length) {
+    let node = queue.shift();
+
+    const nodeBody = !fn(node) ? node.children : [];
+    if (nodeBody) {
+      queue = [...queue, ...nodeBody];
+    }
+  }
 };

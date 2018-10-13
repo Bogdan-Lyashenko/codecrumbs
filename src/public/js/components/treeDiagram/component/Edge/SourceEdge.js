@@ -3,14 +3,7 @@ import classNames from 'classnames';
 import './index.scss';
 
 export const SourceEdge = props => {
-  const {
-    targetPosition,
-    sourcePosition,
-    disabled,
-    singleChild,
-    onClick = () => console.log('on source edge'),
-    selected
-  } = props;
+  const { targetPosition, sourcePosition, disabled, singleChild, selected } = props;
 
   const edgeTurnDistance = 20;
 
@@ -32,7 +25,6 @@ export const SourceEdge = props => {
           'SourceEdge-selected': selected
         })}
       />
-      <polyline onClick={onClick} points={points.join(', ')} className={'EdgeMouseHandler'} />
     </React.Fragment>
   );
 };

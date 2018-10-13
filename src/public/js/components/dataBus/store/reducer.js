@@ -73,6 +73,12 @@ export default (state = DefaultState, action) => {
           : { ...closedFolders, [folderPath]: action.payload }
       };
 
+    case ACTIONS.SET_FOLDERS_STATE:
+      return {
+        ...state,
+        closedFolders: { ...state.closedFolders, ...action.payload }
+      };
+
     case ACTIONS.OPEN_ALL_FOLDERS:
       return {
         ...state,

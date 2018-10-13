@@ -63,9 +63,7 @@ const DefaultState = {
     [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true,
     [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true
   },
-  disabledState: {
-    [CONTROLS_KEYS.SOURCE_EXPAND_ALL]: true
-  },
+  disabledState: {},
   selectedTabInSideBar: '1'
 };
 

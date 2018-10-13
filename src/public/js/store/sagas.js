@@ -7,7 +7,8 @@ import {
   closeAllFolders,
   selectDependencyEdge,
   setDependenciesEntryPoint,
-  selectCodeCrumbedFlow
+  selectCodeCrumbedFlow,
+  updateFoldersByActiveChildren
 } from 'components/dataBus/store/actions';
 
 import {
@@ -87,12 +88,14 @@ function* reactOnToggledFolder(action) {
 }
 
 function* reactOnSourceSet() {
-  yield put(calcFilesTreeLayoutNodes());
-
   const viewSwitchesState = yield select(state => state.viewSwitches);
   if (viewSwitchesState.checkedState.dependencies) {
     yield put(setDependenciesEntryPoint());
   }
+
+  yield put(updateFoldersByActiveChildren());
+
+  yield put(calcFilesTreeLayoutNodes());
 
   if (viewSwitchesState.checkedState.codeCrumbs) {
     yield put(selectCodeCrumbedFlow());

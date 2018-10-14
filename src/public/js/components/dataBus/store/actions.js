@@ -85,26 +85,12 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
 // TODO: mark somehow folder opened by user, to don't close it again!
 // add check box to source tree so all this smart behaviour can be disabled
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
-  return; //
-
   const state = getState();
-  const {
-    filesMap,
-    filesTree,
-    firstLevelFolders,
-    filteredDependenciesAllModulesMap,
-    dependenciesEntryPoint
-  } = state.dataBus;
+  const { filesMap, filteredDependenciesAllModulesMap, dependenciesEntryPoint } = state.dataBus;
   const { dependencies, codeCrumbs } = state.viewSwitches.checkedState;
 
-  const emitDispatchForFolders = (payload = firstLevelFolders) =>
-    dispatch({
-      type: ACTIONS.SET_FOLDERS_STATE,
-      payload
-    });
-
   if (!dependencies && !codeCrumbs) {
-    return emitDispatchForFolders();
+    return;
   }
 
   const ccFilePaths = codeCrumbs
@@ -112,45 +98,29 @@ export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
     : [];
 
   if (!dependencies && !ccFilePaths.length) {
-    return emitDispatchForFolders();
+    return;
   }
 
   const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
   if (!codeCrumbs && !depFilePaths.length) {
-    return emitDispatchForFolders();
+    return;
   }
-
-  const payload = {};
-  traverseTree(filesTree, node => {
-    if (node.type === DIR_NODE_TYPE) {
-      const inActive =
-        !ccFilePaths.find(p => p.indexOf(node.path) === 0) &&
-        !depFilePaths.find(dep => dep.indexOf(node.path) === 0) &&
-        !(dependenciesEntryPoint.path.indexOf(node.path) === 0);
-
-      if (inActive) {
-        payload[node.path] = true;
-      }
-
-      return inActive;
-    }
-  });
 
   dispatch({
     type: ACTIONS.SET_FOLDERS_STATE,
-    payload
+    payload: getFoldersForPaths(depFilePaths.concat(ccFilePaths))
   });
 };
 
-const traverseTree = (tree, fn) => {
-  let queue = [].concat(tree);
+const getFoldersForPaths = paths =>
+  paths.reduce((res, path) => {
+    const folders = path.split('/');
+    folders.pop(); //remove file
 
-  while (queue.length) {
-    let node = queue.shift();
+    folders.forEach((f, i, l) => {
+      const key = l.slice(0, i + 1).join('/');
+      res[key] = true;
+    });
 
-    const nodeBody = !fn(node) ? node.children : [];
-    if (nodeBody) {
-      queue = [...queue, ...nodeBody];
-    }
-  }
-};
+    return res;
+  }, {});

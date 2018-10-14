@@ -19,6 +19,11 @@ const DefaultState = {
           type: VIEW_TYPES.BUTTON
         },
         {
+          name: 'active only',
+          title: 'Keep opened only folders with active files',
+          key: CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_FOLDERS
+        },
+        {
           name: 'dim source',
           title: 'Dim source tree folders',
           key: CONTROLS_KEYS.SOURCE_DIM_FOLDERS
@@ -60,6 +65,7 @@ const DefaultState = {
   ],
   checkedState: {
     [CONTROLS_KEYS.SOURCE]: true,
+    [CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_FOLDERS]: true,
     [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true,
     [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true
   },

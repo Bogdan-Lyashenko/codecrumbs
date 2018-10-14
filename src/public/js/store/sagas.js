@@ -21,10 +21,10 @@ function* reactOnSwitchToggle(action) {
   const { switchKey, checked } = action.payload;
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
-    yield put(calcFilesTreeLayoutNodes());
-
     if (checked) {
       yield put(selectCodeCrumbedFlow());
+    } else {
+      yield reactByUpdatingFoldersState();
     }
   }
 
@@ -35,8 +35,12 @@ function* reactOnSwitchToggle(action) {
     ]);
   }
 
-  if (switchKey === CONTROLS_KEYS.DEPENDENCIES && checked) {
-    yield put(setDependenciesEntryPoint());
+  if (switchKey === CONTROLS_KEYS.DEPENDENCIES) {
+    if (checked) {
+      yield put(setDependenciesEntryPoint());
+    } else {
+      yield reactByUpdatingFoldersState();
+    }
   }
 
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY) {
@@ -69,7 +73,6 @@ function* reactOnToggledFolder(action) {
   const { openedFolders, firstLevelFolders } = dataBusState;
 
   // TODO: perf, check how this affect rendering
-
   yield all([
     put(
       setDisabledControl(
@@ -91,17 +94,24 @@ function* reactOnToggledFolder(action) {
 
 function* reactOnSourceSet() {
   const viewSwitchesState = yield select(state => state.viewSwitches);
-  if (viewSwitchesState.checkedState.dependencies) {
+  const { dependencies, codeCrumbs } = viewSwitchesState.checkedState;
+
+  if (!dependencies && !codeCrumbs) {
+    yield reactByUpdatingFoldersState();
+  }
+
+  if (dependencies) {
     yield put(setDependenciesEntryPoint());
   }
 
-  yield put(updateFoldersByActiveChildren());
-
-  yield put(calcFilesTreeLayoutNodes());
-
-  if (viewSwitchesState.checkedState.codeCrumbs) {
+  if (codeCrumbs) {
     yield put(selectCodeCrumbedFlow());
   }
+}
+
+function* reactByUpdatingFoldersState() {
+  yield put(updateFoldersByActiveChildren());
+  yield put(calcFilesTreeLayoutNodes());
 }
 
 export default function* rootSaga() {
@@ -110,6 +120,8 @@ export default function* rootSaga() {
     takeLatest(SWITCHES_ACTIONS.FIRE_BUTTON_ACTION, reactOnButtonAction),
     takeLatest(DATA_BUS_ACTIONS.TOGGLE_FOLDER, reactOnToggledFolder),
     takeLatest(DATA_BUS_ACTIONS.SET_INITIAL_SOURCE_DATA, reactOnSourceSet),
-    takeLatest(DATA_BUS_ACTIONS.SET_CHANGED_SOURCE_DATA, reactOnSourceSet)
+    takeLatest(DATA_BUS_ACTIONS.SET_CHANGED_SOURCE_DATA, reactOnSourceSet),
+    takeLatest(DATA_BUS_ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState),
+    takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState)
   ]);
 }

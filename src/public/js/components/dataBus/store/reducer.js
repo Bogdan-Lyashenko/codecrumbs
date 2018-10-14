@@ -79,9 +79,10 @@ export default (state = DefaultState, action) => {
       };
 
     case ACTIONS.SET_FOLDERS_STATE:
+      const { folders, override } = action.payload;
       return {
         ...state,
-        openedFolders: { ...state.openedFolders, ...action.payload }
+        openedFolders: override ? folders : { ...state.openedFolders, ...folders }
       };
 
     case ACTIONS.OPEN_ALL_FOLDERS:
@@ -123,6 +124,7 @@ export default (state = DefaultState, action) => {
         ...state,
         dependenciesEntryPoint: depEntryPoint,
         ...getFilteredDependencies({
+          //TODO: perf?
           dependenciesMap: state.dependenciesMap,
           dependenciesEntryPoint: depEntryPoint,
           dependenciesShowDirectOnly: action.payload.dependenciesShowDirectOnly

@@ -86,29 +86,24 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
 // add check box to source tree so all this smart behaviour can be disabled
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
   const state = getState();
-  const { filesMap, filteredDependenciesAllModulesMap, dependenciesEntryPoint } = state.dataBus;
-  const { dependencies, codeCrumbs } = state.viewSwitches.checkedState;
+  const { filesMap, filteredDependenciesAllModulesMap } = state.dataBus;
+  const { dependencies, codeCrumbs, sourceKeepOnlyActiveFolders } = state.viewSwitches.checkedState;
 
-  if (!dependencies && !codeCrumbs) {
-    return;
-  }
-
+  const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
   const ccFilePaths = codeCrumbs
     ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
     : [];
 
-  if (!dependencies && !ccFilePaths.length) {
-    return;
-  }
-
-  const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
-  if (!codeCrumbs && !depFilePaths.length) {
-    return;
+  if (!depFilePaths.length && !ccFilePaths.length) {
+    return sourceKeepOnlyActiveFolders ? dispatch(closeAllFolders()) : undefined;
   }
 
   dispatch({
     type: ACTIONS.SET_FOLDERS_STATE,
-    payload: getFoldersForPaths(depFilePaths.concat(ccFilePaths))
+    payload: {
+      folders: getFoldersForPaths(depFilePaths.concat(ccFilePaths)),
+      override: sourceKeepOnlyActiveFolders
+    }
   });
 };
 

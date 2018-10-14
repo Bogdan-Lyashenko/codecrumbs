@@ -25,7 +25,7 @@ class SourceTree extends React.Component {
       codeCrumbsMinimize,
 
       filesTreeLayoutNodes,
-      closedFolders,
+      openedFolders,
       selectedNode,
       shiftToCenterPoint,
       onNodeTextClick,
@@ -119,7 +119,7 @@ class SourceTree extends React.Component {
               name={name}
               dependency={dependenciesDiagramOn}
               disabled={sourceDimFolders}
-              closed={closedFolders[node.data.path]}
+              closed={!openedFolders[node.data.path]}
               onTextClick={() => onNodeTextClick(node.data)}
               onIconClick={() => onFolderIconClick(node.data)}
             />
@@ -162,7 +162,7 @@ const mapStateToProps = state => {
     dependenciesMap,
     filteredDependenciesList,
     filteredDependenciesAllModulesMap,
-    closedFolders,
+    openedFolders,
     dependenciesEntryPoint,
     selectedNode,
     selectedDependencyEdgeNodes
@@ -178,7 +178,7 @@ const mapStateToProps = state => {
     filteredDependenciesAllModulesMap,
     dependenciesMap,
     filteredDependenciesList,
-    closedFolders,
+    openedFolders,
     dependenciesEntryPoint,
     selectedNode,
     selectedDependencyEdgeNodes

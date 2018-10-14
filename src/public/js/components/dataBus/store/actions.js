@@ -14,7 +14,7 @@ export const setChangedSourceData = payload => ({
 
 export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   const state = getState();
-  const { filesTree, closedFolders } = state.dataBus;
+  const { filesTree, openedFolders } = state.dataBus;
   const { checkedState } = state.viewSwitches;
 
   if (!filesTree) return;
@@ -23,7 +23,7 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
     type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
     payload: getTreeLayout(filesTree, {
       includeFileChildren: checkedState.codeCrumbs && !checkedState.codeCrumbsMinimize,
-      closedFolders
+      openedFolders
     })
   });
 };
@@ -81,7 +81,12 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
   });
 };
 
+// TODO: call on dep entry point change as well
+// TODO: mark somehow folder opened by user, to don't close it again!
+// add check box to source tree so all this smart behaviour can be disabled
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
+  return; //
+
   const state = getState();
   const {
     filesMap,

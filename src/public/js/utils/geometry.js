@@ -32,8 +32,8 @@ export const calculateLayoutSize = (list, padding = 0) => {
   });
 
   return {
-    width: Math.abs(maxX) + Math.abs(minX) + padding,
-    height: Math.abs(maxY) + Math.abs(minY) + padding,
+    width: Math.round(Math.abs(maxX) + Math.abs(minX) + padding),
+    height: Math.round(Math.abs(maxY) + Math.abs(minY) + padding),
     padding
   };
 };

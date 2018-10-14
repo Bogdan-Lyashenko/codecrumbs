@@ -9,7 +9,7 @@ const DefaultState = {
   dependenciesMap: null,
 
   filesTreeLayoutNodes: null,
-  closedFolders: {},
+  openedFolders: {},
   firstLevelFolders: {},
   fileNodesMap: {},
   filteredDependenciesList: [],
@@ -22,13 +22,20 @@ const DefaultState = {
 export default (state = DefaultState, action) => {
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA:
-      const { dependenciesRootEntryName, filesMap } = action.payload;
+      const { dependenciesRootEntryName, filesMap, filesTree, foldersMap } = action.payload;
 
       return {
         ...state,
         ...action.payload,
         selectedNode: filesMap[dependenciesRootEntryName],
         dependenciesEntryPoint: filesMap[dependenciesRootEntryName],
+        openedFolders: {
+          ...Object.keys(foldersMap).reduce((res, item) => {
+            res[item] = false;
+            return res;
+          }, {}),
+          [filesTree.path]: true
+        },
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
           .reduce((res, item) => {
@@ -63,34 +70,35 @@ export default (state = DefaultState, action) => {
       };
 
     case ACTIONS.TOGGLE_FOLDER:
-      const { closedFolders } = state;
+      const { openedFolders } = state;
       const folderPath = action.payload.path;
 
       return {
         ...state,
-        closedFolders: closedFolders[folderPath]
-          ? { ...closedFolders, [folderPath]: null }
-          : { ...closedFolders, [folderPath]: action.payload }
+        openedFolders: { ...openedFolders, [folderPath]: !openedFolders[folderPath] }
       };
 
     case ACTIONS.SET_FOLDERS_STATE:
       return {
         ...state,
-        closedFolders: { ...state.closedFolders, ...action.payload }
+        openedFolders: { ...state.openedFolders, ...action.payload }
       };
 
     case ACTIONS.OPEN_ALL_FOLDERS:
       return {
         ...state,
-        closedFolders: {}
+        openedFolders: { ...state.foldersMap }
       };
 
     case ACTIONS.CLOSE_ALL_FOLDERS:
       return {
         ...state,
-        closedFolders: {
-          ...state.closedFolders,
-          ...state.firstLevelFolders
+        openedFolders: {
+          ...Object.keys(state.foldersMap).reduce((res, item) => {
+            res[item] = false;
+            return res;
+          }, {}),
+          [state.filesTree.path]: true
         }
       };
 

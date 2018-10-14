@@ -4,12 +4,12 @@ import { LAYOUT_CONFIG } from 'components/treeDiagram/store/constants';
 
 export const getTreeLayout = (
   treeData,
-  { includeFileChildren, config = LAYOUT_CONFIG, closedFolders }
+  { includeFileChildren, config = LAYOUT_CONFIG, openedFolders }
 ) => {
   const layoutStructure = d3FlexTree.flextree({
     children: data => {
       if (data.type === DIR_NODE_TYPE) {
-        return !closedFolders[data.path] ? data.children : [];
+        return openedFolders[data.path] ? data.children : [];
       }
 
       return includeFileChildren ? data.children : [];

@@ -12,6 +12,7 @@ const DIR_NODE_TYPE = require('../shared/constants').DIR_NODE_TYPE;
 
 const getDirFiles = projectDir => {
   const filesMap = {};
+  const foldersMap = {};
 
   const filesTree = directoryTree(projectDir, { extensions: /\.jsx?$/ }, (item, PATH) => {
     filesMap[item.path] = item;
@@ -19,6 +20,8 @@ const getDirFiles = projectDir => {
 
   treeTraversal(filesTree, node => {
     if (node.type === DIR_NODE_TYPE && node.children) {
+      foldersMap[node.path] = true;
+
       node.children = node.children.sort((a, b) => {
         if (a.type !== DIR_NODE_TYPE && b.type === DIR_NODE_TYPE) {
           return 1;
@@ -33,7 +36,7 @@ const getDirFiles = projectDir => {
     }
   });
 
-  return { tree: filesTree, map: filesMap };
+  return { tree: filesTree, map: filesMap, foldersMap };
 };
 
 const getDependencies = (projectDir, entryPoint) => {
@@ -127,6 +130,7 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
       return onInit({
         filesTree: dirFiles.tree,
         filesMap: dirFiles.map,
+        foldersMap: dirFiles.foldersMap,
         dependenciesMap: dependencies.map,
         codeCrumbedFlowsMap: codeCrumbs.flows
       });
@@ -156,6 +160,7 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
 
         return onChange({
           filesTree: dirFiles.tree,
+          foldersMap: dirFiles.foldersMap,
           filesMap: {
             ...dirFiles.map,
             [file.path]: dirFiles.map[file.path]

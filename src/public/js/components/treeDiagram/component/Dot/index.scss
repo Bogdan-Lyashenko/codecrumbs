@@ -1,4 +1,8 @@
+@import "../animcations.scss";
+
 .Dot {
+  @extend .FadeIn;
+
   fill: #BFBFBF;
 }
 

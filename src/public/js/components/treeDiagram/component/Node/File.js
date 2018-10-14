@@ -33,7 +33,7 @@ export const FileName = props => {
   const imageOffset = !dependency ? { x: 2, y: -10 } : { x: 0, y: -7.5 };
 
   return (
-    <React.Fragment>
+    <g className={'FileNode'}>
       {((dependency || codeCrumbs) && (
         <React.Fragment>
           <rect
@@ -85,6 +85,6 @@ export const FileName = props => {
           {name}
         </text>
       </g>
-    </React.Fragment>
+    </g>
   );
 };

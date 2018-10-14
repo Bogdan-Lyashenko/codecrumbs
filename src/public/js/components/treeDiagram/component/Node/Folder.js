@@ -17,7 +17,7 @@ export const FolderName = props => {
   const iconPositionY = position.y + (closed ? -16 : -17);
 
   return (
-    <React.Fragment>
+    <g className={'FolderNode'}>
       {dependency ? (
         <rect
           x={position.x + 2}
@@ -31,9 +31,11 @@ export const FolderName = props => {
         <polyline
           points={[
             iconPositionX - 1,
-            iconPositionY + 16,
+            iconPositionY + 17,
             iconPositionX + 16,
-            iconPositionY + 16
+            iconPositionY + 17,
+            iconPositionX + 16,
+            iconPositionY + 14
           ].join(', ')}
           className={classNames('NodeIcon-folder-line', {
             'NodeIcon-folder-line-disabled': disabled
@@ -59,6 +61,6 @@ export const FolderName = props => {
       >
         {name}
       </text>
-    </React.Fragment>
+    </g>
   );
 };

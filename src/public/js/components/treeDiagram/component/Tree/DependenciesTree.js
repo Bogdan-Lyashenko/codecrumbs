@@ -92,7 +92,7 @@ class DependenciesTree extends React.Component {
             //TODO: un sync with FileName in SourceTree, duplication
             sourceNodes.push(
               <FileName
-                key={`module-file-${i}`}
+                key={moduleNode.data.path}
                 position={targetPosition}
                 name={moduleNode.data.name}
                 dependency={true}
@@ -128,7 +128,7 @@ class DependenciesTree extends React.Component {
 
                 const edge = (
                   <DependenciesEdge
-                    key={'edge' + i}
+                    key={`dep-edge-${importedNodeName}`}
                     groupName={groupName}
                     sourcePosition={sourcePosition}
                     targetPosition={targetPosition}
@@ -143,7 +143,7 @@ class DependenciesTree extends React.Component {
                 if (!i && groupNodes.length > 1) {
                   overlappingEdges.push(
                     <DependenciesOverlappingEdge
-                      key={'overlap-edge' + i}
+                      key={`overlap-edge-${importedNodeName}`}
                       groupName={groupName}
                       sourcePosition={sourcePosition}
                       targetPosition={targetPosition}
@@ -159,7 +159,7 @@ class DependenciesTree extends React.Component {
                 if (!sourceDiagramOn) {
                   sourceNodes.push(
                     <FileName
-                      key={`imported-node-${i}`}
+                      key={importedNode.data.path}
                       position={sourcePosition}
                       name={importedNode.data.name}
                       dependency={true}
@@ -171,7 +171,7 @@ class DependenciesTree extends React.Component {
           );
 
           return (
-            <React.Fragment key={moduleName + i}>
+            <React.Fragment key={moduleName}>
               {edges}
               {selectedEdges}
               {overlappingEdges}

@@ -62,7 +62,7 @@ class SourceTree extends React.Component {
 
           const edge = (
             <SourceEdge
-              key={`edge-${i}`}
+              key={`source-edge-${path}`}
               targetPosition={position}
               sourcePosition={sourcePosition}
               disabled={sourceDimFolders}
@@ -81,7 +81,7 @@ class SourceTree extends React.Component {
             !(dependenciesDiagramOn && filteredDependenciesAllModulesMap[path]))
         ) {
           sourceDotes.push(
-            <Dot key={`dot-${i}`} position={position} disabled={false} selected={selected} />
+            <Dot key={`dot-${path}`} position={position} disabled={false} selected={selected} />
           );
         }
 
@@ -89,6 +89,7 @@ class SourceTree extends React.Component {
         if (node.data.type === FILE_NODE_TYPE) {
           nodeBasedOnType = (
             <FileName
+              key={path}
               position={position}
               name={name}
               path={node.data.path}
@@ -115,6 +116,7 @@ class SourceTree extends React.Component {
         } else if (node.data.type === DIR_NODE_TYPE) {
           nodeBasedOnType = (
             <FolderName
+              key={path}
               position={position}
               name={name}
               dependency={dependenciesDiagramOn}
@@ -126,7 +128,7 @@ class SourceTree extends React.Component {
           );
         }
 
-        sourceNodes.push(<React.Fragment key={name + i}>{nodeBasedOnType}</React.Fragment>);
+        sourceNodes.push(nodeBasedOnType);
       });
 
     return (

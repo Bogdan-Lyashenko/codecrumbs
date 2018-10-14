@@ -13,7 +13,7 @@ export const CodeCrumbName = props => {
   const locWidth = loc.length ? loc.length * symbolWidth + 3 : 0;
 
   return (
-    <React.Fragment>
+    <g className={'CodeCrumbNode'}>
       {(cover && (
         <rect
           x={textPoint.x - 3}
@@ -100,6 +100,6 @@ export const CodeCrumbName = props => {
         </React.Fragment>
       )) ||
         null}
-    </React.Fragment>
+    </g>
   );
 };

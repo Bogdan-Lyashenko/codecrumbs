@@ -114,7 +114,7 @@ export const CodeCrumbedFlowEdge = props => {
   endPointConfig.angle = -90;
 
   return (
-    <React.Fragment>
+    <g className={'CodeCrumbEdge'}>
       <rect
         x={sourcePt.x - 1.5}
         y={sourcePt.y - 3}
@@ -138,6 +138,6 @@ export const CodeCrumbedFlowEdge = props => {
         points={polylinePoints.join(', ')}
         className={'EdgeMouseHandler'}
       />
-    </React.Fragment>
+    </g>
   );
 };

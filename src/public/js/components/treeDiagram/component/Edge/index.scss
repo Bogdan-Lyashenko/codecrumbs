@@ -1,3 +1,5 @@
+@import "../animcations.scss";
+
 .EdgeMouseHandler {
   cursor: pointer;
   fill: none;
@@ -6,6 +8,8 @@
 }
 
 .SourceEdge {
+  @extend .FadeIn;
+
   fill: none;
   stroke: #BFBFBF;
   stroke-width: 1px;
@@ -20,6 +24,8 @@
 }
 
 .DependenciesEdge {
+  @extend .FadeIn;
+
   fill: none;
   stroke: #1890ff;
 }
@@ -37,6 +43,8 @@
 }
 
 .CodeCrumbEdge {
+  @extend .FadeIn;
+
   fill: none;
   stroke: #ff18a6;
 }

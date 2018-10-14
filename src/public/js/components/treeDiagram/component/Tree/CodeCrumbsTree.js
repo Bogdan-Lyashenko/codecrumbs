@@ -76,7 +76,7 @@ export const CodeCrumbedFlowEdges = connect(mapStateToProps)(props => {
 
           return (
             <CodeCrumbedFlowEdge
-              key={`cc-flow-edge-${i}`}
+              key={`cc-flow-edge-${fromItem.name}-${toItem.name}`}
               singleCrumbSource={fromFile.children.length === 1}
               singleCrumbTarget={toFile.children.length === 1}
               sourcePosition={edgePoints[0]}
@@ -134,7 +134,7 @@ class CodeCrumbsTree extends React.Component {
                   const ccParams = crumbData.params;
 
                   return (
-                    <React.Fragment key={`code-crumb-edge-${i}`}>
+                    <React.Fragment key={`code-crumb-edge-${node.data.path}-${crumbData.name}`}>
                       {(!singleCrumb && (
                         <CodeCrumbEdge
                           sourcePosition={position}

@@ -189,24 +189,28 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
     endPointConfig.angle = directionTop ? 90 : -90;
   }
 
-  return isArrow ? (
-    <image
-      x={endPointConfig.x}
-      y={endPointConfig.y}
-      xlinkHref={endPointConfig.iconPath}
-      height={endPointConfig.iconSize}
-      width={endPointConfig.iconSize}
-      transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
-        endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
-    />
-  ) : (
-    <circle
-      className={classNames('DependenciesEdge-end-dot', {
-        'DependenciesEdge-end-dot-selected': selected
-      })}
-      r={2}
-      cx={endPointConfig.x}
-      cy={endPointConfig.y}
-    />
+  return (
+    <g className={'DependenciesEdge'}>
+      {isArrow ? (
+        <image
+          x={endPointConfig.x}
+          y={endPointConfig.y}
+          xlinkHref={endPointConfig.iconPath}
+          height={endPointConfig.iconSize}
+          width={endPointConfig.iconSize}
+          transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
+            endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
+        />
+      ) : (
+        <circle
+          className={classNames('DependenciesEdge-end-dot', {
+            'DependenciesEdge-end-dot-selected': selected
+          })}
+          r={2}
+          cx={endPointConfig.x}
+          cy={endPointConfig.y}
+        />
+      )}
+    </g>
   );
 };

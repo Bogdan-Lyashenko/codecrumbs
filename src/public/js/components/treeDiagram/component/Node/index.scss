@@ -1,4 +1,11 @@
+@import "../animcations.scss";
+
 $font: 'Menlo';
+
+
+.CodeCrumbNode, .FileNode, .FolderNode {
+  @extend .FadeIn;
+}
 
 .NodeIcon {
   cursor: pointer;

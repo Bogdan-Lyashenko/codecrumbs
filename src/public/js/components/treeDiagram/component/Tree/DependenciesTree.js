@@ -129,6 +129,7 @@ class DependenciesTree extends React.Component {
                 const edge = (
                   <DependenciesEdge
                     key={`dep-edge-${importedNodeName}`}
+                    isAnyDependencyEdgesSelected={!!selectedDependencyEdgeNodes}
                     groupName={groupName}
                     sourcePosition={sourcePosition}
                     targetPosition={targetPosition}

@@ -72,6 +72,7 @@ export const DependenciesEdge = props => {
     sourcePosition,
     firstSourcePosition,
     selected,
+    isAnyDependencyEdgesSelected,
     onClick
   } = props;
 
@@ -97,12 +98,14 @@ export const DependenciesEdge = props => {
       <polyline
         points={sourceDotLinePoints.join(', ')}
         className={classNames('DependenciesEdge', {
+          Animation: !isAnyDependencyEdgesSelected,
           'DependenciesEdge-selected': selected
         })}
       />
       <polyline
         points={connectionLinePoints.join(', ')}
         className={classNames('DependenciesEdge', {
+          Animation: !isAnyDependencyEdgesSelected,
           'DependenciesEdge-selected': selected
         })}
       />
@@ -154,7 +157,7 @@ export const DependenciesOverlappingEdge = props => {
     <React.Fragment>
       <polyline
         points={connectionLinePoints.join(', ')}
-        className={classNames('DependenciesEdge', {
+        className={classNames('DependenciesEdge', 'Animation', {
           'DependenciesEdge-selected': selected
         })}
       />
@@ -190,7 +193,7 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
   }
 
   return (
-    <g className={'DependenciesEdge'}>
+    <React.Fragment>
       {isArrow ? (
         <image
           x={endPointConfig.x}
@@ -198,12 +201,13 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
           xlinkHref={endPointConfig.iconPath}
           height={endPointConfig.iconSize}
           width={endPointConfig.iconSize}
+          className={'Animation'}
           transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
             endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
         />
       ) : (
         <circle
-          className={classNames('DependenciesEdge-end-dot', {
+          className={classNames('DependenciesEdge-end-dot', 'Animation', {
             'DependenciesEdge-end-dot-selected': selected
           })}
           r={2}
@@ -211,6 +215,6 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
           cy={endPointConfig.y}
         />
       )}
-    </g>
+    </React.Fragment>
   );
 };

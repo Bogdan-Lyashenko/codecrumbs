@@ -23,9 +23,11 @@
   stroke: #555555;
 }
 
-.DependenciesEdge {
+.Animation {
   @extend .FadeIn;
+}
 
+.DependenciesEdge {
   fill: none;
   stroke: #1890ff;
 }

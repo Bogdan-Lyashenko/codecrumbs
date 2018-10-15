@@ -34,6 +34,7 @@ const CodeTab = props => {
         <Collapse bordered={false} defaultActiveKey={['0', '1']}>
           <Panel header={selectedNode.path} key="0">
             <Code
+              limitedHeight={true}
               code={selectedNode.fileCode}
               crumbedLines={codeCrumbsDiagramOn ? getCrumbedLines(selectedNode) : undefined}
               dependenciesLines={importedDependencies.map(({ node }) => getNodeLines(node))}
@@ -54,6 +55,7 @@ const CodeTab = props => {
             return (
               <Panel header={fileNode.path} key={i + 1}>
                 <Code
+                  limitedHeight={true}
                   code={fileNode.fileCode}
                   crumbedLines={codeCrumbsDiagramOn ? getCrumbedLines(fileNode) : undefined}
                   dependenciesLines={exportedDependencies.map(getNodeLines)}

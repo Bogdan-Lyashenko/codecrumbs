@@ -1,5 +1,4 @@
 .Code {
-  max-height: 300px;
   height: 100%;
   position: relative;
   overflow: auto;
@@ -12,5 +11,9 @@
   .importedDependencyLine {
     display: block;
     background-color: rgba(0, 148, 249, 0.1);
+  }
+
+  &.limitedHeight {
+    max-height: 300px;
   }
 }

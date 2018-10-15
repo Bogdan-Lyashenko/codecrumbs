@@ -1,6 +1,8 @@
 import React from 'react';
+import classNames from 'classnames';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneLight } from 'react-syntax-highlighter/styles/hljs';
+
 import './index.scss';
 
 const isMatchLineNumber = (lines, lineNumber) =>
@@ -39,11 +41,11 @@ export default class extends React.Component {
   }
 
   render() {
-    const { code, crumbedLines = [], dependenciesLines = [] } = this.props;
+    const { code, crumbedLines = [], dependenciesLines = [], limitedHeight } = this.props;
 
     // TODO: calc height for .Code based on dependenciesLines - it's not always need to be 300 px!!
     return (
-      <div className={'Code'} ref={el => (this.codeRef = el)}>
+      <div className={classNames('Code', { limitedHeight })} ref={el => (this.codeRef = el)}>
         <SyntaxHighlighter
           language="javascript"
           style={atomOneLight}
@@ -56,17 +58,6 @@ export default class extends React.Component {
             }
 
             if (isMatchLineNumber(dependenciesLines, lineNumber)) {
-              if (dependenciesLines[0][0] === lineNumber) {
-                // TODO: do better logic
-                const config = { className: 'importedDependencyLine' };
-                /*config.ref = el => {
-              console.log(el);
-            }*/
-                //setTimeout(() => el && el.scrollIntoView && el.scrollIntoView(true), 1000);
-
-                return config;
-              }
-
               return { className: 'importedDependencyLine' };
             }
 

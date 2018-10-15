@@ -44,15 +44,15 @@ const CrumbsTab = props => {
 };
 
 const mapStateToProps = state => {
-  const { selectedNode, filesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
+  const { selectedNode, fileNodesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
 
   return {
     selectedNode,
-    flowStepsFiles: getFlowStepsFiles(selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesMap)
+    flowStepsFiles: getFlowStepsFiles(selectedCrumbedFlowKey, codeCrumbedFlowsMap, fileNodesMap)
   };
 };
 
-const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesMap) => {
+const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, fileNodesMap) => {
   let sortedFlowSteps = [];
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey];
 
@@ -61,12 +61,12 @@ const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesMap
   }
 
   Object.keys(currentFlow).forEach(filePath => {
-    const steps = ((filesMap[filePath] && filesMap[filePath].children) || [])
-      .filter(({ params }) => params.flow === selectedCrumbedFlowKey)
-      .map(({ params, crumbNode }) => ({
-        crumbNode,
-        file: filesMap[filePath],
-        step: params.flowStep
+    const steps = ((fileNodesMap[filePath] && fileNodesMap[filePath].children) || [])
+      .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
+      .map(({ data }) => ({
+        crumbNode: data.crumbNode,
+        file: fileNodesMap[filePath].data,
+        step: data.params.flowStep
       }));
 
     sortedFlowSteps = sortedFlowSteps.concat(steps);

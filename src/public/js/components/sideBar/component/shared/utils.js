@@ -28,15 +28,6 @@ export const findFileNode = (path, filesMap) => {
   return filesMap[completePath];
 };
 
-export const getCrumbedLines = node => {
-  if (!node.children) {
-    return [];
-  }
-
-  const codeCrumbs = node.children;
-  return codeCrumbs.map(codeCrumb => getNodeLines(codeCrumb.crumbNode));
-};
-
 export const getNodeLines = node => [node.loc.start.line, node.loc.end.line];
 
 export const extractExportsForImports = (fileCode, specifiers) => {

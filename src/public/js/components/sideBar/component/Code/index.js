@@ -18,23 +18,21 @@ const isMatchLineNumber = (lines, lineNumber) =>
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
 export default class extends React.Component {
   fixScroll() {
-    const { dependenciesLines } = this.props;
-    if (
-      !this.codeRef ||
-      !this.codeRef.scrollTo ||
-      !dependenciesLines ||
-      !dependenciesLines.length
-    ) {
+    const { dependenciesLines = [], crumbedLines = [] } = this.props;
+    if (!this.codeRef || !this.codeRef.scrollTo) {
       return;
     }
 
-    this.codeRef.scrollTo(0, dependenciesLines[0][0] * 15 - 5);
+    const lines = dependenciesLines.length
+      ? dependenciesLines
+      : crumbedLines.length
+        ? crumbedLines
+        : null;
+
+    lines && this.codeRef.scrollTo(0, lines[0][0] * 15 - 5);
   }
   componentDidUpdate(prevProps) {
-    // TODO: doesn't work
-    if (prevProps.dependenciesLines !== this.props.dependenciesLines) {
-      this.fixScroll();
-    }
+    this.fixScroll();
   }
   componentDidMount() {
     this.fixScroll();

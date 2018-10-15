@@ -70,7 +70,7 @@ const DefaultState = {
     [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true
   },
   disabledState: {},
-  selectedTabInSideBar: '1'
+  selectedTabInSideBar: '0'
 };
 
 export default (state = DefaultState, action) => {

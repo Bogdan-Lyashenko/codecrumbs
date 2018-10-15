@@ -7,7 +7,6 @@ import Code from '../Code';
 import {
   filterImportedDependencies,
   findFileNode,
-  getCrumbedLines,
   extractExportsForImports,
   getNodeLines
 } from '../shared/utils';
@@ -15,18 +14,13 @@ import './index.scss';
 
 const Panel = Collapse.Panel;
 
-const CodeTab = props => {
-  const {
-    selectedNode,
-    filesMap,
-    codeCrumbsDiagramOn,
-    dependenciesDiagramOn,
-    selectedDependencyEdgeNodes
-  } = props;
+const DependenciesTab = props => {
+  const { selectedNode, filesMap, selectedDependencyEdgeNodes } = props;
 
-  const importedDependencies = dependenciesDiagramOn
-    ? filterImportedDependencies(selectedNode.importedDependencies, selectedDependencyEdgeNodes)
-    : [];
+  const importedDependencies = filterImportedDependencies(
+    selectedNode.importedDependencies,
+    selectedDependencyEdgeNodes
+  );
 
   return (
     <div className={'DependenciesTab'}>
@@ -36,7 +30,6 @@ const CodeTab = props => {
             <Code
               limitedHeight={true}
               code={selectedNode.fileCode}
-              crumbedLines={codeCrumbsDiagramOn ? getCrumbedLines(selectedNode) : undefined}
               dependenciesLines={importedDependencies.map(({ node }) => getNodeLines(node))}
             />
           </Panel>
@@ -57,7 +50,6 @@ const CodeTab = props => {
                 <Code
                   limitedHeight={true}
                   code={fileNode.fileCode}
-                  crumbedLines={codeCrumbsDiagramOn ? getCrumbedLines(fileNode) : undefined}
                   dependenciesLines={exportedDependencies.map(getNodeLines)}
                 />
               </Panel>
@@ -76,18 +68,13 @@ const CodeTab = props => {
 };
 
 const mapStateToProps = state => {
-  const { selectedNode, selectedCodeCrumb, selectedDependencyEdgeNodes, filesMap } = state.dataBus;
-  const { checkedState } = state.viewSwitches;
+  const { selectedNode, selectedDependencyEdgeNodes, filesMap } = state.dataBus;
 
   return {
     selectedNode,
-    selectedCodeCrumb,
     selectedDependencyEdgeNodes,
-    filesMap,
-    sideBarOn: checkedState.sideBar,
-    dependenciesDiagramOn: checkedState.dependencies,
-    codeCrumbsDiagramOn: checkedState.codeCrumbs
+    filesMap
   };
 };
 
-export default connect(mapStateToProps)(CodeTab);
+export default connect(mapStateToProps)(DependenciesTab);

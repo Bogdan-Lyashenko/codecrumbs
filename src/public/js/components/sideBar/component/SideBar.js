@@ -7,6 +7,7 @@ import { Copy } from 'components/controls/Copy';
 
 import Code from './Code';
 import DependenciesTab from './DependenciesTab';
+import CrumbsTab from './CrumbsTab';
 import './SideBar.scss';
 
 const TabPane = Tabs.TabPane;
@@ -26,6 +27,12 @@ export default ({
   let content = null;
 
   if (file && file.fileCode) {
+    let tabsListLength = 4;
+    !dependenciesOn && tabsListLength--;
+    !codeCrumbsOn && tabsListLength--;
+
+    const defaultActiveKey = `${+selectedTabInSideBar > tabsListLength ? 0 : selectedTabInSideBar}`;
+
     header = (
       <React.Fragment>
         <div>{file.path}</div>
@@ -36,23 +43,23 @@ export default ({
     );
 
     content = (
-      <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
-        <TabPane tab="Code" key="1">
+      <Tabs defaultActiveKey={defaultActiveKey} onChange={onTabSelect}>
+        <TabPane tab="Code" key="0">
           <Code code={file.fileCode} />
         </TabPane>
         {(dependenciesOn && (
-          <TabPane tab="Dependencies" key="2">
+          <TabPane tab="Dependencies" key="1">
             <DependenciesTab />
           </TabPane>
         )) ||
           null}
         {(codeCrumbsOn && (
-          <TabPane tab="Crumbs" key="3">
-            Here is gonna be some magic with code crumbs
+          <TabPane tab="Crumbs" key="2">
+            <CrumbsTab />
           </TabPane>
         )) ||
           null}
-        <TabPane tab="FlowChart" key="4">
+        <TabPane tab="FlowChart" key="3">
           Here is gonna be flow charts
         </TabPane>
       </Tabs>

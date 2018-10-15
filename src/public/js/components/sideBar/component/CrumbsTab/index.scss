@@ -1,0 +1,9 @@
+.CrumbsTab {
+  height: 100%;
+  .ant-collapse {
+    margin-left: -16px;
+    margin-right: -16px;
+    max-height: 100%;
+    overflow: auto;
+  }
+}

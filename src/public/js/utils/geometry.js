@@ -1,4 +1,4 @@
-export const calculateLayoutSize = (list, padding = 0) => {
+export const calculateLayoutSize = (list, padding = 100) => {
   if (!list) {
     return {
       width: 0,
@@ -32,9 +32,10 @@ export const calculateLayoutSize = (list, padding = 0) => {
   });
 
   return {
-    width: Math.round(Math.abs(maxX) + Math.abs(minX) + padding),
-    height: Math.round(Math.abs(maxY) + Math.abs(minY) + padding),
-    padding
+    width: Math.round(Math.abs(maxX) + Math.abs(minX) + 2 * padding),
+    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding),
+    xShift: padding / 2,
+    yShift: Math.round(Math.abs(minY)) + padding
   };
 };
 

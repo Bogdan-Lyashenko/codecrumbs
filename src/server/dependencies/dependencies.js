@@ -5,6 +5,7 @@ const getImports = fileCode => {
   let ast = {};
   const importedDependencies = [];
 
+  //TODO: move to one file in util, to keep config in one place
   try {
     ast = babylon.parse(fileCode, { sourceType: 'module' });
   } catch (e) {

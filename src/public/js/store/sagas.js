@@ -1,4 +1,3 @@
-import every from 'lodash/every';
 import { put, takeLatest, select, all } from 'redux-saga/effects';
 import { ACTIONS as DATA_BUS_ACTIONS } from 'components/dataBus/store/constants';
 import {
@@ -52,19 +51,11 @@ function* reactOnButtonAction(action) {
   const buttonKey = action.payload;
 
   if (buttonKey === CONTROLS_KEYS.SOURCE_EXPAND_ALL) {
-    return yield all([
-      put(setDisabledControl(CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN)),
-      put(openAllFolders()),
-      put(calcFilesTreeLayoutNodes())
-    ]);
+    return yield all([put(openAllFolders()), put(calcFilesTreeLayoutNodes())]);
   }
 
   if (buttonKey === CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN) {
-    return yield all([
-      put(setDisabledControl(CONTROLS_KEYS.SOURCE_EXPAND_ALL)),
-      put(closeAllFolders()),
-      put(calcFilesTreeLayoutNodes())
-    ]);
+    return yield all([put(closeAllFolders()), put(calcFilesTreeLayoutNodes())]);
   }
 }
 

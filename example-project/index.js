@@ -1,28 +1,20 @@
-//import tabs from './views/tabs';
-import { dataModelMethod } from './dataModel/model';
-import p from './views/product/product-page'
-import s from './utils/string/format/string'
-//import h from './views/home/home-page'
+import '@babel/polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-const App = {
-    init() {
-        tabs.render(); //cc:#render#0;start;Call Long line check out tabs.js for more details
-    }
-};
+import App from './App';
+import getStore from 'store/createStore';
 
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
+const MOUNT_NODE_ID = 'mount-node';
 
-//cc:#render#3;promise resolve
-App.init();
+const { store, persistor } = getStore();
+ReactDOM.render(
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>,
+  document.getElementById(MOUNT_NODE_ID)
+);

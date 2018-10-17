@@ -18,6 +18,12 @@ const getDirFiles = projectDir => {
     filesMap[item.path] = item;
   });
 
+  if (!Object.keys(filesMap).length) {
+    throw new Error(
+      'There is not files found. Please check source dir and entry point configs.'
+    );
+  }
+
   treeTraversal(filesTree, node => {
     if (node.type === DIR_NODE_TYPE && node.children) {
       foldersMap[node.path] = true;

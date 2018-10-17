@@ -1,5 +1,6 @@
 import React from 'react';
 import Draggable from 'react-draggable';
+import { Spin } from 'antd';
 
 import SourceTree from './Tree/SourceTree';
 import { UnderLayer } from './UnderLayer';
@@ -7,20 +8,24 @@ import './TreeDiagram.scss';
 
 import { buildShiftToPoint } from 'utils/geometry';
 
-export const BOX_SIZE = { W: 1000, H: 800 };
-export const DOT = {
-  x: 20,
-  y: 70
-};
-
 class TreeDiagram extends React.Component {
   render() {
     const { layoutSize, filesTreeLayoutNodes, onUnderLayerClick } = this.props;
-    const { width = BOX_SIZE.W, height = BOX_SIZE.H, padding } = layoutSize;
+    const { width, height, xShift, yShift } = layoutSize;
+
+    if (!width && !height) {
+      return (
+        <div className={'MainLoader'}>
+          <Spin />
+          <Spin />
+          <Spin />
+        </div>
+      );
+    }
 
     const shiftToCenterPoint = buildShiftToPoint({
-      x: DOT.x,
-      y: (height - padding) / 2 + DOT.y
+      x: xShift,
+      y: yShift
     });
 
     return (

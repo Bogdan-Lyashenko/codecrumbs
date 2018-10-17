@@ -14,8 +14,7 @@ class DataBusContainer extends React.Component {
     const { setInitialSourceData } = this.props;
 
     setInitialSourceData({
-      ...dataBody,
-      dependenciesRootEntryName: 'example-project/index.js' // TODO: fix, should be passed from server
+      ...dataBody
     });
   }
 
@@ -30,10 +29,10 @@ class DataBusContainer extends React.Component {
   onSocketEvent(type, data) {
     switch (type) {
       case SOCKET_EVENT_TYPE.INIT_SOURCE_FILES_SYNC:
-        return this.handleInitSyncEvent(data.body);
+        return this.handleInitSyncEvent(data);
 
       case SOCKET_EVENT_TYPE.UPDATE_SOURCE_FILE_SYNC:
-        return this.handleUpdateSyncEvent(data.body);
+        return this.handleUpdateSyncEvent(data);
 
       default:
         break;

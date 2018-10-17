@@ -132,7 +132,8 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
         filesMap: dirFiles.map,
         foldersMap: dirFiles.foldersMap,
         dependenciesMap: dependencies.map,
-        codeCrumbedFlowsMap: codeCrumbs.flows
+        codeCrumbedFlowsMap: codeCrumbs.flows,
+        dependenciesRootEntryName: entryPoint
       });
     }
   );

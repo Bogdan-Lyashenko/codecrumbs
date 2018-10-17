@@ -28,17 +28,17 @@ webSocketServer.on('request', request => {
   const connection = request.accept(null, request.origin);
 
   projectSourceWatcher.subscribeOnChange(PROJECT_DIR, ENTRY, {
-    onInit: body =>
+    onInit: data =>
       connection.sendUTF(
         JSON.stringify({
           type: SOCKET_EVENT_TYPE.INIT_SOURCE_FILES_SYNC,
-          data: { projectDir: PROJECT_DIR, body }
+          data
         })
       ),
-    onChange: body => connection.sendUTF(
+    onChange: data => connection.sendUTF(
       JSON.stringify({
         type: SOCKET_EVENT_TYPE.UPDATE_SOURCE_FILE_SYNC,
-        data: { body }
+        data
       })
     ),
   });

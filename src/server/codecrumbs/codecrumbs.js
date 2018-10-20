@@ -1,6 +1,8 @@
 const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
+const astParseConfig = require('../../shared/astParse').config;
+
 const CRUMB = 'codecrumb',
   CRUMB_SHORT_HANDLER = 'cc';
 
@@ -42,7 +44,7 @@ const getCrumbs = fileCode => {
   const crumbsList = [];
 
   try {
-    ast = babylon.parse(fileCode, { sourceType: 'module' });
+    ast = babylon.parse(fileCode, astParseConfig);
   } catch (e) {
     console.log(e);
     return crumbsList;

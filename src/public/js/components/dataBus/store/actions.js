@@ -81,9 +81,6 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
   });
 };
 
-// TODO: call on dep entry point change as well
-// TODO: mark somehow folder opened by user, to don't close it again!
-// add check box to source tree so all this smart behaviour can be disabled
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
   const state = getState();
   const { filesMap, filteredDependenciesAllModulesMap } = state.dataBus;

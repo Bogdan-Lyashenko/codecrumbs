@@ -1,6 +1,8 @@
 const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
+const astParseConfig = require('../../../../../../shared/astParse').config;
+
 export const filterImportedDependencies = (
   importedDependencies = [],
   selectedDependencyEdgeNodes
@@ -35,7 +37,7 @@ export const extractExportsForImports = (fileCode, specifiers) => {
   const exports = [];
 
   try {
-    ast = babylon.parse(fileCode, { sourceType: 'module' });
+    ast = babylon.parse(fileCode, astParseConfig);
   } catch (e) {
     console.log(e);
     return exports;

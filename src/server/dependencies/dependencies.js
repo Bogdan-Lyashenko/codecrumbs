@@ -1,13 +1,15 @@
 const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
+const astParseConfig = require('../../shared/astParse').config;
+
 const getImports = fileCode => {
   let ast = {};
   const importedDependencies = [];
 
   //TODO: move to one file in util, to keep config in one place
   try {
-    ast = babylon.parse(fileCode, { sourceType: 'module' });
+    ast = babylon.parse(fileCode, astParseConfig);
   } catch (e) {
     console.log(e);
     return importedDependencies;

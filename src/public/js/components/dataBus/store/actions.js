@@ -1,6 +1,6 @@
 import { ACTIONS } from './constants';
 import { getTreeLayout } from 'utils/treeLayout';
-import { DIR_NODE_TYPE } from 'utils/constants';
+import { DIR_NODE_TYPE, FOLDER_OPEN_STATE } from 'utils/constants';
 
 export const setInitialSourceData = payload => ({
   type: ACTIONS.SET_INITIAL_SOURCE_DATA,
@@ -134,7 +134,10 @@ const getFoldersForPaths = (paths, openedFolders, override) =>
 
     folders.forEach((f, i, l) => {
       const key = l.slice(0, i + 1).join('/');
-      res[key] = override || !openedFolders[key] ? 1 : openedFolders[key];
+      res[key] =
+        override || !openedFolders[key]
+          ? FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY
+          : openedFolders[key];
     });
 
     return res;

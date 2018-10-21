@@ -2,6 +2,7 @@ import safeGet from 'lodash/get';
 import { DIR_NODE_TYPE, FILE_NODE_TYPE } from 'utils/constants';
 import { ACTIONS } from './constants';
 import { getFileNodesMap } from 'utils/treeLayout';
+import { FOLDER_OPEN_STATE } from 'utils/constants';
 
 const DefaultState = {
   filesTree: null,
@@ -32,10 +33,10 @@ export default (state = DefaultState, action) => {
         dependenciesEntryPoint: filesMap[dependenciesRootEntryName],
         openedFolders: {
           ...Object.keys(foldersMap).reduce((res, item) => {
-            res[item] = 0;
+            res[item] = FOLDER_OPEN_STATE.CLOSED;
             return res;
           }, {}),
-          [filesTree.path]: 1
+          [filesTree.path]: FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY
         },
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
@@ -74,7 +75,11 @@ export default (state = DefaultState, action) => {
       const { openedFolders } = state;
       const folderPath = action.payload.path;
 
-      const openedStateValue = openedFolders[folderPath] === 2 ? 0 : openedFolders[folderPath] + 1;
+      const openedStateValue =
+        openedFolders[folderPath] === FOLDER_OPEN_STATE.OPEN
+          ? FOLDER_OPEN_STATE.CLOSED
+          : openedFolders[folderPath] + 1;
+
       return {
         ...state,
         openedFolders: { ...openedFolders, [folderPath]: openedStateValue }
@@ -98,7 +103,7 @@ export default (state = DefaultState, action) => {
         ...state,
         openedFolders: {
           ...Object.keys(state.foldersMap).reduce((res, item) => {
-            res[item] = 2;
+            res[item] = FOLDER_OPEN_STATE.OPEN;
             return res;
           }, {})
         }
@@ -109,10 +114,10 @@ export default (state = DefaultState, action) => {
         ...state,
         openedFolders: {
           ...Object.keys(state.foldersMap).reduce((res, item) => {
-            res[item] = 0;
+            res[item] = FOLDER_OPEN_STATE.CLOSED;
             return res;
           }, {}),
-          [state.filesTree.path]: 1
+          [state.filesTree.path]: FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY
         }
       };
 

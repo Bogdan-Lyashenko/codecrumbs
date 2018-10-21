@@ -1,5 +1,5 @@
 import * as d3FlexTree from 'd3-flextree';
-import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'utils/constants';
+import { FILE_NODE_TYPE, DIR_NODE_TYPE, FOLDER_OPEN_STATE } from 'utils/constants';
 import { LAYOUT_CONFIG } from 'components/treeDiagram/store/constants';
 
 export const getTreeLayout = (
@@ -9,11 +9,11 @@ export const getTreeLayout = (
   const layoutStructure = d3FlexTree.flextree({
     children: data => {
       if (data.type === DIR_NODE_TYPE) {
-        if (openedFolders[data.path] === 0) {
+        if (openedFolders[data.path] === FOLDER_OPEN_STATE.CLOSED) {
           return [];
         }
 
-        if (openedFolders[data.path] === 1) {
+        if (openedFolders[data.path] === FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY) {
           const filteredChildren = data.children.filter(child => activeItemsMap[child.path]);
 
           // TODO: hide .. for folders where it doesn't change anything

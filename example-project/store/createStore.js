@@ -8,8 +8,6 @@ import viewSwitches from 'components/controls/ViewSwitches/store/reducer';
 import dataBus from 'components/dataBus/store/reducer';
 import rootSaga from './sagas';
 
-//cc:#one#0;pesist;
-
 export default () => {
   const sagaMiddleware = createSagaMiddleware();
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

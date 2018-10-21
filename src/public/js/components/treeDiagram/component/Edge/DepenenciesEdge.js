@@ -14,13 +14,24 @@ const crossShift = 2;
 const ICONS_DIR = 'resources/';
 
 // Arrow can go from top ot bottom of file icon
-const getSourcePt = (groupName, sourcePosition) => ({
-  x: sourcePosition.x + 11,
-  y: [TOP_LEFT, TOP_RIGHT].includes(groupName) ? sourcePosition.y + 6 : sourcePosition.y - 6
-});
+const getSourcePt = (groupName, sourcePosition, targetPt) => {
+  const topDirection =
+    sourcePosition.y !== targetPt.y ? [TOP_LEFT, TOP_RIGHT].includes(groupName) : true;
 
-const getSourceDotLinePoints = (groupName, sourcePt) => {
-  const shiftY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
+  return {
+    x: sourcePosition.x + 11,
+    y: topDirection ? sourcePosition.y + 6 : sourcePosition.y - 6
+  };
+};
+
+const getSourceDotLinePoints = (groupName, sourcePt, sourcePosition, targetPosition) => {
+  const shiftY =
+    sourcePosition.y !== targetPosition.y
+      ? [TOP_LEFT, TOP_RIGHT].includes(groupName)
+        ? 1
+        : -1
+      : 1;
+
   return [
     [sourcePt.x - 2, sourcePt.y - shiftY],
     [sourcePt.x, sourcePt.y + shiftY],
@@ -86,8 +97,13 @@ export const DependenciesEdge = props => {
   } = props;
 
   //TODO: replace groupName with direction boolean if no need for sides
-  const sourcePt = getSourcePt(groupName, sourcePosition);
-  const sourceDotLinePoints = getSourceDotLinePoints(groupName, sourcePt);
+  const sourcePt = getSourcePt(groupName, sourcePosition, targetPosition);
+  const sourceDotLinePoints = getSourceDotLinePoints(
+    groupName,
+    sourcePt,
+    sourcePosition,
+    targetPosition
+  );
   const connectionLinePoints = !firstSourcePosition
     ? getConnectionLine(groupName, targetPosition, sourcePosition, sourcePt)
     : getConnectionLineToFirstSource(
@@ -155,7 +171,7 @@ const getOverlappingConnectionLine = (groupName, targetPosition, sourcePosition)
 export const DependenciesOverlappingEdge = props => {
   const { groupName, targetPosition, sourcePosition, selected, onClick } = props;
 
-  const sourcePt = getSourcePt(groupName, sourcePosition);
+  const sourcePt = getSourcePt(groupName, sourcePosition, targetPosition);
   const connectionLinePoints = getOverlappingConnectionLine(
     groupName,
     targetPosition,

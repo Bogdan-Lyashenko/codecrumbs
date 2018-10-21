@@ -5,8 +5,9 @@ import './index.scss';
 
 export const Dot = props => {
   const { position, disabled, selected } = props;
-  const radius = 2.5;
+  const radius = 2;
 
+  // TODO: replace with file img to have circle
   return (
     <circle
       r={radius}

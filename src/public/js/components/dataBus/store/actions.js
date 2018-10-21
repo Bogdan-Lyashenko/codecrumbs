@@ -12,27 +12,17 @@ export const setChangedSourceData = payload => ({
   payload
 });
 
-export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
-  const state = getState();
-  const { filesTree, openedFolders } = state.dataBus;
-  const { checkedState } = state.viewSwitches;
-
-  if (!filesTree) return;
-
-  return dispatch({
-    type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
-    payload: getTreeLayout(filesTree, {
-      includeFileChildren: checkedState.codeCrumbs && !checkedState.codeCrumbsMinimize,
-      openedFolders
-    })
-  });
-};
-
 export const selectNode = fileNode => ({
   type: ACTIONS.SELECT_NODE,
   payload: fileNode
 });
 
+/**
+  TODO:
+ openedFolders: { example-project/store: true }
+ instead of true false use 0 - closed, 1 - opened but not active filtered, 2 - all opened
+
+ */
 export const toggleFolder = folderNode => ({
   type: ACTIONS.TOGGLE_FOLDER,
   payload: folderNode
@@ -81,9 +71,38 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
   });
 };
 
+export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
+  const state = getState();
+  const { filesTree, openedFolders, activeItemsMap } = state.dataBus;
+  const { checkedState } = state.viewSwitches;
+
+  if (!filesTree) return;
+
+  return dispatch({
+    type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
+    payload: getTreeLayout(filesTree, {
+      includeFileChildren: checkedState.codeCrumbs && !checkedState.codeCrumbsMinimize,
+      openedFolders,
+      activeItemsMap
+    })
+  });
+};
+
+export const setActiveItems = (filesList, foldersMap) => ({
+  type: ACTIONS.SET_ACTIVE_ITEMS,
+  payload: {
+    ...filesList.reduce((acc, item) => {
+      //TODO:move this to util!
+      acc[item] = true;
+      return acc;
+    }, {}),
+    ...foldersMap
+  }
+});
+
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
   const state = getState();
-  const { filesMap, filteredDependenciesAllModulesMap } = state.dataBus;
+  const { filesMap, filteredDependenciesAllModulesMap, openedFolders } = state.dataBus;
   const { dependencies, codeCrumbs, sourceKeepOnlyActiveFolders } = state.viewSwitches.checkedState;
 
   const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
@@ -95,23 +114,27 @@ export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
     return sourceKeepOnlyActiveFolders ? dispatch(closeAllFolders()) : undefined;
   }
 
+  const filesList = depFilePaths.concat(ccFilePaths);
+  const foldersMap = getFoldersForPaths(filesList, openedFolders, sourceKeepOnlyActiveFolders);
+  dispatch(setActiveItems(filesList, foldersMap));
+
   dispatch({
     type: ACTIONS.SET_FOLDERS_STATE,
     payload: {
-      folders: getFoldersForPaths(depFilePaths.concat(ccFilePaths)),
-      override: sourceKeepOnlyActiveFolders
+      folders: foldersMap,
+      override: sourceKeepOnlyActiveFolders //TODO: refactor
     }
   });
 };
 
-const getFoldersForPaths = paths =>
+const getFoldersForPaths = (paths, openedFolders, override) =>
   paths.reduce((res, path) => {
     const folders = path.split('/');
     folders.pop(); //remove file
 
     folders.forEach((f, i, l) => {
       const key = l.slice(0, i + 1).join('/');
-      res[key] = true;
+      res[key] = override || !openedFolders[key] ? 1 : openedFolders[key];
     });
 
     return res;

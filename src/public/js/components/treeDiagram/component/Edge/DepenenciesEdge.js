@@ -210,7 +210,7 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
           className={classNames('DependenciesEdge-end-dot', 'Animation', {
             'DependenciesEdge-end-dot-selected': selected
           })}
-          r={2}
+          r={2.6} //TODO: use image
           cx={endPointConfig.x}
           cy={endPointConfig.y}
         />

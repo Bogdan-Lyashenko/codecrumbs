@@ -121,7 +121,7 @@ class SourceTree extends React.Component {
               name={name}
               dependency={dependenciesDiagramOn}
               disabled={sourceDimFolders}
-              closed={!openedFolders[node.data.path]}
+              openedState={openedFolders[node.data.path]}
               onTextClick={() => onNodeTextClick(node.data)}
               onIconClick={() => onFolderIconClick(node.data)}
             />

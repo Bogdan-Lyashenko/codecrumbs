@@ -26,7 +26,7 @@ const getDirFiles = projectDir => {
 
   treeTraversal(filesTree, node => {
     if (node.type === DIR_NODE_TYPE && node.children) {
-      foldersMap[node.path] = true;
+      foldersMap[node.path] = 1;
 
       node.children = node.children.sort((a, b) => {
         if (a.type !== DIR_NODE_TYPE && b.type === DIR_NODE_TYPE) {

@@ -36,8 +36,8 @@ export const CodeCrumbName = props => {
               className={'CodeCrumbName-rect'}
             />
             <text
-              x={textPoint.x + 2}
-              y={textPoint.y + 4}
+              x={textPoint.x + 2.5}
+              y={textPoint.y + 3}
               onClick={onClick}
               className={'CodeCrumbName-loc'}
             >

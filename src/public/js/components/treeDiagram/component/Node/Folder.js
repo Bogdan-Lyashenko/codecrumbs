@@ -6,7 +6,10 @@ import './index.scss';
 const ICONS_DIR = 'resources/';
 
 export const FolderName = props => {
-  const { position, name, dependency, disabled, closed, onIconClick, onTextClick } = props;
+  const { position, name, dependency, disabled, openedState, onIconClick, onTextClick } = props;
+
+  const closed = openedState === 0; //TODO: replace with constants
+  const notActiveChildrenCollapsed = openedState === 1;
 
   const iconPath = `${ICONS_DIR}${disabled ? 'disabled-' : ''}${
     closed ? 'closed-' : 'open-'
@@ -51,6 +54,20 @@ export const FolderName = props => {
         width={iconSize}
         className={'NodeIcon'}
       />
+      {notActiveChildrenCollapsed ? (
+        <g onClick={onIconClick} className={'NodeIcon'}>
+          <rect
+            x={position.x + 6}
+            y={position.y - 6}
+            width={11}
+            height={4}
+            className={'Folder-collapsed-children-rect'}
+          />
+          <text x={position.x + 7} y={position.y - 3} className={'Folder-collapsed-children-text'}>
+            ..
+          </text>
+        </g>
+      ) : null}
       <text
         x={position.x + 20}
         y={position.y - 3}

@@ -16,7 +16,8 @@ const DefaultState = {
   filteredDependenciesMap: {},
   filteredDependenciesAllModulesMap: {},
 
-  codeCrumbedFlowsMap: {}
+  codeCrumbedFlowsMap: {},
+  activeItemsMap: {}
 };
 
 export default (state = DefaultState, action) => {
@@ -31,10 +32,10 @@ export default (state = DefaultState, action) => {
         dependenciesEntryPoint: filesMap[dependenciesRootEntryName],
         openedFolders: {
           ...Object.keys(foldersMap).reduce((res, item) => {
-            res[item] = false;
+            res[item] = 0;
             return res;
           }, {}),
-          [filesTree.path]: true
+          [filesTree.path]: 1
         },
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
@@ -73,9 +74,16 @@ export default (state = DefaultState, action) => {
       const { openedFolders } = state;
       const folderPath = action.payload.path;
 
+      const openedStateValue = openedFolders[folderPath] === 2 ? 0 : openedFolders[folderPath] + 1;
       return {
         ...state,
-        openedFolders: { ...openedFolders, [folderPath]: !openedFolders[folderPath] }
+        openedFolders: { ...openedFolders, [folderPath]: openedStateValue }
+      };
+
+    case ACTIONS.SET_ACTIVE_ITEMS:
+      return {
+        ...state,
+        activeItemsMap: action.payload
       };
 
     case ACTIONS.SET_FOLDERS_STATE:
@@ -88,7 +96,12 @@ export default (state = DefaultState, action) => {
     case ACTIONS.OPEN_ALL_FOLDERS:
       return {
         ...state,
-        openedFolders: { ...state.foldersMap }
+        openedFolders: {
+          ...Object.keys(state.foldersMap).reduce((res, item) => {
+            res[item] = 2;
+            return res;
+          }, {})
+        }
       };
 
     case ACTIONS.CLOSE_ALL_FOLDERS:
@@ -96,10 +109,10 @@ export default (state = DefaultState, action) => {
         ...state,
         openedFolders: {
           ...Object.keys(state.foldersMap).reduce((res, item) => {
-            res[item] = false;
+            res[item] = 0;
             return res;
           }, {}),
-          [state.filesTree.path]: true
+          [state.filesTree.path]: 1
         }
       };
 

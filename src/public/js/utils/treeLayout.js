@@ -4,12 +4,24 @@ import { LAYOUT_CONFIG } from 'components/treeDiagram/store/constants';
 
 export const getTreeLayout = (
   treeData,
-  { includeFileChildren, config = LAYOUT_CONFIG, openedFolders }
+  { includeFileChildren, config = LAYOUT_CONFIG, openedFolders, activeItemsMap }
 ) => {
   const layoutStructure = d3FlexTree.flextree({
     children: data => {
       if (data.type === DIR_NODE_TYPE) {
-        return openedFolders[data.path] ? data.children : [];
+        if (openedFolders[data.path] === 0) {
+          return [];
+        }
+
+        if (openedFolders[data.path] === 1) {
+          const filteredChildren = data.children.filter(child => activeItemsMap[child.path]);
+
+          // TODO: hide .. for folders where it doesn't change anything
+          data.childrenCollapsed = filteredChildren.length !== data.children.length;
+          return filteredChildren;
+        }
+
+        return data.children;
       }
 
       return includeFileChildren ? data.children : [];

@@ -37,7 +37,7 @@ export const FileName = props => {
       {((dependency || codeCrumbs) && (
         <React.Fragment>
           <rect
-            x={position.x - 1}
+            x={position.x + 3}
             y={position.y - 3}
             width={16}
             height={5}

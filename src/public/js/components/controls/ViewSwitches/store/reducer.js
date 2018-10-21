@@ -85,17 +85,6 @@ export default (state = DefaultState, action) => {
         }
       };
 
-    case ACTIONS.FIRE_BUTTON_ACTION:
-      const buttonKey = action.payload;
-
-      return {
-        ...state,
-        disabledState: {
-          ...state.disabledState,
-          [buttonKey]: true
-        }
-      };
-
     case ACTIONS.SET_DISABLED_CONTROL:
       const { controlKey, disabled } = action.payload;
 

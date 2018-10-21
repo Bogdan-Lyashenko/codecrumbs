@@ -84,7 +84,7 @@ export const CodeCrumbedFlowEdge = props => {
         [targetPt.x, targetPt.y]
       ];
     } else {
-      const nLength = sourceName.length < 10 ? sourceName.length * SYMBOL_WIDTH + 6 : 30;
+      const nLength = sourceName.length < 10 ? sourceName.length * SYMBOL_WIDTH + 8 : 100;
       polylinePoints = [
         [sourcePt.x, sourcePt.y],
         [sourcePt.x, sourcePt.y - padding],

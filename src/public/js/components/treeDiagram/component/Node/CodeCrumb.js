@@ -58,7 +58,7 @@ export const CodeCrumbName = props => {
           />
           <text
             x={textPoint.x - 11}
-            y={textPoint.y + 4}
+            y={textPoint.y + 3}
             onClick={onClick}
             className={'CodeCrumbName-flow'}
           >

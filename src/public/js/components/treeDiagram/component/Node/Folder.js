@@ -1,10 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import { FOLDER_OPEN_STATE } from 'utils/constants';
+import { FOLDER_OPEN_STATE, ICONS_DIR } from 'utils/constants';
 
 import './index.scss';
-
-const ICONS_DIR = 'resources/';
 
 export const FolderName = props => {
   const { position, name, dependency, disabled, openedState, onIconClick, onTextClick } = props;
@@ -12,7 +10,7 @@ export const FolderName = props => {
   const closed = openedState === FOLDER_OPEN_STATE.CLOSED;
   const notActiveChildrenCollapsed = openedState === FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY;
 
-  const iconPath = `${ICONS_DIR}${disabled ? 'disabled-' : ''}${
+  const iconPath = `${ICONS_DIR}folder/${disabled ? 'disabled-' : ''}${
     closed ? 'closed-' : 'open-'
   }folder.svg`;
   const iconSize = closed ? 14 : 15;

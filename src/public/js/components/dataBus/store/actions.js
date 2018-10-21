@@ -88,7 +88,7 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   });
 };
 
-export const setActiveItems = (filesList, foldersMap) => ({
+export const setActiveItems = (filesList, foldersMap = {}) => ({
   type: ACTIONS.SET_ACTIVE_ITEMS,
   payload: {
     ...filesList.reduce((acc, item) => {
@@ -110,11 +110,12 @@ export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
     ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
     : [];
 
-  if (!depFilePaths.length && !ccFilePaths.length) {
+  const filesList = depFilePaths.concat(ccFilePaths);
+  if (!filesList.length) {
+    sourceKeepOnlyActiveFolders && dispatch(setActiveItems(filesList));
     return sourceKeepOnlyActiveFolders ? dispatch(closeAllFolders()) : undefined;
   }
 
-  const filesList = depFilePaths.concat(ccFilePaths);
   const foldersMap = getFoldersForPaths(filesList, openedFolders, sourceKeepOnlyActiveFolders);
   dispatch(setActiveItems(filesList, foldersMap));
 

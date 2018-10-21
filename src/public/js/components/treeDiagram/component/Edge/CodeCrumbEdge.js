@@ -110,7 +110,7 @@ export const CodeCrumbedFlowEdge = props => {
   endPointConfig.x -= 3.5;
   endPointConfig.y += 1;
   endPointConfig.iconSize = 7;
-  endPointConfig.iconPath = `${ICONS_DIR}purple-arrow.svg`; // TODO: move to getter
+  endPointConfig.iconPath = `${ICONS_DIR}arrow/purple-arrow.svg`; // TODO: move to getter
   endPointConfig.angle = -90;
 
   return (

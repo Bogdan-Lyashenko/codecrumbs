@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.scss';
 
+import { Dot } from 'components/treeDiagram/component/Dot/';
 import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/store/constants';
 import classNames from 'classnames';
 const { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT } = DepEdgeGroups;
@@ -185,10 +186,10 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
   if (isArrow) {
     const directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
 
-    endPointConfig.x -= 3.5;
+    endPointConfig.x -= 3;
     endPointConfig.y -= directionTop ? 6 : 1;
     endPointConfig.iconSize = 7;
-    endPointConfig.iconPath = `${ICONS_DIR}${selected ? 'selected-' : ''}arrow.svg`; // TODO: move to getter
+    endPointConfig.iconPath = `${ICONS_DIR}arrow/${selected ? 'selected-' : ''}arrow.svg`; // TODO: move to getter
     endPointConfig.angle = directionTop ? 90 : -90;
   }
 
@@ -206,14 +207,7 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
             endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
         />
       ) : (
-        <circle
-          className={classNames('DependenciesEdge-end-dot', 'Animation', {
-            'DependenciesEdge-end-dot-selected': selected
-          })}
-          r={2.6} //TODO: use image
-          cx={endPointConfig.x}
-          cy={endPointConfig.y}
-        />
+        <Dot type={'dep'} position={endPointConfig} selected={selected} />
       )}
     </React.Fragment>
   );

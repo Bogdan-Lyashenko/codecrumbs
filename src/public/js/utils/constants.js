@@ -6,3 +6,5 @@ export const FOLDER_OPEN_STATE = {
   OPEN_ACTIVE_CHILDREN_ONLY: 1,
   OPEN: 2
 };
+
+export const ICONS_DIR = 'resources/';

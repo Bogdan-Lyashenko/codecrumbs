@@ -1,7 +1,11 @@
 # Dependency directory
 node_modules
 
+# example for dev
+example-project
+
 # Remove some common IDE working directories
 .idea
 .DS_STORE
+
 yarn.lock

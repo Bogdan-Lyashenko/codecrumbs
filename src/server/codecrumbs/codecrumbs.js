@@ -30,7 +30,6 @@ const parseCodecrumbComment = (node = {}) => {
     console.error('Parameters parsing failed: ', e);
   }
 
-
   return cc;
 };
 
@@ -39,51 +38,51 @@ const isCodecrumb = (node = {}) => {
   return comment.startsWith(CRUMB) || comment.startsWith(CRUMB_SHORT_HANDLER);
 };
 
-const getCrumbs = fileCode => {
+const getCrumbs = (fileCode, path) => {
   let ast = {};
   const crumbsList = [];
 
   try {
     ast = babylon.parse(fileCode, astParseConfig);
+
+    // TODO: ast has comments array, maybe use it
+    babelTraverse.default(ast, {
+      enter(path) {
+        const node = path.node;
+        if (!node || !(node.leadingComments || node.trailingComments)) return;
+
+        const leadingComment = node.leadingComments
+          ? node.leadingComments[node.leadingComments.length - 1]
+          : null;
+
+        let trailingComment = node.trailingComments ? node.trailingComments[0] : null;
+
+        if (trailingComment && trailingComment.loc.start.line !== node.loc.start.line) {
+          trailingComment = null;
+        }
+
+        [leadingComment, trailingComment].forEach(comment => {
+          if (comment && isCodecrumb(comment)) {
+            const params = parseCodecrumbComment(comment);
+
+            const loc = comment.loc.start;
+            crumbsList.push({
+              name: params.name || '', //TODO: check, can be bug with layout calc
+              displayLoc: `#${loc.line}`,
+              crumbedLineNode: node,
+              crumbNode: comment,
+              params
+            });
+          }
+        });
+      }
+    });
+
+    return crumbsList;
   } catch (e) {
-    console.log(e);
+    console.log(path, e);
     return crumbsList;
   }
-
-  // TODO: ast has comments array, maybe use it
-  babelTraverse.default(ast, {
-    enter(path) {
-      const node = path.node;
-      if (!node || !(node.leadingComments || node.trailingComments)) return;
-
-      const leadingComment = node.leadingComments
-        ? node.leadingComments[node.leadingComments.length - 1]
-        : null;
-
-      let trailingComment = node.trailingComments ? node.trailingComments[0] : null;
-
-      if (trailingComment && trailingComment.loc.start.line !== node.loc.start.line) {
-        trailingComment = null;
-      }
-
-      [leadingComment, trailingComment].forEach(comment => {
-        if (comment && isCodecrumb(comment)) {
-          const params = parseCodecrumbComment(comment);
-
-          const loc = comment.loc.start;
-          crumbsList.push({
-            name: params.name || '', //TODO: check, can be bug with layout calc
-            displayLoc: `#${loc.line}`,
-            crumbedLineNode: node,
-            crumbNode: comment,
-            params
-          });
-        }
-      });
-    }
-  });
-
-  return crumbsList;
 };
 
 module.exports = {

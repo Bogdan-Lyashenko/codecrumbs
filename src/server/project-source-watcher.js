@@ -73,8 +73,8 @@ const grabProjectSourceState = ({ filesMap, projectDir, entryPoint }) => {
       file.read(itemPath, 'utf8').then(code => {
         const item = filesMap[itemPath];
 
-        const codecrumbsList = codecrumbs.getCrumbs(code);
-        const importedDependencies = dependencies.getImports(code);
+        const codecrumbsList = codecrumbs.getCrumbs(code, itemPath);
+        const importedDependencies = dependencies.getImports(code, itemPath);
 
         if (codecrumbsList.length) {
           item.children = codecrumbsList;

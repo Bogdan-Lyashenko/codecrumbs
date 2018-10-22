@@ -43,7 +43,8 @@ const DependenciesTab = props => {
 
             const exportedDependencies = extractExportsForImports(
               fileNode.fileCode,
-              file.specifiers
+              file.specifiers,
+              filePath
             );
             return (
               <Panel header={fileNode.path} key={i + 1}>

@@ -72,13 +72,17 @@ export default (state = DefaultState, action) => {
       };
 
     case ACTIONS.TOGGLE_FOLDER:
-      const { openedFolders } = state;
+      const { openedFolders, activeItemsMap } = state;
       const folderPath = action.payload.path;
 
       const openedStateValue =
-        openedFolders[folderPath] === FOLDER_OPEN_STATE.OPEN
-          ? FOLDER_OPEN_STATE.CLOSED
-          : openedFolders[folderPath] + 1;
+        activeItemsMap[folderPath] !== undefined
+          ? openedFolders[folderPath] === FOLDER_OPEN_STATE.OPEN
+            ? FOLDER_OPEN_STATE.CLOSED
+            : openedFolders[folderPath] + 1
+          : openedFolders[folderPath] === FOLDER_OPEN_STATE.OPEN
+            ? FOLDER_OPEN_STATE.CLOSED
+            : FOLDER_OPEN_STATE.OPEN;
 
       return {
         ...state,

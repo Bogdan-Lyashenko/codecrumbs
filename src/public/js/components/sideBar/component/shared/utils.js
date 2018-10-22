@@ -32,38 +32,38 @@ export const findFileNode = (path, filesMap) => {
 
 export const getNodeLines = node => [node.loc.start.line, node.loc.end.line];
 
-export const extractExportsForImports = (fileCode, specifiers) => {
+export const extractExportsForImports = (fileCode, specifiers, path) => {
   let ast = {};
   const exports = [];
 
   try {
     ast = babylon.parse(fileCode, astParseConfig);
-  } catch (e) {
-    console.log(e);
-    return exports;
-  }
 
-  const isDefaultImported = !!specifiers.find(({ type }) => type === 'ImportDefaultSpecifier');
-  const namedImportsNames = specifiers
-    .filter(({ type }) => type === 'ImportSpecifier')
-    .map(({ name }) => name);
+    const isDefaultImported = !!specifiers.find(({ type }) => type === 'ImportDefaultSpecifier');
+    const namedImportsNames = specifiers
+      .filter(({ type }) => type === 'ImportSpecifier')
+      .map(({ name }) => name);
 
-  babelTraverse.default(ast, {
-    enter(path) {
-      const node = path.node;
+    babelTraverse.default(ast, {
+      enter(path) {
+        const node = path.node;
 
-      if (isDefaultImported && node.type === 'ExportDefaultDeclaration') {
-        exports.push(node);
-      } else if (node.type === 'ExportNamedDeclaration') {
-        const declaration = node.declaration.declarations.find(d =>
-          namedImportsNames.includes(d.id.name)
-        );
-        if (declaration) {
+        if (isDefaultImported && node.type === 'ExportDefaultDeclaration') {
           exports.push(node);
+        } else if (node.type === 'ExportNamedDeclaration') {
+          const declaration = node.declaration.declarations.find(d =>
+            namedImportsNames.includes(d.id.name)
+          );
+          if (declaration) {
+            exports.push(node);
+          }
         }
       }
-    }
-  });
+    });
 
-  return exports;
+    return exports;
+  } catch (e) {
+    console.log(path, e);
+    return exports;
+  }
 };

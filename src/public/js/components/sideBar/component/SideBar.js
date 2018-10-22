@@ -8,6 +8,7 @@ import { Copy } from 'components/controls/Copy';
 import Code from './Code';
 import DependenciesTab from './DependenciesTab';
 import CrumbsTab from './CrumbsTab';
+import FlowChartTab from './FlowChartTab';
 import './SideBar.scss';
 
 const TabPane = Tabs.TabPane;
@@ -60,7 +61,7 @@ export default ({
         )) ||
           null}
         <TabPane tab="FlowChart" key="3">
-          Here is gonna be flow charts
+          <FlowChartTab fileCode={file.fileCode} active={selectedTabInSideBar === '3'} />
         </TabPane>
       </Tabs>
     );

@@ -35,10 +35,9 @@ export const FolderName = props => {
             iconPositionX - 1,
             iconPositionY + 17,
             iconPositionX + 16,
-            iconPositionY + 17,
-            iconPositionX + 16,
-            iconPositionY + 14
+            iconPositionY + 17
           ].join(', ')}
+          strokeDasharray="2"
           className={classNames('NodeIcon-folder-line', {
             'NodeIcon-folder-line-disabled': disabled
           })}

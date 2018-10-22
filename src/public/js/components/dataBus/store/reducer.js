@@ -36,7 +36,7 @@ export default (state = DefaultState, action) => {
             res[item] = FOLDER_OPEN_STATE.CLOSED;
             return res;
           }, {}),
-          [filesTree.path]: FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY
+          [filesTree.path]: FOLDER_OPEN_STATE.OPEN
         },
         firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
           .filter(item => item.type === DIR_NODE_TYPE)
@@ -114,6 +114,10 @@ export default (state = DefaultState, action) => {
       };
 
     case ACTIONS.CLOSE_ALL_FOLDERS:
+      const rootClosedState = !Object.keys(state.activeItemsMap).length
+        ? FOLDER_OPEN_STATE.OPEN
+        : FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY;
+
       return {
         ...state,
         openedFolders: {
@@ -121,7 +125,7 @@ export default (state = DefaultState, action) => {
             res[item] = FOLDER_OPEN_STATE.CLOSED;
             return res;
           }, {}),
-          [state.filesTree.path]: FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY
+          [state.filesTree.path]: rootClosedState
         }
       };
 

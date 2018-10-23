@@ -3,6 +3,7 @@ import React from 'react';
 import DataBus from 'components/dataBus/DataBusContainer';
 import ViewsSwitches from 'components/controls/ViewSwitches/ViewSwitchesContainer';
 import TreeDiagram from 'components/treeDiagram/TreeDiagramContainer';
+import ExplorerBar from 'components/explorerBar/ExplorerBarContainer';
 import SideBar from 'components/sideBar/SideBarContainer';
 import TopBar from 'components/topBar/TopBarContainer';
 
@@ -18,6 +19,7 @@ const App = () => {
       </header>
 
       <div className="body">
+        <ExplorerBar />
         <TreeDiagram />
         <SideBar />
       </div>

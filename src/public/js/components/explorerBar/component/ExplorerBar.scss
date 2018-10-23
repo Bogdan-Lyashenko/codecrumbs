@@ -1,0 +1,19 @@
+.ExplorerBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 250px;
+  z-index: 6;
+  background-color: white;
+  border-right: 1px solid #ebedf0;
+
+  .body {
+    height: 100%;
+    position: relative;
+
+    .ant-tree {
+      width: 100%;
+    }
+  }
+}

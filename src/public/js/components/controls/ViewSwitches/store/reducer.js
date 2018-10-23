@@ -27,6 +27,10 @@ const DefaultState = {
           name: 'dim source',
           title: 'Dim source tree folders',
           key: CONTROLS_KEYS.SOURCE_DIM_FOLDERS
+        },{
+          name: 'explorer',
+          title: 'Show explorer',
+          key: CONTROLS_KEYS.SOURCE_EXPLORER_BAR
         }
       ]
     },

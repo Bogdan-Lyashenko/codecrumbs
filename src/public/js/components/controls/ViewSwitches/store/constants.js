@@ -11,6 +11,7 @@ export const CONTROLS_KEYS = {
   SOURCE_EXPAND_ALL: 'sourceExpandAll',
   SOURCE_DIM_FOLDERS: 'sourceDimFolders',
   SOURCE_KEEP_ONLY_ACTIVE_FOLDERS: 'sourceKeepOnlyActiveFolders',
+  SOURCE_EXPLORER_BAR: 'sourceExplorerBar',
   DEPENDENCIES: 'dependencies',
   DEPENDENCIES_SHOW_DIRECT_ONLY: 'dependenciesShowDirectOnly',
   CODE_CRUMBS: 'codeCrumbs',

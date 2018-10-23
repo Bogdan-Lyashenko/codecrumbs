@@ -4,10 +4,10 @@ import { createSVGRender, convertCodeToFlowTree } from 'js2flowchart';
 import './index.scss';
 
 const Styles = {
-  strokeColor: '#666666',
-  defaultFillColor: '#3a9be8',
-  textColor: '#111',
-  arrowFillColor: '#333',
+  strokeColor: '#00bcd4',
+  defaultFillColor: '#e6f7ff',
+  textColor: '#595959',
+  arrowFillColor: '#00bcd4',
   rectangleFillColor: '#fff',
   rectangleDotFillColor: '#fff',
   functionFillColor: '#fff',
@@ -17,7 +17,7 @@ const Styles = {
   destructedNodeFillColor: '#fff',
   classFillColor: '#fff',
   debuggerFillColor: '#fff',
-  exportFillColor: '#3a9be8',
+  exportFillColor: '#e6f7ff',
   throwFillColor: '#fff',
   tryFillColor: '#fff',
   objectFillColor: '#fff',

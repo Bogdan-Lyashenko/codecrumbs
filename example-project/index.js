@@ -1,28 +1,45 @@
-//import tabs from './views/tabs';
-import { dataModelMethod } from './dataModel/model';
-import p from './views/product/product-page'
-import s from './utils/string/format/string'
-//import h from './views/home/home-page'
+import './views/styles/styles.css';
 
-const App = {
-    init() {
-        tabs.render(); //cc:#render#0;start;Call Long line check out tabs.js for more details
-    }
-};
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
 
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
-long();
+import { initAuth } from './auth';
+import history from './history';
+import configureStore from './store';
+import registerServiceWorker from './utils/register-service-worker';
+import App from './views/app';
 
-//cc:#render#3;promise resolve
-App.init();
+
+const store = configureStore();
+const rootElement = document.getElementById('root');
+
+
+function render(Component) {
+  ReactDOM.render(
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <div>
+          <Component/>
+        </div>
+      </ConnectedRouter>
+    </Provider>,
+    rootElement
+  );
+}
+
+
+if (module.hot) {
+  module.hot.accept('./views/app', () => {
+    render(require('./views/app').default);
+  })
+}
+
+
+registerServiceWorker();
+
+//cc:#init#0;start;auth and app render
+initAuth(store.dispatch)
+  .then(() => render(App))
+  .catch(error => console.error(error));

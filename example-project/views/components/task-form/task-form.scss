@@ -1,0 +1,48 @@
+@import 'views/styles/shared';
+
+
+.task-form {
+  margin: 40px 0 10px;
+
+  @include media-query(540) {
+    margin: 80px 0 20px;
+  }
+}
+
+.task-form__input {
+  outline: none;
+  border: 0;
+  border-bottom: 1px dotted #666;
+  border-radius: 0;
+  padding: 0 0 5px 0;
+  width: 100%;
+  height: 50px;
+  font-family: inherit;
+  font-size: rem(24px);
+  font-weight: 300;
+  color: #fff;
+  background: transparent;
+
+  @include media-query(540) {
+    height: 61px;
+    font-size: rem(32px);
+  }
+
+  &::placeholder {
+    color: #999;
+    opacity: 1; // firefox native placeholder style has opacity < 1
+  }
+
+  &:focus::placeholder {
+    color: #777;
+    opacity: 1;
+  }
+
+  // webkit input doesn't inherit font-smoothing from ancestors
+  -webkit-font-smoothing: antialiased;
+
+  // remove `x`
+  &::-ms-clear {
+    display: none;
+  }
+}

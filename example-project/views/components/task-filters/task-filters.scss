@@ -1,0 +1,38 @@
+@import 'views/styles/shared';
+
+
+.task-filters {
+  @include clearfix;
+  margin-bottom: 45px;
+  padding-left: 1px;
+  font-size: rem(16px);
+  line-height: 24px;
+  list-style-type: none;
+
+  @include media-query(540) {
+    margin-bottom: 55px;
+  }
+
+  li {
+    float: left;
+
+    &:not(:first-child) {
+      margin-left: 12px;
+    }
+
+    &:not(:first-child):before {
+      padding-right: 12px;
+      content: '/';
+      font-weight: 300;
+    }
+  }
+
+  a {
+    color: #999;
+    text-decoration: none;
+
+    &.active {
+      color: #fff;
+    }
+  }
+}

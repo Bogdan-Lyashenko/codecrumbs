@@ -1,0 +1,124 @@
+@import 'views/styles/shared';
+
+
+.task-item {
+  display: flex;
+  outline: none;
+  border-bottom: 1px dotted #666;
+  height: 60px;
+  overflow: hidden;
+  color: #fff;
+  font-size: rem(18px);
+  font-weight: 300;
+
+  @include media-query(540) {
+    font-size: rem(24px);
+  }
+}
+
+.task-item--editing {
+  border-bottom: 1px dotted #ccc;
+}
+
+
+//=====================================
+//  Cells
+//-------------------------------------
+.cell {
+  &:first-child,
+  &:last-child {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+  }
+
+  &:first-child {
+    padding-right: 20px;
+  }
+
+  &:nth-child(2) {
+    flex: 1;
+    padding-right: 30px;
+    overflow: hidden;
+  }
+}
+
+
+//=====================================
+//  Buttons
+//-------------------------------------
+.task-item__button {
+  margin-left: 5px;
+  background: #2a2a2a;
+
+  &:first-child {
+    margin: 0;
+  }
+
+  color: #555;
+
+  &:hover {
+    color: #999;
+  }
+
+  &:active {
+    background: #262626;
+  }
+
+  &.active {
+    color: #85bf6b;
+  }
+}
+
+
+//=====================================
+//  Title (static)
+//-------------------------------------
+.task-item__title {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+  line-height: 60px;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-top: 2px solid #85bf6b;
+    width: 0;
+    height: 46%;
+    content: '';
+  }
+
+  .task-item--completed & {
+    color: #666;
+  }
+
+  .task-item--completed &:after {
+    width: 100%;
+  }
+}
+
+
+//=====================================
+//  Title (input)
+//-------------------------------------
+.task-item__input {
+  outline: none;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  height: 60px;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+
+  // hide `x`
+  &::-ms-clear {
+    display: none;
+  }
+}

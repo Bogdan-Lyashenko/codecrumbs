@@ -1,0 +1,19 @@
+@import 'views/styles/shared';
+
+
+.btn {
+  @include button-base;
+  outline: none;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  transform: translate(0, 0);
+  background: transparent;
+}
+
+.btn--icon {
+  border-radius: 40px;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+}

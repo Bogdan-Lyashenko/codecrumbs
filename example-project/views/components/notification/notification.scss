@@ -1,0 +1,27 @@
+@import 'views/styles/shared';
+
+
+.notification {
+  @include clearfix;
+  position: fixed;
+  left: 50%;
+  top: 60px;
+  margin-left: -100px;
+  border: 1px solid #aaa;
+  padding: 10px 15px;
+  width: 200px;
+  font-size: rem(16px);
+  line-height: 24px;
+}
+
+.notification__message {
+  float: left;
+}
+
+.notification__button {
+  float: right;
+  font-size: rem(16px);
+  line-height: 24px;
+  text-transform: uppercase;
+  color: #85bf6b;
+}

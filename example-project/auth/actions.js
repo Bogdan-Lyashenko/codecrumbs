@@ -58,7 +58,7 @@ export function signInWithTwitter() {
 
 export function signOut() {
   return dispatch => {
-    //cc:#sign_out#1;call firebaseAuth
+    //cc:#sign_out#2;call firebaseAuth
     firebaseAuth.signOut()
       .then(() => dispatch(signOutSuccess()));
   };

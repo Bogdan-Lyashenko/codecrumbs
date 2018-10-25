@@ -2,7 +2,7 @@
 node_modules
 
 # example for dev
-example-project
+# example-project
 
 # Remove some common IDE working directories
 .idea

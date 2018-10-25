@@ -1,10 +1,16 @@
+// TODO: add by config
+/**
+ [
+ 'typescript',
+ 'flow',
+ 'bigInt',
+ ]
+ */
 const config = {
   sourceType: 'module',
   plugins: [
-    'typescript',
     'jsx',
     'asyncGenerators',
-    'bigInt',
     'classProperties',
     'classPrivateProperties',
     'classPrivateMethods',

@@ -1,5 +1,4 @@
-import safeGet from 'lodash/get';
-import { DIR_NODE_TYPE, FILE_NODE_TYPE } from 'utils/constants';
+import { FILE_NODE_TYPE } from 'utils/constants';
 import { ACTIONS } from './constants';
 import { getFileNodesMap } from 'utils/treeLayout';
 import { FOLDER_OPEN_STATE } from 'utils/constants';
@@ -11,7 +10,6 @@ const DefaultState = {
 
   filesTreeLayoutNodes: null,
   openedFolders: {},
-  firstLevelFolders: {},
   fileNodesMap: {},
   filteredDependenciesList: [],
   filteredDependenciesMap: {},
@@ -35,15 +33,8 @@ export default (state = DefaultState, action) => {
           ...Object.keys(foldersMap).reduce((res, item) => {
             res[item] = FOLDER_OPEN_STATE.CLOSED;
             return res;
-          }, {}),
-          [filesTree.path]: FOLDER_OPEN_STATE.OPEN
-        },
-        firstLevelFolders: safeGet(action.payload, 'filesTree.children', [])
-          .filter(item => item.type === DIR_NODE_TYPE)
-          .reduce((res, item) => {
-            res[item.path] = item;
-            return res;
           }, {})
+        }
       };
 
     case ACTIONS.SET_CHANGED_SOURCE_DATA:
@@ -114,18 +105,14 @@ export default (state = DefaultState, action) => {
       };
 
     case ACTIONS.CLOSE_ALL_FOLDERS:
-      const rootClosedState = !Object.keys(state.activeItemsMap).length
-        ? FOLDER_OPEN_STATE.OPEN
-        : FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY;
-
       return {
         ...state,
         openedFolders: {
+          // TODO: move to method, duplication
           ...Object.keys(state.foldersMap).reduce((res, item) => {
             res[item] = FOLDER_OPEN_STATE.CLOSED;
             return res;
-          }, {}),
-          [state.filesTree.path]: rootClosedState
+          }, {})
         }
       };
 

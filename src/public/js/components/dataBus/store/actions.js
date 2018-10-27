@@ -88,43 +88,52 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   });
 };
 
-export const setActiveItems = (filesList, foldersMap = {}) => ({
-  type: ACTIONS.SET_ACTIVE_ITEMS,
-  payload: {
-    ...filesList.reduce((acc, item) => {
-      //TODO:move this to util!
-      acc[item] = true;
-      return acc;
-    }, {}),
-    ...foldersMap
-  }
-});
+export const setActiveItems = (filesList, foldersMap = {}) => (dispatch, getState) => {
+  const state = getState();
+
+  return dispatch({
+    type: ACTIONS.SET_ACTIVE_ITEMS,
+    payload: {
+      ...(!state.viewSwitches.checkedState.sourceKeepOnlyActiveItems
+        ? state.dataBus.activeItemsMap
+        : {}),
+      ...filesList.reduce((acc, item) => {
+        //TODO:move this to util!
+        acc[item] = true;
+        return acc;
+      }, {}),
+      ...foldersMap
+    }
+  });
+};
 
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
   const state = getState();
-  const { filesMap, filteredDependenciesAllModulesMap, openedFolders } = state.dataBus;
-  const { dependencies, codeCrumbs, sourceKeepOnlyActiveFolders } = state.viewSwitches.checkedState;
+  const {
+    filesMap,
+    filteredDependenciesAllModulesMap,
+    openedFolders,
+    selectedNode
+  } = state.dataBus;
+  const { dependencies, codeCrumbs, sourceKeepOnlyActiveItems } = state.viewSwitches.checkedState;
 
   const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
   const ccFilePaths = codeCrumbs
     ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
     : [];
 
-  const filesList = depFilePaths.concat(ccFilePaths);
+  const filesList = [selectedNode.path].concat(depFilePaths, ccFilePaths);
   if (!filesList.length) {
-    sourceKeepOnlyActiveFolders && dispatch(setActiveItems(filesList));
-    return sourceKeepOnlyActiveFolders ? dispatch(closeAllFolders()) : undefined;
+    sourceKeepOnlyActiveItems && dispatch(setActiveItems(filesList));
+    return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders()) : undefined;
   }
 
-  const foldersMap = getFoldersForPaths(filesList, openedFolders, sourceKeepOnlyActiveFolders);
+  const foldersMap = getFoldersForPaths(filesList, openedFolders, sourceKeepOnlyActiveItems);
   dispatch(setActiveItems(filesList, foldersMap));
 
   dispatch({
     type: ACTIONS.SET_FOLDERS_STATE,
-    payload: {
-      folders: foldersMap,
-      override: sourceKeepOnlyActiveFolders //TODO: refactor
-    }
+    payload: foldersMap
   });
 };
 

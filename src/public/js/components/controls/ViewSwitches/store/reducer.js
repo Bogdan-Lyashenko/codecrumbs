@@ -21,7 +21,7 @@ const DefaultState = {
         {
           name: 'active only',
           title: 'Keep opened only folders with active files',
-          key: CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_FOLDERS
+          key: CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_ITEMS
         },
         {
           name: 'dim source',

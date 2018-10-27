@@ -87,10 +87,9 @@ export default (state = DefaultState, action) => {
       };
 
     case ACTIONS.SET_FOLDERS_STATE:
-      const { folders, override } = action.payload;
       return {
         ...state,
-        openedFolders: override ? folders : { ...state.openedFolders, ...folders }
+        openedFolders: { ...state.openedFolders, ...action.payload }
       };
 
     case ACTIONS.OPEN_ALL_FOLDERS:

@@ -19,6 +19,12 @@ import { setDisabledControl } from 'components/controls/ViewSwitches/store/actio
 function* reactOnSwitchToggle(action) {
   const { switchKey, checked } = action.payload;
 
+  if (switchKey === CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_ITEMS) {
+    if (checked) {
+      yield reactByUpdatingFoldersState();
+    }
+  }
+
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
     if (checked) {
       yield put(selectCodeCrumbedFlow());

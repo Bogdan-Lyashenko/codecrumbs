@@ -19,9 +19,7 @@ const getDirFiles = projectDir => {
   });
 
   if (!Object.keys(filesMap).length) {
-    throw new Error(
-      'There is not files found. Please check source dir and entry point configs.'
-    );
+    throw new Error('There is not files found. Please check source dir and entry point configs.');
   }
 
   treeTraversal(filesTree, node => {
@@ -45,8 +43,8 @@ const getDirFiles = projectDir => {
   return { tree: filesTree, map: filesMap, foldersMap };
 };
 
-const getDependencies = (projectDir, entryPoint) => {
-  return madge(entryPoint)
+const getDependencies = (projectDir, entryPoint, webpackConfigPath) => {
+  return madge(entryPoint, { webpackConfig: webpackConfigPath })
     .then(res => res.obj())
     .then(obj => {
       const map = {};
@@ -66,9 +64,9 @@ const getDependencies = (projectDir, entryPoint) => {
     });
 };
 
-const grabProjectSourceState = ({ filesMap, projectDir, entryPoint }) => {
+const grabProjectSourceState = ({ filesMap, projectDir, entryPoint, webpackConfigPath }) => {
   return Promise.all([
-    getDependencies(projectDir, entryPoint),
+    getDependencies(projectDir, entryPoint, webpackConfigPath),
     ...Object.keys(filesMap).map(itemPath =>
       file.read(itemPath, 'utf8').then(code => {
         const item = filesMap[itemPath];
@@ -117,32 +115,35 @@ const createWatcher = (dir, fn) => {
 };
 
 //TODO: refactor mess, method does too much spaghetti
-const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
+const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, onChange }) => {
   const dirFiles = getDirFiles(projectDir);
   const dirDependencies = {};
   const codeCrumbs = {
     flows: {}
   };
 
-  grabProjectSourceState({ filesMap: dirFiles.map, projectDir, entryPoint }).then(
-    ([dependencies]) => {
-      dirDependencies.map = dependencies.map;
-      Object.entries(dirFiles.map).forEach(([path, file]) => {
-        if (file.hasCodecrumbs) {
-          addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
-        }
-      });
+  grabProjectSourceState({
+    filesMap: dirFiles.map,
+    projectDir,
+    entryPoint,
+    webpackConfigPath
+  }).then(([dependencies]) => {
+    dirDependencies.map = dependencies.map;
+    Object.entries(dirFiles.map).forEach(([path, file]) => {
+      if (file.hasCodecrumbs) {
+        addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
+      }
+    });
 
-      return onInit({
-        filesTree: dirFiles.tree,
-        filesMap: dirFiles.map,
-        foldersMap: dirFiles.foldersMap,
-        dependenciesMap: dependencies.map,
-        codeCrumbedFlowsMap: codeCrumbs.flows,
-        dependenciesRootEntryName: entryPoint
-      });
-    }
-  );
+    return onInit({
+      filesTree: dirFiles.tree,
+      filesMap: dirFiles.map,
+      foldersMap: dirFiles.foldersMap,
+      dependenciesMap: dependencies.map,
+      codeCrumbedFlowsMap: codeCrumbs.flows,
+      dependenciesRootEntryName: entryPoint
+    });
+  });
 
   //use watcher.close(); to stop watching
   return createWatcher(projectDir, path => {
@@ -152,34 +153,37 @@ const subscribeOnChange = (projectDir, entryPoint, { onInit, onChange }) => {
       resetCodeCrumbedFlowsByFile(codeCrumbs.flows, file);
     }
 
-    grabProjectSourceState({ filesMap: {[path]: file}, projectDir, entryPoint: path }).then(
-      ([{ list, map }]) => {
-        traversalSearch(dirFiles.tree, node => {
-          if (node.path === path) {
-            mergeFileIntoNode(file, node);
-            return true;
-          }
-        });
-
-        if (file.hasCodecrumbs) {
-          addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
+    grabProjectSourceState({
+      filesMap: { [path]: file },
+      projectDir,
+      entryPoint: path,
+      webpackConfigPath
+    }).then(([{ list, map }]) => {
+      traversalSearch(dirFiles.tree, node => {
+        if (node.path === path) {
+          mergeFileIntoNode(file, node);
+          return true;
         }
+      });
 
-        return onChange({
-          filesTree: dirFiles.tree,
-          foldersMap: dirFiles.foldersMap,
-          filesMap: {
-            ...dirFiles.map,
-            [file.path]: dirFiles.map[file.path]
-          },
-          dependenciesMap: {
-            ...dirDependencies.map,
-            ...map
-          },
-          codeCrumbedFlowsMap: codeCrumbs.flows
-        });
+      if (file.hasCodecrumbs) {
+        addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
       }
-    );
+
+      return onChange({
+        filesTree: dirFiles.tree,
+        foldersMap: dirFiles.foldersMap,
+        filesMap: {
+          ...dirFiles.map,
+          [file.path]: dirFiles.map[file.path]
+        },
+        dependenciesMap: {
+          ...dirDependencies.map,
+          ...map
+        },
+        codeCrumbedFlowsMap: codeCrumbs.flows
+      });
+    });
   });
 };
 

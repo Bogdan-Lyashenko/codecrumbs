@@ -14,9 +14,6 @@ const config = {
     rules: [ ]
   },
   resolve: {
-    alias: {
-      src: 'src',
-    },
     extensions: ['.js']
   },
   mode: 'development'

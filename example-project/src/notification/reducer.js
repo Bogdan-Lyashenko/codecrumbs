@@ -1,5 +1,5 @@
 import { Record } from 'immutable';
-import { REMOVE_TASK_SUCCESS } from 'src/tasks';
+import { REMOVE_TASK_SUCCESS } from '../tasks';
 import { DISMISS_NOTIFICATION } from './action-types';
 
 

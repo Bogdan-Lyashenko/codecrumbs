@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { firebaseAuth } from 'src/firebase';
+import { firebaseAuth } from '../firebase';
 import {
   INIT_AUTH,
   SIGN_IN_ERROR,

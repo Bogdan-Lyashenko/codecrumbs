@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { authActions, getAuth } from 'src/auth';
+import { authActions, getAuth } from '../../auth';
 import Header from '../components/header';
 import RequireAuthRoute from '../components/require-auth-route';
 import RequireUnauthRoute from '../components/require-unauth-route';

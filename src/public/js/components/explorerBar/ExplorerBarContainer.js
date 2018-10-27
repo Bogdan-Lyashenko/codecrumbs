@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ExplorerBar from './component/ExplorerBar';
-import { selectNode, toggleFolder, setDependenciesEntryPoint } from 'components/dataBus/store/actions';
+import {
+  selectNode,
+  toggleFolder,
+  setDependenciesEntryPoint
+} from 'components/dataBus/store/actions';
 
 const ExplorerBarContainer = ({ explorerBarOn, ...otherProps }) => {
   if (!explorerBarOn) return null;
@@ -23,7 +27,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onFolderClick: node => {/*dispatch(toggleFolder(node))*/},
+  onFolderClick: node => {
+    /*dispatch(toggleFolder(node))*/
+  },
 
   onFileClick: node => {
     dispatch(selectNode(node));

@@ -60,7 +60,7 @@ export const CodeCrumbedFlowEdge = props => {
 
   const rHalf = 6.5;
   const sourcePt = {
-    x: -1 -rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
+    x: -1 - rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
     y: sourcePosition.y - rHalf
   };
   const targetPt = {

@@ -43,9 +43,24 @@ const getConnectionLine = (groupName, targetPosition, sourcePosition, sourcePt) 
   const direction = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
   const vPadding = (V_SPACE / 2 - crossShift) * direction;
 
+  const siblingNodesDistance = 40;
+  if (Math.abs(sourcePt.y - targetPosition.y) < siblingNodesDistance) {
+    return [
+      [sourcePt.x, sourcePt.y],
+      [sourcePt.x, targetPosition.y - vPadding],
+      [targetPosition.x + 2, targetPosition.y - vPadding],
+      [targetPosition.x + 2, targetPosition.y - 5 * direction]
+    ];
+  }
+
+  const workAroundXShift = 7;
   return [
     [sourcePt.x, sourcePt.y],
-    [sourcePt.x, targetPosition.y - vPadding],
+    [sourcePt.x, sourcePt.y + vPadding],
+
+    [targetPosition.x - workAroundXShift, sourcePt.y + vPadding],
+    [targetPosition.x - workAroundXShift, targetPosition.y - vPadding],
+
     [targetPosition.x + 2, targetPosition.y - vPadding],
     [targetPosition.x + 2, targetPosition.y - 5 * direction]
   ];
@@ -62,26 +77,21 @@ const getConnectionLineToFirstSource = (
   const vPadding = (V_SPACE / 2) * directionY;
 
   const directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
-  if (targetPosition.x !== firstSourcePosition.x) {
-    return [
-      [sourcePt.x, sourcePt.y],
-      [sourcePt.x, sourcePosition.y + vPadding],
-      [
-        firstSourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING),
-        sourcePosition.y + vPadding
-      ],
-      [
-        firstSourcePosition.x + (directionLeft ? V_SPACE : -HALF_PADDING),
-        targetPosition.y - vPadding + crossShift * directionY
-      ]
-    ];
-  }
-
-  const xShift = 11 * (directionLeft ? -1 : 1);
   return [
     [sourcePt.x, sourcePt.y],
-    [sourcePt.x, targetPosition.y - vPadding + crossShift * directionY],
-    [firstSourcePosition.x + xShift, targetPosition.y - vPadding + crossShift * directionY]
+    [sourcePt.x, sourcePosition.y + vPadding],
+    [
+      firstSourcePosition.x + 8 + (directionLeft ? V_SPACE : -HALF_PADDING),
+      sourcePosition.y + vPadding
+    ],
+    [
+      firstSourcePosition.x + 8 + (directionLeft ? V_SPACE : -HALF_PADDING),
+      targetPosition.y - vPadding + crossShift * directionY
+    ],
+    [
+      targetPosition.x + (directionLeft ? -1 : 1) * 2,
+      targetPosition.y - vPadding + crossShift * directionY
+    ]
   ];
 };
 
@@ -151,12 +161,7 @@ export const DependenciesEdge = props => {
 
 const getOverlappingConnectionLine = (groupName, targetPosition, sourcePosition) => {
   const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
-  const xShift =
-    targetPosition.x !== sourcePosition.x
-      ? [TOP_LEFT, BOTTOM_LEFT].includes(groupName)
-        ? V_SPACE
-        : -HALF_PADDING
-      : 11;
+  const xShift = 0;
 
   return [
     [
@@ -235,9 +240,7 @@ export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
           transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
             endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
         />
-      ) : (
-        <Dot type={'dep'} position={endPointConfig} selected={selected} />
-      )}
+      ) : null}
     </React.Fragment>
   );
 };

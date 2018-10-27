@@ -54,9 +54,9 @@ export const setDependenciesEntryPoint = fileNode => (dispatch, getState) => {
   });
 };
 
-export const selectDependencyEdge = (target, sources) => ({
+export const selectDependencyEdge = (target, sources, groupName) => ({
   type: ACTIONS.SELECT_DEPENDENCY_EDGE,
-  payload: target ? { target, sources } : null
+  payload: target ? { target, sources, groupName } : null
 });
 
 export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {

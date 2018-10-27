@@ -60,7 +60,7 @@ export const CodeCrumbedFlowEdge = props => {
 
   const rHalf = 6.5;
   const sourcePt = {
-    x: -rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
+    x: -1 -rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
     y: sourcePosition.y - rHalf
   };
   const targetPt = {
@@ -68,7 +68,7 @@ export const CodeCrumbedFlowEdge = props => {
     y: targetPosition.y + rHalf
   };
 
-  const padding = 15 - rHalf;
+  const padding = 19 - rHalf;
   const vTurn = 13.5;
 
   let polylinePoints = [];

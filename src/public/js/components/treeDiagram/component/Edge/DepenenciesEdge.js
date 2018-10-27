@@ -161,7 +161,7 @@ export const DependenciesEdge = props => {
 
 const getOverlappingConnectionLine = (groupName, targetPosition, sourcePosition) => {
   const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
-  const xShift = 0;
+  const xShift = [TOP_LEFT, BOTTOM_LEFT].includes(groupName) ? 0 : -7;
 
   return [
     [

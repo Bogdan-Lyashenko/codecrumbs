@@ -3,9 +3,10 @@ import classNames from 'classnames';
 import { FOLDER_OPEN_STATE, ICONS_DIR } from 'utils/constants';
 
 import './index.scss';
+import { SYMBOL_WIDTH } from '../../store/constants';
 
 export const FolderName = props => {
-  const { position, name, dependency, disabled, openedState, onIconClick, onTextClick } = props;
+  const { position, name, cover, disabled, openedState, onIconClick, onTextClick } = props;
 
   const closed = openedState === FOLDER_OPEN_STATE.CLOSED;
   const notActiveChildrenCollapsed = openedState === FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY;
@@ -17,14 +18,24 @@ export const FolderName = props => {
 
   const iconPositionX = position.x + 3;
   const iconPositionY = position.y + (closed ? -16 : -17);
+  const nameWidth = name.length * SYMBOL_WIDTH;
 
   return (
     <g className={'FolderNode'}>
-      {dependency ? (
+      {cover ? (
         <rect
           x={position.x + 2}
           y={position.y - 16}
           width={16}
+          height={15}
+          className={'NodeText-cover'}
+        />
+      ) : null}
+      {cover ? (
+        <rect
+          x={position.x + 20}
+          y={position.y - 16}
+          width={nameWidth}
           height={15}
           className={'NodeText-cover'}
         />

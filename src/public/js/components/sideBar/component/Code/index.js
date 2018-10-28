@@ -49,7 +49,7 @@ export default class extends React.Component {
           style={atomOneLight}
           showLineNumbers={true}
           wrapLines={true}
-          customStyle={{ fontSize: '13px' }}
+          customStyle={{ fontSize: '12px' }}
           lineProps={lineNumber => {
             if (isMatchLineNumber(crumbedLines, lineNumber)) {
               return { className: 'crumbedLine' };

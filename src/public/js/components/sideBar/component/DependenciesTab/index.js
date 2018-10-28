@@ -15,7 +15,7 @@ import './index.scss';
 const Panel = Collapse.Panel;
 
 const DependenciesTab = props => {
-  const { selectedNode, filesMap, selectedDependencyEdgeNodes } = props;
+  const { selectedNode, filesMap, foldersMap, selectedDependencyEdgeNodes } = props;
 
   const importedDependencies = filterImportedDependencies(
     selectedNode.importedDependencies,
@@ -35,7 +35,7 @@ const DependenciesTab = props => {
           </Panel>
           {importedDependencies.map((file, i) => {
             const filePath = convertRelativeToAbsolutePath(selectedNode.path, file.sourceFile);
-            const fileNode = findFileNode(filePath, filesMap);
+            const fileNode = findFileNode(filePath, filesMap, foldersMap);
 
             if (!fileNode) {
               return null;
@@ -69,12 +69,13 @@ const DependenciesTab = props => {
 };
 
 const mapStateToProps = state => {
-  const { selectedNode, selectedDependencyEdgeNodes, filesMap } = state.dataBus;
+  const { selectedNode, selectedDependencyEdgeNodes, filesMap, foldersMap } = state.dataBus;
 
   return {
     selectedNode,
     selectedDependencyEdgeNodes,
-    filesMap
+    filesMap,
+    foldersMap
   };
 };
 

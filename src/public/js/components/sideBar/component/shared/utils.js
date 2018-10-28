@@ -21,7 +21,11 @@ export const filterImportedDependencies = (
   });
 };
 
-export const findFileNode = (path, filesMap) => {
+export const findFileNode = (path, filesMap, foldersMap) => {
+  if (foldersMap[path]) {
+    path += '/index';
+  }
+
   if (filesMap[path]) {
     return filesMap[path];
   }
@@ -51,7 +55,7 @@ export const extractExportsForImports = (fileCode, specifiers, path) => {
         if (isDefaultImported && node.type === 'ExportDefaultDeclaration') {
           exports.push(node);
         } else if (node.type === 'ExportNamedDeclaration') {
-          const declaration = node.declaration.declarations.find(d =>
+          const declaration = node.declaration && node.declaration.declarations.find(d =>
             namedImportsNames.includes(d.id.name)
           );
           if (declaration) {

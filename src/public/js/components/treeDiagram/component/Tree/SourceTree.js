@@ -135,7 +135,6 @@ class SourceTree extends React.Component {
       <React.Fragment>
         {(sourceDiagramOn && sourceEdges) || null}
         {(sourceDiagramOn && selectedSourceEdges) || null}
-        {(sourceDiagramOn && sourceDotes) || null}
 
         {dependenciesDiagramOn &&
           filteredDependenciesList &&
@@ -149,6 +148,7 @@ class SourceTree extends React.Component {
           null}
 
         {(sourceDiagramOn && sourceNodes) || null}
+        {(sourceDiagramOn && sourceDotes) || null}
 
         {(codeCrumbsDiagramOn && <CodeCrumbsTree shiftToCenterPoint={shiftToCenterPoint} />) ||
           null}

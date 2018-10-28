@@ -4,7 +4,7 @@ import { LAYOUT_CONFIG } from 'components/treeDiagram/store/constants';
 
 export const getTreeLayout = (
   treeData,
-  { includeFileChildren, config = LAYOUT_CONFIG, openedFolders, activeItemsMap }
+  { includeFileChildren, config = LAYOUT_CONFIG, openedFolders, activeItemsMap, activeCodeCrumbs }
 ) => {
   const layoutStructure = d3FlexTree.flextree({
     children: data => {
@@ -24,7 +24,13 @@ export const getTreeLayout = (
         return data.children;
       }
 
-      return includeFileChildren ? data.children : [];
+      if (!includeFileChildren) {
+        return [];
+      }
+
+      return !activeCodeCrumbs
+        ? data.children
+        : (data.children || []).filter(({ params }) => activeCodeCrumbs[params.original]);
     },
     nodeSize: node => {
       let nameLength = node.data.name.length;
@@ -60,4 +66,40 @@ export const getFileNodesMap = layoutNodes => {
   });
 
   return map;
+};
+
+export const getFilesForCurrentCcFlow = ({
+  codeCrumbedFlowsMap,
+  selectedCrumbedFlowKey,
+  filesMap
+}) => {
+  return Object.keys(codeCrumbedFlowsMap[selectedCrumbedFlowKey]).filter(filePath => {
+    const steps = ((filesMap[filePath] && filesMap[filePath].children) || []).filter(
+      ({ params }) => params.flow === selectedCrumbedFlowKey
+    );
+    return steps && steps.length;
+  });
+};
+
+export const getCodeCrumbsMapForCurrentCcFlow = ({
+  codeCrumbedFlowsMap,
+  selectedCrumbedFlowKey,
+  filesMap
+}) => {
+  const ccMap = {};
+
+  Object.keys(codeCrumbedFlowsMap[selectedCrumbedFlowKey])
+    .map(filePath => {
+      return ((filesMap[filePath] && filesMap[filePath].children) || []).filter(
+        ({ params }) => params.flow === selectedCrumbedFlowKey
+      );
+    })
+    .filter(steps => steps.length)
+    .forEach(steps => {
+      steps.forEach(({ params }) => {
+        ccMap[params.original] = 1;
+      });
+    });
+
+  return ccMap;
 };

@@ -1,5 +1,9 @@
 import { ACTIONS } from './constants';
-import { getTreeLayout } from 'utils/treeLayout';
+import {
+  getTreeLayout,
+  getFilesForCurrentCcFlow,
+  getCodeCrumbsMapForCurrentCcFlow
+} from 'utils/treeLayout';
 import { DIR_NODE_TYPE, FOLDER_OPEN_STATE } from 'utils/constants';
 
 export const setInitialSourceData = payload => ({
@@ -73,17 +77,34 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
 
 export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   const state = getState();
-  const { filesTree, openedFolders, activeItemsMap } = state.dataBus;
+  const {
+    filesTree,
+    openedFolders,
+    activeItemsMap,
+    codeCrumbedFlowsMap,
+    selectedCrumbedFlowKey,
+    filesMap
+  } = state.dataBus;
   const { checkedState } = state.viewSwitches;
 
   if (!filesTree) return;
+
+  let activeCodeCrumbs = undefined;
+  if (checkedState.codeCrumbsKeepOnlySelectedFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+    activeCodeCrumbs = getCodeCrumbsMapForCurrentCcFlow({
+      codeCrumbedFlowsMap,
+      selectedCrumbedFlowKey,
+      filesMap
+    });
+  }
 
   return dispatch({
     type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
     payload: getTreeLayout(filesTree, {
       includeFileChildren: checkedState.codeCrumbs && !checkedState.codeCrumbsMinimize,
       openedFolders,
-      activeItemsMap
+      activeItemsMap,
+      activeCodeCrumbs
     })
   });
 };
@@ -107,20 +128,38 @@ export const setActiveItems = (filesList, foldersMap = {}) => (dispatch, getStat
   });
 };
 
+// TODO: refactor too long does too much
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
   const state = getState();
   const {
     filesMap,
     filteredDependenciesAllModulesMap,
     openedFolders,
-    selectedNode
+    selectedNode,
+    codeCrumbedFlowsMap,
+    selectedCrumbedFlowKey
   } = state.dataBus;
-  const { dependencies, codeCrumbs, sourceKeepOnlyActiveItems } = state.viewSwitches.checkedState;
+  const {
+    dependencies,
+    codeCrumbs,
+    sourceKeepOnlyActiveItems,
+    codeCrumbsKeepOnlySelectedFlow
+  } = state.viewSwitches.checkedState;
 
   const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
-  const ccFilePaths = codeCrumbs
+  let ccFilePaths = codeCrumbs
     ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
     : [];
+
+  if (codeCrumbsKeepOnlySelectedFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+    const currentFlowFiles = getFilesForCurrentCcFlow({
+      codeCrumbedFlowsMap,
+      selectedCrumbedFlowKey,
+      filesMap
+    });
+
+    ccFilePaths = ccFilePaths.filter(path => currentFlowFiles.includes(path));
+  }
 
   const filesList = [selectedNode.path].concat(depFilePaths, ccFilePaths);
   if (!filesList.length) {

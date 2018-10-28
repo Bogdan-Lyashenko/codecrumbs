@@ -18,17 +18,19 @@ const FlowSelect = ({
 
   const menu = (
     <Menu>
-      {Object.keys(codeCrumbedFlowsMap).map(flow => (
-        <Menu.Item key={flow}>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => onCodeCrumbedFlowSelect(flow)}
-          >
-            {flow}
-          </a>
-        </Menu.Item>
-      ))}
+      {Object.keys(codeCrumbedFlowsMap)
+        .filter(key => key !== selectedCrumbedFlowKey)
+        .map(flow => (
+          <Menu.Item key={flow}>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => onCodeCrumbedFlowSelect(flow)}
+            >
+              {flow}
+            </a>
+          </Menu.Item>
+        ))}
     </Menu>
   );
 

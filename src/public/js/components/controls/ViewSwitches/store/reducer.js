@@ -56,6 +56,11 @@ const DefaultState = {
           key: CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
         },
         {
+          name: 'current trail only',
+          title: 'Show only files for selected flow',
+          key: CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW
+        },
+        {
           name: 'line numbers',
           title: 'Show crumbed line numbers',
           key: CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS

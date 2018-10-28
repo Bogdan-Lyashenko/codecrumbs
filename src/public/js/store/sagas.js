@@ -40,6 +40,10 @@ function* reactOnSwitchToggle(action) {
     ]);
   }
 
+  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW) {
+    yield reactByUpdatingFoldersState();
+  }
+
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES) {
     if (checked) {
       yield put(setDependenciesEntryPoint());

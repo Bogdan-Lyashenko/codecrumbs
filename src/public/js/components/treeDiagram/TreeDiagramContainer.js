@@ -5,8 +5,10 @@ import { selectDependencyEdge } from 'components/dataBus/store/actions';
 
 const mapStateToProps = state => {
   const { filesTreeLayoutNodes } = state.dataBus;
+  const { valuesState } = state.viewSwitches;
 
   return {
+    diagramZoom: valuesState.zoom,
     filesTreeLayoutNodes,
     layoutSize: calculateLayoutSize(filesTreeLayoutNodes)
   };

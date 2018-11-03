@@ -79,7 +79,10 @@ const DefaultState = {
     [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true
   },
   disabledState: {},
-  selectedTabInSideBar: '0'
+  valuesState: {
+    zoom: 1,
+    selectedTabInSideBar: 'Code'
+  }
 };
 
 export default (state = DefaultState, action) => {
@@ -109,7 +112,19 @@ export default (state = DefaultState, action) => {
     case ACTIONS.SELECT_SIDE_BAR_TAB:
       return {
         ...state,
-        selectedTabInSideBar: action.payload
+        valuesState: {
+          ...state.valuesState,
+          selectedTabInSideBar: action.payload
+        }
+      };
+
+    case ACTIONS.SET_ZOOM:
+      return {
+        ...state,
+        valuesState: {
+          ...state.valuesState,
+          zoom: Math.round(action.payload * 10) / 10
+        }
       };
 
     default:

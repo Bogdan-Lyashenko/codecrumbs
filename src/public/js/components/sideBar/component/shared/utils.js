@@ -55,9 +55,9 @@ export const extractExportsForImports = (fileCode, specifiers, path) => {
         if (isDefaultImported && node.type === 'ExportDefaultDeclaration') {
           exports.push(node);
         } else if (node.type === 'ExportNamedDeclaration') {
-          const declaration = node.declaration && node.declaration.declarations.find(d =>
-            namedImportsNames.includes(d.id.name)
-          );
+          const declaration =
+            node.declaration &&
+            node.declaration.declarations.find(d => namedImportsNames.includes(d.id.name));
           if (declaration) {
             exports.push(node);
           }

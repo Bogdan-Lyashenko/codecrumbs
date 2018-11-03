@@ -19,3 +19,8 @@ export const selectSideBarTab = tabIndex => ({
   type: ACTIONS.SELECT_SIDE_BAR_TAB,
   payload: tabIndex
 });
+
+export const setZoom = payload => ({
+  type: ACTIONS.SET_ZOOM,
+  payload
+});

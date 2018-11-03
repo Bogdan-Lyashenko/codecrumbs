@@ -13,14 +13,14 @@ const SideBarContainer = ({ sideBarOn, ...otherProps }) => {
 
 const mapStateToProps = state => {
   const { selectedNode } = state.dataBus;
-  const { checkedState, selectedTabInSideBar } = state.viewSwitches;
+  const { checkedState, valuesState } = state.viewSwitches;
 
   return {
     selectedNode,
     sideBarOn: checkedState.sideBar,
     dependenciesOn: checkedState.dependencies,
     codeCrumbsOn: checkedState.codeCrumbs,
-    selectedTabInSideBar
+    selectedTabInSideBar: valuesState.selectedTabInSideBar
   };
 };
 

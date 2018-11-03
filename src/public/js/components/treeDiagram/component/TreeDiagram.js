@@ -10,7 +10,7 @@ import { buildShiftToPoint } from 'utils/geometry';
 
 class TreeDiagram extends React.Component {
   render() {
-    const { layoutSize, filesTreeLayoutNodes, onUnderLayerClick } = this.props;
+    const { diagramZoom, layoutSize, filesTreeLayoutNodes, onUnderLayerClick } = this.props;
     const { width, height, xShift, yShift } = layoutSize;
 
     if (!width && !height) {
@@ -32,10 +32,11 @@ class TreeDiagram extends React.Component {
       <div className="TreeDiagram">
         <Draggable>
           <svg
-            width={width}
-            height={height}
+            width={width * diagramZoom}
+            height={height * diagramZoom}
             xmlns="http://www.w3.org/2000/svg"
             shapeRendering="optimizeSpeed"
+            viewBox={`0 0 ${width} ${height}`}
           >
             {filesTreeLayoutNodes && (
               <React.Fragment>

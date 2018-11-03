@@ -28,12 +28,6 @@ export default ({
   let content = null;
 
   if (file && file.fileCode) {
-    let tabsListLength = 4;
-    !dependenciesOn && tabsListLength--;
-    !codeCrumbsOn && tabsListLength--;
-
-    const defaultActiveKey = `${+selectedTabInSideBar > tabsListLength ? 0 : selectedTabInSideBar}`;
-
     header = (
       <React.Fragment>
         <div>{file.path}</div>
@@ -44,24 +38,24 @@ export default ({
     );
 
     content = (
-      <Tabs defaultActiveKey={defaultActiveKey} onChange={onTabSelect}>
-        <TabPane tab="Code" key="0">
+      <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
+        <TabPane tab="Code" key="Code">
           <Code code={file.fileCode} />
         </TabPane>
         {(dependenciesOn && (
-          <TabPane tab="Dependencies" key="1">
+          <TabPane tab="Dependencies" key="Dependencies">
             <DependenciesTab />
           </TabPane>
         )) ||
           null}
         {(codeCrumbsOn && (
-          <TabPane tab="Crumbs" key="2">
+          <TabPane tab="Crumbs" key="Crumbs">
             <CrumbsTab />
           </TabPane>
         )) ||
           null}
-        <TabPane tab="FlowChart" key="3">
-          <FlowChartTab fileCode={file.fileCode} active={selectedTabInSideBar === '3'} />
+        <TabPane tab="FlowChart" key="FlowChart">
+          <FlowChartTab fileCode={file.fileCode} active={selectedTabInSideBar === 'FlowChart'} />
         </TabPane>
       </Tabs>
     );

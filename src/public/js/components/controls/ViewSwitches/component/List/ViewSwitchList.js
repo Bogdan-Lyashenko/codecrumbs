@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import FlowSelect from 'components/controls/FlowSelect';
+import ZoomControl from 'components/controls/ZoomControl';
 import ViewSwitch from '../Item/ViewSwitch';
 import './ViewSwitchList.scss';
 
@@ -33,6 +34,9 @@ const ViewSwitchList = props => {
       <div className={'side'}>
         {leftSide}
         <FlowSelect />
+      </div>
+      <div className={'side'}>
+        <ZoomControl />
       </div>
       <div className={'side'}>{rightSide}</div>
     </div>

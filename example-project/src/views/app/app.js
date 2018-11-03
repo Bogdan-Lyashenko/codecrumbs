@@ -10,7 +10,7 @@ import RequireUnauthRoute from '../components/require-unauth-route';
 import SignInPage from '../pages/sign-in';
 import TasksPage from '../pages/tasks';
 
-
+//c2c:#layout#1;describe pages;provider
 const App = ({authenticated, signOut}) => (
   <div>
     <Header
@@ -38,10 +38,10 @@ App.propTypes = {
 const mapStateToProps = getAuth;
 
 const mapDispatchToProps = {
-  signOut: authActions.signOut //cc:#sign_out#1;map dispatch action
+  signOut: authActions.signOut
 };
 
-//cc:#init#1;root component;
+//c0c:here
 export default withRouter(
   connect(
     mapStateToProps,

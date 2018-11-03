@@ -65,6 +65,7 @@ export class TasksPage extends Component {
     );
   }
 
+  //c2c:#layout#2;tasks page;provider
   render() {
     return (
       <div className="g-row">
@@ -109,7 +110,6 @@ const mapDispatchToProps = Object.assign(
   notificationActions
 );
 
-//cc:#init#2;tasks page;
 export default connect(
   mapStateToProps,
   mapDispatchToProps

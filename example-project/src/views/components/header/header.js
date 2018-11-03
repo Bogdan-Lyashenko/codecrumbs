@@ -5,7 +5,6 @@ import GitHubLogo from '../github-logo';
 
 import './header.css';
 
-//cc:#sign_out#0;click button;
 const Header = ({authenticated, signOut}) => (
   <header className="header">
     <div className="g-row">

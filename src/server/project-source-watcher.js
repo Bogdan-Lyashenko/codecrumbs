@@ -148,6 +148,9 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
   //use watcher.close(); to stop watching
   return createWatcher(projectDir, path => {
     const file = dirFiles.map[path];
+    if (!file) {
+      return;
+    }
 
     if (file.hasCodecrumbs) {
       resetCodeCrumbedFlowsByFile(codeCrumbs.flows, file);

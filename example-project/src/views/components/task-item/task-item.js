@@ -6,7 +6,7 @@ import Icon from '../icon';
 
 import './task-item.css';
 
-
+//c0c:there is task
 export class TaskItem extends Component {
   constructor() {
     super(...arguments);
@@ -82,6 +82,7 @@ export class TaskItem extends Component {
     );
   }
 
+  //c2c:#layout#4;item;
   render() {
     const { editing } = this.state;
     const { task } = this.props;

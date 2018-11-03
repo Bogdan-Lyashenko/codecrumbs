@@ -10,6 +10,7 @@ import {
 
 function authenticate(provider) {
   return dispatch => {
+    //c1c:#signin#2;firebase auth;on success set
     firebaseAuth.signInWithPopup(provider)
       .then(result => dispatch(signInSuccess(result)))
       .catch(error => dispatch(signInError(error)));
@@ -58,7 +59,6 @@ export function signInWithTwitter() {
 
 export function signOut() {
   return dispatch => {
-    //cc:#sign_out#2;call firebaseAuth
     firebaseAuth.signOut()
       .then(() => dispatch(signOutSuccess()));
   };

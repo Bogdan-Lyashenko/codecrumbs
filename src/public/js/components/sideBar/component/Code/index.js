@@ -5,14 +5,7 @@ import { atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
 import './index.scss';
 
-const isMatchLineNumber = (lines, lineNumber) =>
-  !!lines.find(lines => {
-    if (lines[0] === lineNumber && lines[1] === lineNumber) {
-      return true;
-    }
-    return lines[0] <= lineNumber && lines[1] >= lineNumber;
-  });
-
+const FONT_SIZE = '12px';
 //TODO: add select with several themes
 //TODO: scrool to/highlight crumbed lines
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
@@ -49,7 +42,7 @@ export default class extends React.Component {
           style={atomOneLight}
           showLineNumbers={true}
           wrapLines={true}
-          customStyle={{ fontSize: '12px' }}
+          customStyle={{ fontSize: FONT_SIZE }}
           lineProps={lineNumber => {
             if (isMatchLineNumber(crumbedLines, lineNumber)) {
               return { className: 'crumbedLine' };
@@ -68,3 +61,11 @@ export default class extends React.Component {
     );
   }
 }
+
+const isMatchLineNumber = (lines, lineNumber) =>
+  !!lines.find(lines => {
+    if (lines[0] === lineNumber && lines[1] === lineNumber) {
+      return true;
+    }
+    return lines[0] <= lineNumber && lines[1] >= lineNumber;
+  });

@@ -18,6 +18,26 @@ export const getTreeLayout = (
 
           // TODO: hide .. for folders where it doesn't change anything
           data.childrenCollapsed = filteredChildren.length !== data.children.length;
+          // TODO: refactor sorting of flow steps
+          if (data.childrenCollapsed && activeCodeCrumbs) {
+            if (
+              filteredChildren.length > 1 &&
+              filteredChildren.filter(
+                i =>
+                  i.type === FILE_NODE_TYPE &&
+                  i.hasCodecrumbs &&
+                  (i.children || []).find(({ params }) => activeCodeCrumbs[params.original])
+              ).length === filteredChildren.length
+            ) {
+              filteredChildren.sort(
+                (a, b) =>
+                  b.children.find(({ params }) => activeCodeCrumbs[params.original]).params
+                    .flowStep -
+                  a.children.find(({ params }) => activeCodeCrumbs[params.original]).params.flowStep
+              );
+            }
+          }
+
           return filteredChildren;
         }
 

@@ -95,12 +95,19 @@ export const CodeCrumbedFlowEdge = props => {
       ];
     }
   } else {
-    polylinePoints = [
-      [sourcePt.x, sourcePt.y],
-      [sourcePt.x, sourcePt.y - padding],
-      [targetPt.x, sourcePt.y - padding],
-      [targetPt.x, targetPt.y]
-    ];
+    if (Math.abs(sourcePt.x - targetPt.x) < 5 ) {
+      polylinePoints = [
+        [sourcePt.x, sourcePt.y],
+        [targetPt.x, targetPt.y]
+      ];
+    } else {
+      polylinePoints = [
+        [sourcePt.x, sourcePt.y],
+        [sourcePt.x, sourcePt.y - padding],
+        [targetPt.x, sourcePt.y - padding],
+        [targetPt.x, targetPt.y]
+      ];
+    }
   }
 
   const endPointConfig = {

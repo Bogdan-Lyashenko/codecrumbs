@@ -76,9 +76,12 @@ const DefaultState = {
   checkedState: {
     [CONTROLS_KEYS.SOURCE]: true,
     [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true,
-    [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true
+    [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true,
+    [CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW]: true
   },
-  disabledState: {},
+  disabledState: {
+    [CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW]: true
+  },
   valuesState: {
     zoom: 1,
     selectedTabInSideBar: 'Code'

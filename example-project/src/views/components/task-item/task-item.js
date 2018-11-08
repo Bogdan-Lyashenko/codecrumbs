@@ -82,7 +82,6 @@ export class TaskItem extends Component {
     );
   }
 
-  //c2c:#layout#4;item;
   render() {
     const { editing } = this.state;
     const { task } = this.props;

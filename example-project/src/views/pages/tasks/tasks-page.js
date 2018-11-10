@@ -11,7 +11,7 @@ import TaskFilters from '../../components/task-filters';
 import TaskForm from '../../components/task-form';
 import TaskList from '../../components/task-list';
 
-
+//c2c:#layout#2;tasks page;provider
 export class TasksPage extends Component {
   static propTypes = {
     createTask: PropTypes.func.isRequired,
@@ -65,7 +65,6 @@ export class TasksPage extends Component {
     );
   }
 
-  //c2c:#layout#2;tasks page;provider
   render() {
     return (
       <div className="g-row">

@@ -9,6 +9,7 @@ import './index.scss';
 
 const ZoomControl = ({ zoom, setZoom }) => {
   const step = 0.1;
+  return null;
   return (
     <div className={'ZoomControl'}>
       <ButtonGroup size={'small'}>

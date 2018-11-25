@@ -1,14 +1,27 @@
-const requestHandler = (request, response) => {
-  const url = request.url.substr(1);
+const url = require('url');
+const codeParser = require('../code-parse');
 
-  response.writeHead(200, {
-    'Content-Type': 'application/json'
-  });
+const handleRequests = projectDir => (request, response) => {
+  response.setHeader('Access-Control-Allow-Origin', 'http://localhost:2018');
 
-  response.write(JSON.stringify({bob: 123}));
-  return response.end();
+  if (request.method === 'GET') {
+    const { pathname, query } = url.parse(request.url, true);
+
+    if (pathname === '/api') {
+      const { file: itemPath } = query;
+
+      codeParser.parseFile(itemPath).then(item => {
+        response.writeHead(200, {
+          'Content-Type': 'application/json',
+
+        });
+        response.write(JSON.stringify(item));
+        return response.end();
+      });
+    }
+  }
 };
 
 module.exports = {
-  requestHandler
+  handleRequests
 };

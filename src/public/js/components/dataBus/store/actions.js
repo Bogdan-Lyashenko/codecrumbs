@@ -16,10 +16,17 @@ export const setChangedSourceData = payload => ({
   payload
 });
 
-export const selectNode = fileNode => ({
-  type: ACTIONS.SELECT_NODE,
-  payload: fileNode
-});
+export const selectNode = fileNode => (dispatch, getState) => {
+  // TODO: move to api
+  fetch(`http://localhost:3018/api?file=${fileNode.path}`)
+    .then(res => res.json())
+    .then(data => console.log(data));
+
+  dispatch({
+    type: ACTIONS.SELECT_NODE,
+    payload: fileNode
+  });
+};
 
 /**
   TODO:

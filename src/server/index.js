@@ -11,7 +11,7 @@ const ENTRY = `${PROJECT_DIR}/index.js`; //, index.js, get as param to server sc
 const WEBPACK_CONFIG_FILE_PATH = `${ROOT_DIR}/webpack.config.js`;
 // -- end params --
 
-const httpServer = http.createServer(api.requestHandler);
+const httpServer = http.createServer(api.handleRequests(PROJECT_DIR));
 httpServer.listen(SERVER_PORT, () => {
   console.log(new Date() + `Server is listening localhost: ${SERVER_PORT}.`);
 });

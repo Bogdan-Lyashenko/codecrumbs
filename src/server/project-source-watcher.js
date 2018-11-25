@@ -3,9 +3,7 @@ const madge = require('madge');
 const chokidar = require('chokidar');
 const debounce = require('lodash.debounce');
 
-const codecrumbs = require('./codecrumbs/codecrumbs');
-const dependencies = require('./dependencies/dependencies');
-const file = require('./utils/file');
+const codeParser = require('./code-parse');
 const traversalSearch = require('./utils/traversal').search;
 const treeTraversal = require('../shared/utils/tree').traversal;
 const DIR_NODE_TYPE = require('../shared/constants').DIR_NODE_TYPE;
@@ -68,39 +66,14 @@ const grabProjectSourceState = ({ filesMap, projectDir, entryPoint, webpackConfi
   return Promise.all([
     getDependencies(projectDir, entryPoint, webpackConfigPath),
     ...Object.keys(filesMap).map(itemPath =>
-      file.read(itemPath, 'utf8').then(code => {
-        const item = filesMap[itemPath];
-
-        const codecrumbsList = codecrumbs.getCrumbs(code, itemPath);
-        const importedDependencies = dependencies.getImports(code, itemPath);
-
-        if (codecrumbsList.length) {
-          item.children = codecrumbsList;
-          item.hasCodecrumbs = true;
-          item.flows = codecrumbsList
-            .filter(cc => cc.params.flow)
-            .map(cc => cc.params)
-            .reduce((acc, { flow }) => {
-              acc[flow] = true;
-              return acc;
-            }, {});
-        } else {
-          item.children = undefined;
-          item.hasCodecrumbs = false;
-          item.flows = undefined;
-        }
-
-        if (importedDependencies.length) {
-          item.importedDependencies = importedDependencies;
-          item.hasDependenciesImports = true;
-        } else {
-          item.importedDependencies = undefined;
-          item.hasDependenciesImports = false;
-        }
-
-        // TODO: load on click
-        item.fileCode = code;
-      })
+      codeParser.parseFile(itemPath).then(item =>
+        Object.keys(item).forEach(key => {
+          // don't send fileCode to client, too big
+          if (!['fileCodeREMOVE'].includes(key)) {
+            filesMap[itemPath][key] = item[key];
+          }
+        })
+      )
     )
   ]);
 };
@@ -146,6 +119,7 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
   });
 
   //use watcher.close(); to stop watching
+  // TODO: path can be multiple if not save after fist change, fix
   return createWatcher(projectDir, path => {
     const file = dirFiles.map[path];
     if (!file) {

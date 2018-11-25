@@ -15,7 +15,7 @@ import App from './views/app';
 const store = configureStore();
 const rootElement = document.getElementById('root');
 
-//c2c:#layout#0;start;provider
+//cc:#layout#0;start;provider
 function render(Component) {
   ReactDOM.render(
     <Provider store={store}>

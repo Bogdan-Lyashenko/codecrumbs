@@ -10,7 +10,7 @@ import RequireUnauthRoute from '../components/require-unauth-route';
 import SignInPage from '../pages/sign-in';
 import TasksPage from '../pages/tasks';
 
-//c2c:#layout#1;describe pages;provider
+//cc:#layout#1;describe pages;provider
 const App = ({authenticated, signOut}) => (
   <div>
     <Header

@@ -1,28 +1,19 @@
 const WebSocketServer = require('websocket').server;
 const http = require('http');
-const statics = require('./statics/statics');
-const api = require('./api/api');
+const api = require('./api/');
 const projectSourceWatcher = require('./project-source-watcher');
-const SOCKET_EVENT_TYPE = require('../shared/constants').SOCKET_EVENT_TYPE;
+const { SERVER_PORT, SOCKET_EVENT_TYPE } = require('../shared/constants');
 
-const PORT = 2018;
+// TODO: should come as params
 const ROOT_DIR = 'example-project';
 const PROJECT_DIR = `${ROOT_DIR}/src`; //, src/public/js, example-project, get as param to server script
 const ENTRY = `${PROJECT_DIR}/index.js`; //, index.js, get as param to server script
 const WEBPACK_CONFIG_FILE_PATH = `${ROOT_DIR}/webpack.config.js`;
+// -- end params --
 
-const httpServer = http.createServer((request, response) => {
-  const url = request.url.substr(1);
-
-  if (url.startsWith('api/')) {
-    return api.requestHandler(url, response);
-  }
-
-  statics.requestHandler(url, response);
-});
-
-httpServer.listen(PORT, () => {
-  console.log(new Date() + `Server is listening localhost: ${PORT}.`);
+const httpServer = http.createServer(api.requestHandler);
+httpServer.listen(SERVER_PORT, () => {
+  console.log(new Date() + `Server is listening localhost: ${SERVER_PORT}.`);
 });
 
 const webSocketServer = new WebSocketServer({ httpServer });

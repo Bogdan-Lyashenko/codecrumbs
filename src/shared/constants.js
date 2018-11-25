@@ -6,7 +6,10 @@ const SOCKET_EVENT_TYPE = {
   UPDATE_SOURCE_FILE_SYNC: 'update-source-file-sync'
 };
 
+const SERVER_PORT = 3018;
+
 module.exports = {
+  SERVER_PORT,
   SOCKET_EVENT_TYPE,
   FILE_NODE_TYPE,
   DIR_NODE_TYPE

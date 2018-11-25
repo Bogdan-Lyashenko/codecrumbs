@@ -44,7 +44,7 @@ const getConnectionLine = (groupName, targetPosition, sourcePosition, sourcePt) 
   const vPadding = (V_SPACE / 2 - crossShift) * direction;
 
   const siblingNodesDistance = 40;
-  if (Math.abs(sourcePt.y - targetPosition.y) < siblingNodesDistance) {
+  if (Math.abs(sourcePt.y - targetPosition.y) <= siblingNodesDistance) {
     return [
       [sourcePt.x, sourcePt.y],
       [sourcePt.x, targetPosition.y - vPadding],
@@ -159,13 +159,19 @@ export const DependenciesEdge = props => {
   );
 };
 
+/// TODO: this is mess
 const getOverlappingConnectionLine = (groupName, targetPosition, sourcePosition) => {
   const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
-  const xShift = [TOP_LEFT, BOTTOM_LEFT].includes(groupName) ? 0 : -7;
+
+  // TODO: fix bugs here
+  const sourcePt = getSourcePt(groupName, sourcePosition, targetPosition);
+  const siblingNodesDistance = 40;
+  const isSibling = Math.abs(sourcePt.y - targetPosition.y) <= siblingNodesDistance;
+  const xShift = [TOP_LEFT, BOTTOM_LEFT].includes(groupName) ? V_SPACE : -HALF_PADDING;
 
   return [
     [
-      sourcePosition.x + xShift,
+      sourcePosition.x + xShift + 8,
       targetPosition.y - (V_SPACE / 2) * directionY + crossShift * directionY
     ],
     [targetPosition.x + 2, targetPosition.y - (V_SPACE / 2 - crossShift) * directionY],

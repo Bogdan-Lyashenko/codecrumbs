@@ -35,6 +35,7 @@ const DependenciesTab = props => {
           </Panel>
           {importedDependencies.map((file, i) => {
             const filePath = convertRelativeToAbsolutePath(selectedNode.path, file.sourceFile);
+            // TODO: extract code from server before
             const fileNode = findFileNode(filePath, filesMap, foldersMap);
 
             if (!fileNode) {
@@ -50,7 +51,7 @@ const DependenciesTab = props => {
               <Panel header={fileNode.path} key={i + 1}>
                 <Code
                   limitedHeight={true}
-                  code={fileNode.fileCode}
+                  code={fileNode.fileCode || ''}
                   dependenciesLines={exportedDependencies.map(getNodeLines)}
                 />
               </Panel>

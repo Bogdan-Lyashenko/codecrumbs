@@ -20,6 +20,9 @@ const getDirFiles = projectDir => {
     throw new Error('There is not files found. Please check source dir and entry point configs.');
   }
 
+  // TODO: move that code lines to function - sort childrenAlphabetically -
+  // so you don't need to read code below
+  // to learn again what it does
   treeTraversal(filesTree, node => {
     if (node.type === DIR_NODE_TYPE && node.children) {
       foldersMap[node.path] = 1;

@@ -18,6 +18,17 @@ export const setChangedSourceData = payload => ({
 });
 
 export const selectNode = fileNode => (dispatch, getState) => {
+  const { viewSwitches } = getState();
+  const { checkedState } = viewSwitches;
+
+  // TODO: if sidebar opens - fetch code for selected node
+  if (!checkedState.sideBar) {
+    return dispatch({
+      type: ACTIONS.SELECT_NODE,
+      payload: fileNode
+    });
+  }
+
   fetchFile(fileNode.path).then(data =>
     dispatch({
       type: ACTIONS.SELECT_NODE,

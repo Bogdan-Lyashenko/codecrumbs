@@ -122,7 +122,7 @@ class SourceTree extends React.Component {
               cover={dependenciesDiagramOn || codeCrumbsDiagramOn}
               disabled={sourceDimFolders}
               openedState={openedFolders[node.data.path]}
-              onTextClick={() => onNodeTextClick(node.data)}
+              onTextClick={() => onFolderIconClick(node.data)}
               onIconClick={() => onFolderIconClick(node.data)}
             />
           );

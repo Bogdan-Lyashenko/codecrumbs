@@ -69,9 +69,11 @@ const grabProjectSourceState = ({ filesMap, projectDir, entryPoint, webpackConfi
       codeParser.parseFile(itemPath).then(item =>
         Object.keys(item).forEach(key => {
           // don't send fileCode to client, too big
-          if (!['fileCodeREMOVE'].includes(key)) {
-            filesMap[itemPath][key] = item[key];
+          if (itemPath !== entryPoint && ['fileCode'].includes(key)) {
+            return;
           }
+
+          filesMap[itemPath][key] = item[key];
         })
       )
     )

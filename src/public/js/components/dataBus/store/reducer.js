@@ -22,7 +22,7 @@ const DefaultState = {
 export default (state = DefaultState, action) => {
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA:
-      const { dependenciesRootEntryName, filesMap, filesTree, foldersMap } = action.payload;
+      const { dependenciesRootEntryName, filesMap, foldersMap } = action.payload;
 
       return {
         ...state,

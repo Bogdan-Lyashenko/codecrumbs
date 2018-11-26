@@ -5,6 +5,7 @@ import {
   getCodeCrumbsMapForCurrentCcFlow
 } from 'utils/treeLayout';
 import { DIR_NODE_TYPE, FOLDER_OPEN_STATE } from 'utils/constants';
+import { fetchFile } from 'utils/connection';
 
 export const setInitialSourceData = payload => ({
   type: ACTIONS.SET_INITIAL_SOURCE_DATA,
@@ -17,15 +18,12 @@ export const setChangedSourceData = payload => ({
 });
 
 export const selectNode = fileNode => (dispatch, getState) => {
-  // TODO: move to api
-  fetch(`http://localhost:3018/api?file=${fileNode.path}`)
-    .then(res => res.json())
-    .then(data => console.log(data));
-
-  dispatch({
-    type: ACTIONS.SELECT_NODE,
-    payload: fileNode
-  });
+  fetchFile(fileNode.path).then(data =>
+    dispatch({
+      type: ACTIONS.SELECT_NODE,
+      payload: { ...fileNode, ...data }
+    })
+  );
 };
 
 /**

@@ -14,3 +14,6 @@ export const createConnection = (onMessage, route = `ws://127.0.0.1:${SERVER_POR
     }
   };
 };
+
+export const fetchFile = path =>
+  fetch(`http://127.0.0.1:${SERVER_PORT}/api?file=${path}`).then(res => res.json());

@@ -7,13 +7,9 @@ import { FolderName } from 'components/treeDiagram/component/Node/Folder';
 import { Dot } from 'components/treeDiagram/component/Dot/';
 import { SourceEdge } from 'components/treeDiagram/component/Edge/SourceEdge';
 
-import DependenciesTree from './DependenciesTree';
+import DependenciesTree from './Dependencies/';
 import CodeCrumbsTree, { CodeCrumbedFlowEdges } from './CodeCrumbsTree';
-import {
-  selectNode,
-  setDependenciesEntryPoint,
-  toggleFolder
-} from 'components/dataBus/store/actions';
+import { selectNode, toggleFolder } from 'components/dataBus/store/actions';
 
 class SourceTree extends React.Component {
   render() {
@@ -29,11 +25,7 @@ class SourceTree extends React.Component {
       selectedNode,
       shiftToCenterPoint,
       onNodeTextClick,
-      onFileIconClick,
       onFolderIconClick,
-      filteredDependenciesList,
-      dependenciesMap,
-      filteredDependenciesAllModulesMap,
       dependenciesEntryPoint,
       selectedDependencyEdgeNodes
     } = this.props;
@@ -78,7 +70,11 @@ class SourceTree extends React.Component {
         if (
           type === DIR_NODE_TYPE ||
           (type === FILE_NODE_TYPE &&
-            !(dependenciesDiagramOn && filteredDependenciesAllModulesMap[path]))
+            !(
+              dependenciesDiagramOn &&
+              selectedNode.dependencies &&
+              selectedNode.dependencies[path]
+            ))
         ) {
           sourceDotes.push(
             <Dot key={`dot-${path}`} position={position} disabled={false} selected={selected} />
@@ -87,6 +83,7 @@ class SourceTree extends React.Component {
 
         let nodeBasedOnType = null;
         if (node.data.type === FILE_NODE_TYPE) {
+          const selectedNodeDependencies = selectedNode.dependencies;
           nodeBasedOnType = (
             <FileName
               key={path}
@@ -101,15 +98,17 @@ class SourceTree extends React.Component {
                   selectedDependencyEdgeNodes.sources.includes(path))
               }
               depEntryPoint={path === dependenciesEntryPoint.path}
-              dependency={dependenciesDiagramOn && filteredDependenciesAllModulesMap[path]}
+              dependency={
+                dependenciesDiagramOn && selectedNodeDependencies && selectedNodeDependencies[path]
+              }
               dependencyImportedOnly={
                 dependenciesDiagramOn &&
-                dependenciesMap[path] &&
-                !dependenciesMap[path].importedModuleNames.length
+                selectedNodeDependencies &&
+                selectedNodeDependencies[path] &&
+                !selectedNodeDependencies[path].importedModuleNames.length
               }
               onNodeClick={() => {
                 onNodeTextClick(node.data);
-                dependenciesDiagramOn && onFileIconClick(node.data);
               }}
             />
           );
@@ -137,10 +136,7 @@ class SourceTree extends React.Component {
         {(sourceDiagramOn && selectedSourceEdges) || null}
 
         {dependenciesDiagramOn &&
-          filteredDependenciesList &&
-          filteredDependenciesList.length && (
-            <DependenciesTree shiftToCenterPoint={shiftToCenterPoint} />
-          )}
+          selectedNode.dependencies && <DependenciesTree shiftToCenterPoint={shiftToCenterPoint} />}
 
         {(codeCrumbsDiagramOn && (
           <CodeCrumbedFlowEdges shiftToCenterPoint={shiftToCenterPoint} />
@@ -160,13 +156,10 @@ class SourceTree extends React.Component {
 const mapStateToProps = state => {
   const { checkedState } = state.viewSwitches;
   const {
+    selectedNode,
     filesTreeLayoutNodes,
-    dependenciesMap,
-    filteredDependenciesList,
-    filteredDependenciesAllModulesMap,
     openedFolders,
     dependenciesEntryPoint,
-    selectedNode,
     selectedDependencyEdgeNodes
   } = state.dataBus;
 
@@ -177,19 +170,15 @@ const mapStateToProps = state => {
     codeCrumbsDiagramOn: checkedState.codeCrumbs,
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
     filesTreeLayoutNodes,
-    filteredDependenciesAllModulesMap,
-    dependenciesMap,
-    filteredDependenciesList,
+    selectedNode,
     openedFolders,
     dependenciesEntryPoint,
-    selectedNode,
     selectedDependencyEdgeNodes
   };
 };
 
 const mapDispatchToProps = {
   onNodeTextClick: selectNode,
-  onFileIconClick: setDependenciesEntryPoint,
   onFolderIconClick: toggleFolder
 };
 

@@ -95,11 +95,8 @@ export const CodeCrumbedFlowEdge = props => {
       ];
     }
   } else {
-    if (Math.abs(sourcePt.x - targetPt.x) < 5 ) {
-      polylinePoints = [
-        [sourcePt.x, sourcePt.y],
-        [targetPt.x, targetPt.y]
-      ];
+    if (Math.abs(sourcePt.x - targetPt.x) < 5) {
+      polylinePoints = [[sourcePt.x, sourcePt.y], [targetPt.x, targetPt.y]];
     } else {
       polylinePoints = [
         [sourcePt.x, sourcePt.y],

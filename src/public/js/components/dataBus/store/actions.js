@@ -22,7 +22,7 @@ export const selectNode = fileNode => (dispatch, getState) => {
   const { checkedState } = viewSwitches;
 
   // TODO: if sidebar opens - fetch code for selected node
-  if (!checkedState.sideBar) {
+  if (!checkedState.sideBar && !checkedState.dependencies) {
     return dispatch({
       type: ACTIONS.SELECT_NODE,
       payload: fileNode
@@ -94,7 +94,7 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
 export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   const state = getState();
   const {
-    filesTree,
+    sourceTree,
     openedFolders,
     activeItemsMap,
     codeCrumbedFlowsMap,
@@ -103,7 +103,7 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   } = state.dataBus;
   const { checkedState } = state.viewSwitches;
 
-  if (!filesTree) return;
+  if (!sourceTree) return;
 
   let activeCodeCrumbs = undefined;
   if (checkedState.codeCrumbsKeepOnlySelectedFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
@@ -116,7 +116,7 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
 
   return dispatch({
     type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
-    payload: getTreeLayout(filesTree, {
+    payload: getTreeLayout(sourceTree, {
       includeFileChildren: checkedState.codeCrumbs && !checkedState.codeCrumbsMinimize,
       openedFolders,
       activeItemsMap,
@@ -147,14 +147,15 @@ export const setActiveItems = (filesList, foldersMap = {}) => (dispatch, getStat
 // TODO: refactor too long does too much
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
   const state = getState();
+
   const {
     filesMap,
-    filteredDependenciesAllModulesMap,
     openedFolders,
     selectedNode,
     codeCrumbedFlowsMap,
     selectedCrumbedFlowKey
   } = state.dataBus;
+
   const {
     dependencies,
     codeCrumbs,
@@ -162,7 +163,7 @@ export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
     codeCrumbsKeepOnlySelectedFlow
   } = state.viewSwitches.checkedState;
 
-  const depFilePaths = dependencies ? Object.keys(filteredDependenciesAllModulesMap) : [];
+  const depFilePaths = dependencies ? Object.keys(selectedNode.dependencies || {}) : [];
   let ccFilePaths = codeCrumbs
     ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
     : [];

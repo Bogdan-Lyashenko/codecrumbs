@@ -1,7 +1,7 @@
 const WebSocketServer = require('websocket').server;
 const http = require('http');
 const api = require('./api/');
-const projectSourceWatcher = require('./project-source-watcher');
+const projectSourceWatcher = require('./project-source/');
 const { SERVER_PORT, SOCKET_EVENT_TYPE } = require('../shared/constants');
 
 // TODO: should come as params

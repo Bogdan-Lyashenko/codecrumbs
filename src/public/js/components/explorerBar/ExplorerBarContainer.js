@@ -33,8 +33,6 @@ const mapDispatchToProps = dispatch => ({
 
   onFileClick: node => {
     dispatch(selectNode(node));
-    //TODO: dependenciesDiagramOn &&
-    dispatch(setDependenciesEntryPoint(node));
   }
 });
 

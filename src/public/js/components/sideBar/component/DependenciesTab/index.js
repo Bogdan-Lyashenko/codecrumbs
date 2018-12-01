@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Collapse, Alert } from 'antd';
 
-import { convertRelativeToAbsolutePath } from 'utils/path';
 import Code from '../Code';
 import {
   filterImportedDependencies,
@@ -34,9 +33,8 @@ const DependenciesTab = props => {
             />
           </Panel>
           {importedDependencies.map((file, i) => {
-            const filePath = convertRelativeToAbsolutePath(selectedNode.path, file.sourceFile);
             // TODO: extract code from server before
-            const fileNode = findFileNode(filePath, filesMap, foldersMap);
+            const fileNode = findFileNode(file.sourceFile, filesMap, foldersMap);
 
             if (!fileNode) {
               return null;
@@ -45,7 +43,7 @@ const DependenciesTab = props => {
             const exportedDependencies = extractExportsForImports(
               fileNode.fileCode,
               file.specifiers,
-              filePath
+              file.sourceFile
             );
             return (
               <Panel header={fileNode.path} key={i + 1}>

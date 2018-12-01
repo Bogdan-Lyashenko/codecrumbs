@@ -4,18 +4,15 @@ import { getFileNodesMap } from 'utils/treeLayout';
 import { FOLDER_OPEN_STATE } from 'utils/constants';
 
 const DefaultState = {
-  filesTree: null,
+  sourceTree: null,
   filesMap: null,
-  dependenciesMap: null,
+  foldersMap: null,
 
-  filesTreeLayoutNodes: null,
   openedFolders: {},
   fileNodesMap: {},
-  filteredDependenciesList: [],
-  filteredDependenciesMap: {},
-  filteredDependenciesAllModulesMap: {},
-
   codeCrumbedFlowsMap: {},
+
+  filesTreeLayoutNodes: null,
   activeItemsMap: {}
 };
 
@@ -135,12 +132,6 @@ export default (state = DefaultState, action) => {
       return {
         ...state,
         dependenciesEntryPoint: depEntryPoint,
-        ...getFilteredDependencies({
-          //TODO: perf?
-          dependenciesMap: state.dependenciesMap,
-          dependenciesEntryPoint: depEntryPoint,
-          dependenciesShowDirectOnly: action.payload.dependenciesShowDirectOnly
-        }),
         selectedDependencyEdgeNodes: null
       };
 
@@ -155,75 +146,4 @@ export default (state = DefaultState, action) => {
     default:
       return state;
   }
-};
-
-export const getFilteredDependencies = ({
-  dependenciesMap,
-  dependenciesEntryPoint,
-  dependenciesShowDirectOnly
-}) => {
-  if (!dependenciesEntryPoint) {
-    return {
-      filteredDependenciesList: [],
-      filteredDependenciesMap: {},
-      filteredDependenciesAllModulesMap: {}
-    };
-  }
-
-  let filteredDependenciesList, filteredDependenciesMap;
-
-  if (dependenciesShowDirectOnly) {
-    const depEntryNode = dependenciesMap[dependenciesEntryPoint.path];
-    filteredDependenciesList = depEntryNode ? [depEntryNode] : [];
-    filteredDependenciesMap = depEntryNode ? { [dependenciesEntryPoint.path]: depEntryNode } : {};
-  } else {
-    const { list, map } = collectDependencies(dependenciesEntryPoint.path, dependenciesMap);
-    filteredDependenciesList = list;
-    filteredDependenciesMap = map;
-  }
-
-  return {
-    filteredDependenciesList,
-    filteredDependenciesMap,
-    filteredDependenciesAllModulesMap: getDependenciesAllModules(filteredDependenciesMap)
-  };
-};
-
-export const collectDependencies = (entryModuleName, dependenciesMap) => {
-  let queue = [].concat(entryModuleName),
-    list = [],
-    map = {};
-
-  while (queue.length) {
-    let moduleName = queue.shift(),
-      entryModule = dependenciesMap[moduleName];
-
-    if (entryModule) {
-      list.push(entryModule);
-      map[moduleName] = entryModule;
-
-      const nodeBody = entryModule.importedModuleNames;
-      if (nodeBody) {
-        queue = [...queue, ...nodeBody];
-      }
-    } else {
-      console.error('looks like ' + entryModuleName + 'is not imported anywhere');
-    }
-  }
-
-  return {
-    list,
-    map
-  };
-};
-
-export const getDependenciesAllModules = dependenciesMap => {
-  const allNodes = {};
-
-  Object.values(dependenciesMap).forEach(depModule => {
-    allNodes[depModule.moduleName] = 1;
-    (depModule.importedModuleNames || []).forEach(impModuleName => (allNodes[impModuleName] = 1));
-  });
-
-  return allNodes;
 };

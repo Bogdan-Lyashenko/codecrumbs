@@ -1,9 +1,12 @@
 {
   "name": "codecrumbs",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.0-alpha",
   "author": "Bohdan Liashenko",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bogdan-Lyashenko/codecrumbs.git"
+  },
   "scripts": {
     "start": "yarn client-dev & yarn server-api-dev & yarn server-static",
     "start:demo": "yarn server-api & yarn server-static",
@@ -13,6 +16,9 @@
     "server-static": "cd src/public/dist && http-server ./ -c-1 -p 2018",
     "server-api": "node ./src/server/index.js",
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""
+  },
+  "bin": {
+    "codecrumbs": "./cli/index.cli.js"
   },
   "dependencies": {
     "@babel/parser": "^7.1.2",

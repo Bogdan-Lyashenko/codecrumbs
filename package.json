@@ -22,15 +22,13 @@
     "chokidar": "^2.0.3",
     "classnames": "^2.2.6",
     "copy-text-to-clipboard": "^1.0.4",
-    "css-loader": "^0.28.11",
     "d3-flextree": "^2.1.1",
-    "dependency-tree": "^6.3.0",
     "directory-tree": "^2.1.0",
     "http-server": "^0.11.1",
     "js2flowchart": "^1.1.7",
     "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
-    "madge": "^3.0.1",
+    "madge": "^3.3.0",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-draggable": "^3.0.5",
@@ -40,7 +38,6 @@
     "redux-persist": "^5.10.0",
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
-    "style-loader": "^0.21.0",
     "websocket": "^1.0.26"
   },
   "devDependencies": {
@@ -53,6 +50,8 @@
     "nodemon": "^1.18.7",
     "prettier": "^1.14.0",
     "sass-loader": "^7.1.0",
+    "css-loader": "^0.28.11",
+    "style-loader": "^0.21.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
   },

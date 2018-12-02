@@ -2,7 +2,7 @@ const url = require('url');
 const codeParser = require('../code-parse');
 
 const handleRequests = projectDir => (request, response) => {
-  // TODO: move to config
+  // TODO: move PORT to config
   response.setHeader('Access-Control-Allow-Origin', 'http://localhost:2018');
 
   if (request.method === 'GET') {

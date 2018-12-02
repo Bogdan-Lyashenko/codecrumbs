@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const colors = require('colors');
+const path = require('path');
 
 const httpServer = require('http-server');
 const apiServer = require('../src/server');
@@ -31,6 +32,8 @@ apiServer.run({
   webpackConfigFile: program.webpack
 });
 
-httpServer.createServer({ root: './src/public/dist' }).listen(program.port, '127.0.0.1', () => {
-  console.log(`Go to "Codecrumbs" client http://localhost:${program.port} `);
-});
+httpServer
+  .createServer({ root: path.resolve(__dirname, '../src/public/dist') })
+  .listen(program.port, '127.0.0.1', () => {
+    console.log(`Go to "Codecrumbs" client http://localhost:${program.port} `);
+  });

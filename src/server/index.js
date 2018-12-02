@@ -7,7 +7,7 @@ const { SERVER_PORT, SOCKET_EVENT_TYPE } = require('../shared/constants');
 const run = ({ projectDir, entryFile, webpackConfigFile }) => {
   const httpServer = http.createServer(api.handleRequests(projectDir));
   httpServer.listen(SERVER_PORT, () => {
-    console.log(new Date() + `API server is listening: ${SERVER_PORT}.`);
+    console.log(`API server is listening: ${SERVER_PORT}.`);
   });
 
   const webSocketServer = new WebSocketServer({ httpServer });

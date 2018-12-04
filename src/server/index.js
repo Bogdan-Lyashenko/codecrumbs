@@ -4,8 +4,8 @@ const api = require('./api/');
 const projectSourceWatcher = require('./project-source/');
 const { SERVER_PORT, SOCKET_EVENT_TYPE } = require('../shared/constants');
 
-const run = ({ projectDir, entryFile, webpackConfigFile }) => {
-  const httpServer = http.createServer(api.handleRequests(projectDir));
+const run = ({ projectDir, entryFile, webpackConfigFile, clientPort }) => {
+  const httpServer = http.createServer(api.handleRequests(projectDir, clientPort));
   httpServer.listen(SERVER_PORT, () => {
     console.log(`API server is listening: ${SERVER_PORT}.`);
   });

@@ -29,7 +29,8 @@ if (!program.entry && !program.dir) {
 apiServer.run({
   entryFile: program.entry,
   projectDir: program.dir,
-  webpackConfigFile: program.webpack
+  webpackConfigFile: program.webpack,
+  clientPort: program.port
 });
 
 httpServer

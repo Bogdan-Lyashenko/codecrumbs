@@ -30,21 +30,16 @@ const DependenciesTree = props => {
       {selectedNodeDependencies &&
         [selectedNodeDependencies].map(({ moduleName, importedModuleNames }) => {
           const moduleNode = fileNodesMap[moduleName];
+          if (!moduleNode) return null;
 
-          if (!moduleNode) return;
-
+          const { name, path } = moduleNode.data;
           const [mX, mY] = [moduleNode.y, moduleNode.x];
           const targetPosition = shiftToCenterPoint(mX, mY);
           const sourceNodes = [];
           if (!sourceDiagramOn) {
             // TODO: un sync with FileName in SourceTree, duplication
             sourceNodes.push(
-              <FileName
-                key={moduleNode.data.path}
-                position={targetPosition}
-                name={moduleNode.data.name}
-                dependency={true}
-              />
+              <FileName key={path} position={targetPosition} name={name} dependency={true} />
             );
           }
 
@@ -68,21 +63,21 @@ const DependenciesTree = props => {
               groupNodes.forEach((importedNode, i) => {
                 const [iX, iY] = [importedNode.y, importedNode.x];
                 const sourcePosition = shiftToCenterPoint(iX, iY);
-                const importedNodeName = importedNode.data.path;
+                const { path: importedNodePath, name } = importedNode.data;
 
                 const selected =
                   selectedDependencyEdgeNodes &&
-                  checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName, importedNodeName);
+                  checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName, importedNodePath);
 
                 const edge = (
                   <DependenciesEdge
-                    key={`dep-edge-${importedNodeName}`}
+                    key={`dep-edge-${importedNodePath}`}
                     isAnyDependencyEdgesSelected={!!selectedDependencyEdgeNodes}
                     groupName={groupName}
                     sourcePosition={sourcePosition}
                     targetPosition={targetPosition}
                     firstSourcePosition={i ? firstSourcePosition : null}
-                    onClick={() => onDependencyEdgeClick(moduleName, [importedNodeName], groupName)}
+                    onClick={() => onDependencyEdgeClick(moduleName, [importedNodePath], groupName)}
                     selected={selected}
                   />
                 );
@@ -97,7 +92,7 @@ const DependenciesTree = props => {
 
                   overlappingEdges.push(
                     <DependenciesOverlappingEdge
-                      key={`overlap-edge-${importedNodeName}`}
+                      key={`overlap-edge-${importedNodePath}`}
                       groupName={groupName}
                       sourcePosition={sourcePosition}
                       targetPosition={targetPosition}
@@ -110,9 +105,9 @@ const DependenciesTree = props => {
                 if (!sourceDiagramOn) {
                   sourceNodes.push(
                     <FileName
-                      key={importedNode.data.path}
+                      key={importedNodePath}
                       position={sourcePosition}
-                      name={importedNode.data.name}
+                      name={name}
                       dependency={true}
                     />
                   );

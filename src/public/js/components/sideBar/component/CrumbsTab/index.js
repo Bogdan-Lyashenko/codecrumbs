@@ -25,7 +25,7 @@ const CrumbsTab = props => {
               <Panel header={`[${stepFile.step}] ${stepFile.file.path}`} key={i}>
                 <Code
                   limitedHeight={true}
-                  code={stepFile.file.fileCode}
+                  code={stepFile.file.fileCode || ''}
                   crumbedLines={[getNodeLines(stepFile.crumbNode)]}
                 />
               </Panel>

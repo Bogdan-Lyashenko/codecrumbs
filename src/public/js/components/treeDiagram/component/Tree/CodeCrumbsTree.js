@@ -12,10 +12,11 @@ import { selectCodeCrumb } from 'components/dataBus/store/actions';
 
 const mapStateToProps = state => {
   const { checkedState } = state.viewSwitches;
-  const { fileNodesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
+  const { fileNodesMap, filesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
 
   return {
     fileNodesMap,
+    filesMap,
     selectedCrumbedFlowKey,
     codeCrumbedFlowsMap,
     sourceDiagramOn: checkedState.source,
@@ -41,6 +42,7 @@ export const CodeCrumbedFlowEdges = connect(mapStateToProps)(props => {
 
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
 
+  // TODO: this can be done on flowSelect
   let sortedFlowSteps = [];
   Object.keys(currentFlow).forEach(filePath => {
     const steps = ((fileNodesMap[filePath] && fileNodesMap[filePath].children) || [])
@@ -95,6 +97,7 @@ class CodeCrumbsTree extends React.Component {
     const {
       shiftToCenterPoint,
       fileNodesMap,
+      filesMap,
       selectedCrumbedFlowKey,
       sourceDiagramOn,
       dependenciesDiagramOn,
@@ -115,13 +118,14 @@ class CodeCrumbsTree extends React.Component {
             return null;
           }
 
+          const file = filesMap[node.data.path];
           return (
-            <React.Fragment key={`code-crumb-${node.data.name}`}>
+            <React.Fragment key={`code-crumb-${file.name}`}>
               {!sourceDiagramOn && !dependenciesDiagramOn ? (
-                <FileName position={position} name={node.data.name} purple={codeCrumbsMinimize} />
+                <FileName position={position} name={file.name} purple={codeCrumbsMinimize} />
               ) : null}
               {(!codeCrumbsMinimize && (
-                <PartEdge sourcePosition={position} parentName={node.data.name} />
+                <PartEdge sourcePosition={position} parentName={file.name} />
               )) ||
                 null}
 
@@ -134,12 +138,12 @@ class CodeCrumbsTree extends React.Component {
                   const ccParams = crumbData.params;
 
                   return (
-                    <React.Fragment key={`code-crumb-edge-${node.data.path}-${crumbData.name}`}>
+                    <React.Fragment key={`code-crumb-edge-${file.path}-${crumbData.name}`}>
                       {(!singleCrumb && (
                         <CodeCrumbEdge
                           sourcePosition={position}
                           targetPosition={crumbPosition}
-                          parentName={node.data.name}
+                          parentName={file.name}
                         />
                       )) ||
                         null}
@@ -151,7 +155,7 @@ class CodeCrumbsTree extends React.Component {
                         cover={true}
                         flow={ccParams.flow && ccParams.flow === selectedCrumbedFlowKey}
                         flowStep={ccParams.flowStep}
-                        onClick={() => onCodeCrumbSelect(node.data, crumbData)}
+                        onClick={() => onCodeCrumbSelect(file, crumbData)}
                       />
                     </React.Fragment>
                   );

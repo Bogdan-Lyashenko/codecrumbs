@@ -1,4 +1,3 @@
-import { FILE_NODE_TYPE } from 'utils/constants';
 import { ACTIONS } from './constants';
 import { getFileNodesMap } from 'utils/treeLayout';
 import { FOLDER_OPEN_STATE } from 'utils/constants';
@@ -52,11 +51,11 @@ export default (state = DefaultState, action) => {
         ...state,
         selectedCodeCrumb: null,
         selectedNode: action.payload,
-        ...(action.payload && action.payload.type === FILE_NODE_TYPE
-          ? {
-              dependenciesEntryPoint: action.payload
-            }
-          : {})
+        dependenciesEntryPoint: action.payload,
+        filesMap: {
+          ...state.filesMap,
+          [action.payload.path]: action.payload
+        }
       };
 
     case ACTIONS.TOGGLE_FOLDER:

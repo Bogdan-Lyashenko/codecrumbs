@@ -22,6 +22,7 @@ class SourceTree extends React.Component {
 
       filesTreeLayoutNodes,
       openedFolders,
+      filesMap,
       selectedNode,
       shiftToCenterPoint,
       onNodeTextClick,
@@ -43,7 +44,7 @@ class SourceTree extends React.Component {
 
         const [nX, nY] = [node.y, node.x];
         const position = shiftToCenterPoint(nX, nY);
-        const { name, path } = node.data;
+        const { name, path, type } = node.data;
 
         const parent = node.parent;
         const selected = selectedNode && selectedNode.path.indexOf(path) !== -1;
@@ -66,7 +67,6 @@ class SourceTree extends React.Component {
           selected ? selectedSourceEdges.push(edge) : sourceEdges.push(edge);
         }
 
-        const type = node.data.type;
         if (
           type === DIR_NODE_TYPE ||
           (type === FILE_NODE_TYPE &&
@@ -82,16 +82,17 @@ class SourceTree extends React.Component {
         }
 
         let nodeBasedOnType = null;
-        if (node.data.type === FILE_NODE_TYPE) {
+        if (type === FILE_NODE_TYPE) {
           const selectedNodeDependencies = selectedNode.dependencies;
+          const fileNode = filesMap[path];
           nodeBasedOnType = (
             <FileName
               key={path}
               position={position}
               name={name}
-              path={node.data.path}
+              path={fileNode.path}
               codeCrumbs={codeCrumbsDiagramOn}
-              purple={codeCrumbsDiagramOn && node.data.hasCodecrumbs && codeCrumbsMinimize}
+              purple={codeCrumbsDiagramOn && fileNode.hasCodecrumbs && codeCrumbsMinimize}
               selected={
                 selectedDependencyEdgeNodes &&
                 (selectedDependencyEdgeNodes.target === path ||
@@ -108,11 +109,11 @@ class SourceTree extends React.Component {
                 !selectedNodeDependencies[path].importedModuleNames.length
               }
               onNodeClick={() => {
-                onNodeTextClick(node.data);
+                onNodeTextClick(fileNode);
               }}
             />
           );
-        } else if (node.data.type === DIR_NODE_TYPE) {
+        } else if (type === DIR_NODE_TYPE) {
           nodeBasedOnType = (
             <FolderName
               key={path}
@@ -159,6 +160,7 @@ const mapStateToProps = state => {
     selectedNode,
     filesTreeLayoutNodes,
     openedFolders,
+    filesMap,
     dependenciesEntryPoint,
     selectedDependencyEdgeNodes
   } = state.dataBus;
@@ -172,6 +174,7 @@ const mapStateToProps = state => {
     filesTreeLayoutNodes,
     selectedNode,
     openedFolders,
+    filesMap,
     dependenciesEntryPoint,
     selectedDependencyEdgeNodes
   };

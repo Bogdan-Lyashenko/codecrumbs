@@ -142,6 +142,18 @@ export default (state = DefaultState, action) => {
         selectedDependencyEdgeNodes
       };
 
+    case ACTIONS.UPDATE_FILES:
+      return {
+        ...state,
+        filesMap: {
+          ...state.filesMap,
+          ...action.payload.reduce((acc, item) => {
+            acc[item.path] = { ...state.filesMap[item.path], ...item };
+            return acc;
+          }, {})
+        }
+      };
+
     default:
       return state;
   }

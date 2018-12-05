@@ -12,6 +12,7 @@ const parseFile = (
     file.read(itemPath, 'utf8')
   ]).then(([dependencies, code]) => {
     const item = {
+      path: itemPath,
       dependencies: parseDependencies && dependencies,
       fileCode: attachCode && code
     };

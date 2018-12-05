@@ -17,19 +17,8 @@ export const setChangedSourceData = payload => ({
   payload
 });
 
-export const selectNode = fileNode => (dispatch, getState) => {
-  const { viewSwitches } = getState();
-  const { checkedState } = viewSwitches;
-
-  // TODO: if sidebar opens - fetch code for selected node
-  if (!checkedState.sideBar && !checkedState.dependencies) {
-    return dispatch({
-      type: ACTIONS.SELECT_NODE,
-      payload: fileNode
-    });
-  }
-
-  fetchFile(fileNode.path).then(data =>
+export const selectNode = fileNode => dispatch => {
+  fetchFile(fileNode.path, { parseDependencies: true }).then(data =>
     dispatch({
       type: ACTIONS.SELECT_NODE,
       payload: { ...fileNode, ...data }
@@ -37,12 +26,6 @@ export const selectNode = fileNode => (dispatch, getState) => {
   );
 };
 
-/**
-  TODO:
- openedFolders: { example-project/store: true }
- instead of true false use 0 - closed, 1 - opened but not active filtered, 2 - all opened
-
- */
 export const toggleFolder = folderNode => ({
   type: ACTIONS.TOGGLE_FOLDER,
   payload: folderNode
@@ -74,10 +57,21 @@ export const setDependenciesEntryPoint = fileNode => (dispatch, getState) => {
   });
 };
 
-export const selectDependencyEdge = (target, sources, groupName) => ({
-  type: ACTIONS.SELECT_DEPENDENCY_EDGE,
-  payload: target ? { target, sources, groupName } : null
-});
+export const selectDependencyEdge = (target, sources, groupName) => dispatch => {
+  dispatch({
+    type: ACTIONS.SELECT_DEPENDENCY_EDGE,
+    payload: target ? { target, sources, groupName } : null
+  });
+
+  if (target && sources) {
+    Promise.all(sources.map(fetchFile)).then(files => {
+      dispatch({
+        type: ACTIONS.UPDATE_FILES,
+        payload: files
+      });
+    });
+  }
+};
 
 export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
   const state = getState();

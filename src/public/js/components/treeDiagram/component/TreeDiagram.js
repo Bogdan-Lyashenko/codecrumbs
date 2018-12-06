@@ -2,7 +2,7 @@ import React from 'react';
 import Draggable from 'react-draggable';
 import { Spin } from 'antd';
 
-import SourceTree from './Tree/SourceTree';
+import SourceTree from './Tree/Source/';
 import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 

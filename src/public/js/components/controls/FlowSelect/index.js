@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Dropdown, Button } from 'antd';
 
+import { NO_TRAIL_FLOW } from 'utils/constants';
 import { selectCodeCrumbedFlow } from 'components/dataBus/store/actions';
 import './index.scss';
 
@@ -16,6 +17,8 @@ const FlowSelect = ({
     return null;
   }
 
+  const noTrailLabel = '- no trail -';
+
   const menu = (
     <Menu>
       {Object.keys(codeCrumbedFlowsMap)
@@ -27,7 +30,7 @@ const FlowSelect = ({
               rel="noopener noreferrer"
               onClick={() => onCodeCrumbedFlowSelect(flow)}
             >
-              {flow}
+              {flow === NO_TRAIL_FLOW ? noTrailLabel : `# ${flow}`}
             </a>
           </Menu.Item>
         ))}
@@ -38,10 +41,14 @@ const FlowSelect = ({
     <div className={'FlowSelect'}>
       <Dropdown overlay={menu} placement="bottomLeft">
         <Button size={'small'}>
-          trail
-          {selectedCrumbedFlowKey ? (
-            <span className={'flow'}>{` #${selectedCrumbedFlowKey}`}</span>
-          ) : null}
+          {selectedCrumbedFlowKey === NO_TRAIL_FLOW ? (
+            noTrailLabel
+          ) : (
+            <React.Fragment>
+              trail
+              <span className={'flow'}>{` #${selectedCrumbedFlowKey}`}</span>
+            </React.Fragment>
+          )}
         </Button>
       </Dropdown>
     </div>

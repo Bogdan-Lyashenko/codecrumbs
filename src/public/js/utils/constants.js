@@ -1,5 +1,4 @@
-import { FILE_NODE_TYPE, DIR_NODE_TYPE, SOCKET_EVENT_TYPE } from '../../../shared/constants';
-export { FILE_NODE_TYPE, DIR_NODE_TYPE, SOCKET_EVENT_TYPE };
+export { FILE_NODE_TYPE, DIR_NODE_TYPE, SOCKET_EVENT_TYPE, NO_TRAIL_FLOW } from '../../../shared/constants';
 
 export const FOLDER_OPEN_STATE = {
   CLOSED: 0,

@@ -22,7 +22,7 @@ const CrumbsTab = props => {
         >
           {flowStepsFiles.map((stepFile, i) => {
             return (
-              <Panel header={`[${stepFile.step}] ${stepFile.file.path}`} key={i}>
+              <Panel header={`[${stepFile.step || '*'}] ${stepFile.file.path}`} key={i}>
                 <Code
                   limitedHeight={true}
                   code={stepFile.file.fileCode || ''}

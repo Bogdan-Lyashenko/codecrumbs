@@ -100,11 +100,11 @@ export const getCodeCrumbsMapForCurrentCcFlow = ({
   const ccMap = {};
 
   Object.keys(codeCrumbedFlowsMap[selectedCrumbedFlowKey])
-    .map(filePath => {
-      return ((filesMap[filePath] && filesMap[filePath].children) || []).filter(
+    .map(filePath =>
+      ((filesMap[filePath] && filesMap[filePath].children) || []).filter(
         ({ params }) => params.flow === selectedCrumbedFlowKey
-      );
-    })
+      )
+    )
     .filter(steps => steps.length)
     .forEach(steps => {
       steps.forEach(({ params }) => {

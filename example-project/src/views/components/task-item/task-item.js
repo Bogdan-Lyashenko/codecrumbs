@@ -6,7 +6,7 @@ import Icon from '../icon';
 
 import './task-item.css';
 
-//c0c:there is task
+//cc:there is task
 export class TaskItem extends Component {
   constructor() {
     super(...arguments);

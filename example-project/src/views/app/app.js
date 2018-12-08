@@ -41,7 +41,7 @@ const mapDispatchToProps = {
   signOut: authActions.signOut
 };
 
-//c0c:here
+//cc:here
 export default withRouter(
   connect(
     mapStateToProps,

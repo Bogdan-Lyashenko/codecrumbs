@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { NO_TRAIL_FLOW } from 'utils/constants';
 import { CodeCrumbName } from 'components/treeDiagram/component/Node/CodeCrumb';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
@@ -64,7 +65,11 @@ const Tree = props => {
                       name={crumbData.name}
                       singleCrumb={singleCrumb}
                       cover={true}
-                      flow={ccParams.flow && ccParams.flow === selectedCrumbedFlowKey}
+                      flow={
+                        ccParams.flow &&
+                        ccParams.flow === selectedCrumbedFlowKey &&
+                        selectedCrumbedFlowKey !== NO_TRAIL_FLOW
+                      }
                       flowStep={ccParams.flowStep}
                       onClick={() => onCodeCrumbSelect(file, crumbData)}
                     />

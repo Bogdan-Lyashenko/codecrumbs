@@ -2,6 +2,7 @@ const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
 const astParseConfig = require('../../../shared/astParse').config;
+const NO_TRAIL_FLOW = require('../../../shared/constants').NO_TRAIL_FLOW;
 
 const CRUMB = 'codecrumb',
   CRUMB_SHORT_HANDLER = 'cc';
@@ -24,6 +25,7 @@ const parseCodecrumbComment = (node = {}) => {
       } else {
         cc.name = params[0];
         cc.details = params[1];
+        cc.flow = NO_TRAIL_FLOW;
       }
     }
   } catch (e) {

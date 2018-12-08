@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { NO_TRAIL_FLOW } from 'utils/constants';
 import { CodeCrumbedFlowEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
 
 const FlowEdge = props => {
@@ -37,11 +38,7 @@ const FlowEdge = props => {
   );
 };
 
-const getSortedFlowSteps = ({
-  codeCrumbedFlowsMap,
-  selectedCrumbedFlowKey,
-  fileNodesMap
-}) => {
+const getSortedFlowSteps = ({ codeCrumbedFlowsMap, selectedCrumbedFlowKey, fileNodesMap }) => {
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
   let sortedFlowSteps = [];
   Object.keys(currentFlow).forEach(filePath => {
@@ -68,12 +65,17 @@ const mapStateToProps = state => {
   const { checkedState } = state.viewSwitches;
   const { fileNodesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
 
+  const sortedFlowSteps =
+    selectedCrumbedFlowKey !== NO_TRAIL_FLOW
+      ? getSortedFlowSteps({
+          codeCrumbedFlowsMap,
+          selectedCrumbedFlowKey,
+          fileNodesMap
+        })
+      : [];
+
   return {
-    sortedFlowSteps: getSortedFlowSteps({
-      codeCrumbedFlowsMap,
-      selectedCrumbedFlowKey,
-      fileNodesMap
-    }),
+    sortedFlowSteps,
     fileNodesMap,
     codeCrumbsMinimize: checkedState.codeCrumbsMinimize
   };

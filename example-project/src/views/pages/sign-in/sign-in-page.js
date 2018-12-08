@@ -33,7 +33,7 @@ SignInPage.propTypes = {
 //-------------------------------------
 
 const mapDispatchToProps = {
-  signInWithGithub: authActions.signInWithGithub, //c1c:#signin#0;dispatch action
+  signInWithGithub: authActions.signInWithGithub, //cc:#signin#0;dispatch action
   signInWithGoogle: authActions.signInWithGoogle,
   signInWithTwitter: authActions.signInWithTwitter
 };

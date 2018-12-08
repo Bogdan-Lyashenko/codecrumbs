@@ -13,7 +13,7 @@ export function authReducer(state = new AuthState(), {payload, type}) {
     case INIT_AUTH:
     case SIGN_IN_SUCCESS:
       return state.merge({
-        authenticated: !!payload, //c1c:#signin#2;authenticated toggle
+        authenticated: !!payload, //cc:#signin#2;authenticated toggle
         id: payload ? payload.uid : null
       });
 

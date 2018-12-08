@@ -1,35 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { CodeCrumbedFlowEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
 
 const FlowEdge = props => {
-  const {
-    shiftToCenterPoint,
-    fileNodesMap,
-    selectedCrumbedFlowKey,
-    codeCrumbedFlowsMap,
-    codeCrumbsMinimize
-  } = props;
-
-  const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
-
-  // TODO: this can be done on flowSelect
-  let sortedFlowSteps = [];
-  Object.keys(currentFlow).forEach(filePath => {
-    const steps = ((fileNodesMap[filePath] && fileNodesMap[filePath].children) || [])
-      .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
-      .map(({ data, x, y }) => ({
-        name: data.name,
-        filePath,
-        step: data.params.flowStep,
-        flow: selectedCrumbedFlowKey,
-        x,
-        y
-      }));
-
-    sortedFlowSteps = sortedFlowSteps.concat(steps);
-  });
-
-  sortedFlowSteps.sort((a, b) => a.step - b.step);
+  const { shiftToCenterPoint, sortedFlowSteps, fileNodesMap, codeCrumbsMinimize } = props;
 
   return (
     <React.Fragment>
@@ -62,4 +37,46 @@ const FlowEdge = props => {
   );
 };
 
-export default FlowEdge;
+const getSortedFlowSteps = ({
+  codeCrumbedFlowsMap,
+  selectedCrumbedFlowKey,
+  fileNodesMap
+}) => {
+  const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
+  let sortedFlowSteps = [];
+  Object.keys(currentFlow).forEach(filePath => {
+    const steps = ((fileNodesMap[filePath] && fileNodesMap[filePath].children) || [])
+      .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
+      .map(({ data, x, y }) => ({
+        name: data.name,
+        filePath,
+        step: data.params.flowStep,
+        flow: selectedCrumbedFlowKey,
+        x,
+        y
+      }));
+
+    sortedFlowSteps = sortedFlowSteps.concat(steps);
+  });
+
+  sortedFlowSteps.sort((a, b) => a.step - b.step);
+
+  return sortedFlowSteps;
+};
+
+const mapStateToProps = state => {
+  const { checkedState } = state.viewSwitches;
+  const { fileNodesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
+
+  return {
+    sortedFlowSteps: getSortedFlowSteps({
+      codeCrumbedFlowsMap,
+      selectedCrumbedFlowKey,
+      fileNodesMap
+    }),
+    fileNodesMap,
+    codeCrumbsMinimize: checkedState.codeCrumbsMinimize
+  };
+};
+
+export default connect(mapStateToProps)(FlowEdge);

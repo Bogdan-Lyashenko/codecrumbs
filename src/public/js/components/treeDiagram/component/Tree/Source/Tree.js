@@ -7,7 +7,8 @@ import { Dot } from 'components/treeDiagram/component/Dot/index';
 import { SourceEdge } from 'components/treeDiagram/component/Edge/SourceEdge';
 
 import DependenciesTree from '../Dependencies/index';
-import CodeCrumbsTree, { CodeCrumbedFlowEdges } from '../CodeCrumbs/index';
+import CodeCrumbsTree from '../CodeCrumbs/';
+import CodeCrumbedFlowEdges from '../CodeCrumbs/FlowEdge';
 
 const SourceTree = props => {
   const {

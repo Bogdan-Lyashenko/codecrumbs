@@ -13,41 +13,19 @@ export const getTreeLayout = (
           return [];
         }
 
-        if (openedFolders[data.path] === FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY) {
-          const filteredChildren = data.children.filter(child => activeItemsMap[child.path]);
+        const children =
+          openedFolders[data.path] === FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY
+            ? data.children.filter(child => activeItemsMap[child.path])
+            : data.children;
 
-          // TODO: hide .. for folders where it doesn't change anything
-          data.childrenCollapsed = filteredChildren.length !== data.children.length;
-          // TODO: refactor sorting of flow steps
-          if (data.childrenCollapsed && activeCodeCrumbs) {
-            if (
-              filteredChildren.length > 1 &&
-              filteredChildren.filter(
-                i =>
-                  i.type === FILE_NODE_TYPE &&
-                  i.hasCodecrumbs &&
-                  (i.children || []).find(({ params }) => activeCodeCrumbs[params.original])
-              ).length === filteredChildren.length
-            ) {
-              filteredChildren.sort(
-                (a, b) =>
-                  b.children.find(({ params }) => activeCodeCrumbs[params.original]).params
-                    .flowStep -
-                  a.children.find(({ params }) => activeCodeCrumbs[params.original]).params.flowStep
-              );
-            }
-          }
-
-          return filteredChildren;
-        }
-
-        return data.children;
+        return children.map(i => i).sort(sortCcFiles(activeCodeCrumbs));
       }
 
       if (!includeFileChildren) {
         return [];
       }
 
+      // TODO: handle cc without flow here
       return !activeCodeCrumbs
         ? data.children
         : (data.children || []).filter(({ params }) => activeCodeCrumbs[params.original]);
@@ -55,7 +33,6 @@ export const getTreeLayout = (
     nodeSize: node => {
       let nameLength = node.data.name.length;
 
-      //cc: layout calc
       if (node.parent && node.data.type === DIR_NODE_TYPE) {
         const children = node.parent.children;
         nameLength = children.reduce((max, item) => {
@@ -74,6 +51,20 @@ export const getTreeLayout = (
 
   const tree = layoutStructure.hierarchy(treeData);
   return layoutStructure(tree);
+};
+
+export const sortCcFiles = activeCodeCrumbs => (a, b) => {
+  if (a.type !== FILE_NODE_TYPE || b.type !== FILE_NODE_TYPE || (!a.children && !b.children)) {
+    return 0;
+  }
+
+  const bCc = (b.children || []).find(({ params = {} }) => activeCodeCrumbs[params.original]);
+  const aCc = (a.children || []).find(({ params = {} }) => activeCodeCrumbs[params.original]);
+  if (!bCc || !aCc) {
+    return (bCc && !aCc) || (aCc && !bCc) ? -1 : 0;
+  }
+
+  return bCc.params.flowStep > aCc.params.flowStep ? 1 : -1;
 };
 
 export const getFileNodesMap = layoutNodes => {

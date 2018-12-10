@@ -76,22 +76,15 @@ const getConnectionLineToFirstSource = (
   const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
   const vPadding = (V_SPACE / 2) * directionY;
 
-  const directionLeft = [TOP_LEFT, BOTTOM_LEFT].includes(groupName);
   return [
     [sourcePt.x, sourcePt.y],
     [sourcePt.x, sourcePosition.y + vPadding],
+    [firstSourcePosition.x + 8 + -HALF_PADDING, sourcePosition.y + vPadding],
     [
-      firstSourcePosition.x + 8 + (directionLeft ? V_SPACE : -HALF_PADDING),
-      sourcePosition.y + vPadding
-    ],
-    [
-      firstSourcePosition.x + 8 + (directionLeft ? V_SPACE : -HALF_PADDING),
+      firstSourcePosition.x + 8 + -HALF_PADDING,
       targetPosition.y - vPadding + crossShift * directionY
     ],
-    [
-      targetPosition.x + (directionLeft ? -1 : 1) * 2,
-      targetPosition.y - vPadding + crossShift * directionY
-    ]
+    [targetPosition.x + 2, targetPosition.y - vPadding + crossShift * directionY]
   ];
 };
 
@@ -167,11 +160,10 @@ const getOverlappingConnectionLine = (groupName, targetPosition, sourcePosition)
   const sourcePt = getSourcePt(groupName, sourcePosition, targetPosition);
   const siblingNodesDistance = 40;
   const isSibling = Math.abs(sourcePt.y - targetPosition.y) <= siblingNodesDistance;
-  const xShift = [TOP_LEFT, BOTTOM_LEFT].includes(groupName) ? V_SPACE : -HALF_PADDING;
 
   return [
     [
-      sourcePosition.x + xShift + 8,
+      sourcePosition.x + 8 + 2,
       targetPosition.y - (V_SPACE / 2) * directionY + crossShift * directionY
     ],
     [targetPosition.x + 2, targetPosition.y - (V_SPACE / 2 - crossShift) * directionY],

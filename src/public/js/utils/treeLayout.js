@@ -18,14 +18,15 @@ export const getTreeLayout = (
             ? data.children.filter(child => activeItemsMap[child.path])
             : data.children;
 
-        return children.map(i => i).sort(sortCcFiles(activeCodeCrumbs));
+        return activeCodeCrumbs
+          ? children.map(i => i).sort(sortCcFiles(activeCodeCrumbs))
+          : children;
       }
 
       if (!includeFileChildren) {
         return [];
       }
 
-      // TODO: handle cc without flow here
       return !activeCodeCrumbs
         ? data.children
         : (data.children || []).filter(({ params }) => activeCodeCrumbs[params.original]);

@@ -13,4 +13,15 @@
       margin-right: 16px;
     }
   }
+
+  .settingContainer {
+    display: flex;
+    flex-direction: row;
+
+    .spacer {
+      margin: 0 10px;
+      height: 100%;
+      border-left: 1px solid #d9d9d9;
+    }
+  }
 }

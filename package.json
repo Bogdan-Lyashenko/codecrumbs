@@ -30,6 +30,7 @@
     "copy-text-to-clipboard": "^1.0.4",
     "d3-flextree": "^2.1.1",
     "directory-tree": "^2.1.0",
+    "file-saver": "^2.0.0",
     "http-server": "^0.11.1",
     "js2flowchart": "^1.1.7",
     "lodash": "^4.17.10",

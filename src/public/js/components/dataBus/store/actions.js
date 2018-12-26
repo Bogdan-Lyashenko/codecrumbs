@@ -1,3 +1,5 @@
+import saveAs from 'file-saver';
+
 import { ACTIONS } from './constants';
 import {
   getTreeLayout,
@@ -202,3 +204,32 @@ const getFoldersForPaths = (paths, openedFolders, override) =>
 
     return res;
   }, {});
+
+// TODO: group and move actions to different files
+export const downloadStore = () => (dispatch, getState) => {
+  const { viewSwitches, dataBus } = getState();
+
+  const partialStateToSave = {
+    viewSwitches: {
+      checkedState: viewSwitches.checkedState,
+      disabledState: viewSwitches.disabledState,
+      valuesState: viewSwitches.valuesState
+    },
+    dataBus: {
+      sourceTree: dataBus.sourceTree,
+      filesMap: dataBus.filesMap,
+      foldersMap: dataBus.foldersMap,
+      codeCrumbedFlowsMap: dataBus.codeCrumbedFlowsMap,
+      dependenciesRootEntryName: dataBus.dependenciesRootEntryName
+    }
+  };
+
+  const fileName = 'cc-store-state.json';
+  const fileToSave = new Blob([JSON.stringify(partialStateToSave, undefined, 2)], {
+    type: 'application/json',
+    name: fileName
+  });
+
+  // TODO: use file data (uploaded after to dispatch action for DATA_BUS.SET_INITIAL_SOURCE_DATA
+  saveAs(fileToSave, fileName);
+};

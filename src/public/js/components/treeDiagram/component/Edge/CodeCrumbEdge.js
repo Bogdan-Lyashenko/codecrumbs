@@ -58,7 +58,7 @@ export const CodeCrumbedFlowEdge = props => {
     onClick = () => console.log('cc edge')
   } = props;
 
-  const rHalf = 6.5;
+  const rHalf = 6;
   const sourcePt = {
     x: -1 - rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
     y: sourcePosition.y - rHalf
@@ -68,8 +68,8 @@ export const CodeCrumbedFlowEdge = props => {
     y: targetPosition.y + rHalf
   };
 
-  const padding = 19 - rHalf;
-  const vTurn = 13.5;
+  const padding = 20 - rHalf;
+  const vTurn = 13;
 
   let polylinePoints = [];
 
@@ -111,21 +111,22 @@ export const CodeCrumbedFlowEdge = props => {
     ...targetPt
   };
 
-  endPointConfig.x -= 3.5;
-  endPointConfig.y += 1;
-  endPointConfig.iconSize = 7;
+  endPointConfig.x -= 4;
+  endPointConfig.y += 0;
+  endPointConfig.iconSize = 8;
   endPointConfig.iconPath = `${ICONS_DIR}arrow/purple-arrow.svg`; // TODO: move to getter
   endPointConfig.angle = -90;
 
   return (
     <g className={'CodeCrumbEdge'}>
       <rect
-        x={sourcePt.x - 1.5}
+        x={sourcePt.x - 1}
         y={sourcePt.y - 3}
         width={3}
         height={2}
         className={'CodeCrumbEdge-flow-source'}
       />
+      <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-flow'} />
       <image
         x={endPointConfig.x}
         y={endPointConfig.y}
@@ -134,13 +135,6 @@ export const CodeCrumbedFlowEdge = props => {
         width={endPointConfig.iconSize}
         transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
           endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
-      />
-      <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-flow'} />
-
-      <polyline
-        onClick={onClick}
-        points={polylinePoints.join(', ')}
-        className={'EdgeMouseHandler'}
       />
     </g>
   );

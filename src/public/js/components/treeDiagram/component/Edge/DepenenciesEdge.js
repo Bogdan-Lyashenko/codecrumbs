@@ -84,7 +84,8 @@ const getConnectionLineToFirstSource = (
       firstSourcePosition.x + 8 + -HALF_PADDING,
       targetPosition.y - vPadding + crossShift * directionY
     ],
-    [targetPosition.x + 2, targetPosition.y - vPadding + crossShift * directionY]
+    [targetPosition.x + 2, targetPosition.y - vPadding + crossShift * directionY],
+    [targetPosition.x + 2, targetPosition.y - 5 * directionY]
   ];
 };
 
@@ -95,11 +96,10 @@ export const DependenciesEdge = props => {
     sourcePosition,
     firstSourcePosition,
     selected,
-    isAnyDependencyEdgesSelected,
+    anyEdgeSelected,
     onClick
   } = props;
 
-  //TODO: replace groupName with direction boolean if no need for sides
   const sourcePt = getSourcePt(groupName, sourcePosition, targetPosition);
   const sourceDotLinePoints = getSourceDotLinePoints(
     groupName,
@@ -126,14 +126,14 @@ export const DependenciesEdge = props => {
       <polyline
         points={sourceDotLinePoints.join(', ')}
         className={classNames('DependenciesEdge', {
-          Animation: !isAnyDependencyEdgesSelected,
+          Animation: !anyEdgeSelected,
           'DependenciesEdge-selected': selected
         })}
       />
       <polyline
         points={connectionLinePoints.join(', ')}
         className={classNames('DependenciesEdge', {
-          Animation: !isAnyDependencyEdgesSelected,
+          Animation: !anyEdgeSelected,
           'DependenciesEdge-selected': selected
         })}
       />
@@ -142,103 +142,33 @@ export const DependenciesEdge = props => {
         points={connectionLinePoints.join(', ')}
         className={'EdgeMouseHandler'}
       />
-      {getLineEndIcon({
-        lastPt: connectionLinePoints[connectionLinePoints.length - 1],
-        groupName,
-        isArrow: !firstSourcePosition,
-        selected
-      })}
     </React.Fragment>
   );
 };
 
-/// TODO: this is mess
-const getOverlappingConnectionLine = (groupName, targetPosition, sourcePosition) => {
-  const directionY = [TOP_LEFT, TOP_RIGHT].includes(groupName) ? 1 : -1;
-
-  // TODO: fix bugs here
-  const sourcePt = getSourcePt(groupName, sourcePosition, targetPosition);
-  const siblingNodesDistance = 40;
-  const isSibling = Math.abs(sourcePt.y - targetPosition.y) <= siblingNodesDistance;
-
-  return [
-    [
-      sourcePosition.x + 8 + 2,
-      targetPosition.y - (V_SPACE / 2) * directionY + crossShift * directionY
-    ],
-    [targetPosition.x + 2, targetPosition.y - (V_SPACE / 2 - crossShift) * directionY],
-    [targetPosition.x + 2, targetPosition.y - 5 * directionY]
-  ];
-};
-
-export const DependenciesOverlappingEdge = props => {
-  const { groupName, targetPosition, sourcePosition, selected, onClick } = props;
-
-  const sourcePt = getSourcePt(groupName, sourcePosition, targetPosition);
-  const connectionLinePoints = getOverlappingConnectionLine(
-    groupName,
-    targetPosition,
-    sourcePosition,
-    sourcePt
-  );
-
-  if (!connectionLinePoints) {
-    return null;
-  }
-
-  return (
-    <React.Fragment>
-      <polyline
-        points={connectionLinePoints.join(', ')}
-        className={classNames('DependenciesEdge', 'Animation', {
-          'DependenciesEdge-selected': selected
-        })}
-      />
-      <polyline
-        onClick={onClick}
-        points={connectionLinePoints.join(', ')}
-        className={'EdgeMouseHandler'}
-      />
-      {getLineEndIcon({
-        lastPt: connectionLinePoints[connectionLinePoints.length - 1],
-        groupName,
-        isArrow: true,
-        selected
-      })}
-    </React.Fragment>
-  );
-};
-
-export const getLineEndIcon = ({ lastPt, groupName, isArrow, selected }) => {
+export const DependenciesArrow = ({ targetPosition, groupName, selected }) => {
+  const directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
   const endPointConfig = {
-    x: lastPt[0],
-    y: lastPt[1]
+    x: targetPosition.x + 2,
+    y: targetPosition.y - 5 * (directionTop ? 1 : -1)
   };
 
-  if (isArrow) {
-    const directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
-
-    endPointConfig.x -= 3;
-    endPointConfig.y -= directionTop ? 6 : 1;
-    endPointConfig.iconSize = 7;
-    endPointConfig.iconPath = `${ICONS_DIR}arrow/${selected ? 'selected-' : ''}arrow.svg`; // TODO: move to getter
-    endPointConfig.angle = directionTop ? 90 : -90;
-  }
+  endPointConfig.x -= 3;
+  endPointConfig.y -= directionTop ? 6 : 1;
+  endPointConfig.iconSize = 7;
+  endPointConfig.iconPath = `${ICONS_DIR}arrow/${selected ? 'selected-' : ''}arrow.svg`; // TODO: move to getter
+  endPointConfig.angle = directionTop ? 90 : -90;
 
   return (
-    <React.Fragment>
-      {isArrow ? (
-        <image
-          x={endPointConfig.x}
-          y={endPointConfig.y}
-          xlinkHref={endPointConfig.iconPath}
-          height={endPointConfig.iconSize}
-          width={endPointConfig.iconSize}
-          className={'Animation'}
-          transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
-            endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
-        />
-      ) : null}
-    </React.Fragment>
+    <image
+      x={endPointConfig.x}
+      y={endPointConfig.y}
+      xlinkHref={endPointConfig.iconPath}
+      height={endPointConfig.iconSize}
+      width={endPointConfig.iconSize}
+      className={'Animation'}
+      transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
+        endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
+    />
   );
 };

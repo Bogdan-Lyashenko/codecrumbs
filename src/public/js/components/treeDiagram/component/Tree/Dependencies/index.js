@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {
   DependenciesEdge,
-  DependenciesOverlappingEdge
+  DependenciesArrow
 } from 'components/treeDiagram/component/Edge/DepenenciesEdge';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { selectDependencyEdge } from 'components/dataBus/store/actions';
@@ -24,7 +24,6 @@ const DependenciesTree = props => {
   }
 
   const selectedNodeDependencies = selectedNode.dependencies[selectedNode.path];
-  console.log(selectedNode.path);
   return (
     <React.Fragment>
       {selectedNodeDependencies &&
@@ -49,7 +48,6 @@ const DependenciesTree = props => {
 
           const edges = [];
           const selectedEdges = [];
-          const overlappingEdges = [];
 
           Object.entries(getGroupsAroundNode(moduleNode, importedNodes)).forEach(
             ([groupName, groupNodes]) => {
@@ -72,34 +70,32 @@ const DependenciesTree = props => {
                 const edge = (
                   <DependenciesEdge
                     key={`dep-edge-${importedNodePath}`}
-                    isAnyDependencyEdgesSelected={!!selectedDependencyEdgeNodes}
+                    anyEdgeSelected={!!selectedDependencyEdgeNodes}
+                    selected={selected}
                     groupName={groupName}
                     sourcePosition={sourcePosition}
                     targetPosition={targetPosition}
                     firstSourcePosition={i ? firstSourcePosition : null}
                     onClick={() => onDependencyEdgeClick(moduleName, [importedNodePath], groupName)}
-                    selected={selected}
                   />
                 );
-
                 selected ? selectedEdges.push(edge) : edges.push(edge);
 
-                if (!i && groupNodes.length > 1) {
-                  const overlappingEdgeSelected =
+                if (!i) {
+                  const arrowSelected =
                     selectedDependencyEdgeNodes &&
                     groupName === selectedDependencyEdgeNodes.groupName &&
                     checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName);
 
-                  overlappingEdges.push(
-                    <DependenciesOverlappingEdge
-                      key={`overlap-edge-${importedNodePath}`}
+                  const arrow = (
+                    <DependenciesArrow
+                      key={`dep-arrow-${importedNodePath}`}
+                      selected={arrowSelected}
                       groupName={groupName}
-                      sourcePosition={sourcePosition}
                       targetPosition={targetPosition}
-                      onClick={() => onDependencyEdgeClick(moduleName, importedModuleNames)}
-                      selected={overlappingEdgeSelected}
                     />
                   );
+                  arrowSelected ? selectedEdges.push(arrow) : edges.push(arrow);
                 }
 
                 if (!sourceDiagramOn) {
@@ -120,8 +116,7 @@ const DependenciesTree = props => {
             <React.Fragment key={moduleName}>
               {edges}
               {selectedEdges}
-              {overlappingEdges}
-              {!sourceDiagramOn ? sourceNodes : null}
+              {sourceNodes}
             </React.Fragment>
           );
         })}

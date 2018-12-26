@@ -31,11 +31,20 @@ export const calculateLayoutSize = (list, padding = 100) => {
     }
   });
 
+  const width = Math.round(Math.abs(maxX) + Math.abs(minX) + 3 * padding),
+    height = Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding);
+
   return {
-    width: Math.round(Math.abs(maxX) + Math.abs(minX) + 3 * padding),
-    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding),
+    width,
+    height,
     xShift: padding / 2,
-    yShift: Math.round(Math.abs(minY)) + padding
+    yShift: Math.round(Math.abs(minY)) + padding,
+    bounds: {
+      left: -width + padding,
+      top: -height + padding,
+      right: window.innerWidth + width - padding,
+      bottom: window.innerHeight + height - padding
+    }
   };
 };
 

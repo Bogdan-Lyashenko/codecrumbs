@@ -25,9 +25,7 @@ const config = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [
-              ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]
-            ]
+            plugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]]
           }
         }
       },
@@ -51,6 +49,9 @@ const config = {
       path.resolve(__dirname, 'js/store/'),
       path.resolve(__dirname, 'js/utils')
     ],
+    alias: {
+      'app.package.json': path.resolve(__dirname, '../../package.json')
+    },
     extensions: ['.js']
   },
   mode: 'development'

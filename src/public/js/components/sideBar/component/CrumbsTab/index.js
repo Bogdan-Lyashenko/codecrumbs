@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Collapse, Alert } from 'antd';
 
 import Code from '../Code';
-import { getNodeLines } from '../shared/utils';
 import './index.scss';
 
 const Panel = Collapse.Panel;
@@ -31,7 +30,7 @@ const CrumbsTab = props => {
                 <Code
                   limitedHeight={true}
                   code={stepFile.file.fileCode || ''}
-                  crumbedLines={[getNodeLines(stepFile.crumbNode)]}
+                  crumbedLines={[stepFile.crumbNodeLines]}
                 />
               </Panel>
             );
@@ -69,7 +68,7 @@ const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, fileNode
     const steps = ((fileNodesMap[filePath] && fileNodesMap[filePath].children) || [])
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data }) => ({
-        crumbNode: data.crumbNode,
+        crumbNodeLines: data.crumbNodeLines,
         file: fileNodesMap[filePath].data,
         step: data.params.flowStep
       }));

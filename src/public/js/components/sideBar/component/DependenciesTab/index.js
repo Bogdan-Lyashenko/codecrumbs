@@ -6,8 +6,7 @@ import Code from '../Code';
 import {
   filterImportedDependencies,
   findFileNode,
-  extractExportsForImports,
-  getNodeLines
+  extractExportsForImports
 } from '../shared/utils';
 import './index.scss';
 
@@ -29,7 +28,7 @@ const DependenciesTab = props => {
             <Code
               limitedHeight={true}
               code={selectedNode.fileCode}
-              dependenciesLines={importedDependencies.map(({ node }) => getNodeLines(node))}
+              dependenciesLines={importedDependencies.map(({ importNodeLines }) => importNodeLines)}
             />
           </Panel>
           {importedDependencies.map((file, i) => {
@@ -50,7 +49,7 @@ const DependenciesTab = props => {
                 <Code
                   limitedHeight={true}
                   code={fileNode.fileCode || ''}
-                  dependenciesLines={exportedDependencies.map(getNodeLines)}
+                  dependenciesLines={exportedDependencies}
                 />
               </Panel>
             );

@@ -1,7 +1,7 @@
 const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
-const astParseConfig = require('../../../shared/astParse').config;
+const { config: astParseConfig, getNodeLines } = require('../../../shared/astParse');
 const NO_TRAIL_FLOW = require('../../../shared/constants').NO_TRAIL_FLOW;
 
 const CRUMB = 'codecrumb',
@@ -71,8 +71,7 @@ const getCrumbs = (fileCode, path) => {
             crumbsList.push({
               name: params.name || '', //TODO: check, can be bug with layout calc
               displayLoc: `#${loc.line}`,
-              crumbedLineNode: node,
-              crumbNode: comment,
+              crumbNodeLines: getNodeLines(comment),
               params
             });
           }

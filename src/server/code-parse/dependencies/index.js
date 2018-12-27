@@ -3,7 +3,8 @@ const madge = require('madge');
 const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
-const astParseConfig = require('../../../shared/astParse').config;
+const { config: astParseConfig, getNodeLines } = require('../../../shared/astParse');
+
 const { convertRelativeToAbsolutePath } = require('./path');
 
 const getImports = (fileCode, itemPath) => {
@@ -21,7 +22,7 @@ const getImports = (fileCode, itemPath) => {
 
         if (node.type === 'ImportDeclaration') {
           importedDependencies.push({
-            node,
+            importNodeLines: getNodeLines(node),
             sourceFile: node.source && convertRelativeToAbsolutePath(itemPath, node.source.value),
             specifiers: node.specifiers.map(({ type, imported, local }) => ({
               type,

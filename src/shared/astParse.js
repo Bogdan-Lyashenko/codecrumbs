@@ -31,6 +31,9 @@ const config = {
   ]
 };
 
+const getNodeLines = node => [node.loc.start.line, node.loc.end.line];
+
 module.exports = {
-  config
+  config,
+  getNodeLines
 };

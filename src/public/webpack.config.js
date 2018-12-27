@@ -50,7 +50,8 @@ const config = {
       path.resolve(__dirname, 'js/utils')
     ],
     alias: {
-      'app.package.json': path.resolve(__dirname, '../../package.json')
+      'app.package.json': path.resolve(__dirname, '../../package.json'),
+      'shared-with-server-src': path.resolve(__dirname, '../shared')
     },
     extensions: ['.js']
   },

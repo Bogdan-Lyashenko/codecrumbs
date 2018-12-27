@@ -1,7 +1,7 @@
 const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
-const astParseConfig = require('../../../../../../shared/astParse').config;
+const { config: astParseConfig, getNodeLines } = require('shared-with-server-src/astParse');
 
 export const filterImportedDependencies = (
   importedDependencies = [],
@@ -34,8 +34,6 @@ export const findFileNode = (path, filesMap, foldersMap) => {
   return filesMap[completePath];
 };
 
-export const getNodeLines = node => [node.loc.start.line, node.loc.end.line];
-
 export const extractExportsForImports = (fileCode, specifiers, path) => {
   let ast = {};
   const exports = [];
@@ -65,7 +63,7 @@ export const extractExportsForImports = (fileCode, specifiers, path) => {
       }
     });
 
-    return exports;
+    return exports.map(getNodeLines);
   } catch (e) {
     console.log(path, e);
     return exports;

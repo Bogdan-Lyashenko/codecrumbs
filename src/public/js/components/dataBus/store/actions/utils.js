@@ -27,3 +27,13 @@ export const downloadObjectAsJsonFile = (data, fileName = 'codecrumbs-showcase.j
 
   saveAs(fileToSave, fileName);
 };
+
+export const uploadFileAsObject = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = e => resolve(JSON.parse(e.target.result));
+    reader.onerror = reject;
+
+    reader.readAsText(file);
+  });

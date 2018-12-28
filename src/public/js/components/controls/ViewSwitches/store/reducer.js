@@ -90,6 +90,12 @@ const DefaultState = {
 
 export default (state = DefaultState, action) => {
   switch (action.type) {
+    case ACTIONS.SET_FULL_STATE:
+      return {
+        ...state,
+        ...action.payload
+      };
+
     case ACTIONS.TOGGLE_SWITCH:
       const { switchKey, checked } = action.payload;
 

@@ -5,8 +5,9 @@ import {
 } from 'utils/treeLayout';
 import { fetchFile } from 'utils/connection';
 
-import { getFoldersForPaths, downloadObjectAsJsonFile } from './utils';
+import { getFoldersForPaths, downloadObjectAsJsonFile, uploadFileAsObject } from './utils';
 import { ACTIONS } from '../constants';
+import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'components/controls/ViewSwitches/store/constants';
 
 export const setInitialSourceData = payload => ({
   type: ACTIONS.SET_INITIAL_SOURCE_DATA,
@@ -208,4 +209,11 @@ export const downloadStore = () => (dispatch, getState) => {
   };
 
   downloadObjectAsJsonFile(partialStateToSave);
+};
+
+export const uploadStore = file => dispatch => {
+  uploadFileAsObject(file).then(object => {
+    dispatch({ type: VIEW_SWITCHES_ACTIONS.SET_FULL_STATE, payload: object.data.viewSwitches });
+    dispatch(setInitialSourceData(object.data.dataBus));
+  });
 };

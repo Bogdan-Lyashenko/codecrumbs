@@ -1,21 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Dropdown, Button, Icon } from 'antd';
+import { Menu, Dropdown, Button, Icon, Upload } from 'antd';
 
-import { downloadStore } from 'components/dataBus/store/actions';
+import { downloadStore, uploadStore } from 'components/dataBus/store/actions';
+import './index.scss';
 
-const SettingsControl = ({ onDownloadClick }) => {
+const SettingsControl = ({ onDownload, onUpload }) => {
+  const uploadProps = {
+    beforeUpload: file => {
+      onUpload(file);
+      return false;
+    },
+    fileList: []
+  };
+
   const menu = (
     <Menu>
       <Menu.Item key={'download'}>
-        <a target="_blank" rel="noopener noreferrer" onClick={onDownloadClick}>
-          Download store <Icon type="download" />
+        <a target="_blank" rel="noopener noreferrer" onClick={onDownload}>
+          <Icon type="download" /> Download store
         </a>
       </Menu.Item>
-      <Menu.Item key={'upload'}>
-        <a target="_blank" rel="noopener noreferrer" onClick={onDownloadClick}>
-          Upload store <Icon type="upload" />
-        </a>
+      <Menu.Item key={'upload'} onClick={e => false}>
+        <Upload {...uploadProps}>
+          <Icon type="upload" /> Upload store
+        </Upload>
       </Menu.Item>
     </Menu>
   );
@@ -33,7 +42,8 @@ const SettingsControl = ({ onDownloadClick }) => {
 };
 
 const mapDispatchToProps = {
-  onDownloadClick: downloadStore
+  onDownload: downloadStore,
+  onUpload: uploadStore
 };
 
 export default connect(

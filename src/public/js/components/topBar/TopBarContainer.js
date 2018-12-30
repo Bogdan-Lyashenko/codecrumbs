@@ -4,6 +4,8 @@ import { Breadcrumb, Icon } from 'antd';
 
 import { FILE_NODE_TYPE } from 'utils/constants';
 import { Copy } from 'components/controls/Copy';
+import { getSourceUserChoice } from 'components/dataBus/store/selectors';
+
 import './TopBarContainer.scss';
 
 const TopBarContainer = ({ selectedNode }) => {
@@ -49,16 +51,11 @@ const TopBarContainer = ({ selectedNode }) => {
 };
 
 const mapStateToProps = state => {
-  const { selectedNode } = state.dataBus;
+  const { selectedNode } = getSourceUserChoice(state);
 
   return {
     selectedNode
   };
 };
 
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TopBarContainer);
+export default connect(mapStateToProps)(TopBarContainer);

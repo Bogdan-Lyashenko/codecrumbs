@@ -4,7 +4,7 @@ const DefaultState = {
   switches: [
     {
       name: 'Source',
-      key: CONTROLS_KEYS.SOURCE,
+      key: CONTROLS_KEYS.SOURCE_DIAGRAM_ON,
       children: [
         {
           name: 'close all',
@@ -37,7 +37,7 @@ const DefaultState = {
     },
     {
       name: 'Dependencies',
-      key: CONTROLS_KEYS.DEPENDENCIES,
+      key: CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON,
       children: [
         {
           name: 'direct only',
@@ -48,7 +48,7 @@ const DefaultState = {
     },
     {
       name: 'CodeCrumbs',
-      key: CONTROLS_KEYS.CODE_CRUMBS,
+      key: CONTROLS_KEYS.CODE_CRUMBS_DIAGRAM_ON,
       children: [
         {
           name: 'minimize',
@@ -58,7 +58,7 @@ const DefaultState = {
         {
           name: 'current trail only',
           title: 'Show only files for selected flow',
-          key: CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW
+          key: CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW
         },
         {
           name: 'line numbers',
@@ -74,16 +74,16 @@ const DefaultState = {
     }
   ],
   checkedState: {
-    [CONTROLS_KEYS.SOURCE]: true,
+    [CONTROLS_KEYS.SOURCE_DIAGRAM_ON]: true,
     [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true,
     [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true,
-    [CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW]: true
+    [CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW]: true
   },
   disabledState: {
-    [CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW]: true
+    [CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW]: true
   },
   valuesState: {
-    zoom: 1,
+    diagramZoom: 1,
     selectedTabInSideBar: 'Code'
   }
 };
@@ -132,7 +132,7 @@ export default (state = DefaultState, action) => {
         ...state,
         valuesState: {
           ...state.valuesState,
-          zoom: Math.round(action.payload * 10) / 10
+          diagramZoom: Math.round(action.payload * 10) / 10
         }
       };
 

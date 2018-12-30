@@ -4,10 +4,21 @@ import {
   getCodeCrumbsMapForCurrentCcFlow
 } from 'utils/treeLayout';
 import { fetchFile } from 'utils/connection';
+import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'components/controls/ViewSwitches/store/constants';
+import {
+  getCheckedState,
+  getValuesState,
+  getDisabledState
+} from 'components/controls/ViewSwitches/store/selectors';
 
 import { getFoldersForPaths, downloadObjectAsJsonFile, uploadFileAsObject } from './utils';
-import { ACTIONS } from '../constants';
-import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'components/controls/ViewSwitches/store/constants';
+import { ACTIONS, DEFAULT_NAMESPACE } from '../constants';
+import {
+  getSource,
+  getSourceUserChoice,
+  getCodeCrumbsUserChoice,
+  getDependenciesUserChoice
+} from '../selectors';
 
 export const setInitialSourceData = payload => ({
   type: ACTIONS.SET_INITIAL_SOURCE_DATA,
@@ -48,7 +59,7 @@ export const selectCodeCrumb = (fileNode, codeCrumb) => ({
 
 export const setDependenciesEntryPoint = fileNode => (dispatch, getState) => {
   const state = getState();
-  const { dependenciesShowDirectOnly } = state.viewSwitches.checkedState;
+  const { dependenciesShowDirectOnly } = getCheckedState(state);
 
   return dispatch({
     type: ACTIONS.SET_DEPENDENCIES_ENTRY_POINT,
@@ -78,7 +89,7 @@ export const selectDependencyEdge = (target, sources, groupName) => dispatch => 
 export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
   const state = getState();
 
-  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
   const firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
 
   dispatch({
@@ -89,20 +100,17 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
 
 export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   const state = getState();
-  const {
-    sourceTree,
-    openedFolders,
-    activeItemsMap,
-    codeCrumbedFlowsMap,
-    selectedCrumbedFlowKey,
-    filesMap
-  } = state.dataBus;
-  const { checkedState } = state.viewSwitches;
+
+  const { sourceTree, filesMap } = getSource(state);
+  const { openedFolders, activeItemsMap } = getSourceUserChoice(state);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
+
+  const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsFilterFlow } = getCheckedState(state);
 
   if (!sourceTree) return;
 
   let activeCodeCrumbs = undefined;
-  if (checkedState.codeCrumbsKeepOnlySelectedFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+  if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
     activeCodeCrumbs = getCodeCrumbsMapForCurrentCcFlow({
       codeCrumbedFlowsMap,
       selectedCrumbedFlowKey,
@@ -113,7 +121,7 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   return dispatch({
     type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
     payload: getTreeLayout(sourceTree, {
-      includeFileChildren: checkedState.codeCrumbs && !checkedState.codeCrumbsMinimize,
+      includeFileChildren: codeCrumbsDiagramOn && !codeCrumbsMinimize,
       openedFolders,
       activeItemsMap,
       activeCodeCrumbs
@@ -123,13 +131,13 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
 
 export const setActiveItems = (filesList, foldersMap = {}) => (dispatch, getState) => {
   const state = getState();
+  const { activeItemsMap } = getSourceUserChoice(state);
+  const { sourceKeepOnlyActiveItems } = getCheckedState(state);
 
   return dispatch({
     type: ACTIONS.SET_ACTIVE_ITEMS,
     payload: {
-      ...(!state.viewSwitches.checkedState.sourceKeepOnlyActiveItems
-        ? state.dataBus.activeItemsMap
-        : {}),
+      ...(!sourceKeepOnlyActiveItems ? activeItemsMap : {}),
       ...filesList.reduce((acc, item) => {
         //TODO:move this to util!
         acc[item] = true;
@@ -144,27 +152,23 @@ export const setActiveItems = (filesList, foldersMap = {}) => (dispatch, getStat
 export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
   const state = getState();
 
-  const {
-    filesMap,
-    openedFolders,
-    selectedNode,
-    codeCrumbedFlowsMap,
-    selectedCrumbedFlowKey
-  } = state.dataBus;
+  const { filesMap } = getSource(state);
+  const { openedFolders, selectedNode } = getSourceUserChoice(state);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
 
   const {
-    dependencies,
-    codeCrumbs,
+    dependenciesDiagramOn,
+    codeCrumbsDiagramOn,
     sourceKeepOnlyActiveItems,
-    codeCrumbsKeepOnlySelectedFlow
-  } = state.viewSwitches.checkedState;
+    codeCrumbsFilterFlow
+  } = getCheckedState(state);
 
-  const depFilePaths = dependencies ? Object.keys(selectedNode.dependencies || {}) : [];
-  let ccFilePaths = codeCrumbs
+  const depFilePaths = dependenciesDiagramOn ? Object.keys(selectedNode.dependencies || {}) : [];
+  let ccFilePaths = codeCrumbsDiagramOn
     ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
     : [];
 
-  if (codeCrumbsKeepOnlySelectedFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+  if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
     const currentFlowFiles = getFilesForCurrentCcFlow({
       codeCrumbedFlowsMap,
       selectedCrumbedFlowKey,
@@ -191,20 +195,26 @@ export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
 
 // TODO: group and move actions to different files
 export const downloadStore = () => (dispatch, getState) => {
-  const { viewSwitches, dataBus } = getState();
+  const state = getState();
+
+  const { sourceTree, filesMap, foldersMap } = getSource(state);
+  const { dependenciesRootEntryName } = getDependenciesUserChoice(state);
+  const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
 
   const partialStateToSave = {
     viewSwitches: {
-      checkedState: viewSwitches.checkedState,
-      disabledState: viewSwitches.disabledState,
-      valuesState: viewSwitches.valuesState
+      checkedState: getCheckedState(state),
+      valuesState: getValuesState(state),
+      disabledState: getDisabledState(state)
     },
     dataBus: {
-      sourceTree: dataBus.sourceTree,
-      filesMap: dataBus.filesMap,
-      foldersMap: dataBus.foldersMap,
-      codeCrumbedFlowsMap: dataBus.codeCrumbedFlowsMap,
-      dependenciesRootEntryName: dataBus.dependenciesRootEntryName
+      [DEFAULT_NAMESPACE]: {
+        sourceTree,
+        filesMap,
+        foldersMap,
+        codeCrumbedFlowsMap,
+        dependenciesRootEntryName
+      }
     }
   };
 
@@ -214,6 +224,6 @@ export const downloadStore = () => (dispatch, getState) => {
 export const uploadStore = file => dispatch => {
   uploadFileAsObject(file).then(object => {
     dispatch({ type: VIEW_SWITCHES_ACTIONS.SET_FULL_STATE, payload: object.data.viewSwitches });
-    dispatch(setInitialSourceData(object.data.dataBus));
+    dispatch(setInitialSourceData(object.data.dataBus[DEFAULT_NAMESPACE]));
   });
 };

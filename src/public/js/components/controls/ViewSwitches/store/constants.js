@@ -8,19 +8,19 @@ export const ACTIONS = {
 };
 
 export const CONTROLS_KEYS = {
-  SOURCE: 'source',
+  SOURCE_DIAGRAM_ON: 'sourceDiagramOn',
   SOURCE_COLLAPSE_TO_MIN: 'sourceCollapseToMin',
   SOURCE_EXPAND_ALL: 'sourceExpandAll',
   SOURCE_DIM_FOLDERS: 'sourceDimFolders',
   SOURCE_KEEP_ONLY_ACTIVE_ITEMS: 'sourceKeepOnlyActiveItems',
-  SOURCE_EXPLORER_BAR: 'sourceExplorerBar',
-  DEPENDENCIES: 'dependencies',
+  SOURCE_EXPLORER_BAR: 'explorerBar',
+  DEPENDENCIES_DIAGRAM_ON: 'dependenciesDiagramOn',
   DEPENDENCIES_SHOW_DIRECT_ONLY: 'dependenciesShowDirectOnly',
-  CODE_CRUMBS: 'codeCrumbs',
+  CODE_CRUMBS_DIAGRAM_ON: 'codeCrumbsDiagramOn',
   CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
   CODE_CRUMBS_LINE_NUMBERS: 'codeCrumbsLineNumbers',
   CODE_CRUMBS_DETAILS: 'codeCrumbsDetails',
-  CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW: 'codeCrumbsKeepOnlySelectedFlow',
+  CODE_CRUMBS_FILTER_FLOW: 'codeCrumbsFilterFlow',
   SIDE_BAR: 'sideBar'
 };
 

@@ -18,7 +18,7 @@ const SourceTree = props => {
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
 
-    filesTreeLayoutNodes,
+    sourceLayoutTree,
     openedFolders,
     filesMap,
     selectedNode,
@@ -38,7 +38,7 @@ const SourceTree = props => {
   // TODO: refactor, too long render method
   let i = 0;
   sourceDiagramOn &&
-    filesTreeLayoutNodes.each(node => {
+    sourceLayoutTree.each(node => {
       i++;
 
       const [nX, nY] = [node.y, node.x];

@@ -7,12 +7,19 @@ import {
 } from 'components/treeDiagram/component/Edge/DepenenciesEdge';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { selectDependencyEdge } from 'components/dataBus/store/actions';
+import {
+  getSourceLayout,
+  getSourceUserChoice,
+  getDependenciesUserChoice
+} from 'components/dataBus/store/selectors';
+import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
+
 import { getGroupsAroundNode, checkIsEdgeSelected } from './utils';
 
 const DependenciesTree = props => {
   const {
     selectedNode,
-    fileNodesMap,
+    filesLayoutMap,
     shiftToCenterPoint,
     sourceDiagramOn,
     onDependencyEdgeClick,
@@ -28,7 +35,7 @@ const DependenciesTree = props => {
     <React.Fragment>
       {selectedNodeDependencies &&
         [selectedNodeDependencies].map(({ moduleName, importedModuleNames }) => {
-          const moduleNode = fileNodesMap[moduleName];
+          const moduleNode = filesLayoutMap[moduleName];
           if (!moduleNode) return null;
 
           const { name, path } = moduleNode.data;
@@ -43,7 +50,7 @@ const DependenciesTree = props => {
           }
 
           const importedNodes = importedModuleNames
-            .map(name => fileNodesMap[name])
+            .map(name => filesLayoutMap[name])
             .filter(node => !!node);
 
           const edges = [];
@@ -125,12 +132,15 @@ const DependenciesTree = props => {
 };
 
 const mapStateToProps = state => {
-  const { checkedState } = state.viewSwitches;
-  const { fileNodesMap, selectedDependencyEdgeNodes, selectedNode } = state.dataBus;
+  const { sourceDiagramOn } = getCheckedState(state);
+
+  const { filesLayoutMap } = getSourceLayout(state);
+  const { selectedNode } = getSourceUserChoice(state);
+  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
 
   return {
-    sourceDiagramOn: checkedState.source,
-    fileNodesMap,
+    sourceDiagramOn,
+    filesLayoutMap,
     selectedNode,
     selectedDependencyEdgeNodes
   };

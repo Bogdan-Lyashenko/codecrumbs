@@ -4,6 +4,8 @@ import { Menu, Dropdown, Button } from 'antd';
 
 import { NO_TRAIL_FLOW } from 'utils/constants';
 import { selectCodeCrumbedFlow } from 'components/dataBus/store/actions';
+import { getCodeCrumbsUserChoice } from 'components/dataBus/store/selectors';
+import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
 import './index.scss';
 
 const FlowSelect = ({
@@ -56,12 +58,12 @@ const FlowSelect = ({
 };
 
 const mapStateToProps = state => {
-  const { checkedState } = state.viewSwitches;
-  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = state.dataBus;
+  const { codeCrumbsDiagramOn, codeCrumbsMinimize } = getCheckedState(state);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
 
   return {
-    codeCrumbsDiagramOn: checkedState.codeCrumbs,
-    codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
+    codeCrumbsDiagramOn,
+    codeCrumbsMinimize,
     codeCrumbedFlowsMap,
     selectedCrumbedFlowKey
   };

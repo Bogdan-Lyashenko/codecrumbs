@@ -2,21 +2,35 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { selectCodeCrumb } from 'components/dataBus/store/actions';
+import {
+  getSource,
+  getSourceLayout,
+  getCodeCrumbsUserChoice
+} from 'components/dataBus/store/selectors';
+import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
 import Tree from './Tree';
 
-const mapStateToProps = state => {
-  const { checkedState } = state.viewSwitches;
-  const { fileNodesMap, filesMap, selectedCrumbedFlowKey } = state.dataBus;
+const mapStateToProps = (state, props) => {
+  const { filesMap } = getSource(state);
+  const { filesLayoutMap } = getSourceLayout(state);
+  const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
+  const {
+    sourceDiagramOn,
+    dependenciesDiagramOn,
+    codeCrumbsDiagramOn,
+    codeCrumbsMinimize,
+    codeCrumbsLineNumbers
+  } = getCheckedState(state);
 
   return {
-    fileNodesMap,
+    filesLayoutMap,
     filesMap,
     selectedCrumbedFlowKey,
-    sourceDiagramOn: checkedState.source,
-    dependenciesDiagramOn: checkedState.dependencies,
-    codeCrumbsDiagramOn: checkedState.codeCrumbs,
-    codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
-    codeCrumbsLineNumbers: checkedState.codeCrumbsLineNumbers
+    sourceDiagramOn,
+    dependenciesDiagramOn,
+    codeCrumbsDiagramOn,
+    codeCrumbsMinimize,
+    codeCrumbsLineNumbers
   };
 };
 

@@ -2,6 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Collapse, Alert } from 'antd';
 
+import {
+  getSourceLayout,
+  getSourceUserChoice,
+  getCodeCrumbsUserChoice
+} from 'components/dataBus/store/selectors';
+
 import Code from '../Code';
 import './index.scss';
 
@@ -48,15 +54,17 @@ const CrumbsTab = props => {
 };
 
 const mapStateToProps = state => {
-  const { selectedNode, fileNodesMap, selectedCrumbedFlowKey, codeCrumbedFlowsMap } = state.dataBus;
+  const { selectedNode } = getSourceUserChoice(state);
+  const { filesLayoutMap } = getSourceLayout(state);
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
 
   return {
     selectedNode,
-    flowStepsFiles: getFlowStepsFiles(selectedCrumbedFlowKey, codeCrumbedFlowsMap, fileNodesMap)
+    flowStepsFiles: getFlowStepsFiles(selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesLayoutMap)
   };
 };
 
-const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, fileNodesMap) => {
+const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesLayoutMap) => {
   let sortedFlowSteps = [];
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey];
 
@@ -65,11 +73,11 @@ const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, fileNode
   }
 
   Object.keys(currentFlow).forEach(filePath => {
-    const steps = ((fileNodesMap[filePath] && fileNodesMap[filePath].children) || [])
+    const steps = ((filesLayoutMap[filePath] && filesLayoutMap[filePath].children) || [])
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data }) => ({
         crumbNodeLines: data.crumbNodeLines,
-        file: fileNodesMap[filePath].data,
+        file: filesLayoutMap[filePath].data,
         step: data.params.flowStep
       }));
 

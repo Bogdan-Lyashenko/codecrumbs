@@ -15,6 +15,7 @@ import {
   CONTROLS_KEYS
 } from 'components/controls/ViewSwitches/store/constants';
 import { setDisabledControl } from 'components/controls/ViewSwitches/store/actions';
+import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
 
 function* reactOnSwitchToggle(action) {
   const { switchKey, checked } = action.payload;
@@ -25,7 +26,7 @@ function* reactOnSwitchToggle(action) {
     }
   }
 
-  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS) {
+  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_DIAGRAM_ON) {
     if (checked) {
       yield put(selectCodeCrumbedFlow());
     } else {
@@ -40,11 +41,11 @@ function* reactOnSwitchToggle(action) {
     ]);
   }
 
-  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_KEEP_ONLY_SELECTED_FLOW) {
+  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW) {
     yield reactByUpdatingFoldersState();
   }
 
-  if (switchKey === CONTROLS_KEYS.DEPENDENCIES) {
+  if (switchKey === CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON) {
     if (checked) {
       yield put(setDependenciesEntryPoint());
     } else {
@@ -69,23 +70,22 @@ function* reactOnButtonAction(action) {
   }
 }
 
-function* reactOnToggledFolder(action) {
+function* reactOnToggledFolder() {
   yield put(calcFilesTreeLayoutNodes());
 }
 
 function* reactOnSourceSet() {
-  const viewSwitchesState = yield select(state => state.viewSwitches);
-  const { dependencies, codeCrumbs } = viewSwitchesState.checkedState;
+  const { dependenciesDiagramOn, codeCrumbsDiagramOn } = yield select(getCheckedState);
 
-  if (!dependencies && !codeCrumbs) {
+  if (!dependenciesDiagramOn && !codeCrumbsDiagramOn) {
     yield reactByUpdatingFoldersState();
   }
 
-  if (dependencies) {
+  if (dependenciesDiagramOn) {
     yield put(setDependenciesEntryPoint());
   }
 
-  if (codeCrumbs) {
+  if (codeCrumbsDiagramOn) {
     yield put(selectCodeCrumbedFlow());
   }
 }

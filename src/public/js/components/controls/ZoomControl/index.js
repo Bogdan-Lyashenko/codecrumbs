@@ -5,6 +5,7 @@ import { Button, Icon } from 'antd';
 const ButtonGroup = Button.Group;
 
 import { setZoom } from 'components/controls/ViewSwitches/store/actions';
+import { getValuesState } from 'components/controls/ViewSwitches/store/selectors';
 import './index.scss';
 
 const ZoomControl = ({ zoom, setZoom }) => {
@@ -21,10 +22,10 @@ const ZoomControl = ({ zoom, setZoom }) => {
 };
 
 const mapStateToProps = state => {
-  const { valuesState } = state.viewSwitches;
+  const { diagramZoom } = getValuesState(state);
 
   return {
-    zoom: valuesState.zoom
+    zoom: diagramZoom
   };
 };
 

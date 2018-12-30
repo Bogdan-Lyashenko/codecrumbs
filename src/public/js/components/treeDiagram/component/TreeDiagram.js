@@ -10,7 +10,8 @@ import { buildShiftToPoint } from 'utils/geometry';
 
 class TreeDiagram extends React.Component {
   render() {
-    const { diagramZoom, layoutSize, filesTreeLayoutNodes, onUnderLayerClick } = this.props;
+    // TODO: fix diagramZoom
+    const { diagramZoom, layoutSize, sourceLayoutTree, onUnderLayerClick } = this.props;
     const { width, height, xShift, yShift, bounds } = layoutSize;
 
     if (!width && !height) {
@@ -32,13 +33,12 @@ class TreeDiagram extends React.Component {
       <div className="TreeDiagram">
         <Draggable bounds={bounds}>
           <svg
-            width={width * diagramZoom}
-            height={height * diagramZoom}
+            width={width}
+            height={height}
             xmlns="http://www.w3.org/2000/svg"
             shapeRendering="optimizeSpeed"
-            viewBox={`0 0 ${width} ${height}`}
           >
-            {filesTreeLayoutNodes && (
+            {sourceLayoutTree && (
               <React.Fragment>
                 <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
                 <SourceTree shiftToCenterPoint={shiftToCenterPoint} />

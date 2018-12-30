@@ -2,26 +2,36 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { selectNode, toggleFolder } from 'components/dataBus/store/actions';
+import {
+  getSource,
+  getSourceLayout,
+  getSourceUserChoice,
+  getDependenciesUserChoice
+} from 'components/dataBus/store/selectors';
+import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
 import SourceTree from './Tree';
 
 const mapStateToProps = state => {
-  const { checkedState } = state.viewSwitches;
   const {
-    selectedNode,
-    filesTreeLayoutNodes,
-    openedFolders,
-    filesMap,
-    dependenciesEntryPoint,
-    selectedDependencyEdgeNodes
-  } = state.dataBus;
+    sourceDiagramOn,
+    dependenciesDiagramOn,
+    sourceDimFolders,
+    codeCrumbsDiagramOn,
+    codeCrumbsMinimize
+  } = getCheckedState(state);
+
+  const { filesMap } = getSource(state);
+  const { sourceLayoutTree } = getSourceLayout(state);
+  const { selectedNode, openedFolders } = getSourceUserChoice(state);
+  const { dependenciesEntryPoint, selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
 
   return {
-    sourceDiagramOn: checkedState.source,
-    dependenciesDiagramOn: checkedState.dependencies,
-    sourceDimFolders: checkedState.sourceDimFolders,
-    codeCrumbsDiagramOn: checkedState.codeCrumbs,
-    codeCrumbsMinimize: checkedState.codeCrumbsMinimize,
-    filesTreeLayoutNodes,
+    sourceDiagramOn,
+    dependenciesDiagramOn,
+    sourceDimFolders,
+    codeCrumbsDiagramOn,
+    codeCrumbsMinimize,
+    sourceLayoutTree,
     selectedNode,
     openedFolders,
     filesMap,

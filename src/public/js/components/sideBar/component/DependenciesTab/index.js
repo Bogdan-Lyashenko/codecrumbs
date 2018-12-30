@@ -2,6 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Collapse, Alert } from 'antd';
 
+import {
+  getSource,
+  getSourceUserChoice,
+  getDependenciesUserChoice
+} from 'components/dataBus/store/selectors';
+
 import Code from '../Code';
 import {
   filterImportedDependencies,
@@ -67,7 +73,9 @@ const DependenciesTab = props => {
 };
 
 const mapStateToProps = state => {
-  const { selectedNode, selectedDependencyEdgeNodes, filesMap, foldersMap } = state.dataBus;
+  const { filesMap, foldersMap } = getSource(state);
+  const { selectedNode } = getSourceUserChoice(state);
+  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
 
   return {
     selectedNode,

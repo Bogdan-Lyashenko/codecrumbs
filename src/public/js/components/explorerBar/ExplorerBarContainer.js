@@ -1,28 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ExplorerBar from './component/ExplorerBar';
-import {
-  selectNode,
-  toggleFolder,
-  setDependenciesEntryPoint
-} from 'components/dataBus/store/actions';
+import { getSource, getSourceLayout } from 'components/dataBus/store/selectors';
+import { selectNode } from 'components/dataBus/store/actions';
+import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
 
-const ExplorerBarContainer = ({ explorerBarOn, ...otherProps }) => {
-  if (!explorerBarOn) return null;
+import ExplorerBar from './component/ExplorerBar';
+
+const ExplorerBarContainer = ({ explorerBar, ...otherProps }) => {
+  if (!explorerBar) return null;
 
   return <ExplorerBar {...otherProps} />;
 };
 
 const mapStateToProps = state => {
-  const { filesTreeLayoutNodes, filesMap, foldersMap } = state.dataBus;
-  const { checkedState } = state.viewSwitches;
+  const { filesMap, foldersMap } = getSource(state);
+  const { sourceLayoutTree } = getSourceLayout(state);
+  const { explorerBar } = getCheckedState(state);
 
   return {
-    nodesTree: [filesTreeLayoutNodes],
+    nodesTree: [sourceLayoutTree],
     filesMap,
     foldersMap,
-    explorerBarOn: checkedState.sourceExplorerBar
+    explorerBar
   };
 };
 

@@ -18,8 +18,8 @@ export default ({
   selectedNode,
   onClose,
   selectedTabInSideBar,
-  dependenciesOn,
-  codeCrumbsOn,
+  dependenciesDiagramOn,
+  codeCrumbsDiagramOn,
   onTabSelect
 }) => {
   const file = selectedNode && selectedNode.type === FILE_NODE_TYPE ? selectedNode : null;
@@ -42,13 +42,13 @@ export default ({
         <TabPane tab="Code" key="Code">
           <Code code={file.fileCode} />
         </TabPane>
-        {(dependenciesOn && (
+        {(dependenciesDiagramOn && (
           <TabPane tab="Dependencies" key="Dependencies">
             <DependenciesTab />
           </TabPane>
         )) ||
           null}
-        {(codeCrumbsOn && (
+        {(codeCrumbsDiagramOn && (
           <TabPane tab="Crumbs" key="Crumbs">
             <CrumbsTab />
           </TabPane>

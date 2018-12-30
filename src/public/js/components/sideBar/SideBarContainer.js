@@ -13,9 +13,10 @@ const SideBarContainer = ({ sideBar, ...otherProps }) => {
   return <SideBar {...otherProps} />;
 };
 
-const mapStateToProps = state => {
-  const { selectedNode } = getSourceUserChoice(state);
-  const { selectedTabInSideBar } = getValuesState(state);
+const mapStateToProps = (state, props) => {
+  const { selectedNode } = getSourceUserChoice(state, props);
+  const { selectedTabInSideBar } = getValuesState(state, props);
+
   const { sideBar, dependenciesDiagramOn, codeCrumbsDiagramOn } = getCheckedState(state);
 
   return {

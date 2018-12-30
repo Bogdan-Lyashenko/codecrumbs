@@ -72,10 +72,10 @@ const DependenciesTab = props => {
   );
 };
 
-const mapStateToProps = state => {
-  const { filesMap, foldersMap } = getSource(state);
-  const { selectedNode } = getSourceUserChoice(state);
-  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
+const mapStateToProps = (state, props) => {
+  const { filesMap, foldersMap } = getSource(state, props);
+  const { selectedNode } = getSourceUserChoice(state, props);
+  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state, props);
 
   return {
     selectedNode,

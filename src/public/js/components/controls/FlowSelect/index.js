@@ -57,9 +57,9 @@ const FlowSelect = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const { codeCrumbsDiagramOn, codeCrumbsMinimize } = getCheckedState(state);
-  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, props);
 
   return {
     codeCrumbsDiagramOn,

@@ -50,8 +50,8 @@ const TopBarContainer = ({ selectedNode }) => {
   );
 };
 
-const mapStateToProps = state => {
-  const { selectedNode } = getSourceUserChoice(state);
+const mapStateToProps = (state, props) => {
+  const { selectedNode } = getSourceUserChoice(state, props);
 
   return {
     selectedNode

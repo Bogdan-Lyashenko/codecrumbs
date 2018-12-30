@@ -11,9 +11,9 @@ import { getCheckedState } from 'components/controls/ViewSwitches/store/selector
 import Tree from './Tree';
 
 const mapStateToProps = (state, props) => {
-  const { filesMap } = getSource(state);
-  const { filesLayoutMap } = getSourceLayout(state);
-  const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
+  const { filesMap } = getSource(state, props);
+  const { filesLayoutMap } = getSourceLayout(state, props);
+  const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, props);
   const {
     sourceDiagramOn,
     dependenciesDiagramOn,

@@ -13,9 +13,10 @@ const ExplorerBarContainer = ({ explorerBar, ...otherProps }) => {
   return <ExplorerBar {...otherProps} />;
 };
 
-const mapStateToProps = state => {
-  const { filesMap, foldersMap } = getSource(state);
-  const { sourceLayoutTree } = getSourceLayout(state);
+const mapStateToProps = (state, props) => {
+  const { filesMap, foldersMap } = getSource(state, props);
+  const { sourceLayoutTree } = getSourceLayout(state, props);
+
   const { explorerBar } = getCheckedState(state);
 
   return {

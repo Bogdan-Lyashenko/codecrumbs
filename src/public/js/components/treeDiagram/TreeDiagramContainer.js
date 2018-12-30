@@ -5,9 +5,9 @@ import { selectDependencyEdge } from 'components/dataBus/store/actions';
 import { getSourceLayout } from 'components/dataBus/store/selectors';
 import { getValuesState } from 'components/controls/ViewSwitches/store/selectors';
 
-const mapStateToProps = state => {
-  const { sourceLayoutTree } = getSourceLayout(state);
-  const { diagramZoom } = getValuesState(state);
+const mapStateToProps = (state, props) => {
+  const { sourceLayoutTree } = getSourceLayout(state, props);
+  const { diagramZoom } = getValuesState(state, props);
 
   return {
     diagramZoom,

@@ -131,12 +131,12 @@ const DependenciesTree = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const { sourceDiagramOn } = getCheckedState(state);
 
-  const { filesLayoutMap } = getSourceLayout(state);
-  const { selectedNode } = getSourceUserChoice(state);
-  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
+  const { filesLayoutMap } = getSourceLayout(state, props);
+  const { selectedNode } = getSourceUserChoice(state, props);
+  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state, props);
 
   return {
     sourceDiagramOn,

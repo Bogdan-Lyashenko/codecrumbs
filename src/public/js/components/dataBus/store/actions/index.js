@@ -86,10 +86,10 @@ export const selectDependencyEdge = (target, sources, groupName) => dispatch => 
   }
 };
 
-export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
+export const selectCodeCrumbedFlow = (flow, props) => (dispatch, getState) => {
   const state = getState();
 
-  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
   const firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
 
   dispatch({
@@ -98,12 +98,12 @@ export const selectCodeCrumbedFlow = flow => (dispatch, getState) => {
   });
 };
 
-export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
+export const calcFilesTreeLayoutNodes = props => (dispatch, getState) => {
   const state = getState();
 
-  const { sourceTree, filesMap } = getSource(state);
-  const { openedFolders, activeItemsMap } = getSourceUserChoice(state);
-  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
+  const { sourceTree, filesMap } = getSource(state, props);
+  const { openedFolders, activeItemsMap } = getSourceUserChoice(state, props);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, props);
 
   const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsFilterFlow } = getCheckedState(state);
 
@@ -129,9 +129,9 @@ export const calcFilesTreeLayoutNodes = () => (dispatch, getState) => {
   });
 };
 
-export const setActiveItems = (filesList, foldersMap = {}) => (dispatch, getState) => {
+export const setActiveItems = (filesList, foldersMap = {}, props) => (dispatch, getState) => {
   const state = getState();
-  const { activeItemsMap } = getSourceUserChoice(state);
+  const { activeItemsMap } = getSourceUserChoice(state, props);
   const { sourceKeepOnlyActiveItems } = getCheckedState(state);
 
   return dispatch({
@@ -149,12 +149,12 @@ export const setActiveItems = (filesList, foldersMap = {}) => (dispatch, getStat
 };
 
 // TODO: refactor too long does too much
-export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
+export const updateFoldersByActiveChildren = props => (dispatch, getState) => {
   const state = getState();
 
-  const { filesMap } = getSource(state);
-  const { openedFolders, selectedNode } = getSourceUserChoice(state);
-  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state);
+  const { filesMap } = getSource(state, props);
+  const { openedFolders, selectedNode } = getSourceUserChoice(state, props);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, props);
 
   const {
     dependenciesDiagramOn,
@@ -194,12 +194,12 @@ export const updateFoldersByActiveChildren = () => (dispatch, getState) => {
 };
 
 // TODO: group and move actions to different files
-export const downloadStore = () => (dispatch, getState) => {
+export const downloadStore = props => (dispatch, getState) => {
   const state = getState();
 
-  const { sourceTree, filesMap, foldersMap } = getSource(state);
-  const { dependenciesEntryName } = getDependenciesUserChoice(state);
-  const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
+  const { sourceTree, filesMap, foldersMap } = getSource(state, props);
+  const { dependenciesEntryName } = getDependenciesUserChoice(state, props);
+  const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
 
   const partialStateToSave = {
     viewSwitches: {

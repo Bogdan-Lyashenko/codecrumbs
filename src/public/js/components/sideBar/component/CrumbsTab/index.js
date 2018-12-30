@@ -53,10 +53,10 @@ const CrumbsTab = props => {
   );
 };
 
-const mapStateToProps = state => {
-  const { selectedNode } = getSourceUserChoice(state);
-  const { filesLayoutMap } = getSourceLayout(state);
-  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
+const mapStateToProps = (state, props) => {
+  const { selectedNode } = getSourceUserChoice(state, props);
+  const { filesLayoutMap } = getSourceLayout(state, props);
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
 
   return {
     selectedNode,

@@ -2,8 +2,10 @@ import { createSelector } from 'reselect';
 
 import { DEFAULT_NAMESPACE } from './constants';
 
-export const getNamespaceState = (state, props = { namespace: DEFAULT_NAMESPACE }) =>
-  state.dataBus[props.namespace];
+export const getNamespaceState = (state, props = {}) => {
+  const namespace = props.namespace || DEFAULT_NAMESPACE;
+  return state.dataBus[namespace];
+};
 
 export const getSource = createSelector([getNamespaceState], namespaceState => {
   const { sourceTree, filesMap, foldersMap } = namespaceState;
@@ -35,10 +37,7 @@ export const getSourceUserChoice = createSelector([getNamespaceState], namespace
 });
 
 export const getDependenciesUserChoice = createSelector([getNamespaceState], namespaceState => {
-  const {
-    dependenciesEntryName,
-    selectedDependencyEdgeNodes
-  } = namespaceState;
+  const { dependenciesEntryName, selectedDependencyEdgeNodes } = namespaceState;
 
   return {
     dependenciesEntryName,

@@ -11,7 +11,7 @@ import {
 import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
 import SourceTree from './Tree';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const {
     sourceDiagramOn,
     dependenciesDiagramOn,
@@ -20,10 +20,13 @@ const mapStateToProps = state => {
     codeCrumbsMinimize
   } = getCheckedState(state);
 
-  const { filesMap } = getSource(state);
-  const { sourceLayoutTree } = getSourceLayout(state);
-  const { selectedNode, openedFolders } = getSourceUserChoice(state);
-  const { dependenciesEntryName, selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
+  const { filesMap } = getSource(state, props);
+  const { sourceLayoutTree } = getSourceLayout(state, props);
+  const { selectedNode, openedFolders } = getSourceUserChoice(state, props);
+  const { dependenciesEntryName, selectedDependencyEdgeNodes } = getDependenciesUserChoice(
+    state,
+    props
+  );
 
   return {
     sourceDiagramOn,

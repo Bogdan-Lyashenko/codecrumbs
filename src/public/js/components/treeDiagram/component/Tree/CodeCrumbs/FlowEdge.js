@@ -64,11 +64,11 @@ const getSortedFlowSteps = ({ codeCrumbedFlowsMap, selectedCrumbedFlowKey, files
   return sortedFlowSteps;
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const { codeCrumbsMinimize } = getCheckedState(state);
 
-  const { filesLayoutMap } = getSourceLayout(state);
-  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
+  const { filesLayoutMap } = getSourceLayout(state, props);
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
 
   const sortedFlowSteps =
     selectedCrumbedFlowKey !== NO_TRAIL_FLOW

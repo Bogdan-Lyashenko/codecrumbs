@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectNode, toggleFolder } from 'components/dataBus/store/actions';
+import { selectNode, toggleFolder } from 'core/dataBus/actions';
 import {
   getSource,
   getSourceLayout,
   getSourceUserChoice,
   getDependenciesUserChoice
-} from 'components/dataBus/store/selectors';
-import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
+} from 'core/dataBus/selectors';
+import { getCheckedState } from 'core/controlsBus/selectors';
 import SourceTree from './Tree';
 
 const mapStateToProps = (state, props) => {

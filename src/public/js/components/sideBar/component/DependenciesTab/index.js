@@ -6,7 +6,7 @@ import {
   getSource,
   getSourceUserChoice,
   getDependenciesUserChoice
-} from 'components/dataBus/store/selectors';
+} from 'core/dataBus/selectors';
 
 import Code from '../Code';
 import {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'utils/constants';
+import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'core/constants';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { FolderName } from 'components/treeDiagram/component/Node/Folder';
 import { Dot } from 'components/treeDiagram/component/Dot/index';

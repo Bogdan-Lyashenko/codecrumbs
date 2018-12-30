@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { calculateLayoutSize } from 'utils/geometry';
+import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
 import TreeDiagram from './component/TreeDiagram';
-import { selectDependencyEdge } from 'components/dataBus/store/actions';
-import { getSourceLayout } from 'components/dataBus/store/selectors';
-import { getValuesState } from 'components/controls/ViewSwitches/store/selectors';
+import { selectDependencyEdge } from 'core/dataBus/actions';
+import { getSourceLayout } from 'core/dataBus/selectors';
+import { getValuesState } from 'core/controlsBus/selectors';
 
 const mapStateToProps = (state, props) => {
   const { sourceLayoutTree } = getSourceLayout(state, props);

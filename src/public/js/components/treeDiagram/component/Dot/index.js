@@ -1,6 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
-import { ICONS_DIR } from 'utils/constants';
+
+import { ICONS_DIR } from 'core/constants';
 
 import './index.scss';
 

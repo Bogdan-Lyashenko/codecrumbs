@@ -4,8 +4,8 @@ import { Button, Icon } from 'antd';
 
 const ButtonGroup = Button.Group;
 
-import { setZoom } from 'components/controls/ViewSwitches/store/actions';
-import { getValuesState } from 'components/controls/ViewSwitches/store/selectors';
+import { setZoom } from 'core/controlsBus/actions';
+import { getValuesState } from 'core/controlsBus/selectors';
 import './index.scss';
 
 const ZoomControl = ({ zoom, setZoom }) => {

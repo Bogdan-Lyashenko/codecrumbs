@@ -44,10 +44,7 @@ const config = {
   resolve: {
     modules: [
       path.resolve('../../node_modules'),
-      path.resolve(__dirname, 'js/'),
-      path.resolve(__dirname, 'js/components/'),
-      path.resolve(__dirname, 'js/store/'),
-      path.resolve(__dirname, 'js/utils')
+      path.resolve(__dirname, 'js/')
     ],
     alias: {
       'app.package.json': path.resolve(__dirname, '../../package.json'),

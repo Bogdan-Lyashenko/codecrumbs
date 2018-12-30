@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { NO_TRAIL_FLOW } from 'utils/constants';
+import { NO_TRAIL_FLOW } from 'core/constants';
 import { CodeCrumbedFlowEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
 
-import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
-import { getSourceLayout, getCodeCrumbsUserChoice } from 'components/dataBus/store/selectors';
+import { getCheckedState } from 'core/controlsBus/selectors';
+import { getSourceLayout, getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
 
 const FlowEdge = props => {
   const { shiftToCenterPoint, sortedFlowSteps, filesLayoutMap, codeCrumbsMinimize } = props;

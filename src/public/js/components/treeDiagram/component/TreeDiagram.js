@@ -6,7 +6,7 @@ import SourceTree from './Tree/Source/';
 import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
-import { buildShiftToPoint } from 'utils/geometry';
+import { buildShiftToPoint } from 'core/dataBus/utils/geometry';
 
 class TreeDiagram extends React.Component {
   render() {

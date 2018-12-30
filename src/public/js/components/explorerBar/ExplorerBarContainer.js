@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getSource, getSourceLayout } from 'components/dataBus/store/selectors';
-import { selectNode } from 'components/dataBus/store/actions';
-import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
+import { getSource, getSourceLayout } from 'core/dataBus/selectors';
+import { selectNode } from 'core/dataBus/actions';
+import { getCheckedState } from 'core/controlsBus/selectors';
 
 import ExplorerBar from './component/ExplorerBar';
 

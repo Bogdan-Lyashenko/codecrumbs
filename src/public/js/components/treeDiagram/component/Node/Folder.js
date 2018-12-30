@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { FOLDER_OPEN_STATE, ICONS_DIR } from 'utils/constants';
+import { FOLDER_OPEN_STATE, ICONS_DIR } from 'core/constants';
 
 import './index.scss';
 import { SYMBOL_WIDTH } from '../../store/constants';

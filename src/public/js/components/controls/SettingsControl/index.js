@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Dropdown, Button, Icon, Upload } from 'antd';
 
-import { downloadStore, uploadStore } from 'components/dataBus/store/actions';
+import { downloadStore, uploadStore } from 'core/dataBus/actions';
 import './index.scss';
 
 const SettingsControl = ({ onDownload, onUpload }) => {

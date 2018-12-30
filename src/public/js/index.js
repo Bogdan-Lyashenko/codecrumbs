@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import App from './App';
-import getStore from 'store/createStore';
+import getStore from 'core/store';
 
 const MOUNT_NODE_ID = 'mount-node';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from 'antd';
 import { Skeleton, Alert } from 'antd';
 
-import { FILE_NODE_TYPE } from 'utils/constants';
+import { FILE_NODE_TYPE } from 'core/constants';
 import { Copy } from 'components/controls/Copy';
 
 import Code from './Code';

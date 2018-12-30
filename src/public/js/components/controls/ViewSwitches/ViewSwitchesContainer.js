@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { toggleSwitch, fireButtonAction } from './store/actions';
-import { getSwitches, getCheckedState, getDisabledState } from './store/selectors';
-import ViewSwitchList from './component/List/ViewSwitchList';
+import { toggleSwitch, fireButtonAction } from 'core/controlsBus/actions';
+import { getSwitches, getCheckedState, getDisabledState } from 'core/controlsBus/selectors';
+
+import ViewSwitchList from './List/ViewSwitchList';
 
 const mapStateToProps = state => {
   return {

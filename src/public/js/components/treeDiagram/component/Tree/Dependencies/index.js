@@ -6,13 +6,13 @@ import {
   DependenciesArrow
 } from 'components/treeDiagram/component/Edge/DepenenciesEdge';
 import { FileName } from 'components/treeDiagram/component/Node/File';
-import { selectDependencyEdge } from 'components/dataBus/store/actions';
+import { selectDependencyEdge } from 'core/dataBus/actions';
 import {
   getSourceLayout,
   getSourceUserChoice,
   getDependenciesUserChoice
-} from 'components/dataBus/store/selectors';
-import { getCheckedState } from 'components/controls/ViewSwitches/store/selectors';
+} from 'core/dataBus/selectors';
+import { getCheckedState } from 'core/controlsBus/selectors';
 
 import { getGroupsAroundNode, checkIsEdgeSelected } from './utils';
 

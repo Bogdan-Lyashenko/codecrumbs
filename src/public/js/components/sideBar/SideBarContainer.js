@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getSourceUserChoice } from 'components/dataBus/store/selectors';
-import { toggleSwitch, selectSideBarTab } from 'components/controls/ViewSwitches/store/actions';
-import { getCheckedState, getValuesState } from 'components/controls/ViewSwitches/store/selectors';
+import { getSourceUserChoice } from 'core/dataBus/selectors';
+import { toggleSwitch, selectSideBarTab } from 'core/controlsBus/actions';
+import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
 import SideBar from './component/SideBar';
 
 const SideBarContainer = ({ sideBar, ...otherProps }) => {

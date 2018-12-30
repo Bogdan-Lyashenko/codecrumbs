@@ -6,7 +6,7 @@ import {
   getSourceLayout,
   getSourceUserChoice,
   getCodeCrumbsUserChoice
-} from 'components/dataBus/store/selectors';
+} from 'core/dataBus/selectors';
 
 import Code from '../Code';
 import './index.scss';

@@ -3,7 +3,7 @@ import { Tabs } from 'antd';
 import { Skeleton, Alert } from 'antd';
 
 import { FILE_NODE_TYPE } from 'core/constants';
-import { Copy } from 'components/controls/Copy';
+import { Copy } from 'components/topBar/controls/Copy';
 
 import Code from './Code';
 import DependenciesTab from './DependenciesTab';

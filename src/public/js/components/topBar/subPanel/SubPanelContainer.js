@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Breadcrumb, Icon } from 'antd';
 
 import { FILE_NODE_TYPE } from 'core/constants/index';
-import { Copy } from 'components/controls/Copy/index';
+import { Copy } from 'components/topBar/controls/Copy/index';
 import { getSourceUserChoice } from 'core/dataBus/selectors';
 
 import './SubPanelContainer.scss';

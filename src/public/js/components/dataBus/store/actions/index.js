@@ -198,7 +198,7 @@ export const downloadStore = () => (dispatch, getState) => {
   const state = getState();
 
   const { sourceTree, filesMap, foldersMap } = getSource(state);
-  const { dependenciesRootEntryName } = getDependenciesUserChoice(state);
+  const { dependenciesEntryName } = getDependenciesUserChoice(state);
   const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state);
 
   const partialStateToSave = {
@@ -213,7 +213,7 @@ export const downloadStore = () => (dispatch, getState) => {
         filesMap,
         foldersMap,
         codeCrumbedFlowsMap,
-        dependenciesRootEntryName
+        dependenciesEntryName
       }
     }
   };

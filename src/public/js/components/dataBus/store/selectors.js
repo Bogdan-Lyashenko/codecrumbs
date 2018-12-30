@@ -36,14 +36,12 @@ export const getSourceUserChoice = createSelector([getNamespaceState], namespace
 
 export const getDependenciesUserChoice = createSelector([getNamespaceState], namespaceState => {
   const {
-    dependenciesRootEntryName,
-    dependenciesEntryPoint,
+    dependenciesEntryName,
     selectedDependencyEdgeNodes
   } = namespaceState;
 
   return {
-    dependenciesRootEntryName,
-    dependenciesEntryPoint,
+    dependenciesEntryName,
     selectedDependencyEdgeNodes
   };
 });

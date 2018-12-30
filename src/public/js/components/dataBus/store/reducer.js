@@ -15,7 +15,7 @@ const DefaultState = {
     activeItemsMap: {},
     selectedNode: null,
 
-    dependenciesEntryPoint: null,
+    dependenciesEntryName: undefined,
     selectedDependencyEdgeNodes: null,
 
     selectedCodeCrumb: null,
@@ -40,12 +40,11 @@ export default (state = DefaultState, action) => {
 
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA: {
-      const { dependenciesRootEntryName, filesMap, foldersMap } = action.payload;
+      const { dependenciesEntryName, filesMap, foldersMap } = action.payload;
 
       return mergeState({
         ...action.payload,
-        selectedNode: filesMap[dependenciesRootEntryName],
-        dependenciesEntryPoint: filesMap[dependenciesRootEntryName],
+        selectedNode: filesMap[dependenciesEntryName],
         openedFolders: {
           ...Object.keys(foldersMap).reduce((res, item) => {
             res[item] = FOLDER_OPEN_STATE.CLOSED;
@@ -73,7 +72,7 @@ export default (state = DefaultState, action) => {
       return mergeState({
         selectedCodeCrumb: null,
         selectedNode: payload,
-        dependenciesEntryPoint: payload,
+        dependenciesEntryName: payload.path,
         filesMap: {
           ...namespaceState.filesMap,
           [payload.path]: payload
@@ -143,13 +142,15 @@ export default (state = DefaultState, action) => {
         selectedCrumbedFlowKey: action.payload
       });
 
-    case ACTIONS.SET_DEPENDENCIES_ENTRY_POINT:
-      const depEntryPoint = action.payload.fileNode || namespaceState.dependenciesEntryPoint;
+    case ACTIONS.SET_DEPENDENCIES_ENTRY_POINT: {
+      const { fileNode } = action.payload;
+      const dependenciesEntryName = fileNode ? fileNode.path : namespaceState.dependenciesEntryName;
 
       return mergeState({
-        dependenciesEntryPoint: depEntryPoint,
+        dependenciesEntryName,
         selectedDependencyEdgeNodes: null
       });
+    }
 
     case ACTIONS.SELECT_DEPENDENCY_EDGE:
       return mergeState({

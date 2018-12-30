@@ -50,7 +50,7 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
       filesMap: fs.filesMap,
       foldersMap: fs.foldersMap,
       codeCrumbedFlowsMap: codeCrumbs.flows,
-      dependenciesRootEntryName: entryPoint
+      dependenciesEntryName: entryPoint
     });
   });
 

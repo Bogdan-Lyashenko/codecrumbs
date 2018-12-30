@@ -25,7 +25,7 @@ const SourceTree = props => {
     shiftToCenterPoint,
     onNodeTextClick,
     onFolderIconClick,
-    dependenciesEntryPoint,
+    dependenciesEntryName,
     selectedDependencyEdgeNodes
   } = props;
 
@@ -93,7 +93,7 @@ const SourceTree = props => {
               (selectedDependencyEdgeNodes.target === path ||
                 selectedDependencyEdgeNodes.sources.includes(path))
             }
-            depEntryPoint={path === dependenciesEntryPoint.path}
+            depEntryPoint={path === dependenciesEntryName}
             dependency={
               dependenciesDiagramOn && selectedNodeDependencies && selectedNodeDependencies[path]
             }

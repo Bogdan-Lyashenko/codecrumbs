@@ -23,7 +23,7 @@ const mapStateToProps = state => {
   const { filesMap } = getSource(state);
   const { sourceLayoutTree } = getSourceLayout(state);
   const { selectedNode, openedFolders } = getSourceUserChoice(state);
-  const { dependenciesEntryPoint, selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
+  const { dependenciesEntryName, selectedDependencyEdgeNodes } = getDependenciesUserChoice(state);
 
   return {
     sourceDiagramOn,
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
     selectedNode,
     openedFolders,
     filesMap,
-    dependenciesEntryPoint,
+    dependenciesEntryName,
     selectedDependencyEdgeNodes
   };
 };

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Codecrumbs standalone: learn and share your code knowledge!</title>
+</head>
+<body>
+    <div id="mount-node" style="height: 100%">
+        <div id="placeholder" style="text-align: center; color: #1890ff">
+            Loading standalone codecrumbs experience...
+        </div>
+    </div>
+    <script src="./bundle/main.bundle.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      (function(window) {
+        if (!window.codecrumbs) {
+          console.error('Codecrumbs project is not loaded!');
+          return false;
+        }
+
+        var hash = location.hash;
+        var key = '#showcase=';
+        var showCaseName = hash.slice(hash.indexOf(key) + key.length) || '...';
+
+        var fileElement = document.createElement('div');
+        fileElement.innerText = 'Fetching "' + showCaseName + '" showcase...';
+        document.getElementById('placeholder').appendChild(fileElement);
+
+        window.fetch('./json/' + showCaseName + '.json')
+          .then(function(response) {
+            return response.json();
+          }).then((object) => {
+            window.codecrumbs.default({ standalone: true, predefinedState: object.data }, 'mount-node');
+          }).catch((e) => {
+            console.error(e);
+
+            document.getElementById('placeholder').innerText = 'Ooopps.. :( Failed to load. ' +
+              'Set hash params and reload page. E.g. #showcase=todo-react-redux'
+          });
+      })(window)
+    </script>
+</body>
+</html>

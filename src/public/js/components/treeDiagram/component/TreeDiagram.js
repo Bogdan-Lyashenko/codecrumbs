@@ -33,6 +33,7 @@ class TreeDiagram extends React.Component {
       <div className="TreeDiagram">
         <Draggable bounds={bounds}>
           <svg
+            id={'MainTreeSVG'}
             width={width}
             height={height}
             xmlns="http://www.w3.org/2000/svg"

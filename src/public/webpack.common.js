@@ -1,5 +1,4 @@
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const PROJECT_NAME = 'codecrumbs';
 
@@ -50,12 +49,6 @@ module.exports = {
     },
     extensions: ['.js']
   },
-
-  plugins: [
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false
-    })
-  ],
 
   optimization: {
     splitChunks: {

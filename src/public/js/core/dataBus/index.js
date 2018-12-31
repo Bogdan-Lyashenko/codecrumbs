@@ -3,27 +3,36 @@ import { connect } from 'react-redux';
 
 import { createConnection } from 'core/dataBus/connection';
 import { SOCKET_EVENT_TYPE } from 'core/constants';
-import { setInitialSourceData, setChangedSourceData } from './actions';
+import { setInitialSourceData, setChangedSourceData, setPredefinedState } from './actions';
 
 class DataBusContainer extends React.Component {
   componentDidMount() {
+    const { standalone } = this.props;
+
+    if (standalone) {
+      return this.setupStandalone();
+    }
+
+    return this.setupLocal();
+  }
+
+  setupStandalone() {
+    const { setPredefinedState, predefinedState } = this.props;
+    setPredefinedState(predefinedState);
+  }
+
+  setupLocal() {
     createConnection(({ type, data }) => this.onSocketEvent(type, data));
   }
 
   handleInitSyncEvent(dataBody) {
     const { setInitialSourceData } = this.props;
-
-    setInitialSourceData({
-      ...dataBody
-    });
+    setInitialSourceData(dataBody);
   }
 
   handleUpdateSyncEvent(dataBody) {
     const { setChangedSourceData } = this.props;
-
-    setChangedSourceData({
-      ...dataBody
-    });
+    setChangedSourceData(dataBody);
   }
 
   onSocketEvent(type, data) {
@@ -46,7 +55,8 @@ class DataBusContainer extends React.Component {
 
 const mapDispatchToProps = {
   setInitialSourceData,
-  setChangedSourceData
+  setChangedSourceData,
+  setPredefinedState
 };
 
 export default connect(

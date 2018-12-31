@@ -69,7 +69,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".TreeDiagram {\n  position: relative;\n  overflow: hidden;\n  display: flex;\n  flex-grow: 1; }\n\n.MainLoader {\n  display: flex;\n  justify-content: space-between;\n  justify-items: center;\n  padding: 200px;\n  width: 100%; }\n", ""]);
+exports.push([module.i, ".TreeDiagram {\n  position: relative;\n  overflow: hidden;\n  display: flex;\n  flex-grow: 1; }\n  .TreeDiagram #MainTreeSVG {\n    overflow: initial !important; }\n\n.MainLoader {\n  display: flex;\n  justify-content: space-between;\n  justify-items: center;\n  padding: 200px;\n  width: 100%; }\n", ""]);
 
 // exports
 
@@ -1644,6 +1644,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_draggable__WEBPACK_IMPORTED_MODULE_3___default.a, {
         bounds: bounds
       }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("svg", {
+        id: 'MainTreeSVG',
         width: width,
         height: height,
         xmlns: "http://www.w3.org/2000/svg",

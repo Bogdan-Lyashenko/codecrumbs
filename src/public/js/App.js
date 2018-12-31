@@ -3,15 +3,12 @@ import Spin from 'antd/lib/spin';
 import 'antd/lib/spin/style/css';
 
 const DataBus = React.lazy(() => import(/* webpackChunkName: "data-bus" */ 'core/dataBus'));
-
 const ViewsSwitches = React.lazy(() =>
   import(/* webpackChunkName: "view-switches" */ 'components/topBar/controls/ViewSwitches/ViewSwitchesContainer')
 );
-
 const TopBar = React.lazy(() =>
   import(/* webpackChunkName: "top-bar" */ 'components/topBar/subPanel/SubPanelContainer')
 );
-
 const TreeDiagram = React.lazy(() =>
   import(/* webpackChunkName: "tree-diagram" */ 'components/treeDiagram/TreeDiagramContainer')
 );
@@ -24,12 +21,12 @@ const ExplorerBar = React.lazy(() =>
 
 import './App.scss';
 
-const App = () => {
+const App = (props = {}) => {
   return (
     <div className="App">
       <header className="header">
         <Suspense fallback={null}>
-          <DataBus />
+          <DataBus standalone={props.standalone} predefinedState={props.predefinedState} />
         </Suspense>
         <Suspense fallback={null}>
           <ViewsSwitches />

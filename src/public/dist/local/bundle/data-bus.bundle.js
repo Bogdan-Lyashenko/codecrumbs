@@ -17,10 +17,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions */ "./js/core/dataBus/actions.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -57,6 +53,25 @@ function (_React$Component) {
   _createClass(DataBusContainer, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var standalone = this.props.standalone;
+
+      if (standalone) {
+        return this.setupStandalone();
+      }
+
+      return this.setupLocal();
+    }
+  }, {
+    key: "setupStandalone",
+    value: function setupStandalone() {
+      var _this$props = this.props,
+          setPredefinedState = _this$props.setPredefinedState,
+          predefinedState = _this$props.predefinedState;
+      setPredefinedState(predefinedState);
+    }
+  }, {
+    key: "setupLocal",
+    value: function setupLocal() {
       var _this = this;
 
       Object(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_2__["createConnection"])(function (_ref) {
@@ -69,13 +84,13 @@ function (_React$Component) {
     key: "handleInitSyncEvent",
     value: function handleInitSyncEvent(dataBody) {
       var setInitialSourceData = this.props.setInitialSourceData;
-      setInitialSourceData(_objectSpread({}, dataBody));
+      setInitialSourceData(dataBody);
     }
   }, {
     key: "handleUpdateSyncEvent",
     value: function handleUpdateSyncEvent(dataBody) {
       var setChangedSourceData = this.props.setChangedSourceData;
-      setChangedSourceData(_objectSpread({}, dataBody));
+      setChangedSourceData(dataBody);
     }
   }, {
     key: "onSocketEvent",
@@ -105,7 +120,8 @@ function (_React$Component) {
 
 var mapDispatchToProps = {
   setInitialSourceData: _actions__WEBPACK_IMPORTED_MODULE_4__["setInitialSourceData"],
-  setChangedSourceData: _actions__WEBPACK_IMPORTED_MODULE_4__["setChangedSourceData"]
+  setChangedSourceData: _actions__WEBPACK_IMPORTED_MODULE_4__["setChangedSourceData"],
+  setPredefinedState: _actions__WEBPACK_IMPORTED_MODULE_4__["setPredefinedState"]
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(null, mapDispatchToProps)(DataBusContainer));
 

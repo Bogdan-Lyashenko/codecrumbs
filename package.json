@@ -1,6 +1,6 @@
 {
   "name": "codecrumbs",
-  "version": "1.0.5-alpha",
+  "version": "1.0.6-alpha",
   "author": "Bohdan Liashenko",
   "license": "MIT",
   "repository": {
@@ -14,6 +14,7 @@
     "server-dev": "nodemon ./index.dev.js",
     "server-debug": "nodemon --inspect ./index.dev.js",
     "build": "cd src/public && webpack --config webpack.prod.js --progress --colors",
+    "start:standalone": "cd src/public/dist/standalone && http-server",
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""
   },
   "bin": {

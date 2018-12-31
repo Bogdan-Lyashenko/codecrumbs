@@ -219,8 +219,14 @@ export const downloadStore = props => (dispatch, getState) => {
 };
 
 export const uploadStore = file => dispatch => {
-  uploadFileAsObject(file).then(object => {
-    dispatch({ type: VIEW_SWITCHES_ACTIONS.SET_FULL_STATE, payload: object.data.controlsBus });
-    dispatch(setInitialSourceData(object.data.dataBus[DEFAULT_NAMESPACE]));
+  uploadFileAsObject(file).then(object => dispatch(setPredefinedState(object.data)));
+};
+
+export const setPredefinedState = predefinedState => dispatch => {
+  dispatch({
+    type: VIEW_SWITCHES_ACTIONS.SET_FULL_STATE,
+    payload: predefinedState.controlsBus
   });
+
+  dispatch(setInitialSourceData(predefinedState.dataBus[DEFAULT_NAMESPACE]));
 };

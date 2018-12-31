@@ -10,6 +10,9 @@ import './index.scss';
 
 const ZoomControl = ({ zoom, setZoom }) => {
   const step = 0.1;
+  //TODO: doesn't work proper scaling
+  return null;
+
   return (
     <div className={'ZoomControl'}>
       <ButtonGroup size={'small'}>

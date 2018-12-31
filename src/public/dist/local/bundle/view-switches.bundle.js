@@ -691,7 +691,9 @@ var ButtonGroup = antd_es_button__WEBPACK_IMPORTED_MODULE_1__["default"].Group;
 var ZoomControl = function ZoomControl(_ref) {
   var zoom = _ref.zoom,
       setZoom = _ref.setZoom;
-  var step = 0.1;
+  var step = 0.1; //TODO: doesn't work proper scaling
+
+  return null;
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
     className: 'ZoomControl'
   }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(ButtonGroup, {

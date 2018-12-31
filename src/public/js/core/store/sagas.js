@@ -10,10 +10,7 @@ import {
   updateFoldersByActiveChildren
 } from 'core/dataBus/actions';
 
-import {
-  ACTIONS as SWITCHES_ACTIONS,
-  CONTROLS_KEYS
-} from 'core/controlsBus/constants';
+import { ACTIONS as SWITCHES_ACTIONS, CONTROLS_KEYS } from 'core/controlsBus/constants';
 import { setDisabledControl } from 'core/controlsBus/actions';
 import { getCheckedState } from 'core/controlsBus/selectors';
 

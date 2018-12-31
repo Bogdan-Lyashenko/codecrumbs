@@ -1,10 +1,6 @@
 import { fetchFile } from 'core/dataBus/connection';
 import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'core/controlsBus/constants';
-import {
-  getCheckedState,
-  getValuesState,
-  getDisabledState
-} from 'core/controlsBus/selectors';
+import { getCheckedState, getValuesState, getDisabledState } from 'core/controlsBus/selectors';
 
 import { getFoldersForPaths, downloadObjectAsJsonFile, uploadFileAsObject } from './utils';
 import {

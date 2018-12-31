@@ -7,14 +7,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import getStore from 'core/store';
 
-const MOUNT_NODE_ID = 'mount-node';
+export default (options, mountNodeId) => {
+  const { store, persistor } = getStore();
 
-const { store, persistor } = getStore();
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
-  </Provider>,
-  document.getElementById(MOUNT_NODE_ID)
-);
+  ReactDOM.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App {...options} />
+      </PersistGate>
+    </Provider>,
+    document.getElementById(mountNodeId)
+  );
+};

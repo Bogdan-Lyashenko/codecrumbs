@@ -2,11 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { selectCodeCrumb } from 'core/dataBus/actions';
-import {
-  getSource,
-  getSourceLayout,
-  getCodeCrumbsUserChoice
-} from 'core/dataBus/selectors';
+import { getSource, getSourceLayout, getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
 import { getCheckedState } from 'core/controlsBus/selectors';
 import Tree from './Tree';
 

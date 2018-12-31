@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style/css';
 
-import DataBus from 'core/dataBus';
-import TreeDiagram from 'components/treeDiagram/TreeDiagramContainer';
-import ExplorerBar from 'components/explorerBar/ExplorerBarContainer';
-import SideBar from 'components/sideBar/SideBarContainer';
-import ViewsSwitches from 'components/topBar/controls/ViewSwitches/ViewSwitchesContainer';
-import TopBar from 'components/topBar/subPanel/SubPanelContainer';
+const DataBus = React.lazy(() => import(/* webpackChunkName: "data-bus" */ 'core/dataBus'));
+
+const ViewsSwitches = React.lazy(() =>
+  import(/* webpackChunkName: "view-switches" */ 'components/topBar/controls/ViewSwitches/ViewSwitchesContainer')
+);
+
+const TopBar = React.lazy(() =>
+  import(/* webpackChunkName: "top-bar" */ 'components/topBar/subPanel/SubPanelContainer')
+);
+
+const TreeDiagram = React.lazy(() =>
+  import(/* webpackChunkName: "tree-diagram" */ 'components/treeDiagram/TreeDiagramContainer')
+);
+const SideBar = React.lazy(() =>
+  import(/* webpackChunkName: "side-bar" */ 'components/sideBar/SideBarContainer')
+);
+const ExplorerBar = React.lazy(() =>
+  import(/* webpackChunkName: "explorer-bar" */ 'components/explorerBar/ExplorerBarContainer')
+);
 
 import './App.scss';
 
@@ -13,15 +28,33 @@ const App = () => {
   return (
     <div className="App">
       <header className="header">
-        <DataBus />
-        <ViewsSwitches />
-        <TopBar />
+        <Suspense fallback={null}>
+          <DataBus />
+        </Suspense>
+        <Suspense fallback={null}>
+          <ViewsSwitches />
+        </Suspense>
+        <Suspense fallback={null}>
+          <TopBar />
+        </Suspense>
       </header>
 
       <div className="body">
-        <ExplorerBar />
-        <TreeDiagram />
-        <SideBar />
+        <Suspense fallback={null}>
+          <ExplorerBar />
+        </Suspense>
+        <Suspense
+          fallback={
+            <div className={'loader'}>
+              <Spin />
+            </div>
+          }
+        >
+          <TreeDiagram />
+        </Suspense>
+        <Suspense fallback={null}>
+          <SideBar />
+        </Suspense>
       </div>
 
       <footer className="footer">

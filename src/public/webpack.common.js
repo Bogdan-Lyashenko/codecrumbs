@@ -1,15 +1,16 @@
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const libraryName = 'codecrumbs';
-const outputFile = 'bundle.js';
+const PROJECT_NAME = 'codecrumbs';
 
 module.exports = {
-  entry: __dirname + '/js/index.js',
+  entry: path.resolve(__dirname, 'js/index.js'),
   output: {
-    path: __dirname + '/dist',
-    filename: outputFile,
-    library: libraryName,
+    path: path.resolve(__dirname, 'dist/local/bundle/'),
+    publicPath: '/bundle/',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
+    library: PROJECT_NAME,
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
@@ -22,7 +23,10 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]]
+            plugins: [
+              ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
+              '@babel/plugin-syntax-dynamic-import'
+            ]
           }
         }
       },
@@ -49,7 +53,6 @@ module.exports = {
 
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
       openAnalyzer: false
     })
   ],

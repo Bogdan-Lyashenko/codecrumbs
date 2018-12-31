@@ -8,7 +8,7 @@ const clientPort = 2018;
 
 apiServer.run({ projectDir, entryFile, webpackConfigFile, clientPort });
 httpServer
-  .createServer({ root: './src/public/dist', cache: -1 })
+  .createServer({ root: './src/public/dist/local', cache: -1 })
   .listen(clientPort, '127.0.0.1', () => {
     console.log(`"Codecrumbs" is served on http://localhost:${clientPort}`);
   });

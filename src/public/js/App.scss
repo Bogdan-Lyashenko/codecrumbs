@@ -4,6 +4,15 @@
   display: flex;
   flex-direction: column;
 
+  .loader {
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    padding: 200px;
+    width: 100%;
+  }
+
   .header {
     position: relative;
   }

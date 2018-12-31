@@ -34,7 +34,7 @@ apiServer.run({
 });
 
 httpServer
-  .createServer({ root: path.resolve(__dirname, '../src/public/dist') })
+  .createServer({ root: path.resolve(__dirname, '../src/public/dist/local') })
   .listen(program.port, '127.0.0.1', () => {
     console.log(`Go to "Codecrumbs" client http://localhost:${program.port} `);
   });

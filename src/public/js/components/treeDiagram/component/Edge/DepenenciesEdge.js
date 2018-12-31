@@ -1,17 +1,17 @@
 import React from 'react';
+import classNames from 'classnames';
+
+import { ICONS_DIR } from 'core/constants';
+import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/store/constants';
 import './index.scss';
 
-import { Dot } from 'components/treeDiagram/component/Dot/';
-import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/store/constants';
-import classNames from 'classnames';
-const { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT } = DepEdgeGroups;
+const { TOP_LEFT, TOP_RIGHT } = DepEdgeGroups;
 
 const V_SPACE = LAYOUT_CONFIG.spacing + LAYOUT_CONFIG.nodeSizeX;
 
 const PADDING = 30;
 const HALF_PADDING = PADDING / 2;
 const crossShift = 2;
-const ICONS_DIR = 'resources/';
 
 // Arrow can go from top ot bottom of file icon
 const getSourcePt = (groupName, sourcePosition, targetPt) => {

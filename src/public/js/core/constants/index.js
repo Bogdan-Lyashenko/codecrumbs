@@ -11,4 +11,4 @@ export const FOLDER_OPEN_STATE = {
   OPEN: 2
 };
 
-export const ICONS_DIR = 'resources/';
+export const ICONS_DIR = '/resources/';

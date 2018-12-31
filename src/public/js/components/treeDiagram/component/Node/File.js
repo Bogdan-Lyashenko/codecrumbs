@@ -1,10 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { ICONS_DIR } from 'core/constants';
 import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
 import './index.scss';
-
-const ICONS_DIR = 'resources/';
 
 export const FileName = props => {
   const {

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import './index.scss';
+import { ICONS_DIR } from 'core/constants';
 import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
-
-const ICONS_DIR = 'resources/';
+import './index.scss';
 
 export const PartEdge = props => {
   const { sourcePosition, parentName } = props;

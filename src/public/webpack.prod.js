@@ -4,7 +4,8 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   output: {
-    path: path.resolve(__dirname, 'dist/standalone/bundle/')
+    path: path.resolve(__dirname, 'dist/standalone/bundle/'),
+    publicPath: undefined,
   },
   mode: 'production'
 });

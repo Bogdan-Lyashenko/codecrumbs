@@ -1,7 +1,7 @@
 ## [ACTIVE DEVELOPMENT. STAY TUNED!]
 
 # codecrumbs
-Leave "breadcrumbs" in source code via comments to find your way out from code maze. See *demo* of result [https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html](here).
+Leave "breadcrumbs" in source code via comments to find your way out from code maze. See *demo* of result (here)[https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html].
 
 ![](/docs/ui-scr.png)
 

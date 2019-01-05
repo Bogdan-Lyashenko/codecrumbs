@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -9,6 +10,9 @@ module.exports = merge(common, {
   plugins: [
     new BundleAnalyzerPlugin({
       openAnalyzer: false
+    }),
+    new webpack.DefinePlugin({
+      'process.env.LOCAL': JSON.stringify(true)
     })
   ]
 });

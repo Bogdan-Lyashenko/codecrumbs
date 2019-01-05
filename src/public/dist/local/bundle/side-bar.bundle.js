@@ -69,7 +69,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".FlowChartTabContainer {\n  position: relative;\n  height: 100%;\n  overflow: auto; }\n", ""]);
+exports.push([module.i, ".FlowChartLoading {\n  display: flex;\n  justify-content: center;\n  padding-top: 50px; }\n\n.FlowChartTabContainer {\n  position: relative;\n  height: 100%;\n  overflow: auto; }\n", ""]);
 
 // exports
 
@@ -652,12 +652,19 @@ if(false) {}
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var js2flowchart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! js2flowchart */ "../../node_modules/js2flowchart/dist/js2flowchart.js");
-/* harmony import */ var js2flowchart__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(js2flowchart__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.scss */ "./js/components/sideBar/component/FlowChartTab/index.scss");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var antd_es_alert_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! antd/es/alert/style/css */ "../../node_modules/antd/es/alert/style/css.js");
+/* harmony import */ var antd_es_alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd/es/alert */ "../../node_modules/antd/es/alert/index.js");
+/* harmony import */ var antd_es_spin_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd/es/spin/style/css */ "../../node_modules/antd/es/spin/style/css.js");
+/* harmony import */ var antd_es_spin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd/es/spin */ "../../node_modules/antd/es/spin/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index.scss */ "./js/components/sideBar/component/FlowChartTab/index.scss");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -675,7 +682,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -719,10 +725,20 @@ function (_React$Component) {
   _createClass(FlowChartTab, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.svgRender = Object(js2flowchart__WEBPACK_IMPORTED_MODULE_1__["createSVGRender"])();
-      this.svgRender.applyColorBasedTheme(Styles);
-      this.setState({
-        ready: true
+      var _this2 = this;
+
+      __webpack_require__.e(/*! import() | js2flowchart */ "vendors~js2flowchart").then(__webpack_require__.t.bind(null, /*! js2flowchart */ "../../node_modules/js2flowchart/dist/js2flowchart.js", 7)).then(function (_ref) {
+        var createSVGRender = _ref.createSVGRender,
+            convertCodeToFlowTree = _ref.convertCodeToFlowTree;
+        _this2.svgRender = createSVGRender();
+
+        _this2.svgRender.applyColorBasedTheme(Styles);
+
+        _this2.convertCodeToFlowTree = convertCodeToFlowTree;
+
+        _this2.setState({
+          ready: true
+        });
       });
     }
   }, {
@@ -736,21 +752,28 @@ function (_React$Component) {
       var ready = this.state.ready;
 
       if (!ready) {
-        return null;
+        return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("div", {
+          className: 'FlowChartLoading'
+        }, react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(antd_es_spin__WEBPACK_IMPORTED_MODULE_3__["default"], null));
       }
 
       var svgXml = '';
 
       try {
-        var flowTree = Object(js2flowchart__WEBPACK_IMPORTED_MODULE_1__["convertCodeToFlowTree"])(this.props.fileCode || '');
+        var flowTree = this.convertCodeToFlowTree(this.props.fileCode || '');
         svgXml = this.svgRender.buildShapesTree(flowTree).print();
       } catch (e) {
-        console.error('SVG generation failed!', e);
+        return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(antd_es_alert__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          message: 'Oppss.. AST parser failed to parse your code. That dude..',
+          type: "warning",
+          description: "Well, you can file an issue here https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart",
+          showIcon: true
+        });
       }
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("div", {
         className: 'FlowChartTabContainer'
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("div", {
         dangerouslySetInnerHTML: {
           __html: svgXml
         }
@@ -759,7 +782,7 @@ function (_React$Component) {
   }]);
 
   return FlowChartTab;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (FlowChartTab);
 
@@ -804,7 +827,7 @@ if(false) {}
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var antd_es_skeleton_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! antd/es/skeleton/style/css */ "../../node_modules/antd/es/skeleton/style/css.js");
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var antd_es_skeleton_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! antd/es/skeleton/style/css */ "../../node_modules/antd/es/skeleton/style/css.js");
 /* harmony import */ var antd_es_skeleton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd/es/skeleton */ "../../node_modules/antd/es/skeleton/index.js");
 /* harmony import */ var antd_es_alert_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd/es/alert/style/css */ "../../node_modules/antd/es/alert/style/css.js");
 /* harmony import */ var antd_es_alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd/es/alert */ "../../node_modules/antd/es/alert/index.js");
@@ -875,8 +898,13 @@ var TabPane = antd_es_tabs__WEBPACK_IMPORTED_MODULE_5__["default"].TabPane; //TO
       active: selectedTabInSideBar === 'FlowChart'
     })));
   } else {
-    header = react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(antd_es_alert__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      message: "Please select file on diagram to investigate it here.",
+    header = process.env.STANDALONE ? react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(antd_es_alert__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      message: "No code for this file in standalone mode.",
+      description: "Only files with codecrumbs have pre-fetched code. Consider to run codecrumbs locally for this project to access all code. Check instructions here https://github.com/Bogdan-Lyashenko/codecrumbs",
+      type: "warning",
+      showIcon: true
+    }) : react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(antd_es_alert__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      message: "Looks like this file has no code in it.. hmm.. interesting.",
       type: "info",
       showIcon: true
     });
@@ -896,6 +924,7 @@ var TabPane = antd_es_tabs__WEBPACK_IMPORTED_MODULE_5__["default"].TabPane; //TO
     className: "bodySideBar"
   }, content));
 });
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../node_modules/process/browser.js */ "../../node_modules/process/browser.js")))
 
 /***/ }),
 

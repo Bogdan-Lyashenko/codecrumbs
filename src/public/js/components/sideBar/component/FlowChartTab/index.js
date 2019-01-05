@@ -1,5 +1,6 @@
 import React from 'react';
-import { createSVGRender, convertCodeToFlowTree } from 'js2flowchart';
+
+import { Spin, Alert } from 'antd';
 
 import './index.scss';
 
@@ -32,11 +33,15 @@ class FlowChartTab extends React.Component {
   }
 
   componentDidMount() {
-    this.svgRender = createSVGRender();
+    import(/* webpackChunkName: "js2flowchart" */ 'js2flowchart').then(
+      ({ createSVGRender, convertCodeToFlowTree }) => {
+        this.svgRender = createSVGRender();
+        this.svgRender.applyColorBasedTheme(Styles);
+        this.convertCodeToFlowTree = convertCodeToFlowTree;
 
-    this.svgRender.applyColorBasedTheme(Styles);
-
-    this.setState({ ready: true });
+        this.setState({ ready: true });
+      }
+    );
   }
 
   shouldComponentUpdate() {
@@ -46,16 +51,27 @@ class FlowChartTab extends React.Component {
   render() {
     const { ready } = this.state;
     if (!ready) {
-      return null;
+      return (
+        <div className={'FlowChartLoading'}>
+          <Spin />
+        </div>
+      );
     }
 
     let svgXml = '';
 
     try {
-      const flowTree = convertCodeToFlowTree(this.props.fileCode || '');
+      const flowTree = this.convertCodeToFlowTree(this.props.fileCode || '');
       svgXml = this.svgRender.buildShapesTree(flowTree).print();
     } catch (e) {
-      console.error('SVG generation failed!', e);
+      return (
+        <Alert
+          message={'Oppss.. AST parser failed to parse your code. That dude..'}
+          type="warning"
+          description="Well, you can file an issue here https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart"
+          showIcon
+        />
+      );
     }
 
     return (

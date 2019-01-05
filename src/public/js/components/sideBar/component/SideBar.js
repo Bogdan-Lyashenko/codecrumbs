@@ -60,8 +60,19 @@ export default ({
       </Tabs>
     );
   } else {
-    header = (
-      <Alert message="Please select file on diagram to investigate it here." type="info" showIcon />
+    header = process.env.STANDALONE ? (
+      <Alert
+        message="No code for this file in standalone mode."
+        description="Only files with codecrumbs have pre-fetched code. Consider to run codecrumbs locally for this project to access all code. Check instructions here https://github.com/Bogdan-Lyashenko/codecrumbs"
+        type="warning"
+        showIcon
+      />
+    ) : (
+      <Alert
+        message="Looks like this file has no code in it.. hmm.. interesting."
+        type="info"
+        showIcon
+      />
     );
     content = <Skeleton />;
   }

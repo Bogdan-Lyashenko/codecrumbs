@@ -53,7 +53,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"data-bus":"data-bus","vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches":"vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches","vendors~explorer-bar~side-bar~top-bar~view-switches":"vendors~explorer-bar~side-bar~top-bar~view-switches","vendors~explorer-bar":"vendors~explorer-bar","explorer-bar":"explorer-bar","vendors~side-bar~view-switches":"vendors~side-bar~view-switches","vendors~side-bar":"vendors~side-bar","side-bar":"side-bar","vendors~view-switches":"vendors~view-switches","view-switches":"view-switches","vendors~top-bar":"vendors~top-bar","top-bar":"top-bar","vendors~tree-diagram":"vendors~tree-diagram","tree-diagram":"tree-diagram"}[chunkId]||chunkId) + ".bundle.js"
+/******/ 		return __webpack_require__.p + "" + ({"data-bus":"data-bus","vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches":"vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches","vendors~explorer-bar~side-bar~top-bar~view-switches":"vendors~explorer-bar~side-bar~top-bar~view-switches","vendors~explorer-bar":"vendors~explorer-bar","explorer-bar":"explorer-bar","vendors~side-bar~view-switches":"vendors~side-bar~view-switches","vendors~side-bar~tree-diagram":"vendors~side-bar~tree-diagram","vendors~side-bar":"vendors~side-bar","side-bar":"side-bar","vendors~view-switches":"vendors~view-switches","view-switches":"view-switches","vendors~top-bar":"vendors~top-bar","top-bar":"top-bar","vendors~tree-diagram":"vendors~tree-diagram","tree-diagram":"tree-diagram","vendors~js2flowchart":"vendors~js2flowchart"}[chunkId]||chunkId) + ".bundle.js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -46889,7 +46889,7 @@ module.exports = function(originalModule) {
 /*! exports provided: name, version, author, license, repository, scripts, bin, dependencies, devDependencies, nodemonConfig, default */
 /***/ (function(module) {
 
-module.exports = {"name":"codecrumbs","version":"1.0.6-alpha","author":"Bohdan Liashenko","license":"MIT","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","start:demo":"node ./index.dev.js","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon ./index.dev.js","server-debug":"nodemon --inspect ./index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","chokidar":"^2.0.3","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"}};
+module.exports = {"name":"codecrumbs","version":"1.0.9-alpha","author":"Bohdan Liashenko","license":"MIT","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","start:demo":"node ./index.dev.js","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon ./index.dev.js","server-debug":"nodemon --inspect ./index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","chokidar":"^2.0.3","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"}};
 
 /***/ }),
 
@@ -46948,10 +46948,10 @@ var TopBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
   return Promise.all(/*! import() | top-bar */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~view-switches"), __webpack_require__.e("vendors~top-bar"), __webpack_require__.e("top-bar")]).then(__webpack_require__.bind(null, /*! components/topBar/subPanel/SubPanelContainer */ "./js/components/topBar/subPanel/SubPanelContainer.js"));
 });
 var TreeDiagram = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
-  return Promise.all(/*! import() | tree-diagram */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~tree-diagram"), __webpack_require__.e("tree-diagram")]).then(__webpack_require__.bind(null, /*! components/treeDiagram/TreeDiagramContainer */ "./js/components/treeDiagram/TreeDiagramContainer.js"));
+  return Promise.all(/*! import() | tree-diagram */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~side-bar~tree-diagram"), __webpack_require__.e("vendors~tree-diagram"), __webpack_require__.e("tree-diagram")]).then(__webpack_require__.bind(null, /*! components/treeDiagram/TreeDiagramContainer */ "./js/components/treeDiagram/TreeDiagramContainer.js"));
 });
 var SideBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
-  return Promise.all(/*! import() | side-bar */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~view-switches"), __webpack_require__.e("vendors~side-bar~view-switches"), __webpack_require__.e("vendors~side-bar"), __webpack_require__.e("side-bar")]).then(__webpack_require__.bind(null, /*! components/sideBar/SideBarContainer */ "./js/components/sideBar/SideBarContainer.js"));
+  return Promise.all(/*! import() | side-bar */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~view-switches"), __webpack_require__.e("vendors~side-bar~view-switches"), __webpack_require__.e("vendors~side-bar~tree-diagram"), __webpack_require__.e("vendors~side-bar"), __webpack_require__.e("side-bar")]).then(__webpack_require__.bind(null, /*! components/sideBar/SideBarContainer */ "./js/components/sideBar/SideBarContainer.js"));
 });
 var ExplorerBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
   return Promise.all(/*! import() | explorer-bar */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~view-switches"), __webpack_require__.e("vendors~explorer-bar"), __webpack_require__.e("explorer-bar")]).then(__webpack_require__.bind(null, /*! components/explorerBar/ExplorerBarContainer */ "./js/components/explorerBar/ExplorerBarContainer.js"));
@@ -47344,7 +47344,7 @@ var getDisabledState = function getDisabledState(state) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setInitialSourceData", function() { return setInitialSourceData; });
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setInitialSourceData", function() { return setInitialSourceData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setChangedSourceData", function() { return setChangedSourceData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectNode", function() { return selectNode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleFolder", function() { return toggleFolder; });
@@ -47392,6 +47392,13 @@ var setChangedSourceData = function setChangedSourceData(payload) {
 };
 var selectNode = function selectNode(fileNode) {
   return function (dispatch) {
+    if (process.env.STANDALONE) {
+      return dispatch({
+        type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_NODE,
+        payload: fileNode
+      });
+    }
+
     Object(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["fetchFile"])(fileNode.path, {
       parseDependencies: true
     }).then(function (data) {
@@ -47646,6 +47653,7 @@ var setPredefinedState = function setPredefinedState(predefinedState) {
     dispatch(setInitialSourceData(predefinedState.dataBus[_constants__WEBPACK_IMPORTED_MODULE_5__["DEFAULT_NAMESPACE"]]));
   };
 };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../node_modules/process/browser.js */ "../../node_modules/process/browser.js")))
 
 /***/ }),
 

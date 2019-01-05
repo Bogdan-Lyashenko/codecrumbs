@@ -28,6 +28,13 @@ export const setChangedSourceData = payload => ({
 });
 
 export const selectNode = fileNode => dispatch => {
+  if (process.env.STANDALONE) {
+    return dispatch({
+      type: ACTIONS.SELECT_NODE,
+      payload: fileNode
+    });
+  }
+
   fetchFile(fileNode.path, { parseDependencies: true }).then(data =>
     dispatch({
       type: ACTIONS.SELECT_NODE,

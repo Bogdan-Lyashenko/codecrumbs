@@ -1,0 +1,9 @@
+@import "../animcations.scss";
+
+.Animation {
+  @extend .FadeIn;
+}
+
+.CursorPointer {
+  cursor: pointer;
+}

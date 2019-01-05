@@ -47060,13 +47060,12 @@ var DepEdgeGroups = {
 /*!************************************!*\
   !*** ./js/core/constants/index.js ***!
   \************************************/
-/*! exports provided: FILE_NODE_TYPE, DIR_NODE_TYPE, SOCKET_EVENT_TYPE, NO_TRAIL_FLOW, FOLDER_OPEN_STATE, ICONS_DIR */
+/*! exports provided: FILE_NODE_TYPE, DIR_NODE_TYPE, SOCKET_EVENT_TYPE, NO_TRAIL_FLOW, FOLDER_OPEN_STATE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FOLDER_OPEN_STATE", function() { return FOLDER_OPEN_STATE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ICONS_DIR", function() { return ICONS_DIR; });
 /* harmony import */ var shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! shared-with-server-src/constants */ "../shared/constants.js");
 /* harmony import */ var shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FILE_NODE_TYPE", function() { return shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0__["FILE_NODE_TYPE"]; });
@@ -47083,7 +47082,6 @@ var FOLDER_OPEN_STATE = {
   OPEN_ACTIVE_CHILDREN_ONLY: 1,
   OPEN: 2
 };
-var ICONS_DIR = '/resources/';
 
 /***/ }),
 

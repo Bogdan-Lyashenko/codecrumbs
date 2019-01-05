@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ICONS_DIR } from 'core/constants';
 import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
+import Arrow from 'components/treeDiagram/component/Icons/Arrow';
 import './index.scss';
 
 export const PartEdge = props => {
@@ -107,15 +107,11 @@ export const CodeCrumbedFlowEdge = props => {
   }
 
   const endPointConfig = {
-    ...targetPt
+    x: targetPt.x - 4,
+    y: targetPt.y
   };
 
-  endPointConfig.x -= 4;
-  endPointConfig.y += 0;
-  endPointConfig.iconSize = 8;
-  endPointConfig.iconPath = `${ICONS_DIR}arrow/purple-arrow.svg`; // TODO: move to getter
-  endPointConfig.angle = -90;
-
+  const iconSize = 8;
   return (
     <g className={'CodeCrumbEdge'}>
       <rect
@@ -126,14 +122,13 @@ export const CodeCrumbedFlowEdge = props => {
         className={'CodeCrumbEdge-flow-source'}
       />
       <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-flow'} />
-      <image
+      <Arrow
         x={endPointConfig.x}
         y={endPointConfig.y}
-        xlinkHref={endPointConfig.iconPath}
-        height={endPointConfig.iconSize}
-        width={endPointConfig.iconSize}
-        transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
-          endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
+        height={iconSize}
+        width={iconSize}
+        isUp={true}
+        fill={'#e91e63'}
       />
     </g>
   );

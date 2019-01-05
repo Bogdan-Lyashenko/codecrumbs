@@ -3,7 +3,7 @@ import React from 'react';
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'core/constants';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { FolderName } from 'components/treeDiagram/component/Node/Folder';
-import { Dot } from 'components/treeDiagram/component/Dot/index';
+import Dot from 'components/treeDiagram/component/Icons/Dot';
 import { SourceEdge } from 'components/treeDiagram/component/Edge/SourceEdge';
 
 import DependenciesTree from '../Dependencies/index';
@@ -23,8 +23,8 @@ const SourceTree = props => {
     filesMap,
     selectedNode,
     shiftToCenterPoint,
-    onNodeTextClick,
-    onFolderIconClick,
+    onFileNodeClick,
+    onFolderNodeClick,
     dependenciesEntryName,
     selectedDependencyEdgeNodes
   } = props;
@@ -71,9 +71,7 @@ const SourceTree = props => {
         (type === FILE_NODE_TYPE &&
           !(dependenciesDiagramOn && selectedNode.dependencies && selectedNode.dependencies[path]))
       ) {
-        sourceDotes.push(
-          <Dot key={`dot-${path}`} position={position} disabled={false} selected={selected} />
-        );
+        sourceDotes.push(<Dot key={`dot-${path}`} position={position} selected={selected} />);
       }
 
       let nodeBasedOnType = null;
@@ -104,7 +102,7 @@ const SourceTree = props => {
               !selectedNodeDependencies[path].importedModuleNames.length
             }
             onNodeClick={() => {
-              onNodeTextClick(fileNode);
+              onFileNodeClick(fileNode);
             }}
           />
         );
@@ -117,8 +115,7 @@ const SourceTree = props => {
             cover={dependenciesDiagramOn || codeCrumbsDiagramOn}
             disabled={sourceDimFolders}
             openedState={openedFolders[node.data.path]}
-            onTextClick={() => onFolderIconClick(node.data)}
-            onIconClick={() => onFolderIconClick(node.data)}
+            onNodeClick={() => onFolderNodeClick(node.data)}
           />
         );
       }

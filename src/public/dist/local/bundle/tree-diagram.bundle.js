@@ -1,24 +1,5 @@
 (window["webpackJsonpcodecrumbs"] = window["webpackJsonpcodecrumbs"] || []).push([["tree-diagram"],{
 
-/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Dot/index.scss":
-/*!*******************************************************************************************************************************************************************************************************!*\
-  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Dot/index.scss ***!
-  \*******************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-moz-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.FadeIn, .Dot {\n  opacity: 0;\n  -webkit-animation: fadeIn ease 1;\n  -moz-animation: fadeIn ease 1;\n  animation: fadeIn ease 1;\n  -webkit-animation-fill-mode: forwards;\n  -moz-animation-fill-mode: forwards;\n  animation-fill-mode: forwards;\n  -webkit-animation-duration: 0.6s;\n  -moz-animation-duration: 0.6s;\n  animation-duration: 0.6s; }\n\n.Dot {\n  fill: #BFBFBF; }\n\n.Dot-disabled {\n  fill: #ccc; }\n\n.Dot-selected {\n  fill: #777777; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Edge/index.scss":
 /*!********************************************************************************************************************************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Edge/index.scss ***!
@@ -38,6 +19,25 @@ exports.push([module.i, "@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0; 
 
 /***/ }),
 
+/***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Icons/index.scss":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Icons/index.scss ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-moz-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.FadeIn, .Animation {\n  opacity: 0;\n  -webkit-animation: fadeIn ease 1;\n  -moz-animation: fadeIn ease 1;\n  animation: fadeIn ease 1;\n  -webkit-animation-fill-mode: forwards;\n  -moz-animation-fill-mode: forwards;\n  animation-fill-mode: forwards;\n  -webkit-animation-duration: 0.6s;\n  -moz-animation-duration: 0.6s;\n  animation-duration: 0.6s; }\n\n.CursorPointer {\n  cursor: pointer; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Node/index.scss":
 /*!********************************************************************************************************************************************************************************************************!*\
   !*** /Users/bliashenko/Learning/codecrumbs/node_modules/css-loader!/Users/bliashenko/Learning/codecrumbs/node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Node/index.scss ***!
@@ -50,7 +50,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-moz-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.FadeIn, .CodeCrumbNode, .FileNode, .FolderNode {\n  opacity: 0;\n  -webkit-animation: fadeIn ease 1;\n  -moz-animation: fadeIn ease 1;\n  animation: fadeIn ease 1;\n  -webkit-animation-fill-mode: forwards;\n  -moz-animation-fill-mode: forwards;\n  animation-fill-mode: forwards;\n  -webkit-animation-duration: 0.6s;\n  -moz-animation-duration: 0.6s;\n  animation-duration: 0.6s; }\n\n.NodeIcon {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.7); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: \"Menlo\";\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-file-name-selected {\n  fill: #754BC3; }\n\n.NodeText-file-name-entry-point {\n  stroke: #1890ff;\n  fill: none; }\n\n.NodeText-file-name-entry-point-selected {\n  stroke: #754BC3; }\n\n.NodeText-file-dependencyImportedOnly {\n  stroke: #cccccc;\n  fill: white; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: \"Menlo\";\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.Folder-collapsed-children-rect {\n  fill: #ffffff; }\n\n.Folder-collapsed-children-text {\n  fill: #1890ff;\n  font-size: 16px; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-flow-step {\n  fill: #ff18a6;\n  stroke: #e91e63; }\n\n.CodeCrumbName-flow {\n  fill: #ffffff;\n  font-family: \"Menlo\";\n  font-size: 12px; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: \"Menlo\";\n  font-size: 9px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: \"Menlo\";\n  font-size: 12px;\n  cursor: pointer; }\n\n.CodeCrumbName-text-flow {\n  fill: #ff18a6;\n  font-size: 13px; }\n", ""]);
+exports.push([module.i, "@-webkit-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-moz-keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.FadeIn, .CodeCrumbNode, .FileNode, .FolderNode {\n  opacity: 0;\n  -webkit-animation: fadeIn ease 1;\n  -moz-animation: fadeIn ease 1;\n  animation: fadeIn ease 1;\n  -webkit-animation-fill-mode: forwards;\n  -moz-animation-fill-mode: forwards;\n  animation-fill-mode: forwards;\n  -webkit-animation-duration: 0.6s;\n  -moz-animation-duration: 0.6s;\n  animation-duration: 0.6s; }\n\n.FileNode, .FolderNode {\n  cursor: pointer; }\n\n.NodeText-cover {\n  stroke: none;\n  fill: rgba(255, 255, 255, 0.7); }\n\n.NodeIcon-folder-line {\n  fill: none;\n  stroke: #BFBFBF; }\n\n.NodeIcon-folder-line-disabled {\n  stroke: #ccc; }\n\n.NodeText-file-name {\n  fill: #595959;\n  font-family: \"Menlo\";\n  cursor: pointer; }\n\n.NodeText-file-name-purple {\n  fill: #ff18a6; }\n\n.NodeText-file-name-selected {\n  fill: #754BC3; }\n\n.NodeText-file-name-entry-point {\n  stroke: #1890ff;\n  fill: none; }\n\n.NodeText-file-name-entry-point-selected {\n  stroke: #754BC3; }\n\n.NodeText-file-dependencyImportedOnly {\n  stroke: #cccccc;\n  fill: white; }\n\n.NodeText-folder-name {\n  fill: #595959;\n  font-family: \"Menlo\";\n  cursor: pointer; }\n\n.NodeText-folder-name-disabled {\n  fill: #A9A8A8; }\n\n.Folder-collapsed-children-rect {\n  fill: #ffffff; }\n\n.Folder-collapsed-children-text {\n  fill: #1890ff;\n  font-size: 16px; }\n\n.CodeCrumbName-rect {\n  fill: #fff;\n  stroke: #ff18a6; }\n\n.CodeCrumbName-flow-step {\n  fill: #ff18a6;\n  stroke: #e91e63; }\n\n.CodeCrumbName-flow {\n  fill: #ffffff;\n  font-family: \"Menlo\";\n  font-size: 12px; }\n\n.CodeCrumbName-loc {\n  fill: #595959;\n  font-family: \"Menlo\";\n  font-size: 9px;\n  cursor: pointer; }\n\n.CodeCrumbName-text {\n  fill: #ff18a6;\n  font-family: \"Menlo\";\n  font-size: 12px;\n  cursor: pointer; }\n\n.CodeCrumbName-text-flow {\n  fill: #ff18a6;\n  font-size: 13px; }\n", ""]);
 
 // exports
 
@@ -140,72 +140,6 @@ var mapDispatchToProps = {
 
 /***/ }),
 
-/***/ "./js/components/treeDiagram/component/Dot/index.js":
-/*!**********************************************************!*\
-  !*** ./js/components/treeDiagram/component/Dot/index.js ***!
-  \**********************************************************/
-/*! exports provided: Dot */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Dot", function() { return Dot; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/constants */ "./js/core/constants/index.js");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Dot/index.scss");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-var Dot = function Dot(props) {
-  var position = props.position,
-      disabled = props.disabled,
-      selected = props.selected,
-      type = props.type;
-  var iconPath = "".concat(core_constants__WEBPACK_IMPORTED_MODULE_1__["ICONS_DIR"], "dot/").concat(type ? "".concat(type, "-") : '').concat(selected ? 'selected-' : '', "dot.svg");
-  var iconSize = 6;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("image", {
-    x: position.x - 2.5,
-    y: position.y - 2.5,
-    xlinkHref: iconPath,
-    height: iconSize,
-    width: iconSize
-  });
-};
-
-/***/ }),
-
-/***/ "./js/components/treeDiagram/component/Dot/index.scss":
-/*!************************************************************!*\
-  !*** ./js/components/treeDiagram/component/Dot/index.scss ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Dot/index.scss");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./js/components/treeDiagram/component/Edge/CodeCrumbEdge.js":
 /*!*******************************************************************!*\
   !*** ./js/components/treeDiagram/component/Edge/CodeCrumbEdge.js ***!
@@ -220,14 +154,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CodeCrumbedFlowEdge", function() { return CodeCrumbedFlowEdge; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/constants */ "./js/core/constants/index.js");
-/* harmony import */ var components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
+/* harmony import */ var components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
+/* harmony import */ var components_treeDiagram_component_Icons_Arrow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/treeDiagram/component/Icons/Arrow */ "./js/components/treeDiagram/component/Icons/Arrow.js");
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Edge/index.scss");
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_3__);
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -235,7 +165,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var PartEdge = function PartEdge(props) {
   var sourcePosition = props.sourcePosition,
       parentName = props.parentName;
-  var nameWidth = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["SYMBOL_WIDTH"] * parentName.length;
+  var nameWidth = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_1__["SYMBOL_WIDTH"] * parentName.length;
   var padding = 17;
   var P1 = {
     x: sourcePosition.x + nameWidth + padding,
@@ -262,7 +192,7 @@ var CodeCrumbEdge = function CodeCrumbEdge(props) {
   var sourcePosition = props.sourcePosition,
       targetPosition = props.targetPosition,
       parentName = props.parentName;
-  var nameWidth = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["SYMBOL_WIDTH"] * parentName.length;
+  var nameWidth = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_1__["SYMBOL_WIDTH"] * parentName.length;
   var padding = 40;
   var edgeTurnDistance = 20;
   var P1 = {
@@ -312,7 +242,7 @@ var CodeCrumbedFlowEdge = function CodeCrumbedFlowEdge(props) {
     if (targetPt.x > sourcePt.x) {
       polylinePoints = [[sourcePt.x, sourcePt.y], [sourcePt.x, sourcePt.y - padding], [targetPt.x - 11, sourcePt.y - padding], [targetPt.x - 11, targetPt.y + vTurn], [targetPt.x, targetPt.y + vTurn], [targetPt.x, targetPt.y]];
     } else {
-      var nLength = sourceName.length < 10 ? sourceName.length * components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["SYMBOL_WIDTH"] + 8 : 100;
+      var nLength = sourceName.length < 10 ? sourceName.length * components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_1__["SYMBOL_WIDTH"] + 8 : 100;
       polylinePoints = [[sourcePt.x, sourcePt.y], [sourcePt.x, sourcePt.y - padding], [sourcePt.x + nLength, sourcePt.y - padding], [sourcePt.x + nLength, targetPt.y + vTurn], [targetPt.x, targetPt.y + vTurn], [targetPt.x, targetPt.y]];
     }
   } else {
@@ -323,14 +253,11 @@ var CodeCrumbedFlowEdge = function CodeCrumbedFlowEdge(props) {
     }
   }
 
-  var endPointConfig = _objectSpread({}, targetPt);
-
-  endPointConfig.x -= 4;
-  endPointConfig.y += 0;
-  endPointConfig.iconSize = 8;
-  endPointConfig.iconPath = "".concat(core_constants__WEBPACK_IMPORTED_MODULE_1__["ICONS_DIR"], "arrow/purple-arrow.svg"); // TODO: move to getter
-
-  endPointConfig.angle = -90;
+  var endPointConfig = {
+    x: targetPt.x - 4,
+    y: targetPt.y
+  };
+  var iconSize = 8;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
     className: 'CodeCrumbEdge'
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
@@ -342,13 +269,13 @@ var CodeCrumbedFlowEdge = function CodeCrumbedFlowEdge(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("polyline", {
     points: polylinePoints.join(', '),
     className: 'CodeCrumbEdge-flow'
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("image", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Icons_Arrow__WEBPACK_IMPORTED_MODULE_2__["default"], {
     x: endPointConfig.x,
     y: endPointConfig.y,
-    xlinkHref: endPointConfig.iconPath,
-    height: endPointConfig.iconSize,
-    width: endPointConfig.iconSize,
-    transform: "rotate(".concat(endPointConfig.angle, " ").concat(endPointConfig.x + endPointConfig.iconSize / 2, " ").concat(endPointConfig.y + endPointConfig.iconSize / 2, ")")
+    height: iconSize,
+    width: iconSize,
+    isUp: true,
+    fill: '#e91e63'
   }));
 };
 
@@ -369,8 +296,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core/constants */ "./js/core/constants/index.js");
-/* harmony import */ var components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
+/* harmony import */ var components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
+/* harmony import */ var components_treeDiagram_component_Icons_Arrow__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/treeDiagram/component/Icons/Arrow */ "./js/components/treeDiagram/component/Icons/Arrow.js");
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Edge/index.scss");
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_4__);
 
@@ -378,9 +305,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var TOP_LEFT = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_3__["DepEdgeGroups"].TOP_LEFT,
-    TOP_RIGHT = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_3__["DepEdgeGroups"].TOP_RIGHT;
-var V_SPACE = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_3__["LAYOUT_CONFIG"].spacing + components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_3__["LAYOUT_CONFIG"].nodeSizeX;
+var TOP_LEFT = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["DepEdgeGroups"].TOP_LEFT,
+    TOP_RIGHT = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["DepEdgeGroups"].TOP_RIGHT;
+var V_SPACE = components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["LAYOUT_CONFIG"].spacing + components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["LAYOUT_CONFIG"].nodeSizeX;
 var PADDING = 30;
 var HALF_PADDING = PADDING / 2;
 var crossShift = 2; // Arrow can go from top ot bottom of file icon
@@ -457,23 +384,17 @@ var DependenciesArrow = function DependenciesArrow(_ref) {
       selected = _ref.selected;
   var directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
   var endPointConfig = {
-    x: targetPosition.x + 2,
-    y: targetPosition.y - 5 * (directionTop ? 1 : -1)
+    x: targetPosition.x - 1,
+    y: targetPosition.y + (directionTop ? -11 : 4)
   };
-  endPointConfig.x -= 3;
-  endPointConfig.y -= directionTop ? 6 : 1;
-  endPointConfig.iconSize = 7;
-  endPointConfig.iconPath = "".concat(core_constants__WEBPACK_IMPORTED_MODULE_2__["ICONS_DIR"], "arrow/").concat(selected ? 'selected-' : '', "arrow.svg"); // TODO: move to getter
-
-  endPointConfig.angle = directionTop ? 90 : -90;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("image", {
+  var iconSize = 7;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Icons_Arrow__WEBPACK_IMPORTED_MODULE_3__["default"], {
     x: endPointConfig.x,
     y: endPointConfig.y,
-    xlinkHref: endPointConfig.iconPath,
-    height: endPointConfig.iconSize,
-    width: endPointConfig.iconSize,
-    className: 'Animation',
-    transform: "rotate(".concat(endPointConfig.angle, " ").concat(endPointConfig.x + endPointConfig.iconSize / 2, " ").concat(endPointConfig.y + endPointConfig.iconSize / 2, ")")
+    height: iconSize,
+    width: iconSize,
+    isUp: !directionTop,
+    fill: selected ? '#754BC3' : '#1890ff'
   });
 };
 
@@ -536,6 +457,269 @@ var SourceEdge = function SourceEdge(props) {
 
 
 var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Edge/index.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/Icons/Arrow.js":
+/*!************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Icons/Arrow.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Icons/index.scss");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var styleUp = {
+  transform: 'rotate(-90deg)',
+  transformOrigin: '50% 50%'
+};
+var styleDown = {
+  transform: 'rotate(90deg)',
+  transformOrigin: '50% 50%'
+};
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
+  var x = _ref.x,
+      y = _ref.y,
+      width = _ref.width,
+      height = _ref.height,
+      isUp = _ref.isUp,
+      fill = _ref.fill;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    version: "1.1",
+    x: x,
+    y: y,
+    viewBox: "0 0 448.011 448.011",
+    width: width,
+    height: height,
+    shapeRendering: 'geometricPrecision'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    className: 'Animation',
+    style: isUp ? styleUp : styleDown,
+    d: "M438.731,209.463l-416-192c-6.624-3.008-14.528-1.216-19.136,4.48c-4.64,5.696-4.8,13.792-0.384,19.648l136.8,182.4    l-136.8,182.4c-4.416,5.856-4.256,13.984,0.352,19.648c3.104,3.872,7.744,5.952,12.448,5.952c2.272,0,4.544-0.48,6.688-1.472    l416-192c5.696-2.624,9.312-8.288,9.312-14.528S444.395,212.087,438.731,209.463z",
+    fill: fill
+  })));
+});
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/Icons/DepCircles.js":
+/*!*****************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Icons/DepCircles.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
+  var x = _ref.x,
+      y = _ref.y,
+      width = _ref.width,
+      height = _ref.height,
+      fill = _ref.fill;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    version: "1.1",
+    x: x,
+    y: y,
+    viewBox: "0 0 525.153 525.153",
+    width: width,
+    height: height,
+    shapeRendering: 'geometricPrecision'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
+    x: "50",
+    y: "190",
+    width: "100",
+    height: "150",
+    fill: "#fff"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M381.917,119.341c-79.014,0-143.213,64.222-143.213,143.235s64.2,143.235,143.213,143.235   c79.035,0,143.235-64.222,143.235-143.235S460.953,119.341,381.917,119.341z M95.468,167.108C42.734,167.108,0,209.82,0,262.576   s42.734,95.468,95.468,95.468c52.756,0,95.49-42.712,95.49-95.468S148.224,167.108,95.468,167.108z M95.468,310.321   c-26.258,0-47.745-21.487-47.745-47.745s21.487-47.745,47.745-47.745c26.28,0,47.767,21.488,47.767,47.745   C143.235,288.812,121.748,310.321,95.468,310.321z",
+    fill: fill
+  })));
+});
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/Icons/Dot.js":
+/*!**********************************************************!*\
+  !*** ./js/components/treeDiagram/component/Icons/Dot.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Icons/index.scss");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
+  var position = _ref.position,
+      selected = _ref.selected;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    version: "1.1",
+    width: "6px",
+    height: "6px",
+    x: position.x - 2.5,
+    y: position.y - 2.5,
+    shapeRendering: 'geometricPrecision'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
+    className: 'Animation',
+    r: "2.5",
+    cx: "3",
+    cy: "3",
+    fill: selected ? '#666666' : '#BFBFBF'
+  }));
+});
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/Icons/File.js":
+/*!***********************************************************!*\
+  !*** ./js/components/treeDiagram/component/Icons/File.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
+  var x = _ref.x,
+      y = _ref.y,
+      width = _ref.width,
+      height = _ref.height;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    version: "1.1",
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    viewBox: "0 0 550.801 550.801",
+    shapeRendering: 'geometricPrecision'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
+    x: "50",
+    width: "412",
+    height: "512",
+    opacity: "0.7",
+    fill: "white"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M475.084,131.997c-0.021-2.531-0.833-5.021-2.567-6.992L366.325,3.694c-0.032-0.034-0.063-0.045-0.085-0.076   c-0.633-0.707-1.371-1.295-2.151-1.804c-0.231-0.155-0.464-0.285-0.706-0.422c-0.676-0.366-1.393-0.675-2.131-0.896   c-0.2-0.053-0.38-0.135-0.58-0.188C359.87,0.119,359.037,0,358.193,0H97.2c-11.918,0-21.6,9.693-21.6,21.601v507.6   c0,11.907,9.682,21.601,21.6,21.601h356.4c11.907,0,21.6-9.693,21.6-21.601V133.202C475.2,132.796,475.137,132.398,475.084,131.997   z M204.051,521.143c-6.94,0-16.055-1.182-21.998-3.164l3.375-24.374c4.158,1.393,9.503,2.384,15.448,2.384   c12.68,0,20.596-5.759,20.596-26.557v-83.996h30.122v84.396h0.005C251.599,507.875,233.374,521.143,204.051,521.143z    M309.445,520.942c-15.25,0-30.29-3.966-37.823-8.121l6.138-24.965c8.124,4.166,20.606,8.321,33.489,8.321   c13.864,0,21.188-5.731,21.188-14.459c0-8.322-6.338-13.078-22.386-18.816c-22.185-7.73-36.647-20.007-36.647-39.424   c0-22.781,19.014-40.215,50.512-40.215c15.051,0,26.156,3.164,34.077,6.739l-6.719,24.363c-5.357-2.573-14.86-6.339-27.949-6.339   c-13.067,0-19.417,5.959-19.417,12.878c0,8.511,7.541,12.287,24.775,18.815c23.562,8.723,34.667,20.999,34.667,39.814   C363.34,501.926,346.096,520.942,309.445,520.942z M453.601,366.747H97.2V21.601h250.193v110.51c0,5.967,4.841,10.8,10.8,10.8   h95.407V366.747z M357.592,230.798c2.489,5.16,3.597,10.383,3.597,17.062c0,10.465-3.296,18.808-9.987,25.262   c-6.281,6.097-14.392,9.683-25.202,11.201c-4.303,0.591-12.725,0.622-17.218,0c-17.181-2.3-29.893-10.32-38.024-24.021   c-1.041-1.706-1.252-2.268-0.988-2.511c0.427-0.4,20.788-12.145,21.03-12.145c0.11,0,0.886,1.013,1.74,2.247   c6.26,9.255,14.049,13.537,24.474,13.537c6.187,0,11.153-1.685,14.308-4.872c0.943-0.934,1.982-2.326,2.383-3.154   c2.057-4.282,1.15-9.869-2.114-13.374c-2.647-2.837-6.798-5.115-17.951-9.898c-8.189-3.533-12.925-5.806-16.4-7.894   c-13.663-8.269-19.802-18.702-19.802-33.634c0-9.977,3.106-17.84,9.604-24.286c6.322-6.26,14.803-9.898,24.906-10.697   c3.828-0.298,4.366-0.298,8.433,0.026c8.295,0.614,14.581,2.618,20.466,6.528c3.186,2.117,7.815,6.927,10.378,10.779   c1.213,1.819,2.199,3.37,2.199,3.48c0,0.185-19.454,12.762-20.14,13.06c-0.221,0.073-0.833-0.644-1.666-1.957   c-0.723-1.149-2.272-3.045-3.48-4.221c-3.396-3.43-6.739-4.764-11.907-4.764c-4.546-0.032-7.488,1.118-10.025,3.878   c-1.767,1.901-2.567,3.85-2.758,6.74c-0.211,3.639,0.78,6.555,3.101,9.044c2.437,2.592,6.134,4.627,17.149,9.358   c14.576,6.265,21.885,10.597,27.527,16.318C354.175,224.889,355.884,227.259,357.592,230.798z M241.861,154.958h13.112v47.429   c0,31.462-0.108,48.179-0.271,49.673c-1.846,14.792-8.822,24.743-20.73,29.563c-9.924,3.986-23.461,4.313-34.003,0.802   c-9.975-3.322-18.27-10.539-23.058-20.092l-0.804-1.604l10.568-6.423c5.804-3.499,10.647-6.413,10.75-6.468   c0.087-0.032,0.783,1.015,1.556,2.302c4.786,8.189,8.904,11.101,15.783,11.074c4.817-0.026,7.702-0.968,9.954-3.214   c1.603-1.604,2.516-3.341,3.288-6.257l0.588-2.22l0.082-47.297l0.108-47.268H241.861z",
+    fill: "#1890ff"
+  })));
+});
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/Icons/Folder.js":
+/*!*************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Icons/Folder.js ***!
+  \*************************************************************/
+/*! exports provided: OpenFolder, CloseFolder */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OpenFolder", function() { return OpenFolder; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloseFolder", function() { return CloseFolder; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Icons/index.scss");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var OpenFolder = function OpenFolder(_ref) {
+  var x = _ref.x,
+      y = _ref.y,
+      width = _ref.width,
+      height = _ref.height,
+      fill = _ref.fill;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    version: "1.1",
+    x: x,
+    y: y,
+    viewBox: "0 0 276.157 276.157",
+    width: width,
+    height: height,
+    shapeRendering: 'geometricPrecision'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
+    x: "50",
+    width: "270",
+    height: "270",
+    fill: "white",
+    opacity: "0.4"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M273.081,101.378c-3.3-4.651-8.86-7.319-15.255-7.319h-24.34v-26.47c0-10.201-8.299-18.5-18.5-18.5  h-85.322c-3.63,0-9.295-2.876-11.436-5.806l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.731  c-9.293,0-18.639,6.608-21.738,15.372l-2.033,5.752c-0.958,2.71-4.721,5.371-7.596,5.371H18.5c-10.201,0-18.5,8.299-18.5,18.5  v167.07c0,0.885,0.161,1.73,0.443,2.519c0.152,3.306,1.18,6.424,3.053,9.064c3.3,4.652,8.86,7.319,15.255,7.319h188.486  c11.395,0,23.27-8.424,27.035-19.179l40.677-116.188C277.061,112.159,276.381,106.03,273.081,101.378z M18.5,64.089h8.864  c9.295,0,18.64-6.608,21.738-15.372l2.032-5.75c0.959-2.711,4.722-5.372,7.597-5.372h29.564c3.63,0,9.295,2.876,11.437,5.806  l6.386,8.734c4.982,6.815,15.104,11.954,23.546,11.954h85.322c1.898,0,3.5,1.603,3.5,3.5v26.47H69.34  c-11.395,0-23.27,8.424-27.035,19.179L15,191.231V67.589C15,65.692,16.603,64.089,18.5,64.089z M260.791,113.238l-40.677,116.188  c-1.674,4.781-7.812,9.135-12.877,9.135H18.751c-1.448,0-2.577-0.373-3.02-0.998c-0.443-0.625-0.423-1.814,0.056-3.181  l40.677-116.188c1.674-4.781,7.812-9.135,12.877-9.135h188.486c1.448,0,2.577,0.373,3.021,0.998  C261.29,110.682,261.27,111.871,260.791,113.238z",
+    fill: fill
+  }));
+};
+var CloseFolder = function CloseFolder(_ref2) {
+  var x = _ref2.x,
+      y = _ref2.y,
+      width = _ref2.width,
+      height = _ref2.height,
+      fill = _ref2.fill;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    version: "1.1",
+    x: x,
+    y: y,
+    viewBox: "0 0 233.741 233.741",
+    width: width,
+    height: height,
+    shapeRendering: 'geometricPrecision'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
+    x: "50",
+    width: "270",
+    height: "270",
+    fill: "white",
+    opacity: "0.4"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M233.486,83.462V54.886c0-10.201-8.299-18.5-18.5-18.5h-85.322c-3.63,0-9.295-2.876-11.437-5.806  l-6.386-8.736C106.859,15.03,96.736,9.892,88.296,9.892H58.731c-9.295,0-18.64,6.608-21.738,15.371l-2.034,5.753  c-0.958,2.711-4.72,5.37-7.595,5.37H18.5c-10.201,0-18.5,8.299-18.5,18.5v41.456c0,0.661,0.095,1.299,0.255,1.91V201.35  c0,12.407,10.094,22.5,22.5,22.5h188.486c12.406,0,22.5-10.093,22.5-22.5V86.847C233.741,85.696,233.653,84.566,233.486,83.462z   M18.5,51.386h8.864c9.296,0,18.641-6.608,21.737-15.371l2.034-5.752c0.958-2.711,4.721-5.371,7.596-5.371h29.564  c3.63,0,9.295,2.877,11.438,5.806l6.385,8.735c4.982,6.815,15.104,11.954,23.546,11.954h85.322c1.898,0,3.5,1.604,3.5,3.5V65.55  c-2.275-0.776-4.71-1.204-7.245-1.204H22.755c-2.725,0-5.336,0.487-7.755,1.378V54.886C15,52.989,16.603,51.386,18.5,51.386z   M211.241,208.85H22.755c-4.136,0-7.5-3.365-7.5-7.5V86.847c0-4.135,3.364-7.5,7.5-7.5h188.486c3.477,0,6.398,2.38,7.245,5.594  v3.915c0,0.661,0.095,1.3,0.255,1.91V201.35C218.741,205.485,215.377,208.85,211.241,208.85z",
+    fill: fill
+  }));
+};
+
+/***/ }),
+
+/***/ "./js/components/treeDiagram/component/Icons/index.scss":
+/*!**************************************************************!*\
+  !*** ./js/components/treeDiagram/component/Icons/index.scss ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss */ "../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./js/components/treeDiagram/component/Icons/index.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -658,10 +842,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core/constants */ "./js/core/constants/index.js");
-/* harmony import */ var components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Node/index.scss");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
+/* harmony import */ var components_treeDiagram_component_Icons_File__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/treeDiagram/component/Icons/File */ "./js/components/treeDiagram/component/Icons/File.js");
+/* harmony import */ var components_treeDiagram_component_Icons_DepCircles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/treeDiagram/component/Icons/DepCircles */ "./js/components/treeDiagram/component/Icons/DepCircles.js");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Node/index.scss");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -671,28 +857,29 @@ var FileName = function FileName(props) {
   var position = props.position,
       name = props.name,
       path = props.path,
-      onTextClick = props.onTextClick,
-      onIconClick = props.onIconClick,
       onNodeClick = props.onNodeClick,
       codeCrumbs = props.codeCrumbs,
       purple = props.purple,
       selected = props.selected,
       dependency = props.dependency,
-      dependencyImportedOnly = props.dependencyImportedOnly,
-      depEntryPoint = props.depEntryPoint; // TODO: move out to switch
-
-  var iconPath = "".concat(core_constants__WEBPACK_IMPORTED_MODULE_2__["ICONS_DIR"]).concat(dependency ? selected ? 'two-circles/selected-two-circles.svg' : 'two-circles/two-circles.svg' : 'file/js-file.svg');
+      dependencyImportedOnly = props.dependencyImportedOnly;
   var iconSize = 15;
-  var nameWidth = name.length * components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_3__["SYMBOL_WIDTH"];
-  var imageOffset = !dependency ? {
-    x: 2,
-    y: -10
-  } : {
-    x: 0,
-    y: -7.5
-  };
+  var nameWidth = name.length * components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["SYMBOL_WIDTH"];
+  var icon = !dependency ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Icons_File__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    x: position.x + 2,
+    y: position.y - 10,
+    height: iconSize,
+    width: iconSize
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Icons_DepCircles__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    x: position.x,
+    y: position.y - 7.5,
+    height: iconSize,
+    width: iconSize,
+    fill: selected ? '#754BC3' : '#1890ff'
+  });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-    className: 'FileNode'
+    className: 'FileNode',
+    onClick: onNodeClick
   }, (dependency || codeCrumbs) && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
     x: position.x + 3,
     y: position.y - 3,
@@ -705,15 +892,7 @@ var FileName = function FileName(props) {
     width: nameWidth,
     height: 16,
     className: 'NodeText-cover'
-  })) || null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("image", {
-    x: position.x + imageOffset.x,
-    y: position.y + imageOffset.y,
-    onClick: onIconClick || onNodeClick,
-    xlinkHref: iconPath,
-    height: iconSize,
-    width: iconSize,
-    className: 'NodeIcon'
-  }), dependency && dependencyImportedOnly && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
+  })) || null, icon, dependency && dependencyImportedOnly && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
     cx: position.x + 2.5,
     cy: position.y,
     r: 2.5,
@@ -721,7 +900,6 @@ var FileName = function FileName(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("title", null, path), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("text", {
     x: position.x + 16,
     y: position.y + 5,
-    onClick: onTextClick || onNodeClick,
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('NodeText-file-name', {
       'NodeText-file-name-purple': purple,
       'NodeText-file-name-selected': dependency && selected && !purple
@@ -746,9 +924,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "../../node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core/constants */ "./js/core/constants/index.js");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Node/index.scss");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _store_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../store/constants */ "./js/components/treeDiagram/store/constants.js");
+/* harmony import */ var components_treeDiagram_component_Icons_Folder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/treeDiagram/component/Icons/Folder */ "./js/components/treeDiagram/component/Icons/Folder.js");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index.scss */ "./js/components/treeDiagram/component/Node/index.scss");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _store_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../store/constants */ "./js/components/treeDiagram/store/constants.js");
+
 
 
 
@@ -760,17 +940,28 @@ var FolderName = function FolderName(props) {
       cover = props.cover,
       disabled = props.disabled,
       openedState = props.openedState,
-      onIconClick = props.onIconClick,
-      onTextClick = props.onTextClick;
+      onNodeClick = props.onNodeClick;
   var closed = openedState === core_constants__WEBPACK_IMPORTED_MODULE_2__["FOLDER_OPEN_STATE"].CLOSED;
   var notActiveChildrenCollapsed = openedState === core_constants__WEBPACK_IMPORTED_MODULE_2__["FOLDER_OPEN_STATE"].OPEN_ACTIVE_CHILDREN_ONLY;
-  var iconPath = "".concat(core_constants__WEBPACK_IMPORTED_MODULE_2__["ICONS_DIR"], "folder/").concat(disabled ? 'disabled-' : '').concat(closed ? 'closed-' : 'open-', "folder.svg");
-  var iconSize = closed ? 14 : 15;
   var iconPositionX = position.x + 3;
   var iconPositionY = position.y + (closed ? -16 : -17);
-  var nameWidth = name.length * _store_constants__WEBPACK_IMPORTED_MODULE_4__["SYMBOL_WIDTH"];
+  var nameWidth = name.length * _store_constants__WEBPACK_IMPORTED_MODULE_5__["SYMBOL_WIDTH"];
+  var icon = closed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Icons_Folder__WEBPACK_IMPORTED_MODULE_3__["CloseFolder"], {
+    x: iconPositionX,
+    y: iconPositionY,
+    height: 14,
+    width: 14,
+    fill: !disabled ? '#1890ff' : '#ccc'
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Icons_Folder__WEBPACK_IMPORTED_MODULE_3__["OpenFolder"], {
+    x: iconPositionX,
+    y: iconPositionY,
+    height: 15,
+    width: 15,
+    fill: !disabled ? '#1890ff' : '#ccc'
+  });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-    className: 'FolderNode'
+    className: 'FolderNode',
+    onClick: onNodeClick
   }, cover ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
     x: position.x + 2,
     y: position.y - 16,
@@ -789,18 +980,7 @@ var FolderName = function FolderName(props) {
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('NodeIcon-folder-line', {
       'NodeIcon-folder-line-disabled': disabled
     })
-  }) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("image", {
-    x: iconPositionX,
-    y: iconPositionY,
-    onClick: onIconClick,
-    xlinkHref: iconPath,
-    height: iconSize,
-    width: iconSize,
-    className: 'NodeIcon'
-  }), notActiveChildrenCollapsed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-    onClick: onIconClick,
-    className: 'NodeIcon'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
+  }) : null, icon, notActiveChildrenCollapsed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
     x: position.x + 6,
     y: position.y - 6,
     width: 11,
@@ -813,7 +993,6 @@ var FolderName = function FolderName(props) {
   }, "..")) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("text", {
     x: position.x + 20,
     y: position.y - 3,
-    onClick: onTextClick,
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('NodeText-folder-name', {
       'NodeText-folder-name-disabled': disabled
     })
@@ -1360,7 +1539,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/constants */ "./js/core/constants/index.js");
 /* harmony import */ var components_treeDiagram_component_Node_File__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/treeDiagram/component/Node/File */ "./js/components/treeDiagram/component/Node/File.js");
 /* harmony import */ var components_treeDiagram_component_Node_Folder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/treeDiagram/component/Node/Folder */ "./js/components/treeDiagram/component/Node/Folder.js");
-/* harmony import */ var components_treeDiagram_component_Dot_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/treeDiagram/component/Dot/index */ "./js/components/treeDiagram/component/Dot/index.js");
+/* harmony import */ var components_treeDiagram_component_Icons_Dot__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/treeDiagram/component/Icons/Dot */ "./js/components/treeDiagram/component/Icons/Dot.js");
 /* harmony import */ var components_treeDiagram_component_Edge_SourceEdge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! components/treeDiagram/component/Edge/SourceEdge */ "./js/components/treeDiagram/component/Edge/SourceEdge.js");
 /* harmony import */ var _Dependencies_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Dependencies/index */ "./js/components/treeDiagram/component/Tree/Dependencies/index.js");
 /* harmony import */ var _CodeCrumbs___WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../CodeCrumbs/ */ "./js/components/treeDiagram/component/Tree/CodeCrumbs/index.js");
@@ -1386,8 +1565,8 @@ var SourceTree = function SourceTree(props) {
       filesMap = props.filesMap,
       selectedNode = props.selectedNode,
       shiftToCenterPoint = props.shiftToCenterPoint,
-      onNodeTextClick = props.onNodeTextClick,
-      onFolderIconClick = props.onFolderIconClick,
+      onFileNodeClick = props.onFileNodeClick,
+      onFolderNodeClick = props.onFolderNodeClick,
       dependenciesEntryName = props.dependenciesEntryName,
       selectedDependencyEdgeNodes = props.selectedDependencyEdgeNodes;
   var sourceEdges = [];
@@ -1427,10 +1606,9 @@ var SourceTree = function SourceTree(props) {
     }
 
     if (type === core_constants__WEBPACK_IMPORTED_MODULE_1__["DIR_NODE_TYPE"] || type === core_constants__WEBPACK_IMPORTED_MODULE_1__["FILE_NODE_TYPE"] && !(dependenciesDiagramOn && selectedNode.dependencies && selectedNode.dependencies[path])) {
-      sourceDotes.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Dot_index__WEBPACK_IMPORTED_MODULE_4__["Dot"], {
+      sourceDotes.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_treeDiagram_component_Icons_Dot__WEBPACK_IMPORTED_MODULE_4__["default"], {
         key: "dot-".concat(path),
         position: position,
-        disabled: false,
         selected: selected
       }));
     }
@@ -1452,7 +1630,7 @@ var SourceTree = function SourceTree(props) {
         dependency: dependenciesDiagramOn && selectedNodeDependencies && selectedNodeDependencies[path],
         dependencyImportedOnly: dependenciesDiagramOn && selectedNodeDependencies && selectedNodeDependencies[path] && !selectedNodeDependencies[path].importedModuleNames.length,
         onNodeClick: function onNodeClick() {
-          onNodeTextClick(fileNode);
+          onFileNodeClick(fileNode);
         }
       });
     } else if (type === core_constants__WEBPACK_IMPORTED_MODULE_1__["DIR_NODE_TYPE"]) {
@@ -1463,11 +1641,8 @@ var SourceTree = function SourceTree(props) {
         cover: dependenciesDiagramOn || codeCrumbsDiagramOn,
         disabled: sourceDimFolders,
         openedState: openedFolders[node.data.path],
-        onTextClick: function onTextClick() {
-          return onFolderIconClick(node.data);
-        },
-        onIconClick: function onIconClick() {
-          return onFolderIconClick(node.data);
+        onNodeClick: function onNodeClick() {
+          return onFolderNodeClick(node.data);
         }
       });
     }
@@ -1548,8 +1723,8 @@ var mapStateToProps = function mapStateToProps(state, props) {
 };
 
 var mapDispatchToProps = {
-  onNodeTextClick: core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectNode"],
-  onFolderIconClick: core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["toggleFolder"]
+  onFileNodeClick: core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectNode"],
+  onFolderNodeClick: core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["toggleFolder"]
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(_Tree__WEBPACK_IMPORTED_MODULE_5__["default"]));
 

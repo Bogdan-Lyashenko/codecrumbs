@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { ICONS_DIR } from 'core/constants';
 import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/store/constants';
+import Arrow from 'components/treeDiagram/component/Icons/Arrow';
 import './index.scss';
 
 const { TOP_LEFT, TOP_RIGHT } = DepEdgeGroups;
@@ -149,26 +149,19 @@ export const DependenciesEdge = props => {
 export const DependenciesArrow = ({ targetPosition, groupName, selected }) => {
   const directionTop = [TOP_LEFT, TOP_RIGHT].includes(groupName);
   const endPointConfig = {
-    x: targetPosition.x + 2,
-    y: targetPosition.y - 5 * (directionTop ? 1 : -1)
+    x: targetPosition.x - 1,
+    y: targetPosition.y + (directionTop ? -11 : 4)
   };
 
-  endPointConfig.x -= 3;
-  endPointConfig.y -= directionTop ? 6 : 1;
-  endPointConfig.iconSize = 7;
-  endPointConfig.iconPath = `${ICONS_DIR}arrow/${selected ? 'selected-' : ''}arrow.svg`; // TODO: move to getter
-  endPointConfig.angle = directionTop ? 90 : -90;
-
+  const iconSize = 7;
   return (
-    <image
+    <Arrow
       x={endPointConfig.x}
       y={endPointConfig.y}
-      xlinkHref={endPointConfig.iconPath}
-      height={endPointConfig.iconSize}
-      width={endPointConfig.iconSize}
-      className={'Animation'}
-      transform={`rotate(${endPointConfig.angle} ${endPointConfig.x +
-        endPointConfig.iconSize / 2} ${endPointConfig.y + endPointConfig.iconSize / 2})`}
+      height={iconSize}
+      width={iconSize}
+      isUp={!directionTop}
+      fill={selected ? '#754BC3' : '#1890ff'}
     />
   );
 };

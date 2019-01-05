@@ -1,27 +1,44 @@
 import React from 'react';
 import classNames from 'classnames';
-import { FOLDER_OPEN_STATE, ICONS_DIR } from 'core/constants';
+import { FOLDER_OPEN_STATE } from 'core/constants';
+import {
+  OpenFolder as OpenFolderIcon,
+  CloseFolder as CloseFolderIcon
+} from 'components/treeDiagram/component/Icons/Folder';
 
 import './index.scss';
 import { SYMBOL_WIDTH } from '../../store/constants';
 
 export const FolderName = props => {
-  const { position, name, cover, disabled, openedState, onIconClick, onTextClick } = props;
+  const { position, name, cover, disabled, openedState, onNodeClick } = props;
 
   const closed = openedState === FOLDER_OPEN_STATE.CLOSED;
   const notActiveChildrenCollapsed = openedState === FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY;
-
-  const iconPath = `${ICONS_DIR}folder/${disabled ? 'disabled-' : ''}${
-    closed ? 'closed-' : 'open-'
-  }folder.svg`;
-  const iconSize = closed ? 14 : 15;
 
   const iconPositionX = position.x + 3;
   const iconPositionY = position.y + (closed ? -16 : -17);
   const nameWidth = name.length * SYMBOL_WIDTH;
 
+  const icon = closed ? (
+    <CloseFolderIcon
+      x={iconPositionX}
+      y={iconPositionY}
+      height={14}
+      width={14}
+      fill={!disabled ? '#1890ff' : '#ccc'}
+    />
+  ) : (
+    <OpenFolderIcon
+      x={iconPositionX}
+      y={iconPositionY}
+      height={15}
+      width={15}
+      fill={!disabled ? '#1890ff' : '#ccc'}
+    />
+  );
+
   return (
-    <g className={'FolderNode'}>
+    <g className={'FolderNode'} onClick={onNodeClick}>
       {cover ? (
         <rect
           x={position.x + 2}
@@ -54,17 +71,9 @@ export const FolderName = props => {
           })}
         />
       ) : null}
-      <image
-        x={iconPositionX}
-        y={iconPositionY}
-        onClick={onIconClick}
-        xlinkHref={iconPath}
-        height={iconSize}
-        width={iconSize}
-        className={'NodeIcon'}
-      />
+      {icon}
       {notActiveChildrenCollapsed ? (
-        <g onClick={onIconClick} className={'NodeIcon'}>
+        <g>
           <rect
             x={position.x + 6}
             y={position.y - 6}
@@ -80,7 +89,6 @@ export const FolderName = props => {
       <text
         x={position.x + 20}
         y={position.y - 3}
-        onClick={onTextClick}
         className={classNames('NodeText-folder-name', {
           'NodeText-folder-name-disabled': disabled
         })}

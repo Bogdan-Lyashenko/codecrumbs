@@ -3,11 +3,12 @@
 $font: 'Menlo';
 
 
-.CodeCrumbNode, .FileNode, .FolderNode {
+.CodeCrumbNode {
   @extend .FadeIn;
 }
 
-.NodeIcon {
+.FileNode, .FolderNode {
+  @extend .FadeIn;
   cursor: pointer;
 }
 

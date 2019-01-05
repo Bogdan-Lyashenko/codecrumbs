@@ -44,8 +44,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  onNodeTextClick: selectNode,
-  onFolderIconClick: toggleFolder
+  onFileNodeClick: selectNode,
+  onFolderNodeClick: toggleFolder
 };
 
 export default connect(

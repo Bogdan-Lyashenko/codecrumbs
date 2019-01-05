@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { ICONS_DIR } from 'core/constants';
 import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
+import FileIcon from 'components/treeDiagram/component/Icons/File';
+import DepCirclesIcon from 'components/treeDiagram/component/Icons/DepCircles';
 import './index.scss';
 
 export const FileName = props => {
@@ -10,33 +11,31 @@ export const FileName = props => {
     position,
     name,
     path,
-    onTextClick,
-    onIconClick,
     onNodeClick,
     codeCrumbs,
     purple,
     selected,
     dependency,
-    dependencyImportedOnly,
-    depEntryPoint
+    dependencyImportedOnly
   } = props;
-
-  // TODO: move out to switch
-  const iconPath = `${ICONS_DIR}${
-    dependency
-      ? selected
-        ? 'two-circles/selected-two-circles.svg'
-        : 'two-circles/two-circles.svg'
-      : 'file/js-file.svg'
-  }`;
 
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 
-  const imageOffset = !dependency ? { x: 2, y: -10 } : { x: 0, y: -7.5 };
+  const icon = !dependency ? (
+    <FileIcon x={position.x + 2} y={position.y - 10} height={iconSize} width={iconSize} />
+  ) : (
+    <DepCirclesIcon
+      x={position.x}
+      y={position.y - 7.5}
+      height={iconSize}
+      width={iconSize}
+      fill={selected ? '#754BC3' : '#1890ff'}
+    />
+  );
 
   return (
-    <g className={'FileNode'}>
+    <g className={'FileNode'} onClick={onNodeClick}>
       {((dependency || codeCrumbs) && (
         <React.Fragment>
           <rect
@@ -56,15 +55,7 @@ export const FileName = props => {
         </React.Fragment>
       )) ||
         null}
-      <image
-        x={position.x + imageOffset.x}
-        y={position.y + imageOffset.y}
-        onClick={onIconClick || onNodeClick}
-        xlinkHref={iconPath}
-        height={iconSize}
-        width={iconSize}
-        className={'NodeIcon'}
-      />
+      {icon}
       {dependency &&
         dependencyImportedOnly && (
           <circle
@@ -79,7 +70,6 @@ export const FileName = props => {
         <text
           x={position.x + 16}
           y={position.y + 5}
-          onClick={onTextClick || onNodeClick}
           className={classNames('NodeText-file-name', {
             'NodeText-file-name-purple': purple,
             'NodeText-file-name-selected': dependency && selected && !purple

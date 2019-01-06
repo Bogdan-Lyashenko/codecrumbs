@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'
 
-//cc:#signin#3;authenticated flag
+//cc:signin#3;authenticated flag;+6
 const RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (
   <Route
     {...rest}

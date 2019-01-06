@@ -11,7 +11,7 @@ import TaskFilters from '../../components/task-filters';
 import TaskForm from '../../components/task-form';
 import TaskList from '../../components/task-list';
 
-//cc:#layout#2;tasks page;provider
+//cc:layout#2;tasks page
 export class TasksPage extends Component {
   static propTypes = {
     createTask: PropTypes.func.isRequired,

@@ -10,7 +10,7 @@ import {
 
 function authenticate(provider) {
   return dispatch => {
-    //cc:#signin#1;firebase auth;on success set
+    //cc:signin#1;firebase auth;+2
     firebaseAuth.signInWithPopup(provider)
       .then(result => dispatch(signInSuccess(result)))
       .catch(error => dispatch(signInError(error)));

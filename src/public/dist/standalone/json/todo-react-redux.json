@@ -1,5 +1,5 @@
 {
-  "version": "1.0.5-alpha",
+  "version": "1.0.9-alpha",
   "data": {
     "controlsBus": {
       "checkedState": {
@@ -7,7 +7,7 @@
         "dependenciesShowDirectOnly": true,
         "codeCrumbsLineNumbers": true,
         "codeCrumbsFilterFlow": true,
-        "sideBar": false,
+        "sideBar": true,
         "dependenciesDiagramOn": true,
         "codeCrumbsDiagramOn": true,
         "sourceKeepOnlyActiveItems": false
@@ -44,25 +44,25 @@
                 {
                   "path": "example-project/src/auth/actions.js",
                   "name": "actions.js",
-                  "size": 1279,
+                  "size": 1266,
                   "extension": ".js",
                   "type": "file",
                   "dependencies": false,
-                  "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:#signin#1;firebase auth;on success set\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
+                  "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase auth;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
                   "children": [
                     {
                       "name": "firebase auth",
                       "displayLoc": "#13",
                       "crumbNodeLines": [
                         13,
-                        13
+                        15
                       ],
                       "params": {
-                        "original": "cc:#signin#1;firebase auth;on success set",
+                        "original": "cc:signin#1;firebase auth;+2",
                         "flow": "signin",
                         "flowStep": 1,
                         "name": "firebase auth",
-                        "details": "on success set"
+                        "linesRange": 2
                       }
                     }
                   ],
@@ -180,11 +180,11 @@
                 {
                   "path": "example-project/src/auth/reducer.js",
                   "name": "reducer.js",
-                  "size": 578,
+                  "size": 577,
                   "extension": ".js",
                   "type": "file",
                   "dependencies": false,
-                  "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:#signin#2;authenticated toggle\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
+                  "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:signin#2;authenticated toggle\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
                   "children": [
                     {
                       "name": "authenticated toggle",
@@ -194,7 +194,7 @@
                         16
                       ],
                       "params": {
-                        "original": "cc:#signin#2;authenticated toggle",
+                        "original": "cc:signin#2;authenticated toggle",
                         "flow": "signin",
                         "flowStep": 2,
                         "name": "authenticated toggle"
@@ -242,7 +242,7 @@
                   "hasDependenciesImports": false
                 }
               ],
-              "size": 2988,
+              "size": 2974,
               "type": "directory"
             },
             {
@@ -799,11 +799,11 @@
                     {
                       "path": "example-project/src/views/app/app.js",
                       "name": "app.js",
-                      "size": 1258,
+                      "size": 1248,
                       "extension": ".js",
                       "type": "file",
                       "dependencies": false,
-                      "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\n\nimport { authActions, getAuth } from '../../auth';\nimport Header from '../components/header';\nimport RequireAuthRoute from '../components/require-auth-route';\nimport RequireUnauthRoute from '../components/require-unauth-route';\nimport SignInPage from '../pages/sign-in';\nimport TasksPage from '../pages/tasks';\n\n//cc:#layout#1;describe pages;provider\nconst App = ({authenticated, signOut}) => (\n  <div>\n    <Header\n      authenticated={authenticated}\n      signOut={signOut}\n    />\n\n    <main>\n      <RequireAuthRoute authenticated={authenticated} exact path=\"/\" component={TasksPage}/>\n      <RequireUnauthRoute authenticated={authenticated} path=\"/sign-in\" component={SignInPage}/>\n    </main>\n  </div>\n);\n\nApp.propTypes = {\n  authenticated: PropTypes.bool.isRequired,\n  signOut: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = getAuth;\n\nconst mapDispatchToProps = {\n  signOut: authActions.signOut\n};\n\n//cc:here\nexport default withRouter(\n  connect(\n    mapStateToProps,\n    mapDispatchToProps\n  )(App)\n);\n",
+                      "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\n\nimport { authActions, getAuth } from '../../auth';\nimport Header from '../components/header';\nimport RequireAuthRoute from '../components/require-auth-route';\nimport RequireUnauthRoute from '../components/require-unauth-route';\nimport SignInPage from '../pages/sign-in';\nimport TasksPage from '../pages/tasks';\n\n//cc:layout#1;describe pages\nconst App = ({authenticated, signOut}) => (\n  <div>\n    <Header\n      authenticated={authenticated}\n      signOut={signOut}\n    />\n\n    <main>\n      <RequireAuthRoute authenticated={authenticated} exact path=\"/\" component={TasksPage}/>\n      <RequireUnauthRoute authenticated={authenticated} path=\"/sign-in\" component={SignInPage}/>\n    </main>\n  </div>\n);\n\nApp.propTypes = {\n  authenticated: PropTypes.bool.isRequired,\n  signOut: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = getAuth;\n\nconst mapDispatchToProps = {\n  signOut: authActions.signOut\n};\n\n//cc:here\nexport default withRouter(\n  connect(\n    mapStateToProps,\n    mapDispatchToProps\n  )(App)\n);\n",
                       "children": [
                         {
                           "name": "describe pages",
@@ -813,11 +813,10 @@
                             13
                           ],
                           "params": {
-                            "original": "cc:#layout#1;describe pages;provider",
+                            "original": "cc:layout#1;describe pages",
                             "flow": "layout",
                             "flowStep": 1,
-                            "name": "describe pages",
-                            "details": "provider"
+                            "name": "describe pages"
                           }
                         },
                         {
@@ -829,8 +828,8 @@
                           ],
                           "params": {
                             "original": "cc:here",
-                            "name": "here",
-                            "flow": "*"
+                            "flow": "*",
+                            "name": "here"
                           }
                         }
                       ],
@@ -937,7 +936,7 @@
                       "hasDependenciesImports": false
                     }
                   ],
-                  "size": 1291,
+                  "size": 1281,
                   "type": "directory"
                 },
                 {
@@ -962,24 +961,25 @@
                         {
                           "path": "example-project/src/views/components/require-auth-route/require-auth-route.js",
                           "name": "require-auth-route.js",
-                          "size": 480,
+                          "size": 482,
                           "extension": ".js",
                           "type": "file",
                           "dependencies": false,
-                          "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:#signin#3;authenticated flag\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
+                          "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;authenticated flag;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
                           "children": [
                             {
                               "name": "authenticated flag",
                               "displayLoc": "#4",
                               "crumbNodeLines": [
                                 4,
-                                4
+                                10
                               ],
                               "params": {
-                                "original": "cc:#signin#3;authenticated flag",
+                                "original": "cc:signin#3;authenticated flag;+6",
                                 "flow": "signin",
                                 "flowStep": 3,
-                                "name": "authenticated flag"
+                                "name": "authenticated flag",
+                                "linesRange": 6
                               }
                             }
                           ],
@@ -990,7 +990,7 @@
                           "hasDependenciesImports": false
                         }
                       ],
-                      "size": 528,
+                      "size": 530,
                       "type": "directory"
                     },
                     {
@@ -1342,8 +1342,8 @@
                               ],
                               "params": {
                                 "original": "cc:there is task",
-                                "name": "there is task",
-                                "flow": "*"
+                                "flow": "*",
+                                "name": "there is task"
                               }
                             }
                           ],
@@ -1411,11 +1411,11 @@
                         {
                           "path": "example-project/src/views/components/task-list/task-list.js",
                           "name": "task-list.js",
-                          "size": 690,
+                          "size": 689,
                           "extension": ".js",
                           "type": "file",
                           "dependencies": false,
-                          "fileCode": "import React  from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport TaskItem from '../task-item/task-item';\n\n//cc:#layout#3;tasks list;\nfunction TaskList({removeTask, tasks, updateTask}) {\n  let taskItems = tasks.map((task, index) => {\n    return (\n      <TaskItem\n        key={index}\n        task={task}\n        removeTask={removeTask}\n        updateTask={updateTask}\n      />\n    );\n  });\n\n  return (\n    <div className=\"task-list\">\n      {taskItems}\n    </div>\n  );\n}\n\nTaskList.propTypes = {\n  removeTask: PropTypes.func.isRequired,\n  tasks: PropTypes.instanceOf(List).isRequired,\n  updateTask: PropTypes.func.isRequired\n};\n\nexport default TaskList;\n",
+                          "fileCode": "import React  from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport TaskItem from '../task-item/task-item';\n\n//cc:layout#3;tasks list;\nfunction TaskList({removeTask, tasks, updateTask}) {\n  let taskItems = tasks.map((task, index) => {\n    return (\n      <TaskItem\n        key={index}\n        task={task}\n        removeTask={removeTask}\n        updateTask={updateTask}\n      />\n    );\n  });\n\n  return (\n    <div className=\"task-list\">\n      {taskItems}\n    </div>\n  );\n}\n\nTaskList.propTypes = {\n  removeTask: PropTypes.func.isRequired,\n  tasks: PropTypes.instanceOf(List).isRequired,\n  updateTask: PropTypes.func.isRequired\n};\n\nexport default TaskList;\n",
                           "children": [
                             {
                               "name": "tasks list",
@@ -1425,7 +1425,7 @@
                                 6
                               ],
                               "params": {
-                                "original": "cc:#layout#3;tasks list;",
+                                "original": "cc:layout#3;tasks list;",
                                 "flow": "layout",
                                 "flowStep": 3,
                                 "name": "tasks list",
@@ -1455,11 +1455,11 @@
                           "hasDependenciesImports": true
                         }
                       ],
-                      "size": 729,
+                      "size": 728,
                       "type": "directory"
                     }
                   ],
-                  "size": 10952,
+                  "size": 10953,
                   "type": "directory"
                 },
                 {
@@ -1484,11 +1484,11 @@
                         {
                           "path": "example-project/src/views/pages/sign-in/sign-in-page.js",
                           "name": "sign-in-page.js",
-                          "size": 1359,
+                          "size": 1358,
                           "extension": ".js",
                           "type": "file",
                           "dependencies": false,
-                          "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:#signin#0;dispatch action\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
+                          "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:signin#0;dispatch action\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
                           "children": [
                             {
                               "name": "dispatch action",
@@ -1498,7 +1498,7 @@
                                 36
                               ],
                               "params": {
-                                "original": "cc:#signin#0;dispatch action",
+                                "original": "cc:signin#0;dispatch action",
                                 "flow": "signin",
                                 "flowStep": 0,
                                 "name": "dispatch action"
@@ -1548,7 +1548,7 @@
                           "hasDependenciesImports": true
                         }
                       ],
-                      "size": 1401,
+                      "size": 1400,
                       "type": "directory"
                     },
                     {
@@ -1569,11 +1569,11 @@
                         {
                           "path": "example-project/src/views/pages/tasks/tasks-page.js",
                           "name": "tasks-page.js",
-                          "size": 3077,
+                          "size": 3067,
                           "extension": ".js",
                           "type": "file",
                           "dependencies": false,
-                          "fileCode": "import React, { Component } from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { createSelector } from 'reselect';\n\nimport { getNotification, notificationActions } from '../../../notification';\nimport { getTaskFilter, getVisibleTasks, tasksActions } from '../../../tasks';\nimport Notification from '../../components/notification';\nimport TaskFilters from '../../components/task-filters';\nimport TaskForm from '../../components/task-form';\nimport TaskList from '../../components/task-list';\n\n//cc:#layout#2;tasks page;provider\nexport class TasksPage extends Component {\n  static propTypes = {\n    createTask: PropTypes.func.isRequired,\n    dismissNotification: PropTypes.func.isRequired,\n    filterTasks: PropTypes.func.isRequired,\n    filterType: PropTypes.string.isRequired,\n    loadTasks: PropTypes.func.isRequired,\n    location: PropTypes.object.isRequired,\n    notification: PropTypes.object.isRequired,\n    removeTask: PropTypes.func.isRequired,\n    tasks: PropTypes.instanceOf(List).isRequired,\n    undeleteTask: PropTypes.func.isRequired,\n    unloadTasks: PropTypes.func.isRequired,\n    updateTask: PropTypes.func.isRequired\n  };\n\n  componentWillMount() {\n    this.props.loadTasks();\n    this.props.filterTasks(\n      this.getFilterParam(this.props.location.search)\n    );\n  }\n\n  componentWillReceiveProps(nextProps) {\n    if (nextProps.location.search !== this.props.location.search) {\n      this.props.filterTasks(\n        this.getFilterParam(nextProps.location.search)\n      );\n    }\n  }\n\n  componentWillUnmount() {\n    this.props.unloadTasks();\n  }\n\n  getFilterParam(search) {\n    const params = new URLSearchParams(search);\n    return params.get('filter');\n  }\n\n  renderNotification() {\n    const { notification } = this.props;\n    return (\n      <Notification\n        action={this.props.undeleteTask}\n        actionLabel={notification.actionLabel}\n        dismiss={this.props.dismissNotification}\n        display={notification.display}\n        message={notification.message}\n      />\n    );\n  }\n\n  render() {\n    return (\n      <div className=\"g-row\">\n        <div className=\"g-col\">\n          <TaskForm handleSubmit={this.props.createTask} />\n        </div>\n\n        <div className=\"g-col\">\n          <TaskFilters filter={this.props.filterType} />\n          <TaskList\n            removeTask={this.props.removeTask}\n            tasks={this.props.tasks}\n            updateTask={this.props.updateTask}\n          />\n        </div>\n\n        {this.props.notification.display ? this.renderNotification() : null}\n      </div>\n    );\n  }\n}\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = createSelector(\n  getNotification,\n  getTaskFilter,\n  getVisibleTasks,\n  (notification, filterType, tasks) => ({\n    notification,\n    filterType,\n    tasks\n  })\n);\n\nconst mapDispatchToProps = Object.assign(\n  {},\n  tasksActions,\n  notificationActions\n);\n\nexport default connect(\n  mapStateToProps,\n  mapDispatchToProps\n)(TasksPage);\n",
+                          "fileCode": "import React, { Component } from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { createSelector } from 'reselect';\n\nimport { getNotification, notificationActions } from '../../../notification';\nimport { getTaskFilter, getVisibleTasks, tasksActions } from '../../../tasks';\nimport Notification from '../../components/notification';\nimport TaskFilters from '../../components/task-filters';\nimport TaskForm from '../../components/task-form';\nimport TaskList from '../../components/task-list';\n\n//cc:layout#2;tasks page\nexport class TasksPage extends Component {\n  static propTypes = {\n    createTask: PropTypes.func.isRequired,\n    dismissNotification: PropTypes.func.isRequired,\n    filterTasks: PropTypes.func.isRequired,\n    filterType: PropTypes.string.isRequired,\n    loadTasks: PropTypes.func.isRequired,\n    location: PropTypes.object.isRequired,\n    notification: PropTypes.object.isRequired,\n    removeTask: PropTypes.func.isRequired,\n    tasks: PropTypes.instanceOf(List).isRequired,\n    undeleteTask: PropTypes.func.isRequired,\n    unloadTasks: PropTypes.func.isRequired,\n    updateTask: PropTypes.func.isRequired\n  };\n\n  componentWillMount() {\n    this.props.loadTasks();\n    this.props.filterTasks(\n      this.getFilterParam(this.props.location.search)\n    );\n  }\n\n  componentWillReceiveProps(nextProps) {\n    if (nextProps.location.search !== this.props.location.search) {\n      this.props.filterTasks(\n        this.getFilterParam(nextProps.location.search)\n      );\n    }\n  }\n\n  componentWillUnmount() {\n    this.props.unloadTasks();\n  }\n\n  getFilterParam(search) {\n    const params = new URLSearchParams(search);\n    return params.get('filter');\n  }\n\n  renderNotification() {\n    const { notification } = this.props;\n    return (\n      <Notification\n        action={this.props.undeleteTask}\n        actionLabel={notification.actionLabel}\n        dismiss={this.props.dismissNotification}\n        display={notification.display}\n        message={notification.message}\n      />\n    );\n  }\n\n  render() {\n    return (\n      <div className=\"g-row\">\n        <div className=\"g-col\">\n          <TaskForm handleSubmit={this.props.createTask} />\n        </div>\n\n        <div className=\"g-col\">\n          <TaskFilters filter={this.props.filterType} />\n          <TaskList\n            removeTask={this.props.removeTask}\n            tasks={this.props.tasks}\n            updateTask={this.props.updateTask}\n          />\n        </div>\n\n        {this.props.notification.display ? this.renderNotification() : null}\n      </div>\n    );\n  }\n}\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = createSelector(\n  getNotification,\n  getTaskFilter,\n  getVisibleTasks,\n  (notification, filterType, tasks) => ({\n    notification,\n    filterType,\n    tasks\n  })\n);\n\nconst mapDispatchToProps = Object.assign(\n  {},\n  tasksActions,\n  notificationActions\n);\n\nexport default connect(\n  mapStateToProps,\n  mapDispatchToProps\n)(TasksPage);\n",
                           "children": [
                             {
                               "name": "tasks page",
@@ -1583,11 +1583,10 @@
                                 14
                               ],
                               "params": {
-                                "original": "cc:#layout#2;tasks page;provider",
+                                "original": "cc:layout#2;tasks page",
                                 "flow": "layout",
                                 "flowStep": 2,
-                                "name": "tasks page",
-                                "details": "provider"
+                                "name": "tasks page"
                               }
                             }
                           ],
@@ -1690,11 +1689,11 @@
                           "hasDependenciesImports": true
                         }
                       ],
-                      "size": 3117,
+                      "size": 3107,
                       "type": "directory"
                     }
                   ],
-                  "size": 4518,
+                  "size": 4507,
                   "type": "directory"
                 },
                 {
@@ -1705,7 +1704,7 @@
                   "type": "directory"
                 }
               ],
-              "size": 16761,
+              "size": 16741,
               "type": "directory"
             },
             {
@@ -1737,7 +1736,7 @@
             {
               "path": "example-project/src/index.js",
               "name": "index.js",
-              "size": 988,
+              "size": 987,
               "extension": ".js",
               "type": "file",
               "dependencies": {
@@ -1772,7 +1771,7 @@
                   "importedModuleNames": []
                 }
               },
-              "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:#layout#0;start;provider\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
+              "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:layout#0;start;provider\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
               "children": [
                 {
                   "name": "start",
@@ -1782,7 +1781,7 @@
                     18
                   ],
                   "params": {
-                    "original": "cc:#layout#0;start;provider",
+                    "original": "cc:layout#0;start;provider",
                     "flow": "layout",
                     "flowStep": 0,
                     "name": "start",
@@ -1963,7 +1962,7 @@
               "hasDependenciesImports": true
             }
           ],
-          "size": 35218,
+          "size": 35183,
           "type": "directory"
         },
         "filesMap": {
@@ -1981,25 +1980,25 @@
           "example-project/src/auth/actions.js": {
             "path": "example-project/src/auth/actions.js",
             "name": "actions.js",
-            "size": 1279,
+            "size": 1266,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:#signin#1;firebase auth;on success set\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
+            "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase auth;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
             "children": [
               {
                 "name": "firebase auth",
                 "displayLoc": "#13",
                 "crumbNodeLines": [
                   13,
-                  13
+                  15
                 ],
                 "params": {
-                  "original": "cc:#signin#1;firebase auth;on success set",
+                  "original": "cc:signin#1;firebase auth;+2",
                   "flow": "signin",
                   "flowStep": 1,
                   "name": "firebase auth",
-                  "details": "on success set"
+                  "linesRange": 2
                 }
               }
             ],
@@ -2117,11 +2116,11 @@
           "example-project/src/auth/reducer.js": {
             "path": "example-project/src/auth/reducer.js",
             "name": "reducer.js",
-            "size": 578,
+            "size": 577,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:#signin#2;authenticated toggle\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
+            "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:signin#2;authenticated toggle\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
             "children": [
               {
                 "name": "authenticated toggle",
@@ -2131,7 +2130,7 @@
                   16
                 ],
                 "params": {
-                  "original": "cc:#signin#2;authenticated toggle",
+                  "original": "cc:signin#2;authenticated toggle",
                   "flow": "signin",
                   "flowStep": 2,
                   "name": "authenticated toggle"
@@ -2310,7 +2309,7 @@
           "example-project/src/index.js": {
             "path": "example-project/src/index.js",
             "name": "index.js",
-            "size": 988,
+            "size": 987,
             "extension": ".js",
             "type": "file",
             "dependencies": {
@@ -2345,7 +2344,7 @@
                 "importedModuleNames": []
               }
             },
-            "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:#layout#0;start;provider\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
+            "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:layout#0;start;provider\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
             "children": [
               {
                 "name": "start",
@@ -2355,7 +2354,7 @@
                   18
                 ],
                 "params": {
-                  "original": "cc:#layout#0;start;provider",
+                  "original": "cc:layout#0;start;provider",
                   "flow": "layout",
                   "flowStep": 0,
                   "name": "start",
@@ -2946,11 +2945,11 @@
           "example-project/src/views/app/app.js": {
             "path": "example-project/src/views/app/app.js",
             "name": "app.js",
-            "size": 1258,
+            "size": 1248,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\n\nimport { authActions, getAuth } from '../../auth';\nimport Header from '../components/header';\nimport RequireAuthRoute from '../components/require-auth-route';\nimport RequireUnauthRoute from '../components/require-unauth-route';\nimport SignInPage from '../pages/sign-in';\nimport TasksPage from '../pages/tasks';\n\n//cc:#layout#1;describe pages;provider\nconst App = ({authenticated, signOut}) => (\n  <div>\n    <Header\n      authenticated={authenticated}\n      signOut={signOut}\n    />\n\n    <main>\n      <RequireAuthRoute authenticated={authenticated} exact path=\"/\" component={TasksPage}/>\n      <RequireUnauthRoute authenticated={authenticated} path=\"/sign-in\" component={SignInPage}/>\n    </main>\n  </div>\n);\n\nApp.propTypes = {\n  authenticated: PropTypes.bool.isRequired,\n  signOut: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = getAuth;\n\nconst mapDispatchToProps = {\n  signOut: authActions.signOut\n};\n\n//cc:here\nexport default withRouter(\n  connect(\n    mapStateToProps,\n    mapDispatchToProps\n  )(App)\n);\n",
+            "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\n\nimport { authActions, getAuth } from '../../auth';\nimport Header from '../components/header';\nimport RequireAuthRoute from '../components/require-auth-route';\nimport RequireUnauthRoute from '../components/require-unauth-route';\nimport SignInPage from '../pages/sign-in';\nimport TasksPage from '../pages/tasks';\n\n//cc:layout#1;describe pages\nconst App = ({authenticated, signOut}) => (\n  <div>\n    <Header\n      authenticated={authenticated}\n      signOut={signOut}\n    />\n\n    <main>\n      <RequireAuthRoute authenticated={authenticated} exact path=\"/\" component={TasksPage}/>\n      <RequireUnauthRoute authenticated={authenticated} path=\"/sign-in\" component={SignInPage}/>\n    </main>\n  </div>\n);\n\nApp.propTypes = {\n  authenticated: PropTypes.bool.isRequired,\n  signOut: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = getAuth;\n\nconst mapDispatchToProps = {\n  signOut: authActions.signOut\n};\n\n//cc:here\nexport default withRouter(\n  connect(\n    mapStateToProps,\n    mapDispatchToProps\n  )(App)\n);\n",
             "children": [
               {
                 "name": "describe pages",
@@ -2960,11 +2959,10 @@
                   13
                 ],
                 "params": {
-                  "original": "cc:#layout#1;describe pages;provider",
+                  "original": "cc:layout#1;describe pages",
                   "flow": "layout",
                   "flowStep": 1,
-                  "name": "describe pages",
-                  "details": "provider"
+                  "name": "describe pages"
                 }
               },
               {
@@ -2976,8 +2974,8 @@
                 ],
                 "params": {
                   "original": "cc:here",
-                  "name": "here",
-                  "flow": "*"
+                  "flow": "*",
+                  "name": "here"
                 }
               }
             ],
@@ -3263,24 +3261,25 @@
           "example-project/src/views/components/require-auth-route/require-auth-route.js": {
             "path": "example-project/src/views/components/require-auth-route/require-auth-route.js",
             "name": "require-auth-route.js",
-            "size": 480,
+            "size": 482,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:#signin#3;authenticated flag\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
+            "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;authenticated flag;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
             "children": [
               {
                 "name": "authenticated flag",
                 "displayLoc": "#4",
                 "crumbNodeLines": [
                   4,
-                  4
+                  10
                 ],
                 "params": {
-                  "original": "cc:#signin#3;authenticated flag",
+                  "original": "cc:signin#3;authenticated flag;+6",
                   "flow": "signin",
                   "flowStep": 3,
-                  "name": "authenticated flag"
+                  "name": "authenticated flag",
+                  "linesRange": 6
                 }
               }
             ],
@@ -3405,8 +3404,8 @@
                 ],
                 "params": {
                   "original": "cc:there is task",
-                  "name": "there is task",
-                  "flow": "*"
+                  "flow": "*",
+                  "name": "there is task"
                 }
               }
             ],
@@ -3466,11 +3465,11 @@
           "example-project/src/views/components/task-list/task-list.js": {
             "path": "example-project/src/views/components/task-list/task-list.js",
             "name": "task-list.js",
-            "size": 690,
+            "size": 689,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import React  from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport TaskItem from '../task-item/task-item';\n\n//cc:#layout#3;tasks list;\nfunction TaskList({removeTask, tasks, updateTask}) {\n  let taskItems = tasks.map((task, index) => {\n    return (\n      <TaskItem\n        key={index}\n        task={task}\n        removeTask={removeTask}\n        updateTask={updateTask}\n      />\n    );\n  });\n\n  return (\n    <div className=\"task-list\">\n      {taskItems}\n    </div>\n  );\n}\n\nTaskList.propTypes = {\n  removeTask: PropTypes.func.isRequired,\n  tasks: PropTypes.instanceOf(List).isRequired,\n  updateTask: PropTypes.func.isRequired\n};\n\nexport default TaskList;\n",
+            "fileCode": "import React  from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport TaskItem from '../task-item/task-item';\n\n//cc:layout#3;tasks list;\nfunction TaskList({removeTask, tasks, updateTask}) {\n  let taskItems = tasks.map((task, index) => {\n    return (\n      <TaskItem\n        key={index}\n        task={task}\n        removeTask={removeTask}\n        updateTask={updateTask}\n      />\n    );\n  });\n\n  return (\n    <div className=\"task-list\">\n      {taskItems}\n    </div>\n  );\n}\n\nTaskList.propTypes = {\n  removeTask: PropTypes.func.isRequired,\n  tasks: PropTypes.instanceOf(List).isRequired,\n  updateTask: PropTypes.func.isRequired\n};\n\nexport default TaskList;\n",
             "children": [
               {
                 "name": "tasks list",
@@ -3480,7 +3479,7 @@
                   6
                 ],
                 "params": {
-                  "original": "cc:#layout#3;tasks list;",
+                  "original": "cc:layout#3;tasks list;",
                   "flow": "layout",
                   "flowStep": 3,
                   "name": "tasks list",
@@ -3523,11 +3522,11 @@
           "example-project/src/views/pages/sign-in/sign-in-page.js": {
             "path": "example-project/src/views/pages/sign-in/sign-in-page.js",
             "name": "sign-in-page.js",
-            "size": 1359,
+            "size": 1358,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:#signin#0;dispatch action\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
+            "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:signin#0;dispatch action\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
             "children": [
               {
                 "name": "dispatch action",
@@ -3537,7 +3536,7 @@
                   36
                 ],
                 "params": {
-                  "original": "cc:#signin#0;dispatch action",
+                  "original": "cc:signin#0;dispatch action",
                   "flow": "signin",
                   "flowStep": 0,
                   "name": "dispatch action"
@@ -3600,11 +3599,11 @@
           "example-project/src/views/pages/tasks/tasks-page.js": {
             "path": "example-project/src/views/pages/tasks/tasks-page.js",
             "name": "tasks-page.js",
-            "size": 3077,
+            "size": 3067,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import React, { Component } from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { createSelector } from 'reselect';\n\nimport { getNotification, notificationActions } from '../../../notification';\nimport { getTaskFilter, getVisibleTasks, tasksActions } from '../../../tasks';\nimport Notification from '../../components/notification';\nimport TaskFilters from '../../components/task-filters';\nimport TaskForm from '../../components/task-form';\nimport TaskList from '../../components/task-list';\n\n//cc:#layout#2;tasks page;provider\nexport class TasksPage extends Component {\n  static propTypes = {\n    createTask: PropTypes.func.isRequired,\n    dismissNotification: PropTypes.func.isRequired,\n    filterTasks: PropTypes.func.isRequired,\n    filterType: PropTypes.string.isRequired,\n    loadTasks: PropTypes.func.isRequired,\n    location: PropTypes.object.isRequired,\n    notification: PropTypes.object.isRequired,\n    removeTask: PropTypes.func.isRequired,\n    tasks: PropTypes.instanceOf(List).isRequired,\n    undeleteTask: PropTypes.func.isRequired,\n    unloadTasks: PropTypes.func.isRequired,\n    updateTask: PropTypes.func.isRequired\n  };\n\n  componentWillMount() {\n    this.props.loadTasks();\n    this.props.filterTasks(\n      this.getFilterParam(this.props.location.search)\n    );\n  }\n\n  componentWillReceiveProps(nextProps) {\n    if (nextProps.location.search !== this.props.location.search) {\n      this.props.filterTasks(\n        this.getFilterParam(nextProps.location.search)\n      );\n    }\n  }\n\n  componentWillUnmount() {\n    this.props.unloadTasks();\n  }\n\n  getFilterParam(search) {\n    const params = new URLSearchParams(search);\n    return params.get('filter');\n  }\n\n  renderNotification() {\n    const { notification } = this.props;\n    return (\n      <Notification\n        action={this.props.undeleteTask}\n        actionLabel={notification.actionLabel}\n        dismiss={this.props.dismissNotification}\n        display={notification.display}\n        message={notification.message}\n      />\n    );\n  }\n\n  render() {\n    return (\n      <div className=\"g-row\">\n        <div className=\"g-col\">\n          <TaskForm handleSubmit={this.props.createTask} />\n        </div>\n\n        <div className=\"g-col\">\n          <TaskFilters filter={this.props.filterType} />\n          <TaskList\n            removeTask={this.props.removeTask}\n            tasks={this.props.tasks}\n            updateTask={this.props.updateTask}\n          />\n        </div>\n\n        {this.props.notification.display ? this.renderNotification() : null}\n      </div>\n    );\n  }\n}\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = createSelector(\n  getNotification,\n  getTaskFilter,\n  getVisibleTasks,\n  (notification, filterType, tasks) => ({\n    notification,\n    filterType,\n    tasks\n  })\n);\n\nconst mapDispatchToProps = Object.assign(\n  {},\n  tasksActions,\n  notificationActions\n);\n\nexport default connect(\n  mapStateToProps,\n  mapDispatchToProps\n)(TasksPage);\n",
+            "fileCode": "import React, { Component } from 'react';\nimport { List } from 'immutable';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { createSelector } from 'reselect';\n\nimport { getNotification, notificationActions } from '../../../notification';\nimport { getTaskFilter, getVisibleTasks, tasksActions } from '../../../tasks';\nimport Notification from '../../components/notification';\nimport TaskFilters from '../../components/task-filters';\nimport TaskForm from '../../components/task-form';\nimport TaskList from '../../components/task-list';\n\n//cc:layout#2;tasks page\nexport class TasksPage extends Component {\n  static propTypes = {\n    createTask: PropTypes.func.isRequired,\n    dismissNotification: PropTypes.func.isRequired,\n    filterTasks: PropTypes.func.isRequired,\n    filterType: PropTypes.string.isRequired,\n    loadTasks: PropTypes.func.isRequired,\n    location: PropTypes.object.isRequired,\n    notification: PropTypes.object.isRequired,\n    removeTask: PropTypes.func.isRequired,\n    tasks: PropTypes.instanceOf(List).isRequired,\n    undeleteTask: PropTypes.func.isRequired,\n    unloadTasks: PropTypes.func.isRequired,\n    updateTask: PropTypes.func.isRequired\n  };\n\n  componentWillMount() {\n    this.props.loadTasks();\n    this.props.filterTasks(\n      this.getFilterParam(this.props.location.search)\n    );\n  }\n\n  componentWillReceiveProps(nextProps) {\n    if (nextProps.location.search !== this.props.location.search) {\n      this.props.filterTasks(\n        this.getFilterParam(nextProps.location.search)\n      );\n    }\n  }\n\n  componentWillUnmount() {\n    this.props.unloadTasks();\n  }\n\n  getFilterParam(search) {\n    const params = new URLSearchParams(search);\n    return params.get('filter');\n  }\n\n  renderNotification() {\n    const { notification } = this.props;\n    return (\n      <Notification\n        action={this.props.undeleteTask}\n        actionLabel={notification.actionLabel}\n        dismiss={this.props.dismissNotification}\n        display={notification.display}\n        message={notification.message}\n      />\n    );\n  }\n\n  render() {\n    return (\n      <div className=\"g-row\">\n        <div className=\"g-col\">\n          <TaskForm handleSubmit={this.props.createTask} />\n        </div>\n\n        <div className=\"g-col\">\n          <TaskFilters filter={this.props.filterType} />\n          <TaskList\n            removeTask={this.props.removeTask}\n            tasks={this.props.tasks}\n            updateTask={this.props.updateTask}\n          />\n        </div>\n\n        {this.props.notification.display ? this.renderNotification() : null}\n      </div>\n    );\n  }\n}\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapStateToProps = createSelector(\n  getNotification,\n  getTaskFilter,\n  getVisibleTasks,\n  (notification, filterType, tasks) => ({\n    notification,\n    filterType,\n    tasks\n  })\n);\n\nconst mapDispatchToProps = Object.assign(\n  {},\n  tasksActions,\n  notificationActions\n);\n\nexport default connect(\n  mapStateToProps,\n  mapDispatchToProps\n)(TasksPage);\n",
             "children": [
               {
                 "name": "tasks page",
@@ -3614,11 +3613,10 @@
                   14
                 ],
                 "params": {
-                  "original": "cc:#layout#2;tasks page;provider",
+                  "original": "cc:layout#2;tasks page",
                   "flow": "layout",
                   "flowStep": 2,
-                  "name": "tasks page",
-                  "details": "provider"
+                  "name": "tasks page"
                 }
               }
             ],

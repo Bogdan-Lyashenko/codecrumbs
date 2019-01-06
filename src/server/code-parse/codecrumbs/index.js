@@ -16,17 +16,22 @@ const parseCodecrumbComment = (node = {}) => {
     if (afterAlias) {
       const params = afterAlias.split(';');
       //check if has flow marker
-      if (params[0] && params[0][0] === '#') {
-        const flowParams = params[0].substr(1).split('#');
+      let counter = 0;
+      if (params[0].includes('#')) {
+        const flowParams = params[0].split('#');
         cc.flow = flowParams[0];
         cc.flowStep = +flowParams[1];
-        cc.name = params[1];
-        cc.details = params[2];
+        counter++;
       } else {
-        cc.name = params[0];
-        cc.details = params[1];
         cc.flow = NO_TRAIL_FLOW;
       }
+
+      cc.name = params[counter];
+      if (params[counter + 1] && params[counter + 1][0] === '+') {
+        cc.linesRange = +params[counter + 1].substr(1);
+        counter++;
+      }
+      cc.details = params[counter + 1];
     }
   } catch (e) {
     console.error('Parameters parsing failed: ', e);
@@ -68,10 +73,13 @@ const getCrumbs = (fileCode, path) => {
             const params = parseCodecrumbComment(comment);
 
             const loc = comment.loc.start;
+            const crumbNodeLines = getNodeLines(comment);
             crumbsList.push({
               name: params.name || '', //TODO: check, can be bug with layout calc
               displayLoc: `#${loc.line}`,
-              crumbNodeLines: getNodeLines(comment),
+              crumbNodeLines: params.linesRange
+                ? [crumbNodeLines[0], crumbNodeLines[1] + params.linesRange]
+                : crumbNodeLines,
               params
             });
           }

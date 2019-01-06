@@ -45,6 +45,8 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
       }
     });
 
+    console.info('Initial code state was parsed and sent to client.');
+
     return onInit({
       sourceTree: fs.sourceTree,
       filesMap: fs.filesMap,
@@ -82,6 +84,8 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
       if (file.hasCodecrumbs) {
         addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
       }
+
+      console.info('Code state change was parsed and sent to client.');
 
       return onChange({
         sourceTree: fs.sourceTree,

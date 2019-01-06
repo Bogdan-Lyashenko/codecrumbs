@@ -1,5 +1,5 @@
 {
-  "version": "1.0.9-alpha",
+  "version": "1.0.10-alpha",
   "data": {
     "controlsBus": {
       "checkedState": {
@@ -10,7 +10,7 @@
         "sideBar": true,
         "dependenciesDiagramOn": true,
         "codeCrumbsDiagramOn": true,
-        "sourceKeepOnlyActiveItems": false
+        "sourceKeepOnlyActiveItems": true
       },
       "valuesState": {
         "diagramZoom": 1,
@@ -44,24 +44,24 @@
                 {
                   "path": "example-project/src/auth/actions.js",
                   "name": "actions.js",
-                  "size": 1266,
+                  "size": 1269,
                   "extension": ".js",
                   "type": "file",
                   "dependencies": false,
-                  "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase auth;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
+                  "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase sign in;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
                   "children": [
                     {
-                      "name": "firebase auth",
+                      "name": "firebase sign in",
                       "displayLoc": "#13",
                       "crumbNodeLines": [
                         13,
                         15
                       ],
                       "params": {
-                        "original": "cc:signin#1;firebase auth;+2",
+                        "original": "cc:signin#1;firebase sign in;+2",
                         "flow": "signin",
                         "flowStep": 1,
-                        "name": "firebase auth",
+                        "name": "firebase sign in",
                         "linesRange": 2
                       }
                     }
@@ -180,24 +180,24 @@
                 {
                   "path": "example-project/src/auth/reducer.js",
                   "name": "reducer.js",
-                  "size": 577,
+                  "size": 584,
                   "extension": ".js",
                   "type": "file",
                   "dependencies": false,
-                  "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:signin#2;authenticated toggle\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
+                  "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:signin#2;toggle 'authenticated' flag\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
                   "children": [
                     {
-                      "name": "authenticated toggle",
+                      "name": "toggle 'authenticated' flag",
                       "displayLoc": "#16",
                       "crumbNodeLines": [
                         16,
                         16
                       ],
                       "params": {
-                        "original": "cc:signin#2;authenticated toggle",
+                        "original": "cc:signin#2;toggle 'authenticated' flag",
                         "flow": "signin",
                         "flowStep": 2,
-                        "name": "authenticated toggle"
+                        "name": "toggle 'authenticated' flag"
                       }
                     }
                   ],
@@ -242,7 +242,7 @@
                   "hasDependenciesImports": false
                 }
               ],
-              "size": 2974,
+              "size": 2984,
               "type": "directory"
             },
             {
@@ -961,24 +961,24 @@
                         {
                           "path": "example-project/src/views/components/require-auth-route/require-auth-route.js",
                           "name": "require-auth-route.js",
-                          "size": 482,
+                          "size": 476,
                           "extension": ".js",
                           "type": "file",
                           "dependencies": false,
-                          "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;authenticated flag;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
+                          "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;enable route;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
                           "children": [
                             {
-                              "name": "authenticated flag",
+                              "name": "enable route",
                               "displayLoc": "#4",
                               "crumbNodeLines": [
                                 4,
                                 10
                               ],
                               "params": {
-                                "original": "cc:signin#3;authenticated flag;+6",
+                                "original": "cc:signin#3;enable route;+6",
                                 "flow": "signin",
                                 "flowStep": 3,
-                                "name": "authenticated flag",
+                                "name": "enable route",
                                 "linesRange": 6
                               }
                             }
@@ -990,7 +990,7 @@
                           "hasDependenciesImports": false
                         }
                       ],
-                      "size": 530,
+                      "size": 524,
                       "type": "directory"
                     },
                     {
@@ -1459,7 +1459,7 @@
                       "type": "directory"
                     }
                   ],
-                  "size": 10953,
+                  "size": 10947,
                   "type": "directory"
                 },
                 {
@@ -1704,7 +1704,7 @@
                   "type": "directory"
                 }
               ],
-              "size": 16741,
+              "size": 16735,
               "type": "directory"
             },
             {
@@ -1962,7 +1962,7 @@
               "hasDependenciesImports": true
             }
           ],
-          "size": 35183,
+          "size": 35187,
           "type": "directory"
         },
         "filesMap": {
@@ -1980,24 +1980,24 @@
           "example-project/src/auth/actions.js": {
             "path": "example-project/src/auth/actions.js",
             "name": "actions.js",
-            "size": 1266,
+            "size": 1269,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase auth;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
+            "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase sign in;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
             "children": [
               {
-                "name": "firebase auth",
+                "name": "firebase sign in",
                 "displayLoc": "#13",
                 "crumbNodeLines": [
                   13,
                   15
                 ],
                 "params": {
-                  "original": "cc:signin#1;firebase auth;+2",
+                  "original": "cc:signin#1;firebase sign in;+2",
                   "flow": "signin",
                   "flowStep": 1,
-                  "name": "firebase auth",
+                  "name": "firebase sign in",
                   "linesRange": 2
                 }
               }
@@ -2116,24 +2116,24 @@
           "example-project/src/auth/reducer.js": {
             "path": "example-project/src/auth/reducer.js",
             "name": "reducer.js",
-            "size": 577,
+            "size": 584,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:signin#2;authenticated toggle\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
+            "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, //cc:signin#2;toggle 'authenticated' flag\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
             "children": [
               {
-                "name": "authenticated toggle",
+                "name": "toggle 'authenticated' flag",
                 "displayLoc": "#16",
                 "crumbNodeLines": [
                   16,
                   16
                 ],
                 "params": {
-                  "original": "cc:signin#2;authenticated toggle",
+                  "original": "cc:signin#2;toggle 'authenticated' flag",
                   "flow": "signin",
                   "flowStep": 2,
-                  "name": "authenticated toggle"
+                  "name": "toggle 'authenticated' flag"
                 }
               }
             ],
@@ -3261,24 +3261,24 @@
           "example-project/src/views/components/require-auth-route/require-auth-route.js": {
             "path": "example-project/src/views/components/require-auth-route/require-auth-route.js",
             "name": "require-auth-route.js",
-            "size": 482,
+            "size": 476,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;authenticated flag;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
+            "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;enable route;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
             "children": [
               {
-                "name": "authenticated flag",
+                "name": "enable route",
                 "displayLoc": "#4",
                 "crumbNodeLines": [
                   4,
                   10
                 ],
                 "params": {
-                  "original": "cc:signin#3;authenticated flag;+6",
+                  "original": "cc:signin#3;enable route;+6",
                   "flow": "signin",
                   "flowStep": 3,
-                  "name": "authenticated flag",
+                  "name": "enable route",
                   "linesRange": 6
                 }
               }

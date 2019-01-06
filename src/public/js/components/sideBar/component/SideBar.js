@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Tabs } from 'antd';
 import { Skeleton, Alert } from 'antd';
 
 import { FILE_NODE_TYPE } from 'core/constants';
 import { Copy } from 'components/topBar/controls/Copy';
 
-import Code from './Code';
-import DependenciesTab from './DependenciesTab';
-import CrumbsTab from './CrumbsTab';
-import FlowChartTab from './FlowChartTab';
+const Code = React.lazy(() => import(/* webpackChunkName: "code" */ './Code'));
+const DependenciesTab = React.lazy(() =>
+  import(/* webpackChunkName: "dependencies-tab" */ './DependenciesTab')
+);
+const CrumbsTab = React.lazy(() => import(/* webpackChunkName: "crumbs-tab" */ './CrumbsTab'));
+const FlowChartTab = React.lazy(() =>
+  import(/* webpackChunkName: "flow-chart-tab" */ './FlowChartTab')
+);
+
 import './SideBar.scss';
 
 const TabPane = Tabs.TabPane;
@@ -40,22 +45,30 @@ export default ({
     content = (
       <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
         <TabPane tab="Code" key="Code">
-          <Code code={file.fileCode} />
+          <Suspense fallback={null}>
+            <Code code={file.fileCode} />
+          </Suspense>
         </TabPane>
         {(dependenciesDiagramOn && (
           <TabPane tab="Dependencies" key="Dependencies">
-            <DependenciesTab />
+            <Suspense fallback={null}>
+              <DependenciesTab />
+            </Suspense>
           </TabPane>
         )) ||
           null}
         {(codeCrumbsDiagramOn && (
           <TabPane tab="Crumbs" key="Crumbs">
-            <CrumbsTab />
+            <Suspense fallback={null}>
+              <CrumbsTab />
+            </Suspense>
           </TabPane>
         )) ||
           null}
         <TabPane tab="FlowChart" key="FlowChart">
-          <FlowChartTab fileCode={file.fileCode} active={selectedTabInSideBar === 'FlowChart'} />
+          <Suspense fallback={null}>
+            <FlowChartTab fileCode={file.fileCode} active={selectedTabInSideBar === 'FlowChart'} />
+          </Suspense>
         </TabPane>
       </Tabs>
     );

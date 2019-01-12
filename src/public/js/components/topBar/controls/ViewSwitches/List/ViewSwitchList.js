@@ -38,9 +38,9 @@ const ViewSwitchList = props => {
         {leftSide}
         <FlowSelect />
       </div>
-      <div className={'side'}>
+      {/*<div className={'side'}>
         <ZoomControl />
-      </div>
+      </div>*/}
       <div className={'side'}>
         {rightSide.concat(
           <div className={'settingContainer'} key={'setting'}>

@@ -12,7 +12,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".SideBar {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  width: 650px;\n  z-index: 4;\n  background-color: white;\n  border-left: 1px solid #ebedf0;\n  padding: 8px 16px; }\n  .SideBar .header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between; }\n    .SideBar .header .filePath {\n      display: flex; }\n      .SideBar .header .filePath .copyIcon {\n        margin-left: 5px; }\n  .SideBar .bodySideBar {\n    height: calc(100% - 25px);\n    position: relative; }\n    .SideBar .bodySideBar .ant-tabs {\n      height: 100%; }\n    .SideBar .bodySideBar .ant-tabs-content, .SideBar .bodySideBar .ant-tabs-tabpane {\n      height: calc(100% - 25px); }\n", ""]);
+exports.push([module.i, ".SideBar {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  overflow: hidden;\n  width: 650px;\n  max-width: 100%;\n  z-index: 4;\n  background-color: white;\n  border-left: 1px solid #ebedf0;\n  padding: 8px 16px; }\n  .SideBar > .header {\n    width: 100%;\n    display: flex;\n    justify-content: space-between; }\n    .SideBar > .header .filePath {\n      display: flex; }\n      .SideBar > .header .filePath .copyIcon {\n        margin-left: 5px; }\n  .SideBar .bodySideBar {\n    height: calc(100% - 25px);\n    position: relative; }\n    .SideBar .bodySideBar .ant-tabs {\n      height: 100%; }\n    .SideBar .bodySideBar .ant-tabs-content, .SideBar .bodySideBar .ant-tabs-tabpane {\n      height: calc(100% - 25px); }\n", ""]);
 
 // exports
 

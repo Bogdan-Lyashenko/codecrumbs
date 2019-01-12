@@ -69,7 +69,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_
 
 
 // module
-exports.push([module.i, ".ViewSwitchList {\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  margin-bottom: 8px;\n  justify-content: space-between; }\n  .ViewSwitchList .side {\n    display: flex;\n    flex-direction: row; }\n    .ViewSwitchList .side .itemSpacingWrapper {\n      margin-right: 16px; }\n  .ViewSwitchList .settingContainer {\n    display: flex;\n    flex-direction: row; }\n    .ViewSwitchList .settingContainer .spacer {\n      margin: 0 10px;\n      height: 100%;\n      border-left: 1px solid #d9d9d9; }\n", ""]);
+exports.push([module.i, ".ViewSwitchList {\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n  .ViewSwitchList .side {\n    display: flex;\n    flex-direction: row;\n    flex-wrap: wrap;\n    margin-bottom: 8px; }\n    .ViewSwitchList .side .itemSpacingWrapper {\n      margin-right: 16px; }\n  .ViewSwitchList .settingContainer {\n    display: flex;\n    flex-direction: row; }\n    .ViewSwitchList .settingContainer .spacer {\n      margin: 0 10px;\n      height: 100%;\n      border-left: 1px solid #d9d9d9; }\n", ""]);
 
 // exports
 
@@ -452,12 +452,11 @@ function (_React$Component) {
         overlay: menu,
         trigger: ['click']
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("a", {
-        href: "#"
-      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", {
+        href: "#",
         className: "viewSwitchName"
       }, name, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(antd_es_icon__WEBPACK_IMPORTED_MODULE_7__["default"], {
         type: "down"
-      }))));
+      })));
     }
   }, {
     key: "render",
@@ -579,8 +578,6 @@ var ViewSwitchList = function ViewSwitchList(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'side'
   }, leftSide, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_topBar_controls_FlowSelect_index__WEBPACK_IMPORTED_MODULE_2__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'side'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_topBar_controls_ZoomControl_index__WEBPACK_IMPORTED_MODULE_3__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'side'
   }, rightSide.concat(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'settingContainer',

@@ -11678,7 +11678,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".App {\n  padding: 10px;\n  height: 100%;\n  display: flex;\n  flex-direction: column; }\n  .App .loader {\n    display: flex;\n    justify-items: center;\n    justify-content: center;\n    align-items: center;\n    padding: 200px;\n    width: 100%; }\n  .App .header {\n    position: relative; }\n  .App .body {\n    position: relative;\n    display: flex;\n    flex-grow: 1;\n    background-color: white; }\n  .App .footer {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    font-size: 10px;\n    z-index: 4; }\n", ""]);
+exports.push([module.i, ".App {\n  padding: 10px;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  position: relative; }\n  .App .loader {\n    display: flex;\n    justify-items: center;\n    justify-content: center;\n    align-items: center;\n    padding: 200px;\n    width: 100%; }\n  .App > .header {\n    position: relative;\n    border-bottom: 1px solid #F5F5F5; }\n  .App .headerPlaceholder {\n    height: 60px;\n    background-color: #fdfdfd; }\n  .App .body {\n    position: relative;\n    display: flex;\n    flex-grow: 1;\n    background-color: white; }\n  .App .footer {\n    position: relative;\n    border-top: 1px solid #F5F5F5;\n    padding-top: 5px;\n    width: 100%;\n    font-size: 10px;\n    text-align: right; }\n", ""]);
 
 // exports
 
@@ -46889,7 +46889,7 @@ module.exports = function(originalModule) {
 /*! exports provided: name, version, author, license, repository, scripts, bin, dependencies, devDependencies, nodemonConfig, default */
 /***/ (function(module) {
 
-module.exports = {"name":"codecrumbs","version":"1.0.10-alpha","author":"Bohdan Liashenko","license":"MIT","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","start:demo":"node ./index.dev.js","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon ./index.dev.js","server-debug":"nodemon --inspect ./index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","chokidar":"^2.0.3","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"}};
+module.exports = {"name":"codecrumbs","version":"1.0.11-alpha","author":"Bohdan Liashenko","license":"MIT","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","start:demo":"node ./index.dev.js","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon ./index.dev.js","server-debug":"nodemon --inspect ./index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","chokidar":"^2.0.3","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"}};
 
 /***/ }),
 
@@ -46970,7 +46970,9 @@ var App = function App() {
     standalone: props.standalone,
     predefinedState: props.predefinedState
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-    fallback: null
+    fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: 'headerPlaceholder'
+    })
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ViewsSwitches, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
     fallback: null
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TopBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -46985,7 +46987,7 @@ var App = function App() {
     fallback: null
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
     className: "footer"
-  }, "Bohdan Liashenko ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, "\u24B8 Bohdan Liashenko", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://github.com/Bogdan-Lyashenko/codecrumbs"
   }, "Project Github")));
 };

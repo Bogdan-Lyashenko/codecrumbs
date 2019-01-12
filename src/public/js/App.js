@@ -28,7 +28,7 @@ const App = (props = {}) => {
         <Suspense fallback={null}>
           <DataBus standalone={props.standalone} predefinedState={props.predefinedState} />
         </Suspense>
-        <Suspense fallback={null}>
+        <Suspense fallback={<div className={'headerPlaceholder'} />}>
           <ViewsSwitches />
         </Suspense>
         <Suspense fallback={null}>
@@ -55,7 +55,8 @@ const App = (props = {}) => {
       </div>
 
       <footer className="footer">
-        Bohdan Liashenko <a href="https://github.com/Bogdan-Lyashenko/codecrumbs">Project Github</a>
+        &#9400; Bohdan Liashenko{' '}
+        <a href="https://github.com/Bogdan-Lyashenko/codecrumbs">Project Github</a>
       </footer>
     </div>
   );

@@ -61,11 +61,9 @@ class ViewSwitch extends React.Component {
 
     return (
       <Dropdown overlay={menu} trigger={['click']}>
-        <a href="#">
-          <span className="viewSwitchName">
-            {name}
-            <Icon type="down" />
-          </span>
+        <a href="#" className="viewSwitchName">
+          {name}
+          <Icon type="down" />
         </a>
       </Dropdown>
     );

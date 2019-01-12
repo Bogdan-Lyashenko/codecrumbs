@@ -12,7 +12,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".SubPanelContainer {\n  padding: 3px 0;\n  border-top: 1px solid #ebedf0;\n  border-bottom: 1px solid #F5F5F5;\n  display: flex; }\n\n.copyIcon {\n  margin-left: 5px; }\n", ""]);
+exports.push([module.i, ".SubPanelContainer {\n  padding: 3px 0;\n  border-top: 1px solid #ebedf0;\n  display: flex; }\n\n.copyIcon {\n  margin-left: 5px; }\n", ""]);
 
 // exports
 

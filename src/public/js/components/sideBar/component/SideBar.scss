@@ -3,13 +3,15 @@
   right: 0;
   top: 0;
   height: 100%;
+  overflow: hidden;
   width: 650px;
+  max-width: 100%;
   z-index: 4;
   background-color: white;
   border-left: 1px solid #ebedf0;
   padding: 8px 16px;
 
-  .header {
+  > .header {
     width: 100%;
     display: flex;
     justify-content: space-between;

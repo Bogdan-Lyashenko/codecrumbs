@@ -4,7 +4,7 @@
 Leave "breadcrumbs" in source code via comments to find your way out from code maze.
 See *demo* of result [here](https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html)
 
-## Intro
+# Intro
 
 Check intro article explaining more details behind all of this
 https://itnext.io/how-to-navigate-the-maze-of-javascript-code-541250447cbb

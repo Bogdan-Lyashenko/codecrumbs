@@ -4,14 +4,17 @@
 Leave "breadcrumbs" in source code via comments to find your way out from code maze.
 See *demo* of result [here](https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html)
 
-## Intro article
+## Intro
+
+Check intro article explaining more details behind all of this
 https://itnext.io/how-to-navigate-the-maze-of-javascript-code-541250447cbb
 
 
 ![](/docs/ui-scr.png)
 
-## To run for your project:
+# Get started
 ```yarn add codecrumbs```
+
 then inside your project setup do something like (change -e, -d params for your paths):
 ```javascript
 {
@@ -24,13 +27,17 @@ then inside your project setup do something like (change -e, -d params for your 
 }
 ```
 
-## In a big codebase we can’t:
+Leave breascrum by simply putting comment ```//cc:here breadcrumb```
+
+# Problem 
+
+In a big codebase we can’t:
 - generalize
 - recognise patterns
 - see big picture
 - make assumption 
 
-## This project will allow you to: 
+This project will allow you to: 
 - leave bread crumbs in a code maze
 - cut off paths leading nowhere
 - see entire maze from a “bird’s-eye” view

@@ -10,7 +10,7 @@ Check out [**standalone version here**](https://bogdan-lyashenko.github.io/codec
  
 [<img src="/docs/codecrumbs-ui.png" width="800">](https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html)
  
-# Get started
+## Get started
 Install ```codecrumbs``` globally or in ```devDependencies```:
 ```yarn add codecrumbs -D```
 
@@ -32,7 +32,8 @@ Run ```yarn start:cc``` from the terminal. Go to [http://localhost:2018/#](http:
 Write ```//cc:here is breadcrumb``` to put a simple breadcrumb in the code. ```cc``` (stands for "codecrumb") is the prefix which used by the parser, and ```here is breadcrumb``` is a title of our first breadcrumb.
 
 Also, you can create “trail of breadcrumbs” — basically, a sequence of codecrumbs which follow some data flow (e.g. user login, or form submit, etc.).
-To create a codecrumb as part of a trail you write: ```//cc:signin#3;enable route``` where ```signin``` is the **trail ID**, ```#3``` is order **number of step**, ```enable route``` is a title describing the step. 
+To create a codecrumb as part of a trail you write: ```//cc:signin#3;enable route``` where ```signin``` is the **trail ID**, ```#3``` is order **number of step**, ```enable route``` is a title describing the step.
+ 
 <img src="/docs/live-changes.gif" width="800">
 
 Check out [the introduction article here](https://itnext.io/how-to-navigate-the-maze-of-javascript-code-541250447cbb) for more details.

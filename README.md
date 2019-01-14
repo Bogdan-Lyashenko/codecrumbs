@@ -4,6 +4,10 @@
 Leave "breadcrumbs" in source code via comments to find your way out from code maze.
 See *demo* of result [here](https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html)
 
+## Intro article
+https://itnext.io/how-to-navigate-the-maze-of-javascript-code-541250447cbb
+
+
 ![](/docs/ui-scr.png)
 
 ## To run for your project:

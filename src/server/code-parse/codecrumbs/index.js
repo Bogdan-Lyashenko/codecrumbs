@@ -7,8 +7,10 @@ const NO_TRAIL_FLOW = require('../../../shared/constants').NO_TRAIL_FLOW;
 const CRUMB = 'codecrumb',
   CRUMB_SHORT_HANDLER = 'cc';
 
+const getCommentNodeValue = node => (node.value || '').trim();
+
 const parseCodecrumbComment = (node = {}) => {
-  const comment = node.value || '';
+  const comment = getCommentNodeValue(node);
 
   const cc = { original: comment };
   try {
@@ -41,7 +43,7 @@ const parseCodecrumbComment = (node = {}) => {
 };
 
 const isCodecrumb = (node = {}) => {
-  const comment = node.value || '';
+  const comment = getCommentNodeValue(node);
   return comment.startsWith(CRUMB) || comment.startsWith(CRUMB_SHORT_HANDLER);
 };
 

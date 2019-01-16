@@ -2,7 +2,7 @@
   "name": "codecrumbs",
   "version": "1.0.12-alpha",
   "author": "Bohdan Liashenko",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "https://github.com/Bogdan-Lyashenko/codecrumbs.git"

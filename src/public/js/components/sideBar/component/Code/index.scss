@@ -1,7 +1,12 @@
 .Code {
   height: 100%;
   position: relative;
-  overflow: auto;
+
+  pre {
+      width: 100%;
+      height: calc(100% - 10px);
+      overflow: auto;
+  }
 
   .crumbedLine {
     display: block;
@@ -14,6 +19,7 @@
   }
 
   &.limitedHeight {
-    max-height: 200px;
+    height: 200px;
   }
 }
+

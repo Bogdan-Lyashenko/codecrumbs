@@ -1,6 +1,10 @@
 # Dependency directory
 node_modules
 
+# Build directories
+src/public/dist/local/bundle
+src/public/dist/standalone/bundle
+
 # example for dev
 # example-project
 

@@ -1,14 +1,14 @@
 # codecrumbs [active development phase, stay tuned!] [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Leave%20breadcrumbs%20in%20source%20code%20with%20codecrumbs%20tool%20&url=https://github.com/Bogdan-Lyashenko/codecrumbs&via=bliashenko&hashtags=javascript,code)
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs)
 
 Leave "breadcrumbs" in source code via comments to find your way out from code maze.
 > Still much work to do, but the basic features are already implemented and are ready to use. Give it a try while I am finishing a few more big features. Ideas and improvements are welcome. Thanks.
 
-## [Demo](https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html)
-Check out [**standalone version here**](https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html) with defined trail of codecrumbs.
+## [Demo](https://codecrumbs.io/)
+Check out [**standalone version here**](https://codecrumbs.io/) with defined trail of codecrumbs.
  
-[<img src="/docs/codecrumbs-ui.png" width="800">](https://bogdan-lyashenko.github.io/codecrumbs/src/public/dist/standalone/index.html)
+[<img src="/docs/codecrumbs-ui.png" width="800">](https://codecrumbs.io/)
  
 ## Get started
 Install ```codecrumbs``` globally or in ```devDependencies```:

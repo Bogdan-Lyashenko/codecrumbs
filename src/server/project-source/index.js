@@ -27,7 +27,24 @@ const parseProjectSourceFiles = ({ filesMap, projectDir, entryPoint, webpackConf
     )
   );
 
-const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, onChange }) => {
+const watchers = [];
+const closePreviousSubscription = id => {
+  const watcherIndex = watchers.findIndex(({ sourceProjectId }) => sourceProjectId === id);
+
+  if (watcherIndex !== -1) {
+    watchers[watcherIndex].watcher.close();
+    watchers.splice(watcherIndex, 1);
+  }
+};
+
+const subscribeOnChange = (
+  sourceProjectId,
+  { projectDir, entryPoint, webpackConfigPath },
+  { onInit, onChange }
+) => {
+  // TODO: refactor function, too long
+  closePreviousSubscription(sourceProjectId);
+
   const fs = getProjectFiles(projectDir);
   const codeCrumbs = {
     flows: {}
@@ -45,8 +62,6 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
       }
     });
 
-    console.info('Initial code state was parsed and sent to client.');
-
     return onInit({
       sourceTree: fs.sourceTree,
       filesMap: fs.filesMap,
@@ -56,9 +71,8 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
     });
   });
 
-  //use watcher.close(); to stop watching
   // TODO: path can be multiple if not save after fist change, fix
-  return createWatcher(projectDir, path => {
+  const watcher = createWatcher(projectDir, path => {
     const file = fs.filesMap[path];
     if (!file) {
       return;
@@ -97,6 +111,11 @@ const subscribeOnChange = (projectDir, entryPoint, webpackConfigPath, { onInit, 
         codeCrumbedFlowsMap: codeCrumbs.flows
       });
     });
+  });
+
+  watchers.push({
+    watcher,
+    sourceProjectId
   });
 };
 

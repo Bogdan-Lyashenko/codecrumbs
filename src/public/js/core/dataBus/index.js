@@ -22,7 +22,7 @@ class DataBusContainer extends React.Component {
   }
 
   setupLocal() {
-    createConnection(({ type, data }) => this.onSocketEvent(type, data));
+    createConnection(this.onSocketEvent.bind(this));
   }
 
   handleInitSyncEvent(dataBody) {
@@ -35,7 +35,10 @@ class DataBusContainer extends React.Component {
     setChangedSourceData(dataBody);
   }
 
-  onSocketEvent(type, data) {
+  onSocketEvent(event) {
+    // TODO: pass sourceProjectId to action name
+    const { type, data, sourceProjectId, sourceProjectName } = event;
+
     switch (type) {
       case SOCKET_EVENT_TYPE.INIT_SOURCE_FILES_SYNC:
         return this.handleInitSyncEvent(data);

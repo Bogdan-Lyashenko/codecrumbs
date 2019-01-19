@@ -3,13 +3,8 @@ const { SERVER_PORT } = require('../../../../shared/constants');
 export const createConnection = (onMessage, route = `ws://127.0.0.1:${SERVER_PORT}/`) => {
   const ws = new WebSocket(route);
 
-  ws.onopen = () => {
-    // connection is opened and ready to use
-  };
-
-  ws.onerror = error => {
-    // an error occurred when sending/receiving data
-  };
+  ws.onopen = () => console.log(`Client connected to ${route}`);
+  ws.onerror = error => console.log(`Connection error: ${error}`);
 
   ws.onmessage = event => {
     onMessage(JSON.parse(event.data));

@@ -2,10 +2,8 @@
 
 const program = require('commander');
 const colors = require('colors');
-const path = require('path');
 
-const httpServer = require('http-server');
-const apiServer = require('../src/server');
+const server = require('../src/server');
 
 program
   .option('-e, --entry [entryFile]', 'Specify path to entry point file. E.g. `./src/app.js`')
@@ -26,16 +24,13 @@ if (!program.entry && !program.dir) {
   process.exit();
 }
 
-// TODO: refactor as in index.dev
-apiServer.run({
-  entryFile: program.entry,
-  projectDir: program.dir,
-  webpackConfigFile: program.webpack,
-  clientPort: program.port
-});
-
-httpServer
-  .createServer({ root: path.resolve(__dirname, '../src/public/dist/local') })
-  .listen(program.port, '127.0.0.1', () => {
-    console.log(`Go to "Codecrumbs" client http://localhost:${program.port} `);
-  });
+server.setup(
+  {
+    projectNameAlias: undefined, // TODO: add param for this
+    entryPoint: program.entry,
+    projectDir: program.dir,
+    webpackConfigPath: program.webpack,
+    clientPort: program.port
+  },
+  false
+);

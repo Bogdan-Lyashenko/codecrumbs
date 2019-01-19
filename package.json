@@ -9,10 +9,10 @@
   },
   "scripts": {
     "start": "yarn client-dev & yarn server-dev",
-    "start:demo": "node ./index.dev.js",
+    "start:demo": "node src/index.dev.js",
     "client-dev": "cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev",
-    "server-dev": "nodemon ./index.dev.js",
-    "server-debug": "nodemon --inspect ./index.dev.js",
+    "server-dev": "nodemon src/index.dev.js",
+    "server-debug": "nodemon --inspect src/index.dev.js",
     "build": "cd src/public && webpack --config webpack.prod.js --progress --colors",
     "start:standalone": "cd src/public/dist/standalone && http-server",
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""

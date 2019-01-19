@@ -3,19 +3,22 @@ const httpServer = require('http-server');
 
 const { SERVER_PORT } = require('../shared/constants');
 const mediator = require('./mediator');
-const sourceServer = require('./instance');
+const sourceWatcher = require('./source-watcher');
 
-const PORT_IN_USE = 'open';
-const HOST = '127.0.0.1';
+const setup = (
+  { projectNameAlias, projectDir, entryPoint, webpackConfigPath, clientPort },
+  isDev
+) => {
+  const PORT_IN_USE = 'open';
+  const HOST = '127.0.0.1';
 
-const setup = ({ projectDir, entryFile, webpackConfigFile, clientPort }, isDev) => {
   Promise.all([
     portscanner.checkPortStatus(clientPort, HOST).then(status => {
       if (status !== PORT_IN_USE) {
         /**
          * socket+http server for data exchange between browser and source servers
          */
-        mediator.run({ port: SERVER_PORT });
+        mediator.run({ port: SERVER_PORT, clientPort });
       }
     }),
     portscanner.checkPortStatus(clientPort, HOST).then(status => {
@@ -31,18 +34,22 @@ const setup = ({ projectDir, entryFile, webpackConfigFile, clientPort }, isDev) 
       }
     })
   ]).then(() => {
-    //sourceServer instances are same socket "client" as browser client
-    //to communicate they need to send message to all, and filter by type
-
     /**
      * source server instance (one per source code project)
      */
-    sourceServer.run(`${HOST}:${SERVER_PORT}`, {
-      projectDir,
-      entryFile,
-      webpackConfigFile,
-      clientPort
-    });
+    sourceWatcher.run(
+      {
+        mediatorEndPoint: `${HOST}:${SERVER_PORT}`,
+        sourceProjectId: `source-project-${Date.now()}`,
+        sourceProjectName: `project-${projectNameAlias || projectDir}`
+      },
+      {
+        projectDir,
+        entryPoint,
+        webpackConfigPath,
+        clientPort
+      }
+    );
   });
 };
 

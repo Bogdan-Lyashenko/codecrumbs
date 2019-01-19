@@ -26,6 +26,7 @@ if (!program.entry && !program.dir) {
   process.exit();
 }
 
+// TODO: refactor as in index.dev
 apiServer.run({
   entryFile: program.entry,
   projectDir: program.dir,

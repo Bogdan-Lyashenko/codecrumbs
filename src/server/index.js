@@ -1,38 +1,51 @@
-const WebSocketServer = require('websocket').server;
-const http = require('http');
-const api = require('./api/');
-const projectSourceWatcher = require('./project-source/');
-const { SERVER_PORT, SOCKET_EVENT_TYPE } = require('../shared/constants');
+const portscanner = require('portscanner');
+const httpServer = require('http-server');
 
-const run = ({ projectDir, entryFile, webpackConfigFile, clientPort }) => {
-  const httpServer = http.createServer(api.handleRequests(projectDir, clientPort));
-  httpServer.listen(SERVER_PORT, () => {
-    console.log(`API server is listening: ${SERVER_PORT}.`);
-  });
+const { SERVER_PORT } = require('../shared/constants');
+const mediator = require('./mediator');
+const sourceServer = require('./instance');
 
-  const webSocketServer = new WebSocketServer({ httpServer });
-  webSocketServer.on('request', request => {
-    const connection = request.accept(null, request.origin);
+const PORT_IN_USE = 'open';
+const HOST = '127.0.0.1';
 
-    projectSourceWatcher.subscribeOnChange(projectDir, entryFile, webpackConfigFile, {
-      onInit: data =>
-        connection.sendUTF(
-          JSON.stringify({
-            type: SOCKET_EVENT_TYPE.INIT_SOURCE_FILES_SYNC,
-            data
-          })
-        ),
-      onChange: data =>
-        connection.sendUTF(
-          JSON.stringify({
-            type: SOCKET_EVENT_TYPE.UPDATE_SOURCE_FILE_SYNC,
-            data
-          })
-        )
+const setup = ({ projectDir, entryFile, webpackConfigFile, clientPort }, isDev) => {
+  Promise.all([
+    portscanner.checkPortStatus(clientPort, HOST).then(status => {
+      if (status !== PORT_IN_USE) {
+        /**
+         * socket+http server for data exchange between browser and source servers
+         */
+        mediator.run({ port: SERVER_PORT });
+      }
+    }),
+    portscanner.checkPortStatus(clientPort, HOST).then(status => {
+      if (status !== PORT_IN_USE) {
+        /**
+         * http server to host "codecrumbs" client source for browser
+         */
+        httpServer
+          .createServer({ root: './src/public/dist/local', cache: isDev ? -1 : 3600 })
+          .listen(clientPort, HOST, () => {
+            console.log(`"Codecrumbs" client is served on http://localhost:${clientPort}`);
+          });
+      }
+    })
+  ]).then(() => {
+    //sourceServer instances are same socket "client" as browser client
+    //to communicate they need to send message to all, and filter by type
+
+    /**
+     * source server instance (one per source code project)
+     */
+    sourceServer.run(`${HOST}:${SERVER_PORT}`, {
+      projectDir,
+      entryFile,
+      webpackConfigFile,
+      clientPort
     });
   });
 };
 
 module.exports = {
-  run
+  setup
 };

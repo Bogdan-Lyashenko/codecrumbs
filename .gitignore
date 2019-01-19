@@ -1,9 +1,6 @@
 # Dependency directory
 node_modules
 
-# Build directories
-src/public/dist/
-
 # example for dev
 # example-project
 

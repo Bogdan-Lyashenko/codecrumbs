@@ -55,9 +55,12 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
+    "@commitlint/cli": "^7.3.2",
+    "@commitlint/config-conventional": "^7.3.1",
     "babel-loader": "^8.0.4",
     "babel-plugin-import": "^1.9.1",
     "css-loader": "^0.28.11",
+    "husky": "^1.3.1",
     "node-sass": "^4.9.3",
     "nodemon": "^1.18.7",
     "prettier": "^1.14.0",
@@ -73,5 +76,10 @@
       "src/public/**/*.*"
     ],
     "delay": "2500"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

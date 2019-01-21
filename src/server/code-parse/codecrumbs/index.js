@@ -1,5 +1,4 @@
 const babylon = require('@babel/parser');
-const babelTraverse = require('@babel/traverse');
 
 const { config: astParseConfig, getNodeLines } = require('../../../shared/astParse');
 const NO_TRAIL_FLOW = require('../../../shared/constants').NO_TRAIL_FLOW;
@@ -53,41 +52,24 @@ const getCrumbs = (fileCode, path) => {
 
   try {
     ast = babylon.parse(fileCode, astParseConfig);
+    if (ast.comments) {
+      ast.comments.forEach(comment => {
+        if (comment && isCodecrumb(comment)) {
+          const params = parseCodecrumbComment(comment);
 
-    // TODO: ast has comments array, maybe use it
-    babelTraverse.default(ast, {
-      enter(path) {
-        const node = path.node;
-        if (!node || !(node.leadingComments || node.trailingComments)) return;
-
-        const leadingComment = node.leadingComments
-          ? node.leadingComments[node.leadingComments.length - 1]
-          : null;
-
-        let trailingComment = node.trailingComments ? node.trailingComments[0] : null;
-
-        if (trailingComment && trailingComment.loc.start.line !== node.loc.start.line) {
-          trailingComment = null;
+          const loc = comment.loc.start;
+          const crumbNodeLines = getNodeLines(comment);
+          crumbsList.push({
+            name: params.name || '', //TODO: check, can be bug with layout calc
+            displayLoc: `#${loc.line}`,
+            crumbNodeLines: params.linesRange
+              ? [crumbNodeLines[0], crumbNodeLines[1] + params.linesRange]
+              : crumbNodeLines,
+            params
+          });
         }
-
-        [leadingComment, trailingComment].forEach(comment => {
-          if (comment && isCodecrumb(comment)) {
-            const params = parseCodecrumbComment(comment);
-
-            const loc = comment.loc.start;
-            const crumbNodeLines = getNodeLines(comment);
-            crumbsList.push({
-              name: params.name || '', //TODO: check, can be bug with layout calc
-              displayLoc: `#${loc.line}`,
-              crumbNodeLines: params.linesRange
-                ? [crumbNodeLines[0], crumbNodeLines[1] + params.linesRange]
-                : crumbNodeLines,
-              params
-            });
-          }
-        });
-      }
-    });
+      });
+    }
 
     return crumbsList;
   } catch (e) {

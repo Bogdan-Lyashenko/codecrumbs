@@ -9,8 +9,8 @@ const ViewsSwitches = React.lazy(() =>
 const TopBar = React.lazy(() =>
   import(/* webpackChunkName: "top-bar" */ 'components/topBar/subPanel/SubPanelContainer')
 );
-const TreeDiagram = React.lazy(() =>
-  import(/* webpackChunkName: "tree-diagram" */ 'components/treeDiagram/TreeDiagramContainer')
+const TreeDiagramsContainer = React.lazy(() =>
+  import(/* webpackChunkName: "tree-diagram" */ 'components/treeDiagram/TreeDiagramsContainer')
 );
 const SideBar = React.lazy(() =>
   import(/* webpackChunkName: "side-bar" */ 'components/sideBar/SideBarContainer')
@@ -28,18 +28,18 @@ const App = (props = {}) => {
         <Suspense fallback={null}>
           <DataBus standalone={props.standalone} predefinedState={props.predefinedState} />
         </Suspense>
-        <Suspense fallback={<div className={'headerPlaceholder'} />}>
+        {/*<Suspense fallback={<div className={'headerPlaceholder'} />}>
           <ViewsSwitches />
-        </Suspense>
-        <Suspense fallback={null}>
+        </Suspense>*/}
+        {/*<Suspense fallback={null}>
           <TopBar />
-        </Suspense>
+        </Suspense>*/}
       </header>
 
       <div className="body">
-        <Suspense fallback={null}>
+        {/*<Suspense fallback={null}>
           <ExplorerBar />
-        </Suspense>
+        </Suspense>*/}
         <Suspense
           fallback={
             <div className={'loader'}>
@@ -47,11 +47,11 @@ const App = (props = {}) => {
             </div>
           }
         >
-          <TreeDiagram />
+          <TreeDiagramsContainer />
         </Suspense>
-        <Suspense fallback={null}>
+       {/* <Suspense fallback={null}>
           <SideBar />
-        </Suspense>
+        </Suspense>*/}
       </div>
 
       <footer className="footer">

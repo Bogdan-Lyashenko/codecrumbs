@@ -7,7 +7,7 @@ import {
 } from 'components/treeDiagram/component/Icons/Folder';
 
 import './index.scss';
-import { SYMBOL_WIDTH } from '../../store/constants';
+import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 
 export const FolderName = props => {
   const { position, name, cover, disabled, openedState, onNodeClick } = props;

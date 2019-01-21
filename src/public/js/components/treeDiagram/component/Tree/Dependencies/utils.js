@@ -1,4 +1,4 @@
-import { DepEdgeGroups } from 'components/treeDiagram/store/constants';
+import { DepEdgeGroups } from 'components/treeDiagram/component/constants';
 
 export const getGroupsAroundNode = (moduleNode, importedNodes) => {
   const groups = {

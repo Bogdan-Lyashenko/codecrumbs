@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
+import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 import FileIcon from 'components/treeDiagram/component/Icons/File';
 import DepCirclesIcon from 'components/treeDiagram/component/Icons/DepCircles';
 import './index.scss';

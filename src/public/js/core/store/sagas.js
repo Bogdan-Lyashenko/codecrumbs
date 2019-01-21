@@ -16,84 +16,89 @@ import { getCheckedState } from 'core/controlsBus/selectors';
 
 function* reactOnSwitchToggle(action) {
   const { switchKey, checked } = action.payload;
+  const namespace = '*';
 
   if (switchKey === CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_ITEMS) {
     if (checked) {
-      yield reactByUpdatingFoldersState();
+      yield reactByUpdatingFoldersState({ namespace });
     }
   }
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_DIAGRAM_ON) {
     if (checked) {
-      yield put(selectCodeCrumbedFlow());
+      yield put(selectCodeCrumbedFlow(undefined, namespace));
     } else {
-      yield reactByUpdatingFoldersState();
+      yield reactByUpdatingFoldersState({ namespace });
     }
   }
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE) {
     yield all([
       put(setDisabledControl(CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS, checked)),
-      put(calcFilesTreeLayoutNodes())
+      put(calcFilesTreeLayoutNodes(namespace))
     ]);
   }
 
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW) {
-    yield reactByUpdatingFoldersState();
+    yield reactByUpdatingFoldersState({ namespace });
   }
 
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON) {
     if (checked) {
-      yield put(setDependenciesEntryPoint());
+      yield put(setDependenciesEntryPoint(undefined, namespace));
     } else {
-      yield reactByUpdatingFoldersState();
+      yield reactByUpdatingFoldersState({ namespace });
     }
   }
 
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY) {
-    yield all([put(selectDependencyEdge(null)), put(setDependenciesEntryPoint())]);
+    yield all([
+      put(selectDependencyEdge(undefined, namespace)),
+      put(setDependenciesEntryPoint(undefined, namespace))
+    ]);
   }
 }
 
 function* reactOnButtonAction(action) {
   const buttonKey = action.payload;
+  const namespace = '*';
 
   if (buttonKey === CONTROLS_KEYS.SOURCE_EXPAND_ALL) {
-    return yield all([put(openAllFolders()), put(calcFilesTreeLayoutNodes())]);
+    return yield all([put(openAllFolders(namespace)), put(calcFilesTreeLayoutNodes(namespace))]);
   }
 
   if (buttonKey === CONTROLS_KEYS.SOURCE_COLLAPSE_TO_MIN) {
-    return yield all([put(closeAllFolders()), put(calcFilesTreeLayoutNodes())]);
+    return yield all([put(closeAllFolders(namespace)), put(calcFilesTreeLayoutNodes(namespace))]);
   }
 }
 
-function* reactOnToggledFolder() {
-  yield put(calcFilesTreeLayoutNodes());
+function* reactOnToggledFolder({ namespace }) {
+  yield put(calcFilesTreeLayoutNodes(namespace));
 }
 
-function* reactOnSourceSet() {
+function* reactOnSourceSet({ namespace }) {
   const { dependenciesDiagramOn, codeCrumbsDiagramOn } = yield select(getCheckedState);
 
   if (!dependenciesDiagramOn && !codeCrumbsDiagramOn) {
-    yield reactByUpdatingFoldersState();
+    yield reactByUpdatingFoldersState({ namespace });
   }
 
   if (dependenciesDiagramOn) {
-    yield put(setDependenciesEntryPoint());
+    yield put(setDependenciesEntryPoint(undefined, namespace));
   }
 
   if (codeCrumbsDiagramOn) {
-    yield put(selectCodeCrumbedFlow());
+    yield put(selectCodeCrumbedFlow(undefined, namespace));
   }
 }
 
-function* reactByUpdatingFoldersState() {
-  yield put(updateFoldersByActiveChildren());
-  yield put(calcFilesTreeLayoutNodes());
+function* reactByUpdatingFoldersState({ namespace }) {
+  yield put(updateFoldersByActiveChildren(namespace));
+  yield put(calcFilesTreeLayoutNodes(namespace));
 }
 
-function* reactOnSelectNode() {
-  yield put(setDependenciesEntryPoint());
+function* reactOnSelectNode({ namespace }) {
+  yield put(setDependenciesEntryPoint(undefined, namespace));
 }
 
 export default function* rootSaga() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/store/constants';
+import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/component/constants';
 import Arrow from 'components/treeDiagram/component/Icons/Arrow';
 import './index.scss';
 

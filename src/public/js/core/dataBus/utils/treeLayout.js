@@ -1,7 +1,7 @@
 import * as d3FlexTree from 'd3-flextree';
 
 import { FILE_NODE_TYPE, DIR_NODE_TYPE, FOLDER_OPEN_STATE } from 'core/constants';
-import { LAYOUT_CONFIG } from 'components/treeDiagram/store/constants';
+import { LAYOUT_CONFIG } from 'components/treeDiagram/component/constants';
 
 export const getTreeLayout = (
   treeData,

@@ -9,7 +9,7 @@ import {
   getCodeCrumbsMapForCurrentCcFlow
 } from './utils/treeLayout';
 
-import { ACTIONS, DEFAULT_NAMESPACE } from './constants';
+import { ACTIONS } from './constants';
 import {
   getSource,
   getSourceUserChoice,
@@ -17,28 +17,32 @@ import {
   getDependenciesUserChoice
 } from './selectors';
 
-export const setInitialSourceData = payload => ({
+export const setInitialSourceData = (payload, namespace) => ({
   type: ACTIONS.SET_INITIAL_SOURCE_DATA,
-  payload
+  payload,
+  namespace
 });
 
-export const setChangedSourceData = payload => ({
+export const setChangedSourceData = (payload, namespace) => ({
   type: ACTIONS.SET_CHANGED_SOURCE_DATA,
-  payload
+  payload,
+  namespace
 });
 
-export const selectNode = fileNode => dispatch => {
+export const selectNode = (fileNode, namespace) => dispatch => {
   if (process.env.STANDALONE) {
     return dispatch({
       type: ACTIONS.SELECT_NODE,
-      payload: fileNode
+      payload: fileNode,
+      namespace
     });
   }
 
   fetchFile(fileNode.path, { parseDependencies: true }).then(data =>
     dispatch({
       type: ACTIONS.SELECT_NODE,
-      payload: { ...fileNode, ...data }
+      payload: { ...fileNode, ...data },
+      namespace
     })
   );
 };
@@ -48,12 +52,14 @@ export const toggleFolder = folderNode => ({
   payload: folderNode
 });
 
-export const openAllFolders = () => ({
-  type: ACTIONS.OPEN_ALL_FOLDERS
+export const openAllFolders = namespace => ({
+  type: ACTIONS.OPEN_ALL_FOLDERS,
+  namespace
 });
 
-export const closeAllFolders = () => ({
-  type: ACTIONS.CLOSE_ALL_FOLDERS
+export const closeAllFolders = namespace => ({
+  type: ACTIONS.CLOSE_ALL_FOLDERS,
+  namespace
 });
 
 export const selectCodeCrumb = (fileNode, codeCrumb) => ({
@@ -61,7 +67,7 @@ export const selectCodeCrumb = (fileNode, codeCrumb) => ({
   payload: { fileNode, codeCrumb }
 });
 
-export const setDependenciesEntryPoint = fileNode => (dispatch, getState) => {
+export const setDependenciesEntryPoint = (fileNode, namespace) => (dispatch, getState) => {
   const state = getState();
   const { dependenciesShowDirectOnly } = getCheckedState(state);
 
@@ -70,44 +76,57 @@ export const setDependenciesEntryPoint = fileNode => (dispatch, getState) => {
     payload: {
       fileNode,
       dependenciesShowDirectOnly
-    }
+    },
+    namespace
   });
 };
 
-export const selectDependencyEdge = (target, sources, groupName) => dispatch => {
+export const selectDependencyEdge = (options, namespace) => dispatch => {
+  const { target, sources, groupName } = options || {};
+
   dispatch({
     type: ACTIONS.SELECT_DEPENDENCY_EDGE,
-    payload: target ? { target, sources, groupName } : null
+    payload: target ? { target, sources, groupName } : null,
+    namespace
   });
 
   if (target && sources) {
     Promise.all(sources.map(fetchFile)).then(files => {
       dispatch({
         type: ACTIONS.UPDATE_FILES,
-        payload: files
+        payload: files,
+        namespace
       });
     });
   }
 };
 
-export const selectCodeCrumbedFlow = (flow, props) => (dispatch, getState) => {
+export const selectCodeCrumbedFlow = (flow, namespace) => (dispatch, getState) => {
   const state = getState();
 
-  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, {
+    namespace
+  });
+
   const firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
 
   dispatch({
     type: ACTIONS.SELECT_CODE_CRUMBED_FLOW,
-    payload: flow ? flow : selectedCrumbedFlowKey || firstFlow
+    payload: flow ? flow : selectedCrumbedFlowKey || firstFlow,
+    namespace
   });
 };
 
-export const calcFilesTreeLayoutNodes = props => (dispatch, getState) => {
+export const calcFilesTreeLayoutNodes = namespace => (dispatch, getState) => {
   const state = getState();
 
-  const { sourceTree, filesMap } = getSource(state, props);
-  const { openedFolders, activeItemsMap } = getSourceUserChoice(state, props);
-  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, props);
+  const namespaceConfig = { namespace };
+  const { sourceTree, filesMap } = getSource(state, namespaceConfig);
+  const { openedFolders, activeItemsMap } = getSourceUserChoice(state, namespaceConfig);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(
+    state,
+    namespaceConfig
+  );
 
   const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsFilterFlow } = getCheckedState(state);
 
@@ -129,13 +148,17 @@ export const calcFilesTreeLayoutNodes = props => (dispatch, getState) => {
       openedFolders,
       activeItemsMap,
       activeCodeCrumbs
-    })
+    }),
+    namespace
   });
 };
 
-export const setActiveItems = (filesList, foldersMap = {}, props) => (dispatch, getState) => {
+export const setActiveItems = ({ filesList, foldersMap = {} }, namespace) => (
+  dispatch,
+  getState
+) => {
   const state = getState();
-  const { activeItemsMap } = getSourceUserChoice(state, props);
+  const { activeItemsMap } = getSourceUserChoice(state, { namespace });
   const { sourceKeepOnlyActiveItems } = getCheckedState(state);
 
   return dispatch({
@@ -148,17 +171,22 @@ export const setActiveItems = (filesList, foldersMap = {}, props) => (dispatch, 
         return acc;
       }, {}),
       ...foldersMap
-    }
+    },
+    namespace
   });
 };
 
 // TODO: refactor too long does too much
-export const updateFoldersByActiveChildren = props => (dispatch, getState) => {
+export const updateFoldersByActiveChildren = namespace => (dispatch, getState) => {
   const state = getState();
 
-  const { filesMap } = getSource(state, props);
-  const { openedFolders, selectedNode } = getSourceUserChoice(state, props);
-  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, props);
+  const namespaceConfig = { namespace };
+  const { filesMap } = getSource(state, namespaceConfig);
+  const { openedFolders, selectedNode } = getSourceUserChoice(state, namespaceConfig);
+  const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(
+    state,
+    namespaceConfig
+  );
 
   const {
     dependenciesDiagramOn,
@@ -184,26 +212,29 @@ export const updateFoldersByActiveChildren = props => (dispatch, getState) => {
 
   const filesList = [selectedNode.path].concat(depFilePaths, ccFilePaths);
   if (!filesList.length) {
-    sourceKeepOnlyActiveItems && dispatch(setActiveItems(filesList));
-    return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders()) : undefined;
+    sourceKeepOnlyActiveItems && dispatch(setActiveItems({ filesList }, namespace));
+    return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders(namespace)) : undefined;
   }
 
   const foldersMap = getFoldersForPaths(filesList, openedFolders, sourceKeepOnlyActiveItems);
-  dispatch(setActiveItems(filesList, foldersMap));
+  dispatch(setActiveItems({ filesList, foldersMap }, namespace));
 
   dispatch({
     type: ACTIONS.SET_FOLDERS_STATE,
-    payload: foldersMap
+    payload: foldersMap,
+    namespace
   });
 };
 
 // TODO: group and move actions to different files
-export const downloadStore = props => (dispatch, getState) => {
+export const downloadStore = namespace => (dispatch, getState) => {
   const state = getState();
 
-  const { sourceTree, filesMap, foldersMap } = getSource(state, props);
-  const { dependenciesEntryName } = getDependenciesUserChoice(state, props);
-  const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
+  // TODO: if namespace === * -> download all dataBus state
+  const namespaceConfig = { namespace };
+  const { sourceTree, filesMap, foldersMap } = getSource(state, namespaceConfig);
+  const { dependenciesEntryName } = getDependenciesUserChoice(state, namespaceConfig);
+  const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, namespaceConfig);
 
   const partialStateToSave = {
     controlsBus: {
@@ -212,7 +243,7 @@ export const downloadStore = props => (dispatch, getState) => {
       disabledState: getDisabledState(state)
     },
     dataBus: {
-      [DEFAULT_NAMESPACE]: {
+      [namespace]: {
         sourceTree,
         filesMap,
         foldersMap,
@@ -235,5 +266,10 @@ export const setPredefinedState = predefinedState => dispatch => {
     payload: predefinedState.controlsBus
   });
 
-  dispatch(setInitialSourceData(predefinedState.dataBus[DEFAULT_NAMESPACE]));
+  Object.keys(predefinedState.dataBus).forEach((namespace, i) => {
+    // TODO: test  performance here
+    setTimeout(() => {
+      dispatch(setInitialSourceData(predefinedState.dataBus[namespace], namespace));
+    }, 100 * i);
+  });
 };

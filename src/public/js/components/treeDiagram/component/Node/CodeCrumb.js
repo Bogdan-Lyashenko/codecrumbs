@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import './index.scss';
-import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
+import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 
 export const CodeCrumbName = props => {
   // onMouseOver maybe use onMouseOver to show crumb details in popover

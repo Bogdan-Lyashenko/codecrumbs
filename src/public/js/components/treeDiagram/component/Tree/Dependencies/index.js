@@ -83,7 +83,13 @@ const DependenciesTree = props => {
                     sourcePosition={sourcePosition}
                     targetPosition={targetPosition}
                     firstSourcePosition={i ? firstSourcePosition : null}
-                    onClick={() => onDependencyEdgeClick(moduleName, [importedNodePath], groupName)}
+                    onClick={() =>
+                      onDependencyEdgeClick({
+                        target: moduleName,
+                        sources: [importedNodePath],
+                        groupName
+                      })
+                    }
                   />
                 );
                 selected ? selectedEdges.push(edge) : edges.push(edge);

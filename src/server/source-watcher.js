@@ -27,7 +27,7 @@ const run = (
       if (message.type === 'CLIENT_CONNECTED') {
         projectSourceWatcher.subscribeOnChange(
           sourceProjectId,
-          { projectDir, entryPoint, webpackConfigPath },
+          { sourceProjectName, projectDir, entryPoint, webpackConfigPath },
           {
             onInit: data => {
               connection.sendUTF(

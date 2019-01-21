@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SYMBOL_WIDTH } from 'components/treeDiagram/store/constants';
+import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 import Arrow from 'components/treeDiagram/component/Icons/Arrow';
 import './index.scss';
 

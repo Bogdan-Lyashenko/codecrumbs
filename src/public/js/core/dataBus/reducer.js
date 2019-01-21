@@ -1,28 +1,28 @@
 import { FOLDER_OPEN_STATE } from 'core/constants';
 
-import { ACTIONS, DEFAULT_NAMESPACE } from './constants';
+import { ACTIONS } from './constants';
 import { getFileNodesMap } from './utils/treeLayout';
 
-const DefaultState = {
-  [DEFAULT_NAMESPACE]: {
-    sourceTree: null,
-    filesMap: null,
-    foldersMap: null,
+const DefaultState = {};
 
-    sourceLayoutTree: null,
-    filesLayoutMap: {},
+const DefaultNamespaceState = {
+  sourceTree: null,
+  filesMap: null,
+  foldersMap: null,
 
-    openedFolders: {},
-    activeItemsMap: {},
-    selectedNode: null,
+  sourceLayoutTree: null,
+  filesLayoutMap: {},
 
-    dependenciesEntryName: undefined,
-    selectedDependencyEdgeNodes: null,
+  openedFolders: {},
+  activeItemsMap: {},
+  selectedNode: null,
 
-    selectedCodeCrumb: null,
-    codeCrumbedFlowsMap: {},
-    selectedCrumbedFlowKey: undefined
-  }
+  dependenciesEntryName: undefined,
+  selectedDependencyEdgeNodes: null,
+
+  selectedCodeCrumb: null,
+  codeCrumbedFlowsMap: {},
+  selectedCrumbedFlowKey: undefined
 };
 
 export const getMergeState = (state, namespace) => namespaceStateUpdate => ({
@@ -33,17 +33,19 @@ export const getMergeState = (state, namespace) => namespaceStateUpdate => ({
   }
 });
 
-// TODO: add selectors?
 export default (state = DefaultState, action) => {
-  const namespace = action.namespace || DEFAULT_NAMESPACE;
+  const namespace = action.namespace;
   const namespaceState = state[namespace];
   const mergeState = getMergeState(state, namespace);
+  // XXX: on switch change all namespaces need to be changed!
+  // when 'namespace' == '*' write some Object.keys(databus).reducer to change all props
 
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA: {
       const { dependenciesEntryName, filesMap, foldersMap } = action.payload;
 
       return mergeState({
+        ...DefaultNamespaceState,
         ...action.payload,
         selectedNode: filesMap[dependenciesEntryName],
         openedFolders: {
@@ -147,6 +149,7 @@ export default (state = DefaultState, action) => {
       const { fileNode } = action.payload;
       const dependenciesEntryName = fileNode ? fileNode.path : namespaceState.dependenciesEntryName;
 
+      // do some reducerr
       return mergeState({
         dependenciesEntryName,
         selectedDependencyEdgeNodes: null

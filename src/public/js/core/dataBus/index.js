@@ -25,26 +25,15 @@ class DataBusContainer extends React.Component {
     createConnection(this.onSocketEvent.bind(this));
   }
 
-  handleInitSyncEvent(dataBody) {
-    const { setInitialSourceData } = this.props;
-    setInitialSourceData(dataBody);
-  }
-
-  handleUpdateSyncEvent(dataBody) {
-    const { setChangedSourceData } = this.props;
-    setChangedSourceData(dataBody);
-  }
-
   onSocketEvent(event) {
-    // TODO: pass sourceProjectId to action name
-    const { type, data, sourceProjectId, sourceProjectName } = event;
+    const { type, data, sourceProjectId } = event;
 
     switch (type) {
       case SOCKET_EVENT_TYPE.INIT_SOURCE_FILES_SYNC:
-        return this.handleInitSyncEvent(data);
+        return this.props.setInitialSourceData(data, sourceProjectId);
 
       case SOCKET_EVENT_TYPE.UPDATE_SOURCE_FILE_SYNC:
-        return this.handleUpdateSyncEvent(data);
+        return this.props.setChangedSourceData(data, sourceProjectId);
 
       default:
         break;

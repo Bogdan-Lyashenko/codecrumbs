@@ -46889,7 +46889,7 @@ module.exports = function(originalModule) {
 /*! exports provided: name, version, author, license, repository, scripts, bin, dependencies, devDependencies, nodemonConfig, husky, default */
 /***/ (function(module) {
 
-module.exports = {"name":"codecrumbs","version":"1.0.12-alpha","author":"Bohdan Liashenko","license":"BSD-3-Clause","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","start:demo":"node ./index.dev.js","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon ./index.dev.js","server-debug":"nodemon --inspect ./index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","chokidar":"^2.0.3","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","portscanner":"^2.2.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","@commitlint/cli":"^7.3.2","@commitlint/config-conventional":"^7.3.1","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","husky":"^1.3.1","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"},"husky":{"hooks":{"commit-msg":"commitlint -E HUSKY_GIT_PARAMS"}}};
+module.exports = {"name":"codecrumbs","version":"1.0.12-alpha","author":"Bohdan Liashenko","license":"BSD-3-Clause","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","start:demo":"node src/index.dev.js","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon src/index.dev.js","server-debug":"nodemon --inspect src/index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","chokidar":"^2.0.3","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","portscanner":"^2.2.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","@commitlint/cli":"^7.3.2","@commitlint/config-conventional":"^7.3.1","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","husky":"^1.3.1","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"},"husky":{"hooks":{"commit-msg":"commitlint -E HUSKY_GIT_PARAMS"}}};
 
 /***/ }),
 
@@ -46947,8 +46947,8 @@ var ViewsSwitches = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function (
 var TopBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
   return Promise.all(/*! import() | top-bar */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~view-switches"), __webpack_require__.e("vendors~top-bar"), __webpack_require__.e("top-bar")]).then(__webpack_require__.bind(null, /*! components/topBar/subPanel/SubPanelContainer */ "./js/components/topBar/subPanel/SubPanelContainer.js"));
 });
-var TreeDiagram = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
-  return Promise.all(/*! import() | tree-diagram */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~flow-chart-tab~tree-diagram"), __webpack_require__.e("vendors~tree-diagram"), __webpack_require__.e("tree-diagram")]).then(__webpack_require__.bind(null, /*! components/treeDiagram/TreeDiagramContainer */ "./js/components/treeDiagram/TreeDiagramContainer.js"));
+var TreeDiagramsContainer = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
+  return Promise.all(/*! import() | tree-diagram */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~flow-chart-tab~tree-diagram"), __webpack_require__.e("vendors~tree-diagram"), __webpack_require__.e("tree-diagram")]).then(__webpack_require__.bind(null, /*! components/treeDiagram/TreeDiagramsContainer */ "./js/components/treeDiagram/TreeDiagramsContainer.js"));
 });
 var SideBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
   return Promise.all(/*! import() | side-bar */[__webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~tree-diagram~view-switches"), __webpack_require__.e("vendors~explorer-bar~side-bar~top-bar~view-switches"), __webpack_require__.e("vendors~side-bar~view-switches"), __webpack_require__.e("vendors~side-bar"), __webpack_require__.e("side-bar")]).then(__webpack_require__.bind(null, /*! components/sideBar/SideBarContainer */ "./js/components/sideBar/SideBarContainer.js"));
@@ -46969,23 +46969,13 @@ var App = function App() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DataBus, {
     standalone: props.standalone,
     predefinedState: props.predefinedState
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-    fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: 'headerPlaceholder'
-    })
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ViewsSwitches, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-    fallback: null
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TopBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "body"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-    fallback: null
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ExplorerBar, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
     fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: 'loader'
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd_lib_spin__WEBPACK_IMPORTED_MODULE_1___default.a, null))
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TreeDiagram, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-    fallback: null
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TreeDiagramsContainer, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
     className: "footer"
   }, "\u24B8 Bohdan Liashenko", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://github.com/Bogdan-Lyashenko/codecrumbs"
@@ -47026,10 +47016,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./js/components/treeDiagram/store/constants.js":
-/*!******************************************************!*\
-  !*** ./js/components/treeDiagram/store/constants.js ***!
-  \******************************************************/
+/***/ "./js/components/treeDiagram/component/constants.js":
+/*!**********************************************************!*\
+  !*** ./js/components/treeDiagram/component/constants.js ***!
+  \**********************************************************/
 /*! exports provided: PURPLE_COLOR, BLUE_COLOR, SYMBOL_WIDTH, LAYOUT_CONFIG, DepEdgeGroups */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -47380,24 +47370,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var setInitialSourceData = function setInitialSourceData(payload) {
+var setInitialSourceData = function setInitialSourceData(payload, namespace) {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_INITIAL_SOURCE_DATA,
-    payload: payload
+    payload: payload,
+    namespace: namespace
   };
 };
-var setChangedSourceData = function setChangedSourceData(payload) {
+var setChangedSourceData = function setChangedSourceData(payload, namespace) {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_CHANGED_SOURCE_DATA,
-    payload: payload
+    payload: payload,
+    namespace: namespace
   };
 };
-var selectNode = function selectNode(fileNode) {
+var selectNode = function selectNode(fileNode, namespace) {
   return function (dispatch) {
     if (process.env.STANDALONE) {
       return dispatch({
         type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_NODE,
-        payload: fileNode
+        payload: fileNode,
+        namespace: namespace
       });
     }
 
@@ -47406,7 +47399,8 @@ var selectNode = function selectNode(fileNode) {
     }).then(function (data) {
       return dispatch({
         type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_NODE,
-        payload: _objectSpread({}, fileNode, data)
+        payload: _objectSpread({}, fileNode, data),
+        namespace: namespace
       });
     });
   };
@@ -47417,14 +47411,16 @@ var toggleFolder = function toggleFolder(folderNode) {
     payload: folderNode
   };
 };
-var openAllFolders = function openAllFolders() {
+var openAllFolders = function openAllFolders(namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].OPEN_ALL_FOLDERS
+    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].OPEN_ALL_FOLDERS,
+    namespace: namespace
   };
 };
-var closeAllFolders = function closeAllFolders() {
+var closeAllFolders = function closeAllFolders(namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].CLOSE_ALL_FOLDERS
+    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].CLOSE_ALL_FOLDERS,
+    namespace: namespace
   };
 };
 var selectCodeCrumb = function selectCodeCrumb(fileNode, codeCrumb) {
@@ -47436,7 +47432,7 @@ var selectCodeCrumb = function selectCodeCrumb(fileNode, codeCrumb) {
     }
   };
 };
-var setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode) {
+var setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode, namespace) {
   return function (dispatch, getState) {
     var state = getState();
 
@@ -47448,59 +47444,73 @@ var setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode) {
       payload: {
         fileNode: fileNode,
         dependenciesShowDirectOnly: dependenciesShowDirectOnly
-      }
+      },
+      namespace: namespace
     });
   };
 };
-var selectDependencyEdge = function selectDependencyEdge(target, sources, groupName) {
+var selectDependencyEdge = function selectDependencyEdge(options, namespace) {
   return function (dispatch) {
+    var _ref = options || {},
+        target = _ref.target,
+        sources = _ref.sources,
+        groupName = _ref.groupName;
+
     dispatch({
       type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_DEPENDENCY_EDGE,
       payload: target ? {
         target: target,
         sources: sources,
         groupName: groupName
-      } : null
+      } : null,
+      namespace: namespace
     });
 
     if (target && sources) {
       Promise.all(sources.map(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["fetchFile"])).then(function (files) {
         dispatch({
           type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].UPDATE_FILES,
-          payload: files
+          payload: files,
+          namespace: namespace
         });
       });
     }
   };
 };
-var selectCodeCrumbedFlow = function selectCodeCrumbedFlow(flow, props) {
+var selectCodeCrumbedFlow = function selectCodeCrumbedFlow(flow, namespace) {
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getCodeCrumbsUserCho = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, props),
+    var _getCodeCrumbsUserCho = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, {
+      namespace: namespace
+    }),
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho.selectedCrumbedFlowKey,
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho.codeCrumbedFlowsMap;
 
     var firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
     dispatch({
       type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW,
-      payload: flow ? flow : selectedCrumbedFlowKey || firstFlow
+      payload: flow ? flow : selectedCrumbedFlowKey || firstFlow,
+      namespace: namespace
     });
   };
 };
-var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(props) {
+var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
   return function (dispatch, getState) {
     var state = getState();
+    var namespaceConfig = {
+      namespace: namespace
+    };
 
-    var _getSource = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, props),
+    var _getSource = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, namespaceConfig),
         sourceTree = _getSource.sourceTree,
         filesMap = _getSource.filesMap;
 
-    var _getSourceUserChoice = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, props),
+    var _getSourceUserChoice = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, namespaceConfig),
         openedFolders = _getSourceUserChoice.openedFolders,
         activeItemsMap = _getSourceUserChoice.activeItemsMap;
 
-    var _getCodeCrumbsUserCho2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, props),
+    var _getCodeCrumbsUserCho2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho2.codeCrumbedFlowsMap,
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho2.selectedCrumbedFlowKey;
 
@@ -47527,17 +47537,21 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(props) {
         openedFolders: openedFolders,
         activeItemsMap: activeItemsMap,
         activeCodeCrumbs: activeCodeCrumbs
-      })
+      }),
+      namespace: namespace
     });
   };
 };
-var setActiveItems = function setActiveItems(filesList) {
-  var foldersMap = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var props = arguments.length > 2 ? arguments[2] : undefined;
+var setActiveItems = function setActiveItems(_ref2, namespace) {
+  var filesList = _ref2.filesList,
+      _ref2$foldersMap = _ref2.foldersMap,
+      foldersMap = _ref2$foldersMap === void 0 ? {} : _ref2$foldersMap;
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getSourceUserChoice2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, props),
+    var _getSourceUserChoice2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, {
+      namespace: namespace
+    }),
         activeItemsMap = _getSourceUserChoice2.activeItemsMap;
 
     var _getCheckedState3 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCheckedState"])(state),
@@ -47549,23 +47563,27 @@ var setActiveItems = function setActiveItems(filesList) {
         //TODO:move this to util!
         acc[item] = true;
         return acc;
-      }, {}), foldersMap)
+      }, {}), foldersMap),
+      namespace: namespace
     });
   };
 }; // TODO: refactor too long does too much
 
-var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(props) {
+var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(namespace) {
   return function (dispatch, getState) {
     var state = getState();
+    var namespaceConfig = {
+      namespace: namespace
+    };
 
-    var _getSource2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, props),
+    var _getSource2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, namespaceConfig),
         filesMap = _getSource2.filesMap;
 
-    var _getSourceUserChoice3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, props),
+    var _getSourceUserChoice3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, namespaceConfig),
         openedFolders = _getSourceUserChoice3.openedFolders,
         selectedNode = _getSourceUserChoice3.selectedNode;
 
-    var _getCodeCrumbsUserCho3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, props),
+    var _getCodeCrumbsUserCho3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho3.codeCrumbedFlowsMap,
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho3.selectedCrumbedFlowKey;
 
@@ -47594,32 +47612,42 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(props
     var filesList = [selectedNode.path].concat(depFilePaths, ccFilePaths);
 
     if (!filesList.length) {
-      sourceKeepOnlyActiveItems && dispatch(setActiveItems(filesList));
-      return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders()) : undefined;
+      sourceKeepOnlyActiveItems && dispatch(setActiveItems({
+        filesList: filesList
+      }, namespace));
+      return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders(namespace)) : undefined;
     }
 
     var foldersMap = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["getFoldersForPaths"])(filesList, openedFolders, sourceKeepOnlyActiveItems);
-    dispatch(setActiveItems(filesList, foldersMap));
+    dispatch(setActiveItems({
+      filesList: filesList,
+      foldersMap: foldersMap
+    }, namespace));
     dispatch({
       type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_FOLDERS_STATE,
-      payload: foldersMap
+      payload: foldersMap,
+      namespace: namespace
     });
   };
 }; // TODO: group and move actions to different files
 
-var downloadStore = function downloadStore(props) {
+var downloadStore = function downloadStore(namespace) {
   return function (dispatch, getState) {
-    var state = getState();
+    var state = getState(); // TODO: if namespace === * -> download all dataBus state
 
-    var _getSource3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, props),
+    var namespaceConfig = {
+      namespace: namespace
+    };
+
+    var _getSource3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, namespaceConfig),
         sourceTree = _getSource3.sourceTree,
         filesMap = _getSource3.filesMap,
         foldersMap = _getSource3.foldersMap;
 
-    var _getDependenciesUserC = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getDependenciesUserChoice"])(state, props),
+    var _getDependenciesUserC = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getDependenciesUserChoice"])(state, namespaceConfig),
         dependenciesEntryName = _getDependenciesUserC.dependenciesEntryName;
 
-    var _getCodeCrumbsUserCho4 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, props),
+    var _getCodeCrumbsUserCho4 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho4.codeCrumbedFlowsMap;
 
     var partialStateToSave = {
@@ -47628,7 +47656,7 @@ var downloadStore = function downloadStore(props) {
         valuesState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getValuesState"])(state),
         disabledState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getDisabledState"])(state)
       },
-      dataBus: _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_5__["DEFAULT_NAMESPACE"], {
+      dataBus: _defineProperty({}, namespace, {
         sourceTree: sourceTree,
         filesMap: filesMap,
         foldersMap: foldersMap,
@@ -47652,7 +47680,12 @@ var setPredefinedState = function setPredefinedState(predefinedState) {
       type: core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_FULL_STATE,
       payload: predefinedState.controlsBus
     });
-    dispatch(setInitialSourceData(predefinedState.dataBus[_constants__WEBPACK_IMPORTED_MODULE_5__["DEFAULT_NAMESPACE"]]));
+    Object.keys(predefinedState.dataBus).forEach(function (namespace, i) {
+      // TODO: test  performance here
+      setTimeout(function () {
+        dispatch(setInitialSourceData(predefinedState.dataBus[namespace], namespace));
+      }, 100 * i);
+    });
   };
 };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../node_modules/process/browser.js */ "../../node_modules/process/browser.js")))
@@ -47710,13 +47743,12 @@ var fetchFile = function fetchFile(path) {
 /*!**************************************!*\
   !*** ./js/core/dataBus/constants.js ***!
   \**************************************/
-/*! exports provided: ACTIONS, DEFAULT_NAMESPACE */
+/*! exports provided: ACTIONS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTIONS", function() { return ACTIONS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_NAMESPACE", function() { return DEFAULT_NAMESPACE; });
 var ACTIONS = {
   SET_INITIAL_SOURCE_DATA: 'DATA_BUS.SET_INITIAL_SOURCE_DATA',
   SET_CHANGED_SOURCE_DATA: 'DATA_BUS.SET_CHANGED_SOURCE_DATA',
@@ -47733,7 +47765,6 @@ var ACTIONS = {
   SELECT_DEPENDENCY_EDGE: 'DATA_BUS.SELECT_DEPENDENCY_EDGE',
   UPDATE_FILES: 'DATA_BUS.UPDATE_FILES'
 };
-var DEFAULT_NAMESPACE = 'main';
 
 /***/ }),
 
@@ -47757,8 +47788,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-var DefaultState = _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_1__["DEFAULT_NAMESPACE"], {
+var DefaultState = {};
+var DefaultNamespaceState = {
   sourceTree: null,
   filesMap: null,
   foldersMap: null,
@@ -47772,20 +47803,19 @@ var DefaultState = _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_1__["
   selectedCodeCrumb: null,
   codeCrumbedFlowsMap: {},
   selectedCrumbedFlowKey: undefined
-});
-
+};
 var getMergeState = function getMergeState(state, namespace) {
   return function (namespaceStateUpdate) {
     return _objectSpread({}, state, _defineProperty({}, namespace, _objectSpread({}, state[namespace], namespaceStateUpdate)));
   };
-}; // TODO: add selectors?
-
+};
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DefaultState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
-  var namespace = action.namespace || _constants__WEBPACK_IMPORTED_MODULE_1__["DEFAULT_NAMESPACE"];
+  var namespace = action.namespace;
   var namespaceState = state[namespace];
-  var mergeState = getMergeState(state, namespace);
+  var mergeState = getMergeState(state, namespace); // XXX: on switch change all namespaces need to be changed!
+  // when 'namespace' == '*' write some Object.keys(databus).reducer to change all props
 
   switch (action.type) {
     case _constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA:
@@ -47794,7 +47824,7 @@ var getMergeState = function getMergeState(state, namespace) {
             dependenciesEntryName = _action$payload.dependenciesEntryName,
             filesMap = _action$payload.filesMap,
             foldersMap = _action$payload.foldersMap;
-        return mergeState(_objectSpread({}, action.payload, {
+        return mergeState(_objectSpread({}, DefaultNamespaceState, action.payload, {
           selectedNode: filesMap[dependenciesEntryName],
           openedFolders: _objectSpread({}, Object.keys(foldersMap).reduce(function (res, item) {
             res[item] = core_constants__WEBPACK_IMPORTED_MODULE_0__["FOLDER_OPEN_STATE"].CLOSED;
@@ -47882,7 +47912,8 @@ var getMergeState = function getMergeState(state, namespace) {
       {
         var _fileNode = action.payload.fileNode;
 
-        var _dependenciesEntryName = _fileNode ? _fileNode.path : namespaceState.dependenciesEntryName;
+        var _dependenciesEntryName = _fileNode ? _fileNode.path : namespaceState.dependenciesEntryName; // do some reducerr
+
 
         return mergeState({
           dependenciesEntryName: _dependenciesEntryName,
@@ -47926,12 +47957,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDependenciesUserChoice", function() { return getDependenciesUserChoice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCodeCrumbsUserChoice", function() { return getCodeCrumbsUserChoice; });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "../../node_modules/reselect/es/index.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./js/core/dataBus/constants.js");
-
 
 var getNamespaceState = function getNamespaceState(state) {
   var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var namespace = props.namespace || _constants__WEBPACK_IMPORTED_MODULE_1__["DEFAULT_NAMESPACE"];
+  var namespace = props.namespace || Object.keys(state.dataBus)[0]; //XXX remove
+
   return state.dataBus[namespace];
 };
 var getSource = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {
@@ -48058,14 +48088,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCodeCrumbsMapForCurrentCcFlow", function() { return getCodeCrumbsMapForCurrentCcFlow; });
 /* harmony import */ var d3_flextree__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-flextree/index.js");
 /* harmony import */ var core_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/constants */ "./js/core/constants/index.js");
-/* harmony import */ var components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/treeDiagram/store/constants */ "./js/components/treeDiagram/store/constants.js");
+/* harmony import */ var components_treeDiagram_component_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/treeDiagram/component/constants */ "./js/components/treeDiagram/component/constants.js");
 
 
 
 var getTreeLayout = function getTreeLayout(treeData, _ref) {
   var includeFileChildren = _ref.includeFileChildren,
       _ref$config = _ref.config,
-      config = _ref$config === void 0 ? components_treeDiagram_store_constants__WEBPACK_IMPORTED_MODULE_2__["LAYOUT_CONFIG"] : _ref$config,
+      config = _ref$config === void 0 ? components_treeDiagram_component_constants__WEBPACK_IMPORTED_MODULE_2__["LAYOUT_CONFIG"] : _ref$config,
       openedFolders = _ref.openedFolders,
       activeItemsMap = _ref.activeItemsMap,
       activeCodeCrumbs = _ref.activeCodeCrumbs;
@@ -48279,99 +48309,108 @@ regeneratorRuntime.mark(rootSaga);
 
 
 function reactOnSwitchToggle(action) {
-  var _action$payload, switchKey, checked;
+  var _action$payload, switchKey, checked, namespace;
 
   return regeneratorRuntime.wrap(function reactOnSwitchToggle$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _action$payload = action.payload, switchKey = _action$payload.switchKey, checked = _action$payload.checked;
+          namespace = '*';
 
           if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].SOURCE_KEEP_ONLY_ACTIVE_ITEMS)) {
-            _context.next = 5;
+            _context.next = 6;
             break;
           }
 
           if (!checked) {
-            _context.next = 5;
+            _context.next = 6;
             break;
           }
 
-          _context.next = 5;
-          return reactByUpdatingFoldersState();
+          _context.next = 6;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
 
-        case 5:
+        case 6:
           if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_DIAGRAM_ON)) {
-            _context.next = 13;
+            _context.next = 14;
             break;
           }
 
           if (!checked) {
-            _context.next = 11;
+            _context.next = 12;
             break;
           }
 
-          _context.next = 9;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])());
+          _context.next = 10;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])(undefined, namespace));
 
-        case 9:
-          _context.next = 13;
+        case 10:
+          _context.next = 14;
           break;
 
-        case 11:
-          _context.next = 13;
-          return reactByUpdatingFoldersState();
+        case 12:
+          _context.next = 14;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
 
-        case 13:
+        case 14:
           if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_MINIMIZE)) {
-            _context.next = 16;
+            _context.next = 17;
             break;
           }
 
-          _context.next = 16;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_4__["setDisabledControl"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, checked)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])())]);
+          _context.next = 17;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_4__["setDisabledControl"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, checked)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
 
-        case 16:
+        case 17:
           if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_FILTER_FLOW)) {
-            _context.next = 19;
+            _context.next = 20;
             break;
           }
 
-          _context.next = 19;
-          return reactByUpdatingFoldersState();
+          _context.next = 20;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
 
-        case 19:
+        case 20:
           if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].DEPENDENCIES_DIAGRAM_ON)) {
-            _context.next = 27;
+            _context.next = 28;
             break;
           }
 
           if (!checked) {
-            _context.next = 25;
+            _context.next = 26;
             break;
           }
 
-          _context.next = 23;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])());
+          _context.next = 24;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
 
-        case 23:
-          _context.next = 27;
+        case 24:
+          _context.next = 28;
           break;
 
-        case 25:
-          _context.next = 27;
-          return reactByUpdatingFoldersState();
+        case 26:
+          _context.next = 28;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
 
-        case 27:
+        case 28:
           if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].DEPENDENCIES_SHOW_DIRECT_ONLY)) {
-            _context.next = 30;
+            _context.next = 31;
             break;
           }
 
-          _context.next = 30;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectDependencyEdge"])(null)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])())]);
+          _context.next = 31;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectDependencyEdge"])(undefined, namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace))]);
 
-        case 30:
+        case 31:
         case "end":
           return _context.stop();
       }
@@ -48380,37 +48419,38 @@ function reactOnSwitchToggle(action) {
 }
 
 function reactOnButtonAction(action) {
-  var buttonKey;
+  var buttonKey, namespace;
   return regeneratorRuntime.wrap(function reactOnButtonAction$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
           buttonKey = action.payload;
+          namespace = '*';
 
           if (!(buttonKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].SOURCE_EXPAND_ALL)) {
-            _context2.next = 5;
+            _context2.next = 6;
             break;
           }
 
-          _context2.next = 4;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["openAllFolders"])()), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])())]);
-
-        case 4:
-          return _context2.abrupt("return", _context2.sent);
+          _context2.next = 5;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["openAllFolders"])(namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
 
         case 5:
+          return _context2.abrupt("return", _context2.sent);
+
+        case 6:
           if (!(buttonKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].SOURCE_COLLAPSE_TO_MIN)) {
-            _context2.next = 9;
+            _context2.next = 10;
             break;
           }
 
-          _context2.next = 8;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["closeAllFolders"])()), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])())]);
-
-        case 8:
-          return _context2.abrupt("return", _context2.sent);
+          _context2.next = 9;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["closeAllFolders"])(namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
 
         case 9:
+          return _context2.abrupt("return", _context2.sent);
+
+        case 10:
         case "end":
           return _context2.stop();
       }
@@ -48418,15 +48458,17 @@ function reactOnButtonAction(action) {
   }, _marked2, this);
 }
 
-function reactOnToggledFolder() {
+function reactOnToggledFolder(_ref) {
+  var namespace;
   return regeneratorRuntime.wrap(function reactOnToggledFolder$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _context3.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])());
+          namespace = _ref.namespace;
+          _context3.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace));
 
-        case 2:
+        case 3:
         case "end":
           return _context3.stop();
       }
@@ -48434,48 +48476,51 @@ function reactOnToggledFolder() {
   }, _marked3, this);
 }
 
-function reactOnSourceSet() {
-  var _ref, dependenciesDiagramOn, codeCrumbsDiagramOn;
+function reactOnSourceSet(_ref2) {
+  var namespace, _ref3, dependenciesDiagramOn, codeCrumbsDiagramOn;
 
   return regeneratorRuntime.wrap(function reactOnSourceSet$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          _context4.next = 2;
+          namespace = _ref2.namespace;
+          _context4.next = 3;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["select"])(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_5__["getCheckedState"]);
 
-        case 2:
-          _ref = _context4.sent;
-          dependenciesDiagramOn = _ref.dependenciesDiagramOn;
-          codeCrumbsDiagramOn = _ref.codeCrumbsDiagramOn;
+        case 3:
+          _ref3 = _context4.sent;
+          dependenciesDiagramOn = _ref3.dependenciesDiagramOn;
+          codeCrumbsDiagramOn = _ref3.codeCrumbsDiagramOn;
 
           if (!(!dependenciesDiagramOn && !codeCrumbsDiagramOn)) {
-            _context4.next = 8;
+            _context4.next = 9;
             break;
           }
 
-          _context4.next = 8;
-          return reactByUpdatingFoldersState();
+          _context4.next = 9;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
 
-        case 8:
+        case 9:
           if (!dependenciesDiagramOn) {
-            _context4.next = 11;
+            _context4.next = 12;
             break;
           }
 
-          _context4.next = 11;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])());
+          _context4.next = 12;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
 
-        case 11:
+        case 12:
           if (!codeCrumbsDiagramOn) {
-            _context4.next = 14;
+            _context4.next = 15;
             break;
           }
 
-          _context4.next = 14;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])());
+          _context4.next = 15;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])(undefined, namespace));
 
-        case 14:
+        case 15:
         case "end":
           return _context4.stop();
       }
@@ -48483,19 +48528,21 @@ function reactOnSourceSet() {
   }, _marked4, this);
 }
 
-function reactByUpdatingFoldersState() {
+function reactByUpdatingFoldersState(_ref4) {
+  var namespace;
   return regeneratorRuntime.wrap(function reactByUpdatingFoldersState$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          _context5.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["updateFoldersByActiveChildren"])());
+          namespace = _ref4.namespace;
+          _context5.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["updateFoldersByActiveChildren"])(namespace));
 
-        case 2:
-          _context5.next = 4;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])());
+        case 3:
+          _context5.next = 5;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace));
 
-        case 4:
+        case 5:
         case "end":
           return _context5.stop();
       }
@@ -48503,15 +48550,17 @@ function reactByUpdatingFoldersState() {
   }, _marked5, this);
 }
 
-function reactOnSelectNode() {
+function reactOnSelectNode(_ref5) {
+  var namespace;
   return regeneratorRuntime.wrap(function reactOnSelectNode$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
-          _context6.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])());
+          namespace = _ref5.namespace;
+          _context6.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
 
-        case 2:
+        case 3:
         case "end":
           return _context6.stop();
       }

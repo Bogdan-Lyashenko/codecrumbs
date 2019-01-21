@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect';
 
-import { DEFAULT_NAMESPACE } from './constants';
-
 export const getNamespaceState = (state, props = {}) => {
-  const namespace = props.namespace || DEFAULT_NAMESPACE;
+  const namespace = props.namespace || Object.keys(state.dataBus)[0]; //XXX remove
   return state.dataBus[namespace];
 };
 

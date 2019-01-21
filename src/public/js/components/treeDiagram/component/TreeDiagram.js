@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Draggable from 'react-draggable';
 import { Spin } from 'antd';
 
@@ -7,11 +9,15 @@ import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
 import { buildShiftToPoint } from 'core/dataBus/utils/geometry';
+import { getSourceLayout } from 'core/dataBus/selectors';
+import { getValuesState } from 'core/controlsBus/selectors';
+import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
+import { selectDependencyEdge } from 'core/dataBus/actions';
 
 class TreeDiagram extends React.Component {
   render() {
     // TODO: fix diagramZoom
-    const { diagramZoom, layoutSize, sourceLayoutTree, onUnderLayerClick } = this.props;
+    const { namespace, diagramZoom, layoutSize, sourceLayoutTree, onUnderLayerClick } = this.props;
     const { width, height, xShift, yShift, bounds } = layoutSize;
 
     if (!width && !height) {
@@ -42,7 +48,7 @@ class TreeDiagram extends React.Component {
             {sourceLayoutTree && (
               <React.Fragment>
                 <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-                <SourceTree shiftToCenterPoint={shiftToCenterPoint} />
+                <SourceTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
               </React.Fragment>
             )}
           </svg>
@@ -52,4 +58,28 @@ class TreeDiagram extends React.Component {
   }
 }
 
-export default TreeDiagram;
+const mapStateToProps = (state, props) => {
+  const { namespace } = props;
+  const { sourceLayoutTree } = getSourceLayout(state, props);
+  const { diagramZoom } = getValuesState(state, props);
+
+  return {
+    namespace,
+    diagramZoom,
+    sourceLayoutTree,
+    layoutSize: calculateLayoutSize(sourceLayoutTree)
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { namespace } = ownProps;
+  return {
+    // TODO: add namespace here, not from component render
+    onUnderLayerClick: () => dispatch(selectDependencyEdge(undefined, namespace))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TreeDiagram);

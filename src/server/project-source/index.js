@@ -39,7 +39,7 @@ const closePreviousSubscription = id => {
 
 const subscribeOnChange = (
   sourceProjectId,
-  { projectDir, entryPoint, webpackConfigPath },
+  { sourceProjectName, projectDir, entryPoint, webpackConfigPath },
   { onInit, onChange }
 ) => {
   // TODO: refactor function, too long
@@ -63,6 +63,8 @@ const subscribeOnChange = (
     });
 
     return onInit({
+      sourceProjectId,
+      sourceProjectName,
       sourceTree: fs.sourceTree,
       filesMap: fs.filesMap,
       foldersMap: fs.foldersMap,

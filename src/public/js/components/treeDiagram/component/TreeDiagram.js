@@ -60,8 +60,8 @@ class TreeDiagram extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { namespace } = props;
-  const { sourceLayoutTree } = getSourceLayout(state, props);
-  const { diagramZoom } = getValuesState(state, props);
+  const { sourceLayoutTree } = getSourceLayout(state, { namespace });
+  const { diagramZoom } = getValuesState(state);
 
   return {
     namespace,
@@ -74,7 +74,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { namespace } = ownProps;
   return {
-    // TODO: add namespace here, not from component render
     onUnderLayerClick: () => dispatch(selectDependencyEdge(undefined, namespace))
   };
 };

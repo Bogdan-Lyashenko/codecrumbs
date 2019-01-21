@@ -5,6 +5,9 @@ const http = require('http');
 const run = ({ port, clientPort }) => {
   const httpServer = http.createServer((request, response) => {
     // TODO: refactor this to work with sockets instead
+    response.writeHead(500, {'Content-Type': 'text/html'});
+    response.write('STOP USE HTTP! Will be moved to sockets!');
+    response.end();
   });
 
   httpServer.listen(port, () => console.log(`Mediator server is listening: ${port}.`));

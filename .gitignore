@@ -2,8 +2,8 @@
 node_modules
 
 # Build directories
-src/public/dist/local/bundle
-src/public/dist/standalone/bundle
+src/public/dist/local/bundle/
+src/public/dist/standalone/bundle/
 
 # example for dev
 # example-project

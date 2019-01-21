@@ -12,6 +12,8 @@ import CodeCrumbedFlowEdges from '../CodeCrumbs/FlowEdge';
 
 const SourceTree = props => {
   const {
+    namespace,
+
     sourceDiagramOn,
     dependenciesDiagramOn,
     sourceDimFolders,
@@ -101,9 +103,9 @@ const SourceTree = props => {
               selectedNodeDependencies[path] &&
               !selectedNodeDependencies[path].importedModuleNames.length
             }
-            onNodeClick={() => {
-              onFileNodeClick(fileNode);
-            }}
+            onNodeClick={() =>
+              onFileNodeClick(fileNode)
+            }
           />
         );
       } else if (type === DIR_NODE_TYPE) {
@@ -129,15 +131,22 @@ const SourceTree = props => {
       {(sourceDiagramOn && selectedSourceEdges) || null}
 
       {dependenciesDiagramOn &&
-        selectedNode.dependencies && <DependenciesTree shiftToCenterPoint={shiftToCenterPoint} />}
+        selectedNode.dependencies && (
+          <DependenciesTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+        )}
 
-      {(codeCrumbsDiagramOn && <CodeCrumbedFlowEdges shiftToCenterPoint={shiftToCenterPoint} />) ||
+      {(codeCrumbsDiagramOn && (
+        <CodeCrumbedFlowEdges namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+      )) ||
         null}
 
       {(sourceDiagramOn && sourceNodes) || null}
       {(sourceDiagramOn && sourceDotes) || null}
 
-      {(codeCrumbsDiagramOn && <CodeCrumbsTree shiftToCenterPoint={shiftToCenterPoint} />) || null}
+      {(codeCrumbsDiagramOn && (
+        <CodeCrumbsTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+      )) ||
+        null}
     </React.Fragment>
   );
 };

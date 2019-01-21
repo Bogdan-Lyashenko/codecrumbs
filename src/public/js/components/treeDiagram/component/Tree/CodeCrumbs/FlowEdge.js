@@ -67,9 +67,16 @@ const getSortedFlowSteps = ({ codeCrumbedFlowsMap, selectedCrumbedFlowKey, files
 const mapStateToProps = (state, props) => {
   const { codeCrumbsMinimize } = getCheckedState(state);
 
-  const { filesLayoutMap } = getSourceLayout(state, props);
-  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
+  const { namespace } = props;
+  const namespaceProps = { namespace };
 
+  const { filesLayoutMap } = getSourceLayout(state, namespaceProps);
+  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(
+    state,
+    namespaceProps
+  );
+
+  // TODO: ftw is this
   const sortedFlowSteps =
     selectedCrumbedFlowKey !== NO_TRAIL_FLOW
       ? getSortedFlowSteps({

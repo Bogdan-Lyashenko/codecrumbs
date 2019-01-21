@@ -20,15 +20,18 @@ const mapStateToProps = (state, props) => {
     codeCrumbsMinimize
   } = getCheckedState(state);
 
-  const { filesMap } = getSource(state, props);
-  const { sourceLayoutTree } = getSourceLayout(state, props);
-  const { selectedNode, openedFolders } = getSourceUserChoice(state, props);
+  const { namespace } = props;
+  const namespaceProps = { namespace };
+  const { filesMap } = getSource(state, namespaceProps);
+  const { sourceLayoutTree } = getSourceLayout(state, namespaceProps);
+  const { selectedNode, openedFolders } = getSourceUserChoice(state, namespaceProps);
   const { dependenciesEntryName, selectedDependencyEdgeNodes } = getDependenciesUserChoice(
     state,
-    props
+    namespaceProps
   );
 
   return {
+    namespace,
     sourceDiagramOn,
     dependenciesDiagramOn,
     sourceDimFolders,
@@ -43,9 +46,12 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = {
-  onFileNodeClick: selectNode,
-  onFolderNodeClick: toggleFolder
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { namespace } = ownProps;
+  return {
+    onFileNodeClick: fileNode => dispatch(selectNode(fileNode, namespace)),
+    onFolderNodeClick: folderNode => dispatch(toggleFolder(folderNode, namespace))
+  };
 };
 
 export default connect(

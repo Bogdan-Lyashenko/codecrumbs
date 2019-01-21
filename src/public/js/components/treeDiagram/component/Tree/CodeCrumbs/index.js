@@ -7,9 +7,6 @@ import { getCheckedState } from 'core/controlsBus/selectors';
 import Tree from './Tree';
 
 const mapStateToProps = (state, props) => {
-  const { filesMap } = getSource(state, props);
-  const { filesLayoutMap } = getSourceLayout(state, props);
-  const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, props);
   const {
     sourceDiagramOn,
     dependenciesDiagramOn,
@@ -17,6 +14,12 @@ const mapStateToProps = (state, props) => {
     codeCrumbsMinimize,
     codeCrumbsLineNumbers
   } = getCheckedState(state);
+
+  const { namespace } = props;
+  const namespaceProps = { namespace };
+  const { filesMap } = getSource(state, namespaceProps);
+  const { filesLayoutMap } = getSourceLayout(state, namespaceProps);
+  const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, namespaceProps);
 
   return {
     filesLayoutMap,
@@ -30,8 +33,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = {
-  onCodeCrumbSelect: selectCodeCrumb
+const mapDispatchToProps = (dispatch, props) => {
+  const { namespace } = props;
+  return {
+    onCodeCrumbSelect: options => dispatch(selectCodeCrumb(options, namespace))
+  };
 };
 
 export default connect(

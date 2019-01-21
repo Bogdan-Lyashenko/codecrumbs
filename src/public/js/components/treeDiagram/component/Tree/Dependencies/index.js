@@ -140,9 +140,11 @@ const DependenciesTree = props => {
 const mapStateToProps = (state, props) => {
   const { sourceDiagramOn } = getCheckedState(state);
 
-  const { filesLayoutMap } = getSourceLayout(state, props);
-  const { selectedNode } = getSourceUserChoice(state, props);
-  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state, props);
+  const { namespace } = props;
+  const namespaceProps = { namespace };
+  const { filesLayoutMap } = getSourceLayout(state, namespaceProps);
+  const { selectedNode } = getSourceUserChoice(state, namespaceProps);
+  const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state, namespaceProps);
 
   return {
     sourceDiagramOn,
@@ -152,8 +154,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = {
-  onDependencyEdgeClick: selectDependencyEdge
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { namespace } = ownProps;
+  return {
+    onDependencyEdgeClick: options => dispatch(selectDependencyEdge(options, namespace))
+  };
 };
 
 export default connect(

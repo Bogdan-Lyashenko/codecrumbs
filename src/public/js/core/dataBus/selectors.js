@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 export const getNamespaceState = (state, props = {}) => {
-  const namespace = props.namespace || Object.keys(state.dataBus)[0]; //XXX remove
+  const { namespace } = props;
   return state.dataBus[namespace];
 };
 

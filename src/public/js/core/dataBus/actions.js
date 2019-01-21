@@ -38,18 +38,28 @@ export const selectNode = (fileNode, namespace) => dispatch => {
     });
   }
 
-  fetchFile(fileNode.path, { parseDependencies: true }).then(data =>
-    dispatch({
-      type: ACTIONS.SELECT_NODE,
-      payload: { ...fileNode, ...data },
-      namespace
-    })
-  );
+  fetchFile(fileNode.path, { parseDependencies: true })
+    .then(data =>
+      dispatch({
+        type: ACTIONS.SELECT_NODE,
+        payload: { ...fileNode, ...data },
+        namespace
+      })
+    )
+    .catch(e => {
+      console.log(`Could not fetch details from server for ${fileNode.path}`, e);
+      dispatch({
+        type: ACTIONS.SELECT_NODE,
+        payload: fileNode,
+        namespace
+      });
+    });
 };
 
-export const toggleFolder = folderNode => ({
+export const toggleFolder = (folderNode, namespace) => ({
   type: ACTIONS.TOGGLE_FOLDER,
-  payload: folderNode
+  payload: folderNode,
+  namespace
 });
 
 export const openAllFolders = namespace => ({
@@ -62,9 +72,10 @@ export const closeAllFolders = namespace => ({
   namespace
 });
 
-export const selectCodeCrumb = (fileNode, codeCrumb) => ({
+export const selectCodeCrumb = (payload, namespace) => ({
   type: ACTIONS.SELECT_CODE_CRUMB,
-  payload: { fileNode, codeCrumb }
+  payload,
+  namespace
 });
 
 export const setDependenciesEntryPoint = (fileNode, namespace) => (dispatch, getState) => {

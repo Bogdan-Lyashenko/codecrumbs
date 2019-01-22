@@ -28,9 +28,9 @@ const App = (props = {}) => {
         <Suspense fallback={null}>
           <DataBus standalone={props.standalone} predefinedState={props.predefinedState} />
         </Suspense>
-        {/*<Suspense fallback={<div className={'headerPlaceholder'} />}>
+        <Suspense fallback={<div className={'headerPlaceholder'} />}>
           <ViewsSwitches />
-        </Suspense>*/}
+        </Suspense>
         {/*<Suspense fallback={null}>
           <TopBar />
         </Suspense>*/}

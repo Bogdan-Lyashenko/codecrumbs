@@ -46969,7 +46969,11 @@ var App = function App() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DataBus, {
     standalone: props.standalone,
     predefinedState: props.predefinedState
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
+    fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: 'headerPlaceholder'
+    })
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ViewsSwitches, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "body"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
     fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -47402,13 +47406,21 @@ var selectNode = function selectNode(fileNode, namespace) {
         payload: _objectSpread({}, fileNode, data),
         namespace: namespace
       });
+    }).catch(function (e) {
+      console.log("Could not fetch details from server for ".concat(fileNode.path), e);
+      dispatch({
+        type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_NODE,
+        payload: fileNode,
+        namespace: namespace
+      });
     });
   };
 };
-var toggleFolder = function toggleFolder(folderNode) {
+var toggleFolder = function toggleFolder(folderNode, namespace) {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].TOGGLE_FOLDER,
-    payload: folderNode
+    payload: folderNode,
+    namespace: namespace
   };
 };
 var openAllFolders = function openAllFolders(namespace) {
@@ -47423,13 +47435,11 @@ var closeAllFolders = function closeAllFolders(namespace) {
     namespace: namespace
   };
 };
-var selectCodeCrumb = function selectCodeCrumb(fileNode, codeCrumb) {
+var selectCodeCrumb = function selectCodeCrumb(payload, namespace) {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_CODE_CRUMB,
-    payload: {
-      fileNode: fileNode,
-      codeCrumb: codeCrumb
-    }
+    payload: payload,
+    namespace: namespace
   };
 };
 var setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode, namespace) {
@@ -47814,8 +47824,7 @@ var getMergeState = function getMergeState(state, namespace) {
   var action = arguments.length > 1 ? arguments[1] : undefined;
   var namespace = action.namespace;
   var namespaceState = state[namespace];
-  var mergeState = getMergeState(state, namespace); // XXX: on switch change all namespaces need to be changed!
-  // when 'namespace' == '*' write some Object.keys(databus).reducer to change all props
+  var mergeState = getMergeState(state, namespace);
 
   switch (action.type) {
     case _constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA:
@@ -47945,11 +47954,12 @@ var getMergeState = function getMergeState(state, namespace) {
 /*!**************************************!*\
   !*** ./js/core/dataBus/selectors.js ***!
   \**************************************/
-/*! exports provided: getNamespaceState, getSource, getSourceLayout, getSourceUserChoice, getDependenciesUserChoice, getCodeCrumbsUserChoice */
+/*! exports provided: getNamespacesList, getNamespaceState, getSource, getSourceLayout, getSourceUserChoice, getDependenciesUserChoice, getCodeCrumbsUserChoice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNamespacesList", function() { return getNamespacesList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNamespaceState", function() { return getNamespaceState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSource", function() { return getSource; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSourceLayout", function() { return getSourceLayout; });
@@ -47958,10 +47968,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCodeCrumbsUserChoice", function() { return getCodeCrumbsUserChoice; });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "../../node_modules/reselect/es/index.js");
 
+var getNamespacesList = function getNamespacesList(state) {
+  return Object.keys(state.dataBus);
+};
 var getNamespaceState = function getNamespaceState(state) {
   var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var namespace = props.namespace || Object.keys(state.dataBus)[0]; //XXX remove
-
+  var namespace = props.namespace;
   return state.dataBus[namespace];
 };
 var getSource = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {
@@ -48276,30 +48288,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-saga/effects */ "../../node_modules/redux-saga/es/effects.js");
 /* harmony import */ var core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/dataBus/constants */ "./js/core/dataBus/constants.js");
 /* harmony import */ var core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core/dataBus/actions */ "./js/core/dataBus/actions.js");
-/* harmony import */ var core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core/controlsBus/constants */ "./js/core/controlsBus/constants.js");
-/* harmony import */ var core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core/controlsBus/actions */ "./js/core/controlsBus/actions.js");
-/* harmony import */ var core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core/controlsBus/selectors */ "./js/core/controlsBus/selectors.js");
+/* harmony import */ var core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core/dataBus/selectors */ "./js/core/dataBus/selectors.js");
+/* harmony import */ var core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core/controlsBus/constants */ "./js/core/controlsBus/constants.js");
+/* harmony import */ var core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core/controlsBus/actions */ "./js/core/controlsBus/actions.js");
+/* harmony import */ var core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core/controlsBus/selectors */ "./js/core/controlsBus/selectors.js");
 var _marked =
 /*#__PURE__*/
 regeneratorRuntime.mark(reactOnSwitchToggle),
     _marked2 =
 /*#__PURE__*/
-regeneratorRuntime.mark(reactOnButtonAction),
+regeneratorRuntime.mark(applyReactionOnSwitchToggleToNamespace),
     _marked3 =
 /*#__PURE__*/
-regeneratorRuntime.mark(reactOnToggledFolder),
+regeneratorRuntime.mark(reactOnButtonAction),
     _marked4 =
 /*#__PURE__*/
-regeneratorRuntime.mark(reactOnSourceSet),
+regeneratorRuntime.mark(applyReactionOnButtonActionToNamespace),
     _marked5 =
 /*#__PURE__*/
-regeneratorRuntime.mark(reactByUpdatingFoldersState),
+regeneratorRuntime.mark(reactOnToggledFolder),
     _marked6 =
 /*#__PURE__*/
-regeneratorRuntime.mark(reactOnSelectNode),
+regeneratorRuntime.mark(reactOnSourceSet),
     _marked7 =
 /*#__PURE__*/
+regeneratorRuntime.mark(reactByUpdatingFoldersState),
+    _marked8 =
+/*#__PURE__*/
+regeneratorRuntime.mark(reactOnSelectNode),
+    _marked9 =
+/*#__PURE__*/
 regeneratorRuntime.mark(rootSaga);
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+ // import { delay } from 'redux-saga';
 
 
 
@@ -48309,148 +48334,183 @@ regeneratorRuntime.mark(rootSaga);
 
 
 function reactOnSwitchToggle(action) {
-  var _action$payload, switchKey, checked, namespace;
+  var namespacesList, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, namespace;
 
   return regeneratorRuntime.wrap(function reactOnSwitchToggle$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _action$payload = action.payload, switchKey = _action$payload.switchKey, checked = _action$payload.checked;
-          namespace = '*';
+          _context.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["select"])(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getNamespacesList"]);
 
-          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].SOURCE_KEEP_ONLY_ACTIVE_ITEMS)) {
-            _context.next = 6;
+        case 2:
+          namespacesList = _context.sent;
+          _iteratorNormalCompletion = true;
+          _didIteratorError = false;
+          _iteratorError = undefined;
+          _context.prev = 6;
+          _iterator = namespacesList[Symbol.iterator]();
+
+        case 8:
+          if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+            _context.next = 15;
             break;
           }
 
-          if (!checked) {
-            _context.next = 6;
-            break;
-          }
-
-          _context.next = 6;
-          return reactByUpdatingFoldersState({
+          namespace = _step.value;
+          _context.next = 12;
+          return applyReactionOnSwitchToggleToNamespace(_objectSpread({}, action.payload, {
             namespace: namespace
-          });
-
-        case 6:
-          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_DIAGRAM_ON)) {
-            _context.next = 14;
-            break;
-          }
-
-          if (!checked) {
-            _context.next = 12;
-            break;
-          }
-
-          _context.next = 10;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])(undefined, namespace));
-
-        case 10:
-          _context.next = 14;
-          break;
+          }));
 
         case 12:
-          _context.next = 14;
-          return reactByUpdatingFoldersState({
-            namespace: namespace
-          });
-
-        case 14:
-          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_MINIMIZE)) {
-            _context.next = 17;
-            break;
-          }
-
-          _context.next = 17;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_4__["setDisabledControl"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, checked)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
-
-        case 17:
-          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].CODE_CRUMBS_FILTER_FLOW)) {
-            _context.next = 20;
-            break;
-          }
-
-          _context.next = 20;
-          return reactByUpdatingFoldersState({
-            namespace: namespace
-          });
-
-        case 20:
-          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].DEPENDENCIES_DIAGRAM_ON)) {
-            _context.next = 28;
-            break;
-          }
-
-          if (!checked) {
-            _context.next = 26;
-            break;
-          }
-
-          _context.next = 24;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
-
-        case 24:
-          _context.next = 28;
+          _iteratorNormalCompletion = true;
+          _context.next = 8;
           break;
 
-        case 26:
-          _context.next = 28;
-          return reactByUpdatingFoldersState({
-            namespace: namespace
-          });
+        case 15:
+          _context.next = 21;
+          break;
 
-        case 28:
-          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].DEPENDENCIES_SHOW_DIRECT_ONLY)) {
-            _context.next = 31;
+        case 17:
+          _context.prev = 17;
+          _context.t0 = _context["catch"](6);
+          _didIteratorError = true;
+          _iteratorError = _context.t0;
+
+        case 21:
+          _context.prev = 21;
+          _context.prev = 22;
+
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
+            _iterator.return();
+          }
+
+        case 24:
+          _context.prev = 24;
+
+          if (!_didIteratorError) {
+            _context.next = 27;
             break;
           }
 
-          _context.next = 31;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectDependencyEdge"])(undefined, namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace))]);
+          throw _iteratorError;
 
-        case 31:
+        case 27:
+          return _context.finish(24);
+
+        case 28:
+          return _context.finish(21);
+
+        case 29:
         case "end":
           return _context.stop();
       }
     }
-  }, _marked, this);
+  }, _marked, this, [[6, 17, 21, 29], [22,, 24, 28]]);
 }
 
-function reactOnButtonAction(action) {
-  var buttonKey, namespace;
-  return regeneratorRuntime.wrap(function reactOnButtonAction$(_context2) {
+function applyReactionOnSwitchToggleToNamespace(_ref) {
+  var switchKey, checked, namespace;
+  return regeneratorRuntime.wrap(function applyReactionOnSwitchToggleToNamespace$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          buttonKey = action.payload;
-          namespace = '*';
+          switchKey = _ref.switchKey, checked = _ref.checked, namespace = _ref.namespace;
 
-          if (!(buttonKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].SOURCE_EXPAND_ALL)) {
-            _context2.next = 6;
+          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].SOURCE_KEEP_ONLY_ACTIVE_ITEMS)) {
+            _context2.next = 5;
+            break;
+          }
+
+          if (!checked) {
+            _context2.next = 5;
             break;
           }
 
           _context2.next = 5;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["openAllFolders"])(namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
 
         case 5:
-          return _context2.abrupt("return", _context2.sent);
+          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_DIAGRAM_ON)) {
+            _context2.next = 13;
+            break;
+          }
 
-        case 6:
-          if (!(buttonKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["CONTROLS_KEYS"].SOURCE_COLLAPSE_TO_MIN)) {
-            _context2.next = 10;
+          if (!checked) {
+            _context2.next = 11;
             break;
           }
 
           _context2.next = 9;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["closeAllFolders"])(namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])(undefined, namespace));
 
         case 9:
-          return _context2.abrupt("return", _context2.sent);
+          _context2.next = 13;
+          break;
 
-        case 10:
+        case 11:
+          _context2.next = 13;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
+
+        case 13:
+          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_MINIMIZE)) {
+            _context2.next = 16;
+            break;
+          }
+
+          _context2.next = 16;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_5__["setDisabledControl"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, checked)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
+
+        case 16:
+          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_FILTER_FLOW)) {
+            _context2.next = 19;
+            break;
+          }
+
+          _context2.next = 19;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
+
+        case 19:
+          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].DEPENDENCIES_DIAGRAM_ON)) {
+            _context2.next = 27;
+            break;
+          }
+
+          if (!checked) {
+            _context2.next = 25;
+            break;
+          }
+
+          _context2.next = 23;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
+
+        case 23:
+          _context2.next = 27;
+          break;
+
+        case 25:
+          _context2.next = 27;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
+
+        case 27:
+          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].DEPENDENCIES_SHOW_DIRECT_ONLY)) {
+            _context2.next = 30;
+            break;
+          }
+
+          _context2.next = 30;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectDependencyEdge"])(undefined, namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace))]);
+
+        case 30:
         case "end":
           return _context2.stop();
       }
@@ -48458,69 +48518,116 @@ function reactOnButtonAction(action) {
   }, _marked2, this);
 }
 
-function reactOnToggledFolder(_ref) {
-  var namespace;
-  return regeneratorRuntime.wrap(function reactOnToggledFolder$(_context3) {
+function reactOnButtonAction(action) {
+  var namespacesList, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, namespace;
+
+  return regeneratorRuntime.wrap(function reactOnButtonAction$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          namespace = _ref.namespace;
-          _context3.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace));
+          _context3.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["select"])(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getNamespacesList"]);
 
-        case 3:
+        case 2:
+          namespacesList = _context3.sent;
+          _iteratorNormalCompletion2 = true;
+          _didIteratorError2 = false;
+          _iteratorError2 = undefined;
+          _context3.prev = 6;
+          _iterator2 = namespacesList[Symbol.iterator]();
+
+        case 8:
+          if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+            _context3.next = 15;
+            break;
+          }
+
+          namespace = _step2.value;
+          _context3.next = 12;
+          return applyReactionOnButtonActionToNamespace({
+            buttonKey: action.payload,
+            namespace: namespace
+          });
+
+        case 12:
+          _iteratorNormalCompletion2 = true;
+          _context3.next = 8;
+          break;
+
+        case 15:
+          _context3.next = 21;
+          break;
+
+        case 17:
+          _context3.prev = 17;
+          _context3.t0 = _context3["catch"](6);
+          _didIteratorError2 = true;
+          _iteratorError2 = _context3.t0;
+
+        case 21:
+          _context3.prev = 21;
+          _context3.prev = 22;
+
+          if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+            _iterator2.return();
+          }
+
+        case 24:
+          _context3.prev = 24;
+
+          if (!_didIteratorError2) {
+            _context3.next = 27;
+            break;
+          }
+
+          throw _iteratorError2;
+
+        case 27:
+          return _context3.finish(24);
+
+        case 28:
+          return _context3.finish(21);
+
+        case 29:
         case "end":
           return _context3.stop();
       }
     }
-  }, _marked3, this);
+  }, _marked3, this, [[6, 17, 21, 29], [22,, 24, 28]]);
 }
 
-function reactOnSourceSet(_ref2) {
-  var namespace, _ref3, dependenciesDiagramOn, codeCrumbsDiagramOn;
-
-  return regeneratorRuntime.wrap(function reactOnSourceSet$(_context4) {
+function applyReactionOnButtonActionToNamespace(_ref2) {
+  var buttonKey, namespace;
+  return regeneratorRuntime.wrap(function applyReactionOnButtonActionToNamespace$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          namespace = _ref2.namespace;
-          _context4.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["select"])(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_5__["getCheckedState"]);
+          buttonKey = _ref2.buttonKey, namespace = _ref2.namespace;
 
-        case 3:
-          _ref3 = _context4.sent;
-          dependenciesDiagramOn = _ref3.dependenciesDiagramOn;
-          codeCrumbsDiagramOn = _ref3.codeCrumbsDiagramOn;
+          if (!(buttonKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].SOURCE_EXPAND_ALL)) {
+            _context4.next = 5;
+            break;
+          }
 
-          if (!(!dependenciesDiagramOn && !codeCrumbsDiagramOn)) {
+          _context4.next = 4;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["openAllFolders"])(namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
+
+        case 4:
+          return _context4.abrupt("return", _context4.sent);
+
+        case 5:
+          if (!(buttonKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].SOURCE_COLLAPSE_TO_MIN)) {
             _context4.next = 9;
             break;
           }
 
-          _context4.next = 9;
-          return reactByUpdatingFoldersState({
-            namespace: namespace
-          });
+          _context4.next = 8;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["closeAllFolders"])(namespace)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
+
+        case 8:
+          return _context4.abrupt("return", _context4.sent);
 
         case 9:
-          if (!dependenciesDiagramOn) {
-            _context4.next = 12;
-            break;
-          }
-
-          _context4.next = 12;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
-
-        case 12:
-          if (!codeCrumbsDiagramOn) {
-            _context4.next = 15;
-            break;
-          }
-
-          _context4.next = 15;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])(undefined, namespace));
-
-        case 15:
         case "end":
           return _context4.stop();
       }
@@ -48528,21 +48635,17 @@ function reactOnSourceSet(_ref2) {
   }, _marked4, this);
 }
 
-function reactByUpdatingFoldersState(_ref4) {
+function reactOnToggledFolder(_ref3) {
   var namespace;
-  return regeneratorRuntime.wrap(function reactByUpdatingFoldersState$(_context5) {
+  return regeneratorRuntime.wrap(function reactOnToggledFolder$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          namespace = _ref4.namespace;
+          namespace = _ref3.namespace;
           _context5.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["updateFoldersByActiveChildren"])(namespace));
-
-        case 3:
-          _context5.next = 5;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace));
 
-        case 5:
+        case 3:
         case "end":
           return _context5.stop();
       }
@@ -48550,17 +48653,51 @@ function reactByUpdatingFoldersState(_ref4) {
   }, _marked5, this);
 }
 
-function reactOnSelectNode(_ref5) {
-  var namespace;
-  return regeneratorRuntime.wrap(function reactOnSelectNode$(_context6) {
+function reactOnSourceSet(_ref4) {
+  var namespace, _ref5, dependenciesDiagramOn, codeCrumbsDiagramOn;
+
+  return regeneratorRuntime.wrap(function reactOnSourceSet$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
-          namespace = _ref5.namespace;
+          namespace = _ref4.namespace;
           _context6.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["select"])(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_6__["getCheckedState"]);
 
         case 3:
+          _ref5 = _context6.sent;
+          dependenciesDiagramOn = _ref5.dependenciesDiagramOn;
+          codeCrumbsDiagramOn = _ref5.codeCrumbsDiagramOn;
+
+          if (!(!dependenciesDiagramOn && !codeCrumbsDiagramOn)) {
+            _context6.next = 9;
+            break;
+          }
+
+          _context6.next = 9;
+          return reactByUpdatingFoldersState({
+            namespace: namespace
+          });
+
+        case 9:
+          if (!dependenciesDiagramOn) {
+            _context6.next = 12;
+            break;
+          }
+
+          _context6.next = 12;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
+
+        case 12:
+          if (!codeCrumbsDiagramOn) {
+            _context6.next = 15;
+            break;
+          }
+
+          _context6.next = 15;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])(undefined, namespace));
+
+        case 15:
         case "end":
           return _context6.stop();
       }
@@ -48568,20 +48705,60 @@ function reactOnSelectNode(_ref5) {
   }, _marked6, this);
 }
 
-function rootSaga() {
-  return regeneratorRuntime.wrap(function rootSaga$(_context7) {
+function reactByUpdatingFoldersState(_ref6) {
+  var namespace;
+  return regeneratorRuntime.wrap(function reactByUpdatingFoldersState$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
-          _context7.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["ACTIONS"].TOGGLE_SWITCH, reactOnSwitchToggle), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_3__["ACTIONS"].FIRE_BUTTON_ACTION, reactOnButtonAction), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].TOGGLE_FOLDER, reactOnToggledFolder), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_CHANGED_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_NODE, reactOnSelectNode)]);
+          namespace = _ref6.namespace;
+          _context7.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["updateFoldersByActiveChildren"])(namespace));
 
-        case 2:
+        case 3:
+          _context7.next = 5;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace));
+
+        case 5:
         case "end":
           return _context7.stop();
       }
     }
   }, _marked7, this);
+}
+
+function reactOnSelectNode(_ref7) {
+  var namespace;
+  return regeneratorRuntime.wrap(function reactOnSelectNode$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          namespace = _ref7.namespace;
+          _context8.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
+
+        case 3:
+        case "end":
+          return _context8.stop();
+      }
+    }
+  }, _marked8, this);
+}
+
+function rootSaga() {
+  return regeneratorRuntime.wrap(function rootSaga$(_context9) {
+    while (1) {
+      switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].TOGGLE_SWITCH, reactOnSwitchToggle), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].FIRE_BUTTON_ACTION, reactOnButtonAction), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].TOGGLE_FOLDER, reactOnToggledFolder), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_CHANGED_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_NODE, reactOnSelectNode)]);
+
+        case 2:
+        case "end":
+          return _context9.stop();
+      }
+    }
+  }, _marked9, this);
 }
 
 /***/ }),

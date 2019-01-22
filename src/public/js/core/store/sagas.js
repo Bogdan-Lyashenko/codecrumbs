@@ -1,4 +1,6 @@
 import { put, takeLatest, select, all } from 'redux-saga/effects';
+// import { delay } from 'redux-saga';
+
 import { ACTIONS as DATA_BUS_ACTIONS } from 'core/dataBus/constants';
 import {
   calcFilesTreeLayoutNodes,
@@ -9,15 +11,22 @@ import {
   selectCodeCrumbedFlow,
   updateFoldersByActiveChildren
 } from 'core/dataBus/actions';
+import { getNamespacesList } from 'core/dataBus/selectors';
 
 import { ACTIONS as SWITCHES_ACTIONS, CONTROLS_KEYS } from 'core/controlsBus/constants';
 import { setDisabledControl } from 'core/controlsBus/actions';
 import { getCheckedState } from 'core/controlsBus/selectors';
 
 function* reactOnSwitchToggle(action) {
-  const { switchKey, checked } = action.payload;
-  const namespace = '*';
+  const namespacesList = yield select(getNamespacesList);
 
+  for (let namespace of namespacesList) {
+    yield applyReactionOnSwitchToggleToNamespace({ ...action.payload, namespace });
+    // yield delay(500); // TODO: check performance, uncomment if make sense
+  }
+}
+
+function* applyReactionOnSwitchToggleToNamespace({ switchKey, checked, namespace }) {
   if (switchKey === CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_ITEMS) {
     if (checked) {
       yield reactByUpdatingFoldersState({ namespace });
@@ -60,9 +69,14 @@ function* reactOnSwitchToggle(action) {
 }
 
 function* reactOnButtonAction(action) {
-  const buttonKey = action.payload;
-  const namespace = '*';
+  const namespacesList = yield select(getNamespacesList);
 
+  for (let namespace of namespacesList) {
+    yield applyReactionOnButtonActionToNamespace({ buttonKey: action.payload, namespace });
+  }
+}
+
+function* applyReactionOnButtonActionToNamespace({ buttonKey, namespace }) {
   if (buttonKey === CONTROLS_KEYS.SOURCE_EXPAND_ALL) {
     return yield all([put(openAllFolders(namespace)), put(calcFilesTreeLayoutNodes(namespace))]);
   }

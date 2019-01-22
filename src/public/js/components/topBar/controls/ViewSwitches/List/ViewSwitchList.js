@@ -36,7 +36,7 @@ const ViewSwitchList = props => {
     <div className="ViewSwitchList">
       <div className={'side'}>
         {leftSide}
-        <FlowSelect />
+        {/*<FlowSelect />*/}
       </div>
       {/*<div className={'side'}>
         <ZoomControl />

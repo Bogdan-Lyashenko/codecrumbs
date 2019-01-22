@@ -37,8 +37,6 @@ export default (state = DefaultState, action) => {
   const namespace = action.namespace;
   const namespaceState = state[namespace];
   const mergeState = getMergeState(state, namespace);
-  // XXX: on switch change all namespaces need to be changed!
-  // when 'namespace' == '*' write some Object.keys(databus).reducer to change all props
 
   switch (action.type) {
     case ACTIONS.SET_INITIAL_SOURCE_DATA: {

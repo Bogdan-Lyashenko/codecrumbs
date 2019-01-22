@@ -46,8 +46,8 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { namespace } = ownProps;
+const mapDispatchToProps = (dispatch, props) => {
+  const { namespace } = props;
   return {
     onFileNodeClick: fileNode => dispatch(selectNode(fileNode, namespace)),
     onFolderNodeClick: folderNode => dispatch(toggleFolder(folderNode, namespace))

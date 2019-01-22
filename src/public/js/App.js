@@ -49,7 +49,7 @@ const App = (props = {}) => {
         >
           <TreeDiagramsContainer />
         </Suspense>
-       {/* <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <SideBar />
         </Suspense>*/}
       </div>

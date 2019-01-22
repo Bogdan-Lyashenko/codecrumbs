@@ -69,8 +69,12 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = {
-  onCodeCrumbedFlowSelect: selectCodeCrumbedFlow
+const mapDispatchToProps = (dispatch, props) => {
+  const { namespace } = props;
+
+  return {
+    onCodeCrumbedFlowSelect: flow => dispatch(selectCodeCrumbedFlow(flow, namespace))
+  };
 };
 
 export default connect(

@@ -1,16 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { getNamespacesList } from 'core/dataBus/selectors';
 import TreeDiagram from './component/TreeDiagram';
 
-const TreeDiagramsContainer = ({ namespaces }) => {
-  if (!namespaces || !namespaces.length) {
+const TreeDiagramsContainer = ({ namespacesList }) => {
+  if (!namespacesList.length) {
     return null;
   }
 
   return (
     <React.Fragment>
-      {namespaces.map(namespace => (
+      {namespacesList.map(namespace => (
         <TreeDiagram key={namespace} namespace={namespace} />
       ))}
     </React.Fragment>
@@ -18,7 +19,7 @@ const TreeDiagramsContainer = ({ namespaces }) => {
 };
 
 const mapStateToProps = state => ({
-  namespaces: Object.keys(state.dataBus)
+  namespacesList: getNamespacesList(state)
 });
 
 export default connect(mapStateToProps)(TreeDiagramsContainer);

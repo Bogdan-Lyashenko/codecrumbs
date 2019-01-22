@@ -9,7 +9,15 @@ import ViewSwitch from '../Item/ViewSwitch';
 import './ViewSwitchList.scss';
 
 const ViewSwitchList = props => {
-  const { switches, toggleSwitch, fireButtonAction, checkedState, disabledState } = props;
+  const {
+    namespacesList,
+    switches,
+    toggleSwitch,
+    fireButtonAction,
+    checkedState,
+    disabledState
+  } = props;
+
   const leftSide = [],
     rightSide = [];
 
@@ -36,7 +44,7 @@ const ViewSwitchList = props => {
     <div className="ViewSwitchList">
       <div className={'side'}>
         {leftSide}
-        {/*<FlowSelect />*/}
+        {namespacesList.length === 1 ? <FlowSelect namespace={namespacesList[0]} /> : null}
       </div>
       {/*<div className={'side'}>
         <ZoomControl />

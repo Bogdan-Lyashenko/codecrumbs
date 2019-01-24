@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { getSource, getSourceLayout } from 'core/dataBus/selectors';
-import { selectNode } from 'core/dataBus/actions';
 import { getCheckedState } from 'core/controlsBus/selectors';
+import { getActiveNamespace } from 'core/namespaceIntegration/selectors';
 
 import ExplorerBar from './component/ExplorerBar';
 
@@ -14,8 +14,14 @@ const ExplorerBarContainer = ({ explorerBar, ...otherProps }) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { filesMap, foldersMap } = getSource(state, props);
-  const { sourceLayoutTree } = getSourceLayout(state, props);
+  const namespace = getActiveNamespace(state);
+  if (!namespace) {
+    return {};
+  }
+
+  const namespaceProps = { namespace };
+  const { filesMap, foldersMap } = getSource(state, namespaceProps);
+  const { sourceLayoutTree } = getSourceLayout(state, namespaceProps);
 
   const { explorerBar } = getCheckedState(state);
 
@@ -33,7 +39,7 @@ const mapDispatchToProps = dispatch => ({
   },
 
   onFileClick: node => {
-    dispatch(selectNode(node));
+    /*dispatch(selectNode(node));*/
   }
 });
 

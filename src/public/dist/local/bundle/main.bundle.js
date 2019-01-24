@@ -46978,6 +46978,8 @@ var App = function App() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TopBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "body"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
+    fallback: null
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ExplorerBar, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
     fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: 'loader'
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd_lib_spin__WEBPACK_IMPORTED_MODULE_1___default.a, null))

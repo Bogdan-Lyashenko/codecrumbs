@@ -37,9 +37,9 @@ const App = (props = {}) => {
       </header>
 
       <div className="body">
-        {/*<Suspense fallback={null}>
+        <Suspense fallback={null}>
           <ExplorerBar />
-        </Suspense>*/}
+        </Suspense>
         <Suspense
           fallback={
             <div className={'loader'}>

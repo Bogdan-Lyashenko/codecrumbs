@@ -17,6 +17,8 @@ import { ACTIONS as SWITCHES_ACTIONS, CONTROLS_KEYS } from 'core/controlsBus/con
 import { setDisabledControl } from 'core/controlsBus/actions';
 import { getCheckedState } from 'core/controlsBus/selectors';
 
+import { setActiveNamespace } from 'core/namespaceIntegration/actions';
+
 function* reactOnSwitchToggle(action) {
   const namespacesList = yield select(getNamespacesList);
 
@@ -92,6 +94,8 @@ function* reactOnToggledFolder({ namespace }) {
 
 function* reactOnSourceSet({ namespace }) {
   const { dependenciesDiagramOn, codeCrumbsDiagramOn } = yield select(getCheckedState);
+
+  yield put(setActiveNamespace(namespace));
 
   if (!dependenciesDiagramOn && !codeCrumbsDiagramOn) {
     yield reactByUpdatingFoldersState({ namespace });

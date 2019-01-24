@@ -46979,7 +46979,9 @@ var App = function App() {
     fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: 'loader'
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(antd_lib_spin__WEBPACK_IMPORTED_MODULE_1___default.a, null))
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TreeDiagramsContainer, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TreeDiagramsContainer, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
+    fallback: null
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
     className: "footer"
   }, "\u24B8 Bohdan Liashenko", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://github.com/Bogdan-Lyashenko/codecrumbs"
@@ -48226,6 +48228,78 @@ var getCodeCrumbsMapForCurrentCcFlow = function getCodeCrumbsMapForCurrentCcFlow
 
 /***/ }),
 
+/***/ "./js/core/namespaceIntegration/actions.js":
+/*!*************************************************!*\
+  !*** ./js/core/namespaceIntegration/actions.js ***!
+  \*************************************************/
+/*! exports provided: setActiveNamespace */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setActiveNamespace", function() { return setActiveNamespace; });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./js/core/namespaceIntegration/constants.js");
+
+var setActiveNamespace = function setActiveNamespace(payload) {
+  return {
+    type: _constants__WEBPACK_IMPORTED_MODULE_0__["ACTIONS"].SET_ACTIVE_NAMESPACE,
+    payload: payload
+  };
+};
+
+/***/ }),
+
+/***/ "./js/core/namespaceIntegration/constants.js":
+/*!***************************************************!*\
+  !*** ./js/core/namespaceIntegration/constants.js ***!
+  \***************************************************/
+/*! exports provided: ACTIONS */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTIONS", function() { return ACTIONS; });
+var ACTIONS = {
+  SET_ACTIVE_NAMESPACE: 'NAMESPACE_INTEGRATION.SET_ACTIVE_NAMESPACE'
+};
+
+/***/ }),
+
+/***/ "./js/core/namespaceIntegration/reducer.js":
+/*!*************************************************!*\
+  !*** ./js/core/namespaceIntegration/reducer.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./js/core/namespaceIntegration/constants.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var DefaultState = {
+  activeNamespace: undefined
+};
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DefaultState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _constants__WEBPACK_IMPORTED_MODULE_0__["ACTIONS"].SET_ACTIVE_NAMESPACE:
+      return _objectSpread({}, state, {
+        activeNamespace: action.payload
+      });
+
+    default:
+      return state;
+  }
+});
+
+/***/ }),
+
 /***/ "./js/core/store/index.js":
 /*!********************************!*\
   !*** ./js/core/store/index.js ***!
@@ -48243,7 +48317,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_persist_lib_storage__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(redux_persist_lib_storage__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var core_controlsBus_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core/controlsBus/reducer */ "./js/core/controlsBus/reducer.js");
 /* harmony import */ var core_dataBus_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core/dataBus/reducer */ "./js/core/dataBus/reducer.js");
-/* harmony import */ var _sagas__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./sagas */ "./js/core/store/sagas.js");
+/* harmony import */ var core_namespaceIntegration_reducer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core/namespaceIntegration/reducer */ "./js/core/namespaceIntegration/reducer.js");
+/* harmony import */ var _sagas__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./sagas */ "./js/core/store/sagas.js");
+
 
 
 
@@ -48262,11 +48338,12 @@ __webpack_require__.r(__webpack_exports__);
   };
   var persistedReducer = Object(redux_persist__WEBPACK_IMPORTED_MODULE_3__["persistReducer"])(persistConfig, Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
     controlsBus: core_controlsBus_reducer__WEBPACK_IMPORTED_MODULE_5__["default"],
-    dataBus: core_dataBus_reducer__WEBPACK_IMPORTED_MODULE_6__["default"]
+    dataBus: core_dataBus_reducer__WEBPACK_IMPORTED_MODULE_6__["default"],
+    namespaceIntegration: core_namespaceIntegration_reducer__WEBPACK_IMPORTED_MODULE_7__["default"]
   }));
   var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(persistedReducer, composeEnhancers(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], sagaMiddleware)));
   var persistor = Object(redux_persist__WEBPACK_IMPORTED_MODULE_3__["persistStore"])(store);
-  sagaMiddleware.run(_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]);
+  sagaMiddleware.run(_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]);
   return {
     store: store,
     persistor: persistor
@@ -48292,6 +48369,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core/controlsBus/constants */ "./js/core/controlsBus/constants.js");
 /* harmony import */ var core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core/controlsBus/actions */ "./js/core/controlsBus/actions.js");
 /* harmony import */ var core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core/controlsBus/selectors */ "./js/core/controlsBus/selectors.js");
+/* harmony import */ var core_namespaceIntegration_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core/namespaceIntegration/actions */ "./js/core/namespaceIntegration/actions.js");
 var _marked =
 /*#__PURE__*/
 regeneratorRuntime.mark(reactOnSwitchToggle),
@@ -48325,6 +48403,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
  // import { delay } from 'redux-saga';
+
 
 
 
@@ -48668,36 +48747,39 @@ function reactOnSourceSet(_ref4) {
           _ref5 = _context6.sent;
           dependenciesDiagramOn = _ref5.dependenciesDiagramOn;
           codeCrumbsDiagramOn = _ref5.codeCrumbsDiagramOn;
+          _context6.next = 8;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_namespaceIntegration_actions__WEBPACK_IMPORTED_MODULE_7__["setActiveNamespace"])(namespace));
 
+        case 8:
           if (!(!dependenciesDiagramOn && !codeCrumbsDiagramOn)) {
-            _context6.next = 9;
+            _context6.next = 11;
             break;
           }
 
-          _context6.next = 9;
+          _context6.next = 11;
           return reactByUpdatingFoldersState({
             namespace: namespace
           });
 
-        case 9:
+        case 11:
           if (!dependenciesDiagramOn) {
-            _context6.next = 12;
+            _context6.next = 14;
             break;
           }
 
-          _context6.next = 12;
+          _context6.next = 14;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
 
-        case 12:
+        case 14:
           if (!codeCrumbsDiagramOn) {
-            _context6.next = 15;
+            _context6.next = 17;
             break;
           }
 
-          _context6.next = 15;
+          _context6.next = 17;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["selectCodeCrumbedFlow"])(undefined, namespace));
 
-        case 15:
+        case 17:
         case "end":
           return _context6.stop();
       }

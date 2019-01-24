@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { getActiveNamespace } from 'core/namespaceIntegration/selectors';
 import { getSourceUserChoice } from 'core/dataBus/selectors';
 import { toggleSwitch, selectSideBarTab } from 'core/controlsBus/actions';
 import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
@@ -14,12 +15,17 @@ const SideBarContainer = ({ sideBar, ...otherProps }) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { selectedNode } = getSourceUserChoice(state, props);
-  const { selectedTabInSideBar } = getValuesState(state, props);
+  const namespace = getActiveNamespace(state);
+  if (!namespace) {
+    return {};
+  }
 
+  const { selectedNode } = getSourceUserChoice(state, { namespace });
+  const { selectedTabInSideBar } = getValuesState(state, props);
   const { sideBar, dependenciesDiagramOn, codeCrumbsDiagramOn } = getCheckedState(state);
 
   return {
+    namespace,
     selectedNode,
     sideBar,
     dependenciesDiagramOn,

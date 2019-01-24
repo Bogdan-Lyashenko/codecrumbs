@@ -20,6 +20,7 @@ const TabPane = Tabs.TabPane;
 
 //TODO: Add slide from right animation
 export default ({
+  namespace,
   selectedNode,
   onClose,
   selectedTabInSideBar,
@@ -46,13 +47,13 @@ export default ({
       <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
         <TabPane tab="Code" key="Code">
           <Suspense fallback={null}>
-            <Code code={file.fileCode} />
+            <Code namespace={namespace} code={file.fileCode} />
           </Suspense>
         </TabPane>
         {(dependenciesDiagramOn && (
           <TabPane tab="Dependencies" key="Dependencies">
             <Suspense fallback={null}>
-              <DependenciesTab />
+              <DependenciesTab namespace={namespace} />
             </Suspense>
           </TabPane>
         )) ||
@@ -60,14 +61,18 @@ export default ({
         {(codeCrumbsDiagramOn && (
           <TabPane tab="Crumbs" key="Crumbs">
             <Suspense fallback={null}>
-              <CrumbsTab />
+              <CrumbsTab namespace={namespace} />
             </Suspense>
           </TabPane>
         )) ||
           null}
         <TabPane tab="FlowChart" key="FlowChart">
           <Suspense fallback={null}>
-            <FlowChartTab fileCode={file.fileCode} active={selectedTabInSideBar === 'FlowChart'} />
+            <FlowChartTab
+              namespace={namespace}
+              fileCode={file.fileCode}
+              active={selectedTabInSideBar === 'FlowChart'}
+            />
           </Suspense>
         </TabPane>
       </Tabs>

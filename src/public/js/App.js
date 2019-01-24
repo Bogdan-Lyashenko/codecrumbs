@@ -31,9 +31,9 @@ const App = (props = {}) => {
         <Suspense fallback={<div className={'headerPlaceholder'} />}>
           <ViewsSwitches />
         </Suspense>
-        {/*<Suspense fallback={null}>
+        <Suspense fallback={null}>
           <TopBar />
-        </Suspense>*/}
+        </Suspense>
       </header>
 
       <div className="body">

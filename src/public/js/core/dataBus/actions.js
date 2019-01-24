@@ -1,5 +1,6 @@
 import { fetchFile } from 'core/dataBus/connection';
 import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'core/controlsBus/constants';
+import { getNamespacesList } from 'core/dataBus/selectors';
 import { getCheckedState, getValuesState, getDisabledState } from 'core/controlsBus/selectors';
 
 import { getFoldersForPaths, downloadObjectAsJsonFile, uploadFileAsObject } from './utils';
@@ -238,31 +239,40 @@ export const updateFoldersByActiveChildren = namespace => (dispatch, getState) =
 };
 
 // TODO: group and move actions to different files
-export const downloadStore = namespace => (dispatch, getState) => {
+export const downloadStore = () => (dispatch, getState) => {
   const state = getState();
 
-  // TODO: if namespace === * -> download all dataBus state
-  const namespaceConfig = { namespace };
-  const { sourceTree, filesMap, foldersMap } = getSource(state, namespaceConfig);
-  const { dependenciesEntryName } = getDependenciesUserChoice(state, namespaceConfig);
-  const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, namespaceConfig);
+  const namespacesList = getNamespacesList(state);
+  const partialStateToSave = namespacesList.reduce(
+    (acc, namespace) => {
+      const namespaceConfig = { namespace };
+      const { sourceTree, filesMap, foldersMap } = getSource(state, namespaceConfig);
+      const { dependenciesEntryName } = getDependenciesUserChoice(state, namespaceConfig);
+      const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, namespaceConfig);
 
-  const partialStateToSave = {
-    controlsBus: {
-      checkedState: getCheckedState(state),
-      valuesState: getValuesState(state),
-      disabledState: getDisabledState(state)
+      return {
+        ...acc,
+        dataBus: {
+          ...acc.dataBus,
+          [namespace]: {
+            sourceTree,
+            filesMap,
+            foldersMap,
+            codeCrumbedFlowsMap,
+            dependenciesEntryName
+          }
+        }
+      };
     },
-    dataBus: {
-      [namespace]: {
-        sourceTree,
-        filesMap,
-        foldersMap,
-        codeCrumbedFlowsMap,
-        dependenciesEntryName
-      }
+    {
+      controlsBus: {
+        checkedState: getCheckedState(state),
+        valuesState: getValuesState(state),
+        disabledState: getDisabledState(state)
+      },
+      dataBus: {}
     }
-  };
+  );
 
   downloadObjectAsJsonFile(partialStateToSave);
 };

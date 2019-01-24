@@ -47364,11 +47364,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setPredefinedState", function() { return setPredefinedState; });
 /* harmony import */ var core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core/dataBus/connection */ "./js/core/dataBus/connection.js");
 /* harmony import */ var core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/controlsBus/constants */ "./js/core/controlsBus/constants.js");
-/* harmony import */ var core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core/controlsBus/selectors */ "./js/core/controlsBus/selectors.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./js/core/dataBus/utils/index.js");
-/* harmony import */ var _utils_treeLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/treeLayout */ "./js/core/dataBus/utils/treeLayout.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./constants */ "./js/core/dataBus/constants.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selectors */ "./js/core/dataBus/selectors.js");
+/* harmony import */ var core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core/dataBus/selectors */ "./js/core/dataBus/selectors.js");
+/* harmony import */ var core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core/controlsBus/selectors */ "./js/core/controlsBus/selectors.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils */ "./js/core/dataBus/utils/index.js");
+/* harmony import */ var _utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/treeLayout */ "./js/core/dataBus/utils/treeLayout.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./constants */ "./js/core/dataBus/constants.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -47380,16 +47380,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var setInitialSourceData = function setInitialSourceData(payload, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_INITIAL_SOURCE_DATA,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_INITIAL_SOURCE_DATA,
     payload: payload,
     namespace: namespace
   };
 };
 var setChangedSourceData = function setChangedSourceData(payload, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_CHANGED_SOURCE_DATA,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_CHANGED_SOURCE_DATA,
     payload: payload,
     namespace: namespace
   };
@@ -47398,7 +47399,7 @@ var selectNode = function selectNode(fileNode, namespace) {
   return function (dispatch) {
     if (process.env.STANDALONE) {
       return dispatch({
-        type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_NODE,
+        type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
         payload: fileNode,
         namespace: namespace
       });
@@ -47408,14 +47409,14 @@ var selectNode = function selectNode(fileNode, namespace) {
       parseDependencies: true
     }).then(function (data) {
       return dispatch({
-        type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_NODE,
+        type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
         payload: _objectSpread({}, fileNode, data),
         namespace: namespace
       });
     }).catch(function (e) {
       console.log("Could not fetch details from server for ".concat(fileNode.path), e);
       dispatch({
-        type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_NODE,
+        type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
         payload: fileNode,
         namespace: namespace
       });
@@ -47424,26 +47425,26 @@ var selectNode = function selectNode(fileNode, namespace) {
 };
 var toggleFolder = function toggleFolder(folderNode, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].TOGGLE_FOLDER,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].TOGGLE_FOLDER,
     payload: folderNode,
     namespace: namespace
   };
 };
 var openAllFolders = function openAllFolders(namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].OPEN_ALL_FOLDERS,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].OPEN_ALL_FOLDERS,
     namespace: namespace
   };
 };
 var closeAllFolders = function closeAllFolders(namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].CLOSE_ALL_FOLDERS,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].CLOSE_ALL_FOLDERS,
     namespace: namespace
   };
 };
 var selectCodeCrumb = function selectCodeCrumb(payload, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_CODE_CRUMB,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_CODE_CRUMB,
     payload: payload,
     namespace: namespace
   };
@@ -47452,11 +47453,11 @@ var setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode, nam
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getCheckedState = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCheckedState"])(state),
+    var _getCheckedState = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         dependenciesShowDirectOnly = _getCheckedState.dependenciesShowDirectOnly;
 
     return dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT,
       payload: {
         fileNode: fileNode,
         dependenciesShowDirectOnly: dependenciesShowDirectOnly
@@ -47473,7 +47474,7 @@ var selectDependencyEdge = function selectDependencyEdge(options, namespace) {
         groupName = _ref.groupName;
 
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_DEPENDENCY_EDGE,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_DEPENDENCY_EDGE,
       payload: target ? {
         target: target,
         sources: sources,
@@ -47485,7 +47486,7 @@ var selectDependencyEdge = function selectDependencyEdge(options, namespace) {
     if (target && sources) {
       Promise.all(sources.map(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["fetchFile"])).then(function (files) {
         dispatch({
-          type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].UPDATE_FILES,
+          type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].UPDATE_FILES,
           payload: files,
           namespace: namespace
         });
@@ -47497,7 +47498,7 @@ var selectCodeCrumbedFlow = function selectCodeCrumbedFlow(flow, namespace) {
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getCodeCrumbsUserCho = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, {
+    var _getCodeCrumbsUserCho = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCodeCrumbsUserChoice"])(state, {
       namespace: namespace
     }),
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho.selectedCrumbedFlowKey,
@@ -47505,7 +47506,7 @@ var selectCodeCrumbedFlow = function selectCodeCrumbedFlow(flow, namespace) {
 
     var firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW,
       payload: flow ? flow : selectedCrumbedFlowKey || firstFlow,
       namespace: namespace
     });
@@ -47518,19 +47519,19 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
       namespace: namespace
     };
 
-    var _getSource = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, namespaceConfig),
+    var _getSource = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getSource"])(state, namespaceConfig),
         sourceTree = _getSource.sourceTree,
         filesMap = _getSource.filesMap;
 
-    var _getSourceUserChoice = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, namespaceConfig),
+    var _getSourceUserChoice = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getSourceUserChoice"])(state, namespaceConfig),
         openedFolders = _getSourceUserChoice.openedFolders,
         activeItemsMap = _getSourceUserChoice.activeItemsMap;
 
-    var _getCodeCrumbsUserCho2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
+    var _getCodeCrumbsUserCho2 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho2.codeCrumbedFlowsMap,
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho2.selectedCrumbedFlowKey;
 
-    var _getCheckedState2 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCheckedState"])(state),
+    var _getCheckedState2 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         codeCrumbsDiagramOn = _getCheckedState2.codeCrumbsDiagramOn,
         codeCrumbsMinimize = _getCheckedState2.codeCrumbsMinimize,
         codeCrumbsFilterFlow = _getCheckedState2.codeCrumbsFilterFlow;
@@ -47539,7 +47540,7 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
     var activeCodeCrumbs = undefined;
 
     if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
-      activeCodeCrumbs = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_4__["getCodeCrumbsMapForCurrentCcFlow"])({
+      activeCodeCrumbs = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__["getCodeCrumbsMapForCurrentCcFlow"])({
         codeCrumbedFlowsMap: codeCrumbedFlowsMap,
         selectedCrumbedFlowKey: selectedCrumbedFlowKey,
         filesMap: filesMap
@@ -47547,8 +47548,8 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
     }
 
     return dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].UPDATE_FILES_TREE_LAYOUT_NODES,
-      payload: Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_4__["getTreeLayout"])(sourceTree, {
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].UPDATE_FILES_TREE_LAYOUT_NODES,
+      payload: Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__["getTreeLayout"])(sourceTree, {
         includeFileChildren: codeCrumbsDiagramOn && !codeCrumbsMinimize,
         openedFolders: openedFolders,
         activeItemsMap: activeItemsMap,
@@ -47565,16 +47566,16 @@ var setActiveItems = function setActiveItems(_ref2, namespace) {
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getSourceUserChoice2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, {
+    var _getSourceUserChoice2 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getSourceUserChoice"])(state, {
       namespace: namespace
     }),
         activeItemsMap = _getSourceUserChoice2.activeItemsMap;
 
-    var _getCheckedState3 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCheckedState"])(state),
+    var _getCheckedState3 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         sourceKeepOnlyActiveItems = _getCheckedState3.sourceKeepOnlyActiveItems;
 
     return dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_ACTIVE_ITEMS,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_ACTIVE_ITEMS,
       payload: _objectSpread({}, !sourceKeepOnlyActiveItems ? activeItemsMap : {}, filesList.reduce(function (acc, item) {
         //TODO:move this to util!
         acc[item] = true;
@@ -47592,18 +47593,18 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
       namespace: namespace
     };
 
-    var _getSource2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, namespaceConfig),
+    var _getSource2 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getSource"])(state, namespaceConfig),
         filesMap = _getSource2.filesMap;
 
-    var _getSourceUserChoice3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSourceUserChoice"])(state, namespaceConfig),
+    var _getSourceUserChoice3 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getSourceUserChoice"])(state, namespaceConfig),
         openedFolders = _getSourceUserChoice3.openedFolders,
         selectedNode = _getSourceUserChoice3.selectedNode;
 
-    var _getCodeCrumbsUserCho3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
+    var _getCodeCrumbsUserCho3 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho3.codeCrumbedFlowsMap,
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho3.selectedCrumbedFlowKey;
 
-    var _getCheckedState4 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCheckedState"])(state),
+    var _getCheckedState4 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         dependenciesDiagramOn = _getCheckedState4.dependenciesDiagramOn,
         codeCrumbsDiagramOn = _getCheckedState4.codeCrumbsDiagramOn,
         sourceKeepOnlyActiveItems = _getCheckedState4.sourceKeepOnlyActiveItems,
@@ -47615,7 +47616,7 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
     }) : [];
 
     if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
-      var currentFlowFiles = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_4__["getFilesForCurrentCcFlow"])({
+      var currentFlowFiles = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__["getFilesForCurrentCcFlow"])({
         codeCrumbedFlowsMap: codeCrumbedFlowsMap,
         selectedCrumbedFlowKey: selectedCrumbedFlowKey,
         filesMap: filesMap
@@ -47634,58 +47635,62 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
       return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders(namespace)) : undefined;
     }
 
-    var foldersMap = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["getFoldersForPaths"])(filesList, openedFolders, sourceKeepOnlyActiveItems);
+    var foldersMap = Object(_utils__WEBPACK_IMPORTED_MODULE_4__["getFoldersForPaths"])(filesList, openedFolders, sourceKeepOnlyActiveItems);
     dispatch(setActiveItems({
       filesList: filesList,
       foldersMap: foldersMap
     }, namespace));
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_5__["ACTIONS"].SET_FOLDERS_STATE,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_FOLDERS_STATE,
       payload: foldersMap,
       namespace: namespace
     });
   };
 }; // TODO: group and move actions to different files
 
-var downloadStore = function downloadStore(namespace) {
+var downloadStore = function downloadStore() {
   return function (dispatch, getState) {
-    var state = getState(); // TODO: if namespace === * -> download all dataBus state
+    var state = getState();
+    var namespacesList = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getNamespacesList"])(state);
+    var partialStateToSave = namespacesList.reduce(function (acc, namespace) {
+      var namespaceConfig = {
+        namespace: namespace
+      };
 
-    var namespaceConfig = {
-      namespace: namespace
-    };
+      var _getSource3 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getSource"])(state, namespaceConfig),
+          sourceTree = _getSource3.sourceTree,
+          filesMap = _getSource3.filesMap,
+          foldersMap = _getSource3.foldersMap;
 
-    var _getSource3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getSource"])(state, namespaceConfig),
-        sourceTree = _getSource3.sourceTree,
-        filesMap = _getSource3.filesMap,
-        foldersMap = _getSource3.foldersMap;
+      var _getDependenciesUserC = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getDependenciesUserChoice"])(state, namespaceConfig),
+          dependenciesEntryName = _getDependenciesUserC.dependenciesEntryName;
 
-    var _getDependenciesUserC = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getDependenciesUserChoice"])(state, namespaceConfig),
-        dependenciesEntryName = _getDependenciesUserC.dependenciesEntryName;
+      var _getCodeCrumbsUserCho4 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
+          codeCrumbedFlowsMap = _getCodeCrumbsUserCho4.codeCrumbedFlowsMap;
 
-    var _getCodeCrumbsUserCho4 = Object(_selectors__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
-        codeCrumbedFlowsMap = _getCodeCrumbsUserCho4.codeCrumbedFlowsMap;
-
-    var partialStateToSave = {
+      return _objectSpread({}, acc, {
+        dataBus: _objectSpread({}, acc.dataBus, _defineProperty({}, namespace, {
+          sourceTree: sourceTree,
+          filesMap: filesMap,
+          foldersMap: foldersMap,
+          codeCrumbedFlowsMap: codeCrumbedFlowsMap,
+          dependenciesEntryName: dependenciesEntryName
+        }))
+      });
+    }, {
       controlsBus: {
-        checkedState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getCheckedState"])(state),
-        valuesState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getValuesState"])(state),
-        disabledState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_2__["getDisabledState"])(state)
+        checkedState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
+        valuesState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getValuesState"])(state),
+        disabledState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getDisabledState"])(state)
       },
-      dataBus: _defineProperty({}, namespace, {
-        sourceTree: sourceTree,
-        filesMap: filesMap,
-        foldersMap: foldersMap,
-        codeCrumbedFlowsMap: codeCrumbedFlowsMap,
-        dependenciesEntryName: dependenciesEntryName
-      })
-    };
-    Object(_utils__WEBPACK_IMPORTED_MODULE_3__["downloadObjectAsJsonFile"])(partialStateToSave);
+      dataBus: {}
+    });
+    Object(_utils__WEBPACK_IMPORTED_MODULE_4__["downloadObjectAsJsonFile"])(partialStateToSave);
   };
 };
 var uploadStore = function uploadStore(file) {
   return function (dispatch) {
-    Object(_utils__WEBPACK_IMPORTED_MODULE_3__["uploadFileAsObject"])(file).then(function (object) {
+    Object(_utils__WEBPACK_IMPORTED_MODULE_4__["uploadFileAsObject"])(file).then(function (object) {
       return dispatch(setPredefinedState(object.data));
     });
   };

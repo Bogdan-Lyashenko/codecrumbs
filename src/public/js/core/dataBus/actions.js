@@ -1,4 +1,4 @@
-import { fetchFile } from 'core/dataBus/connection';
+import { requestFetchFile } from 'core/dataBus/connection';
 import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'core/controlsBus/constants';
 import { getNamespacesList } from 'core/dataBus/selectors';
 import { getCheckedState, getValuesState, getDisabledState } from 'core/controlsBus/selectors';
@@ -31,31 +31,24 @@ export const setChangedSourceData = (payload, namespace) => ({
 });
 
 export const selectNode = (fileNode, namespace) => dispatch => {
+  dispatch({
+    type: ACTIONS.SELECT_NODE,
+    payload: fileNode,
+    namespace
+  });
+
   if (process.env.STANDALONE) {
-    return dispatch({
-      type: ACTIONS.SELECT_NODE,
-      payload: fileNode,
-      namespace
-    });
+    return;
   }
 
-  fetchFile(fileNode.path, { parseDependencies: true })
-    .then(data =>
-      dispatch({
-        type: ACTIONS.SELECT_NODE,
-        payload: { ...fileNode, ...data },
-        namespace
-      })
-    )
-    .catch(e => {
-      console.log(`Could not fetch details from server for ${fileNode.path}`, e);
-      dispatch({
-        type: ACTIONS.SELECT_NODE,
-        payload: fileNode,
-        namespace
-      });
-    });
+  requestFetchFile({ path: [fileNode.path], parseDependencies: true }, namespace);
 };
+
+export const updateFiles = ({ files }, namespace) => ({
+  type: ACTIONS.UPDATE_FILES,
+  payload: files,
+  namespace
+});
 
 export const toggleFolder = (folderNode, namespace) => ({
   type: ACTIONS.TOGGLE_FOLDER,
@@ -103,13 +96,19 @@ export const selectDependencyEdge = (options, namespace) => dispatch => {
   });
 
   if (target && sources) {
-    Promise.all(sources.map(fetchFile)).then(files => {
+    // TODO: this will broken, use UPDATE_FILES event on socket response
+    requestFetchFile(
+      {
+        path: sources
+      },
+      namespace
+    ); /*.then(files => {
       dispatch({
         type: ACTIONS.UPDATE_FILES,
         payload: files,
         namespace
       });
-    });
+    });*/
   }
 };
 

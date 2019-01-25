@@ -22,78 +22,65 @@ const TabPane = Tabs.TabPane;
 export default ({
   namespace,
   selectedNode,
+  filesMap,
   onClose,
   selectedTabInSideBar,
   dependenciesDiagramOn,
   codeCrumbsDiagramOn,
   onTabSelect
 }) => {
-  const file = selectedNode && selectedNode.type === FILE_NODE_TYPE ? selectedNode : null;
+  const file = selectedNode && filesMap[selectedNode.path];
 
-  let header = null;
-  let content = null;
+  const header = process.env.STANDALONE ? (
+    <Alert
+      message="No code for this file in standalone mode."
+      description="Only files with codecrumbs have pre-fetched code. Consider to run codecrumbs locally for this project to access all code. Check instructions here https://github.com/Bogdan-Lyashenko/codecrumbs"
+      type="warning"
+      showIcon
+    />
+  ) : (
+    <React.Fragment>
+      <div>{file.path}</div>
+      <div className={'copyIcon'}>
+        <Copy copyText={file.path} />
+      </div>
+    </React.Fragment>
+  );
 
-  if (file && file.fileCode) {
-    header = (
-      <React.Fragment>
-        <div>{file.path}</div>
-        <div className={'copyIcon'}>
-          <Copy copyText={file.path} />
-        </div>
-      </React.Fragment>
-    );
-
-    content = (
-      <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
-        <TabPane tab="Code" key="Code">
+  const content = (
+    <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
+      <TabPane tab="Code" key="Code">
+        <Suspense fallback={null}>
+          <Code namespace={namespace} code={file.fileCode} />
+        </Suspense>
+      </TabPane>
+      {(dependenciesDiagramOn && (
+        <TabPane tab="Dependencies" key="Dependencies">
           <Suspense fallback={null}>
-            <Code namespace={namespace} code={file.fileCode} />
+            <DependenciesTab namespace={namespace} />
           </Suspense>
         </TabPane>
-        {(dependenciesDiagramOn && (
-          <TabPane tab="Dependencies" key="Dependencies">
-            <Suspense fallback={null}>
-              <DependenciesTab namespace={namespace} />
-            </Suspense>
-          </TabPane>
-        )) ||
-          null}
-        {(codeCrumbsDiagramOn && (
-          <TabPane tab="Crumbs" key="Crumbs">
-            <Suspense fallback={null}>
-              <CrumbsTab namespace={namespace} />
-            </Suspense>
-          </TabPane>
-        )) ||
-          null}
-        <TabPane tab="FlowChart" key="FlowChart">
+      )) ||
+        null}
+      {(codeCrumbsDiagramOn && (
+        <TabPane tab="Crumbs" key="Crumbs">
           <Suspense fallback={null}>
-            <FlowChartTab
-              namespace={namespace}
-              fileCode={file.fileCode}
-              active={selectedTabInSideBar === 'FlowChart'}
-            />
+            <CrumbsTab namespace={namespace} />
           </Suspense>
         </TabPane>
-      </Tabs>
-    );
-  } else {
-    header = process.env.STANDALONE ? (
-      <Alert
-        message="No code for this file in standalone mode."
-        description="Only files with codecrumbs have pre-fetched code. Consider to run codecrumbs locally for this project to access all code. Check instructions here https://github.com/Bogdan-Lyashenko/codecrumbs"
-        type="warning"
-        showIcon
-      />
-    ) : (
-      <Alert
-        message="Looks like this file has no code in it.. hmm.. interesting."
-        type="info"
-        showIcon
-      />
-    );
-    content = <Skeleton />;
-  }
+      )) ||
+        null}
+      <TabPane tab="FlowChart" key="FlowChart">
+        <Suspense fallback={null}>
+          <FlowChartTab
+            namespace={namespace}
+            fileCode={file.fileCode}
+            active={selectedTabInSideBar === 'FlowChart'}
+          />
+        </Suspense>
+      </TabPane>
+    </Tabs>
+  );
 
   return (
     <div className="SideBar">

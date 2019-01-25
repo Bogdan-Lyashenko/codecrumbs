@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { createConnection } from 'core/dataBus/connection';
-import { SOCKET_EVENT_TYPE } from 'core/constants';
-import { setInitialSourceData, setChangedSourceData, setPredefinedState } from './actions';
+import { SOCKET_MESSAGE_TYPE } from 'core/constants';
+import { setInitialSourceData, setChangedSourceData, setPredefinedState, updateFiles } from './actions';
 
 class DataBusContainer extends React.Component {
   componentDidMount() {
@@ -22,20 +22,24 @@ class DataBusContainer extends React.Component {
   }
 
   setupLocal() {
-    createConnection(this.onSocketEvent.bind(this));
+    createConnection(this.onSocketMessage.bind(this));
   }
 
-  onSocketEvent(event) {
-    const { type, data, sourceProjectId } = event;
+  onSocketMessage(message) {
+    const { type, data, namespace } = message;
 
     switch (type) {
-      case SOCKET_EVENT_TYPE.INIT_SOURCE_FILES_SYNC:
-        return this.props.setInitialSourceData(data, sourceProjectId);
+      case SOCKET_MESSAGE_TYPE.SOURCE_INIT_SOURCE_FILES_SYNC:
+        return this.props.setInitialSourceData(data, namespace);
 
-      case SOCKET_EVENT_TYPE.UPDATE_SOURCE_FILE_SYNC:
-        return this.props.setChangedSourceData(data, sourceProjectId);
+      case SOCKET_MESSAGE_TYPE.SOURCE_UPDATE_SOURCE_FILE_SYNC:
+        return this.props.setChangedSourceData(data, namespace);
+
+      case SOCKET_MESSAGE_TYPE.SOURCE_RESPONSE_FETCH_FILE:
+        return this.props.updateFiles(data, namespace);
 
       default:
+        console.warn(`Unhandled message in client: ${JSON.stringify(message)}`);
         break;
     }
   }
@@ -48,7 +52,8 @@ class DataBusContainer extends React.Component {
 const mapDispatchToProps = {
   setInitialSourceData,
   setChangedSourceData,
-  setPredefinedState
+  setPredefinedState,
+  updateFiles
 };
 
 export default connect(

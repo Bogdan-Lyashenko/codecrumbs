@@ -29,7 +29,7 @@ const parseProjectSourceFiles = ({ filesMap, projectDir, entryPoint, webpackConf
 
 const watchers = [];
 const closePreviousSubscription = id => {
-  const watcherIndex = watchers.findIndex(({ sourceProjectId }) => sourceProjectId === id);
+  const watcherIndex = watchers.findIndex(({ namespace }) => namespace === id);
 
   if (watcherIndex !== -1) {
     watchers[watcherIndex].watcher.close();
@@ -38,12 +38,12 @@ const closePreviousSubscription = id => {
 };
 
 const subscribeOnChange = (
-  sourceProjectId,
-  { sourceProjectName, projectDir, entryPoint, webpackConfigPath },
+  namespace,
+  { projectName, projectDir, entryPoint, webpackConfigPath },
   { onInit, onChange }
 ) => {
   // TODO: refactor function, too long
-  closePreviousSubscription(sourceProjectId);
+  closePreviousSubscription(namespace);
 
   const fs = getProjectFiles(projectDir);
   const codeCrumbs = {
@@ -63,8 +63,8 @@ const subscribeOnChange = (
     });
 
     return onInit({
-      sourceProjectId,
-      sourceProjectName,
+      namespace,
+      projectName,
       sourceTree: fs.sourceTree,
       filesMap: fs.filesMap,
       foldersMap: fs.foldersMap,
@@ -117,7 +117,7 @@ const subscribeOnChange = (
 
   watchers.push({
     watcher,
-    sourceProjectId
+    namespace
   });
 };
 

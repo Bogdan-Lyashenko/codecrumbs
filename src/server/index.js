@@ -40,8 +40,8 @@ const setup = (
     sourceWatcher.run(
       {
         mediatorEndPoint: `${HOST}:${SERVER_PORT}`,
-        sourceProjectId: `source-project-${Date.now()}`,
-        sourceProjectName: `project-${projectNameAlias || projectDir}`
+        namespace: `source-project-${Date.now()}`,
+        projectName: `project-${projectNameAlias || projectDir}`
       },
       {
         projectDir,

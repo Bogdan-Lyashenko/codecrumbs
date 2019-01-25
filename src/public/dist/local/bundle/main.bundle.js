@@ -46903,14 +46903,17 @@ module.exports = {"name":"codecrumbs","version":"1.0.12-alpha","author":"Bohdan 
 var FILE_NODE_TYPE = 'file';
 var DIR_NODE_TYPE = 'directory';
 var NO_TRAIL_FLOW = '*';
-var SOCKET_EVENT_TYPE = {
-  INIT_SOURCE_FILES_SYNC: 'init-source-files-sync',
-  UPDATE_SOURCE_FILE_SYNC: 'update-source-file-sync'
+var SOCKET_MESSAGE_TYPE = {
+  SOURCE_INIT_SOURCE_FILES_SYNC: 'source.init-source-files-sync',
+  SOURCE_UPDATE_SOURCE_FILE_SYNC: 'source.update-source-file-sync',
+  SOURCE_RESPONSE_FETCH_FILE: 'source.response-fetch-file',
+  CLIENT_CONNECTED: 'client.connected',
+  CLIENT_REQUEST_FETCH_FILE: 'client.request-fetch-file'
 };
 var SERVER_PORT = 3018;
 module.exports = {
   SERVER_PORT: SERVER_PORT,
-  SOCKET_EVENT_TYPE: SOCKET_EVENT_TYPE,
+  SOCKET_MESSAGE_TYPE: SOCKET_MESSAGE_TYPE,
   FILE_NODE_TYPE: FILE_NODE_TYPE,
   DIR_NODE_TYPE: DIR_NODE_TYPE,
   NO_TRAIL_FLOW: NO_TRAIL_FLOW
@@ -47062,7 +47065,7 @@ var DepEdgeGroups = {
 /*!************************************!*\
   !*** ./js/core/constants/index.js ***!
   \************************************/
-/*! exports provided: FILE_NODE_TYPE, DIR_NODE_TYPE, SOCKET_EVENT_TYPE, NO_TRAIL_FLOW, FOLDER_OPEN_STATE */
+/*! exports provided: FILE_NODE_TYPE, DIR_NODE_TYPE, SOCKET_MESSAGE_TYPE, NO_TRAIL_FLOW, FOLDER_OPEN_STATE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47074,7 +47077,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DIR_NODE_TYPE", function() { return shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0__["DIR_NODE_TYPE"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SOCKET_EVENT_TYPE", function() { return shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0__["SOCKET_EVENT_TYPE"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SOCKET_MESSAGE_TYPE", function() { return shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0__["SOCKET_MESSAGE_TYPE"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NO_TRAIL_FLOW", function() { return shared_with_server_src_constants__WEBPACK_IMPORTED_MODULE_0__["NO_TRAIL_FLOW"]; });
 
@@ -47341,7 +47344,7 @@ var getDisabledState = function getDisabledState(state) {
 /*!************************************!*\
   !*** ./js/core/dataBus/actions.js ***!
   \************************************/
-/*! exports provided: setInitialSourceData, setChangedSourceData, selectNode, toggleFolder, openAllFolders, closeAllFolders, selectCodeCrumb, setDependenciesEntryPoint, selectDependencyEdge, selectCodeCrumbedFlow, calcFilesTreeLayoutNodes, setActiveItems, updateFoldersByActiveChildren, downloadStore, uploadStore, setPredefinedState */
+/*! exports provided: setInitialSourceData, setChangedSourceData, selectNode, updateFiles, toggleFolder, openAllFolders, closeAllFolders, selectCodeCrumb, setDependenciesEntryPoint, selectDependencyEdge, selectCodeCrumbedFlow, calcFilesTreeLayoutNodes, setActiveItems, updateFoldersByActiveChildren, downloadStore, uploadStore, setPredefinedState */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47349,6 +47352,7 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setInitialSourceData", function() { return setInitialSourceData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setChangedSourceData", function() { return setChangedSourceData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectNode", function() { return selectNode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateFiles", function() { return updateFiles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleFolder", function() { return toggleFolder; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openAllFolders", function() { return openAllFolders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeAllFolders", function() { return closeAllFolders; });
@@ -47397,30 +47401,28 @@ var setChangedSourceData = function setChangedSourceData(payload, namespace) {
 };
 var selectNode = function selectNode(fileNode, namespace) {
   return function (dispatch) {
+    dispatch({
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
+      payload: fileNode,
+      namespace: namespace
+    });
+
     if (process.env.STANDALONE) {
-      return dispatch({
-        type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
-        payload: fileNode,
-        namespace: namespace
-      });
+      return;
     }
 
-    Object(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["fetchFile"])(fileNode.path, {
+    Object(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["requestFetchFile"])({
+      path: [fileNode.path],
       parseDependencies: true
-    }).then(function (data) {
-      return dispatch({
-        type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
-        payload: _objectSpread({}, fileNode, data),
-        namespace: namespace
-      });
-    }).catch(function (e) {
-      console.log("Could not fetch details from server for ".concat(fileNode.path), e);
-      dispatch({
-        type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
-        payload: fileNode,
-        namespace: namespace
-      });
-    });
+    }, namespace);
+  };
+};
+var updateFiles = function updateFiles(_ref, namespace) {
+  var files = _ref.files;
+  return {
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].UPDATE_FILES,
+    payload: files,
+    namespace: namespace
   };
 };
 var toggleFolder = function toggleFolder(folderNode, namespace) {
@@ -47468,10 +47470,10 @@ var setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode, nam
 };
 var selectDependencyEdge = function selectDependencyEdge(options, namespace) {
   return function (dispatch) {
-    var _ref = options || {},
-        target = _ref.target,
-        sources = _ref.sources,
-        groupName = _ref.groupName;
+    var _ref2 = options || {},
+        target = _ref2.target,
+        sources = _ref2.sources,
+        groupName = _ref2.groupName;
 
     dispatch({
       type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_DEPENDENCY_EDGE,
@@ -47484,13 +47486,17 @@ var selectDependencyEdge = function selectDependencyEdge(options, namespace) {
     });
 
     if (target && sources) {
-      Promise.all(sources.map(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["fetchFile"])).then(function (files) {
-        dispatch({
-          type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].UPDATE_FILES,
-          payload: files,
-          namespace: namespace
-        });
+      // TODO: this will broken, use UPDATE_FILES event on socket response
+      Object(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["requestFetchFile"])({
+        path: sources
+      }, namespace);
+      /*.then(files => {
+      dispatch({
+       type: ACTIONS.UPDATE_FILES,
+       payload: files,
+       namespace
       });
+      });*/
     }
   };
 };
@@ -47559,10 +47565,10 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
     });
   };
 };
-var setActiveItems = function setActiveItems(_ref2, namespace) {
-  var filesList = _ref2.filesList,
-      _ref2$foldersMap = _ref2.foldersMap,
-      foldersMap = _ref2$foldersMap === void 0 ? {} : _ref2$foldersMap;
+var setActiveItems = function setActiveItems(_ref3, namespace) {
+  var filesList = _ref3.filesList,
+      _ref3$foldersMap = _ref3.foldersMap,
+      foldersMap = _ref3$foldersMap === void 0 ? {} : _ref3$foldersMap;
   return function (dispatch, getState) {
     var state = getState();
 
@@ -47717,15 +47723,20 @@ var setPredefinedState = function setPredefinedState(predefinedState) {
 /*!***************************************!*\
   !*** ./js/core/dataBus/connection.js ***!
   \***************************************/
-/*! exports provided: createConnection, fetchFile */
+/*! exports provided: createConnection, requestFetchFile */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createConnection", function() { return createConnection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchFile", function() { return fetchFile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestFetchFile", function() { return requestFetchFile; });
 var _require = __webpack_require__(/*! ../../../../shared/constants */ "../shared/constants.js"),
-    SERVER_PORT = _require.SERVER_PORT;
+    SERVER_PORT = _require.SERVER_PORT,
+    SOCKET_MESSAGE_TYPE = _require.SOCKET_MESSAGE_TYPE;
+
+var sendMessage = function sendMessage() {
+  console.warn('Connection to server was not established');
+};
 
 var createConnection = function createConnection(onMessage) {
   var route = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "ws://127.0.0.1:".concat(SERVER_PORT, "/");
@@ -47743,19 +47754,16 @@ var createConnection = function createConnection(onMessage) {
     onMessage(JSON.parse(event.data));
   };
 
-  return function (msg) {
-    try {
-      ws.send(msg);
-    } catch (e) {
-      console.log(e);
-    }
+  sendMessage = function sendMessage(msg) {
+    return ws.send(msg);
   };
 };
-var fetchFile = function fetchFile(path) {
-  var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return fetch("http://127.0.0.1:".concat(SERVER_PORT, "/api?file=").concat(path, "&config=").concat(JSON.stringify(config))).then(function (res) {
-    return res.json();
-  });
+var requestFetchFile = function requestFetchFile(data, namespace) {
+  sendMessage(JSON.stringify({
+    type: SOCKET_MESSAGE_TYPE.CLIENT_REQUEST_FETCH_FILE,
+    namespace: namespace,
+    data: data
+  }));
 };
 
 /***/ }),

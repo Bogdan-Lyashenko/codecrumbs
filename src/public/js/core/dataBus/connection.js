@@ -1,4 +1,8 @@
-const { SERVER_PORT } = require('../../../../shared/constants');
+const { SERVER_PORT, SOCKET_MESSAGE_TYPE } = require('../../../../shared/constants');
+
+let sendMessage = () => {
+  console.warn('Connection to server was not established');
+};
 
 export const createConnection = (onMessage, route = `ws://127.0.0.1:${SERVER_PORT}/`) => {
   const ws = new WebSocket(route);
@@ -10,16 +14,15 @@ export const createConnection = (onMessage, route = `ws://127.0.0.1:${SERVER_POR
     onMessage(JSON.parse(event.data));
   };
 
-  return msg => {
-    try {
-      ws.send(msg);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  sendMessage = msg => ws.send(msg);
 };
 
-export const fetchFile = (path, config = {}) =>
-  fetch(`http://127.0.0.1:${SERVER_PORT}/api?file=${path}&config=${JSON.stringify(config)}`).then(
-    res => res.json()
+export const requestFetchFile = (data, namespace) => {
+  sendMessage(
+    JSON.stringify({
+      type: SOCKET_MESSAGE_TYPE.CLIENT_REQUEST_FETCH_FILE,
+      namespace,
+      data
+    })
   );
+};

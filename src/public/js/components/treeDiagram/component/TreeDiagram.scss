@@ -1,12 +1,13 @@
 .TreeDiagram {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-grow: 1;
+  display: block;
+}
 
-  #MainTreeSVG {
-    overflow: initial !important;
-  }
+.treeDiagramBorder {
+  border: 1px dashed #d9d9d9;
+}
+
+.activeTreeDiagram {
+  border: 1px dashed #e91e63;
 }
 
 .MainLoader {

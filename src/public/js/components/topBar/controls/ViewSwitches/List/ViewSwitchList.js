@@ -10,7 +10,7 @@ import './ViewSwitchList.scss';
 
 const ViewSwitchList = props => {
   const {
-    namespacesList,
+    activeNamespace,
     switches,
     toggleSwitch,
     fireButtonAction,
@@ -44,7 +44,7 @@ const ViewSwitchList = props => {
     <div className="ViewSwitchList">
       <div className={'side'}>
         {leftSide}
-        {namespacesList.length === 1 ? <FlowSelect namespace={namespacesList[0]} /> : null}
+        {activeNamespace ? <FlowSelect namespace={activeNamespace} /> : null}
       </div>
       {/*<div className={'side'}>
         <ZoomControl />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import Draggable from 'react-draggable';
 import { Spin } from 'antd';
@@ -13,11 +14,20 @@ import { getSourceLayout } from 'core/dataBus/selectors';
 import { getValuesState } from 'core/controlsBus/selectors';
 import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
 import { selectDependencyEdge } from 'core/dataBus/actions';
+import { setActiveNamespace } from 'core/namespaceIntegration/actions';
 
 class TreeDiagram extends React.Component {
   render() {
     // TODO: fix diagramZoom
-    const { namespace, diagramZoom, layoutSize, sourceLayoutTree, onUnderLayerClick } = this.props;
+    const {
+      namespace,
+      multiple,
+      active,
+      diagramZoom,
+      layoutSize,
+      sourceLayoutTree,
+      onUnderLayerClick
+    } = this.props;
     const { width, height, xShift, yShift, bounds } = layoutSize;
 
     if (!width && !height) {
@@ -36,24 +46,25 @@ class TreeDiagram extends React.Component {
     });
 
     return (
-      <div className="TreeDiagram">
-        <Draggable bounds={bounds}>
-          <svg
-            id={'MainTreeSVG'}
-            width={width}
-            height={height}
-            xmlns="http://www.w3.org/2000/svg"
-            shapeRendering="optimizeSpeed"
-          >
-            {sourceLayoutTree && (
-              <React.Fragment>
-                <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-                <SourceTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
-              </React.Fragment>
-            )}
-          </svg>
-        </Draggable>
-      </div>
+      <Draggable bounds={bounds}>
+        <svg
+          className={classNames({
+            treeDiagramBorder: multiple,
+            activeTreeDiagram: multiple && active
+          })}
+          width={width}
+          height={height}
+          xmlns="http://www.w3.org/2000/svg"
+          shapeRendering="optimizeSpeed"
+        >
+          {sourceLayoutTree && (
+            <React.Fragment>
+              <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
+              <SourceTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+            </React.Fragment>
+          )}
+        </svg>
+      </Draggable>
     );
   }
 }
@@ -74,7 +85,10 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch, props) => {
   const { namespace } = props;
   return {
-    onUnderLayerClick: () => dispatch(selectDependencyEdge(undefined, namespace))
+    onUnderLayerClick: () => {
+      dispatch(setActiveNamespace(namespace));
+      dispatch(selectDependencyEdge(undefined, namespace));
+    }
   };
 };
 

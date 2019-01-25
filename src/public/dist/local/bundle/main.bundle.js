@@ -11678,7 +11678,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".App {\n  padding: 10px;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  position: relative; }\n  .App .loader {\n    display: flex;\n    justify-items: center;\n    justify-content: center;\n    align-items: center;\n    padding: 200px;\n    width: 100%; }\n  .App > .header {\n    position: relative;\n    border-bottom: 1px solid #F5F5F5; }\n  .App .headerPlaceholder {\n    height: 60px;\n    background-color: #fdfdfd; }\n  .App .body {\n    position: relative;\n    display: flex;\n    flex-grow: 1;\n    background-color: white; }\n  .App .footer {\n    position: relative;\n    border-top: 1px solid #F5F5F5;\n    padding-top: 5px;\n    width: 100%;\n    font-size: 10px;\n    text-align: right; }\n", ""]);
+exports.push([module.i, ".App {\n  padding: 10px;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  position: relative; }\n  .App .loader {\n    display: flex;\n    justify-items: center;\n    justify-content: center;\n    align-items: center;\n    padding: 200px;\n    width: 100%; }\n  .App > .header {\n    position: relative;\n    border-bottom: 1px solid #F5F5F5; }\n  .App .headerPlaceholder {\n    height: 60px;\n    background-color: #fdfdfd; }\n  .App .body {\n    position: relative;\n    display: flex;\n    flex-grow: 1;\n    background-color: white; }\n  .App .footer {\n    position: relative;\n    border-top: 1px solid #F5F5F5;\n    background-color: #ffffff;\n    padding-top: 5px;\n    width: 100%;\n    font-size: 10px;\n    text-align: right; }\n", ""]);
 
 // exports
 

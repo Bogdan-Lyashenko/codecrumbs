@@ -47955,7 +47955,12 @@ var getMergeState = function getMergeState(state, namespace) {
       });
 
     case _constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].UPDATE_FILES:
+      var selectedNode = namespaceState.selectedNode;
+      var fileForSelectedNode = action.payload.find(function (item) {
+        return item.path === selectedNode.path;
+      });
       return mergeState({
+        selectedNode: fileForSelectedNode ? _objectSpread({}, selectedNode, fileForSelectedNode) : selectedNode,
         filesMap: _objectSpread({}, namespaceState.filesMap, action.payload.reduce(function (acc, item) {
           acc[item.path] = _objectSpread({}, namespaceState.filesMap[item.path], item);
           return acc;
@@ -48410,7 +48415,7 @@ regeneratorRuntime.mark(reactOnSourceSet),
 regeneratorRuntime.mark(reactByUpdatingFoldersState),
     _marked8 =
 /*#__PURE__*/
-regeneratorRuntime.mark(reactOnSelectNode),
+regeneratorRuntime.mark(reactOnUpdateFiles),
     _marked9 =
 /*#__PURE__*/
 regeneratorRuntime.mark(rootSaga);
@@ -48826,9 +48831,9 @@ function reactByUpdatingFoldersState(_ref6) {
   }, _marked7, this);
 }
 
-function reactOnSelectNode(_ref7) {
+function reactOnUpdateFiles(_ref7) {
   var namespace;
-  return regeneratorRuntime.wrap(function reactOnSelectNode$(_context8) {
+  return regeneratorRuntime.wrap(function reactOnUpdateFiles$(_context8) {
     while (1) {
       switch (_context8.prev = _context8.next) {
         case 0:
@@ -48850,7 +48855,7 @@ function rootSaga() {
       switch (_context9.prev = _context9.next) {
         case 0:
           _context9.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].TOGGLE_SWITCH, reactOnSwitchToggle), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].FIRE_BUTTON_ACTION, reactOnButtonAction), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].TOGGLE_FOLDER, reactOnToggledFolder), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_CHANGED_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_NODE, reactOnSelectNode)]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].TOGGLE_SWITCH, reactOnSwitchToggle), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].FIRE_BUTTON_ACTION, reactOnButtonAction), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].TOGGLE_FOLDER, reactOnToggledFolder), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_CHANGED_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].UPDATE_FILES, reactOnUpdateFiles)]);
 
         case 2:
         case "end":

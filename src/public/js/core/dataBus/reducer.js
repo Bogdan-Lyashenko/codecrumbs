@@ -160,7 +160,13 @@ export default (state = DefaultState, action) => {
       });
 
     case ACTIONS.UPDATE_FILES:
+      const { selectedNode } = namespaceState;
+      const fileForSelectedNode = action.payload.find(item => item.path === selectedNode.path);
+
       return mergeState({
+        selectedNode: fileForSelectedNode
+          ? { ...selectedNode, ...fileForSelectedNode }
+          : selectedNode,
         filesMap: {
           ...namespaceState.filesMap,
           ...action.payload.reduce((acc, item) => {

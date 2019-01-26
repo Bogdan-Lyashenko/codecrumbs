@@ -7,7 +7,7 @@ const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 // instances should run on many ports but then send data to mediator and mediator to client
 const run = (
   { mediatorEndPoint, namespace, projectName },
-  { projectDir, entryPoint, webpackConfigPath, clientPort }
+  { projectDir, entryPoint, webpackConfigPath }
 ) => {
   const webSocketClient = new WebSocketClient();
 

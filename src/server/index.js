@@ -46,8 +46,7 @@ const setup = (
       {
         projectDir,
         entryPoint,
-        webpackConfigPath,
-        clientPort
+        webpackConfigPath
       }
     );
   });

@@ -7,6 +7,12 @@ export const getNamespaceState = (state, props = {}) => {
   return state.dataBus[namespace];
 };
 
+export const getProjectMetadata = createSelector([getNamespaceState], namespaceState => {
+  const { projectName } = namespaceState;
+
+  return { projectName };
+});
+
 export const getSource = createSelector([getNamespaceState], namespaceState => {
   const { sourceTree, filesMap, foldersMap } = namespaceState;
 

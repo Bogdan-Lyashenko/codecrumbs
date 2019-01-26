@@ -47978,13 +47978,14 @@ var getMergeState = function getMergeState(state, namespace) {
 /*!**************************************!*\
   !*** ./js/core/dataBus/selectors.js ***!
   \**************************************/
-/*! exports provided: getNamespacesList, getNamespaceState, getSource, getSourceLayout, getSourceUserChoice, getDependenciesUserChoice, getCodeCrumbsUserChoice */
+/*! exports provided: getNamespacesList, getNamespaceState, getProjectMetadata, getSource, getSourceLayout, getSourceUserChoice, getDependenciesUserChoice, getCodeCrumbsUserChoice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNamespacesList", function() { return getNamespacesList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNamespaceState", function() { return getNamespaceState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjectMetadata", function() { return getProjectMetadata; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSource", function() { return getSource; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSourceLayout", function() { return getSourceLayout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSourceUserChoice", function() { return getSourceUserChoice; });
@@ -48000,6 +48001,12 @@ var getNamespaceState = function getNamespaceState(state) {
   var namespace = props.namespace;
   return state.dataBus[namespace];
 };
+var getProjectMetadata = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {
+  var projectName = namespaceState.projectName;
+  return {
+    projectName: projectName
+  };
+});
 var getSource = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {
   var sourceTree = namespaceState.sourceTree,
       filesMap = namespaceState.filesMap,

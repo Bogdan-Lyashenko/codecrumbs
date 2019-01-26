@@ -10,7 +10,7 @@ import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
 import { buildShiftToPoint } from 'core/dataBus/utils/geometry';
-import { getSourceLayout } from 'core/dataBus/selectors';
+import { getSourceLayout, getProjectMetadata } from 'core/dataBus/selectors';
 import { getValuesState } from 'core/controlsBus/selectors';
 import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
 import { selectDependencyEdge } from 'core/dataBus/actions';
@@ -21,6 +21,7 @@ class TreeDiagram extends React.Component {
     // TODO: fix diagramZoom
     const {
       namespace,
+      projectName,
       multiple,
       active,
       diagramZoom,
@@ -46,25 +47,34 @@ class TreeDiagram extends React.Component {
     });
 
     return (
-      <Draggable bounds={bounds}>
-        <svg
-          className={classNames('TreeDiagram', {
-            treeDiagramBorder: multiple,
-            activeTreeDiagram: multiple && active
-          })}
-          width={width}
-          height={height}
-          xmlns="http://www.w3.org/2000/svg"
-          shapeRendering="optimizeSpeed"
-        >
-          {sourceLayoutTree && (
-            <React.Fragment>
-              <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-              <SourceTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
-            </React.Fragment>
-          )}
-        </svg>
-      </Draggable>
+      <div
+        className={classNames('TreeDiagram', {
+          treeDiagramBorder: multiple,
+          activeTreeDiagram: multiple && active
+        })}
+      >
+        {multiple ? (
+          <p className={'namespaceTitle'}>
+            {projectName}
+            {`${active ? ':active' : ''}`}
+          </p>
+        ) : null}
+        <Draggable bounds={bounds}>
+          <svg
+            width={width}
+            height={height}
+            xmlns="http://www.w3.org/2000/svg"
+            shapeRendering="optimizeSpeed"
+          >
+            {sourceLayoutTree && (
+              <React.Fragment>
+                <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
+                <SourceTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+              </React.Fragment>
+            )}
+          </svg>
+        </Draggable>
+      </div>
     );
   }
 }
@@ -72,10 +82,12 @@ class TreeDiagram extends React.Component {
 const mapStateToProps = (state, props) => {
   const { namespace } = props;
   const { sourceLayoutTree } = getSourceLayout(state, { namespace });
+  const { projectName } = getProjectMetadata(state, { namespace });
   const { diagramZoom } = getValuesState(state);
 
   return {
     namespace,
+    projectName,
     diagramZoom,
     sourceLayoutTree,
     layoutSize: calculateLayoutSize(sourceLayoutTree)

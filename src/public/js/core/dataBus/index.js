@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 
 import { createConnection } from 'core/dataBus/connection';
 import { SOCKET_MESSAGE_TYPE } from 'core/constants';
-import { setInitialSourceData, setChangedSourceData, setPredefinedState, updateFiles } from './actions';
+import {
+  setInitialSourceData,
+  setChangedSourceData,
+  setPredefinedState,
+  updateFiles
+} from './actions';
 
 class DataBusContainer extends React.Component {
   componentDidMount() {

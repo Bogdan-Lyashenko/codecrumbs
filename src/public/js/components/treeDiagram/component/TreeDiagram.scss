@@ -3,11 +3,13 @@
 }
 
 .treeDiagramBorder {
-  border: 1px dashed #d9d9d9;
+  border-left: 1px dashed #d9d9d9;
+  border-top: 1px dashed #d9d9d9;
 }
 
 .activeTreeDiagram {
-  border: 1px dashed #e91e63;
+  border-left: 1px dashed #e91e63;
+  border-top: 1px dashed #e91e63;
 }
 
 .MainLoader {

@@ -5,13 +5,15 @@ import { getNamespacesList } from 'core/dataBus/selectors';
 import { getActiveNamespace } from 'core/namespaceIntegration/selectors';
 import TreeDiagram from './component/TreeDiagram';
 
+import './TreeDiagamsContainer.scss';
+
 const TreeDiagramsContainer = ({ namespacesList, activeNamespace }) => {
   if (!namespacesList.length) {
     return null;
   }
 
   return (
-    <React.Fragment>
+    <div className={'TreeDiagramsContainer'}>
       {namespacesList.map(namespace => (
         <TreeDiagram
           key={namespace}
@@ -20,7 +22,7 @@ const TreeDiagramsContainer = ({ namespacesList, activeNamespace }) => {
           active={namespace === activeNamespace}
         />
       ))}
-    </React.Fragment>
+    </div>
   );
 };
 

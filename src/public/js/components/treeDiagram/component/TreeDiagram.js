@@ -48,7 +48,7 @@ class TreeDiagram extends React.Component {
     return (
       <Draggable bounds={bounds}>
         <svg
-          className={classNames({
+          className={classNames('TreeDiagram', {
             treeDiagramBorder: multiple,
             activeTreeDiagram: multiple && active
           })}

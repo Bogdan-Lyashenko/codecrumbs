@@ -2,11 +2,27 @@
 
 [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs)
 
-Leave "breadcrumbs" in source code via comments to find your way out from code maze.
-> Still much work to do, but the basic features are already implemented and are ready to use. Give it a try while I am finishing a few more big features. Ideas and improvements are welcome. Thanks.
+<h3 align="center">
+  <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#what">What</a>
+  <span> · </span>
+  <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#demo">Demo</a>
+  <span> · </span>
+  <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#get-started">Get started</a>
+  <span> · </span>
+  <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#features">Features</a>
+  <span> · </span>
+  <a href="https://codecrumbs.io/">codecrumbs.io</a>
+  <span> · </span>
+  <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#support">Support</a>
+  <span> · </span>
+  <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#contribute">Contribute</a>
+</h3>
 
-## [Demo](https://codecrumbs.io/)
-Check out [**standalone version here**](https://codecrumbs.io/) with defined trail of codecrumbs.
+## What
+Leave "breadcrumbs" in source code via comments to see "clear picture" how main features of your application work. Support of multiple modules and languages: JavaScript, TypeScript, [Java, Ruby, Python] (implementation in progress). Share your knowledge with export&import feature.    
+
+## Demo
+Check out [**standalone version running here**](https://codecrumbs.io/) with defined trail of codecrumbs.
  
 [<img src="/docs/codecrumbs-ui.png" width="800">](https://codecrumbs.io/)
  
@@ -26,11 +42,13 @@ Add command with **entry file** and **source directory** to ```scripts``` sectio
 
 Run ```yarn start:cc``` from the terminal. Go to [http://localhost:2018/#](http://localhost:2018/#) in the browser to check it out.
 
-## Breadcrumbs
+## Features
+#### Breadcrumbs
 > Leave breadcrumbs by simply putting a comment in code, diagram wil be updated on the fly!
  
 Write ```//cc:here is breadcrumb``` to put a simple breadcrumb in the code. ```cc``` (stands for "codecrumb") is the prefix which used by the parser, and ```here is breadcrumb``` is a title of our first breadcrumb.
 
+#### Trail of breadcrumbs
 Also, you can create “trail of breadcrumbs” — basically, a sequence of codecrumbs which follow some data flow (e.g. user login, or form submit, etc.).
 To create a codecrumb as part of a trail you write: ```//cc:signin#3;enable route``` where ```signin``` is the **trail ID**, ```#3``` is order **number of step**, ```enable route``` is a title describing the step.
  
@@ -39,10 +57,22 @@ To create a codecrumb as part of a trail you write: ```//cc:signin#3;enable rout
 Check out [the introduction article here](https://itnext.io/how-to-navigate-the-maze-of-javascript-code-541250447cbb) for more details.
 
 
-## Learn and  share your knowledge
+#### Export & import (learn and  share your knowledge)
 So let’s say you put together some trail of codecrumbs describing some important flow inside the project. How you can share it with others? Simply download the json file of codecrumbs store, send it to the friend, he/she uploads it to the codecrumbs and can see same you just saw!
 <img src="/docs/share-knowledge.gif" width="800">
+
+## WIP
+Next features are developing:
+- **multi languages support** - support of java, ruby, python, etc.
+- **eject codecrumbs** - ability to remove all "breadcrumbs" from source code in "one click"
 
 ## Support
 
 If you like this project and believe it makes sense, please, put a :star: or tweet about it - it will show your support and motivate me :punch:. Thanks! 
+
+## Contribute
+When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the [owner](https://github.com/Bogdan-Lyashenko/) of this repository before making a change. Ideas and suggestions are welcome.
+To start development environment run:
+```javascript
+yarn && yarn start
+```

@@ -17,7 +17,11 @@
 </h3>
 
 ## What
-Leave "breadcrumbs" in source code via comments to see "clear picture" how main features of your application work. Support of multiple modules and languages: JavaScript, TypeScript, [Java, Ruby, Python] (implementation in progress). Share your knowledge with export&import feature.    
+> **Have you ever got lost in a big or unknown codebase?** If so, this tool will help you a lot to solve that, if no - check it out anyway, it will dramatically increase your development speed and quality of application architecture.
+>
+>**How it works?** You run `codecrumbs` command for a codebase, it analyzes it and starts watching its changes, also, it runs UI client which will reflect codebase state "*on the fly*". From this moment, apart of your code editor, you have codecrumbs UI client running in the browser tab to give you a completely new point of view on your code.
+>
+>-[@bliashenko](https://twitter.com/bliashenko)    
 
 ## Demo
 Check out [**standalone version running here**](https://codecrumbs.io/) with defined trail of codecrumbs.

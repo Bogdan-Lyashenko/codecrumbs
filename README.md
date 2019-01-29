@@ -61,7 +61,7 @@ Check out [the introduction article here](https://itnext.io/how-to-navigate-the-
 
 #### Export & import (learn and  share your knowledge)
 So let’s say you put together some trail of codecrumbs describing some important flow inside the project. How you can share it with others? Simply download the json file of codecrumbs store, send it to the friend, he/she uploads it to the codecrumbs and can see same you just saw!
-<img src="/docs/share-knowledge.gif" width="800">
+<img src="/docs/upload-feature.gif" width="100%">
 
 ## WIP
 Next features are developing:

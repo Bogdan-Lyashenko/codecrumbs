@@ -23,7 +23,7 @@ class DataBusContainer extends React.Component {
 
   setupStandalone() {
     const { setPredefinedState, predefinedState } = this.props;
-    setPredefinedState(predefinedState);
+    predefinedState && setPredefinedState(predefinedState);
   }
 
   setupLocal() {

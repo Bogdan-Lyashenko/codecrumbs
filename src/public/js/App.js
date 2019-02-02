@@ -55,8 +55,14 @@ const App = (props = {}) => {
       </div>
 
       <footer className="footer">
-        &#9400; Bohdan Liashenko{' '}
-        <a href="https://github.com/Bogdan-Lyashenko/codecrumbs">Project Github</a>
+        <span>{`v${process.env.VERSION}`}</span>
+        <span>
+          &#9400; Bohdan Liashenko
+          {' • '}
+          <a href="https://github.com/Bogdan-Lyashenko/codecrumbs">Github</a>
+          {' • '}
+          <a href="https://codecrumbs.io/">codecrumbs.io</a>
+        </span>
       </footer>
     </div>
   );

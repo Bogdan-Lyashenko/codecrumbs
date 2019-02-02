@@ -11678,7 +11678,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".App {\n  padding: 10px;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  position: relative; }\n  .App .loader {\n    display: flex;\n    justify-items: center;\n    justify-content: center;\n    align-items: center;\n    padding: 200px;\n    width: 100%; }\n  .App > .header {\n    position: relative;\n    border-bottom: 1px solid #F5F5F5; }\n  .App .headerPlaceholder {\n    height: 60px;\n    background-color: #fdfdfd; }\n  .App .body {\n    position: relative;\n    display: flex;\n    flex-grow: 1;\n    background-color: white; }\n  .App .footer {\n    position: relative;\n    border-top: 1px solid #F5F5F5;\n    background-color: #ffffff;\n    padding-top: 5px;\n    width: 100%;\n    font-size: 10px;\n    text-align: right; }\n", ""]);
+exports.push([module.i, ".App {\n  padding: 10px 10px 5px 10px;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  position: relative; }\n  .App .loader {\n    display: flex;\n    justify-items: center;\n    justify-content: center;\n    align-items: center;\n    padding: 200px;\n    width: 100%; }\n  .App > .header {\n    position: relative;\n    border-bottom: 1px solid #F5F5F5; }\n  .App .headerPlaceholder {\n    height: 60px;\n    background-color: #fdfdfd; }\n  .App .body {\n    position: relative;\n    display: flex;\n    flex-grow: 1;\n    background-color: white; }\n  .App .footer {\n    display: flex;\n    position: relative;\n    border-top: 1px solid #F5F5F5;\n    background-color: #ffffff;\n    padding-top: 5px;\n    width: 100%;\n    font-size: 10px;\n    text-align: right;\n    justify-content: space-between; }\n", ""]);
 
 // exports
 
@@ -46990,9 +46990,11 @@ var App = function App() {
     fallback: null
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
     className: "footer"
-  }, "\u24B8 Bohdan Liashenko", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "v".concat("1.0.12-alpha")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u24B8 Bohdan Liashenko", ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://github.com/Bogdan-Lyashenko/codecrumbs"
-  }, "Project Github")));
+  }, "Github"), ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://codecrumbs.io/"
+  }, "codecrumbs.io"))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);

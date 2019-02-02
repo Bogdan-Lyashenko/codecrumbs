@@ -176,6 +176,9 @@ export default (state = DefaultState, action) => {
         }
       });
 
+    case ACTIONS.RESET_ALL:
+      return DefaultState;
+
     default:
       return state;
   }

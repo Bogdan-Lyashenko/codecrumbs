@@ -1,5 +1,6 @@
 import { requestFetchFile } from 'core/dataBus/connection';
 import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'core/controlsBus/constants';
+import { ACTIONS as NAMESPACE_INTEGRATION_ACTIONS } from 'core/namespaceIntegration/constants';
 import { getNamespacesList } from 'core/dataBus/selectors';
 import { getCheckedState, getValuesState, getDisabledState } from 'core/controlsBus/selectors';
 
@@ -284,6 +285,15 @@ export const setPredefinedState = predefinedState => dispatch => {
   dispatch({
     type: VIEW_SWITCHES_ACTIONS.SET_FULL_STATE,
     payload: predefinedState.controlsBus
+  });
+
+  //TODO: add flag on UI to not reset previous state
+  dispatch({
+    type: NAMESPACE_INTEGRATION_ACTIONS.RESET_ALL
+  });
+
+  dispatch({
+    type: ACTIONS.RESET_ALL
   });
 
   Object.keys(predefinedState.dataBus).forEach((namespace, i) => {

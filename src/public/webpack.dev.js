@@ -13,6 +13,7 @@ module.exports = merge(common, {
     }),
     new webpack.DefinePlugin({
       'process.env.LOCAL': JSON.stringify(true),
+      'process.env.STANDALONE': JSON.stringify(false),
       'process.env.VERSION': JSON.stringify(require('../../package.json').version)
     })
   ]

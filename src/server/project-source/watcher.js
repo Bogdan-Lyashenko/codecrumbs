@@ -1,11 +1,10 @@
-const chokidar = require('chokidar');
-const debounce = require('lodash.debounce');
+const Watchpack = require('watchpack');
 
 const createWatcher = (dir, fn) => {
-  const DELAY = 100;
+  const watcher = new Watchpack({});
 
-  const watcher = chokidar.watch(dir);
-  watcher.on('change', debounce(fn, DELAY));
+  watcher.watch([], [dir], Date.now() + 1000);
+  watcher.on('change', fn);
 
   return watcher;
 };

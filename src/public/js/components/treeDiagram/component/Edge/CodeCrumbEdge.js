@@ -67,7 +67,7 @@ export const CodeCrumbedFlowEdge = props => {
     y: targetPosition.y + rHalf
   };
 
-  const padding = 20 - rHalf;
+  const padding = 21 - rHalf;
   const vTurn = 13;
 
   let polylinePoints = [];
@@ -77,13 +77,13 @@ export const CodeCrumbedFlowEdge = props => {
       polylinePoints = [
         [sourcePt.x, sourcePt.y],
         [sourcePt.x, sourcePt.y - padding],
-        [targetPt.x - 11, sourcePt.y - padding],
-        [targetPt.x - 11, targetPt.y + vTurn],
-        [targetPt.x, targetPt.y + vTurn],
+        [targetPt.x - 12, sourcePt.y - padding],
+        [targetPt.x - 12, targetPt.y + vTurn - 2],
+        [targetPt.x, targetPt.y + vTurn - 2],
         [targetPt.x, targetPt.y]
       ];
     } else {
-      const nLength = sourceName.length < 10 ? sourceName.length * SYMBOL_WIDTH + 8 : 100;
+      const nLength = sourceName.length < 10 ? sourceName.length * SYMBOL_WIDTH + 8 : 120;
       polylinePoints = [
         [sourcePt.x, sourcePt.y],
         [sourcePt.x, sourcePt.y - padding],
@@ -130,6 +130,71 @@ export const CodeCrumbedFlowEdge = props => {
         isUp={true}
         fill={'#e91e63'}
       />
+    </g>
+  );
+};
+
+export const ExternalEdge = props => {
+  const {
+    sourcePosition,
+    targetPosition,
+    singleCrumbSource,
+    singleCrumbTarget,
+    topBottom,
+    areaHeight,
+    firstPart
+  } = props;
+
+  const rHalf = 6;
+  const sourcePt = {
+    x: -1 - rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
+    y: sourcePosition.y - rHalf
+  };
+  const targetPt = {
+    x: -rHalf + (singleCrumbTarget ? targetPosition.x - 22 : targetPosition.x),
+    y: targetPosition.y
+  };
+
+  const padding = 21 - rHalf;
+  const vTurn = 13;
+
+  const points = firstPart
+    ? [
+        [sourcePt.x, sourcePt.y],
+        [sourcePt.x, sourcePt.y - padding],
+        [targetPt.x - 12, sourcePt.y - padding],
+        [targetPt.x - 12, topBottom ? areaHeight : 0]
+      ]
+    : [
+        [targetPt.x - 12, topBottom ? areaHeight : 0],
+        [targetPt.x - 12, targetPt.y + vTurn + 3],
+        [targetPt.x - 2, targetPt.y + vTurn + 4],
+        [targetPt.x - 2, targetPt.y + vTurn - 1]
+      ];
+
+  const iconSize = 8;
+  return (
+    <g className={'CodeCrumbEdge'}>
+      <polyline points={points.join(', ')} className={'CodeCrumbEdge-external-flow'} />
+      <polyline points={points.join(', ')} className={'CodeCrumbEdge-flow'} />
+      {firstPart ? (
+        <rect
+          x={sourcePt.x - 1}
+          y={sourcePt.y - 3}
+          width={3}
+          height={2}
+          className={'CodeCrumbEdge-flow-source'}
+        />
+      ) : (
+        <Arrow
+          x={targetPt.x - 5}
+          y={targetPt.y + 6}
+          height={iconSize}
+          width={iconSize}
+          isUp={true}
+          fill={'#e91e63'}
+        />
+      )}
     </g>
   );
 };

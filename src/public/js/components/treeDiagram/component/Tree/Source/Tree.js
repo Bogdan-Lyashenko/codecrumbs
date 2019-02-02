@@ -20,6 +20,7 @@ const SourceTree = props => {
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
 
+    areaHeight,
     sourceLayoutTree,
     openedFolders,
     filesMap,
@@ -134,7 +135,11 @@ const SourceTree = props => {
         )}
 
       {(codeCrumbsDiagramOn && (
-        <CodeCrumbedFlowEdges namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+        <CodeCrumbedFlowEdges
+          namespace={namespace}
+          shiftToCenterPoint={shiftToCenterPoint}
+          areaHeight={areaHeight}
+        />
       )) ||
         null}
 

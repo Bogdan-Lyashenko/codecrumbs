@@ -47,16 +47,14 @@ class TreeDiagram extends React.Component {
     });
 
     return (
-      <div
-        className={classNames('TreeDiagram', {
-          treeDiagramBorder: multiple,
-          activeTreeDiagram: multiple && active
-        })}
-      >
+      <div className={'TreeDiagram'}>
         {multiple ? (
-          <p className={'namespaceTitle'}>
+          <p
+            className={classNames('namespaceTitle', {
+              activeTreeDiagram: multiple && active
+            })}
+          >
             {projectName}
-            {`${active ? ':active' : ''}`}
           </p>
         ) : null}
         <Draggable bounds={bounds}>
@@ -69,7 +67,11 @@ class TreeDiagram extends React.Component {
             {sourceLayoutTree && (
               <React.Fragment>
                 <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-                <SourceTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+                <SourceTree
+                  namespace={namespace}
+                  shiftToCenterPoint={shiftToCenterPoint}
+                  areaHeight={height}
+                />
               </React.Fragment>
             )}
           </svg>

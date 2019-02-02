@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const getNamespacesList = state => Object.keys(state.dataBus);
+export const getNamespacesList = state => Object.keys(state.dataBus).sort();
 
 export const getNamespaceState = (state, props = {}) => {
   const { namespace } = props;

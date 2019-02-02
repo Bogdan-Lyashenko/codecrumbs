@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "yarn client-dev & yarn server-dev",
+    "server:one": "node src/index.dev.js",
     "server:two": "node src/index.dev.js two",
-    "start:demo": "node src/index.dev.js",
     "client-dev": "cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev",
     "server-dev": "nodemon src/index.dev.js",
     "server-debug": "nodemon --inspect src/index.dev.js",

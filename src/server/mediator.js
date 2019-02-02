@@ -5,12 +5,7 @@ const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 
 // instances should run on many ports but then send data to mediator and mediator to client
 const run = ({ port, clientPort }) => {
-  const httpServer = http.createServer((request, response) => {
-    // TODO: refactor this to work with sockets instead
-    response.writeHead(500, { 'Content-Type': 'text/html' });
-    response.write('STOP USE HTTP! Will be moved to sockets!');
-    response.end();
-  });
+  const httpServer = http.createServer();
 
   httpServer.listen(port, () => console.log(`Mediator server is listening: ${port}.`));
 

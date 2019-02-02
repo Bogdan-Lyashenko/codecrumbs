@@ -26,7 +26,7 @@
 ## Demo
 Check out [**standalone version running here**](https://codecrumbs.io/) with defined trail of codecrumbs.
  
-[<img src="/docs/codecrumbs-ui.png" width="800">](https://codecrumbs.io/)
+[<img src="/docs/codecrumbs-ui.png" width="800"/>](https://codecrumbs.io/)
  
 ## Get started
 Install ```codecrumbs``` globally or in ```devDependencies```:
@@ -54,19 +54,27 @@ Write ```//cc:here is breadcrumb``` to put a simple breadcrumb in the code. ```c
 Also, you can create “trail of breadcrumbs” — basically, a sequence of codecrumbs which follow some data flow (e.g. user login, or form submit, etc.).
 To create a codecrumb as part of a trail you write: ```//cc:signin#3;enable route``` where ```signin``` is the **trail ID**, ```#3``` is order **number of step**, ```enable route``` is a title describing the step.
  
-<img src="/docs/live-changes.gif" width="800">
+<img src="/docs/live-changes.gif" width="800"/>
 
 Check out [the introduction article here](https://itnext.io/how-to-navigate-the-maze-of-javascript-code-541250447cbb) for more details.
 
+#### Multi-codebase integration
+You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.
+Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab.
+
+E.g. for server-client application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.js -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. **Note:** codebases can be located wherever you want, simply run `codecrumbs` for directory you need.  
+
+<img src="/docs/multi-codebase.png" width="100%"/>
 
 #### Export & import (learn and  share your knowledge)
 So let’s say you put together some trail of codecrumbs describing some important flow inside the project. How you can share it with others? Simply download the json file of codecrumbs store, send it to the friend, he/she uploads it to the codecrumbs and can see same you just saw!
-<img src="/docs/upload-feature-2.gif" width="100%">
+<img src="/docs/upload-feature-2.gif" width="100%"/>
 
 ## WIP
 Next features are developing:
 - **multi languages support** - support of java, ruby, python, etc.
 - **eject codecrumbs** - ability to remove all "breadcrumbs" from source code in "one click"
+- **VS Code extension** - some neat features right inside the code editor. Checkout [the repo here](https://github.com/Bogdan-Lyashenko/vs-code-codecrumbs). 
 
 ## Support
 
@@ -74,7 +82,7 @@ If you like this project and believe it makes sense, please, put a :star: or twe
 
 ## Contribute
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the [owner](https://github.com/Bogdan-Lyashenko/) of this repository before making a change. Ideas and suggestions are welcome.
-To start development environment run:
+To start development environment, clone the repo & run:
 ```javascript
 yarn && yarn start
 ```

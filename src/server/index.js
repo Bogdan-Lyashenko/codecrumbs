@@ -1,3 +1,5 @@
+const path = require('path');
+
 const portscanner = require('portscanner');
 const httpServer = require('http-server');
 
@@ -27,7 +29,10 @@ const setup = (
          * http server to host "codecrumbs" client source for browser
          */
         httpServer
-          .createServer({ root: './src/public/dist/local', cache: isDev ? -1 : 3600 })
+          .createServer({
+            root: path.resolve(__dirname, '../public/dist/local'),
+            cache: isDev ? -1 : 3600
+          })
           .listen(clientPort, HOST, () => {
             console.log(`"Codecrumbs" client is served on http://localhost:${clientPort}`);
           });

@@ -97,19 +97,12 @@ export const selectDependencyEdge = (options, namespace) => dispatch => {
   });
 
   if (target && sources) {
-    // TODO: this will broken, use UPDATE_FILES event on socket response
     requestFetchFile(
       {
-        path: sources
+        path: [target].concat(sources)
       },
       namespace
-    ); /*.then(files => {
-      dispatch({
-        type: ACTIONS.UPDATE_FILES,
-        payload: files,
-        namespace
-      });
-    });*/
+    );
   }
 };
 

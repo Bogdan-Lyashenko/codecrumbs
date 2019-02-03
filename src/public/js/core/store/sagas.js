@@ -115,10 +115,6 @@ function* reactByUpdatingFoldersState({ namespace }) {
   yield put(calcFilesTreeLayoutNodes(namespace));
 }
 
-function* reactOnUpdateFiles({ namespace }) {
-  yield put(setDependenciesEntryPoint(undefined, namespace));
-}
-
 export default function* rootSaga() {
   yield all([
     takeLatest(SWITCHES_ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle),
@@ -128,6 +124,6 @@ export default function* rootSaga() {
     takeLatest(DATA_BUS_ACTIONS.SET_CHANGED_SOURCE_DATA, reactOnSourceSet),
     takeLatest(DATA_BUS_ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState),
     takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState),
-    takeLatest(DATA_BUS_ACTIONS.UPDATE_FILES, reactOnUpdateFiles)
+    takeLatest(DATA_BUS_ACTIONS.UPDATE_FILES, reactByUpdatingFoldersState)
   ]);
 }

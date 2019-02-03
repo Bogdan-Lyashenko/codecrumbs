@@ -46889,7 +46889,7 @@ module.exports = function(originalModule) {
 /*! exports provided: name, version, author, license, repository, scripts, bin, dependencies, devDependencies, nodemonConfig, husky, default */
 /***/ (function(module) {
 
-module.exports = {"name":"codecrumbs","version":"1.0.15-alpha","author":"Bohdan Liashenko","license":"BSD-3-Clause","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","server:one":"node src/index.dev.js","server:two":"node src/index.dev.js two","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon src/index.dev.js","server-debug":"nodemon --inspect src/index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","portscanner":"^2.2.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","watchpack":"^1.6.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","@commitlint/cli":"^7.3.2","@commitlint/config-conventional":"^7.3.1","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","husky":"^1.3.1","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"},"husky":{"hooks":{"commit-msg":"commitlint -E HUSKY_GIT_PARAMS"}}};
+module.exports = {"name":"codecrumbs","version":"1.0.16-alpha","author":"Bohdan Liashenko","license":"BSD-3-Clause","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","server:one":"node src/index.dev.js","server:two":"node src/index.dev.js two","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon src/index.dev.js","server-debug":"nodemon --inspect src/index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","portscanner":"^2.2.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","watchpack":"^1.6.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","@commitlint/cli":"^7.3.2","@commitlint/config-conventional":"^7.3.1","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","husky":"^1.3.1","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"},"husky":{"hooks":{"commit-msg":"commitlint -E HUSKY_GIT_PARAMS"}}};
 
 /***/ }),
 
@@ -46990,7 +46990,7 @@ var App = function App() {
     fallback: null
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
     className: "footer"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "v".concat("1.0.15-alpha")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u24B8 Bohdan Liashenko", ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "v".concat("1.0.16-alpha")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u24B8 Bohdan Liashenko", ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://github.com/Bogdan-Lyashenko/codecrumbs"
   }, "Github"), ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://codecrumbs.io/"
@@ -47488,17 +47488,9 @@ var selectDependencyEdge = function selectDependencyEdge(options, namespace) {
     });
 
     if (target && sources) {
-      // TODO: this will broken, use UPDATE_FILES event on socket response
       Object(core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__["requestFetchFile"])({
-        path: sources
+        path: [target].concat(sources)
       }, namespace);
-      /*.then(files => {
-      dispatch({
-       type: ACTIONS.UPDATE_FILES,
-       payload: files,
-       namespace
-      });
-      });*/
     }
   };
 };
@@ -48438,9 +48430,6 @@ regeneratorRuntime.mark(reactOnSourceSet),
 regeneratorRuntime.mark(reactByUpdatingFoldersState),
     _marked8 =
 /*#__PURE__*/
-regeneratorRuntime.mark(reactOnUpdateFiles),
-    _marked9 =
-/*#__PURE__*/
 regeneratorRuntime.mark(rootSaga);
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -48854,38 +48843,20 @@ function reactByUpdatingFoldersState(_ref6) {
   }, _marked7, this);
 }
 
-function reactOnUpdateFiles(_ref7) {
-  var namespace;
-  return regeneratorRuntime.wrap(function reactOnUpdateFiles$(_context8) {
+function rootSaga() {
+  return regeneratorRuntime.wrap(function rootSaga$(_context8) {
     while (1) {
       switch (_context8.prev = _context8.next) {
         case 0:
-          namespace = _ref7.namespace;
-          _context8.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["setDependenciesEntryPoint"])(undefined, namespace));
+          _context8.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].TOGGLE_SWITCH, reactOnSwitchToggle), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].FIRE_BUTTON_ACTION, reactOnButtonAction), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].TOGGLE_FOLDER, reactOnToggledFolder), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_CHANGED_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].UPDATE_FILES, reactByUpdatingFoldersState)]);
 
-        case 3:
+        case 2:
         case "end":
           return _context8.stop();
       }
     }
   }, _marked8, this);
-}
-
-function rootSaga() {
-  return regeneratorRuntime.wrap(function rootSaga$(_context9) {
-    while (1) {
-      switch (_context9.prev = _context9.next) {
-        case 0:
-          _context9.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].TOGGLE_SWITCH, reactOnSwitchToggle), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["ACTIONS"].FIRE_BUTTON_ACTION, reactOnButtonAction), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].TOGGLE_FOLDER, reactOnToggledFolder), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_INITIAL_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_CHANGED_SOURCE_DATA, reactOnSourceSet), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(core_dataBus_constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].UPDATE_FILES, reactOnUpdateFiles)]);
-
-        case 2:
-        case "end":
-          return _context9.stop();
-      }
-    }
-  }, _marked9, this);
 }
 
 /***/ }),

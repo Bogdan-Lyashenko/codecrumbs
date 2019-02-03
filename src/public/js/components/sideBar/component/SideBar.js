@@ -30,8 +30,8 @@ export default ({
   onTabSelect
 }) => {
   const file = selectedNode && filesMap[selectedNode.path];
-
-  const header = process.env.STANDALONE ? (
+  const standaloneNoCode = process.env.STANDALONE && (!file || !file.fileCode);
+  const header = standaloneNoCode ? (
     <Alert
       message="No code for this file in standalone mode."
       description="Only files with codecrumbs have pre-fetched code. Consider to run codecrumbs locally for this project to access all code. Check instructions here https://github.com/Bogdan-Lyashenko/codecrumbs"
@@ -51,7 +51,7 @@ export default ({
     <Tabs defaultActiveKey={selectedTabInSideBar} onChange={onTabSelect}>
       <TabPane tab="Code" key="Code">
         <Suspense fallback={null}>
-          <Code namespace={namespace} code={file.fileCode} />
+          {standaloneNoCode ? <Skeleton /> : <Code namespace={namespace} code={file.fileCode} />}
         </Suspense>
       </TabPane>
       {(dependenciesDiagramOn && (

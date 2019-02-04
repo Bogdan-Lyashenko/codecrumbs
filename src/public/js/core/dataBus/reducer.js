@@ -1,7 +1,7 @@
 import { FOLDER_OPEN_STATE } from 'core/constants';
 
 import { ACTIONS } from './constants';
-import { getFileNodesMap } from './utils/treeLayout';
+import { getFileNodesMap, getCodecrumbNodesMap } from './utils/treeLayout';
 
 const DefaultState = {};
 
@@ -12,6 +12,7 @@ const DefaultNamespaceState = {
 
   sourceLayoutTree: null,
   filesLayoutMap: {},
+  codecrumbsLayoutMap: {},
 
   openedFolders: {},
   activeItemsMap: {},
@@ -61,9 +62,13 @@ export default (state = DefaultState, action) => {
     case ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES: {
       const { payload } = action;
 
+      const filesLayoutMap = getFileNodesMap(payload);
+      const codecrumbsLayoutMap = getCodecrumbNodesMap(filesLayoutMap);
+
       return mergeState({
         sourceLayoutTree: payload,
-        filesLayoutMap: getFileNodesMap(payload)
+        filesLayoutMap,
+        codecrumbsLayoutMap
       });
     }
 

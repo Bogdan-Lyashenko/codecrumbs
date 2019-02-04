@@ -21,11 +21,11 @@ const FlowEdge = props => {
     namespacesList,
     shiftToCenterPoint,
     sortedFlowSteps,
-    filesLayoutMapNs,
+    ccfilesLayoutMapNs,
     codeCrumbsMinimize
   } = props;
 
-  const filesLayoutMap = filesLayoutMapNs[namespace];
+  const codecrumbsLayoutMap = ccfilesLayoutMapNs[namespace];
 
   return (
     <React.Fragment>
@@ -46,8 +46,8 @@ const FlowEdge = props => {
           const namespaceIndex = namespacesList.indexOf(namespace);
 
           if (fromItem.namespace === namespace && toItem.namespace !== namespace) {
-            const fromFile = filesLayoutMap[fromItem.filePath];
-            const toFile = filesLayoutMapNs[toItem.namespace][toItem.filePath];
+            const fromFile = codecrumbsLayoutMap[fromItem.filePath];
+            const toFile = ccfilesLayoutMapNs[toItem.namespace][toItem.filePath];
 
             return (
               <ExternalEdge
@@ -64,8 +64,8 @@ const FlowEdge = props => {
           }
 
           if (fromItem.namespace !== namespace && toItem.namespace === namespace) {
-            const fromFile = filesLayoutMapNs[fromItem.namespace][fromItem.filePath];
-            const toFile = filesLayoutMap[toItem.filePath];
+            const fromFile = ccfilesLayoutMapNs[fromItem.namespace][fromItem.filePath];
+            const toFile = codecrumbsLayoutMap[toItem.filePath];
 
             return (
               <ExternalEdge
@@ -80,8 +80,8 @@ const FlowEdge = props => {
             );
           }
 
-          const fromFile = filesLayoutMap[fromItem.filePath];
-          const toFile = filesLayoutMap[toItem.filePath];
+          const fromFile = codecrumbsLayoutMap[fromItem.filePath];
+          const toFile = codecrumbsLayoutMap[toItem.filePath];
 
           return (
             <CodeCrumbedFlowEdge
@@ -106,13 +106,13 @@ const getSortedFlowSteps = ({
   namespace,
   codeCrumbedFlowsMap,
   selectedCrumbedFlowKey,
-  filesLayoutMap
+  codecrumbsLayoutMap
 }) => {
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
   let sortedFlowSteps = [];
 
   Object.keys(currentFlow).forEach(filePath => {
-    const steps = ((filesLayoutMap[filePath] && filesLayoutMap[filePath].children) || [])
+    const steps = ((codecrumbsLayoutMap[filePath] && codecrumbsLayoutMap[filePath].children) || [])
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data, x, y }) => ({
         namespace,
@@ -153,7 +153,7 @@ const mapStateToProps = (state, props) => {
         return acc;
       }
 
-      const { filesLayoutMap } = getSourceLayout(state, namespaceProps);
+      const { codecrumbsLayoutMap } = getSourceLayout(state, namespaceProps);
 
       const sortedFlowSteps =
         selectedCrumbedFlowKey !== NO_TRAIL_FLOW
@@ -161,19 +161,19 @@ const mapStateToProps = (state, props) => {
               namespace: ns,
               codeCrumbedFlowsMap,
               selectedCrumbedFlowKey,
-              filesLayoutMap
+              codecrumbsLayoutMap
             })
           : [];
 
       return {
         sortedFlowSteps: [...acc.sortedFlowSteps, ...sortedFlowSteps].sort(stepSorter),
-        filesLayoutMapNs: {
-          ...acc.filesLayoutMapNs,
-          [ns]: filesLayoutMap
+        ccfilesLayoutMapNs: {
+          ...acc.ccfilesLayoutMapNs,
+          [ns]: codecrumbsLayoutMap
         }
       };
     },
-    { filesLayoutMapNs: {}, sortedFlowSteps: [] }
+    { ccfilesLayoutMapNs: {}, sortedFlowSteps: [] }
   );
 
   return {

@@ -47052,7 +47052,8 @@ var LAYOUT_CONFIG = {
   symbolWidth: SYMBOL_WIDTH,
   nodeSizeX: 20,
   nodeSizeY: 60,
-  spacing: 20
+  spacing: 20,
+  detailsShift: 80
 };
 var DepEdgeGroups = {
   TOP_LEFT: 'topLeft',
@@ -47180,7 +47181,6 @@ var CONTROLS_KEYS = {
   CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
   CODE_CRUMBS_LINE_NUMBERS: 'codeCrumbsLineNumbers',
   CODE_CRUMBS_DETAILS: 'codeCrumbsDetails',
-  CODE_CRUMBS_FILTER_FLOW: 'codeCrumbsFilterFlow',
   SIDE_BAR: 'sideBar'
 };
 var VIEW_TYPES = {
@@ -47249,9 +47249,9 @@ var DefaultState = {
       title: 'Minimize code crumbs',
       key: _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_MINIMIZE
     }, {
-      name: 'current trail only',
-      title: 'Show only files for selected flow',
-      key: _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_FILTER_FLOW
+      name: 'details',
+      title: 'Show details',
+      key: _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_DETAILS
     }, {
       name: 'line numbers',
       title: 'Show crumbed line numbers',
@@ -47262,8 +47262,8 @@ var DefaultState = {
     key: _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].SIDE_BAR,
     children: []
   }],
-  checkedState: (_checkedState = {}, _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].SOURCE_DIAGRAM_ON, true), _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].DEPENDENCIES_SHOW_DIRECT_ONLY, true), _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, true), _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_FILTER_FLOW, true), _checkedState),
-  disabledState: _defineProperty({}, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_FILTER_FLOW, true),
+  checkedState: (_checkedState = {}, _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].SOURCE_DIAGRAM_ON, true), _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].DEPENDENCIES_SHOW_DIRECT_ONLY, true), _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, true), _defineProperty(_checkedState, _constants__WEBPACK_IMPORTED_MODULE_0__["CONTROLS_KEYS"].CODE_CRUMBS_DETAILS, true), _checkedState),
+  disabledState: {},
   valuesState: {
     diagramZoom: 1,
     selectedTabInSideBar: 'Code'
@@ -47534,12 +47534,12 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
     var _getCheckedState2 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getCheckedState"])(state),
         codeCrumbsDiagramOn = _getCheckedState2.codeCrumbsDiagramOn,
         codeCrumbsMinimize = _getCheckedState2.codeCrumbsMinimize,
-        codeCrumbsFilterFlow = _getCheckedState2.codeCrumbsFilterFlow;
+        codeCrumbsDetails = _getCheckedState2.codeCrumbsDetails;
 
     if (!sourceTree) return;
     var activeCodeCrumbs = undefined;
 
-    if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+    if (codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
       activeCodeCrumbs = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsMapForCurrentCcFlow"])({
         codeCrumbedFlowsMap: codeCrumbedFlowsMap,
         selectedCrumbedFlowKey: selectedCrumbedFlowKey,
@@ -47551,6 +47551,7 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
       type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].UPDATE_FILES_TREE_LAYOUT_NODES,
       payload: Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_6__["getTreeLayout"])(sourceTree, {
         includeFileChildren: codeCrumbsDiagramOn && !codeCrumbsMinimize,
+        extraSpaceForDetails: codeCrumbsDetails,
         openedFolders: openedFolders,
         activeItemsMap: activeItemsMap,
         activeCodeCrumbs: activeCodeCrumbs
@@ -47607,15 +47608,14 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
     var _getCheckedState4 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getCheckedState"])(state),
         dependenciesDiagramOn = _getCheckedState4.dependenciesDiagramOn,
         codeCrumbsDiagramOn = _getCheckedState4.codeCrumbsDiagramOn,
-        sourceKeepOnlyActiveItems = _getCheckedState4.sourceKeepOnlyActiveItems,
-        codeCrumbsFilterFlow = _getCheckedState4.codeCrumbsFilterFlow;
+        sourceKeepOnlyActiveItems = _getCheckedState4.sourceKeepOnlyActiveItems;
 
     var depFilePaths = dependenciesDiagramOn ? Object.keys(selectedNode.dependencies || {}) : [];
     var ccFilePaths = codeCrumbsDiagramOn ? Object.keys(filesMap).filter(function (path) {
       return filesMap[path].hasCodecrumbs;
     }) : [];
 
-    if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+    if (codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
       var currentFlowFiles = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_6__["getFilesForCurrentCcFlow"])({
         codeCrumbedFlowsMap: codeCrumbedFlowsMap,
         selectedCrumbedFlowKey: selectedCrumbedFlowKey,
@@ -47825,6 +47825,7 @@ var DefaultNamespaceState = {
   foldersMap: null,
   sourceLayoutTree: null,
   filesLayoutMap: {},
+  codecrumbsLayoutMap: {},
   openedFolders: {},
   activeItemsMap: {},
   selectedNode: null,
@@ -47868,9 +47869,12 @@ var getMergeState = function getMergeState(state, namespace) {
     case _constants__WEBPACK_IMPORTED_MODULE_1__["ACTIONS"].UPDATE_FILES_TREE_LAYOUT_NODES:
       {
         var payload = action.payload;
+        var filesLayoutMap = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_2__["getFileNodesMap"])(payload);
+        var codecrumbsLayoutMap = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_2__["getCodecrumbNodesMap"])(filesLayoutMap);
         return mergeState({
           sourceLayoutTree: payload,
-          filesLayoutMap: Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_2__["getFileNodesMap"])(payload)
+          filesLayoutMap: filesLayoutMap,
+          codecrumbsLayoutMap: codecrumbsLayoutMap
         });
       }
 
@@ -48023,10 +48027,12 @@ var getSource = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(
 });
 var getSourceLayout = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {
   var sourceLayoutTree = namespaceState.sourceLayoutTree,
-      filesLayoutMap = namespaceState.filesLayoutMap;
+      filesLayoutMap = namespaceState.filesLayoutMap,
+      codecrumbsLayoutMap = namespaceState.codecrumbsLayoutMap;
   return {
     sourceLayoutTree: sourceLayoutTree,
-    filesLayoutMap: filesLayoutMap
+    filesLayoutMap: filesLayoutMap,
+    codecrumbsLayoutMap: codecrumbsLayoutMap
   };
 });
 var getSourceUserChoice = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {
@@ -48123,7 +48129,7 @@ var uploadFileAsObject = function uploadFileAsObject(file) {
 /*!*********************************************!*\
   !*** ./js/core/dataBus/utils/treeLayout.js ***!
   \*********************************************/
-/*! exports provided: getTreeLayout, sortCcFiles, getFileNodesMap, getFilesForCurrentCcFlow, getCodeCrumbsMapForCurrentCcFlow */
+/*! exports provided: getTreeLayout, sortCcFiles, getFileNodesMap, getCodecrumbNodesMap, getFilesForCurrentCcFlow, getCodeCrumbsMapForCurrentCcFlow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48131,6 +48137,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTreeLayout", function() { return getTreeLayout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortCcFiles", function() { return sortCcFiles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFileNodesMap", function() { return getFileNodesMap; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCodecrumbNodesMap", function() { return getCodecrumbNodesMap; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFilesForCurrentCcFlow", function() { return getFilesForCurrentCcFlow; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCodeCrumbsMapForCurrentCcFlow", function() { return getCodeCrumbsMapForCurrentCcFlow; });
 /* harmony import */ var d3_flextree__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-flextree */ "../../node_modules/d3-flextree/index.js");
@@ -48141,6 +48148,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var getTreeLayout = function getTreeLayout(treeData, _ref) {
   var includeFileChildren = _ref.includeFileChildren,
+      extraSpaceForDetails = _ref.extraSpaceForDetails,
       _ref$config = _ref.config,
       config = _ref$config === void 0 ? components_treeDiagram_component_constants__WEBPACK_IMPORTED_MODULE_2__["LAYOUT_CONFIG"] : _ref$config,
       openedFolders = _ref.openedFolders,
@@ -48186,7 +48194,20 @@ var getTreeLayout = function getTreeLayout(treeData, _ref) {
 
       return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
     },
-    spacing: function spacing(nodeA, nodeB) {
+    spacing: function spacing(node, nodeB) {
+      // TODO: refactor
+      if (extraSpaceForDetails && node.data.type !== core_constants__WEBPACK_IMPORTED_MODULE_1__["DIR_NODE_TYPE"] && node.data.type !== core_constants__WEBPACK_IMPORTED_MODULE_1__["FILE_NODE_TYPE"]) {
+        var _ref3 = node.data.params || {},
+            details = _ref3.details;
+
+        if (details) {
+          var nameWidth = node.data.name ? node.data.name.length * 7.5 : 100;
+          if (nameWidth < 150) nameWidth = 150;
+          var n = Math.ceil(details.length * 7 / nameWidth);
+          return n > 3 ? config.detailsShift : n * 20 + 15;
+        }
+      }
+
       return config.spacing;
     }
   });
@@ -48199,14 +48220,14 @@ var sortCcFiles = function sortCcFiles(activeCodeCrumbs) {
       return 0;
     }
 
-    var bCc = (b.children || []).find(function (_ref3) {
-      var _ref3$params = _ref3.params,
-          params = _ref3$params === void 0 ? {} : _ref3$params;
-      return activeCodeCrumbs[params.original];
-    });
-    var aCc = (a.children || []).find(function (_ref4) {
+    var bCc = (b.children || []).find(function (_ref4) {
       var _ref4$params = _ref4.params,
           params = _ref4$params === void 0 ? {} : _ref4$params;
+      return activeCodeCrumbs[params.original];
+    });
+    var aCc = (a.children || []).find(function (_ref5) {
+      var _ref5$params = _ref5.params,
+          params = _ref5$params === void 0 ? {} : _ref5$params;
       return activeCodeCrumbs[params.original];
     });
 
@@ -48226,33 +48247,44 @@ var getFileNodesMap = function getFileNodesMap(layoutNodes) {
   });
   return map;
 };
-var getFilesForCurrentCcFlow = function getFilesForCurrentCcFlow(_ref5) {
-  var codeCrumbedFlowsMap = _ref5.codeCrumbedFlowsMap,
-      selectedCrumbedFlowKey = _ref5.selectedCrumbedFlowKey,
-      filesMap = _ref5.filesMap;
+var getCodecrumbNodesMap = function getCodecrumbNodesMap(fileNodesMap) {
+  return Object.keys(fileNodesMap).reduce(function (map, key) {
+    var node = fileNodesMap[key];
+
+    if (node.data && node.data.type === core_constants__WEBPACK_IMPORTED_MODULE_1__["FILE_NODE_TYPE"] && node.children) {
+      map[node.data.path] = node;
+    }
+
+    return map;
+  }, {});
+};
+var getFilesForCurrentCcFlow = function getFilesForCurrentCcFlow(_ref6) {
+  var codeCrumbedFlowsMap = _ref6.codeCrumbedFlowsMap,
+      selectedCrumbedFlowKey = _ref6.selectedCrumbedFlowKey,
+      filesMap = _ref6.filesMap;
   return Object.keys(codeCrumbedFlowsMap[selectedCrumbedFlowKey]).filter(function (filePath) {
-    var steps = (filesMap[filePath] && filesMap[filePath].children || []).filter(function (_ref6) {
-      var params = _ref6.params;
+    var steps = (filesMap[filePath] && filesMap[filePath].children || []).filter(function (_ref7) {
+      var params = _ref7.params;
       return params.flow === selectedCrumbedFlowKey;
     });
     return steps && steps.length;
   });
 };
-var getCodeCrumbsMapForCurrentCcFlow = function getCodeCrumbsMapForCurrentCcFlow(_ref7) {
-  var codeCrumbedFlowsMap = _ref7.codeCrumbedFlowsMap,
-      selectedCrumbedFlowKey = _ref7.selectedCrumbedFlowKey,
-      filesMap = _ref7.filesMap;
+var getCodeCrumbsMapForCurrentCcFlow = function getCodeCrumbsMapForCurrentCcFlow(_ref8) {
+  var codeCrumbedFlowsMap = _ref8.codeCrumbedFlowsMap,
+      selectedCrumbedFlowKey = _ref8.selectedCrumbedFlowKey,
+      filesMap = _ref8.filesMap;
   var ccMap = {};
   Object.keys(codeCrumbedFlowsMap[selectedCrumbedFlowKey]).map(function (filePath) {
-    return (filesMap[filePath] && filesMap[filePath].children || []).filter(function (_ref8) {
-      var params = _ref8.params;
+    return (filesMap[filePath] && filesMap[filePath].children || []).filter(function (_ref9) {
+      var params = _ref9.params;
       return params.flow === selectedCrumbedFlowKey;
     });
   }).filter(function (steps) {
     return steps.length;
   }).forEach(function (steps) {
-    steps.forEach(function (_ref9) {
-      var params = _ref9.params;
+    steps.forEach(function (_ref10) {
+      var params = _ref10.params;
       ccMap[params.original] = 1;
     });
   });
@@ -48577,18 +48609,16 @@ function applyReactionOnSwitchToggleToNamespace(_ref) {
           }
 
           _context2.next = 16;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_5__["setDisabledControl"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, checked)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_5__["setDisabledControl"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_LINE_NUMBERS, checked)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_controlsBus_actions__WEBPACK_IMPORTED_MODULE_5__["setDisabledControl"])(core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_DETAILS, checked)), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
 
         case 16:
-          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_FILTER_FLOW)) {
+          if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].CODE_CRUMBS_DETAILS)) {
             _context2.next = 19;
             break;
           }
 
           _context2.next = 19;
-          return reactByUpdatingFoldersState({
-            namespace: namespace
-          });
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])(Object(core_dataBus_actions__WEBPACK_IMPORTED_MODULE_2__["calcFilesTreeLayoutNodes"])(namespace))]);
 
         case 19:
           if (!(switchKey === core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_4__["CONTROLS_KEYS"].DEPENDENCIES_DIAGRAM_ON)) {

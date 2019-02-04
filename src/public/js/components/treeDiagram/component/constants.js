@@ -7,7 +7,8 @@ export const LAYOUT_CONFIG = {
   symbolWidth: SYMBOL_WIDTH,
   nodeSizeX: 20,
   nodeSizeY: 60,
-  spacing: 20
+  spacing: 20,
+  detailsShift: 80
 };
 
 export const DepEdgeGroups = {

@@ -46,12 +46,13 @@ function* applyReactionOnSwitchToggleToNamespace({ switchKey, checked, namespace
   if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE) {
     yield all([
       put(setDisabledControl(CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS, checked)),
+      put(setDisabledControl(CONTROLS_KEYS.CODE_CRUMBS_DETAILS, checked)),
       put(calcFilesTreeLayoutNodes(namespace))
     ]);
   }
 
-  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW) {
-    yield reactByUpdatingFoldersState({ namespace });
+  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_DETAILS) {
+    yield all([put(calcFilesTreeLayoutNodes(namespace))]);
   }
 
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON) {

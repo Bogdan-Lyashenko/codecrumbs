@@ -6,12 +6,13 @@ import Draggable from 'react-draggable';
 import { Spin } from 'antd';
 
 import SourceTree from './Tree/Source/';
+import CodeCrumbsDetails from './Tree/CodeCrumbs/Details';
 import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
 import { buildShiftToPoint } from 'core/dataBus/utils/geometry';
 import { getSourceLayout, getProjectMetadata } from 'core/dataBus/selectors';
-import { getValuesState } from 'core/controlsBus/selectors';
+import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
 import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
 import { selectDependencyEdge } from 'core/dataBus/actions';
 import { setActiveNamespace } from 'core/namespaceIntegration/actions';
@@ -22,6 +23,7 @@ class TreeDiagram extends React.Component {
     const {
       namespace,
       projectName,
+      codeCrumbsDiagramOn,
       multiple,
       active,
       diagramZoom,
@@ -58,23 +60,28 @@ class TreeDiagram extends React.Component {
           </p>
         ) : null}
         <Draggable bounds={bounds}>
-          <svg
-            width={width}
-            height={height}
-            xmlns="http://www.w3.org/2000/svg"
-            shapeRendering="optimizeSpeed"
-          >
-            {sourceLayoutTree && (
-              <React.Fragment>
-                <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-                <SourceTree
-                  namespace={namespace}
-                  shiftToCenterPoint={shiftToCenterPoint}
-                  areaHeight={height}
-                />
-              </React.Fragment>
-            )}
-          </svg>
+          <div>
+            <svg
+              width={width}
+              height={height}
+              xmlns="http://www.w3.org/2000/svg"
+              shapeRendering="optimizeSpeed"
+            >
+              {sourceLayoutTree && (
+                <React.Fragment>
+                  <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
+                  <SourceTree
+                    namespace={namespace}
+                    shiftToCenterPoint={shiftToCenterPoint}
+                    areaHeight={height}
+                  />
+                </React.Fragment>
+              )}
+            </svg>
+            {codeCrumbsDiagramOn ? (
+              <CodeCrumbsDetails namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+            ) : null}
+          </div>
         </Draggable>
       </div>
     );
@@ -86,10 +93,12 @@ const mapStateToProps = (state, props) => {
   const { sourceLayoutTree } = getSourceLayout(state, { namespace });
   const { projectName } = getProjectMetadata(state, { namespace });
   const { diagramZoom } = getValuesState(state);
+  const { codeCrumbsDiagramOn } = getCheckedState(state);
 
   return {
     namespace,
     projectName,
+    codeCrumbsDiagramOn,
     diagramZoom,
     sourceLayoutTree,
     layoutSize: calculateLayoutSize(sourceLayoutTree)

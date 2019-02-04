@@ -133,12 +133,12 @@ export const calcFilesTreeLayoutNodes = namespace => (dispatch, getState) => {
     namespaceConfig
   );
 
-  const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsFilterFlow } = getCheckedState(state);
+  const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsDetails } = getCheckedState(state);
 
   if (!sourceTree) return;
 
   let activeCodeCrumbs = undefined;
-  if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+  if (codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
     activeCodeCrumbs = getCodeCrumbsMapForCurrentCcFlow({
       codeCrumbedFlowsMap,
       selectedCrumbedFlowKey,
@@ -150,6 +150,7 @@ export const calcFilesTreeLayoutNodes = namespace => (dispatch, getState) => {
     type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
     payload: getTreeLayout(sourceTree, {
       includeFileChildren: codeCrumbsDiagramOn && !codeCrumbsMinimize,
+      extraSpaceForDetails: codeCrumbsDetails,
       openedFolders,
       activeItemsMap,
       activeCodeCrumbs
@@ -193,19 +194,16 @@ export const updateFoldersByActiveChildren = namespace => (dispatch, getState) =
     namespaceConfig
   );
 
-  const {
-    dependenciesDiagramOn,
-    codeCrumbsDiagramOn,
-    sourceKeepOnlyActiveItems,
-    codeCrumbsFilterFlow
-  } = getCheckedState(state);
+  const { dependenciesDiagramOn, codeCrumbsDiagramOn, sourceKeepOnlyActiveItems } = getCheckedState(
+    state
+  );
 
   const depFilePaths = dependenciesDiagramOn ? Object.keys(selectedNode.dependencies || {}) : [];
   let ccFilePaths = codeCrumbsDiagramOn
     ? Object.keys(filesMap).filter(path => filesMap[path].hasCodecrumbs)
     : [];
 
-  if (codeCrumbsFilterFlow && codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
+  if (codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
     const currentFlowFiles = getFilesForCurrentCcFlow({
       codeCrumbedFlowsMap,
       selectedCrumbedFlowKey,

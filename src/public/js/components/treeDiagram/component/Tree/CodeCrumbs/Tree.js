@@ -8,7 +8,7 @@ import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/C
 const Tree = props => {
   const {
     shiftToCenterPoint,
-    filesLayoutMap,
+    codecrumbsLayoutMap,
     filesMap,
     selectedCrumbedFlowKey,
     sourceDiagramOn,
@@ -20,15 +20,11 @@ const Tree = props => {
 
   return (
     <React.Fragment>
-      {Object.keys(filesLayoutMap).map(key => {
-        const node = filesLayoutMap[key];
+      {Object.keys(codecrumbsLayoutMap).map(key => {
+        const node = codecrumbsLayoutMap[key];
 
         const [nX, nY] = [node.y, node.x];
         const position = shiftToCenterPoint(nX, nY);
-
-        if (!node.children) {
-          return null;
-        }
 
         const file = filesMap[node.data.path];
         return (

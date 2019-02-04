@@ -12,6 +12,7 @@ export const CodeCrumbName = props => {
   const symbolWidth = 6;
   const locWidth = loc.length ? loc.length * symbolWidth + 3 : 0;
 
+  // TODO: refactor render
   return (
     <g className={'CodeCrumbNode'}>
       {(cover && (
@@ -28,7 +29,7 @@ export const CodeCrumbName = props => {
         locWidth && (
           <React.Fragment>
             <rect
-              x={textPoint.x}
+              x={textPoint.x + (singleCrumb ? 2 : 0)}
               y={textPoint.y - 6}
               width={locWidth}
               height={12}
@@ -36,7 +37,7 @@ export const CodeCrumbName = props => {
               className={'CodeCrumbName-rect'}
             />
             <text
-              x={textPoint.x + 2.5}
+              x={textPoint.x + 2.5 + (singleCrumb ? 2 : 0)}
               y={textPoint.y + 3}
               onClick={onClick}
               className={'CodeCrumbName-loc'}
@@ -74,14 +75,14 @@ export const CodeCrumbName = props => {
             <rect
               x={textPoint.x + 2 + (!flow ? locWidth : 0)}
               y={position.y - 6}
-              width={name.length * 7.7}
+              width={name.length * 7.5}
               height={13}
               className={'NodeText-cover'}
             />
           )) ||
             null}
           <text
-            x={textPoint.x + 3 + (!flow ? locWidth : 0) - 1}
+            x={textPoint.x + 3 + (!flow ? locWidth + (singleCrumb ? 2 : 0) : 0) - 1}
             y={textPoint.y + 4}
             onClick={onClick}
             className={classNames('CodeCrumbName-text', {

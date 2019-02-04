@@ -56,9 +56,9 @@ const DefaultState = {
           key: CONTROLS_KEYS.CODE_CRUMBS_MINIMIZE
         },
         {
-          name: 'current trail only',
-          title: 'Show only files for selected flow',
-          key: CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW
+          name: 'details',
+          title: 'Show details',
+          key: CONTROLS_KEYS.CODE_CRUMBS_DETAILS
         },
         {
           name: 'line numbers',
@@ -77,11 +77,9 @@ const DefaultState = {
     [CONTROLS_KEYS.SOURCE_DIAGRAM_ON]: true,
     [CONTROLS_KEYS.DEPENDENCIES_SHOW_DIRECT_ONLY]: true,
     [CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS]: true,
-    [CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW]: true
+    [CONTROLS_KEYS.CODE_CRUMBS_DETAILS]: true
   },
-  disabledState: {
-    [CONTROLS_KEYS.CODE_CRUMBS_FILTER_FLOW]: true
-  },
+  disabledState: {},
   valuesState: {
     diagramZoom: 1,
     selectedTabInSideBar: 'Code'

@@ -18,11 +18,11 @@ const mapStateToProps = (state, props) => {
   const { namespace } = props;
   const namespaceProps = { namespace };
   const { filesMap } = getSource(state, namespaceProps);
-  const { filesLayoutMap } = getSourceLayout(state, namespaceProps);
+  const { codecrumbsLayoutMap } = getSourceLayout(state, namespaceProps);
   const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, namespaceProps);
 
   return {
-    filesLayoutMap,
+    codecrumbsLayoutMap,
     filesMap,
     selectedCrumbedFlowKey,
     sourceDiagramOn,

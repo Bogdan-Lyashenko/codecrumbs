@@ -24,7 +24,9 @@ const StandalonePlaceholder = props => {
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
         </p>
-        <p className="ant-upload-text">Click or drag `codecrumbs` json file to this area to upload</p>
+        <p className="ant-upload-text">
+          Click or drag `codecrumbs` json file to this area to upload
+        </p>
         <p className="ant-upload-hint">All magic will happen automatically right after!</p>
       </Dragger>
     </div>
@@ -39,4 +41,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(StandalonePlaceholder);
-

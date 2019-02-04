@@ -5,7 +5,14 @@ import { LAYOUT_CONFIG } from 'components/treeDiagram/component/constants';
 
 export const getTreeLayout = (
   treeData,
-  { includeFileChildren, config = LAYOUT_CONFIG, openedFolders, activeItemsMap, activeCodeCrumbs }
+  {
+    includeFileChildren,
+    extraSpaceForDetails,
+    config = LAYOUT_CONFIG,
+    openedFolders,
+    activeItemsMap,
+    activeCodeCrumbs
+  }
 ) => {
   const layoutStructure = d3FlexTree.flextree({
     children: data => {
@@ -48,7 +55,25 @@ export const getTreeLayout = (
 
       return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
     },
-    spacing: (nodeA, nodeB) => config.spacing
+    spacing: (node, nodeB) => {
+      // TODO: refactor
+      if (
+        extraSpaceForDetails &&
+        node.data.type !== DIR_NODE_TYPE &&
+        node.data.type !== FILE_NODE_TYPE
+      ) {
+        const { details } = node.data.params || {};
+        if (details) {
+          let nameWidth = node.data.name ? node.data.name.length * 7.5 : 100;
+          if (nameWidth < 150) nameWidth = 150;
+
+          const n = Math.ceil(details.length * 7 / nameWidth);
+          return (n > 3) ? config.detailsShift : n * 20 + 15;
+        }
+      }
+
+      return config.spacing;
+    }
   });
 
   const tree = layoutStructure.hierarchy(treeData);
@@ -80,6 +105,16 @@ export const getFileNodesMap = layoutNodes => {
 
   return map;
 };
+
+export const getCodecrumbNodesMap = fileNodesMap =>
+  Object.keys(fileNodesMap).reduce((map, key) => {
+    const node = fileNodesMap[key];
+    if (node.data && node.data.type === FILE_NODE_TYPE && node.children) {
+      map[node.data.path] = node;
+    }
+
+    return map;
+  }, {});
 
 export const getFilesForCurrentCcFlow = ({
   codeCrumbedFlowsMap,

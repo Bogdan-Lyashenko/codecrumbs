@@ -20,7 +20,6 @@ export const CONTROLS_KEYS = {
   CODE_CRUMBS_MINIMIZE: 'codeCrumbsMinimize',
   CODE_CRUMBS_LINE_NUMBERS: 'codeCrumbsLineNumbers',
   CODE_CRUMBS_DETAILS: 'codeCrumbsDetails',
-  CODE_CRUMBS_FILTER_FLOW: 'codeCrumbsFilterFlow',
   SIDE_BAR: 'sideBar'
 };
 

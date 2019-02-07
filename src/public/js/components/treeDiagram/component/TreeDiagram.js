@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import Draggable from 'react-draggable';
-import { Spin } from 'antd';
 
 import SourceTree from './Tree/Source/';
 import CodeCrumbsDetails from './Tree/CodeCrumbs/Details';
@@ -34,13 +33,7 @@ class TreeDiagram extends React.Component {
     const { width, height, xShift, yShift, bounds } = layoutSize;
 
     if (!width && !height) {
-      return (
-        <div className={'MainLoader'}>
-          <Spin />
-          <Spin />
-          <Spin />
-        </div>
-      );
+      return null;
     }
 
     const shiftToCenterPoint = buildShiftToPoint({

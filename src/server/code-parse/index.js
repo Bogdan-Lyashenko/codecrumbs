@@ -1,14 +1,15 @@
-const { getCrumbs } = require('./codecrumbs/');
-const { getImports, getDependencies } = require('./dependencies/');
 const file = require('../utils/file');
+const { getLanguageParsers } = require('./language');
 
 const parseFile = (
   itemPath,
   projectDir,
-  { parseCodeCrumbs, parseImports, parseDependencies, attachCode } = {}
-) =>
-  Promise.all([
-    parseDependencies && getDependencies(itemPath, projectDir),
+  { parseCodeCrumbs, parseImports, parseDependencies, attachCode, prLang } = {}
+) => {
+  const { codecrumbsParser, dependenciesParser } = getLanguageParsers(prLang);
+
+  return Promise.all([
+    parseDependencies && dependenciesParser.getDependencies(itemPath, projectDir),
     file.read(itemPath, 'utf8')
   ]).then(([dependencies, code]) => {
     const item = {
@@ -18,7 +19,7 @@ const parseFile = (
     };
 
     if (parseCodeCrumbs) {
-      const codecrumbsList = getCrumbs(code, itemPath);
+      const codecrumbsList = codecrumbsParser.getCrumbs(code, itemPath);
       if (codecrumbsList.length) {
         item.fileCode = code;
         item.children = codecrumbsList;
@@ -38,7 +39,7 @@ const parseFile = (
     }
 
     if (parseImports) {
-      const importedDependencies = getImports(code, itemPath);
+      const importedDependencies = dependenciesParser.getImports(code, itemPath);
       if (importedDependencies.length) {
         item.importedDependencies = importedDependencies;
         item.hasDependenciesImports = true;
@@ -50,6 +51,7 @@ const parseFile = (
 
     return item;
   });
+};
 
 module.exports = {
   parseFile

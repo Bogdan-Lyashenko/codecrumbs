@@ -67,8 +67,8 @@ export const getTreeLayout = (
           let nameWidth = node.data.name ? node.data.name.length * 7.5 : 100;
           if (nameWidth < 150) nameWidth = 150;
 
-          const n = Math.ceil(details.length * 7 / nameWidth);
-          return (n > 3) ? config.detailsShift : n * 20 + 15;
+          const n = Math.ceil((details.length * 7) / nameWidth);
+          return n > 3 ? config.detailsShift : n * 20 + 15;
         }
       }
 

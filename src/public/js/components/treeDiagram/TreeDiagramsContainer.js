@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Spin } from 'antd';
 
 import StandalonePlaceholder from './component/StandalonePlaceholder';
 
@@ -11,7 +12,15 @@ import './TreeDiagamsContainer.scss';
 
 const TreeDiagramsContainer = ({ namespacesList, activeNamespace }) => {
   if (!namespacesList.length) {
-    return process.env.STANDALONE ? <StandalonePlaceholder /> : null;
+    return process.env.STANDALONE ? (
+      <StandalonePlaceholder />
+    ) : (
+      <div className={'MainLoader'}>
+        <Spin />
+        <Spin />
+        <Spin />
+      </div>
+    );
   }
 
   return (

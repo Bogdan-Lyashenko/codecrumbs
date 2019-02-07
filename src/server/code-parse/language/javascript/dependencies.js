@@ -3,9 +3,8 @@ const madge = require('madge');
 const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
-const { config: astParseConfig, getNodeLines } = require('../../../shared/astParse');
-
-const { convertRelativeToAbsolutePath } = require('./path');
+const { config: astParseConfig, getNodeLines } = require('./astParse');
+const { convertRelativeToAbsolutePath } = require('../../path');
 
 const getImports = (fileCode, itemPath) => {
   let ast = {};

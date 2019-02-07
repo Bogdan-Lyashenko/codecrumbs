@@ -4,11 +4,14 @@ const { parseFiles } = require('./api/');
 const projectSourceWatcher = require('./project-source/');
 const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 
-// instances should run on many ports but then send data to mediator and mediator to client
+const detectProgrammingLanguage = () => 'javascript';
+
 const run = (
   { mediatorEndPoint, namespace, projectName },
   { projectDir, entryPoint, webpackConfigPath }
 ) => {
+  const prLang = detectProgrammingLanguage();
+
   const webSocketClient = new WebSocketClient();
 
   webSocketClient.on('connectFailed', error => {
@@ -28,7 +31,7 @@ const run = (
         case SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED:
           projectSourceWatcher.subscribeOnChange(
             namespace,
-            { projectName, projectDir, entryPoint, webpackConfigPath },
+            { projectName, projectDir, entryPoint, webpackConfigPath, prLang },
             {
               onInit: data => {
                 connection.sendUTF(
@@ -54,7 +57,7 @@ const run = (
 
         case SOCKET_MESSAGE_TYPE.CLIENT_REQUEST_FETCH_FILE:
           if (message.namespace === namespace) {
-            parseFiles(message.data, projectDir).then(files =>
+            parseFiles(message.data, projectDir, prLang).then(files =>
               connection.sendUTF(
                 JSON.stringify({
                   type: SOCKET_MESSAGE_TYPE.SOURCE_RESPONSE_FETCH_FILE,

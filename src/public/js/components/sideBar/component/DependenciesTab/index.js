@@ -41,18 +41,16 @@ const DependenciesTab = props => {
               return null;
             }
 
+            // TODO: move to BE
+            /*
             const exportedDependencies = extractExportsForImports(
               fileNode.fileCode,
               file.specifiers,
               file.sourceFile
-            );
+            );*/
             return (
               <Panel header={fileNode.path} key={i + 1}>
-                <Code
-                  limitedHeight={true}
-                  code={fileNode.fileCode || ''}
-                  dependenciesLines={exportedDependencies}
-                />
+                <Code limitedHeight={true} code={fileNode.fileCode || ''} />
               </Panel>
             );
           })}

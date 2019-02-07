@@ -1,7 +1,4 @@
-const babylon = require('@babel/parser');
-
-const { config: astParseConfig, getNodeLines } = require('../../../shared/astParse');
-const NO_TRAIL_FLOW = require('../../../shared/constants').NO_TRAIL_FLOW;
+const NO_TRAIL_FLOW = require('../../../../shared/constants').NO_TRAIL_FLOW;
 
 const CRUMB = 'codecrumb',
   CRUMB_SHORT_HANDLER = 'cc';
@@ -41,35 +38,41 @@ const parseCodecrumbComment = (node = {}) => {
   return cc;
 };
 
-const isCodecrumb = (node = {}) => {
+const isCodecrumb = node => {
+  if (!node) return false;
+
   const comment = getCommentNodeValue(node);
   return comment.startsWith(CRUMB) || comment.startsWith(CRUMB_SHORT_HANDLER);
 };
 
+const buildCrumb = (params, crumbNodeLines) => ({
+  name: params.name || '',
+  displayLoc: `#${crumbNodeLines[0]}`,
+  crumbNodeLines: params.linesRange
+    ? [crumbNodeLines[0], crumbNodeLines[1] + params.linesRange]
+    : crumbNodeLines,
+  params
+});
+
+// per language
+const getCommentsFromCode = fileCode => [];
+const getNodeLines = node => [0, 1];
+//--
+
+// this should de defined in languages
 const getCrumbs = (fileCode, path) => {
-  let ast = {};
   const crumbsList = [];
+  const comments = getCommentsFromCode(fileCode);
 
   try {
-    ast = babylon.parse(fileCode, astParseConfig);
-    if (ast.comments) {
-      ast.comments.forEach(comment => {
-        if (comment && isCodecrumb(comment)) {
-          const params = parseCodecrumbComment(comment);
+    comments.forEach(comment => {
+      if (isCodecrumb(comment)) {
+        const params = parseCodecrumbComment(comment);
+        const crumbNodeLines = getNodeLines(comment);
 
-          const loc = comment.loc.start;
-          const crumbNodeLines = getNodeLines(comment);
-          crumbsList.push({
-            name: params.name || '', //TODO: check, can be bug with layout calc
-            displayLoc: `#${loc.line}`,
-            crumbNodeLines: params.linesRange
-              ? [crumbNodeLines[0], crumbNodeLines[1] + params.linesRange]
-              : crumbNodeLines,
-            params
-          });
-        }
-      });
-    }
+        crumbsList.push(buildCrumb(params, crumbNodeLines));
+      }
+    });
 
     return crumbsList;
   } catch (e) {
@@ -79,5 +82,8 @@ const getCrumbs = (fileCode, path) => {
 };
 
 module.exports = {
-  getCrumbs
+  getCrumbs,
+  isCodecrumb,
+  parseCodecrumbComment,
+  buildCrumb
 };

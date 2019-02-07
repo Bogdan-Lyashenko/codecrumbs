@@ -1,8 +1,3 @@
-const babylon = require('@babel/parser');
-const babelTraverse = require('@babel/traverse');
-
-const { config: astParseConfig, getNodeLines } = require('shared-with-server-src/astParse');
-
 export const filterImportedDependencies = (
   importedDependencies = [],
   selectedDependencyEdgeNodes
@@ -34,8 +29,9 @@ export const findFileNode = (path, filesMap, foldersMap) => {
   return filesMap[completePath];
 };
 
+// TODO: move to BE
 export const extractExportsForImports = (fileCode, specifiers, path) => {
-  let ast = {};
+  /*let ast = {};
   const exports = [];
 
   try {
@@ -67,5 +63,5 @@ export const extractExportsForImports = (fileCode, specifiers, path) => {
   } catch (e) {
     console.log(path, e);
     return exports;
-  }
+  }*/
 };

@@ -9,7 +9,7 @@ const {
 
 const { search: traversalSearch } = require('../utils/traversal');
 
-const parseProjectSourceFiles = ({ filesMap, projectDir, entryPoint, webpackConfigPath }) =>
+const parseProjectSourceFiles = ({ filesMap, projectDir, entryPoint, webpackConfigPath, prLang }) =>
   Promise.all(
     Object.keys(filesMap).map(itemPath =>
       codeParser
@@ -17,7 +17,8 @@ const parseProjectSourceFiles = ({ filesMap, projectDir, entryPoint, webpackConf
           parseCodeCrumbs: true,
           parseImports: true,
           parseDependencies: itemPath === entryPoint,
-          attachCode: itemPath === entryPoint
+          attachCode: itemPath === entryPoint,
+          prLang
         })
         .then(item =>
           Object.keys(item).forEach(key => {
@@ -39,7 +40,7 @@ const closePreviousSubscription = id => {
 
 const subscribeOnChange = (
   namespace,
-  { projectName, projectDir, entryPoint, webpackConfigPath },
+  { projectName, projectDir, entryPoint, webpackConfigPath, prLang },
   { onInit, onChange }
 ) => {
   // TODO: refactor function, too long
@@ -54,7 +55,8 @@ const subscribeOnChange = (
     filesMap: fs.filesMap,
     projectDir,
     entryPoint,
-    webpackConfigPath
+    webpackConfigPath,
+    prLang
   }).then(() => {
     Object.entries(fs.filesMap).forEach(([path, file]) => {
       if (file.hasCodecrumbs) {
@@ -88,7 +90,8 @@ const subscribeOnChange = (
       filesMap: { [path]: file },
       projectDir,
       entryPoint: path,
-      webpackConfigPath
+      webpackConfigPath,
+      prLang
     }).then(() => {
       traversalSearch(fs.sourceTree, node => {
         if (node.path === path) {

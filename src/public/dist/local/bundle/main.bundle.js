@@ -48010,9 +48010,11 @@ var getNamespaceState = function getNamespaceState(state) {
   return state.dataBus[namespace];
 };
 var getProjectMetadata = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {
-  var projectName = namespaceState.projectName;
+  var projectName = namespaceState.projectName,
+      language = namespaceState.language;
   return {
-    projectName: projectName
+    projectName: projectName,
+    language: language
   };
 });
 var getSource = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([getNamespaceState], function (namespaceState) {

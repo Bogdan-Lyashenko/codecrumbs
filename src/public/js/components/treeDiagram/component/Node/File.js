@@ -23,7 +23,7 @@ export const FileName = props => {
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 
-  // TODO: fix file icon for other languages - have default 'file' icon 
+  // TODO: fix file icon for other languages - have default 'file' icon
   const icon = !dependency ? (
     <JavaScriptFile x={position.x + 2} y={position.y - 10} height={iconSize} width={iconSize} />
   ) : (

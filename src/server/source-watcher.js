@@ -39,7 +39,6 @@ const run = (
                   JSON.stringify({
                     type: SOCKET_MESSAGE_TYPE.SOURCE_INIT_SOURCE_FILES_SYNC,
                     namespace,
-                    projectName,
                     data
                   })
                 );

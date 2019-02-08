@@ -67,6 +67,7 @@ const subscribeOnChange = (
     return onInit({
       namespace,
       projectName,
+      language,
       sourceTree: fs.sourceTree,
       filesMap: fs.filesMap,
       foldersMap: fs.foldersMap,

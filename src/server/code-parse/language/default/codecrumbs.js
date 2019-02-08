@@ -54,8 +54,7 @@ const buildCrumb = (params, crumbNodeLines) => ({
   params
 });
 
-
-const setupdGetCommentsFromCode = (regex) => fileCode => {
+const setupdGetCommentsFromCode = regex => fileCode => {
   if (!fileCode) return [];
 
   return fileCode.split('\n').reduce((comments, item, i) => {
@@ -64,7 +63,11 @@ const setupdGetCommentsFromCode = (regex) => fileCode => {
 
     const matches = regex.exec(codeLine);
     if (matches) {
-      return [...comments, { value: matches[matches.length - 1], nodeLines: [i, i] }];
+      const lineNumber = i + 1;
+      return [
+        ...comments,
+        { value: matches[matches.length - 1], nodeLines: [lineNumber, lineNumber] }
+      ];
     }
 
     return comments;
@@ -73,7 +76,7 @@ const setupdGetCommentsFromCode = (regex) => fileCode => {
 
 const getNodeLines = node => node.nodeLines;
 
-const setupGetCrumbs = (getCommentsFromCode) => (fileCode, path) => {
+const setupGetCrumbs = getCommentsFromCode => (fileCode, path) => {
   const crumbsList = [];
   const comments = getCommentsFromCode(fileCode);
 

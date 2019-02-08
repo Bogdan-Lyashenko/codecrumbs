@@ -29,10 +29,16 @@ const Styles = {
 class FlowChartTab extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSupported: props.language === 'javascript'
+    };
   }
 
   componentDidMount() {
+    if (!this.state.isSupported) {
+      return;
+    }
+
     import(/* webpackChunkName: "js2flowchart" */ 'js2flowchart').then(
       ({ createSVGRender, convertCodeToFlowTree }) => {
         this.svgRender = createSVGRender();
@@ -49,7 +55,18 @@ class FlowChartTab extends React.Component {
   }
 
   render() {
-    const { ready } = this.state;
+    const { ready, isSupported } = this.state;
+    if (!isSupported) {
+      return (
+        <Alert
+          message={'FlowChart supported for JavaScript code only'}
+          type="warning"
+          description="You can file an issue here https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart. Thank you ;)"
+          showIcon
+        />
+      );
+    }
+
     if (!ready) {
       return (
         <div className={'FlowChartLoading'}>
@@ -68,7 +85,7 @@ class FlowChartTab extends React.Component {
         <Alert
           message={'Oppss.. AST parser failed to parse your code. That dude..'}
           type="warning"
-          description="Well, you can file an issue here https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart"
+          description="Well.. maybe a bug, you can file an issue here https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart. Thank you ;)"
           showIcon
         />
       );

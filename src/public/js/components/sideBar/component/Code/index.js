@@ -32,13 +32,13 @@ export default class extends React.Component {
   }
 
   render() {
-    const { code, crumbedLines = [], dependenciesLines = [], limitedHeight } = this.props;
+    const { language, code, crumbedLines = [], dependenciesLines = [], limitedHeight } = this.props;
 
     // TODO: calc height for .Code based on dependenciesLines - it's not always need to be 300 px!!
     return (
       <div className={classNames('Code', { limitedHeight })} ref={el => (this.codeRef = el)}>
         <SyntaxHighlighter
-          language="javascript"
+          language={language}
           style={atomOneLight}
           showLineNumbers={true}
           wrapLines={true}

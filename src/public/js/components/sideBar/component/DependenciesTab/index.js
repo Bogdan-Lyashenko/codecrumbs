@@ -15,7 +15,7 @@ import './index.scss';
 const Panel = Collapse.Panel;
 
 const DependenciesTab = props => {
-  const { selectedNode, filesMap, foldersMap, selectedDependencyEdgeNodes } = props;
+  const { language, selectedNode, filesMap, foldersMap, selectedDependencyEdgeNodes } = props;
 
   const importedDependencies = filterImportedDependencies(
     selectedNode.importedDependencies,
@@ -28,6 +28,7 @@ const DependenciesTab = props => {
         <Collapse bordered={false} defaultActiveKey={['0', '1']}>
           <Panel header={selectedNode.path} key="0">
             <Code
+              language={language}
               limitedHeight={true}
               code={selectedNode.fileCode}
               dependenciesLines={importedDependencies.map(({ importNodeLines }) => importNodeLines)}
@@ -50,7 +51,7 @@ const DependenciesTab = props => {
             );*/
             return (
               <Panel header={fileNode.path} key={i + 1}>
-                <Code limitedHeight={true} code={fileNode.fileCode || ''} />
+                <Code language={language} limitedHeight={true} code={fileNode.fileCode || ''} />
               </Panel>
             );
           })}

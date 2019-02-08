@@ -14,7 +14,7 @@ import './index.scss';
 const Panel = Collapse.Panel;
 
 const CrumbsTab = props => {
-  const { flowStepsFiles } = props;
+  const { language, flowStepsFiles } = props;
 
   return (
     <div className={'CrumbsTab'}>
@@ -34,6 +34,7 @@ const CrumbsTab = props => {
                 key={i}
               >
                 <Code
+                  language={language}
                   limitedHeight={true}
                   code={stepFile.file.fileCode || ''}
                   crumbedLines={[stepFile.crumbNodeLines]}

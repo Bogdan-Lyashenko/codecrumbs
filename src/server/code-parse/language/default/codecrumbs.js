@@ -54,13 +54,26 @@ const buildCrumb = (params, crumbNodeLines) => ({
   params
 });
 
-// per language
-const getCommentsFromCode = fileCode => [];
-const getNodeLines = node => [0, 1];
-//--
 
-// this should de defined in languages
-const getCrumbs = (fileCode, path) => {
+const setupdGetCommentsFromCode = (regex) => fileCode => {
+  if (!fileCode) return [];
+
+  return fileCode.split('\n').reduce((comments, item, i) => {
+    const codeLine = item.trim();
+    if (!codeLine) return comments;
+
+    const matches = regex.exec(codeLine);
+    if (matches) {
+      return [...comments, { value: matches[matches.length - 1], nodeLines: [i, i] }];
+    }
+
+    return comments;
+  }, []);
+};
+
+const getNodeLines = node => node.nodeLines;
+
+const setupGetCrumbs = (getCommentsFromCode) => (fileCode, path) => {
   const crumbsList = [];
   const comments = getCommentsFromCode(fileCode);
 
@@ -82,7 +95,11 @@ const getCrumbs = (fileCode, path) => {
 };
 
 module.exports = {
-  getCrumbs,
+  getCrumbs: setupGetCrumbs(() => []), // TODO: add regexp for // comment
+
+  setupdGetCommentsFromCode,
+  setupGetCrumbs,
+
   isCodecrumb,
   parseCodecrumbComment,
   buildCrumb

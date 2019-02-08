@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
-import FileIcon from 'components/treeDiagram/component/Icons/File';
+import JavaScriptFile from 'components/treeDiagram/component/Icons/JavaScriptFile';
 import DepCirclesIcon from 'components/treeDiagram/component/Icons/DepCircles';
 import './index.scss';
 
@@ -16,14 +16,16 @@ export const FileName = props => {
     purple,
     selected,
     dependency,
-    dependencyImportedOnly
+    dependencyImportedOnly,
+    language // use to detect icon
   } = props;
 
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 
+  // TODO: fix file icon for other languages - have default 'file' icon 
   const icon = !dependency ? (
-    <FileIcon x={position.x + 2} y={position.y - 10} height={iconSize} width={iconSize} />
+    <JavaScriptFile x={position.x + 2} y={position.y - 10} height={iconSize} width={iconSize} />
   ) : (
     <DepCirclesIcon
       x={position.x}

@@ -1,16 +1,17 @@
-// test windows https://github.com/theturtle32/WebSocket-Node#note-for-windows-users
+// TODO: test windows https://github.com/theturtle32/WebSocket-Node#note-for-windows-users
 const WebSocketClient = require('websocket').client;
+
 const { parseFiles } = require('./api/');
-const projectSourceWatcher = require('./project-source/');
 const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 
-const detectProgrammingLanguage = () => 'javascript';
+const projectSourceWatcher = require('./project-source/');
+const { detectLanguage } = require('./code-parse/language');
 
 const run = (
   { mediatorEndPoint, namespace, projectName },
   { projectDir, entryPoint, webpackConfigPath }
 ) => {
-  const prLang = detectProgrammingLanguage();
+  const { language, extensions: fileExtensions } = detectLanguage(entryPoint);
 
   const webSocketClient = new WebSocketClient();
 
@@ -31,7 +32,7 @@ const run = (
         case SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED:
           projectSourceWatcher.subscribeOnChange(
             namespace,
-            { projectName, projectDir, entryPoint, webpackConfigPath, prLang },
+            { projectName, projectDir, entryPoint, webpackConfigPath, language, fileExtensions },
             {
               onInit: data => {
                 connection.sendUTF(
@@ -57,7 +58,7 @@ const run = (
 
         case SOCKET_MESSAGE_TYPE.CLIENT_REQUEST_FETCH_FILE:
           if (message.namespace === namespace) {
-            parseFiles(message.data, projectDir, prLang).then(files =>
+            parseFiles(message.data, projectDir, language).then(files =>
               connection.sendUTF(
                 JSON.stringify({
                   type: SOCKET_MESSAGE_TYPE.SOURCE_RESPONSE_FETCH_FILE,

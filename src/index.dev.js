@@ -11,7 +11,7 @@ const namespaceOne = {
 const namespaceTwo = {
   projectNameAlias: 'todo-example-server',
   projectDir: `example-project/src-server`,
-  entryPoint: `example-project/src-server/index.js`,
+  entryPoint: `example-project/src-server/index.py`,
   clientPort: 2018
 };
 

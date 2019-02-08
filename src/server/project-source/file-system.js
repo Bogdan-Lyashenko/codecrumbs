@@ -3,8 +3,7 @@ const directoryTree = require('directory-tree');
 const { traversal: treeTraversal } = require('../../shared/utils/tree');
 const DIR_NODE_TYPE = require('../../shared/constants').DIR_NODE_TYPE;
 
-// TODO: config for files should come from outside
-const getProjectFiles = (projectDir, config = { extensions: /\.jsx?$/ }) => {
+const getProjectFiles = (projectDir, config = { extensions: /(.*?)/ }) => {
   const filesMap = {};
   const foldersMap = {};
 

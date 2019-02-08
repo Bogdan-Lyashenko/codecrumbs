@@ -4,9 +4,9 @@ const { getLanguageParsers } = require('./language');
 const parseFile = (
   itemPath,
   projectDir,
-  { parseCodeCrumbs, parseImports, parseDependencies, attachCode, prLang } = {}
+  { parseCodeCrumbs, parseImports, parseDependencies, attachCode, language } = {}
 ) => {
-  const { codecrumbsParser, dependenciesParser } = getLanguageParsers(prLang);
+  const { codecrumbsParser, dependenciesParser } = getLanguageParsers(language);
 
   return Promise.all([
     parseDependencies && dependenciesParser.getDependencies(itemPath, projectDir),

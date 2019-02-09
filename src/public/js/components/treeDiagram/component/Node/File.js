@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 
 import FileIcon from 'components/treeDiagram/component/Icons/language/File';
+import CppFileIcon from 'components/treeDiagram/component/Icons/language/CppFile';
 import JavaScriptFileIcon from 'components/treeDiagram/component/Icons/language/JavaScriptFile';
 import PythonFileIcon from 'components/treeDiagram/component/Icons/language/PythonFile';
 
@@ -12,6 +13,16 @@ import './index.scss';
 
 const getFileIcon = ({ position, iconSize, language }) => {
   switch (language) {
+    case 'cpp':
+      return (
+        <CppFileIcon
+          x={position.x + 2}
+          y={position.y - 10}
+          height={iconSize + 1}
+          width={iconSize + 1}
+        />
+      );
+
     case 'javascript':
       return (
         <JavaScriptFileIcon

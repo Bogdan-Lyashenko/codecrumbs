@@ -97,8 +97,12 @@ const setupGetCrumbs = getCommentsFromCode => (fileCode, path) => {
   }
 };
 
+
+const DEFAULT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
+const getCrumbs = setupGetCrumbs(setupdGetCommentsFromCode(DEFAULT_COMMENT_REGEX));
+
 module.exports = {
-  getCrumbs: setupGetCrumbs(() => []), // TODO: add regexp for // comment
+  getCrumbs,
 
   setupdGetCommentsFromCode,
   setupGetCrumbs,

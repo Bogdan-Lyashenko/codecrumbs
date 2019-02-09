@@ -11,6 +11,7 @@ export default ({ x, y, width, height }) => (
     viewBox="0 0 512 512"
     shapeRendering={'geometricPrecision'}
   >
+    <rect x="50" width="512" height="512" opacity="0.7" fill="white" />
     <g>
       <g>
         <path

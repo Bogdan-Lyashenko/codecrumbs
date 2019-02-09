@@ -18,6 +18,7 @@ import { getGroupsAroundNode, checkIsEdgeSelected } from './utils';
 
 const DependenciesTree = props => {
   const {
+    language,
     selectedNode,
     filesLayoutMap,
     shiftToCenterPoint,
@@ -45,7 +46,13 @@ const DependenciesTree = props => {
           if (!sourceDiagramOn) {
             // TODO: un sync with FileName in SourceTree, duplication
             sourceNodes.push(
-              <FileName key={path} position={targetPosition} name={name} dependency={true} />
+              <FileName
+                language={language}
+                key={path}
+                position={targetPosition}
+                name={name}
+                dependency={true}
+              />
             );
           }
 
@@ -115,6 +122,7 @@ const DependenciesTree = props => {
                   sourceNodes.push(
                     <FileName
                       key={importedNodePath}
+                      language={language}
                       position={sourcePosition}
                       name={name}
                       dependency={true}

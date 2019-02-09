@@ -2,9 +2,47 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
-import JavaScriptFile from 'components/treeDiagram/component/Icons/JavaScriptFile';
+
+import FileIcon from 'components/treeDiagram/component/Icons/language/File';
+import JavaScriptFileIcon from 'components/treeDiagram/component/Icons/language/JavaScriptFile';
+import PythonFileIcon from 'components/treeDiagram/component/Icons/language/PythonFile';
+
 import DepCirclesIcon from 'components/treeDiagram/component/Icons/DepCircles';
 import './index.scss';
+
+const getFileIcon = ({ position, iconSize, language }) => {
+  switch (language) {
+    case 'javascript':
+      return (
+        <JavaScriptFileIcon
+          x={position.x + 2}
+          y={position.y - 10}
+          height={iconSize}
+          width={iconSize}
+        />
+      );
+
+    case 'python':
+      return (
+        <PythonFileIcon
+          x={position.x + 2}
+          y={position.y - 10}
+          height={iconSize + 1}
+          width={iconSize + 1}
+        />
+      );
+
+    default:
+      return (
+        <FileIcon
+          x={position.x + 2}
+          y={position.y - 10}
+          height={iconSize + 1}
+          width={iconSize + 1}
+        />
+      );
+  }
+};
 
 export const FileName = props => {
   const {
@@ -23,9 +61,9 @@ export const FileName = props => {
   const iconSize = 15;
   const nameWidth = name.length * SYMBOL_WIDTH;
 
-  // TODO: fix file icon for other languages - have default 'file' icon
+  const iconFile = getFileIcon({ position, iconSize, language });
   const icon = !dependency ? (
-    <JavaScriptFile x={position.x + 2} y={position.y - 10} height={iconSize} width={iconSize} />
+    iconFile
   ) : (
     <DepCirclesIcon
       x={position.x}

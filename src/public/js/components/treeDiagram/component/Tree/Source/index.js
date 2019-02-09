@@ -6,7 +6,8 @@ import {
   getSource,
   getSourceLayout,
   getSourceUserChoice,
-  getDependenciesUserChoice
+  getDependenciesUserChoice,
+  getProjectMetadata
 } from 'core/dataBus/selectors';
 import { getCheckedState } from 'core/controlsBus/selectors';
 import SourceTree from './Tree';
@@ -24,6 +25,7 @@ const mapStateToProps = (state, props) => {
   const namespaceProps = { namespace };
   const { filesMap } = getSource(state, namespaceProps);
   const { sourceLayoutTree } = getSourceLayout(state, namespaceProps);
+  const { language } = getProjectMetadata(state, namespaceProps);
   const { selectedNode, openedFolders } = getSourceUserChoice(state, namespaceProps);
   const { dependenciesEntryName, selectedDependencyEdgeNodes } = getDependenciesUserChoice(
     state,
@@ -32,6 +34,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     namespace,
+    language,
     sourceDiagramOn,
     dependenciesDiagramOn,
     sourceDimFolders,

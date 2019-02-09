@@ -13,6 +13,7 @@ import CodeCrumbedFlowEdges from '../CodeCrumbs/FlowEdge';
 const SourceTree = props => {
   const {
     namespace,
+    language,
 
     sourceDiagramOn,
     dependenciesDiagramOn,
@@ -84,6 +85,7 @@ const SourceTree = props => {
         nodeBasedOnType = (
           <FileName
             key={path}
+            language={language}
             position={position}
             name={name}
             path={fileNode.path}
@@ -131,7 +133,11 @@ const SourceTree = props => {
 
       {dependenciesDiagramOn &&
         selectedNode.dependencies && (
-          <DependenciesTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+          <DependenciesTree
+            namespace={namespace}
+            language={language}
+            shiftToCenterPoint={shiftToCenterPoint}
+          />
         )}
 
       {(codeCrumbsDiagramOn && (
@@ -147,7 +153,11 @@ const SourceTree = props => {
       {(sourceDiagramOn && sourceDotes) || null}
 
       {(codeCrumbsDiagramOn && (
-        <CodeCrumbsTree namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
+        <CodeCrumbsTree
+          namespace={namespace}
+          language={language}
+          shiftToCenterPoint={shiftToCenterPoint}
+        />
       )) ||
         null}
     </React.Fragment>

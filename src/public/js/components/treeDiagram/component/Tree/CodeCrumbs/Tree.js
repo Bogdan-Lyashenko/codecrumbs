@@ -7,6 +7,7 @@ import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/C
 
 const Tree = props => {
   const {
+    language,
     shiftToCenterPoint,
     codecrumbsLayoutMap,
     filesMap,
@@ -30,7 +31,12 @@ const Tree = props => {
         return (
           <React.Fragment key={`code-crumb-${file.name}`}>
             {!sourceDiagramOn && !dependenciesDiagramOn ? (
-              <FileName position={position} name={file.name} purple={codeCrumbsMinimize} />
+              <FileName
+                language={language}
+                position={position}
+                name={file.name}
+                purple={codeCrumbsMinimize}
+              />
             ) : null}
             {(!codeCrumbsMinimize && (
               <PartEdge sourcePosition={position} parentName={file.name} />

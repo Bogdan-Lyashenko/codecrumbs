@@ -46936,8 +46936,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd_lib_spin__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd_lib_spin__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var antd_lib_spin_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd/lib/spin/style/css */ "../../node_modules/antd/lib/spin/style/css.js");
 /* harmony import */ var antd_lib_spin_style_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd_lib_spin_style_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _App_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App.scss */ "./js/App.scss");
-/* harmony import */ var _App_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_App_scss__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var utils_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! utils/index */ "./js/utils/index.js");
+/* harmony import */ var _App_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./App.scss */ "./js/App.scss");
+/* harmony import */ var _App_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_App_scss__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -46972,11 +46974,11 @@ var App = function App() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DataBus, {
     standalone: props.standalone,
     predefinedState: props.predefinedState
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
+  })), !utils_index__WEBPACK_IMPORTED_MODULE_3__["isMobile"] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
     fallback: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: 'headerPlaceholder'
     })
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ViewsSwitches, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ViewsSwitches, null)) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
     fallback: null
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TopBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "body"
@@ -48931,6 +48933,24 @@ __webpack_require__.r(__webpack_exports__);
     persistor: persistor
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_5__["default"], options))), document.getElementById(mountNodeId));
 });
+
+/***/ }),
+
+/***/ "./js/utils/index.js":
+/*!***************************!*\
+  !*** ./js/utils/index.js ***!
+  \***************************/
+/*! exports provided: detectMobile, isMobile */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detectMobile", function() { return detectMobile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isMobile", function() { return isMobile; });
+var detectMobile = function detectMobile() {
+  return window.navigator && /iPhone|iPad|Android|webOS|BlackBerry|Windows Phone/i.test(window.navigator.userAgent);
+};
+var isMobile = detectMobile();
 
 /***/ })
 

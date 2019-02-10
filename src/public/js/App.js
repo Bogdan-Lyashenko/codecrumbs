@@ -2,6 +2,8 @@ import React, { Suspense } from 'react';
 import Spin from 'antd/lib/spin';
 import 'antd/lib/spin/style/css';
 
+import { isMobile } from 'utils/index';
+
 const DataBus = React.lazy(() => import(/* webpackChunkName: "data-bus" */ 'core/dataBus'));
 const ViewsSwitches = React.lazy(() =>
   import(/* webpackChunkName: "view-switches" */ 'components/topBar/controls/ViewSwitches/ViewSwitchesContainer')
@@ -28,9 +30,11 @@ const App = (props = {}) => {
         <Suspense fallback={null}>
           <DataBus standalone={props.standalone} predefinedState={props.predefinedState} />
         </Suspense>
-        <Suspense fallback={<div className={'headerPlaceholder'} />}>
-          <ViewsSwitches />
-        </Suspense>
+        {!isMobile ? (
+          <Suspense fallback={<div className={'headerPlaceholder'} />}>
+            <ViewsSwitches />
+          </Suspense>
+        ) : null}
         <Suspense fallback={null}>
           <TopBar />
         </Suspense>

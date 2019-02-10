@@ -7,7 +7,7 @@
   <span> · </span>
   <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#get-started">Get started</a>
   <span> · </span>
-  <a href="https://github.com/Bogdan-Lyashenko/codecrumbs#features">Features</a>
+  <a href="#features">Features</a>
   <span> · </span>
   <a href="https://codecrumbs.io/">codecrumbs.io</a>
   <span> · </span>

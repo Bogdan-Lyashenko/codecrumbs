@@ -9,9 +9,9 @@ const { detectLanguage } = require('./code-parse/language');
 
 const run = (
   { mediatorEndPoint, namespace, projectName },
-  { projectDir, entryPoint, webpackConfigPath }
+  { projectDir, entryPoint, webpackConfigPath, astParserFallback }
 ) => {
-  const { language, extensions: fileExtensions } = detectLanguage(entryPoint);
+  const { language, extensions: fileExtensions } = detectLanguage(entryPoint, astParserFallback);
 
   const webSocketClient = new WebSocketClient();
 

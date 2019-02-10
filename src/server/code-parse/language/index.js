@@ -2,7 +2,7 @@
 // https://github.com/blakeembrey/language-map/blob/master/languages.json
 // copy(`/\.(${extensions.map(i=>i.slice(1)).join('|')})$/`)
 module.exports = {
-  detectLanguage: entryPoint => {
+  detectLanguage: (entryPoint, astParserFallback) => {
     const list = [
       {
         language: 'cpp',
@@ -27,10 +27,18 @@ module.exports = {
       {
         language: 'typescript',
         extensions: /.(ts|tsx)$/
-      },
+      }
     ];
 
     const detection = list.find(item => item.extensions.test(entryPoint));
+    // only case for JavaScript for now, because AST parser is used and can fail
+    if (detection && astParserFallback) {
+      return {
+        ...detection,
+        language: 'default'
+      };
+    }
+
     return detection ? detection : { language: 'default', extensions: /(.*?)/ };
   },
   getLanguageParsers: (language = 'default') => {

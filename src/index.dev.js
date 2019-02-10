@@ -5,7 +5,8 @@ const namespaceOne = {
   projectDir: `example-project/src-client`,
   entryPoint: `example-project/src-client/index.js`,
   webpackConfigPath: `example-project/webpack.config.js`,
-  clientPort: 2018
+  clientPort: 2018,
+  astParserFallback: false
 };
 
 const namespaceTwo = {

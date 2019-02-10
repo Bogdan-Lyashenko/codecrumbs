@@ -8,7 +8,7 @@ const mediator = require('./mediator');
 const sourceWatcher = require('./source-watcher');
 
 const setup = (
-  { projectNameAlias, projectDir, entryPoint, webpackConfigPath, clientPort },
+  { projectNameAlias, projectDir, entryPoint, webpackConfigPath, clientPort, astParserFallback },
   isDev
 ) => {
   const PORT_IN_USE = 'open';
@@ -46,12 +46,13 @@ const setup = (
       {
         mediatorEndPoint: `${HOST}:${SERVER_PORT}`,
         namespace: `source-project-${Date.now()}`,
-        projectName: `project-${projectNameAlias || projectDir}`
+        projectName: `project:${projectNameAlias || projectDir}`
       },
       {
         projectDir,
         entryPoint,
-        webpackConfigPath
+        webpackConfigPath,
+        astParserFallback
       }
     );
   });

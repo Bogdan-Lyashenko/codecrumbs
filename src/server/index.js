@@ -58,7 +58,7 @@ const setup = (
   });
 };
 
-const alignPlatformPath = p => p.replace(/\/$/, '').replace(/\//g, path.sep);
+const alignPlatformPath = (p='') => p.replace(/\/$/, '').replace(/\//g, path.sep);
 
 module.exports = {
   setup

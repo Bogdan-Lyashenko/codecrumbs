@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const path = require('path');
 const program = require('commander');
 const colors = require('colors');
 
@@ -35,7 +34,7 @@ server.setup(
   {
     projectNameAlias: program.projectName,
     entryPoint: program.entry,
-    projectDir: program.dir.replace(new RegExp(`${path.sep}$`), ''),
+    projectDir: program.dir,
     webpackConfigPath: program.webpack,
     clientPort: program.port,
     astParserFallback: program.parserFallback

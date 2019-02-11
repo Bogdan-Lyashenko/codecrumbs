@@ -3,13 +3,13 @@ const { version } = require('app.package.json');
 
 import { FOLDER_OPEN_STATE } from 'core/constants';
 
-export const getFoldersForPaths = (paths, openedFolders, override) =>
+export const getFoldersForPaths = (paths, openedFolders, override, sep) =>
   paths.reduce((res, path) => {
-    const folders = path.split('/');
+    const folders = path.split(sep);
     folders.pop(); //remove file
 
     folders.forEach((f, i, l) => {
-      const key = l.slice(0, i + 1).join('/');
+      const key = l.slice(0, i + 1).join(sep);
       res[key] =
         override || !openedFolders[key]
           ? FOLDER_OPEN_STATE.OPEN_ACTIVE_CHILDREN_ONLY

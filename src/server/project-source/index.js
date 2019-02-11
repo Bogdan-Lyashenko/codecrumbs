@@ -1,3 +1,5 @@
+const path = require('path');
+
 const codeParser = require('../code-parse/index');
 const { getProjectFiles } = require('./file-system');
 const { createWatcher } = require('./watcher');
@@ -68,6 +70,7 @@ const subscribeOnChange = (
       namespace,
       projectName,
       language,
+      platformPathSeparator: path.sep,
       sourceTree: fs.sourceTree,
       filesMap: fs.filesMap,
       foldersMap: fs.foldersMap,

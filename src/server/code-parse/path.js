@@ -1,6 +1,8 @@
+const path = require('path');
+
 const convertRelativeToAbsolutePath = (base, relative = '') => {
-  const stack = base.split('/'),
-    parts = relative.split('/');
+  const stack = base.split(path.sep),
+    parts = relative.split(path.sep);
 
   // TODO: here also webpack paths/aliases could be, now skip 'react', etc
   if (parts.length <= 1) {
@@ -15,7 +17,7 @@ const convertRelativeToAbsolutePath = (base, relative = '') => {
     else stack.push(parts[i]);
   }
 
-  return stack.join('/');
+  return stack.join(path.sep);
 };
 
 module.exports = {

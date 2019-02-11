@@ -49,14 +49,16 @@ const setup = (
         projectName: `project:${projectNameAlias || projectDir}`
       },
       {
-        projectDir,
-        entryPoint,
-        webpackConfigPath,
+        projectDir: alignPlatformPath(projectDir),
+        entryPoint: alignPlatformPath(entryPoint),
+        webpackConfigPath: alignPlatformPath(webpackConfigPath),
         astParserFallback
       }
     );
   });
 };
+
+const alignPlatformPath = p => p.replace(/\/$/, '').replace(/\//g, path.sep);
 
 module.exports = {
   setup

@@ -5,11 +5,11 @@ import { Breadcrumb, Icon } from 'antd';
 import { FILE_NODE_TYPE } from 'core/constants/index';
 import { Copy } from 'components/topBar/controls/Copy/index';
 import { getActiveNamespace } from 'core/namespaceIntegration/selectors';
-import { getSourceUserChoice } from 'core/dataBus/selectors';
+import { getSourceUserChoice, getProjectMetadata } from 'core/dataBus/selectors';
 
 import './SubPanelContainer.scss';
 
-const SubPanelContainer = ({ selectedNode }) => {
+const SubPanelContainer = ({ selectedNode, platformPathSeparator }) => {
   if (!selectedNode)
     return (
       <div className="SubPanelContainer">
@@ -22,7 +22,7 @@ const SubPanelContainer = ({ selectedNode }) => {
       </div>
     );
 
-  const pathParts = selectedNode.path.split('/');
+  const pathParts = selectedNode.path.split(platformPathSeparator);
   const lastNode = selectedNode.type === FILE_NODE_TYPE ? pathParts.pop() : null;
 
   // TODO: close folder on click
@@ -36,7 +36,9 @@ const SubPanelContainer = ({ selectedNode }) => {
           <Breadcrumb.Item key={part + i}>
             <a
               href="#"
-              onClick={() => console.log(`close folder ${pathParts.slice(0, i).join('/')}`)}
+              onClick={() =>
+                console.log(`close folder ${pathParts.slice(0, i).join(platformPathSeparator)}`)
+              }
             >
               {part}
             </a>
@@ -57,9 +59,13 @@ const mapStateToProps = (state, props) => {
     return {};
   }
 
-  const { selectedNode } = getSourceUserChoice(state, { namespace });
+  const namespaceProps = { namespace };
+  const { selectedNode } = getSourceUserChoice(state, namespaceProps);
+  const { platformPathSeparator } = getProjectMetadata(state, namespaceProps);
+
   return {
-    selectedNode
+    selectedNode,
+    platformPathSeparator
   };
 };
 

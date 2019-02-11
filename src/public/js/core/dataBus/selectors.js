@@ -8,9 +8,9 @@ export const getNamespaceState = (state, props = {}) => {
 };
 
 export const getProjectMetadata = createSelector([getNamespaceState], namespaceState => {
-  const { projectName, language } = namespaceState;
+  const { projectName, language, platformPathSeparator } = namespaceState;
 
-  return { projectName, language };
+  return { projectName, language, platformPathSeparator };
 });
 
 export const getSource = createSelector([getNamespaceState], namespaceState => {

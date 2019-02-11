@@ -16,7 +16,8 @@ import {
   getSource,
   getSourceUserChoice,
   getCodeCrumbsUserChoice,
-  getDependenciesUserChoice
+  getDependenciesUserChoice,
+  getProjectMetadata
 } from './selectors';
 
 export const setInitialSourceData = (payload, namespace) => ({
@@ -193,6 +194,7 @@ export const updateFoldersByActiveChildren = namespace => (dispatch, getState) =
     state,
     namespaceConfig
   );
+  const { platformPathSeparator } = getProjectMetadata(state, namespaceConfig);
 
   const { dependenciesDiagramOn, codeCrumbsDiagramOn, sourceKeepOnlyActiveItems } = getCheckedState(
     state
@@ -219,7 +221,13 @@ export const updateFoldersByActiveChildren = namespace => (dispatch, getState) =
     return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders(namespace)) : undefined;
   }
 
-  const foldersMap = getFoldersForPaths(filesList, openedFolders, sourceKeepOnlyActiveItems);
+  const foldersMap = getFoldersForPaths(
+    filesList,
+    openedFolders,
+    sourceKeepOnlyActiveItems,
+    platformPathSeparator
+  );
+
   dispatch(setActiveItems({ filesList, foldersMap }, namespace));
 
   dispatch({

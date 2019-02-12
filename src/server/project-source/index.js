@@ -11,7 +11,13 @@ const {
 
 const { search: traversalSearch } = require('../utils/traversal');
 
-const parseProjectSourceFiles = ({ filesMap, projectDir, entryPoint, webpackConfigPath, language }) =>
+const parseProjectSourceFiles = ({
+  filesMap,
+  projectDir,
+  entryPoint,
+  webpackConfigPath,
+  language
+}) =>
   Promise.all(
     Object.keys(filesMap).map(itemPath =>
       codeParser
@@ -79,7 +85,6 @@ const subscribeOnChange = (
     });
   });
 
-  // TODO: path can be multiple if not save after fist change, fix
   const watcher = createWatcher(projectDir, path => {
     const file = fs.filesMap[path];
     if (!file) {

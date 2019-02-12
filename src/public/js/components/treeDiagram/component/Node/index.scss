@@ -1,8 +1,5 @@
 @import "../animcations.scss";
 
-$font: 'Menlo';
-
-
 .CodeCrumbNode {
   @extend .FadeIn;
 }
@@ -28,7 +25,6 @@ $font: 'Menlo';
 
 .NodeText-file-name {
   fill: #595959;
-  font-family: $font;
   cursor: pointer;
 }
 
@@ -56,7 +52,6 @@ $font: 'Menlo';
 
 .NodeText-folder-name {
   fill: #595959;
-  font-family: $font;
   cursor: pointer;
 }
 
@@ -71,6 +66,7 @@ $font: 'Menlo';
 .Folder-collapsed-children-text {
   fill: #1890ff;
   font-size: 16px;
+  font-family: sans-serif;
 }
 
 .CodeCrumbName-rect {
@@ -85,20 +81,17 @@ $font: 'Menlo';
 
 .CodeCrumbName-flow {
   fill: #ffffff;
-  font-family: $font;
   font-size: 12px;
 }
 
 .CodeCrumbName-loc {
   fill: #595959;
-  font-family: $font;
   font-size: 9px;
   cursor: pointer;
 }
 
 .CodeCrumbName-text {
   fill: #ff18a6;
-  font-family: $font;
   font-size: 12px;
   cursor: pointer;
 }

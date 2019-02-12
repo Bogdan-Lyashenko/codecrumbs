@@ -1,4 +1,3 @@
-// TODO: test windows https://github.com/theturtle32/WebSocket-Node#note-for-windows-users
 const WebSocketClient = require('websocket').client;
 
 const { parseFiles } = require('./api/');

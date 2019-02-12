@@ -7,10 +7,9 @@
         "dependenciesShowDirectOnly": true,
         "codeCrumbsLineNumbers": true,
         "codeCrumbsFilterFlow": true,
-        "codeCrumbsDiagramOn": true,
         "sideBar": true,
         "dependenciesDiagramOn": true,
-        "explorerBar": false,
+        "codeCrumbsDiagramOn": true,
         "sourceKeepOnlyActiveItems": true
       },
       "valuesState": {
@@ -22,7 +21,7 @@
       }
     },
     "dataBus": {
-      "source-project-1548787372245": {
+      "source-project-1549130338534": {
         "sourceTree": {
           "path": "example-project/src-client",
           "name": "src-client",
@@ -185,7 +184,7 @@
                   "extension": ".js",
                   "type": "file",
                   "dependencies": false,
-                  "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, // cc:signin#2;toggle 'authenticated' flag\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
+                  "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, // cc:signin#5;toggle 'authenticated' flag\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
                   "children": [
                     {
                       "name": "toggle 'authenticated' flag",
@@ -195,9 +194,9 @@
                         16
                       ],
                       "params": {
-                        "original": "cc:signin#2;toggle 'authenticated' flag",
+                        "original": "cc:signin#5;toggle 'authenticated' flag",
                         "flow": "signin",
-                        "flowStep": 2,
+                        "flowStep": 5,
                         "name": "toggle 'authenticated' flag"
                       }
                     }
@@ -966,7 +965,7 @@
                           "extension": ".js",
                           "type": "file",
                           "dependencies": false,
-                          "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;enable route;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
+                          "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#6;enable route;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
                           "children": [
                             {
                               "name": "enable route",
@@ -976,9 +975,9 @@
                                 10
                               ],
                               "params": {
-                                "original": "cc:signin#3;enable route;+6",
+                                "original": "cc:signin#6;enable route;+6",
                                 "flow": "signin",
-                                "flowStep": 3,
+                                "flowStep": 6,
                                 "name": "enable route",
                                 "linesRange": 6
                               }
@@ -2121,7 +2120,7 @@
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, // cc:signin#2;toggle 'authenticated' flag\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
+            "fileCode": "import { Record } from 'immutable';\nimport { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types';\n\n\nexport const AuthState = new Record({\n  authenticated: false,\n  id: null\n});\n\n\nexport function authReducer(state = new AuthState(), {payload, type}) {\n  switch (type) {\n    case INIT_AUTH:\n    case SIGN_IN_SUCCESS:\n      return state.merge({\n        authenticated: !!payload, // cc:signin#5;toggle 'authenticated' flag\n        id: payload ? payload.uid : null\n      });\n\n    case SIGN_OUT_SUCCESS:\n      return new AuthState();\n\n    default:\n      return state;\n  }\n}\n",
             "children": [
               {
                 "name": "toggle 'authenticated' flag",
@@ -2131,9 +2130,9 @@
                   16
                 ],
                 "params": {
-                  "original": "cc:signin#2;toggle 'authenticated' flag",
+                  "original": "cc:signin#5;toggle 'authenticated' flag",
                   "flow": "signin",
-                  "flowStep": 2,
+                  "flowStep": 5,
                   "name": "toggle 'authenticated' flag"
                 }
               }
@@ -3266,7 +3265,7 @@
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#3;enable route;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
+            "fileCode": "import React from 'react';\nimport { Route, Redirect } from 'react-router-dom'\n\n//cc:signin#6;enable route;+6\nconst RequireAuthRoute = ({component: Component, authenticated, ...rest}) => (\n  <Route\n    {...rest}\n    render={props => {\n      return authenticated ? (\n        <Component {...props}/>\n      ) : (\n        <Redirect to={{\n          pathname: '/sign-in',\n          state: {from: props.location}\n        }}/>\n      )\n    }}\n  />\n);\n\n\nexport default RequireAuthRoute;\n",
             "children": [
               {
                 "name": "enable route",
@@ -3276,9 +3275,9 @@
                   10
                 ],
                 "params": {
-                  "original": "cc:signin#3;enable route;+6",
+                  "original": "cc:signin#6;enable route;+6",
                   "flow": "signin",
-                  "flowStep": 3,
+                  "flowStep": 6,
                   "name": "enable route",
                   "linesRange": 6
                 }
@@ -3765,7 +3764,9 @@
           }
         },
         "dependenciesEntryName": "example-project/src-client/index.js",
-        "language": "javascript"
+        "language": "javascript",
+        "platformPathSeparator": "/",
+        "projectName": "project:todo-example-client"
       }
     }
   }

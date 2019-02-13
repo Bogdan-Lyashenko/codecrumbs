@@ -47,6 +47,9 @@ Parameter | Description | Example
 
 ## Features
 #### Breadcrumbs and trail of breadcrumbs
+
+<img src="/docs/live-changes.gif" width="800"/>
+
 Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
 ```cc``` (stands for "CodeCrumb") is a prefix which used by the parser; check example of parameters in the table below:  
@@ -59,8 +62,6 @@ Example | Description | Use case
 ```//cc:signin#1;firebase sign in;+2;do call to firebase with credentials``` | trail of breadcrumbs,```+2``` is number of lines to highlight, separated by ```;``` | Use number of lines to highlight the code related to breadcrumb 
 
 > Note: current version supports single line comments only. 
- 
-<img src="/docs/live-changes.gif" width="800"/>
 
 #### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.

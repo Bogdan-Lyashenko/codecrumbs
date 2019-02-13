@@ -17,14 +17,14 @@
 </h3>
 
 ## What
-> **Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that, as well as increase your development speed and quality of application architecture you build. 
+> **Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that. Also, it will increase your development speed and give more knowledge about your application architecture. 
 >
->**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and build its visual representation. Put a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly. 
+>**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and build its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly. 
 >
 >-[@bliashenko](https://twitter.com/bliashenko)    
 
 ## Demo
-Check out [**standalone version running here**](https://codecrumbs.io/) with defined trail of codecrumbs.
+Check out the example of [**standalone version running here**](https://codecrumbs.io/).
  
 [<img src="/docs/codecrumbs-ui.png" width="800"/>](https://codecrumbs.io/)
  
@@ -32,31 +32,33 @@ Check out [**standalone version running here**](https://codecrumbs.io/) with def
 #### Install and run
 >Pre-condition: update/install `NodeJS` version to be >= *8.11.1*  
  
-Install ```codecrumbs``` globally or in ```devDependencies```:
-```yarn add codecrumbs -D```
+1) Install ```codecrumbs``` *globally* (```yarn global codecrumbs```) or to *devDependencies* (```yarn add codecrumbs -D```)
+2) Run ```codecrumbs -d project-src-dir -e project-src-dir/index.js```. Change parameters to match your project:```-d``` is *directory with source code*, ```-e``` is *entry point file* .
+3) Go to [http://localhost:2018](http://localhost:2018/#) in the browser to check it out.
 
-Add command with **entry file** and **source directory** to ```scripts``` section in your ```package.json```. Change ```-e``` (entry point file), ```-d``` (directory) params to match paths inside your project.
-```javascript
-  // package.json
-  ...
-  "scripts": {
-    "start:cc": "codecrumbs -e src/index.js -d src"
-  }
-
-```
-
-Run ```yarn start:cc``` from the terminal. Go to [http://localhost:2018/#](http://localhost:2018/#) in the browser to check it out.
 #### CLI
--- TBD --
+Parameter | Description | Example
+--- | --- | ---
+```-e```, ```--entry``` | Path to project source entry point file | ```-e src/app.js```
+```-d```, ```--dir``` | Path to project source code directory | ```-d src```
+```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
+```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
+```-f```, ```--parserFallback``` | AST parser fallback, applicable only for JavaScript project, use it when @babel-parse fails (optional, default *false*) | ```-f true```
 
 ## Features
-#### Breadcrumbs
-Write ```//cc:here is breadcrumb``` to put a simple breadcrumb in the code. ```cc``` (stands for "codecrumb") is the prefix which used by the parser, and ```here is breadcrumb``` is a title of our first breadcrumb.
-> Note: current version supports single line comments only. 
+#### Breadcrumbs and trail of breadcrumbs
+Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
-#### Trail of breadcrumbs
-Also, you can create “trail of breadcrumbs” — basically, a sequence of codecrumbs which follow some data flow (e.g. user login, or form submit, etc.).
-To create a codecrumb as part of a trail you write: ```//cc:signin#3;enable route``` where ```signin``` is the **trail ID**, ```#3``` is order **number of step**, ```enable route``` is a title describing the step.
+```cc``` (stands for "CodeCrumb") is a prefix which used by the parser; check example of parameters in the table below:  
+ 
+Example | Description | Use case
+--- | --- | ---
+```//cc:remember place``` | simple breadcrumb, ```remember place``` is a title of our first breadcrumb | Mark an important place to not forget where it was
+```//cc:here is bug;well, seems like a bug in logic``` | simple breadcrumb, ```well, seems like a bug in logic``` is details for breadcrumb, separated by ```;``` | Add extra information, will be rendered in popups
+```//cc:signin#3;enable route``` | trail of breadcrumbs,```signin``` is the **trail ID**, ```#3``` is order **number of step**, ```enable route``` is a title describing the step. | A sequence of codecrumbs, use to describe some data flow (e.g. user login, or form submit, etc.).
+```//cc:signin#1;firebase sign in;+2;do call to firebase with credentials``` | trail of breadcrumbs,```+2``` is number of lines to highlight, separated by ```;``` | Use number of lines to highlight the code related to breadcrumb 
+
+> Note: current version supports single line comments only. 
  
 <img src="/docs/live-changes.gif" width="800"/>
 
@@ -80,11 +82,11 @@ So let’s say you put together some trail of codecrumbs describing some importa
 The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned. 
 
 ## Support
-Any support is very much appreciated! 👍 😘 ❤️ 
-
 **Sponsors**: contact me if you want to become a sponsor ☺️
 
 **Friends**: if you like this project, please, put a :star: or tweet about it. Thanks! 
+
+Any support is very much appreciated! 👍 😘 ❤️ 
 
 ## Contribute
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the [owner](https://github.com/Bogdan-Lyashenko/) of this repository before making a change. Ideas and suggestions are welcome.
@@ -96,4 +98,5 @@ yarn && yarn start
 ## WIP
 Next features are developing:
 - **eject codecrumbs** - ability to remove all "breadcrumbs" from source code in "one click"
+- **data transferring between cc trail steps** 
 - **VS Code extension** - some neat features right inside the code editor. Checkout [the repo here](https://github.com/Bogdan-Lyashenko/vs-code-codecrumbs). 

@@ -1,7 +1,6 @@
 import { requestFetchFile } from 'core/dataBus/connection';
 import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'core/controlsBus/constants';
 import { ACTIONS as NAMESPACE_INTEGRATION_ACTIONS } from 'core/namespaceIntegration/constants';
-import { getNamespacesList } from 'core/dataBus/selectors';
 import { getCheckedState, getValuesState, getDisabledState } from 'core/controlsBus/selectors';
 
 import { getFoldersForPaths, downloadObjectAsJsonFile, uploadFileAsObject } from './utils';
@@ -13,6 +12,7 @@ import {
 
 import { ACTIONS } from './constants';
 import {
+  getNamespacesList,
   getSource,
   getSourceUserChoice,
   getCodeCrumbsUserChoice,
@@ -248,6 +248,10 @@ export const downloadStore = () => (dispatch, getState) => {
       const { sourceTree, filesMap, foldersMap } = getSource(state, namespaceConfig);
       const { dependenciesEntryName } = getDependenciesUserChoice(state, namespaceConfig);
       const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, namespaceConfig);
+      const { projectName, language, platformPathSeparator } = getProjectMetadata(
+        state,
+        namespaceConfig
+      );
 
       return {
         ...acc,
@@ -258,7 +262,10 @@ export const downloadStore = () => (dispatch, getState) => {
             filesMap,
             foldersMap,
             codeCrumbedFlowsMap,
-            dependenciesEntryName
+            dependenciesEntryName,
+            projectName,
+            language,
+            platformPathSeparator
           }
         }
       };

@@ -46889,7 +46889,7 @@ module.exports = function(originalModule) {
 /*! exports provided: name, version, author, license, repository, scripts, bin, dependencies, devDependencies, nodemonConfig, husky, default */
 /***/ (function(module) {
 
-module.exports = {"name":"codecrumbs","version":"1.0.24","author":"Bohdan Liashenko","license":"BSD-3-Clause","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","server:one":"node src/index.dev.js","server:two":"node src/index.dev.js two","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon src/index.dev.js","server-debug":"nodemon --inspect src/index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","portscanner":"^2.2.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","watchpack":"^1.6.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","@commitlint/cli":"^7.3.2","@commitlint/config-conventional":"^7.3.1","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","husky":"^1.3.1","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"},"husky":{"hooks":{"commit-msg":"commitlint -E HUSKY_GIT_PARAMS"}}};
+module.exports = {"name":"codecrumbs","version":"1.0.25","author":"Bohdan Liashenko","license":"BSD-3-Clause","repository":{"type":"git","url":"https://github.com/Bogdan-Lyashenko/codecrumbs.git"},"scripts":{"start":"yarn client-dev & yarn server-dev","server:one":"node src/index.dev.js","server:two":"node src/index.dev.js two","client-dev":"cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev","server-dev":"nodemon src/index.dev.js","server-debug":"nodemon --inspect src/index.dev.js","build":"cd src/public && webpack --config webpack.prod.js --progress --colors","start:standalone":"cd src/public/dist/standalone && http-server","pretty":"prettier  --write \"./src/public/js/**/*.js\""},"bin":{"codecrumbs":"./cli/index.cli.js"},"dependencies":{"@babel/parser":"^7.1.2","@babel/polyfill":"^7.0.0","@babel/traverse":"^7.1.0","antd":"^3.9.2","classnames":"^2.2.6","colors":"^1.3.2","commander":"^2.19.0","copy-text-to-clipboard":"^1.0.4","d3-flextree":"^2.1.1","directory-tree":"^2.1.0","file-saver":"^2.0.0","http-server":"^0.11.1","js2flowchart":"^1.1.7","lodash":"^4.17.10","lodash.debounce":"^4.0.8","madge":"^3.3.0","portscanner":"^2.2.0","react":"^16.7.0","react-dom":"^16.7.0","react-draggable":"^3.0.5","react-redux":"^5.0.7","react-syntax-highlighter":"8.0.1","redux":"^4.0.0","redux-persist":"^5.10.0","redux-saga":"^0.16.0","redux-thunk":"^2.2.0","reselect":"^4.0.0","watchpack":"^1.6.0","websocket":"^1.0.26"},"devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-syntax-dynamic-import":"^7.2.0","@babel/preset-env":"^7.1.0","@babel/preset-react":"^7.0.0","@commitlint/cli":"^7.3.2","@commitlint/config-conventional":"^7.3.1","babel-loader":"^8.0.4","babel-plugin-import":"^1.9.1","css-loader":"^0.28.11","husky":"^1.3.1","node-sass":"^4.9.3","nodemon":"^1.18.7","prettier":"^1.14.0","sass-loader":"^7.1.0","style-loader":"^0.21.0","webpack":"^4.20.2","webpack-bundle-analyzer":"^3.0.3","webpack-cli":"^3.1.2","webpack-merge":"^4.1.5"},"nodemonConfig":{"ignore":["src/public/**/*.*"],"delay":"2500"},"husky":{"hooks":{"commit-msg":"commitlint -E HUSKY_GIT_PARAMS"}}};
 
 /***/ }),
 
@@ -46992,7 +46992,7 @@ var App = function App() {
     fallback: null
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideBar, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
     className: "footer"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "v".concat("1.0.24")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u24B8 Bohdan Liashenko", ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "v".concat("1.0.25")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u24B8 Bohdan Liashenko", ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://github.com/Bogdan-Lyashenko/codecrumbs"
   }, "Github"), ' • ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://codecrumbs.io/"
@@ -47373,11 +47373,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_dataBus_connection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core/dataBus/connection */ "./js/core/dataBus/connection.js");
 /* harmony import */ var core_controlsBus_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/controlsBus/constants */ "./js/core/controlsBus/constants.js");
 /* harmony import */ var core_namespaceIntegration_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core/namespaceIntegration/constants */ "./js/core/namespaceIntegration/constants.js");
-/* harmony import */ var core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core/dataBus/selectors */ "./js/core/dataBus/selectors.js");
-/* harmony import */ var core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core/controlsBus/selectors */ "./js/core/controlsBus/selectors.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./js/core/dataBus/utils/index.js");
-/* harmony import */ var _utils_treeLayout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/treeLayout */ "./js/core/dataBus/utils/treeLayout.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./constants */ "./js/core/dataBus/constants.js");
+/* harmony import */ var core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core/controlsBus/selectors */ "./js/core/controlsBus/selectors.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils */ "./js/core/dataBus/utils/index.js");
+/* harmony import */ var _utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/treeLayout */ "./js/core/dataBus/utils/treeLayout.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./constants */ "./js/core/dataBus/constants.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selectors */ "./js/core/dataBus/selectors.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -47390,17 +47390,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 var setInitialSourceData = function setInitialSourceData(payload, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SET_INITIAL_SOURCE_DATA,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_INITIAL_SOURCE_DATA,
     payload: payload,
     namespace: namespace
   };
 };
 var setChangedSourceData = function setChangedSourceData(payload, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SET_CHANGED_SOURCE_DATA,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_CHANGED_SOURCE_DATA,
     payload: payload,
     namespace: namespace
   };
@@ -47408,7 +47407,7 @@ var setChangedSourceData = function setChangedSourceData(payload, namespace) {
 var selectNode = function selectNode(fileNode, namespace) {
   return function (dispatch) {
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SELECT_NODE,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_NODE,
       payload: fileNode,
       namespace: namespace
     });
@@ -47424,33 +47423,33 @@ var selectNode = function selectNode(fileNode, namespace) {
 var updateFiles = function updateFiles(_ref, namespace) {
   var files = _ref.files;
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].UPDATE_FILES,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].UPDATE_FILES,
     payload: files,
     namespace: namespace
   };
 };
 var toggleFolder = function toggleFolder(folderNode, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].TOGGLE_FOLDER,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].TOGGLE_FOLDER,
     payload: folderNode,
     namespace: namespace
   };
 };
 var openAllFolders = function openAllFolders(namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].OPEN_ALL_FOLDERS,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].OPEN_ALL_FOLDERS,
     namespace: namespace
   };
 };
 var closeAllFolders = function closeAllFolders(namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].CLOSE_ALL_FOLDERS,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].CLOSE_ALL_FOLDERS,
     namespace: namespace
   };
 };
 var selectCodeCrumb = function selectCodeCrumb(payload, namespace) {
   return {
-    type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SELECT_CODE_CRUMB,
+    type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_CODE_CRUMB,
     payload: payload,
     namespace: namespace
   };
@@ -47459,11 +47458,11 @@ var setDependenciesEntryPoint = function setDependenciesEntryPoint(fileNode, nam
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getCheckedState = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getCheckedState"])(state),
+    var _getCheckedState = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         dependenciesShowDirectOnly = _getCheckedState.dependenciesShowDirectOnly;
 
     return dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_DEPENDENCIES_ENTRY_POINT,
       payload: {
         fileNode: fileNode,
         dependenciesShowDirectOnly: dependenciesShowDirectOnly
@@ -47480,7 +47479,7 @@ var selectDependencyEdge = function selectDependencyEdge(options, namespace) {
         groupName = _ref2.groupName;
 
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SELECT_DEPENDENCY_EDGE,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_DEPENDENCY_EDGE,
       payload: target ? {
         target: target,
         sources: sources,
@@ -47500,7 +47499,7 @@ var selectCodeCrumbedFlow = function selectCodeCrumbedFlow(flow, namespace) {
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getCodeCrumbsUserCho = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCodeCrumbsUserChoice"])(state, {
+    var _getCodeCrumbsUserCho = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getCodeCrumbsUserChoice"])(state, {
       namespace: namespace
     }),
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho.selectedCrumbedFlowKey,
@@ -47508,7 +47507,7 @@ var selectCodeCrumbedFlow = function selectCodeCrumbedFlow(flow, namespace) {
 
     var firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SELECT_CODE_CRUMBED_FLOW,
       payload: flow ? flow : selectedCrumbedFlowKey || firstFlow,
       namespace: namespace
     });
@@ -47521,19 +47520,19 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
       namespace: namespace
     };
 
-    var _getSource = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getSource"])(state, namespaceConfig),
+    var _getSource = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getSource"])(state, namespaceConfig),
         sourceTree = _getSource.sourceTree,
         filesMap = _getSource.filesMap;
 
-    var _getSourceUserChoice = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getSourceUserChoice"])(state, namespaceConfig),
+    var _getSourceUserChoice = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getSourceUserChoice"])(state, namespaceConfig),
         openedFolders = _getSourceUserChoice.openedFolders,
         activeItemsMap = _getSourceUserChoice.activeItemsMap;
 
-    var _getCodeCrumbsUserCho2 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
+    var _getCodeCrumbsUserCho2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho2.codeCrumbedFlowsMap,
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho2.selectedCrumbedFlowKey;
 
-    var _getCheckedState2 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getCheckedState"])(state),
+    var _getCheckedState2 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         codeCrumbsDiagramOn = _getCheckedState2.codeCrumbsDiagramOn,
         codeCrumbsMinimize = _getCheckedState2.codeCrumbsMinimize,
         codeCrumbsDetails = _getCheckedState2.codeCrumbsDetails;
@@ -47542,7 +47541,7 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
     var activeCodeCrumbs = undefined;
 
     if (codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
-      activeCodeCrumbs = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_6__["getCodeCrumbsMapForCurrentCcFlow"])({
+      activeCodeCrumbs = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__["getCodeCrumbsMapForCurrentCcFlow"])({
         codeCrumbedFlowsMap: codeCrumbedFlowsMap,
         selectedCrumbedFlowKey: selectedCrumbedFlowKey,
         filesMap: filesMap
@@ -47550,8 +47549,8 @@ var calcFilesTreeLayoutNodes = function calcFilesTreeLayoutNodes(namespace) {
     }
 
     return dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].UPDATE_FILES_TREE_LAYOUT_NODES,
-      payload: Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_6__["getTreeLayout"])(sourceTree, {
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].UPDATE_FILES_TREE_LAYOUT_NODES,
+      payload: Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__["getTreeLayout"])(sourceTree, {
         includeFileChildren: codeCrumbsDiagramOn && !codeCrumbsMinimize,
         extraSpaceForDetails: codeCrumbsDetails,
         openedFolders: openedFolders,
@@ -47569,16 +47568,16 @@ var setActiveItems = function setActiveItems(_ref3, namespace) {
   return function (dispatch, getState) {
     var state = getState();
 
-    var _getSourceUserChoice2 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getSourceUserChoice"])(state, {
+    var _getSourceUserChoice2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getSourceUserChoice"])(state, {
       namespace: namespace
     }),
         activeItemsMap = _getSourceUserChoice2.activeItemsMap;
 
-    var _getCheckedState3 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getCheckedState"])(state),
+    var _getCheckedState3 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         sourceKeepOnlyActiveItems = _getCheckedState3.sourceKeepOnlyActiveItems;
 
     return dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SET_ACTIVE_ITEMS,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_ACTIVE_ITEMS,
       payload: _objectSpread({}, !sourceKeepOnlyActiveItems ? activeItemsMap : {}, filesList.reduce(function (acc, item) {
         //TODO:move this to util!
         acc[item] = true;
@@ -47596,21 +47595,21 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
       namespace: namespace
     };
 
-    var _getSource2 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getSource"])(state, namespaceConfig),
+    var _getSource2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getSource"])(state, namespaceConfig),
         filesMap = _getSource2.filesMap;
 
-    var _getSourceUserChoice3 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getSourceUserChoice"])(state, namespaceConfig),
+    var _getSourceUserChoice3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getSourceUserChoice"])(state, namespaceConfig),
         openedFolders = _getSourceUserChoice3.openedFolders,
         selectedNode = _getSourceUserChoice3.selectedNode;
 
-    var _getCodeCrumbsUserCho3 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
+    var _getCodeCrumbsUserCho3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
         codeCrumbedFlowsMap = _getCodeCrumbsUserCho3.codeCrumbedFlowsMap,
         selectedCrumbedFlowKey = _getCodeCrumbsUserCho3.selectedCrumbedFlowKey;
 
-    var _getProjectMetadata = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getProjectMetadata"])(state, namespaceConfig),
+    var _getProjectMetadata = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getProjectMetadata"])(state, namespaceConfig),
         platformPathSeparator = _getProjectMetadata.platformPathSeparator;
 
-    var _getCheckedState4 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getCheckedState"])(state),
+    var _getCheckedState4 = Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
         dependenciesDiagramOn = _getCheckedState4.dependenciesDiagramOn,
         codeCrumbsDiagramOn = _getCheckedState4.codeCrumbsDiagramOn,
         sourceKeepOnlyActiveItems = _getCheckedState4.sourceKeepOnlyActiveItems;
@@ -47621,7 +47620,7 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
     }) : [];
 
     if (codeCrumbedFlowsMap[selectedCrumbedFlowKey]) {
-      var currentFlowFiles = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_6__["getFilesForCurrentCcFlow"])({
+      var currentFlowFiles = Object(_utils_treeLayout__WEBPACK_IMPORTED_MODULE_5__["getFilesForCurrentCcFlow"])({
         codeCrumbedFlowsMap: codeCrumbedFlowsMap,
         selectedCrumbedFlowKey: selectedCrumbedFlowKey,
         filesMap: filesMap
@@ -47640,13 +47639,13 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
       return sourceKeepOnlyActiveItems ? dispatch(closeAllFolders(namespace)) : undefined;
     }
 
-    var foldersMap = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getFoldersForPaths"])(filesList, openedFolders, sourceKeepOnlyActiveItems, platformPathSeparator);
+    var foldersMap = Object(_utils__WEBPACK_IMPORTED_MODULE_4__["getFoldersForPaths"])(filesList, openedFolders, sourceKeepOnlyActiveItems, platformPathSeparator);
     dispatch(setActiveItems({
       filesList: filesList,
       foldersMap: foldersMap
     }, namespace));
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].SET_FOLDERS_STATE,
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].SET_FOLDERS_STATE,
       payload: foldersMap,
       namespace: namespace
     });
@@ -47656,22 +47655,27 @@ var updateFoldersByActiveChildren = function updateFoldersByActiveChildren(names
 var downloadStore = function downloadStore() {
   return function (dispatch, getState) {
     var state = getState();
-    var namespacesList = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getNamespacesList"])(state);
+    var namespacesList = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getNamespacesList"])(state);
     var partialStateToSave = namespacesList.reduce(function (acc, namespace) {
       var namespaceConfig = {
         namespace: namespace
       };
 
-      var _getSource3 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getSource"])(state, namespaceConfig),
+      var _getSource3 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getSource"])(state, namespaceConfig),
           sourceTree = _getSource3.sourceTree,
           filesMap = _getSource3.filesMap,
           foldersMap = _getSource3.foldersMap;
 
-      var _getDependenciesUserC = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getDependenciesUserChoice"])(state, namespaceConfig),
+      var _getDependenciesUserC = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getDependenciesUserChoice"])(state, namespaceConfig),
           dependenciesEntryName = _getDependenciesUserC.dependenciesEntryName;
 
-      var _getCodeCrumbsUserCho4 = Object(core_dataBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
+      var _getCodeCrumbsUserCho4 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getCodeCrumbsUserChoice"])(state, namespaceConfig),
           codeCrumbedFlowsMap = _getCodeCrumbsUserCho4.codeCrumbedFlowsMap;
+
+      var _getProjectMetadata2 = Object(_selectors__WEBPACK_IMPORTED_MODULE_7__["getProjectMetadata"])(state, namespaceConfig),
+          projectName = _getProjectMetadata2.projectName,
+          language = _getProjectMetadata2.language,
+          platformPathSeparator = _getProjectMetadata2.platformPathSeparator;
 
       return _objectSpread({}, acc, {
         dataBus: _objectSpread({}, acc.dataBus, _defineProperty({}, namespace, {
@@ -47679,23 +47683,26 @@ var downloadStore = function downloadStore() {
           filesMap: filesMap,
           foldersMap: foldersMap,
           codeCrumbedFlowsMap: codeCrumbedFlowsMap,
-          dependenciesEntryName: dependenciesEntryName
+          dependenciesEntryName: dependenciesEntryName,
+          projectName: projectName,
+          language: language,
+          platformPathSeparator: platformPathSeparator
         }))
       });
     }, {
       controlsBus: {
-        checkedState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getCheckedState"])(state),
-        valuesState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getValuesState"])(state),
-        disabledState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_4__["getDisabledState"])(state)
+        checkedState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getCheckedState"])(state),
+        valuesState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getValuesState"])(state),
+        disabledState: Object(core_controlsBus_selectors__WEBPACK_IMPORTED_MODULE_3__["getDisabledState"])(state)
       },
       dataBus: {}
     });
-    Object(_utils__WEBPACK_IMPORTED_MODULE_5__["downloadObjectAsJsonFile"])(partialStateToSave);
+    Object(_utils__WEBPACK_IMPORTED_MODULE_4__["downloadObjectAsJsonFile"])(partialStateToSave);
   };
 };
 var uploadStore = function uploadStore(file) {
   return function (dispatch) {
-    Object(_utils__WEBPACK_IMPORTED_MODULE_5__["uploadFileAsObject"])(file).then(function (object) {
+    Object(_utils__WEBPACK_IMPORTED_MODULE_4__["uploadFileAsObject"])(file).then(function (object) {
       return dispatch(setPredefinedState(object.data));
     });
   };
@@ -47711,7 +47718,7 @@ var setPredefinedState = function setPredefinedState(predefinedState) {
       type: core_namespaceIntegration_constants__WEBPACK_IMPORTED_MODULE_2__["ACTIONS"].RESET_ALL
     });
     dispatch({
-      type: _constants__WEBPACK_IMPORTED_MODULE_7__["ACTIONS"].RESET_ALL
+      type: _constants__WEBPACK_IMPORTED_MODULE_6__["ACTIONS"].RESET_ALL
     });
     Object.keys(predefinedState.dataBus).forEach(function (namespace, i) {
       // TODO: test  performance here

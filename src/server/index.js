@@ -61,7 +61,11 @@ const setup = (
   });
 };
 
-const alignPlatformPath = (p = '') => p.replace(/\/$/, '').replace(/\//g, path.sep);
+const alignPlatformPath = (p = '') =>
+  p
+    .replace(/^(\.?\/)/, '')
+    .replace(/\/$/, '')
+    .replace(/\//g, path.sep);
 
 const validateProjectPath = (pDir, ePoint) => {
   const paths = [];

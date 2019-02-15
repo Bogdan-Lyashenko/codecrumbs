@@ -1,27 +1,27 @@
 {
-  "version": "1.0.12-alpha",
+  "version": "1.0.23",
   "data": {
     "controlsBus": {
       "checkedState": {
         "sourceDiagramOn": true,
         "dependenciesShowDirectOnly": true,
         "codeCrumbsLineNumbers": true,
-        "codeCrumbsFilterFlow": true,
-        "sideBar": true,
-        "dependenciesDiagramOn": true,
+        "codeCrumbsDetails": true,
         "codeCrumbsDiagramOn": true,
-        "sourceKeepOnlyActiveItems": true
+        "dependenciesDiagramOn": true,
+        "sideBar": true,
+        "sourceKeepOnlyActiveItems": true,
+        "sourceDimFolders": false,
+        "explorerBar": false
       },
       "valuesState": {
         "diagramZoom": 1,
         "selectedTabInSideBar": "Crumbs"
       },
-      "disabledState": {
-        "codeCrumbsFilterFlow": true
-      }
+      "disabledState": {}
     },
     "dataBus": {
-      "source-project-1549130338534": {
+      "source-project-1550254318511": {
         "sourceTree": {
           "path": "example-project/src-client",
           "name": "src-client",
@@ -44,11 +44,11 @@
                 {
                   "path": "example-project/src-client/auth/actions.js",
                   "name": "actions.js",
-                  "size": 1269,
+                  "size": 1334,
                   "extension": ".js",
                   "type": "file",
                   "dependencies": false,
-                  "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase sign in;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
+                  "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase sign in;+2;call to firebase with auth provider, proceed if success response\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
                   "children": [
                     {
                       "name": "firebase sign in",
@@ -58,11 +58,12 @@
                         15
                       ],
                       "params": {
-                        "original": "cc:signin#1;firebase sign in;+2",
+                        "original": "cc:signin#1;firebase sign in;+2;call to firebase with auth provider, proceed if success response",
                         "flow": "signin",
                         "flowStep": 1,
                         "name": "firebase sign in",
-                        "linesRange": 2
+                        "linesRange": 2,
+                        "details": "call to firebase with auth provider, proceed if success response"
                       }
                     }
                   ],
@@ -242,7 +243,7 @@
                   "hasDependenciesImports": false
                 }
               ],
-              "size": 2985,
+              "size": 3050,
               "type": "directory"
             },
             {
@@ -1484,11 +1485,27 @@
                         {
                           "path": "example-project/src-client/views/pages/sign-in/sign-in-page.js",
                           "name": "sign-in-page.js",
-                          "size": 1358,
+                          "size": 1392,
                           "extension": ".js",
                           "type": "file",
-                          "dependencies": false,
-                          "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:signin#0;dispatch action\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
+                          "dependencies": {
+                            "example-project/src-client/auth/index.js": {
+                              "moduleName": "example-project/src-client/auth/index.js",
+                              "importedModuleNames": []
+                            },
+                            "example-project/src-client/views/components/button/index.js": {
+                              "moduleName": "example-project/src-client/views/components/button/index.js",
+                              "importedModuleNames": []
+                            },
+                            "example-project/src-client/views/pages/sign-in/sign-in-page.js": {
+                              "moduleName": "example-project/src-client/views/pages/sign-in/sign-in-page.js",
+                              "importedModuleNames": [
+                                "example-project/src-client/auth/index.js",
+                                "example-project/src-client/views/components/button/index.js"
+                              ]
+                            }
+                          },
+                          "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:signin#0;dispatch action;start signin with github\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
                           "children": [
                             {
                               "name": "dispatch action",
@@ -1498,10 +1515,11 @@
                                 36
                               ],
                               "params": {
-                                "original": "cc:signin#0;dispatch action",
+                                "original": "cc:signin#0;dispatch action;start signin with github",
                                 "flow": "signin",
                                 "flowStep": 0,
-                                "name": "dispatch action"
+                                "name": "dispatch action",
+                                "details": "start signin with github"
                               }
                             }
                           ],
@@ -1548,7 +1566,7 @@
                           "hasDependenciesImports": true
                         }
                       ],
-                      "size": 1400,
+                      "size": 1434,
                       "type": "directory"
                     },
                     {
@@ -1693,7 +1711,7 @@
                       "type": "directory"
                     }
                   ],
-                  "size": 4507,
+                  "size": 4541,
                   "type": "directory"
                 },
                 {
@@ -1704,7 +1722,7 @@
                   "type": "directory"
                 }
               ],
-              "size": 16735,
+              "size": 16769,
               "type": "directory"
             },
             {
@@ -1736,7 +1754,7 @@
             {
               "path": "example-project/src-client/index.js",
               "name": "index.js",
-              "size": 987,
+              "size": 978,
               "extension": ".js",
               "type": "file",
               "dependencies": {
@@ -1771,7 +1789,7 @@
                   "importedModuleNames": []
                 }
               },
-              "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:layout#0;start;provider\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
+              "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:layout#0;start\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
               "children": [
                 {
                   "name": "start",
@@ -1781,11 +1799,10 @@
                     18
                   ],
                   "params": {
-                    "original": "cc:layout#0;start;provider",
+                    "original": "cc:layout#0;start",
                     "flow": "layout",
                     "flowStep": 0,
-                    "name": "start",
-                    "details": "provider"
+                    "name": "start"
                   }
                 }
               ],
@@ -1962,7 +1979,7 @@
               "hasDependenciesImports": true
             }
           ],
-          "size": 35188,
+          "size": 35278,
           "type": "directory"
         },
         "filesMap": {
@@ -1980,11 +1997,11 @@
           "example-project/src-client/auth/actions.js": {
             "path": "example-project/src-client/auth/actions.js",
             "name": "actions.js",
-            "size": 1269,
+            "size": 1334,
             "extension": ".js",
             "type": "file",
             "dependencies": false,
-            "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase sign in;+2\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
+            "fileCode": "import firebase from 'firebase';\nimport { firebaseAuth } from '../firebase';\nimport {\n  INIT_AUTH,\n  SIGN_IN_ERROR,\n  SIGN_IN_SUCCESS,\n  SIGN_OUT_SUCCESS\n} from './action-types';\n\n\nfunction authenticate(provider) {\n  return dispatch => {\n    //cc:signin#1;firebase sign in;+2;call to firebase with auth provider, proceed if success response\n    firebaseAuth.signInWithPopup(provider)\n      .then(result => dispatch(signInSuccess(result)))\n      .catch(error => dispatch(signInError(error)));\n  };\n}\n\n\nexport function initAuth(user) {\n  return {\n    type: INIT_AUTH,\n    payload: user\n  };\n}\n\n\nexport function signInError(error) {\n  return {\n    type: SIGN_IN_ERROR,\n    payload: error\n  };\n}\n\n\nexport function signInSuccess(result) {\n  return {\n    type: SIGN_IN_SUCCESS,\n    payload: result.user\n  };\n}\n\n\nexport function signInWithGithub() {\n  return authenticate(new firebase.auth.GithubAuthProvider());\n}\n\n\nexport function signInWithGoogle() {\n  return authenticate(new firebase.auth.GoogleAuthProvider());\n}\n\n\nexport function signInWithTwitter() {\n  return authenticate(new firebase.auth.TwitterAuthProvider());\n}\n\n\nexport function signOut() {\n  return dispatch => {\n    firebaseAuth.signOut()\n      .then(() => dispatch(signOutSuccess()));\n  };\n}\n\n\nexport function signOutSuccess() {\n  return {\n    type: SIGN_OUT_SUCCESS\n  };\n}\n",
             "children": [
               {
                 "name": "firebase sign in",
@@ -1994,11 +2011,12 @@
                   15
                 ],
                 "params": {
-                  "original": "cc:signin#1;firebase sign in;+2",
+                  "original": "cc:signin#1;firebase sign in;+2;call to firebase with auth provider, proceed if success response",
                   "flow": "signin",
                   "flowStep": 1,
                   "name": "firebase sign in",
-                  "linesRange": 2
+                  "linesRange": 2,
+                  "details": "call to firebase with auth provider, proceed if success response"
                 }
               }
             ],
@@ -2309,7 +2327,7 @@
           "example-project/src-client/index.js": {
             "path": "example-project/src-client/index.js",
             "name": "index.js",
-            "size": 987,
+            "size": 978,
             "extension": ".js",
             "type": "file",
             "dependencies": {
@@ -2344,7 +2362,7 @@
                 "importedModuleNames": []
               }
             },
-            "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:layout#0;start;provider\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
+            "fileCode": "import './views/styles/styles.css';\n\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nimport { Provider } from 'react-redux';\nimport { ConnectedRouter } from 'react-router-redux';\n\nimport { initAuth } from './auth';\nimport history from './history';\nimport configureStore from './store';\nimport registerServiceWorker from './utils/register-service-worker';\nimport App from './views/app';\n\n\nconst store = configureStore();\nconst rootElement = document.getElementById('root');\n\n//cc:layout#0;start\nfunction render(Component) {\n  ReactDOM.render(\n    <Provider store={store}>\n      <ConnectedRouter history={history}>\n        <div>\n          <Component/>\n        </div>\n      </ConnectedRouter>\n    </Provider>,\n    rootElement\n  );\n}\n\n\nif (module.hot) {\n  module.hot.accept('./views/app', () => {\n    render(require('./views/app').default);\n  })\n}\n\n\nregisterServiceWorker();\n\ninitAuth(store.dispatch)\n  .then(() => render(App))\n  .catch(error => console.error(error));\n",
             "children": [
               {
                 "name": "start",
@@ -2354,11 +2372,10 @@
                   18
                 ],
                 "params": {
-                  "original": "cc:layout#0;start;provider",
+                  "original": "cc:layout#0;start",
                   "flow": "layout",
                   "flowStep": 0,
-                  "name": "start",
-                  "details": "provider"
+                  "name": "start"
                 }
               }
             ],
@@ -3522,11 +3539,27 @@
           "example-project/src-client/views/pages/sign-in/sign-in-page.js": {
             "path": "example-project/src-client/views/pages/sign-in/sign-in-page.js",
             "name": "sign-in-page.js",
-            "size": 1358,
+            "size": 1392,
             "extension": ".js",
             "type": "file",
-            "dependencies": false,
-            "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:signin#0;dispatch action\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
+            "dependencies": {
+              "example-project/src-client/auth/index.js": {
+                "moduleName": "example-project/src-client/auth/index.js",
+                "importedModuleNames": []
+              },
+              "example-project/src-client/views/components/button/index.js": {
+                "moduleName": "example-project/src-client/views/components/button/index.js",
+                "importedModuleNames": []
+              },
+              "example-project/src-client/views/pages/sign-in/sign-in-page.js": {
+                "moduleName": "example-project/src-client/views/pages/sign-in/sign-in-page.js",
+                "importedModuleNames": [
+                  "example-project/src-client/auth/index.js",
+                  "example-project/src-client/views/components/button/index.js"
+                ]
+              }
+            },
+            "fileCode": "import React from 'react';\nimport PropTypes from 'prop-types';\nimport { connect } from 'react-redux';\nimport { withRouter } from 'react-router-dom';\nimport { authActions } from '../../../auth';\nimport Button from '../../../views/components/button';\n\nimport './sign-in-page.css';\n\n\nconst SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {\n  return (\n    <div className=\"g-row sign-in\">\n      <div className=\"g-col\">\n        <h1 className=\"sign-in__heading\">Sign in</h1>\n        <Button className=\"sign-in__button\" onClick={signInWithGithub}>GitHub</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithGoogle}>Google</Button>\n        <Button className=\"sign-in__button\" onClick={signInWithTwitter}>Twitter</Button>\n      </div>\n    </div>\n  );\n};\n\nSignInPage.propTypes = {\n  signInWithGithub: PropTypes.func.isRequired,\n  signInWithGoogle: PropTypes.func.isRequired,\n  signInWithTwitter: PropTypes.func.isRequired\n};\n\n\n//=====================================\n//  CONNECT\n//-------------------------------------\n\nconst mapDispatchToProps = {\n  signInWithGithub: authActions.signInWithGithub, //cc:signin#0;dispatch action;start signin with github\n  signInWithGoogle: authActions.signInWithGoogle,\n  signInWithTwitter: authActions.signInWithTwitter\n};\n\nexport default withRouter(\n  connect(\n    null,\n    mapDispatchToProps\n  )(SignInPage)\n);\n",
             "children": [
               {
                 "name": "dispatch action",
@@ -3536,10 +3569,11 @@
                   36
                 ],
                 "params": {
-                  "original": "cc:signin#0;dispatch action",
+                  "original": "cc:signin#0;dispatch action;start signin with github",
                   "flow": "signin",
                   "flowStep": 0,
-                  "name": "dispatch action"
+                  "name": "dispatch action",
+                  "details": "start signin with github"
                 }
               }
             ],
@@ -3763,10 +3797,7 @@
             "example-project/src-client/views/components/task-item/task-item.js": "*"
           }
         },
-        "dependenciesEntryName": "example-project/src-client/index.js",
-        "language": "javascript",
-        "platformPathSeparator": "/",
-        "projectName": "project:todo-example-client"
+        "dependenciesEntryName": "example-project/src-client/index.js"
       }
     }
   }

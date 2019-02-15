@@ -26,7 +26,7 @@
 ## Demo
 Check out the example of [**standalone version running here**](https://codecrumbs.io/).
  
-[<img src="/docs/codecrumbs-ui.png" width="800"/>](https://codecrumbs.io/)
+<img src="/docs/main-ui.png" width="100%"/>
  
 ## Get started
 #### Install and run

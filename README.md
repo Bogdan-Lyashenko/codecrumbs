@@ -91,7 +91,12 @@ Current version supports next programming languages:
 - and others which use `//` as a comment :)
 
 Please file an issue to support other language you would like to have.
-> Note: In current version only JavaScript uses AST parser to process the code, hence it offers more features (e.g. Dependencies tree) 
+
+#### Download & Upload (learn and share your knowledge)
+
+You can take a snapshot of application state at any point of time and share it with others. Simply download the json file of codecrumbs store (*top-right corner, "setup -> download"*). This json file can be then uploaded to codecrumbs (*top-right corner, "setup -> upload"*) to represent exactly same picture, even without having that project locally!
+
+<img src="/docs/upload-feature-2.gif" width="100%"/>
 
 #### Dependencies
 > Note: In current version only JavaScript offers this feature 
@@ -104,12 +109,15 @@ UI explained:
 2) Select connection between modules
 3) All involved files (two or more) will be opened in "Sidebar", so you can see “what is imported” and “its implementation”.
 
-#### Download & upload (learn and  share your knowledge)
-So let’s say you put together some trail of codecrumbs describing some important flow inside the project. How you can share it with others? Simply download the json file of codecrumbs store, send it to the friend, he/she uploads it to the codecrumbs and can see same you just saw!
-<img src="/docs/upload-feature-2.gif" width="100%"/>
+#### Flowchart
+> Note: In current version only JavaScript offers this feature 
+
+<img src="/docs/flow-ui.png" width="100%"/>
+
+[js2flowchart](https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart) is used in the sidebar to draw flowchart for the selected file code.
 
 ## Case studies
-The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & upload* feature it becomes super easy to collect and share your "investigation results".
+The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & Upload* feature it becomes super easy to collect and share your "investigation results".
 
 The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned. 
 
@@ -117,11 +125,11 @@ The ultimate goal is to have many case studies hosting at [https://codecrumbs.io
 Any support is very much appreciated! 👍 😘 ❤️
 If you like this project, please, **put a :star: and tweet about it**. Thanks!
 
-Please, consider [making financial donation](https://opencollective.com/codecrumbs), it will help further development of more cool features! We'll thank you by including your name/company logo here ☺️
+Please, consider [making financial donation](https://opencollective.com/codecrumbs), it will help further development of more cool features! We'll thank you by including your name/company logo here ☺️. Feel free to [ping me](https://www.linkedin.com/in/bohdan-liashenko-bb365854/) for discussion.
 
 <a href="https://opencollective.com/codecrumbs/donate" target="_blank">
   <img src="https://opencollective.com/codecrumbs/donate/button@2x.png?color=blue" width=300 />
-</a>
+</a>   
 
 ## Contribute
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the [owner](https://github.com/Bogdan-Lyashenko/) of this repository before making a change. Ideas and suggestions are welcome.

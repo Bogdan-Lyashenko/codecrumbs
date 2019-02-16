@@ -58,7 +58,7 @@ UI explained:
 3) Codecrumb details
 4) Folder is in "active only" state, you can expand to show all children
 
-Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
+How to get there? Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
 ```cc``` (stands for "CodeCrumb") is a prefix which used by the parser; check example of parameters in the table below:  
  

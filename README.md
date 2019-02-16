@@ -1,4 +1,4 @@
- [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) ![https://twitter.com/bliashenko](https://img.shields.io/twitter/follow/bliashenko.svg?label=Stay%20Tuned&style=social)
+ [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [<img src="https://img.shields.io/twitter/follow/bliashenko.svg?label=Stay%20Tuned&style=social">](https://twitter.com/bliashenko)
 
 <p align="center">
     <img src="/docs/logo-sm.png" width="250"/>

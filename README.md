@@ -85,11 +85,14 @@ So let’s say you put together some trail of codecrumbs describing some importa
 The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned. 
 
 ## Support
-**Sponsors**: contact me if you want to become a sponsor ☺️
+Any support is very much appreciated! 👍 😘 ❤️
+If you like this project, **please, put a :star: or tweet about it**. Thanks!
 
-**Friends**: if you like this project, please, put a :star: or tweet about it. Thanks! 
+Please, consider making financial donation, it will help further development of more cool features! We'll thank you by including your name/company logo here ☺️
 
-Any support is very much appreciated! 👍 😘 ❤️ 
+<a href="https://opencollective.com/codecrumbs/donate" target="_blank">
+  <img src="https://opencollective.com/codecrumbs/donate/button@2x.png?color=blue" width=300 />
+</a>
 
 ## Contribute
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the [owner](https://github.com/Bogdan-Lyashenko/) of this repository before making a change. Ideas and suggestions are welcome.

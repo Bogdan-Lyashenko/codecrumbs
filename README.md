@@ -50,7 +50,13 @@ Parameter | Description | Example
 ## Features
 #### Breadcrumbs and trail of breadcrumbs
 
-<img src="/docs/live-changes.gif" width="800"/>
+<img src="/docs/cc-ui.png" width="100%"/>
+
+UI explained:
+1) Enable "Codecrumbs" to have codecrumbs tree on the scheme (drop-down contains extra configuration)
+2) Choose "current" codecrumbs flow to display (can be either trail or all other "simple" codecrumbs)
+3) Codecrumb details
+4) Folder is in "active only" state, you can expand to show all children
 
 Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
@@ -74,7 +80,16 @@ E.g. for server-client application, go to the source directory for your server c
 <img src="/docs/multi-l-c.png" width="100%"/>
 
 #### Multi-language support
-Current version supports next programming languages: `javascript`, `typescript`, `python`, `php`, `java`, `c++` (and others which use `//` as a comment :)). Please file an issue to support other language you would like to have.
+Current version supports next programming languages: 
+- `javascript`,
+- `typescript`,
+- `python`,
+- `php`,
+- `java`,
+- `c++`,
+- and others which use `//` as a comment :)
+
+Please file an issue to support other language you would like to have.
 > Note: In current version only JavaScript uses AST parser to process the code, hence it offers more features (e.g. Dependencies tree) 
 
 #### Export & import (learn and  share your knowledge)
@@ -86,9 +101,9 @@ The tool (codecrumbs) allows us to learn, document and explain a codebase much f
 
 ## Support
 Any support is very much appreciated! 👍 😘 ❤️
-If you like this project, **please, put a :star: or tweet about it**. Thanks!
+If you like this project, please, **put a :star: and tweet about it**. Thanks!
 
-Please, consider making financial donation, it will help further development of more cool features! We'll thank you by including your name/company logo here ☺️
+Please, consider [making financial donation](https://opencollective.com/codecrumbs), it will help further development of more cool features! We'll thank you by including your name/company logo here ☺️
 
 <a href="https://opencollective.com/codecrumbs/donate" target="_blank">
   <img src="https://opencollective.com/codecrumbs/donate/button@2x.png?color=blue" width=300 />

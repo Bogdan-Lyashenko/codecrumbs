@@ -50,7 +50,7 @@ Parameter | Description | Example
 ## Features
 #### Breadcrumbs and trail of breadcrumbs
 
-<img src="/docs/cc-ui.png" width="100%"/>
+<img src="/docs/cc-ui.png" width="750"/>
 
 UI explained:
 1) Enable "Codecrumbs" to have codecrumbs tree on the scheme (drop-down contains extra configuration)
@@ -58,7 +58,7 @@ UI explained:
 3) Codecrumb details
 4) Folder is in "active only" state, you can expand to show all children
 
-How to get there? Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
+**How to get there?** Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
 ```cc``` (stands for "CodeCrumb") is a prefix which used by the parser; check example of parameters in the table below:  
  
@@ -104,12 +104,14 @@ UI explained:
 2) Select connection between modules
 3) All involved files (two or more) will be opened in "Sidebar", so you can see “what is imported” and “its implementation”.
 
-#### Export & import (learn and  share your knowledge)
+#### Download & upload (learn and  share your knowledge)
 So let’s say you put together some trail of codecrumbs describing some important flow inside the project. How you can share it with others? Simply download the json file of codecrumbs store, send it to the friend, he/she uploads it to the codecrumbs and can see same you just saw!
 <img src="/docs/upload-feature-2.gif" width="100%"/>
 
 ## Case studies
-The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned. 
+The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & upload* feature it becomes super easy to collect and share your "investigation results".
+
+The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned. 
 
 ## Support
 Any support is very much appreciated! 👍 😘 ❤️

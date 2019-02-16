@@ -16,8 +16,6 @@
   <a href="#case-studies">Case studies</a>
   <span> · </span>
   <a href="#support">Support</a>
-  <span> · </span>
-  <a href="#contribute">Contribute</a>
 </h3>
 
 ## What

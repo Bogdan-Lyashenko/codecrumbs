@@ -1,7 +1,7 @@
-[![Tweet about codecrumbs](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Leave%20breadcrumbs%20in%20source%20code%20with%20codecrumbs%20tool%20&url=https://github.com/Bogdan-Lyashenko/codecrumbs&via=bliashenko&hashtags=javascript,code) [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs)
+ [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) ![](https://img.shields.io/twitter/follow/bliashenko.svg?label=stay%20tuned&style=social)
 
 <p align="center">
-    <img src="/docs/logo.png" width="200"/>
+    <img src="/docs/logo-sm.png" width="250"/>
 </p>
 
 <h3 align="center">

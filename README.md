@@ -73,24 +73,36 @@ Example | Description | Use case
 
 #### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.
-Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab.
+Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab. To control a diagram UI - select it by clicking on it :)
 
-E.g. for server-client application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. **Note:** codebases can be located wherever you want, simply run `codecrumbs` for directory you need.  
+E.g. for server-client application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. 
+> **Note:** codebases can be located wherever you want (**no** need to have them like mono-repo, etc.), simply run `codecrumbs` for directory you need.  
 
 <img src="/docs/multi-l-c.png" width="100%"/>
 
 #### Multi-language support
 Current version supports next programming languages: 
-- `javascript`,
-- `typescript`,
-- `python`,
-- `php`,
-- `java`,
-- `c++`,
+- `javascript`
+- `typescript`
+- `python`
+- `php`
+- `java`
+- `c++`
 - and others which use `//` as a comment :)
 
 Please file an issue to support other language you would like to have.
 > Note: In current version only JavaScript uses AST parser to process the code, hence it offers more features (e.g. Dependencies tree) 
+
+#### Dependencies
+> Note: In current version only JavaScript offers this feature 
+
+<img src="/docs/dep-ui.png" width="100%"/>
+
+UI explained:
+
+1) Enable "Dependencies"
+2) Select connection between modules
+3) All involved files (two or more) will be opened in "Sidebar", so you can see “what is imported” and “its implementation”.
 
 #### Export & import (learn and  share your knowledge)
 So let’s say you put together some trail of codecrumbs describing some important flow inside the project. How you can share it with others? Simply download the json file of codecrumbs store, send it to the friend, he/she uploads it to the codecrumbs and can see same you just saw!

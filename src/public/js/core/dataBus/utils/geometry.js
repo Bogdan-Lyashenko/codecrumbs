@@ -31,7 +31,7 @@ export const calculateLayoutSize = (list, padding = 80) => {
     }
   });
 
-  const width = Math.round(Math.abs(maxX) + Math.abs(minX) + 3 * padding),
+  const width = Math.round(Math.abs(maxX) + Math.abs(minX) + 4 * padding),
     height = Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding);
 
   return {

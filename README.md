@@ -31,14 +31,14 @@ Check out the example of [**standalone version running here**](https://codecrumb
 <img src="/docs/main-ui.png" width="100%"/>
  
 ## Get started
-#### Install and run
+### Install and run
 >Pre-condition: update/install `NodeJS` version to be >= *8.11.1*  
  
 1) Install ```codecrumbs``` to *devDependencies* (```yarn add codecrumbs -D```)
 2) Run ```codecrumbs -d project-src-dir -e project-src-dir/index.js```. Change parameters to match your project:```-d``` is *directory with source code*, ```-e``` is *entry point file* .
 3) Go to [http://localhost:2018](http://localhost:2018/#) in the browser to check it out.
 
-#### CLI
+### CLI
 Parameter | Description | Example
 --- | --- | ---
 ```-e```, ```--entry``` | Path to project source entry point file | ```-e src/app.js```
@@ -48,7 +48,7 @@ Parameter | Description | Example
 ```-f```, ```--parserFallback``` | AST parser fallback, applicable only for JavaScript project, use it when @babel-parse fails (optional, default *false*) | ```-f true```
 
 ## Features
-#### Breadcrumbs and trail of breadcrumbs
+### Breadcrumbs and trail of breadcrumbs
 
 <img src="/docs/cc-ui.png" width="750"/>
 
@@ -71,7 +71,7 @@ Example | Description | Use case
 
 > Note: current version supports single line comments only. 
 
-#### Multi-codebase integration
+### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.
 Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab. To control a diagram UI - select it by clicking on it :)
 
@@ -80,7 +80,7 @@ E.g. for server-client application, go to the source directory for your server c
 
 <img src="/docs/multi-l-c.png" width="100%"/>
 
-#### Multi-language support
+### Multi-language support
 Current version supports next programming languages: 
 - `javascript`
 - `typescript`
@@ -92,13 +92,13 @@ Current version supports next programming languages:
 
 Please file an issue to support other language you would like to have.
 
-#### Download & Upload (learn and share your knowledge)
+### Download & Upload (learn and share your knowledge)
 
 You can take a snapshot of application state at any point of time and share it with others. Simply download the json file of codecrumbs store (*top-right corner, "setup -> download"*). This json file can be then uploaded to codecrumbs (*top-right corner, "setup -> upload"*) to represent exactly same picture, even without having that project locally!
 
 <img src="/docs/upload-feature-2.gif" width="100%"/>
 
-#### Dependencies
+### Dependencies
 > Note: In current version only JavaScript offers this feature 
 
 <img src="/docs/dep-ui.png" width="100%"/>
@@ -109,7 +109,7 @@ UI explained:
 2) Select connection between modules
 3) All involved files (two or more) will be opened in "Sidebar", so you can see “what is imported” and “its implementation”.
 
-#### Flowchart
+### Flowchart
 > Note: In current version only JavaScript offers this feature 
 
 <img src="/docs/flow-ui.png" width="100%"/>

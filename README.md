@@ -21,7 +21,7 @@
 ## What
 > **Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that. Also, it will increase your development speed and give more knowledge about your application architecture. 
 >
->**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and build its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly. 
+>**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and builds its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly. 
 >
 >-[@bliashenko](https://twitter.com/bliashenko)    
 
@@ -48,7 +48,7 @@ Parameter | Description | Example
 ```-f```, ```--parserFallback``` | AST parser fallback, applicable only for JavaScript project, use it when @babel-parse fails (optional, default *false*) | ```-f true```
 
 ## Features
-### Breadcrumbs and trail of breadcrumbs
+### Breadcrumbs and trails
 
 <img src="/docs/cc-ui.png" width="750"/>
 

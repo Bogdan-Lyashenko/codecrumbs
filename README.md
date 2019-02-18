@@ -82,12 +82,12 @@ E.g. for server-client application, go to the source directory for your server c
 
 ### Multi-language support
 Current version supports next programming languages: 
-- `javascript`
-- `typescript`
-- `python`
-- `php`
-- `java`
-- `c++`
+- `JavaScript`
+- `TypeScript`
+- `Python`
+- `PHP`
+- `Java`
+- `C++`
 - and others which use `//` as a comment :)
 
 Please file an issue to support other language you would like to have.

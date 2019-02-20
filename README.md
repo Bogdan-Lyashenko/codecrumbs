@@ -34,7 +34,7 @@ Check out the example of [**standalone version running here**](https://codecrumb
 ### Install and run
 >Pre-condition: update/install `NodeJS` version to be >= *8.11.1*  
  
-1) Install ```codecrumbs``` globally (```yarn gloabl add codecrumbs```)
+1) Install ```codecrumbs``` globally (```yarn global add codecrumbs```)
 2) Run ```codecrumbs -d project-src-dir -e project-src-dir/index.js```. Change parameters to match your project:```-d``` is *directory with source code*, ```-e``` is *entry point file* .
 3) Go to [http://localhost:2018](http://localhost:2018/#) in the browser to check it out.
 

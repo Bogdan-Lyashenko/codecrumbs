@@ -1,8 +1,5 @@
-const babylon = require('@babel/parser');
-
-const { isCodecrumb, parseCodecrumbComment, buildCrumb } = require('../default/codecrumbs');
-const { config: astParseConfig, getNodeLines } = require('./astParse');
-
+// TODO: fix when it's needed, currently is fine without AST
+/*
 const getCrumbs = (fileCode, path) => {
   const crumbsList = [];
 
@@ -24,7 +21,12 @@ const getCrumbs = (fileCode, path) => {
     console.log(path, e);
     return crumbsList;
   }
-};
+};*/
+
+const { setupGetCrumbs, setupGetCommentsFromCode } = require('../default/codecrumbs');
+
+const JAVA_SCRIPT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
+const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(JAVA_SCRIPT_COMMENT_REGEX));
 
 module.exports = {
   getCrumbs

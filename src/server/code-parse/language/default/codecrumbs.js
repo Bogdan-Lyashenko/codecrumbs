@@ -54,7 +54,7 @@ const buildCrumb = (params, crumbNodeLines) => ({
   params
 });
 
-const setupdGetCommentsFromCode = regex => fileCode => {
+const setupGetCommentsFromCode = regex => fileCode => {
   if (!fileCode) return [];
 
   return fileCode.split('\n').reduce((comments, item, i) => {
@@ -99,12 +99,12 @@ const setupGetCrumbs = getCommentsFromCode => (fileCode, path) => {
 
 
 const DEFAULT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
-const getCrumbs = setupGetCrumbs(setupdGetCommentsFromCode(DEFAULT_COMMENT_REGEX));
+const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(DEFAULT_COMMENT_REGEX));
 
 module.exports = {
   getCrumbs,
 
-  setupdGetCommentsFromCode,
+  setupGetCommentsFromCode,
   setupGetCrumbs,
 
   isCodecrumb,

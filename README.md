@@ -45,7 +45,6 @@ Parameter | Description | Example
 ```-d```, ```--dir``` | Path to project source code directory | ```-d src```
 ```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
-```-f```, ```--parserFallback``` | AST parser fallback, applicable only for JavaScript project, use it when @babel-parse fails (optional, default *false*) | ```-f true```
 
 ## Features
 ### Breadcrumbs and trails

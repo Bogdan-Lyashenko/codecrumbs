@@ -7,7 +7,7 @@ const getProjectFiles = (projectDir, config = { extensions: /(.*?)/ }) => {
   const filesMap = {};
   const foldersMap = {};
 
-  const sourceTree = directoryTree(projectDir, config, item => {
+  const sourceTree = directoryTree(projectDir, { ...config, exclude: /node_modules/ }, item => {
     filesMap[item.path] = item;
   });
 

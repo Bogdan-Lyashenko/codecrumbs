@@ -84,10 +84,12 @@ Current version supports next programming languages:
 - `JavaScript`
 - `TypeScript`
 - `Python`
+- `Ruby`
 - `PHP`
 - `Java`
+- `Kotlin`
 - `C++`
-- and others which use `//` as a comment :)
+- `C#`
 
 Please file an issue to support other language you would like to have.
 

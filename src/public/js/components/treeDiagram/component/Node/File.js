@@ -44,14 +44,7 @@ const getFileIcon = ({ position, iconSize, language }) => {
       );
 
     default:
-      return (
-        <FileIcon
-          x={position.x + 2}
-          y={position.y - 10}
-          height={iconSize + 1}
-          width={iconSize + 1}
-        />
-      );
+      return <FileIcon x={position.x + 2} y={position.y - 9} height={iconSize} width={iconSize} />;
   }
 };
 

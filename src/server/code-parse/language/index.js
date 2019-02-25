@@ -9,6 +9,10 @@ module.exports = {
         extensions: /.(cpp|c\+\+|cc|cp|cxx|h|h\+\+|hh|hpp|hxx|inc|inl|ino|ipp|re|tcc|tpp)$/
       },
       {
+        language: 'csharp',
+        extensions: /.(cs|cake|cshtml|csx)$/
+      },
+      {
         language: 'java',
         extensions: /.(java|jsp)$/
       },
@@ -17,12 +21,20 @@ module.exports = {
         extensions: /\.(js|jsx|_js|bones|es|es6|frag|gs|jake|jsb|jscad|jsfl|jsm|jss|mjs|njs|pac|sjs|ssjs|xsjs|xsjslib)$/
       },
       {
+        language: 'kotlin',
+        extensions: /.(kt|ktm|kts)$/
+      },
+      {
         language: 'php',
         extensions: /.(php|aw|ctp|fcgi|inc|php3|php4|php5|phps|phpt)$/
       },
       {
         language: 'python',
         extensions: /\.(py|bzl|cgi|fcgi|gyp|gypi|lmi|py3|pyde|pyi|pyp|pyt|pyw|rpy|spec|tac|wsgi|xpy)$/
+      },
+      {
+        language: 'ruby',
+        extensions: /.(rb|builder|eye|fcgi|gemspec|god|jbuilder|mspec|pluginspec|podspec|rabl|rake|rbuild|rbw|rbx|ru|ruby|spec|thor|watchr)$/
       },
       {
         language: 'typescript',
@@ -47,6 +59,10 @@ module.exports = {
         codecrumbsParser: require('./cpp/codecrumbs'),
         dependenciesParser: require('./cpp/dependencies')
       },
+      csharp: {
+        codecrumbsParser: require('./csharp/codecrumbs'),
+        dependenciesParser: require('./csharp/dependencies')
+      },
       java: {
         codecrumbsParser: require('./java/codecrumbs'),
         dependenciesParser: require('./java/dependencies')
@@ -55,6 +71,10 @@ module.exports = {
         codecrumbsParser: require('./javascript/codecrumbs'),
         dependenciesParser: require('./javascript/dependencies')
       },
+      kotlin: {
+        codecrumbsParser: require('./kotlin/codecrumbs'),
+        dependenciesParser: require('./kotlin/dependencies')
+      },
       php: {
         codecrumbsParser: require('./php/codecrumbs'),
         dependenciesParser: require('./php/dependencies')
@@ -62,6 +82,10 @@ module.exports = {
       python: {
         codecrumbsParser: require('./python/codecrumbs'),
         dependenciesParser: require('./python/dependencies')
+      },
+      ruby: {
+        codecrumbsParser: require('./ruby/codecrumbs'),
+        dependenciesParser: require('./ruby/dependencies')
       },
       typescript: {
         codecrumbsParser: require('./typescript/codecrumbs'),

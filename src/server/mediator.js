@@ -1,13 +1,14 @@
 const WebSocketServer = require('websocket').server;
 const http = require('http');
 
+const logger = require('./utils/logger');
 const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 
 // instances should run on many ports but then send data to mediator and mediator to client
 const run = ({ port, clientPort }) => {
   const httpServer = http.createServer();
 
-  httpServer.listen(port, () => console.log(`Mediator server is listening: ${port}.`));
+  httpServer.listen(port, () => logger.info(`+ started: mediator server, listening: ${port}`));
 
   let clientInstance = null;
   const sendToClient = event => clientInstance && clientInstance.sendUTF(event);
@@ -21,7 +22,7 @@ const run = ({ port, clientPort }) => {
 
     if (isClient) {
       clientInstance = connection;
-      console.log('Client connected.');
+      logger.info('> browser client connected');
       sendToSourceWatchers(
         JSON.stringify({
           type: SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED

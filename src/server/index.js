@@ -4,14 +4,24 @@ const fs = require('fs');
 const portscanner = require('portscanner');
 const httpServer = require('http-server');
 
+const logger = require('./utils/logger');
 const { SERVER_PORT } = require('../shared/constants');
 const mediator = require('./mediator');
 const sourceWatcher = require('./source-watcher');
 
-const setup = (
-  { projectNameAlias, projectDir, entryPoint, webpackConfigPath, clientPort, astParserFallback },
-  isDev
-) => {
+const setup = (options, isDev) => {
+  logger.fun(`>\n> Codecrumbs magic begins!\n>`);
+  logger.info(`> started with options: ${JSON.stringify(options)}`);
+
+  const {
+    projectNameAlias,
+    projectDir,
+    entryPoint,
+    webpackConfigPath,
+    clientPort,
+    astParserFallback
+  } = options;
+
   const PORT_IN_USE = 'open';
   const HOST = '127.0.0.1';
 
@@ -23,6 +33,7 @@ const setup = (
         /**
          * socket+http server for data exchange between browser and source servers
          */
+        logger.log(`- starting: mediator server `);
         mediator.run({ port: SERVER_PORT, clientPort });
       }
     }),
@@ -31,34 +42,44 @@ const setup = (
         /**
          * http server to host "codecrumbs" client source for browser
          */
+        logger.log(`- starting: http server for client assets`);
         httpServer
           .createServer({
             root: path.resolve(__dirname, '../public/dist/local'),
             cache: isDev ? -1 : 3600
           })
           .listen(clientPort, HOST, () => {
-            console.log(`"Codecrumbs" client is served on http://localhost:${clientPort}`);
+            logger.info(
+              `+ started: http server for client assets,`,
+              ` codecrumbs client is served on http://localhost:${clientPort}`
+            );
           });
       }
     })
-  ]).then(() => {
-    /**
-     * source server instance (one per source code project)
-     */
-    sourceWatcher.run(
-      {
-        mediatorEndPoint: `${HOST}:${SERVER_PORT}`,
-        namespace: `source-project-${Date.now()}`,
-        projectName: `project:${projectNameAlias || projectDir}`
-      },
-      {
-        projectDir: alignPlatformPath(projectDir),
-        entryPoint: alignPlatformPath(entryPoint),
-        webpackConfigPath: alignPlatformPath(webpackConfigPath),
-        astParserFallback
-      }
-    );
-  });
+  ])
+    .then(() => {
+      /**
+       * source server instance (one per source code project)
+       */
+      logger.log(`- starting: source watcher`);
+      sourceWatcher.run(
+        {
+          mediatorEndPoint: `${HOST}:${SERVER_PORT}`,
+          namespace: `source-project-${Date.now()}`,
+          projectName: `project:${projectNameAlias || projectDir}`
+        },
+        {
+          projectDir: alignPlatformPath(projectDir),
+          entryPoint: alignPlatformPath(entryPoint),
+          webpackConfigPath: alignPlatformPath(webpackConfigPath),
+          astParserFallback
+        }
+      );
+    })
+    .catch(e => {
+      logger.error(`index server setup failed: ${logger.getText(e)}`);
+      process.exit(1);
+    });
 };
 
 const alignPlatformPath = (p = '') =>
@@ -78,7 +99,9 @@ const validateProjectPath = (pDir, ePoint) => {
   }
 
   if (paths.length) {
-    console.error(`Please enter valid path, next path does not exist: ${paths.join(', ')}`);
+    logger.error(
+      `Not valid paths. Please enter valid path, next path does not exist: ${paths.join(', ')}`
+    );
     process.exit(1);
   }
 };

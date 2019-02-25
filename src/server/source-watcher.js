@@ -1,5 +1,6 @@
 const WebSocketClient = require('websocket').client;
 
+const logger = require('./utils/logger');
 const { parseFiles } = require('./api/');
 const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 
@@ -15,12 +16,12 @@ const run = (
   const webSocketClient = new WebSocketClient();
 
   webSocketClient.on('connectFailed', error => {
-    console.log(`Connect error for ${namespace}, error: ${error} `);
+    logger.error(`Connect error for ${namespace}, error: ${error} `);
   });
 
   webSocketClient.on('connect', connection => {
-    console.log(
-      `Source watcher: ${namespace} created for: ${projectName}; `,
+    logger.info(
+      `+ source watcher: ${namespace} started for: ${projectName}; `,
       `setup: dir - ${projectDir}, entry point - ${entryPoint}`
     );
 
@@ -34,6 +35,7 @@ const run = (
             { projectName, projectDir, entryPoint, webpackConfigPath, language, fileExtensions },
             {
               onInit: data => {
+                logger.info(`> emit '${SOCKET_MESSAGE_TYPE.SOURCE_INIT_SOURCE_FILES_SYNC}'`);
                 connection.sendUTF(
                   JSON.stringify({
                     type: SOCKET_MESSAGE_TYPE.SOURCE_INIT_SOURCE_FILES_SYNC,
@@ -69,7 +71,7 @@ const run = (
           break;
 
         default:
-          console.log(`Unhandled message: ${message}`);
+          logger.warn(`Unhandled message: ${message}`);
       }
     });
   });

@@ -1,5 +1,6 @@
 const path = require('path');
 
+const logger = require('../utils/logger');
 const codeParser = require('../code-parse/index');
 const { getProjectFiles } = require('./file-system');
 const { createWatcher } = require('./watcher');
@@ -51,39 +52,57 @@ const subscribeOnChange = (
   { projectName, projectDir, entryPoint, webpackConfigPath, language, fileExtensions },
   { onInit, onChange }
 ) => {
+  logger.info(`> source watcher subscribing for changes`);
   // TODO: refactor function, too long
   closePreviousSubscription(namespace);
 
+  logger.log(`- getting: project files`);
   const fs = getProjectFiles(projectDir, { extensions: fileExtensions });
+  logger.info(
+    `+ got: project files.`,
+    ` Number of files: ${Object.keys(fs.filesMap).length},`,
+    ` Number of folders: ${Object.keys(fs.foldersMap).length}.`,
+    ` File example: ${JSON.stringify(fs.filesMap[Object.keys(fs.filesMap)[0]])}`
+  );
   const codeCrumbs = {
     flows: {}
   };
 
+  logger.log(`- parsing: project files`);
   parseProjectSourceFiles({
     filesMap: fs.filesMap,
     projectDir,
     entryPoint,
     webpackConfigPath,
     language
-  }).then(() => {
-    Object.entries(fs.filesMap).forEach(([path, file]) => {
-      if (file.hasCodecrumbs) {
-        addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
-      }
-    });
+  })
+    .then(() => {
+      logger.info(
+        `+ parsed: project files.`,
+        ` File example: ${JSON.stringify(fs.filesMap[Object.keys(fs.filesMap)[0]])}`
+      );
 
-    return onInit({
-      namespace,
-      projectName,
-      language,
-      platformPathSeparator: path.sep,
-      sourceTree: fs.sourceTree,
-      filesMap: fs.filesMap,
-      foldersMap: fs.foldersMap,
-      codeCrumbedFlowsMap: codeCrumbs.flows,
-      dependenciesEntryName: entryPoint
+      Object.entries(fs.filesMap).forEach(([path, file]) => {
+        if (file.hasCodecrumbs) {
+          addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
+        }
+      });
+
+      return onInit({
+        namespace,
+        projectName,
+        language,
+        platformPathSeparator: path.sep,
+        sourceTree: fs.sourceTree,
+        filesMap: fs.filesMap,
+        foldersMap: fs.foldersMap,
+        codeCrumbedFlowsMap: codeCrumbs.flows,
+        dependenciesEntryName: entryPoint
+      });
+    })
+    .catch(e => {
+      logger.error(`! parsed: project files. Error: ${logger.getText(e)}`);
     });
-  });
 
   const watcher = createWatcher(projectDir, path => {
     const file = fs.filesMap[path];
@@ -113,7 +132,7 @@ const subscribeOnChange = (
         addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
       }
 
-      console.info('Code state change was parsed and sent to client.');
+      logger.info('> code state change was parsed and sent to client.');
 
       return onChange({
         sourceTree: fs.sourceTree,

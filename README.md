@@ -72,9 +72,9 @@ Example | Description | Use case
 
 ### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.
-Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab. To control a diagram UI - select it by clicking on it :)
+Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab. To control a diagram UI - select it by clicking on it.
 
-E.g. for server-client application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. 
+E.g. for client-server application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. 
 > **Note:** codebases can be located wherever you want (**no** need to have them like mono-repo, etc.), simply run `codecrumbs` for directory you need.  
 
 <img src="/docs/multi-l-c.png" width="100%"/>

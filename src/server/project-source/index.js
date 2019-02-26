@@ -61,8 +61,7 @@ const subscribeOnChange = (
   logger.info(
     `+ got: project files.`,
     ` Number of files: ${Object.keys(fs.filesMap).length},`,
-    ` Number of folders: ${Object.keys(fs.foldersMap).length}.`,
-    ` File example: ${JSON.stringify(fs.filesMap[Object.keys(fs.filesMap)[0]])}`
+    ` Number of folders: ${Object.keys(fs.foldersMap).length}.`
   );
   const codeCrumbs = {
     flows: {}
@@ -77,10 +76,7 @@ const subscribeOnChange = (
     language
   })
     .then(() => {
-      logger.info(
-        `+ parsed: project files.`,
-        ` File example: ${JSON.stringify(fs.filesMap[Object.keys(fs.filesMap)[0]])}`
-      );
+      logger.info(`+ parsed: project files.`);
 
       Object.entries(fs.filesMap).forEach(([path, file]) => {
         if (file.hasCodecrumbs) {

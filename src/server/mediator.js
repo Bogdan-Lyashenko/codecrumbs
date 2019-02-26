@@ -1,6 +1,7 @@
 const WebSocketServer = require('websocket').server;
 const http = require('http');
 
+const { SOCKET_MSG_MAX_SIZE } = require('./config');
 const logger = require('./utils/logger');
 const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 
@@ -15,7 +16,12 @@ const run = ({ port, clientPort }) => {
   const sourceWatcherInstances = [];
   const sendToSourceWatchers = event => sourceWatcherInstances.forEach(l => l.sendUTF(event));
 
-  const webSocketServer = new WebSocketServer({ httpServer });
+  const webSocketServer = new WebSocketServer({
+    httpServer,
+    maxReceivedFrameSize: SOCKET_MSG_MAX_SIZE,
+    maxReceivedMessageSize: SOCKET_MSG_MAX_SIZE
+  });
+
   webSocketServer.on('request', request => {
     const connection = request.accept(null, request.origin);
     const isClient = request.origin && request.origin.includes(`:${clientPort}`);

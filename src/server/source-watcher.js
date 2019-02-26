@@ -1,5 +1,6 @@
 const WebSocketClient = require('websocket').client;
 
+const { SOCKET_MSG_MAX_SIZE } = require('./config');
 const logger = require('./utils/logger');
 const { parseFiles } = require('./api/');
 const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
@@ -13,7 +14,10 @@ const run = (
 ) => {
   const { language, extensions: fileExtensions } = detectLanguage(entryPoint, astParserFallback);
 
-  const webSocketClient = new WebSocketClient();
+  const webSocketClient = new WebSocketClient({
+    maxReceivedFrameSize: SOCKET_MSG_MAX_SIZE,
+    maxReceivedMessageSize: SOCKET_MSG_MAX_SIZE
+  });
 
   webSocketClient.on('connectFailed', error => {
     logger.error(`Connect error for ${namespace}, error: ${error} `);
@@ -21,7 +25,7 @@ const run = (
 
   webSocketClient.on('connect', connection => {
     logger.info(
-      `+ source watcher: ${namespace} started for: ${projectName}; `,
+      `+ started: source watcher: ${namespace} for: ${projectName}; `,
       `setup: dir - ${projectDir}, entry point - ${entryPoint}`
     );
 

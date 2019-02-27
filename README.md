@@ -90,6 +90,7 @@ Current version supports next programming languages:
 - `Kotlin`
 - `C++`
 - `C#`
+- `Fortran`
 
 Please file an issue to support other language you would like to have.
 

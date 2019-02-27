@@ -13,6 +13,10 @@ module.exports = {
         extensions: /.(cs|cake|cshtml|csx)$/
       },
       {
+        language: 'fortran',
+        extensions: /.(f90|f|f03|f08|f77|f95|for|fpp)$/
+      },
+      {
         language: 'java',
         extensions: /.(java|jsp)$/
       },
@@ -62,6 +66,10 @@ module.exports = {
       csharp: {
         codecrumbsParser: require('./csharp/codecrumbs'),
         dependenciesParser: require('./csharp/dependencies')
+      },
+      fortran: {
+        codecrumbsParser: require('./fortran/codecrumbs'),
+        dependenciesParser: require('./fortran/dependencies')
       },
       java: {
         codecrumbsParser: require('./java/codecrumbs'),

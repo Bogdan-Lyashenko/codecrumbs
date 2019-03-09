@@ -1,4 +1,4 @@
- [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [<img src="https://img.shields.io/twitter/follow/bliashenko.svg?label=Stay%20Tuned&style=social">](https://twitter.com/bliashenko)
+ [![npm version](https://badge.fury.io/js/codecrumbs.svg)](https://badge.fury.io/js/codecrumbs) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [<a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/codecrumbs/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/codecrumbs/sponsors/badge.svg" /></a> <img src="https://img.shields.io/twitter/follow/bliashenko.svg?label=Stay%20Tuned&style=social">](https://twitter.com/bliashenko)
 
 <p align="center">
     <img src="/docs/logo-sm.png" width="250"/>
@@ -149,3 +149,33 @@ Next features are developing:
 - **eject codecrumbs** - ability to remove all "breadcrumbs" from source code in "one click"
 - **data transferring between cc trail steps** 
 - **VS Code extension** - some neat features right inside the code editor. Checkout [the repo here](https://github.com/Bogdan-Lyashenko/vs-code-codecrumbs). 
+
+## Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/Bogdan-Lyashenko/codecrumbs/graphs/contributors"><img src="https://opencollective.com/codecrumbs/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/codecrumbs#backer)]
+
+<a href="https://opencollective.com/codecrumbs#backers" target="_blank"><img src="https://opencollective.com/codecrumbs/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/codecrumbs#sponsor)]
+
+<a href="https://opencollective.com/codecrumbs/sponsor/0/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/1/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/2/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/3/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/4/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/5/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/6/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/7/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/8/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/sponsor/9/website" target="_blank"><img src="https://opencollective.com/codecrumbs/sponsor/9/avatar.svg"></a>
+
+

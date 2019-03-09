@@ -16,7 +16,8 @@
     "server-debug": "nodemon --inspect src/index.dev.js",
     "build": "cd src/public && webpack --config webpack.prod.js --progress --colors",
     "start:standalone": "cd src/public/dist/standalone && http-server",
-    "pretty": "prettier  --write \"./src/public/js/**/*.js\""
+    "pretty": "prettier  --write \"./src/public/js/**/*.js\"",
+    "postinstall": "opencollective-postinstall"
   },
   "bin": {
     "codecrumbs": "./cli/index.cli.js"
@@ -39,6 +40,7 @@
     "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
     "madge": "^3.3.0",
+    "opencollective-postinstall": "^2.0.2",
     "portscanner": "^2.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -51,7 +53,8 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^4.0.0",
     "watchpack": "^1.6.0",
-    "websocket": "1.0.27"
+    "websocket": "1.0.27",
+    "opencollective": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -84,5 +87,9 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/codecrumbs"
   }
 }

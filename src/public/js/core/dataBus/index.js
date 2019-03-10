@@ -33,7 +33,7 @@ class DataBusContainer extends React.Component {
   onSocketMessage(message) {
     const { type, data, namespace } = message;
 
-    console.log(`Message '${type}' from server received: ${JSON.stringify(message, undefined, 2)}`);
+    console.log(`Message '${type}' from server received`);
 
     switch (type) {
       case SOCKET_MESSAGE_TYPE.SOURCE_INIT_SOURCE_FILES_SYNC:

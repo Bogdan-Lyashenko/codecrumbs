@@ -34,6 +34,8 @@ export const getMergeState = (state, namespace) => namespaceStateUpdate => ({
   }
 });
 
+const FULL_FEATURES_LANG_LIST = ['javascript'];
+
 export default (state = DefaultState, action) => {
   const namespace = action.namespace;
   const namespaceState = state[namespace];
@@ -46,6 +48,7 @@ export default (state = DefaultState, action) => {
       return mergeState({
         ...DefaultNamespaceState,
         ...action.payload,
+        fullFeaturesSupport: FULL_FEATURES_LANG_LIST.includes(action.payload.language),
         selectedNode: filesMap[dependenciesEntryName],
         openedFolders: {
           ...Object.keys(foldersMap).reduce((res, item) => {

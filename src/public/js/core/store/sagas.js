@@ -116,6 +116,18 @@ function* reactByUpdatingFoldersState({ namespace }) {
   yield put(calcFilesTreeLayoutNodes(namespace));
 }
 
+// TODO: will work if switches per namespace as well
+/*function* reactByDisablingFeatures({ payload }) {
+  const { fullFeaturesSupport } = yield select(state =>
+    getProjectMetadata(state, { namespace: payload })
+  );
+  const { dependenciesDiagramOn } = yield select(getCheckedState);
+
+  if (!fullFeaturesSupport && dependenciesDiagramOn) {
+    yield put(toggleSwitch(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, false));
+  }
+}*/
+
 export default function* rootSaga() {
   yield all([
     takeLatest(SWITCHES_ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle),

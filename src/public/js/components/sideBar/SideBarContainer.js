@@ -22,7 +22,7 @@ const mapStateToProps = (state, props) => {
 
   const { selectedNode } = getSourceUserChoice(state, { namespace });
   const { filesMap } = getSource(state, { namespace });
-  const { language } = getProjectMetadata(state, { namespace });
+  const { language, fullFeaturesSupport } = getProjectMetadata(state, { namespace });
   const { selectedTabInSideBar } = getValuesState(state, props);
   const { sideBar, dependenciesDiagramOn, codeCrumbsDiagramOn } = getCheckedState(state);
 
@@ -34,7 +34,8 @@ const mapStateToProps = (state, props) => {
     sideBar,
     dependenciesDiagramOn,
     codeCrumbsDiagramOn,
-    selectedTabInSideBar
+    selectedTabInSideBar,
+    fullFeaturesSupport
   };
 };
 

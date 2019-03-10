@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Tabs } from 'antd';
 import { Skeleton, Alert } from 'antd';
 
-import { FILE_NODE_TYPE } from 'core/constants';
 import { Copy } from 'components/topBar/controls/Copy';
 
 const Code = React.lazy(() => import(/* webpackChunkName: "code" */ './Code'));
@@ -28,6 +27,7 @@ export default ({
   selectedTabInSideBar,
   dependenciesDiagramOn,
   codeCrumbsDiagramOn,
+  fullFeaturesSupport,
   onTabSelect
 }) => {
   const file = selectedNode && filesMap[selectedNode.path];
@@ -59,13 +59,14 @@ export default ({
           )}
         </Suspense>
       </TabPane>
-      {(dependenciesDiagramOn && (
-        <TabPane tab="Dependencies" key="Dependencies">
-          <Suspense fallback={null}>
-            <DependenciesTab namespace={namespace} language={language} />
-          </Suspense>
-        </TabPane>
-      )) ||
+      {(dependenciesDiagramOn &&
+        fullFeaturesSupport && (
+          <TabPane tab="Dependencies" key="Dependencies">
+            <Suspense fallback={null}>
+              <DependenciesTab namespace={namespace} language={language} />
+            </Suspense>
+          </TabPane>
+        )) ||
         null}
       {(codeCrumbsDiagramOn && (
         <TabPane tab="Crumbs" key="Crumbs">
@@ -75,16 +76,19 @@ export default ({
         </TabPane>
       )) ||
         null}
-      <TabPane tab="FlowChart" key="FlowChart">
-        <Suspense fallback={null}>
-          <FlowChartTab
-            namespace={namespace}
-            language={language}
-            fileCode={file.fileCode}
-            active={selectedTabInSideBar === 'FlowChart'}
-          />
-        </Suspense>
-      </TabPane>
+      {(fullFeaturesSupport && (
+        <TabPane tab="FlowChart" key="FlowChart">
+          <Suspense fallback={null}>
+            <FlowChartTab
+              namespace={namespace}
+              language={language}
+              fileCode={file.fileCode}
+              active={selectedTabInSideBar === 'FlowChart'}
+            />
+          </Suspense>
+        </TabPane>
+      )) ||
+        null}
     </Tabs>
   );
 

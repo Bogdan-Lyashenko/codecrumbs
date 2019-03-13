@@ -6,6 +6,8 @@ import { atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 import './index.scss';
 
 const FONT_SIZE = '12px';
+const LINE_HEIGHT = 18;
+const PADDING_TOP = 5;
 //TODO: add select with several themes
 //TODO: scrool to/highlight crumbed lines
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
@@ -22,7 +24,7 @@ export default class extends React.Component {
         ? crumbedLines
         : null;
 
-    lines && this.codeRef.scrollTo(0, lines[0][0] * 15 - 5);
+    lines && this.codeRef.scrollTo(0, (lines[0][0] - 1) * LINE_HEIGHT + PADDING_TOP - 2);
   }
   componentDidUpdate(prevProps) {
     this.fixScroll();
@@ -42,7 +44,7 @@ export default class extends React.Component {
           style={atomOneLight}
           showLineNumbers={true}
           wrapLines={true}
-          customStyle={{ fontSize: FONT_SIZE }}
+          customStyle={{ fontSize: FONT_SIZE, padding: `${PADDING_TOP}px 0px 5px 5px` }}
           lineProps={lineNumber => {
             if (isMatchLineNumber(crumbedLines, lineNumber)) {
               return { className: 'crumbedLine' };

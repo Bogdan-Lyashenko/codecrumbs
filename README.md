@@ -41,8 +41,8 @@ Check out the example of [**standalone version running here**](https://codecrumb
 ### CLI
 Parameter | Description | Example
 --- | --- | ---
-```-d```, ```--dir``` | Path to project source code directory | ```-d src```
-```-e```, ```--entry``` | Path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
+```-d```, ```--dir``` | Relative path to project source code directory | ```-d src```
+```-e```, ```--entry``` | Relative path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
 ```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
 

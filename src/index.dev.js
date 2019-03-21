@@ -16,6 +16,13 @@ const namespaceTwo = {
   clientPort: 2018
 };
 
+const namespaceDebug = {
+  projectNameAlias: 'debug',
+  projectDir: `example-project/debug`,
+  entryPoint: `example-project/debug/index.js`,
+  clientPort: 2018
+};
+
 const args = process.argv.slice(2);
 const namespace = args[0] === 'two' ? namespaceTwo : namespaceOne;
 const isDev = true;

@@ -14,6 +14,19 @@ export const getTreeLayout = (
     activeCodeCrumbs
   }
 ) => {
+  const activeCodecrumbsFiles =
+    (activeCodeCrumbs &&
+      Object.values(activeCodeCrumbs).reduce((acc, item) => {
+        if (typeof acc[item.filePath] === 'undefined') {
+          acc[item.filePath] = item.flowStep;
+        } else if (item.flowStep < acc[item.filePath]) {
+          acc[item.filePath] = item.flowStep;
+        }
+
+        return acc;
+      }, {})) ||
+    {};
+
   const layoutStructure = d3FlexTree.flextree({
     children: data => {
       if (data.type === DIR_NODE_TYPE) {
@@ -27,7 +40,7 @@ export const getTreeLayout = (
             : data.children;
 
         return activeCodeCrumbs
-          ? children.map(i => i).sort(sortCcFiles(activeCodeCrumbs))
+          ? children.map(i => i).sort(sortNodesForCc(activeCodecrumbsFiles))
           : children;
       }
 
@@ -37,7 +50,9 @@ export const getTreeLayout = (
 
       return !activeCodeCrumbs
         ? data.children
-        : (data.children || []).filter(({ params }) => activeCodeCrumbs[params.original]);
+        : (data.children || [])
+            .filter(({ params }) => !!activeCodeCrumbs[params.original])
+            .sort((a, b) => stepsSorter(a.params.flowStep, b.params.flowStep));
     },
     nodeSize: node => {
       let nameLength = node.data.name.length;
@@ -80,18 +95,27 @@ export const getTreeLayout = (
   return layoutStructure(tree);
 };
 
-export const sortCcFiles = activeCodeCrumbs => (a, b) => {
-  if (a.type !== FILE_NODE_TYPE || b.type !== FILE_NODE_TYPE || (!a.children && !b.children)) {
-    return 0;
+export const sortNodesForCc = activeCodecrumbsFiles => (aNode, bNode) => {
+  const aNodeStepOrder = getNodeFlowStepOrder(activeCodecrumbsFiles, aNode);
+  const bNodeStepOrder = getNodeFlowStepOrder(activeCodecrumbsFiles, bNode);
+
+  return stepsSorter(aNodeStepOrder, bNodeStepOrder);
+};
+
+export const stepsSorter = (stepA, stepB) => (stepA > stepB ? 1 : -1);
+
+const getNodeFlowStepOrder = (activeCodecrumbsFiles, { path }) => {
+  if (activeCodecrumbsFiles[path]) {
+    return activeCodecrumbsFiles[path];
   }
 
-  const bCc = (b.children || []).find(({ params = {} }) => activeCodeCrumbs[params.original]);
-  const aCc = (a.children || []).find(({ params = {} }) => activeCodeCrumbs[params.original]);
-  if (!bCc || !aCc) {
-    return (bCc && !aCc) || (aCc && !bCc) ? -1 : 0;
-  }
-
-  return bCc.params.flowStep > aCc.params.flowStep ? 1 : -1;
+  const children = Object.keys(activeCodecrumbsFiles).filter(p => !!p.startsWith(path));
+  return children.reduce((acc, child) => {
+    if (activeCodecrumbsFiles[child] < acc) {
+      return activeCodecrumbsFiles[child];
+    }
+    return acc;
+  }, Infinity);
 };
 
 export const getFileNodesMap = layoutNodes => {
@@ -137,15 +161,19 @@ export const getCodeCrumbsMapForCurrentCcFlow = ({
   const ccMap = {};
 
   Object.keys(codeCrumbedFlowsMap[selectedCrumbedFlowKey])
-    .map(filePath =>
-      ((filesMap[filePath] && filesMap[filePath].children) || []).filter(
+    .map(filePath => ({
+      filePath,
+      steps: ((filesMap[filePath] && filesMap[filePath].children) || []).filter(
         ({ params }) => params.flow === selectedCrumbedFlowKey
       )
-    )
-    .filter(steps => steps.length)
-    .forEach(steps => {
+    }))
+    .filter(({ steps }) => steps.length)
+    .forEach(({ filePath, steps }) => {
       steps.forEach(({ params }) => {
-        ccMap[params.original] = 1;
+        ccMap[params.original] = {
+          filePath,
+          flowStep: params.flowStep
+        };
       });
     });
 

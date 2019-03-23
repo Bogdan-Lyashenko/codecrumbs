@@ -5,8 +5,7 @@ const namespaceOne = {
   projectDir: `example-project/src-client`,
   entryPoint: `example-project/src-client/index.js`,
   webpackConfigPath: `example-project/webpack.config.js`,
-  clientPort: 2018,
-  astParserFallback: false
+  clientPort: 2018
 };
 
 const namespaceTwo = {
@@ -20,7 +19,8 @@ const namespaceDebug = {
   projectNameAlias: 'debug',
   projectDir: `example-project/debug`,
   entryPoint: `example-project/debug/index.js`,
-  clientPort: 2018
+  clientPort: 2018,
+  excludeDir: 'example-project/debug/x1,example-project/debug/x2/x'
 };
 
 const args = process.argv.slice(2);

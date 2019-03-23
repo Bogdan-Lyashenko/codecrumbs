@@ -49,15 +49,20 @@ const closePreviousSubscription = id => {
 
 const subscribeOnChange = (
   namespace,
-  { projectName, projectDir, entryPoint, webpackConfigPath, language, fileExtensions },
+  { projectName, projectDir, entryPoint, excludeDir, webpackConfigPath, language, fileExtensions },
   { onInit, onChange }
 ) => {
   logger.info(`> source watcher subscribing for changes`);
   // TODO: refactor function, too long
   closePreviousSubscription(namespace);
 
-  logger.log(`- getting: project files`);
-  const fs = getProjectFiles(projectDir, { extensions: fileExtensions });
+  logger.log(`- getting: project files. ${excludeDir.length ? `Excluding: ${excludeDir}` : ''}`);
+
+  const fs = getProjectFiles(projectDir, {
+    extensions: fileExtensions, //TODO: add deps folder per language
+    exclude: new RegExp(`node_modules${excludeDir.length ? `|${excludeDir.join('|')}` : ''}`)
+  });
+
   logger.info(
     `+ got: project files.`,
     ` Number of files: ${Object.keys(fs.filesMap).length},`,

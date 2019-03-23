@@ -17,7 +17,7 @@ program
     'Specify path to webpack config file. E.g. webpack.config.js'
   )
   .option('-p, --port [defaultPort]', 'Specify port for Codecrumbs client. E.g. 3333', 2018)
-  .option('-f, --parserFallback [astParserFallback]', 'Use AST parser fallback')
+  .option('-x, --excludeDir [excludeDirectories]', 'Exclude directories')
   .option('-n, --projectName [projectNameAlias]', 'Project name alias')
   .parse(process.argv);
 
@@ -37,7 +37,7 @@ server.setup(
     projectDir: program.dir,
     webpackConfigPath: program.webpack,
     clientPort: program.port,
-    astParserFallback: program.parserFallback
+    excludeDir: program.excludeDir
   },
   false
 );

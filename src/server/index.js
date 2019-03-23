@@ -19,7 +19,7 @@ const setup = (options, isDev) => {
     entryPoint,
     webpackConfigPath,
     clientPort,
-    astParserFallback
+    excludeDir
   } = options;
 
   const PORT_IN_USE = 'open';
@@ -72,7 +72,7 @@ const setup = (options, isDev) => {
           projectDir: alignPlatformPath(projectDir),
           entryPoint: alignPlatformPath(entryPoint),
           webpackConfigPath: alignPlatformPath(webpackConfigPath),
-          astParserFallback
+          excludeDir: (excludeDir ? excludeDir.split(',') : []).map(alignPlatformPath)
         }
       );
     })

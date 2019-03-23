@@ -10,9 +10,9 @@ const { detectLanguage } = require('./code-parse/language');
 
 const run = (
   { mediatorEndPoint, namespace, projectName },
-  { projectDir, entryPoint, webpackConfigPath, astParserFallback }
+  { projectDir, entryPoint, webpackConfigPath, excludeDir }
 ) => {
-  const { language, extensions: fileExtensions } = detectLanguage(entryPoint, astParserFallback);
+  const { language, extensions: fileExtensions } = detectLanguage(entryPoint);
 
   const webSocketClient = new WebSocketClient({
     maxReceivedFrameSize: SOCKET_MSG_MAX_SIZE,
@@ -36,7 +36,15 @@ const run = (
         case SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED:
           projectSourceWatcher.subscribeOnChange(
             namespace,
-            { projectName, projectDir, entryPoint, webpackConfigPath, language, fileExtensions },
+            {
+              projectName,
+              projectDir,
+              entryPoint,
+              excludeDir,
+              webpackConfigPath,
+              language,
+              fileExtensions
+            },
             {
               onInit: data => {
                 logger.info(`> emit '${SOCKET_MESSAGE_TYPE.SOURCE_INIT_SOURCE_FILES_SYNC}'`);

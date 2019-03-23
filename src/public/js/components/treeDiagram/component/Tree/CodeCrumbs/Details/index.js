@@ -1,19 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { getCheckedState } from 'core/controlsBus/selectors';
 import { getCodeCrumbsUserChoice, getSourceLayout } from 'core/dataBus/selectors';
+import { isCodeCrumbSelected } from '../helpers';
 
 import './index.scss';
 
 const DetailsComponent = props => {
-  const { name, details, position, singleCrumb } = props;
+  const { name, details, position, singleCrumb, selected } = props;
 
   // TODO: refactor
   const nameWidth = name ? name.length * 7.5 : 100;
   return (
     <div
-      className={'CcDetailsContainer'}
+      className={classNames('CcDetailsContainer', { CcDetailsSelected: selected })}
       style={{
         left: position.x - (singleCrumb ? 20 : 0),
         top: position.y + 8,
@@ -29,7 +31,8 @@ const DetailsSet = ({
   detailsEnabled,
   codecrumbsLayoutMap,
   shiftToCenterPoint,
-  selectedCrumbedFlowKey
+  selectedCrumbedFlowKey,
+  selectedCcFlowEdgeNodes
 }) => {
   if (!detailsEnabled) return null;
 
@@ -60,6 +63,7 @@ const DetailsSet = ({
           details={ccNode.details}
           name={ccNode.name}
           position={position}
+          selected={isCodeCrumbSelected(selectedCcFlowEdgeNodes, ccNode)}
           singleCrumb={codecrumbs.length === 1}
         />
       );
@@ -75,12 +79,16 @@ const mapStateToProps = (state, props) => {
 
   const namespaceProps = { namespace };
   const { codecrumbsLayoutMap } = getSourceLayout(state, namespaceProps);
-  const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, namespaceProps);
+  const { selectedCrumbedFlowKey, selectedCcFlowEdgeNodes } = getCodeCrumbsUserChoice(
+    state,
+    namespaceProps
+  );
 
   return {
     codecrumbsLayoutMap,
     selectedCrumbedFlowKey,
-    detailsEnabled: !codeCrumbsMinimize && codeCrumbsDetails
+    detailsEnabled: !codeCrumbsMinimize && codeCrumbsDetails,
+    selectedCcFlowEdgeNodes
   };
 };
 export default connect(mapStateToProps)(DetailsSet);

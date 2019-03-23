@@ -79,6 +79,11 @@
   stroke: #e91e63;
 }
 
+.CodeCrumbName-flow-step-selected {
+  fill: #754BC3;
+  stroke: #754BC3;
+}
+
 .CodeCrumbName-flow {
   fill: #ffffff;
   font-size: 12px;
@@ -96,7 +101,6 @@
   cursor: pointer;
 }
 
-.CodeCrumbName-text-flow {
-  fill: #ff18a6;
-  font-size: 12px;
+.CodeCrumbName-text-selected {
+  fill: #754BC3;
 }

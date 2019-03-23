@@ -19,7 +19,10 @@ const mapStateToProps = (state, props) => {
   const namespaceProps = { namespace };
   const { filesMap } = getSource(state, namespaceProps);
   const { codecrumbsLayoutMap } = getSourceLayout(state, namespaceProps);
-  const { selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, namespaceProps);
+  const { selectedCrumbedFlowKey, selectedCcFlowEdgeNodes } = getCodeCrumbsUserChoice(
+    state,
+    namespaceProps
+  );
 
   return {
     codecrumbsLayoutMap,
@@ -29,7 +32,8 @@ const mapStateToProps = (state, props) => {
     dependenciesDiagramOn,
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
-    codeCrumbsLineNumbers
+    codeCrumbsLineNumbers,
+    selectedCcFlowEdgeNodes
   };
 };
 

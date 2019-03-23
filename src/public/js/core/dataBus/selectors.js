@@ -53,11 +53,17 @@ export const getDependenciesUserChoice = createSelector([getNamespaceState], nam
 });
 
 export const getCodeCrumbsUserChoice = createSelector([getNamespaceState], namespaceState => {
-  const { selectedCodeCrumb, codeCrumbedFlowsMap, selectedCrumbedFlowKey } = namespaceState;
+  const {
+    selectedCodeCrumb,
+    codeCrumbedFlowsMap,
+    selectedCrumbedFlowKey,
+    selectedCcFlowEdgeNodes
+  } = namespaceState;
 
   return {
     selectedCodeCrumb,
     codeCrumbedFlowsMap,
-    selectedCrumbedFlowKey
+    selectedCrumbedFlowKey,
+    selectedCcFlowEdgeNodes
   };
 });

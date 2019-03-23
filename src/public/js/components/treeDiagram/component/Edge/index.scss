@@ -31,15 +31,7 @@
 }
 
 .DependenciesEdge-selected {
-  stroke: #754BC3;
-}
-
-.DependenciesEdge-end-dot {
-  fill: #1890ff;
-}
-
-.DependenciesEdge-end-dot-selected {
-  fill: #754BC3;
+  stroke: #754BC3 !important;
 }
 
 .CodeCrumbEdge {
@@ -60,7 +52,16 @@
   stroke: #ff18a6;
 }
 
+.CodeCrumbEdge-flow-selected {
+  stroke: #754BC3 !important;
+}
+
 .CodeCrumbEdge-flow-source {
   fill: #ff18a6;
   stroke: #ff18a6;
+}
+
+.CodeCrumbEdge-flow-source-selected {
+  fill: #754BC3 !important;
+  stroke: #754BC3 !important;
 }

@@ -123,6 +123,14 @@ export const selectCodeCrumbedFlow = (flow, namespace) => (dispatch, getState) =
   });
 };
 
+export const selectCcFlowEdge = (payload, namespace) => dispatch => {
+  dispatch({
+    type: ACTIONS.SELECT_CC_FLOW_EDGE,
+    payload,
+    namespace
+  });
+};
+
 export const calcFilesTreeLayoutNodes = namespace => (dispatch, getState) => {
   const state = getState();
 

@@ -167,6 +167,11 @@ export default (state = DefaultState, action) => {
         selectedDependencyEdgeNodes: action.payload
       });
 
+    case ACTIONS.SELECT_CC_FLOW_EDGE:
+      return mergeState({
+        selectedCcFlowEdgeNodes: action.payload
+      });
+
     case ACTIONS.UPDATE_FILES:
       const { selectedNode } = namespaceState;
       const fileForSelectedNode = action.payload.find(item => item.path === selectedNode.path);

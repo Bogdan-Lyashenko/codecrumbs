@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 import Arrow from 'components/treeDiagram/component/Icons/Arrow';
@@ -54,7 +55,8 @@ export const CodeCrumbedFlowEdge = props => {
     sourceName,
     singleCrumbSource,
     singleCrumbTarget,
-    onClick = () => console.log('cc edge')
+    selected,
+    onClick
   } = props;
 
   const rHalf = 6;
@@ -127,21 +129,33 @@ export const CodeCrumbedFlowEdge = props => {
 
   return (
     <g className={'CodeCrumbEdge'}>
-      <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-under-flow'} />
-      <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge-flow'} />
+      <polyline
+        points={polylinePoints.join(', ')}
+        className={classNames('CodeCrumbEdge-flow', {
+          'CodeCrumbEdge-flow-selected': selected
+        })}
+        onClick={onClick}
+      />
+      <polyline
+        points={polylinePoints.join(', ')}
+        className={'EdgeMouseHandler'}
+        onClick={onClick}
+      />
       <rect
         x={sourcePt.x - 1.5}
         y={sourcePt.y}
         width={3}
         height={2}
-        className={'CodeCrumbEdge-flow-source'}
+        className={classNames('CodeCrumbEdge-flow-source', {
+          'CodeCrumbEdge-flow-source-selected': selected
+        })}
       />
       <Arrow
         x={endPointConfig.x}
         y={endPointConfig.y}
         height={iconSize}
         width={iconSize}
-        fill={'#e91e63'}
+        fill={selected ? '#754BC3' : '#e91e63'}
       />
     </g>
   );
@@ -155,7 +169,8 @@ export const ExternalEdge = props => {
     singleCrumbTarget,
     topBottom,
     areaHeight,
-    firstPart
+    firstPart,
+    onClick
   } = props;
 
   const rHalf = 6;
@@ -190,8 +205,8 @@ export const ExternalEdge = props => {
   const iconSize = 8;
   return (
     <g className={'CodeCrumbEdge'}>
-      <polyline points={points.join(', ')} className={'CodeCrumbEdge-under-flow'} />
-      <polyline points={points.join(', ')} className={'CodeCrumbEdge-flow'} />
+      <polyline points={points.join(', ')} className={'CodeCrumbEdge-flow'} onClick={onClick} />
+      <polyline points={points.join(', ')} className={'EdgeMouseHandler'} onClick={onClick} />
       {firstPart ? (
         <rect
           x={sourcePt.x - 1}

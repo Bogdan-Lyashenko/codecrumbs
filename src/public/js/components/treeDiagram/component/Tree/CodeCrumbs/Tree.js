@@ -4,6 +4,7 @@ import { NO_TRAIL_FLOW } from 'core/constants';
 import { CodeCrumbName } from 'components/treeDiagram/component/Node/CodeCrumb';
 import { FileName } from 'components/treeDiagram/component/Node/File';
 import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
+import { isCodeCrumbSelected } from './helpers';
 
 const Tree = props => {
   const {
@@ -16,7 +17,8 @@ const Tree = props => {
     dependenciesDiagramOn,
     codeCrumbsMinimize,
     codeCrumbsLineNumbers,
-    onCodeCrumbSelect
+    onCodeCrumbSelect,
+    selectedCcFlowEdgeNodes
   } = props;
 
   return (
@@ -67,6 +69,7 @@ const Tree = props => {
                       name={crumbData.name}
                       singleCrumb={singleCrumb}
                       cover={true}
+                      selected={isCodeCrumbSelected(selectedCcFlowEdgeNodes, crumbData)}
                       flow={
                         ccParams.flow &&
                         ccParams.flow === selectedCrumbedFlowKey &&

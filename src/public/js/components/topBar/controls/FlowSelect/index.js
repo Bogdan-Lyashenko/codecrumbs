@@ -25,7 +25,7 @@ const FlowSelect = ({
     <Menu>
       {Object.keys(codeCrumbedFlowsMap)
         .filter(key => key !== selectedCrumbedFlowKey)
-        .sort()
+        .sort((a, b) => (a > b ? -1 : 1))
         .map(flow => (
           <Menu.Item key={flow}>
             <a

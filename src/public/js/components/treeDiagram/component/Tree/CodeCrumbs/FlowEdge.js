@@ -13,6 +13,8 @@ import {
   getSourceLayout,
   getCodeCrumbsUserChoice
 } from 'core/dataBus/selectors';
+import { selectCcFlowEdge } from 'core/dataBus/actions';
+import { isCodeCrumbsEqual } from './helpers';
 
 const FlowEdge = props => {
   const {
@@ -22,7 +24,9 @@ const FlowEdge = props => {
     shiftToCenterPoint,
     sortedFlowSteps,
     ccfilesLayoutMapNs,
-    codeCrumbsMinimize
+    codeCrumbsMinimize,
+    onFlowEdgeClick,
+    selectedCcFlowEdgeNodes
   } = props;
 
   const codecrumbsLayoutMap = ccfilesLayoutMapNs[namespace];
@@ -92,11 +96,20 @@ const FlowEdge = props => {
               targetPosition={edgePoints[1]}
               sourceName={fromItem.name}
               targetName={toItem.name}
+              onClick={() => onFlowEdgeClick(fromItem, toItem)}
+              selected={isFlowEdgeSelected(selectedCcFlowEdgeNodes, fromItem, toItem)}
             />
           );
         })}
     </React.Fragment>
   );
+};
+
+const isFlowEdgeSelected = (selectedCcFlowEdgeNodes, currentSource, currentTarget) => {
+  if (!selectedCcFlowEdgeNodes) return false;
+
+  const { source, target } = selectedCcFlowEdgeNodes;
+  return isCodeCrumbsEqual(source, currentSource) && isCodeCrumbsEqual(target, currentTarget);
 };
 
 const stepSorter = (a, b) => a.step - b.step;
@@ -137,7 +150,10 @@ const mapStateToProps = (state, props) => {
   const namespacesList = getNamespacesList(state);
   const { namespace } = props;
 
-  const { selectedCrumbedFlowKey: currentSelectedCrumbedFlowKey } = getCodeCrumbsUserChoice(state, {
+  const {
+    selectedCrumbedFlowKey: currentSelectedCrumbedFlowKey,
+    selectedCcFlowEdgeNodes
+  } = getCodeCrumbsUserChoice(state, {
     namespace
   });
 
@@ -179,8 +195,19 @@ const mapStateToProps = (state, props) => {
   return {
     namespacesList,
     codeCrumbsMinimize,
+    selectedCcFlowEdgeNodes,
     ...gatheredFlowsData
   };
 };
 
-export default connect(mapStateToProps)(FlowEdge);
+const mapDispatchToProps = (dispatch, props) => {
+  const { namespace } = props;
+  return {
+    onFlowEdgeClick: (source, target) => dispatch(selectCcFlowEdge({ source, target }, namespace))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FlowEdge);

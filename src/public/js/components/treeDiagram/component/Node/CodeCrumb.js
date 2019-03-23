@@ -6,7 +6,18 @@ import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 
 export const CodeCrumbName = props => {
   // onMouseOver maybe use onMouseOver to show crumb details in popover
-  const { position, loc, name, singleCrumb, cover, flow, flowStep, onMouseOver, onClick } = props;
+  const {
+    position,
+    loc,
+    name,
+    singleCrumb,
+    cover,
+    flow,
+    flowStep,
+    selected,
+    onMouseOver,
+    onClick
+  } = props;
 
   const textPoint = { x: singleCrumb ? position.x - 22 : position.x, y: position.y };
   const symbolWidth = 6;
@@ -55,7 +66,7 @@ export const CodeCrumbName = props => {
             y={textPoint.y - 7}
             width={13}
             height={13}
-            className={'CodeCrumbName-flow-step'}
+            className={selected ? 'CodeCrumbName-flow-step-selected' : 'CodeCrumbName-flow-step'}
           />
           <text
             x={textPoint.x - 10.5}
@@ -86,7 +97,7 @@ export const CodeCrumbName = props => {
             y={textPoint.y + 4}
             onClick={onClick}
             className={classNames('CodeCrumbName-text', {
-              'CodeCrumbName-text-flow': flow
+              'CodeCrumbName-text-selected': selected
             })}
           >
             {!locWidth && !flow ? (

@@ -13,7 +13,7 @@ import { buildShiftToPoint } from 'core/dataBus/utils/geometry';
 import { getSourceLayout, getProjectMetadata } from 'core/dataBus/selectors';
 import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
 import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
-import { selectDependencyEdge } from 'core/dataBus/actions';
+import { selectDependencyEdge, selectCcFlowEdge } from 'core/dataBus/actions';
 import { setActiveNamespace } from 'core/namespaceIntegration/actions';
 
 class TreeDiagram extends React.Component {
@@ -104,6 +104,7 @@ const mapDispatchToProps = (dispatch, props) => {
     onUnderLayerClick: () => {
       dispatch(setActiveNamespace(namespace));
       dispatch(selectDependencyEdge(undefined, namespace));
+      dispatch(selectCcFlowEdge(undefined, namespace));
     }
   };
 };

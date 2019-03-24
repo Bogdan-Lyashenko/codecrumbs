@@ -148,7 +148,8 @@ export default (state = DefaultState, action) => {
 
     case ACTIONS.SELECT_CODE_CRUMBED_FLOW:
       return mergeState({
-        selectedCrumbedFlowKey: action.payload
+        selectedCrumbedFlowKey: action.payload,
+        selectedCcFlowEdgeNodes: undefined
       });
 
     case ACTIONS.SET_DEPENDENCIES_ENTRY_POINT: {

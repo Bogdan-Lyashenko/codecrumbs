@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Collapse, Alert } from 'antd';
 
-import {
-  getSourceLayout,
-  getSourceUserChoice,
-  getCodeCrumbsUserChoice
-} from 'core/dataBus/selectors';
+import { NO_TRAIL_FLOW } from 'shared-with-server-src/constants';
+import { getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
+import { getNamespacesList } from 'core/dataBus/selectors';
+import { gatherFlowStepsData } from 'components/treeDiagram/component/Tree/CodeCrumbs/helpers';
 
 import Code from '../Code';
 import './index.scss';
@@ -55,38 +54,64 @@ const CrumbsTab = props => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { selectedNode } = getSourceUserChoice(state, props);
-  const { filesLayoutMap } = getSourceLayout(state, props);
-  const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, props);
+  const namespacesList = getNamespacesList(state);
+  const { namespace } = props;
+
+  const {
+    selectedCrumbedFlowKey: currentSelectedCrumbedFlowKey,
+    selectedCcFlowEdgeNodes,
+    codeCrumbedFlowsMap
+  } = getCodeCrumbsUserChoice(state, {
+    namespace
+  });
+
+  const { ccFilesLayoutMapNs, sortedFlowSteps } = gatherFlowStepsData({
+    currentSelectedCrumbedFlowKey,
+    namespacesList,
+    state
+  });
+
+  if (currentSelectedCrumbedFlowKey === NO_TRAIL_FLOW) {
+    return {
+      flowStepsFiles: getUnTrailedCodecrumbs(
+        currentSelectedCrumbedFlowKey,
+        codeCrumbedFlowsMap,
+        ccFilesLayoutMapNs[namespace]
+      )
+    };
+  }
 
   return {
-    selectedNode,
-    flowStepsFiles: getFlowStepsFiles(selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesLayoutMap)
+    flowStepsFiles: (selectedCcFlowEdgeNodes
+      ? [selectedCcFlowEdgeNodes.source, selectedCcFlowEdgeNodes.target]
+      : sortedFlowSteps
+    ).map(item => ({
+      ...item,
+      file: ccFilesLayoutMapNs[item.namespace][item.filePath].data
+    }))
   };
 };
 
-const getFlowStepsFiles = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesLayoutMap) => {
-  let sortedFlowSteps = [];
+const getUnTrailedCodecrumbs = (selectedCrumbedFlowKey, codeCrumbedFlowsMap, filesLayoutMap) => {
+  let codecrumbs = [];
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey];
 
   if (!currentFlow) {
-    return sortedFlowSteps;
+    return codecrumbs;
   }
 
   Object.keys(currentFlow).forEach(filePath => {
-    const steps = ((filesLayoutMap[filePath] && filesLayoutMap[filePath].children) || [])
-      .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
-      .map(({ data }) => ({
-        crumbNodeLines: data.crumbNodeLines,
-        file: filesLayoutMap[filePath].data,
-        step: data.params.flowStep
-      }));
-
-    sortedFlowSteps = sortedFlowSteps.concat(steps);
+    codecrumbs = codecrumbs.concat(
+      ((filesLayoutMap[filePath] && filesLayoutMap[filePath].children) || [])
+        .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
+        .map(({ data }) => ({
+          crumbNodeLines: data.crumbNodeLines,
+          file: filesLayoutMap[filePath].data
+        }))
+    );
   });
 
-  sortedFlowSteps.sort((a, b) => a.step - b.step);
-  return sortedFlowSteps;
+  return codecrumbs;
 };
 
 export default connect(mapStateToProps)(CrumbsTab);

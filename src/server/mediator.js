@@ -36,6 +36,15 @@ const run = ({ port, clientPort }) => {
       );
     } else {
       sourceWatcherInstances.push(connection);
+
+      // if client already there just init watcher
+      if (clientInstance) {
+        connection.sendUTF(
+          JSON.stringify({
+            type: SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED
+          })
+        );
+      }
     }
 
     connection.on('message', ({ utf8Data }) => {

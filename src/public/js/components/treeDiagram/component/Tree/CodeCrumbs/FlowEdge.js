@@ -30,6 +30,7 @@ const FlowEdge = props => {
   } = props;
 
   const codecrumbsLayoutMap = ccfilesLayoutMapNs[namespace];
+  const ccNamespacesKeys = Object.keys(ccfilesLayoutMapNs || {});
 
   return (
     <React.Fragment>
@@ -47,6 +48,14 @@ const FlowEdge = props => {
             return shiftToCenterPoint(cX, cY);
           });
 
+          const edgeBaseProps = {
+            key: `cc-external-edge-${fromItem.name}-${toItem.name}`,
+            sourcePosition: edgePoints[0],
+            targetPosition: edgePoints[1],
+            onClick: () => onFlowEdgeClick(fromItem, toItem, ccNamespacesKeys),
+            selected: isFlowEdgeSelected(selectedCcFlowEdgeNodes, fromItem, toItem)
+          };
+
           const namespaceIndex = namespacesList.indexOf(namespace);
 
           if (fromItem.namespace === namespace && toItem.namespace !== namespace) {
@@ -55,9 +64,7 @@ const FlowEdge = props => {
 
             return (
               <ExternalEdge
-                key={`cc-external-edge-${fromItem.name}-${toItem.name}`}
-                sourcePosition={edgePoints[0]}
-                targetPosition={edgePoints[1]}
+                {...edgeBaseProps}
                 singleCrumbSource={fromFile.children.length === 1}
                 singleCrumbTarget={toFile.children.length === 1}
                 areaHeight={areaHeight}
@@ -73,9 +80,7 @@ const FlowEdge = props => {
 
             return (
               <ExternalEdge
-                key={`cc-external-edge-${fromItem.name}-${toItem.name}`}
-                sourcePosition={edgePoints[0]}
-                targetPosition={edgePoints[1]}
+                {...edgeBaseProps}
                 singleCrumbSource={fromFile.children.length === 1}
                 singleCrumbTarget={toFile.children.length === 1}
                 areaHeight={areaHeight}
@@ -89,15 +94,11 @@ const FlowEdge = props => {
 
           return (
             <CodeCrumbedFlowEdge
-              key={`cc-flow-edge-${fromItem.name}-${toItem.name}`}
+              {...edgeBaseProps}
               singleCrumbSource={fromFile.children.length === 1}
               singleCrumbTarget={toFile.children.length === 1}
-              sourcePosition={edgePoints[0]}
-              targetPosition={edgePoints[1]}
               sourceName={fromItem.name}
               targetName={toItem.name}
-              onClick={() => onFlowEdgeClick(fromItem, toItem)}
-              selected={isFlowEdgeSelected(selectedCcFlowEdgeNodes, fromItem, toItem)}
             />
           );
         })}
@@ -200,12 +201,23 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, props) => {
-  const { namespace } = props;
-  return {
-    onFlowEdgeClick: (source, target) => dispatch(selectCcFlowEdge({ source, target }, namespace))
-  };
-};
+// TODO: can be moved to action
+const mapDispatchToProps = dispatch => ({
+  onFlowEdgeClick: (source, target, ccNamespacesKeys) => {
+    dispatch(selectCcFlowEdge({ source, target }, source.namespace));
+
+    // case with external edge
+    if (source.namespace !== target.namespace) {
+      dispatch(selectCcFlowEdge({ source, target }, target.namespace));
+    }
+
+    ccNamespacesKeys.forEach(ns => {
+      if (ns !== source.namespace && ns !== target.namespace) {
+        dispatch(selectCcFlowEdge(undefined, ns));
+      }
+    });
+  }
+});
 
 export default connect(
   mapStateToProps,

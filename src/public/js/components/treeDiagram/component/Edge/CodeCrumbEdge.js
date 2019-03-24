@@ -161,6 +161,7 @@ export const CodeCrumbedFlowEdge = props => {
   );
 };
 
+// TODO: refactor duplication, clean up
 export const ExternalEdge = props => {
   const {
     sourcePosition,
@@ -170,7 +171,8 @@ export const ExternalEdge = props => {
     topBottom,
     areaHeight,
     firstPart,
-    onClick
+    onClick,
+    selected
   } = props;
 
   const rHalf = 6;
@@ -205,7 +207,13 @@ export const ExternalEdge = props => {
   const iconSize = 8;
   return (
     <g className={'CodeCrumbEdge'}>
-      <polyline points={points.join(', ')} className={'CodeCrumbEdge-flow'} onClick={onClick} />
+      <polyline
+        points={points.join(', ')}
+        className={classNames('CodeCrumbEdge-flow', {
+          'CodeCrumbEdge-flow-selected': selected
+        })}
+        onClick={onClick}
+      />
       <polyline points={points.join(', ')} className={'EdgeMouseHandler'} onClick={onClick} />
       {firstPart ? (
         <rect
@@ -213,7 +221,9 @@ export const ExternalEdge = props => {
           y={sourcePt.y}
           width={3}
           height={2}
-          className={'CodeCrumbEdge-flow-source'}
+          className={classNames('CodeCrumbEdge-flow-source', {
+            'CodeCrumbEdge-flow-source-selected': selected
+          })}
         />
       ) : (
         <Arrow
@@ -221,7 +231,7 @@ export const ExternalEdge = props => {
           y={targetPt.y - iconSize}
           height={iconSize}
           width={iconSize}
-          fill={'#e91e63'}
+          fill={selected ? '#754BC3' : '#e91e63'}
         />
       )}
     </g>

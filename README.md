@@ -28,7 +28,7 @@
 ## Demo
 Check out the example of [**standalone version running here**](https://codecrumbs.io/).
  
-<img src="/docs/main-ui.png" width="100%"/>
+<img src="/docs/main-ui-2.png" width="100%"/>
  
 ## Get started
 ### Install and run
@@ -50,13 +50,13 @@ Parameter | Description | Example
 ## Features
 ### Breadcrumbs and trails
 
-<img src="/docs/cc-ui.png" width="750"/>
+<img src="/docs/cc-ui-2.png" width="750"/>
 
 UI explained:
-1) Enable "Codecrumbs" to have codecrumbs tree on the scheme (drop-down contains extra configuration)
-2) Choose "current" codecrumbs flow to display (can be either trail or all other "simple" codecrumbs)
-3) Codecrumb details
-4) Folder is in "active only" state, you can expand to show all children
+- enable "Codecrumbs" switch to have codecrumbs tree on the scheme (drop-down contains extra configuration)
+- choose "current" codecrumbs trail to display (can be either trail or all other "simple" codecrumbs)
+- select connection between two steps (code for two codecrumbs will be opened in "Sidebar" under "Crumbs" tab)
+- set other options in dropdowns to configure behaviour of the diagram
 
 **How to get there?** Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
@@ -78,7 +78,7 @@ Simply start codecrumbs multiple times (once for each codebase), it all **will b
 E.g. for client-server application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. 
 > **Note:** codebases can be located wherever you want (**no** need to have them like mono-repo, etc.), simply run `codecrumbs` for directory you need.  
 
-<img src="/docs/multi-l-c.png" width="100%"/>
+<img src="/docs/multi-codebase-cc.png" width="100%"/>
 
 ### Multi-language support
 Current version supports next programming languages: 
@@ -104,13 +104,12 @@ You can take a snapshot of application state at any point of time and share it w
 ### Dependencies
 > Note: In current version only JavaScript offers this feature 
 
-<img src="/docs/dep-ui.png" width="100%"/>
+<img src="/docs/dep-ui-2.png" width="100%"/>
 
 UI explained:
 
-1) Enable "Dependencies"
-2) Select connection between modules
-3) All involved files (two or more) will be opened in "Sidebar", so you can see “what is imported” and “its implementation”.
+- enable "Dependencies" switch
+- select connection between modules (all involved files will be opened in "Sidebar", so you can see “what is imported” and “its implementation”)
 
 ### Flowchart
 > Note: In current version only JavaScript offers this feature 

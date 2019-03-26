@@ -94,6 +94,7 @@ Current version supports next programming languages:
 - `C++`
 - `C#`
 - `Fortran`
+- `Haskell`
 
 Please file an issue to support other language you would like to have.
 

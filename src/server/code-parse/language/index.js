@@ -17,6 +17,10 @@ module.exports = {
         extensions: /\.(f90|f|f03|f08|f77|f95|for|fpp)$/
       },
       {
+        language: 'haskell',
+        extensions: /\.(hs|hsc)$/
+      },
+      {
         language: 'java',
         extensions: /\.(java|jsp)$/
       },
@@ -62,6 +66,10 @@ module.exports = {
       fortran: {
         codecrumbsParser: require('./fortran/codecrumbs'),
         dependenciesParser: require('./fortran/dependencies')
+      },
+      haskell: {
+        codecrumbsParser: require('./haskell/codecrumbs'),
+        dependenciesParser: require('./haskell/dependencies')
       },
       java: {
         codecrumbsParser: require('./java/codecrumbs'),

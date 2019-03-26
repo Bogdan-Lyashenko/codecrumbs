@@ -6,19 +6,19 @@ module.exports = {
     const list = [
       {
         language: 'cpp',
-        extensions: /.(cpp|c\+\+|cc|cp|cxx|h|h\+\+|hh|hpp|hxx|inc|inl|ino|ipp|re|tcc|tpp)$/
+        extensions: /\.(cpp|c\+\+|cc|cp|cxx|h|h\+\+|hh|hpp|hxx|inc|inl|ino|ipp|re|tcc|tpp)$/
       },
       {
         language: 'csharp',
-        extensions: /.(cs|cake|cshtml|csx)$/
+        extensions: /\.(cs|cake|cshtml|csx)$/
       },
       {
         language: 'fortran',
-        extensions: /.(f90|f|f03|f08|f77|f95|for|fpp)$/
+        extensions: /\.(f90|f|f03|f08|f77|f95|for|fpp)$/
       },
       {
         language: 'java',
-        extensions: /.(java|jsp)$/
+        extensions: /\.(java|jsp)$/
       },
       {
         language: 'javascript',
@@ -26,11 +26,11 @@ module.exports = {
       },
       {
         language: 'kotlin',
-        extensions: /.(kt|ktm|kts)$/
+        extensions: /\.(kt|ktm|kts)$/
       },
       {
         language: 'php',
-        extensions: /.(php|aw|ctp|fcgi|inc|php3|php4|php5|phps|phpt)$/
+        extensions: /\.(php|aw|ctp|fcgi|inc|php3|php4|php5|phps|phpt)$/
       },
       {
         language: 'python',
@@ -38,11 +38,11 @@ module.exports = {
       },
       {
         language: 'ruby',
-        extensions: /.(rb|builder|eye|fcgi|gemspec|god|jbuilder|mspec|pluginspec|podspec|rabl|rake|rbuild|rbw|rbx|ru|ruby|spec|thor|watchr)$/
+        extensions: /\.(rb|builder|eye|fcgi|gemspec|god|jbuilder|mspec|pluginspec|podspec|rabl|rake|rbuild|rbw|rbx|ru|ruby|spec|thor|watchr)$/
       },
       {
         language: 'typescript',
-        extensions: /.(ts|tsx)$/
+        extensions: /\.(ts|tsx)$/
       }
     ];
 

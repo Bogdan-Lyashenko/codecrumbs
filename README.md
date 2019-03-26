@@ -58,7 +58,9 @@ UI explained:
 - select connection between two steps (code for two codecrumbs will be opened in "Sidebar" under "Crumbs" tab)
 - set other options in dropdowns to configure behaviour of the diagram
 
-**How to get there?** Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
+**How to get there?** 
+
+Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
 ```cc``` (stands for "CodeCrumb") is a prefix which used by the parser; check example of parameters in the table below:  
  

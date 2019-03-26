@@ -23,6 +23,12 @@ const namespaceDebug = {
   excludeDir: 'example-project/debug/x1,example-project/debug/x2/x'
 };
 
+const namespaceLanguageTest = {
+  projectDir: `example-project/languages`,
+  entryPoint: `example-project/languages/ruby-lang.rb`,
+  clientPort: 2018
+};
+
 const args = process.argv.slice(2);
 const namespace = args[0] === 'two' ? namespaceTwo : namespaceOne;
 const isDev = true;

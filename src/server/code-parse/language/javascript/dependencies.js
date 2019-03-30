@@ -34,7 +34,7 @@ const getImports = (fileCode, itemPath) => {
 
     return importedDependencies.filter(({ sourceFile }) => !!sourceFile);
   } catch (e) {
-    console.log(itemPath, e);
+    console.log('Dependencies: getImports', itemPath, e);
     return importedDependencies;
   }
 };

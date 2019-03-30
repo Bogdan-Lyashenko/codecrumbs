@@ -76,7 +76,7 @@ const Tree = props => {
                         selectedCrumbedFlowKey !== NO_TRAIL_FLOW
                       }
                       flowStep={ccParams.flowStep}
-                      onClick={() => onCodeCrumbSelect({ fileNode: file, codeCrumb: crumbData })}
+                      onClick={e => onCodeCrumbSelect(e, { fileNode: file, codeCrumb: crumbData })}
                     />
                   </React.Fragment>
                 );

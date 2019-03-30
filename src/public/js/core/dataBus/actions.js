@@ -1,4 +1,4 @@
-import { requestFetchFile } from 'core/dataBus/connection';
+import { requestFetchFile, openFileInEditor } from 'core/dataBus/connection';
 import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'core/controlsBus/constants';
 import { ACTIONS as NAMESPACE_INTEGRATION_ACTIONS } from 'core/namespaceIntegration/constants';
 import { getCheckedState, getValuesState, getDisabledState } from 'core/controlsBus/selectors';
@@ -44,6 +44,14 @@ export const selectNode = (fileNode, namespace) => dispatch => {
   }
 
   requestFetchFile({ path: [fileNode.path], parseDependencies: true }, namespace);
+};
+
+export const selectNodeToOpenInEditor = ({ path, line }, namespace) => () => {
+  if (process.env.STANDALONE) {
+    return;
+  }
+
+  openFileInEditor({ path, line }, namespace);
 };
 
 export const updateFiles = ({ files }, namespace) => ({

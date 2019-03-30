@@ -1,3 +1,6 @@
+const exec = require('child_process').exec;
+
+const logger = require('../utils/logger');
 const codeParser = require('../code-parse');
 
 const parseFiles = ({ path, parseDependencies }, projectDir, language) =>
@@ -11,6 +14,15 @@ const parseFiles = ({ path, parseDependencies }, projectDir, language) =>
     )
   );
 
+const openFileInEditor = ({ path, line }, command = 'webstorm') => {
+  exec(`${command} ${path}${line ? `:${line}` : ''}`, err => {
+    if (err) {
+      logger.error(`Failed to open file ${path}`, err);
+    }
+  });
+};
+
 module.exports = {
-  parseFiles
+  parseFiles,
+  openFileInEditor
 };

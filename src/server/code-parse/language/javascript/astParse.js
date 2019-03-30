@@ -28,7 +28,7 @@ const config = {
     'optionalCatchBinding',
     'optionalChaining',
     'throwExpressions',
-    'decorators'
+    ['decorators', { decoratorsBeforeExport: true }]
   ]
 };
 

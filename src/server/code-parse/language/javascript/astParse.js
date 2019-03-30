@@ -28,7 +28,6 @@ const config = {
     'optionalCatchBinding',
     'optionalChaining',
     'throwExpressions',
-    'decorators-legacy',
     'decorators'
   ]
 };

@@ -37,7 +37,7 @@ const parseFile = (
         item.flows = undefined;
       }
     }
-
+    
     if (parseImports) {
       const importedDependencies = dependenciesParser.getImports(code, itemPath);
       if (importedDependencies.length) {

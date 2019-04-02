@@ -1,7 +1,6 @@
 // TODO: add by config
 /**
  [
- 'typescript',
  'flow',
  'bigInt',
  ]
@@ -10,6 +9,7 @@ const config = {
   sourceType: 'module',
   plugins: [
     'jsx',
+    'typescript',
     'asyncGenerators',
     'classProperties',
     'classPrivateProperties',

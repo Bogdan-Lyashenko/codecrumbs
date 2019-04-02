@@ -1,43 +1,7 @@
 const path = require('path');
 const madge = require('madge');
-const babylon = require('@babel/parser');
-const babelTraverse = require('@babel/traverse');
 
-const { config: astParseConfig, getNodeLines } = require('./astParse');
-const { convertRelativeToAbsolutePath } = require('../../path');
-
-const getImports = (fileCode, itemPath) => {
-  let ast = {};
-  const importedDependencies = [];
-
-  //TODO: move to one file in util, to keep config in one place
-  try {
-    ast = babylon.parse(fileCode, astParseConfig);
-
-    // TODO: combine with codecrumbs babelTraverse, no need to do babelTraverse twice per file
-    babelTraverse.default(ast, {
-      enter(path) {
-        const node = path.node;
-
-        if (node.type === 'ImportDeclaration') {
-          importedDependencies.push({
-            importNodeLines: getNodeLines(node),
-            sourceFile: node.source && convertRelativeToAbsolutePath(itemPath, node.source.value),
-            specifiers: node.specifiers.map(({ type, imported, local }) => ({
-              type,
-              name: (imported || local || {}).name
-            }))
-          });
-        }
-      }
-    });
-
-    return importedDependencies.filter(({ sourceFile }) => !!sourceFile);
-  } catch (e) {
-    console.log(itemPath, e);
-    return importedDependencies;
-  }
-};
+const jsDependencies = require('../../../utils/jsDependencies');
 
 const getDependencies = (entryPoint, projectDir, webpackConfigPath) => {
   const rootPath = path.resolve();
@@ -67,6 +31,6 @@ const getDependencies = (entryPoint, projectDir, webpackConfigPath) => {
 };
 
 module.exports = {
-  getImports,
+  getImports: jsDependencies.getImports,
   getDependencies
 };

@@ -105,7 +105,7 @@ You can take a snapshot of application state at any point of time and share it w
 <img src="/docs/upload-feature-2.gif" width="100%"/>
 
 ### Dependencies
-> Note: In current version only JavaScript offers this feature 
+> Note: In current version only [JavaScript, TypeScript] offer this feature 
 
 <img src="/docs/dep-ui-2.png" width="100%"/>
 

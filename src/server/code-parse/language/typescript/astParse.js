@@ -9,6 +9,7 @@ const config = {
   sourceType: 'module',
   plugins: [
     'jsx',
+    'typescript',
     'asyncGenerators',
     'classProperties',
     'classPrivateProperties',

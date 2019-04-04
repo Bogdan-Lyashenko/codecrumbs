@@ -17,7 +17,7 @@ const mapStateToProps = state => {
     : { fullFeaturesSupport: false };
 
   const switches = getSwitches(state);
-
+  
   return {
     activeNamespace: namespace,
     checkedState: getCheckedState(state),

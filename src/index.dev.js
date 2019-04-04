@@ -15,7 +15,7 @@ const namespaceTwo = {
   clientPort: 2018
 };
 
-const namespaceThree = {
+const namespaceTypeScriptExample = {
     projectNameAlias: 'ts-example-server',
     projectDir: `example-project/src-typescript`,
     entryPoint: `example-project/src-typescript/index.tsx`,
@@ -39,7 +39,7 @@ const namespaceLanguageTest = {
 const args = process.argv.slice(2);
 const namespaces = {
    two: namespaceTwo,
-   three: namespaceThree
+   ts: namespaceTypeScriptExample
 };
 const namespace = namespaces[args[0]] !== undefined ? namespaces[args[0]] : namespaceOne;
 const isDev = true;

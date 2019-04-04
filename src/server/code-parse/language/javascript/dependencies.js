@@ -2,6 +2,7 @@ const path = require('path');
 const madge = require('madge');
 
 const jsDependencies = require('../../../utils/jsDependencies');
+const { config: astParseConfig, getNodeLines } = require('./astParse');
 
 const getDependencies = (entryPoint, projectDir, webpackConfigPath) => {
   const rootPath = path.resolve();
@@ -31,6 +32,6 @@ const getDependencies = (entryPoint, projectDir, webpackConfigPath) => {
 };
 
 module.exports = {
-  getImports: jsDependencies.getImports,
+  getImports: (fileCode, itemPath) => jsDependencies.getImports(fileCode, itemPath, astParseConfig, getNodeLines),
   getDependencies
 };

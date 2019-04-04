@@ -2,16 +2,14 @@ const babylon = require('@babel/parser');
 const babelTraverse = require('@babel/traverse');
 
 const { convertRelativeToAbsolutePath } = require('../code-parse/path');
-const { config: astParseConfig, getNodeLines } = require('./astParse');
 
-const getImports = (fileCode, itemPath) => {
+const getImports = (fileCode, itemPath, astParseConfig, getNodeLines ) => {
   let ast = {};
   const importedDependencies = [];
   //TODO: move to one file in util, to keep config in one place
   try {
-    
     ast = babylon.parse(fileCode, astParseConfig);
-    // TODO: combine with codecrumbs babelTraverse, no need to do babelTraverse twice per file
+    // TODO: combine with codecrumkbs babelTraverse, no need to do babelTraverse twice per file
     babelTraverse.default(ast, {
       enter(path) {
         const node = path.node;

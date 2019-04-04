@@ -2,7 +2,7 @@ const WebSocketClient = require('websocket').client;
 
 const { SOCKET_MSG_MAX_SIZE } = require('./config');
 const logger = require('./utils/logger');
-const { parseFiles } = require('./api/');
+const { parseFiles, openFileInEditor } = require('./api/');
 const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
 
 const projectSourceWatcher = require('./project-source/');
@@ -80,6 +80,13 @@ const run = (
               )
             );
           }
+          break;
+
+        case SOCKET_MESSAGE_TYPE.CLIENT_OPEN_FILE_IN_EDITOR:
+          if (message.namespace === namespace) {
+            openFileInEditor(message.data);
+          }
+
           break;
 
         default:

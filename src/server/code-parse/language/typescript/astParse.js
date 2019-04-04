@@ -27,7 +27,8 @@ const config = {
     'objectRestSpread',
     'optionalCatchBinding',
     'optionalChaining',
-    'throwExpressions'
+    'throwExpressions',
+    ['decorators', { decoratorsBeforeExport: true }]
   ]
 };
 

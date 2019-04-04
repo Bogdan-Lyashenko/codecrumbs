@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectNode, toggleFolder } from 'core/dataBus/actions';
+import { selectNode, selectNodeToOpenInEditor, toggleFolder } from 'core/dataBus/actions';
 import {
   getSource,
   getSourceLayout,
@@ -52,7 +52,14 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch, props) => {
   const { namespace } = props;
   return {
-    onFileNodeClick: fileNode => dispatch(selectNode(fileNode, namespace)),
+    onFileNodeClick: (event, fileNode) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      return event.metaKey
+        ? dispatch(selectNodeToOpenInEditor(fileNode, namespace))
+        : dispatch(selectNode(fileNode, namespace));
+    },
     onFolderNodeClick: folderNode => dispatch(toggleFolder(folderNode, namespace))
   };
 };

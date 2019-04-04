@@ -7,7 +7,8 @@ const SOCKET_MESSAGE_TYPE = {
   SOURCE_UPDATE_SOURCE_FILE_SYNC: 'source.update-source-file-sync',
   SOURCE_RESPONSE_FETCH_FILE: 'source.response-fetch-file',
   CLIENT_CONNECTED: 'client.connected',
-  CLIENT_REQUEST_FETCH_FILE: 'client.request-fetch-file'
+  CLIENT_REQUEST_FETCH_FILE: 'client.request-fetch-file',
+  CLIENT_OPEN_FILE_IN_EDITOR: 'client.open-file-in-editor'
 };
 
 const SERVER_PORT = 3018;

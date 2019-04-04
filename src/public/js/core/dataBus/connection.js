@@ -26,3 +26,13 @@ export const requestFetchFile = (data, namespace) => {
     })
   );
 };
+
+export const openFileInEditor = (data, namespace) => {
+  sendMessage(
+    JSON.stringify({
+      type: SOCKET_MESSAGE_TYPE.CLIENT_OPEN_FILE_IN_EDITOR,
+      namespace,
+      data
+    })
+  );
+};

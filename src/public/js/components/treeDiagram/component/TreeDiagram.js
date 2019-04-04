@@ -52,7 +52,7 @@ class TreeDiagram extends React.Component {
             {projectName}
           </p>
         ) : null}
-        <Draggable bounds={bounds}>
+        <Draggable bounds={bounds} disabled={true}>
           <div>
             <svg
               width={width}

@@ -139,6 +139,7 @@ Please, consider [making financial donation](https://opencollective.com/codecrum
 #### Backers
 <a href="https://opencollective.com/codecrumbs/backer/0/website" target="_blank"><img src="https://opencollective.com/codecrumbs/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/codecrumbs/backer/1/website" target="_blank"><img src="https://opencollective.com/codecrumbs/backer/1/avatar.svg"></a>
+<a href="https://opencollective.com/codecrumbs/backer/2/website" target="_blank"><img src="https://opencollective.com/codecrumbs/backer/2/avatar.svg"></a>
 
 ## Contribute
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the [owner](https://github.com/Bogdan-Lyashenko/) of this repository before making a change. Ideas and suggestions are welcome.

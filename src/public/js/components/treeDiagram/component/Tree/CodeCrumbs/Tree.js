@@ -31,7 +31,7 @@ const Tree = props => {
 
         const file = filesMap[node.data.path];
         return (
-          <React.Fragment key={`code-crumb-${file.name}`}>
+          <React.Fragment key={`code-crumb-${node.data.path}-${key}`}>
             {!sourceDiagramOn && !dependenciesDiagramOn ? (
               <FileName
                 language={language}

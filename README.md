@@ -26,7 +26,7 @@
 >-[@bliashenko](https://twitter.com/bliashenko)    
 
 ## Demo
-Check out the example of [**standalone version running here**](https://codecrumbs.io/).
+Check out the example of [**standalone version running here**](https://codecrumbs.io/#showcase=todo-react-redux).
  
 <img src="/docs/main-ui-2.png" width="100%"/>
  

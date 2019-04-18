@@ -16,6 +16,10 @@ program
     '-w, --webpack [webpackConfigFile]',
     'Specify path to webpack config file. E.g. webpack.config.js'
   )
+  .option(
+    '-w, --ts [tsConfigFile]',
+    'Specify path to typeScript config file. E.g. tsConfig.json'
+  )
   .option('-p, --port [defaultPort]', 'Specify port for Codecrumbs client. E.g. 3333', 2018)
   .option('-x, --excludeDir [excludeDirectories]', 'Exclude directories')
   .option('-n, --projectName [projectNameAlias]', 'Project name alias')
@@ -36,6 +40,7 @@ server.setup(
     entryPoint: program.entry,
     projectDir: program.dir,
     webpackConfigPath: program.webpack,
+    tsConfigPath: program.ts,
     clientPort: program.port,
     excludeDir: program.excludeDir
   },

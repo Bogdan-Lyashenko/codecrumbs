@@ -4,7 +4,7 @@ const getImports = (fileCode, itemPath) => {
   return importedDependencies;
 };
 
-const getDependencies = (entryPoint, projectDir, webpackConfigPath) => {
+const getDependencies = (entryPoint, projectDir,{}) => {
   return Promise.resolve([]);
 };
 

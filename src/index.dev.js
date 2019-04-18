@@ -19,6 +19,7 @@ const namespaceTypeScriptExample = {
     projectNameAlias: 'ts-example-server',
     projectDir: `example-project/src-typescript`,
     entryPoint: `example-project/src-typescript/index.tsx`,
+    tsConfigPath: `example-project/src-typescript/tsConfig.json`,
     clientPort: 2018
   };
 

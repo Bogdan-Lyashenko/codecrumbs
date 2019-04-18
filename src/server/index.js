@@ -18,6 +18,7 @@ const setup = (options, isDev) => {
     projectDir,
     entryPoint,
     webpackConfigPath,
+    tsConfigPath,
     clientPort,
     excludeDir
   } = options;
@@ -72,6 +73,7 @@ const setup = (options, isDev) => {
           projectDir: alignPlatformPath(projectDir),
           entryPoint: alignPlatformPath(entryPoint),
           webpackConfigPath: alignPlatformPath(webpackConfigPath),
+          tsConfigPath: alignPlatformPath(tsConfigPath),
           excludeDir: (excludeDir ? excludeDir.split(',') : []).map(alignPlatformPath)
         }
       );

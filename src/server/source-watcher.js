@@ -10,7 +10,7 @@ const { detectLanguage } = require('./code-parse/language');
 
 const run = (
   { mediatorEndPoint, namespace, projectName },
-  { projectDir, entryPoint, webpackConfigPath, excludeDir }
+  { projectDir, entryPoint, webpackConfigPath, tsConfigPath, excludeDir }
 ) => {
   const { language, extensions: fileExtensions } = detectLanguage(entryPoint);
 
@@ -26,7 +26,9 @@ const run = (
   webSocketClient.on('connect', connection => {
     logger.info(
       `+ started: source watcher: ${namespace} for: ${projectName}; `,
-      `setup: dir - ${projectDir}, entry point - ${entryPoint}`
+      `setup: dir - ${projectDir}, entry point - ${entryPoint}`,
+      `options: webPackConfig - ${webpackConfigPath}, tsConfig - ${tsConfigPath}`
+
     );
 
     connection.on('message', ({ utf8Data }) => {
@@ -42,6 +44,7 @@ const run = (
               entryPoint,
               excludeDir,
               webpackConfigPath,
+              tsConfigPath,
               language,
               fileExtensions
             },
@@ -70,7 +73,7 @@ const run = (
 
         case SOCKET_MESSAGE_TYPE.CLIENT_REQUEST_FETCH_FILE:
           if (message.namespace === namespace) {
-            parseFiles(message.data, projectDir, language).then(files =>
+            parseFiles({...message.data, webpackConfigPath, tsConfigPath }, projectDir, language).then(files =>
               connection.sendUTF(
                 JSON.stringify({
                   type: SOCKET_MESSAGE_TYPE.SOURCE_RESPONSE_FETCH_FILE,

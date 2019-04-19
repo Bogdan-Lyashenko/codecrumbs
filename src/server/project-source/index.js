@@ -111,6 +111,7 @@ const subscribeOnChange = (
       return;
     }
 
+    const codeCrumbsFlowKeys = Object.keys(codeCrumbs.flows);
     if (file.hasCodecrumbs) {
       resetCodeCrumbedFlowsByFile(codeCrumbs.flows, file);
     }
@@ -129,11 +130,13 @@ const subscribeOnChange = (
         }
       });
 
+      let newlyAddedFlow = undefined;
       if (file.hasCodecrumbs) {
+        newlyAddedFlow = Object.keys(file.flows).find(f => !codeCrumbsFlowKeys.includes(f));
         addFileFlowsToCodeCrumbedFlows(codeCrumbs.flows, file);
       }
 
-      logger.info('> code state change was parsed and sent to client.');
+      logger.info(`> code state change was parsed and sent to client. File ${file.path}`);
 
       return onChange({
         sourceTree: fs.sourceTree,
@@ -142,7 +145,8 @@ const subscribeOnChange = (
           ...fs.filesMap,
           [file.path]: fs.filesMap[file.path]
         },
-        codeCrumbedFlowsMap: codeCrumbs.flows
+        codeCrumbedFlowsMap: codeCrumbs.flows,
+        newlyAddedFlow
       });
     });
   });

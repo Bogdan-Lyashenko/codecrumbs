@@ -26,11 +26,17 @@ export const setInitialSourceData = (payload, namespace) => ({
   namespace
 });
 
-export const setChangedSourceData = (payload, namespace) => ({
-  type: ACTIONS.SET_CHANGED_SOURCE_DATA,
-  payload,
-  namespace
-});
+export const setChangedSourceData = ({ newlyAddedFlow, ...payload }, namespace) => dispatch => {
+  dispatch({
+    type: ACTIONS.SET_CHANGED_SOURCE_DATA,
+    payload,
+    namespace
+  });
+
+  if (newlyAddedFlow) {
+    dispatch(selectCodeCrumbedFlow(newlyAddedFlow, namespace));
+  }
+};
 
 export const selectNode = (fileNode, namespace) => dispatch => {
   dispatch({
@@ -122,11 +128,9 @@ export const selectCodeCrumbedFlow = (flow, namespace) => (dispatch, getState) =
     namespace
   });
 
-  const firstFlow = Object.keys(codeCrumbedFlowsMap || {})[0];
-
   dispatch({
     type: ACTIONS.SELECT_CODE_CRUMBED_FLOW,
-    payload: flow ? flow : selectedCrumbedFlowKey || firstFlow,
+    payload: flow ? flow : selectedCrumbedFlowKey || Object.keys(codeCrumbedFlowsMap || {})[0],
     namespace
   });
 };

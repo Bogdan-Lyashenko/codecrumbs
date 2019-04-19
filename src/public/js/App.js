@@ -63,9 +63,9 @@ const App = (props = {}) => {
         <span>
           &#9400; Bohdan Liashenko
           {' • '}
-          <a href="https://github.com/Bogdan-Lyashenko/codecrumbs">Github</a>
+          <a target="_blank" href="https://github.com/Bogdan-Lyashenko/codecrumbs">Github</a>
           {' • '}
-          <a href="https://codecrumbs.io/">codecrumbs.io</a>
+          <a target="_blank" href="https://codecrumbs.io/">codecrumbs.io</a>
         </span>
       </footer>
     </div>

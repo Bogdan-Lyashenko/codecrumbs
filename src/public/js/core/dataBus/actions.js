@@ -267,7 +267,10 @@ export const downloadStore = () => (dispatch, getState) => {
       const namespaceConfig = { namespace };
       const { sourceTree, filesMap, foldersMap } = getSource(state, namespaceConfig);
       const { dependenciesEntryName } = getDependenciesUserChoice(state, namespaceConfig);
-      const { codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(state, namespaceConfig);
+      const { codeCrumbedFlowsMap, selectedCrumbedFlowKey } = getCodeCrumbsUserChoice(
+        state,
+        namespaceConfig
+      );
       const { projectName, language, platformPathSeparator } = getProjectMetadata(
         state,
         namespaceConfig
@@ -282,6 +285,7 @@ export const downloadStore = () => (dispatch, getState) => {
             filesMap,
             foldersMap,
             codeCrumbedFlowsMap,
+            selectedCrumbedFlowKey,
             dependenciesEntryName,
             projectName,
             language,

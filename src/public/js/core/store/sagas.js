@@ -134,6 +134,10 @@ function* reactOnCcFlowEdgeSelect({ payload, namespace }) {
   }
 }
 
+function* reactBySettingActiveNamespace({ payload, namespace }) {
+  yield put(setActiveNamespace(namespace));
+}
+
 export default function* rootSaga() {
   yield all([
     takeLatest(SWITCHES_ACTIONS.TOGGLE_SWITCH, reactOnSwitchToggle),
@@ -144,6 +148,8 @@ export default function* rootSaga() {
     takeLatest(DATA_BUS_ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState),
     takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState),
     takeLatest(DATA_BUS_ACTIONS.UPDATE_FILES, reactByUpdatingFoldersState),
-    takeLatest(DATA_BUS_ACTIONS.SELECT_CC_FLOW_EDGE, reactOnCcFlowEdgeSelect)
+    takeLatest(DATA_BUS_ACTIONS.SELECT_CC_FLOW_EDGE, reactOnCcFlowEdgeSelect),
+    takeLatest(DATA_BUS_ACTIONS.SELECT_NODE, reactBySettingActiveNamespace),
+    takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMB, reactBySettingActiveNamespace)
   ]);
 }

@@ -71,20 +71,14 @@ export const getTreeLayout = (
       return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
     },
     spacing: (node, nodeB) => {
-      // TODO: refactor
       if (
         extraSpaceForDetails &&
         node.data.type !== DIR_NODE_TYPE &&
-        node.data.type !== FILE_NODE_TYPE
+        node.data.type !== FILE_NODE_TYPE &&
+        node.data.params &&
+        node.data.params.details
       ) {
-        const { details } = node.data.params || {};
-        if (details) {
-          let nameWidth = node.data.name ? node.data.name.length * 7.5 : 100;
-          if (nameWidth < 150) nameWidth = 150;
-
-          const n = Math.ceil((details.length * 7) / nameWidth);
-          return n > 3 ? config.detailsShift : n * 20 + 15;
-        }
+        return calcHeightForDetails(node);
       }
 
       return config.spacing;
@@ -178,4 +172,14 @@ export const getCodeCrumbsMapForCurrentCcFlow = ({
     });
 
   return ccMap;
+};
+
+//TODO: numbers based on styles, better to do something with that..
+const calcHeightForDetails = ({ data }) => {
+  const { details } = data.params || {};
+  let nameWidth = data.name ? data.name.length * 7.5 : 100;
+  if (nameWidth < 150) nameWidth = 150;
+
+  const n = Math.ceil((details.length * 7) / nameWidth);
+  return n * 20 + 15;
 };

@@ -17,6 +17,7 @@ const FlowEdge = props => {
     areaHeight,
     namespacesList,
     shiftToCenterPoint,
+    ccAlightPoint,
     sortedFlowSteps,
     ccFilesLayoutMapNs,
     codeCrumbsMinimize,
@@ -40,7 +41,8 @@ const FlowEdge = props => {
 
           const edgePoints = [fromItem, toItem].map(crumb => {
             const [cX, cY] = [crumb.y, crumb.x];
-            return shiftToCenterPoint(cX, cY);
+            // TODO: calculate shift for each node
+            return shiftToCenterPoint(ccAlightPoint, cY);
           });
 
           const edgeBaseProps = {

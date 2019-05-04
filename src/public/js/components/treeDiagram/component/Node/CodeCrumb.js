@@ -19,7 +19,7 @@ export const CodeCrumbName = props => {
     onClick
   } = props;
 
-  const textPoint = { x: singleCrumb ? position.x - 22 : position.x, y: position.y };
+  const textPoint = position;
   const symbolWidth = 6;
   const locWidth = loc.length ? loc.length * symbolWidth + 3 : 0;
 

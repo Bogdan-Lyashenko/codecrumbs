@@ -5,14 +5,16 @@ import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
 import Arrow from 'components/treeDiagram/component/Icons/Arrow';
 import './index.scss';
 
+const SINGLE_CRUMB_SHIFT = 22;
+
 export const PartEdge = props => {
-  const { sourcePosition, parentName } = props;
+  const { sourcePosition, parentName, ccAlightPoint, singleCrumb } = props;
 
   const nameWidth = SYMBOL_WIDTH * parentName.length;
   const padding = 17;
 
   const P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
-  const P2 = { x: P1.x + padding + 6, y: P1.y };
+  const P2 = { x: ccAlightPoint + padding + (singleCrumb ? SINGLE_CRUMB_SHIFT : 0), y: P1.y };
 
   const polylinePoints = [[P1.x, P1.y], [P2.x, P2.y]];
 
@@ -28,20 +30,15 @@ export const PartEdge = props => {
   );
 };
 
-export const CodeCrumbEdge = props => {
-  const { sourcePosition, targetPosition, parentName } = props;
+export const CodeCrumbMultiEdge = props => {
+  const { sourcePosition, targetPosition } = props;
 
-  const nameWidth = SYMBOL_WIDTH * parentName.length;
-  const padding = 40;
-  const edgeTurnDistance = 20;
-
-  const P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
-
+  const edgeTurnDistance = SINGLE_CRUMB_SHIFT;
   const P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
   const P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
   const P4 = targetPosition;
 
-  const polylinePoints = [[P1.x, P1.y], [P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
+  const polylinePoints = [[P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];
 
   return (
     <polyline points={polylinePoints.join(', ')} className={'CodeCrumbEdge'} strokeDasharray="2" />
@@ -49,23 +46,15 @@ export const CodeCrumbEdge = props => {
 };
 
 export const CodeCrumbedFlowEdge = props => {
-  const {
-    sourcePosition,
-    targetPosition,
-    sourceName,
-    singleCrumbSource,
-    singleCrumbTarget,
-    selected,
-    onClick
-  } = props;
+  const { sourcePosition, targetPosition, sourceName, selected, onClick } = props;
 
   const rHalf = 6;
   const sourcePt = {
-    x: -rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
+    x: -rHalf + sourcePosition.x,
     y: sourcePosition.y + rHalf
   };
   const targetPt = {
-    x: -rHalf + (singleCrumbTarget ? targetPosition.x - 22 : targetPosition.x),
+    x: -rHalf + targetPosition.x,
     y: targetPosition.y - rHalf
   };
 
@@ -166,8 +155,6 @@ export const ExternalEdge = props => {
   const {
     sourcePosition,
     targetPosition,
-    singleCrumbSource,
-    singleCrumbTarget,
     topBottom,
     areaHeight,
     firstPart,
@@ -177,11 +164,11 @@ export const ExternalEdge = props => {
 
   const rHalf = 6;
   const sourcePt = {
-    x: -rHalf + (singleCrumbSource ? sourcePosition.x - 22 : sourcePosition.x),
+    x: -rHalf + sourcePosition.x,
     y: sourcePosition.y + rHalf
   };
   const targetPt = {
-    x: -rHalf + (singleCrumbTarget ? targetPosition.x - 22 : targetPosition.x),
+    x: -rHalf + targetPosition.x,
     y: targetPosition.y - rHalf
   };
 

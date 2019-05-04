@@ -68,9 +68,6 @@ export const getTreeLayout = (
         }, 0);
       }
 
-      return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
-    },
-    spacing: (node, nodeB) => {
       if (
         extraSpaceForDetails &&
         node.data.type !== DIR_NODE_TYPE &&
@@ -78,11 +75,12 @@ export const getTreeLayout = (
         node.data.params &&
         node.data.params.details
       ) {
-        return calcHeightForDetails(node);
+        return [calcHeightForDetails(node), nameLength * config.symbolWidth + config.nodeSizeY];
       }
 
-      return config.spacing;
-    }
+      return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
+    },
+    spacing: () => config.spacing
   });
 
   const tree = layoutStructure.hierarchy(treeData);
@@ -178,8 +176,8 @@ export const getCodeCrumbsMapForCurrentCcFlow = ({
 const calcHeightForDetails = ({ data }) => {
   const { details } = data.params || {};
   let nameWidth = data.name ? data.name.length * 7.5 : 100;
-  if (nameWidth < 150) nameWidth = 150;
+  if (nameWidth < 250) nameWidth = 250;
 
   const n = Math.ceil((details.length * 7) / nameWidth);
-  return n * 20 + 15;
+  return (n + 1) * 20 + 50;
 };

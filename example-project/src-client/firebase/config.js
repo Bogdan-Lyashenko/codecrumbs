@@ -1,4 +1,4 @@
-//cc:firebase config
+//cc:firebase config;and some details
 export const firebaseConfig = {
   apiKey: 'AIzaSyBsVVpEDrlNPEmshLcmOuE0FxhjPn0AqMg',
   authDomain: 'todo-react-redux.firebaseapp.com',

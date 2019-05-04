@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import Draggable from 'react-draggable';
-
 import SourceTree from './Tree/Source/';
 import CodeCrumbsDetails from './Tree/CodeCrumbs/Details';
 import { UnderLayer } from './UnderLayer';
@@ -30,7 +28,7 @@ class TreeDiagram extends React.Component {
       sourceLayoutTree,
       onUnderLayerClick
     } = this.props;
-    const { width, height, xShift, yShift, bounds } = layoutSize;
+    const { width, height, xShift, yShift, ccAlightPoint } = layoutSize;
 
     if (!width && !height) {
       return null;
@@ -52,30 +50,31 @@ class TreeDiagram extends React.Component {
             {projectName}
           </p>
         ) : null}
-        <Draggable bounds={bounds} disabled={true}>
-          <div>
-            <svg
-              width={width}
-              height={height}
-              xmlns="http://www.w3.org/2000/svg"
-              shapeRendering="optimizeSpeed"
-            >
-              {sourceLayoutTree && (
-                <React.Fragment>
-                  <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
-                  <SourceTree
-                    namespace={namespace}
-                    shiftToCenterPoint={shiftToCenterPoint}
-                    areaHeight={height}
-                  />
-                </React.Fragment>
-              )}
-            </svg>
-            {codeCrumbsDiagramOn ? (
-              <CodeCrumbsDetails namespace={namespace} shiftToCenterPoint={shiftToCenterPoint} />
-            ) : null}
-          </div>
-        </Draggable>
+        <svg
+          width={width}
+          height={height}
+          xmlns="http://www.w3.org/2000/svg"
+          shapeRendering="optimizeSpeed"
+        >
+          {sourceLayoutTree && (
+            <React.Fragment>
+              <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
+              <SourceTree
+                namespace={namespace}
+                shiftToCenterPoint={shiftToCenterPoint}
+                ccAlightPoint={ccAlightPoint}
+                areaHeight={height}
+              />
+            </React.Fragment>
+          )}
+        </svg>
+        {codeCrumbsDiagramOn ? (
+          <CodeCrumbsDetails
+            namespace={namespace}
+            shiftToCenterPoint={shiftToCenterPoint}
+            ccAlightPoint={ccAlightPoint}
+          />
+        ) : null}
       </div>
     );
   }
@@ -94,7 +93,9 @@ const mapStateToProps = (state, props) => {
     codeCrumbsDiagramOn,
     diagramZoom,
     sourceLayoutTree,
-    layoutSize: calculateLayoutSize(sourceLayoutTree)
+    layoutSize: calculateLayoutSize(sourceLayoutTree, {
+      alignCodecrumbs: true
+    })
   };
 };
 

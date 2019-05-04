@@ -20,6 +20,7 @@ const SourceTree = props => {
     sourceDimFolders,
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
+    ccAlightPoint,
 
     areaHeight,
     sourceLayoutTree,
@@ -144,6 +145,7 @@ const SourceTree = props => {
         <CodeCrumbedFlowEdges
           namespace={namespace}
           shiftToCenterPoint={shiftToCenterPoint}
+          ccAlightPoint={ccAlightPoint}
           areaHeight={areaHeight}
         />
       )) ||
@@ -157,6 +159,7 @@ const SourceTree = props => {
           namespace={namespace}
           language={language}
           shiftToCenterPoint={shiftToCenterPoint}
+          ccAlightPoint={ccAlightPoint}
         />
       )) ||
         null}

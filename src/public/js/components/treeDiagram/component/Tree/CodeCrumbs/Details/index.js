@@ -9,7 +9,7 @@ import { isCodeCrumbSelected } from '../helpers';
 import './index.scss';
 
 const DetailsComponent = props => {
-  const { name, details, position, singleCrumb, selected } = props;
+  const { name, details, position, selected } = props;
 
   // TODO: refactor
   const nameWidth = name ? name.length * 7.5 : 100;
@@ -17,7 +17,7 @@ const DetailsComponent = props => {
     <div
       className={classNames('CcDetailsContainer', { CcDetailsSelected: selected })}
       style={{
-        left: position.x - (singleCrumb ? 20 : 0),
+        left: position.x,
         top: position.y + 8,
         width: nameWidth + 'px'
       }}
@@ -31,6 +31,7 @@ const DetailsSet = ({
   detailsEnabled,
   codecrumbsLayoutMap,
   shiftToCenterPoint,
+  ccAlightPoint,
   selectedCrumbedFlowKey,
   selectedCcFlowEdgeNodes
 }) => {
@@ -55,7 +56,7 @@ const DetailsSet = ({
       }
 
       const [nX, nY] = [ccNode.y, ccNode.x];
-      const position = shiftToCenterPoint(nX, nY);
+      const position = shiftToCenterPoint(ccAlightPoint, nY);
 
       detailsPanels.push(
         <DetailsComponent
@@ -64,7 +65,6 @@ const DetailsSet = ({
           name={ccNode.name}
           position={position}
           selected={isCodeCrumbSelected(selectedCcFlowEdgeNodes, ccNode)}
-          singleCrumb={codecrumbs.length === 1}
         />
       );
     });

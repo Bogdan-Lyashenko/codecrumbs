@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
+import { SYMBOL_WIDTH, NODE_NAME_X_SHIFT } from 'components/treeDiagram/component/constants';
 
 import FileIcon from 'components/treeDiagram/component/Icons/language/File';
 import CppFileIcon from 'components/treeDiagram/component/Icons/language/CppFile';
@@ -85,12 +85,12 @@ export const FileName = props => {
           <rect
             x={position.x + 3}
             y={position.y - 3}
-            width={16}
+            width={NODE_NAME_X_SHIFT}
             height={5}
             className={'NodeText-cover'}
           />
           <rect
-            x={position.x + 16}
+            x={position.x + NODE_NAME_X_SHIFT}
             y={position.y - 8}
             width={nameWidth}
             height={16}
@@ -112,7 +112,7 @@ export const FileName = props => {
       <g>
         <title>{path}</title>
         <text
-          x={position.x + 16}
+          x={position.x + NODE_NAME_X_SHIFT}
           y={position.y + 5}
           className={classNames('NodeText-file-name', {
             'NodeText-file-name-purple': purple,

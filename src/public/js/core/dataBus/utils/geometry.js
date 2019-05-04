@@ -1,4 +1,6 @@
-export const calculateLayoutSize = (list, padding = 80) => {
+import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'core/constants';
+
+export const calculateLayoutSize = (list, { padding = 80, alignCodecrumbs }) => {
   if (!list) {
     return {
       width: 0,
@@ -11,8 +13,20 @@ export const calculateLayoutSize = (list, padding = 80) => {
     maxX = 0,
     maxY = 0;
 
+  let ccAlightPoint = null;
+  let maxCcWidth = 0;
+
   list.each(node => {
-    const [nX, nY] = [node.y, node.x];
+    const [x, nY] = [node.y, node.x];
+    const nX = x + node.ySize;
+
+    if (alignCodecrumbs && node.data.type !== FILE_NODE_TYPE && node.data.type !== DIR_NODE_TYPE) {
+      if (node.ySize > maxCcWidth) {
+        maxCcWidth = node.ySize;
+      }
+
+      return;
+    }
 
     if (nX < minX) {
       minX = nX;
@@ -24,6 +38,7 @@ export const calculateLayoutSize = (list, padding = 80) => {
 
     if (nX > maxX) {
       maxX = nX;
+      ccAlightPoint = node.y + node.ySize;
     }
 
     if (nY > maxY) {
@@ -31,20 +46,12 @@ export const calculateLayoutSize = (list, padding = 80) => {
     }
   });
 
-  const width = Math.round(Math.abs(maxX) + Math.abs(minX) + 4 * padding),
-    height = Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding);
-
   return {
-    width,
-    height,
+    width: Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding),
+    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding),
     xShift: padding / 2,
     yShift: Math.round(Math.abs(minY)) + padding,
-    bounds: {
-      left: -width + padding,
-      top: -height + padding,
-      right: window.innerWidth + width - padding,
-      bottom: window.innerHeight + height - padding
-    }
+    ccAlightPoint
   };
 };
 

@@ -2,19 +2,16 @@ import React from 'react';
 
 import { NO_TRAIL_FLOW } from 'core/constants';
 import { CodeCrumbName } from 'components/treeDiagram/component/Node/CodeCrumb';
-import { FileName } from 'components/treeDiagram/component/Node/File';
-import { PartEdge, CodeCrumbEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
+import { PartEdge, CodeCrumbMultiEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
 import { isCodeCrumbSelected } from './helpers';
 
 const Tree = props => {
   const {
-    language,
+    ccAlightPoint,
     shiftToCenterPoint,
     codecrumbsLayoutMap,
     filesMap,
     selectedCrumbedFlowKey,
-    sourceDiagramOn,
-    dependenciesDiagramOn,
     codeCrumbsMinimize,
     codeCrumbsLineNumbers,
     onCodeCrumbSelect,
@@ -30,36 +27,33 @@ const Tree = props => {
         const position = shiftToCenterPoint(nX, nY);
 
         const file = filesMap[node.data.path];
+        const singleCrumb = node.children.length === 1;
+
         return (
           <React.Fragment key={`code-crumb-${node.data.path}-${key}`}>
-            {!sourceDiagramOn && !dependenciesDiagramOn ? (
-              <FileName
-                language={language}
-                position={position}
-                name={file.name}
-                purple={codeCrumbsMinimize}
-              />
-            ) : null}
             {(!codeCrumbsMinimize && (
-              <PartEdge sourcePosition={position} parentName={file.name} />
+              <PartEdge
+                sourcePosition={position}
+                parentName={file.name}
+                ccAlightPoint={ccAlightPoint}
+                singleCrumb={singleCrumb}
+              />
             )) ||
               null}
 
             {!codeCrumbsMinimize &&
-              node.children.map((crumb, i, list) => {
+              node.children.map(crumb => {
                 const [cX, cY] = [crumb.y, crumb.x];
-                const crumbPosition = shiftToCenterPoint(cX, cY);
-                const singleCrumb = list.length === 1;
+                const crumbPosition = shiftToCenterPoint(ccAlightPoint, cY);
                 const crumbData = crumb.data;
                 const ccParams = crumbData.params;
 
                 return (
                   <React.Fragment key={`code-crumb-edge-${file.path}-${crumbData.name}`}>
                     {(!singleCrumb && (
-                      <CodeCrumbEdge
+                      <CodeCrumbMultiEdge
                         sourcePosition={position}
                         targetPosition={crumbPosition}
-                        parentName={file.name}
                       />
                     )) ||
                       null}

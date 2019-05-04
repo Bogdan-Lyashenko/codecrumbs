@@ -7,13 +7,7 @@ import { getCheckedState } from 'core/controlsBus/selectors';
 import Tree from './Tree';
 
 const mapStateToProps = (state, props) => {
-  const {
-    sourceDiagramOn,
-    dependenciesDiagramOn,
-    codeCrumbsDiagramOn,
-    codeCrumbsMinimize,
-    codeCrumbsLineNumbers
-  } = getCheckedState(state);
+  const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsLineNumbers } = getCheckedState(state);
 
   const { namespace } = props;
   const namespaceProps = { namespace };
@@ -28,8 +22,6 @@ const mapStateToProps = (state, props) => {
     codecrumbsLayoutMap,
     filesMap,
     selectedCrumbedFlowKey,
-    sourceDiagramOn,
-    dependenciesDiagramOn,
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
     codeCrumbsLineNumbers,

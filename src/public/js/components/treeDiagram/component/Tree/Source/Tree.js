@@ -8,7 +8,6 @@ import { SourceEdge } from 'components/treeDiagram/component/Edge/SourceEdge';
 
 import DependenciesTree from '../Dependencies/index';
 import CodeCrumbsTree from '../CodeCrumbs/';
-import CodeCrumbedFlowEdges from '../CodeCrumbs/FlowEdge';
 
 const SourceTree = props => {
   const {
@@ -21,6 +20,9 @@ const SourceTree = props => {
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
     ccAlightPoint,
+    sortedFlowSteps,
+    ccFilesLayoutMapNs,
+    ccShiftIndexMap,
 
     areaHeight,
     sourceLayoutTree,
@@ -141,16 +143,6 @@ const SourceTree = props => {
           />
         )}
 
-      {(codeCrumbsDiagramOn && (
-        <CodeCrumbedFlowEdges
-          namespace={namespace}
-          shiftToCenterPoint={shiftToCenterPoint}
-          ccAlightPoint={ccAlightPoint}
-          areaHeight={areaHeight}
-        />
-      )) ||
-        null}
-
       {(sourceDiagramOn && sourceNodes) || null}
       {(sourceDiagramOn && sourceDotes) || null}
 
@@ -160,6 +152,10 @@ const SourceTree = props => {
           language={language}
           shiftToCenterPoint={shiftToCenterPoint}
           ccAlightPoint={ccAlightPoint}
+          sortedFlowSteps={sortedFlowSteps}
+          ccFilesLayoutMapNs={ccFilesLayoutMapNs}
+          ccShiftIndexMap={ccShiftIndexMap}
+          areaHeight={areaHeight}
         />
       )) ||
         null}

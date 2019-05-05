@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { getCheckedState } from 'core/controlsBus/selectors';
-import { getCodeCrumbsUserChoice, getSourceLayout } from 'core/dataBus/selectors';
-import { isCodeCrumbSelected } from '../helpers';
+import { getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
+import { getCcPosition, isCodeCrumbSelected } from '../helpers';
 
 import './index.scss';
 
@@ -29,45 +29,36 @@ const DetailsComponent = props => {
 
 const DetailsSet = ({
   detailsEnabled,
-  codecrumbsLayoutMap,
   shiftToCenterPoint,
   ccAlightPoint,
-  selectedCrumbedFlowKey,
-  selectedCcFlowEdgeNodes
+  selectedCcFlowEdgeNodes,
+  sortedFlowSteps,
+  ccShiftIndexMap
 }) => {
   if (!detailsEnabled) return null;
 
   const detailsPanels = [];
 
-  Object.keys(codecrumbsLayoutMap).forEach(filePath => {
-    const codecrumbs = (codecrumbsLayoutMap[filePath].children || [])
-      .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
-      .map(({ data, x, y }) => ({
-        name: data.name,
-        details: data.params.details,
-        filePath,
-        x,
-        y
-      }));
+  sortedFlowSteps.forEach(crumb => {
+    if (!crumb.params || !crumb.params.details) {
+      return null;
+    }
 
-    codecrumbs.forEach((ccNode, i) => {
-      if (!ccNode || !ccNode.details) {
-        return null;
-      }
+    const [_, nY] = [crumb.y, crumb.x];
+    const position = shiftToCenterPoint(
+      getCcPosition(ccAlightPoint, ccShiftIndexMap[crumb.id]),
+      nY
+    );
 
-      const [nX, nY] = [ccNode.y, ccNode.x];
-      const position = shiftToCenterPoint(ccAlightPoint, nY);
-
-      detailsPanels.push(
-        <DetailsComponent
-          key={filePath + i}
-          details={ccNode.details}
-          name={ccNode.name}
-          position={position}
-          selected={isCodeCrumbSelected(selectedCcFlowEdgeNodes, ccNode)}
-        />
-      );
-    });
+    detailsPanels.push(
+      <DetailsComponent
+        key={crumb.id}
+        details={crumb.params.details}
+        name={crumb.name}
+        position={position}
+        selected={isCodeCrumbSelected(selectedCcFlowEdgeNodes, crumb)}
+      />
+    );
   });
 
   return <React.Fragment>{detailsPanels}</React.Fragment>;
@@ -78,17 +69,12 @@ const mapStateToProps = (state, props) => {
   const { namespace } = props;
 
   const namespaceProps = { namespace };
-  const { codecrumbsLayoutMap } = getSourceLayout(state, namespaceProps);
-  const { selectedCrumbedFlowKey, selectedCcFlowEdgeNodes } = getCodeCrumbsUserChoice(
-    state,
-    namespaceProps
-  );
+  const { selectedCcFlowEdgeNodes } = getCodeCrumbsUserChoice(state, namespaceProps);
 
   return {
-    codecrumbsLayoutMap,
-    selectedCrumbedFlowKey,
     detailsEnabled: !codeCrumbsMinimize && codeCrumbsDetails,
     selectedCcFlowEdgeNodes
   };
 };
+
 export default connect(mapStateToProps)(DetailsSet);

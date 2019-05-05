@@ -1,3 +1,4 @@
+const CC_NODE_TYPE = 'cc';
 const FILE_NODE_TYPE = 'file';
 const DIR_NODE_TYPE = 'directory';
 const NO_TRAIL_FLOW = '*';
@@ -16,6 +17,7 @@ const SERVER_PORT = 3018;
 module.exports = {
   SERVER_PORT,
   SOCKET_MESSAGE_TYPE,
+  CC_NODE_TYPE,
   FILE_NODE_TYPE,
   DIR_NODE_TYPE,
   NO_TRAIL_FLOW

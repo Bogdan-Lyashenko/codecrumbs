@@ -1,30 +1,42 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectCodeCrumb, selectNodeToOpenInEditor } from 'core/dataBus/actions';
-import { getSource, getSourceLayout, getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
+import {
+  getSource,
+  getSourceLayout,
+  getCodeCrumbsUserChoice,
+  getNamespacesList
+} from 'core/dataBus/selectors';
+import { selectCodeCrumb, selectNodeToOpenInEditor, selectCcFlowEdge } from 'core/dataBus/actions';
 import { getCheckedState } from 'core/controlsBus/selectors';
+
 import Tree from './Tree';
+import FlowEdges from './FlowEdge';
 
 const mapStateToProps = (state, props) => {
-  const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsLineNumbers } = getCheckedState(state);
+  const { codeCrumbsMinimize, codeCrumbsLineNumbers } = getCheckedState(state);
+
+  const namespacesList = getNamespacesList(state);
 
   const { namespace } = props;
   const namespaceProps = { namespace };
   const { filesMap } = getSource(state, namespaceProps);
-  const { codecrumbsLayoutMap } = getSourceLayout(state, namespaceProps);
-  const { selectedCrumbedFlowKey, selectedCcFlowEdgeNodes } = getCodeCrumbsUserChoice(
-    state,
-    namespaceProps
-  );
+  const { codecrumbsLayoutMap } = getSourceLayout(state, { namespace });
+
+  const {
+    selectedCrumbedFlowKey: currentSelectedCrumbedFlowKey,
+    selectedCcFlowEdgeNodes
+  } = getCodeCrumbsUserChoice(state, {
+    namespace
+  });
 
   return {
     codecrumbsLayoutMap,
     filesMap,
-    selectedCrumbedFlowKey,
-    codeCrumbsDiagramOn,
-    codeCrumbsMinimize,
+    currentSelectedCrumbedFlowKey,
     codeCrumbsLineNumbers,
+    namespacesList,
+    codeCrumbsMinimize,
     selectedCcFlowEdgeNodes
   };
 };
@@ -41,6 +53,20 @@ const mapDispatchToProps = (dispatch, props) => {
             )
           )
         : dispatch(selectCodeCrumb(options, namespace));
+    },
+    onFlowEdgeClick: (source, target, ccNamespacesKeys) => {
+      dispatch(selectCcFlowEdge({ source, target }, source.namespace));
+
+      // case with external edge
+      if (source.namespace !== target.namespace) {
+        dispatch(selectCcFlowEdge({ source, target }, target.namespace));
+      }
+
+      ccNamespacesKeys.forEach(ns => {
+        if (ns !== source.namespace && ns !== target.namespace) {
+          dispatch(selectCcFlowEdge(undefined, ns));
+        }
+      });
     }
   };
 };
@@ -48,4 +74,11 @@ const mapDispatchToProps = (dispatch, props) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Tree);
+)(props => {
+  return (
+    <React.Fragment>
+      <FlowEdges {...props} />
+      <Tree {...props} />
+    </React.Fragment>
+  );
+});

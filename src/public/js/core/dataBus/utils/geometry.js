@@ -1,6 +1,6 @@
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'core/constants';
 
-export const calculateLayoutSize = (list, { padding = 80, alignCodecrumbs }) => {
+export const calculateLayoutSize = (list, padding = 80) => {
   if (!list) {
     return {
       width: 0,
@@ -20,7 +20,7 @@ export const calculateLayoutSize = (list, { padding = 80, alignCodecrumbs }) => 
     const [x, nY] = [node.y, node.x];
     const nX = x + node.ySize;
 
-    if (alignCodecrumbs && node.data.type !== FILE_NODE_TYPE && node.data.type !== DIR_NODE_TYPE) {
+    if (node.data.type !== FILE_NODE_TYPE && node.data.type !== DIR_NODE_TYPE) {
       if (node.ySize > maxCcWidth) {
         maxCcWidth = node.ySize;
       }

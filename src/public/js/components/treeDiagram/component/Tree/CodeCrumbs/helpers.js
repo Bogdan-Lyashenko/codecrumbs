@@ -46,8 +46,28 @@ const getSortedFlowSteps = ({
   return sortedFlowSteps;
 };
 
-export const gatherFlowStepsData = ({ namespacesList, currentSelectedCrumbedFlowKey, state }) =>
-  namespacesList.reduce(
+const createCcShiftIndexMap = sortedFlowSteps => {
+  const ccMap = {};
+  let shiftOrderIndex = 0;
+
+  sortedFlowSteps.forEach((crumb, i, list) => {
+    if (!i) {
+      ccMap[crumb.id] = shiftOrderIndex;
+      return;
+    }
+
+    if (crumb.x < list[i - 1].x) {
+      shiftOrderIndex++;
+    }
+
+    ccMap[crumb.id] = shiftOrderIndex;
+  });
+
+  return ccMap;
+};
+
+export const gatherFlowStepsData = ({ namespacesList, currentSelectedCrumbedFlowKey, state }) => {
+  const { ccFilesLayoutMapNs, sortedFlowSteps } = namespacesList.reduce(
     (acc, ns) => {
       const namespaceProps = { namespace: ns };
       const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(
@@ -81,3 +101,12 @@ export const gatherFlowStepsData = ({ namespacesList, currentSelectedCrumbedFlow
     },
     { ccFilesLayoutMapNs: {}, sortedFlowSteps: [] }
   );
+
+  return {
+    sortedFlowSteps,
+    ccFilesLayoutMapNs,
+    ccShiftIndexMap: createCcShiftIndexMap(sortedFlowSteps)
+  };
+};
+
+export const getCcPosition = (x, index) => x + 50 * index;

@@ -37,7 +37,7 @@ const mapDispatchToProps = {
   signInWithGoogle: authActions.signInWithGoogle,
   signInWithTwitter: authActions.signInWithTwitter
 };
-
+//cc:signin#7;test
 export default withRouter(
   connect(
     null,

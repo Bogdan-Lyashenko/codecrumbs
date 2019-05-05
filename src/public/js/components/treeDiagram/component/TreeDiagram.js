@@ -8,11 +8,17 @@ import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
 import { buildShiftToPoint } from 'core/dataBus/utils/geometry';
-import { getSourceLayout, getProjectMetadata } from 'core/dataBus/selectors';
+import {
+  getProjectMetadata,
+  getSourceLayout,
+  getCodeCrumbsUserChoice,
+  getNamespacesList
+} from 'core/dataBus/selectors';
 import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
 import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
 import { selectDependencyEdge, selectCcFlowEdge } from 'core/dataBus/actions';
 import { setActiveNamespace } from 'core/namespaceIntegration/actions';
+import { gatherFlowStepsData } from './Tree/CodeCrumbs/helpers';
 
 class TreeDiagram extends React.Component {
   render() {
@@ -26,7 +32,11 @@ class TreeDiagram extends React.Component {
       diagramZoom,
       layoutSize,
       sourceLayoutTree,
-      onUnderLayerClick
+      onUnderLayerClick,
+
+      sortedFlowSteps,
+      ccFilesLayoutMapNs,
+      ccShiftIndexMap
     } = this.props;
     const { width, height, xShift, yShift, ccAlightPoint } = layoutSize;
 
@@ -64,6 +74,9 @@ class TreeDiagram extends React.Component {
                 shiftToCenterPoint={shiftToCenterPoint}
                 ccAlightPoint={ccAlightPoint}
                 areaHeight={height}
+                sortedFlowSteps={sortedFlowSteps}
+                ccFilesLayoutMapNs={ccFilesLayoutMapNs}
+                ccShiftIndexMap={ccShiftIndexMap}
               />
             </React.Fragment>
           )}
@@ -73,6 +86,8 @@ class TreeDiagram extends React.Component {
             namespace={namespace}
             shiftToCenterPoint={shiftToCenterPoint}
             ccAlightPoint={ccAlightPoint}
+            ccShiftIndexMap={ccShiftIndexMap}
+            sortedFlowSteps={sortedFlowSteps}
           />
         ) : null}
       </div>
@@ -87,15 +102,33 @@ const mapStateToProps = (state, props) => {
   const { diagramZoom } = getValuesState(state);
   const { codeCrumbsDiagramOn } = getCheckedState(state);
 
+  let extendedCcProps = {};
+  if (codeCrumbsDiagramOn) {
+    const codeCrumbsUserChoice = getCodeCrumbsUserChoice(state, {
+      namespace
+    });
+
+    const { sortedFlowSteps, ccFilesLayoutMapNs, ccShiftIndexMap } = gatherFlowStepsData({
+      currentSelectedCrumbedFlowKey: codeCrumbsUserChoice.selectedCrumbedFlowKey,
+      namespacesList: getNamespacesList(state),
+      state
+    });
+
+    extendedCcProps = {
+      sortedFlowSteps,
+      ccFilesLayoutMapNs,
+      ccShiftIndexMap
+    };
+  }
+
   return {
     namespace,
     projectName,
     codeCrumbsDiagramOn,
     diagramZoom,
     sourceLayoutTree,
-    layoutSize: calculateLayoutSize(sourceLayoutTree, {
-      alignCodecrumbs: true
-    })
+    layoutSize: calculateLayoutSize(sourceLayoutTree),
+    ...extendedCcProps
   };
 };
 

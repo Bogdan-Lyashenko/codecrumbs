@@ -1,4 +1,4 @@
-const NO_TRAIL_FLOW = require('../../../../shared/constants').NO_TRAIL_FLOW;
+const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../../shared/constants');
 
 const CRUMB = 'codecrumb',
   CRUMB_SHORT_HANDLER = 'cc';
@@ -45,7 +45,9 @@ const isCodecrumb = node => {
   return comment.startsWith(CRUMB) || comment.startsWith(CRUMB_SHORT_HANDLER);
 };
 
-const buildCrumb = (params, crumbNodeLines) => ({
+const buildCrumb = (params, crumbNodeLines, path) => ({
+  type: CC_NODE_TYPE,
+  id: `${path}-${crumbNodeLines.join('-')}`,
   name: params.name || '',
   displayLoc: `#${crumbNodeLines[0]}`,
   crumbNodeLines: params.linesRange
@@ -86,7 +88,7 @@ const setupGetCrumbs = getCommentsFromCode => (fileCode, path) => {
         const params = parseCodecrumbComment(comment);
         const crumbNodeLines = getNodeLines(comment);
 
-        crumbsList.push(buildCrumb(params, crumbNodeLines));
+        crumbsList.push(buildCrumb(params, crumbNodeLines, path));
       }
     });
 
@@ -96,7 +98,6 @@ const setupGetCrumbs = getCommentsFromCode => (fileCode, path) => {
     return crumbsList;
   }
 };
-
 
 const DEFAULT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
 const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(DEFAULT_COMMENT_REGEX));

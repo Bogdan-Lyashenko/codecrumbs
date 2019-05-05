@@ -1,23 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import {
   CodeCrumbedFlowEdge,
   ExternalEdge
 } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
+import { isCodeCrumbsEqual, getCcPosition } from './helpers';
 
-import { getCheckedState } from 'core/controlsBus/selectors';
-import { getNamespacesList, getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
-import { selectCcFlowEdge } from 'core/dataBus/actions';
-import { isCodeCrumbsEqual, gatherFlowStepsData } from './helpers';
-
-const FlowEdge = props => {
+export default props => {
   const {
     namespace,
     areaHeight,
     namespacesList,
     shiftToCenterPoint,
     ccAlightPoint,
+    ccShiftIndexMap,
     sortedFlowSteps,
     ccFilesLayoutMapNs,
     codeCrumbsMinimize,
@@ -40,9 +36,8 @@ const FlowEdge = props => {
           }
 
           const edgePoints = [fromItem, toItem].map(crumb => {
-            const [cX, cY] = [crumb.y, crumb.x];
-            // TODO: calculate shift for each node
-            return shiftToCenterPoint(ccAlightPoint, cY);
+            const [_, cY] = [crumb.y, crumb.x];
+            return shiftToCenterPoint(getCcPosition(ccAlightPoint, ccShiftIndexMap[crumb.id]), cY);
           });
 
           const edgeBaseProps = {
@@ -109,52 +104,3 @@ const isFlowEdgeSelected = (selectedCcFlowEdgeNodes, currentSource, currentTarge
   const { source, target } = selectedCcFlowEdgeNodes;
   return isCodeCrumbsEqual(source, currentSource) && isCodeCrumbsEqual(target, currentTarget);
 };
-
-const mapStateToProps = (state, props) => {
-  const { codeCrumbsMinimize } = getCheckedState(state);
-  const namespacesList = getNamespacesList(state);
-  const { namespace } = props;
-
-  const {
-    selectedCrumbedFlowKey: currentSelectedCrumbedFlowKey,
-    selectedCcFlowEdgeNodes
-  } = getCodeCrumbsUserChoice(state, {
-    namespace
-  });
-
-  const gatheredFlowsData = gatherFlowStepsData({
-    currentSelectedCrumbedFlowKey,
-    namespacesList,
-    state
-  });
-
-  return {
-    namespacesList,
-    codeCrumbsMinimize,
-    selectedCcFlowEdgeNodes,
-    ...gatheredFlowsData
-  };
-};
-
-// TODO: can be moved to action
-const mapDispatchToProps = dispatch => ({
-  onFlowEdgeClick: (source, target, ccNamespacesKeys) => {
-    dispatch(selectCcFlowEdge({ source, target }, source.namespace));
-
-    // case with external edge
-    if (source.namespace !== target.namespace) {
-      dispatch(selectCcFlowEdge({ source, target }, target.namespace));
-    }
-
-    ccNamespacesKeys.forEach(ns => {
-      if (ns !== source.namespace && ns !== target.namespace) {
-        dispatch(selectCcFlowEdge(undefined, ns));
-      }
-    });
-  }
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FlowEdge);

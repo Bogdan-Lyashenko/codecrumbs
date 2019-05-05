@@ -14,7 +14,7 @@ export const PartEdge = props => {
   const padding = 17;
 
   const P1 = { x: sourcePosition.x + nameWidth + padding, y: sourcePosition.y };
-  const P2 = { x: ccAlightPoint + padding + (singleCrumb ? SINGLE_CRUMB_SHIFT : 0), y: P1.y };
+  const P2 = { x: ccAlightPoint - padding - 5 + (singleCrumb ? SINGLE_CRUMB_SHIFT : 0), y: P1.y };
 
   const polylinePoints = [[P1.x, P1.y], [P2.x, P2.y]];
 
@@ -31,11 +31,12 @@ export const PartEdge = props => {
 };
 
 export const CodeCrumbMultiEdge = props => {
-  const { sourcePosition, targetPosition } = props;
+  const { sourcePosition, targetPosition, ccAlightPoint } = props;
 
   const edgeTurnDistance = SINGLE_CRUMB_SHIFT;
-  const P2 = { x: targetPosition.x - edgeTurnDistance, y: sourcePosition.y };
-  const P3 = { x: targetPosition.x - edgeTurnDistance, y: targetPosition.y };
+  const xStart = ccAlightPoint || targetPosition.x;
+  const P2 = { x: xStart - edgeTurnDistance, y: sourcePosition.y };
+  const P3 = { x: xStart - edgeTurnDistance, y: targetPosition.y };
   const P4 = targetPosition;
 
   const polylinePoints = [[P2.x, P2.y], [P3.x, P3.y], [P4.x, P4.y]];

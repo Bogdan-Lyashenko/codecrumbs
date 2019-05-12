@@ -19,9 +19,8 @@ const SourceTree = props => {
     sourceDimFolders,
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
-    ccAlightPoint,
     sortedFlowSteps,
-    ccFilesLayoutMapNs,
+    involvedNsData,
     ccShiftIndexMap,
 
     areaHeight,
@@ -151,9 +150,8 @@ const SourceTree = props => {
           namespace={namespace}
           language={language}
           shiftToCenterPoint={shiftToCenterPoint}
-          ccAlightPoint={ccAlightPoint}
           sortedFlowSteps={sortedFlowSteps}
-          ccFilesLayoutMapNs={ccFilesLayoutMapNs}
+          involvedNsData={involvedNsData}
           ccShiftIndexMap={ccShiftIndexMap}
           areaHeight={areaHeight}
         />

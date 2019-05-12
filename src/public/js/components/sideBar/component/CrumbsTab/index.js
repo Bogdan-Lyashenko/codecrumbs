@@ -65,10 +65,9 @@ const mapStateToProps = (state, props) => {
     namespace
   });
 
-  const { ccFilesLayoutMapNs, sortedFlowSteps } = gatherFlowStepsData({
+  const { involvedNsData, sortedFlowSteps } = gatherFlowStepsData(state, {
     currentSelectedCrumbedFlowKey,
-    namespacesList,
-    state
+    namespacesList
   });
 
   if (currentSelectedCrumbedFlowKey === NO_TRAIL_FLOW) {
@@ -76,7 +75,7 @@ const mapStateToProps = (state, props) => {
       flowStepsFiles: getUnTrailedCodecrumbs(
         currentSelectedCrumbedFlowKey,
         codeCrumbedFlowsMap,
-        ccFilesLayoutMapNs[namespace]
+        involvedNsData[namespace].codecrumbsLayoutMap
       )
     };
   }
@@ -87,7 +86,7 @@ const mapStateToProps = (state, props) => {
       : sortedFlowSteps
     ).map(item => ({
       ...item,
-      file: ccFilesLayoutMapNs[item.namespace][item.filePath].data
+      file: involvedNsData[item.namespace].codecrumbsLayoutMap[item.filePath].data
     }))
   };
 };

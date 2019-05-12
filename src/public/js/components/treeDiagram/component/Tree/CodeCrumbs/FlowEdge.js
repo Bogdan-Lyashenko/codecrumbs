@@ -12,17 +12,16 @@ export default props => {
     areaHeight,
     namespacesList,
     shiftToCenterPoint,
-    ccAlightPoint,
     ccShiftIndexMap,
     sortedFlowSteps,
-    ccFilesLayoutMapNs,
+    involvedNsData,
     codeCrumbsMinimize,
     onFlowEdgeClick,
     selectedCcFlowEdgeNodes
   } = props;
 
-  const codecrumbsLayoutMap = ccFilesLayoutMapNs[namespace];
-  const ccNamespacesKeys = Object.keys(ccFilesLayoutMapNs || {});
+  const { codecrumbsLayoutMap } = involvedNsData[namespace];
+  const ccNamespacesKeys = Object.keys(involvedNsData || {});
 
   return (
     <React.Fragment>
@@ -37,6 +36,7 @@ export default props => {
 
           const edgePoints = [fromItem, toItem].map(crumb => {
             const [_, cY] = [crumb.y, crumb.x];
+            const { ccAlightPoint } = involvedNsData[crumb.namespace];
             return shiftToCenterPoint(getCcPosition(ccAlightPoint, ccShiftIndexMap[crumb.id]), cY);
           });
 
@@ -52,7 +52,7 @@ export default props => {
 
           if (fromItem.namespace === namespace && toItem.namespace !== namespace) {
             const fromFile = codecrumbsLayoutMap[fromItem.filePath];
-            const toFile = ccFilesLayoutMapNs[toItem.namespace][toItem.filePath];
+            const toFile = involvedNsData[toItem.namespace].codecrumbsLayoutMap[toItem.filePath];
 
             return (
               <ExternalEdge
@@ -67,7 +67,8 @@ export default props => {
           }
 
           if (fromItem.namespace !== namespace && toItem.namespace === namespace) {
-            const fromFile = ccFilesLayoutMapNs[fromItem.namespace][fromItem.filePath];
+            const fromFile =
+              involvedNsData[fromItem.namespace].codecrumbsLayoutMap[fromItem.filePath];
             const toFile = codecrumbsLayoutMap[toItem.filePath];
 
             return (

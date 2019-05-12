@@ -2,6 +2,7 @@ import { FOLDER_OPEN_STATE } from 'core/constants';
 
 import { ACTIONS } from './constants';
 import { getFileNodesMap, getCodecrumbNodesMap } from './utils/treeLayout';
+import { calculateLayoutProps } from './utils/geometry';
 
 const DefaultState = {};
 
@@ -11,6 +12,7 @@ const DefaultNamespaceState = {
   foldersMap: null,
 
   sourceLayoutTree: null,
+  layoutSize: null,
   filesLayoutMap: {},
   codecrumbsLayoutMap: {},
 
@@ -63,15 +65,18 @@ export default (state = DefaultState, action) => {
       return mergeState(action.payload);
 
     case ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES: {
-      const { payload } = action;
+      const { payload: sourceLayoutTree } = action;
 
-      const filesLayoutMap = getFileNodesMap(payload);
+      const { ccAlightPoint, ...layoutSize } = calculateLayoutProps(sourceLayoutTree);
+      const filesLayoutMap = getFileNodesMap(sourceLayoutTree);
       const codecrumbsLayoutMap = getCodecrumbNodesMap(filesLayoutMap);
 
       return mergeState({
-        sourceLayoutTree: payload,
+        sourceLayoutTree,
+        layoutSize,
         filesLayoutMap,
-        codecrumbsLayoutMap
+        codecrumbsLayoutMap,
+        ccAlightPoint
       });
     }
 

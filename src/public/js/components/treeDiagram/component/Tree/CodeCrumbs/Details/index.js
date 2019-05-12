@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { getCheckedState } from 'core/controlsBus/selectors';
-import { getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
+import { getCodeCrumbsUserChoice, getSourceLayout } from 'core/dataBus/selectors';
 import { getCcPosition, isCodeCrumbSelected } from '../helpers';
 
 import './index.scss';
@@ -70,10 +70,12 @@ const mapStateToProps = (state, props) => {
 
   const namespaceProps = { namespace };
   const { selectedCcFlowEdgeNodes } = getCodeCrumbsUserChoice(state, namespaceProps);
+  const { ccAlightPoint } = getSourceLayout(state, namespaceProps);
 
   return {
     detailsEnabled: !codeCrumbsMinimize && codeCrumbsDetails,
-    selectedCcFlowEdgeNodes
+    selectedCcFlowEdgeNodes,
+    ccAlightPoint
   };
 };
 

@@ -1,6 +1,6 @@
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'core/constants';
 
-export const calculateLayoutSize = (list, padding = 80) => {
+export const calculateLayoutProps = (list, padding = 80) => {
   if (!list) {
     return {
       width: 0,

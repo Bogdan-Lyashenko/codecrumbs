@@ -15,7 +15,6 @@ import {
   getNamespacesList
 } from 'core/dataBus/selectors';
 import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
-import { calculateLayoutSize } from 'core/dataBus/utils/geometry';
 import { selectDependencyEdge, selectCcFlowEdge } from 'core/dataBus/actions';
 import { setActiveNamespace } from 'core/namespaceIntegration/actions';
 import { gatherFlowStepsData } from './Tree/CodeCrumbs/helpers';
@@ -33,17 +32,16 @@ class TreeDiagram extends React.Component {
       layoutSize,
       sourceLayoutTree,
       onUnderLayerClick,
-
       sortedFlowSteps,
-      ccFilesLayoutMapNs,
+      involvedNsData,
       ccShiftIndexMap
     } = this.props;
-    const { width, height, xShift, yShift, ccAlightPoint } = layoutSize;
 
-    if (!width && !height) {
+    if (!layoutSize) {
       return null;
     }
 
+    const { width, height, xShift, yShift } = layoutSize;
     const shiftToCenterPoint = buildShiftToPoint({
       x: xShift,
       y: yShift
@@ -72,10 +70,9 @@ class TreeDiagram extends React.Component {
               <SourceTree
                 namespace={namespace}
                 shiftToCenterPoint={shiftToCenterPoint}
-                ccAlightPoint={ccAlightPoint}
                 areaHeight={height}
                 sortedFlowSteps={sortedFlowSteps}
-                ccFilesLayoutMapNs={ccFilesLayoutMapNs}
+                involvedNsData={involvedNsData}
                 ccShiftIndexMap={ccShiftIndexMap}
               />
             </React.Fragment>
@@ -85,7 +82,6 @@ class TreeDiagram extends React.Component {
           <CodeCrumbsDetails
             namespace={namespace}
             shiftToCenterPoint={shiftToCenterPoint}
-            ccAlightPoint={ccAlightPoint}
             ccShiftIndexMap={ccShiftIndexMap}
             sortedFlowSteps={sortedFlowSteps}
           />
@@ -97,7 +93,7 @@ class TreeDiagram extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { namespace } = props;
-  const { sourceLayoutTree } = getSourceLayout(state, { namespace });
+  const { sourceLayoutTree, layoutSize } = getSourceLayout(state, { namespace });
   const { projectName } = getProjectMetadata(state, { namespace });
   const { diagramZoom } = getValuesState(state);
   const { codeCrumbsDiagramOn } = getCheckedState(state);
@@ -108,15 +104,14 @@ const mapStateToProps = (state, props) => {
       namespace
     });
 
-    const { sortedFlowSteps, ccFilesLayoutMapNs, ccShiftIndexMap } = gatherFlowStepsData({
+    const { sortedFlowSteps, involvedNsData, ccShiftIndexMap } = gatherFlowStepsData(state, {
       currentSelectedCrumbedFlowKey: codeCrumbsUserChoice.selectedCrumbedFlowKey,
-      namespacesList: getNamespacesList(state),
-      state
+      namespacesList: getNamespacesList(state)
     });
 
     extendedCcProps = {
       sortedFlowSteps,
-      ccFilesLayoutMapNs,
+      involvedNsData,
       ccShiftIndexMap
     };
   }
@@ -127,7 +122,7 @@ const mapStateToProps = (state, props) => {
     codeCrumbsDiagramOn,
     diagramZoom,
     sourceLayoutTree,
-    layoutSize: calculateLayoutSize(sourceLayoutTree),
+    layoutSize,
     ...extendedCcProps
   };
 };

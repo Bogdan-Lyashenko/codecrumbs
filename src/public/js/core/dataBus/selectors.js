@@ -24,12 +24,20 @@ export const getSource = createSelector([getNamespaceState], namespaceState => {
 });
 
 export const getSourceLayout = createSelector([getNamespaceState], namespaceState => {
-  const { sourceLayoutTree, filesLayoutMap, codecrumbsLayoutMap } = namespaceState;
+  const {
+    sourceLayoutTree,
+    layoutSize,
+    ccAlightPoint,
+    filesLayoutMap,
+    codecrumbsLayoutMap
+  } = namespaceState;
 
   return {
     sourceLayoutTree,
+    layoutSize,
     filesLayoutMap,
-    codecrumbsLayoutMap
+    codecrumbsLayoutMap,
+    ccAlightPoint
   };
 });
 

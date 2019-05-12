@@ -66,8 +66,8 @@ const createCcShiftIndexMap = sortedFlowSteps => {
   return ccMap;
 };
 
-export const gatherFlowStepsData = ({ namespacesList, currentSelectedCrumbedFlowKey, state }) => {
-  const { ccFilesLayoutMapNs, sortedFlowSteps } = namespacesList.reduce(
+export const gatherFlowStepsData = (state, { namespacesList, currentSelectedCrumbedFlowKey }) => {
+  const { involvedNsData, sortedFlowSteps } = namespacesList.reduce(
     (acc, ns) => {
       const namespaceProps = { namespace: ns };
       const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(
@@ -79,7 +79,7 @@ export const gatherFlowStepsData = ({ namespacesList, currentSelectedCrumbedFlow
         return acc;
       }
 
-      const { codecrumbsLayoutMap } = getSourceLayout(state, namespaceProps);
+      const { codecrumbsLayoutMap, ccAlightPoint } = getSourceLayout(state, namespaceProps);
 
       const sortedFlowSteps =
         selectedCrumbedFlowKey !== NO_TRAIL_FLOW
@@ -93,18 +93,18 @@ export const gatherFlowStepsData = ({ namespacesList, currentSelectedCrumbedFlow
 
       return {
         sortedFlowSteps: [...acc.sortedFlowSteps, ...sortedFlowSteps].sort(stepSorter),
-        ccFilesLayoutMapNs: {
-          ...acc.ccFilesLayoutMapNs,
-          [ns]: codecrumbsLayoutMap
+        involvedNsData: {
+          ...acc.involvedNsData,
+          [ns]: { codecrumbsLayoutMap, ccAlightPoint }
         }
       };
     },
-    { ccFilesLayoutMapNs: {}, sortedFlowSteps: [] }
+    { involvedNsData: {}, sortedFlowSteps: [] }
   );
 
   return {
     sortedFlowSteps,
-    ccFilesLayoutMapNs,
+    involvedNsData,
     ccShiftIndexMap: createCcShiftIndexMap(sortedFlowSteps)
   };
 };

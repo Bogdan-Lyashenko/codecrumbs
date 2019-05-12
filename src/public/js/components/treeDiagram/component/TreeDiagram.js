@@ -17,7 +17,7 @@ import {
 import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
 import { selectDependencyEdge, selectCcFlowEdge } from 'core/dataBus/actions';
 import { setActiveNamespace } from 'core/namespaceIntegration/actions';
-import { gatherFlowStepsData } from './Tree/CodeCrumbs/helpers';
+import { gatherFlowStepsData, getMaxWidthForNs } from './Tree/CodeCrumbs/helpers';
 
 class TreeDiagram extends React.Component {
   render() {
@@ -30,6 +30,7 @@ class TreeDiagram extends React.Component {
       active,
       diagramZoom,
       layoutSize,
+      maxWidth,
       sourceLayoutTree,
       onUnderLayerClick,
       sortedFlowSteps,
@@ -59,14 +60,14 @@ class TreeDiagram extends React.Component {
           </p>
         ) : null}
         <svg
-          width={width}
+          width={maxWidth || width}
           height={height}
           xmlns="http://www.w3.org/2000/svg"
           shapeRendering="optimizeSpeed"
         >
           {sourceLayoutTree && (
             <React.Fragment>
-              <UnderLayer width={width} height={height} onClick={onUnderLayerClick} />
+              <UnderLayer width={maxWidth || width} height={height} onClick={onUnderLayerClick} />
               <SourceTree
                 namespace={namespace}
                 shiftToCenterPoint={shiftToCenterPoint}
@@ -94,6 +95,10 @@ class TreeDiagram extends React.Component {
 const mapStateToProps = (state, props) => {
   const { namespace } = props;
   const { sourceLayoutTree, layoutSize } = getSourceLayout(state, { namespace });
+  if (!sourceLayoutTree) {
+    return {};
+  }
+
   const { projectName } = getProjectMetadata(state, { namespace });
   const { diagramZoom } = getValuesState(state);
   const { codeCrumbsDiagramOn } = getCheckedState(state);
@@ -104,15 +109,19 @@ const mapStateToProps = (state, props) => {
       namespace
     });
 
+    const namespacesList = getNamespacesList(state);
     const { sortedFlowSteps, involvedNsData, ccShiftIndexMap } = gatherFlowStepsData(state, {
       currentSelectedCrumbedFlowKey: codeCrumbsUserChoice.selectedCrumbedFlowKey,
-      namespacesList: getNamespacesList(state)
+      namespacesList
     });
+
+    const maxWidth = getMaxWidthForNs(state, { namespacesList });
 
     extendedCcProps = {
       sortedFlowSteps,
       involvedNsData,
-      ccShiftIndexMap
+      ccShiftIndexMap,
+      maxWidth
     };
   }
 

@@ -145,7 +145,7 @@ export const CodeCrumbedFlowEdge = props => {
         y={endPointConfig.y}
         height={iconSize}
         width={iconSize}
-        fill={selected ? '#754BC3' : '#e91e63'}
+        fill={selected ? '#754BC3' : '#717070'}
       />
     </g>
   );
@@ -219,7 +219,7 @@ export const ExternalEdge = props => {
           y={targetPt.y - iconSize}
           height={iconSize}
           width={iconSize}
-          fill={selected ? '#754BC3' : '#e91e63'}
+          fill={selected ? '#754BC3' : '#717070'}
         />
       )}
     </g>

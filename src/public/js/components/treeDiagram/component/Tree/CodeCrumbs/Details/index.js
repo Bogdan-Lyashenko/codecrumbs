@@ -33,14 +33,15 @@ const DetailsSet = ({
   ccAlightPoint,
   selectedCcFlowEdgeNodes,
   sortedFlowSteps,
-  ccShiftIndexMap
+  ccShiftIndexMap,
+  namespace
 }) => {
   if (!detailsEnabled) return null;
 
   const detailsPanels = [];
 
   sortedFlowSteps.forEach(crumb => {
-    if (!crumb.params || !crumb.params.details) {
+    if (crumb.namespace !== namespace || !crumb.params || !crumb.params.details) {
       return null;
     }
 

@@ -8,6 +8,7 @@ export const getTreeLayout = (
   {
     includeFileChildren,
     extraSpaceForDetails,
+    extraSpaceForCodePreview,
     config = LAYOUT_CONFIG,
     openedFolders,
     activeItemsMap,
@@ -68,6 +69,7 @@ export const getTreeLayout = (
         }, 0);
       }
 
+      const widthSpace = nameLength * config.symbolWidth + config.nodeSizeY;
       if (
         extraSpaceForDetails &&
         node.data.type !== DIR_NODE_TYPE &&
@@ -75,10 +77,18 @@ export const getTreeLayout = (
         node.data.params &&
         node.data.params.details
       ) {
-        return [calcHeightForDetails(node), nameLength * config.symbolWidth + config.nodeSizeY];
+        return [calcHeightForDetails(node), widthSpace];
       }
 
-      return [config.nodeSizeX, nameLength * config.symbolWidth + config.nodeSizeY];
+      if (
+        extraSpaceForCodePreview &&
+        node.data.type !== DIR_NODE_TYPE &&
+        node.data.type !== FILE_NODE_TYPE
+      ) {
+        return [calcHeightForCodePreview(node), widthSpace];
+      }
+
+      return [config.nodeSizeX, widthSpace];
     },
     spacing: () => config.spacing
   });
@@ -180,4 +190,9 @@ const calcHeightForDetails = ({ data }) => {
 
   const n = Math.ceil((details.length * 7) / nameWidth);
   return (n + 1) * 20 + 50;
+};
+
+const calcHeightForCodePreview = () => {
+  const n = 3;
+  return n * 20 + 50;
 };

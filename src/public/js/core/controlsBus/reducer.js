@@ -61,6 +61,11 @@ const DefaultState = {
           key: CONTROLS_KEYS.CODE_CRUMBS_DETAILS
         },
         {
+          name: 'code preview',
+          title: 'Code preview',
+          key: CONTROLS_KEYS.CODE_CRUMBS_CODE_PREVIEW
+        },
+        {
           name: 'line numbers',
           title: 'Show crumbed line numbers',
           key: CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS

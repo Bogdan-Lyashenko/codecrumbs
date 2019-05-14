@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import SourceTree from './Tree/Source/';
-import CodeCrumbsDetails from './Tree/CodeCrumbs/Details';
+import CodeCrumbsExtraInfo from './Tree/CodeCrumbs/ExtraInfo';
 import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
@@ -80,7 +80,7 @@ class TreeDiagram extends React.Component {
           )}
         </svg>
         {codeCrumbsDiagramOn ? (
-          <CodeCrumbsDetails
+          <CodeCrumbsExtraInfo
             namespace={namespace}
             shiftToCenterPoint={shiftToCenterPoint}
             ccShiftIndexMap={ccShiftIndexMap}

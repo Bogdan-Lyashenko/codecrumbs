@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// cc:main function
+//cc:main function
 int main()
 {
     cout << "Hello, World!";

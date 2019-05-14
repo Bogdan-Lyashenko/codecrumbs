@@ -1,4 +1,4 @@
-// cc:main function
+//cc:main function
 using System;
 namespace HelloWorld
 {

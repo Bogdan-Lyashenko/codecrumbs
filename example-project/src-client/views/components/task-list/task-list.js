@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import TaskItem from '../task-item/task-item';
 
 //cc:layout#3;tasks list;
-//cc:layout#4;t1asks list;
 function TaskList({removeTask, tasks, updateTask}) {
   let taskItems = tasks.map((task, index) => {
     return (

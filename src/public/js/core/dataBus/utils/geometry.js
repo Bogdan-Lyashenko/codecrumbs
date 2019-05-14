@@ -13,7 +13,7 @@ export const calculateLayoutProps = (list, padding = 80) => {
     maxX = 0,
     maxY = 0;
 
-  let ccAlightPoint = null;
+  let ccAlightPoint = 0;
   let maxCcWidth = 0;
 
   list.each(node => {

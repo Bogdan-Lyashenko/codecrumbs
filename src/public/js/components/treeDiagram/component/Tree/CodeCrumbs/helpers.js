@@ -109,7 +109,7 @@ export const gatherFlowStepsData = (state, { namespacesList, currentSelectedCrum
   };
 };
 
-export const getCcPosition = (x, index) => x + 70 * index;
+export const getCcPosition = (x, index = 0) => x + 70 * index;
 
 export const getMaxWidthForNs = (state, { namespacesList }) =>
   namespacesList.reduce((maxWidth, namespace) => {

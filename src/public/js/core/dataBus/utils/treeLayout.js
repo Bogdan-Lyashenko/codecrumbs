@@ -193,6 +193,6 @@ const calcHeightForDetails = ({ data }) => {
 };
 
 const calcHeightForCodePreview = () => {
-  const n = 3;
-  return n * 20 + 50;
+  const n = 5;
+  return n * 15 + 80;
 };

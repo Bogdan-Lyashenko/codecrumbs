@@ -5,7 +5,7 @@ import { atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
 import './index.scss';
 
-const FONT_SIZE = '12px';
+const FONT_SIZE = 12;
 const LINE_HEIGHT = 18;
 const PADDING_TOP = 5;
 //TODO: add select with several themes
@@ -13,7 +13,7 @@ const PADDING_TOP = 5;
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
 export default class extends React.Component {
   fixScroll() {
-    const { dependenciesLines = [], crumbedLines = [] } = this.props;
+    const { dependenciesLines = [], crumbedLines = [], lineHeight } = this.props;
     if (!this.codeRef || !this.codeRef.scrollTo) {
       return;
     }
@@ -24,7 +24,8 @@ export default class extends React.Component {
         ? crumbedLines
         : null;
 
-    lines && this.codeRef.scrollTo(0, (lines[0][0] - 1) * LINE_HEIGHT + PADDING_TOP - 2);
+    lines &&
+      this.codeRef.scrollTo(0, (lines[0][0] - 1) * (lineHeight || LINE_HEIGHT) + PADDING_TOP - 2);
   }
   componentDidUpdate(prevProps) {
     this.fixScroll();
@@ -34,7 +35,14 @@ export default class extends React.Component {
   }
 
   render() {
-    const { language, code, crumbedLines = [], dependenciesLines = [], limitedHeight } = this.props;
+    const {
+      language,
+      code,
+      crumbedLines = [],
+      dependenciesLines = [],
+      limitedHeight,
+      fontSize
+    } = this.props;
 
     // TODO: calc height for .Code based on dependenciesLines - it's not always need to be 300 px!!
     return (
@@ -44,7 +52,10 @@ export default class extends React.Component {
           style={atomOneLight}
           showLineNumbers={true}
           wrapLines={true}
-          customStyle={{ fontSize: FONT_SIZE, padding: `${PADDING_TOP}px 0px 5px 5px` }}
+          customStyle={{
+            fontSize: `${fontSize || FONT_SIZE}px`,
+            padding: `${PADDING_TOP}px 0px 5px 5px`
+          }}
           lineProps={lineNumber => {
             if (isMatchLineNumber(crumbedLines, lineNumber)) {
               return { className: 'crumbedLine' };

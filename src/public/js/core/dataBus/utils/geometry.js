@@ -17,8 +17,9 @@ export const calculateLayoutProps = (list, padding = 80) => {
   let maxCcWidth = 0;
 
   list.each(node => {
-    const [x, nY] = [node.y, node.x];
+    const [x, y] = [node.y, node.x];
     const nX = x + node.ySize;
+    const nY = y - node.xSize;
 
     if (node.data.type !== FILE_NODE_TYPE && node.data.type !== DIR_NODE_TYPE) {
       if (node.ySize > maxCcWidth) {

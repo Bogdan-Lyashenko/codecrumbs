@@ -14,7 +14,7 @@ import {
 import { getNamespacesList } from 'core/dataBus/selectors';
 
 import { ACTIONS as SWITCHES_ACTIONS, CONTROLS_KEYS } from 'core/controlsBus/constants';
-import { setDisabledControl } from 'core/controlsBus/actions';
+import { setDisabledControl, toggleSwitch } from 'core/controlsBus/actions';
 import { getCheckedState } from 'core/controlsBus/selectors';
 
 import { setActiveNamespace } from 'core/namespaceIntegration/actions';
@@ -47,12 +47,25 @@ function* applyReactionOnSwitchToggleToNamespace({ switchKey, checked, namespace
     yield all([
       put(setDisabledControl(CONTROLS_KEYS.CODE_CRUMBS_LINE_NUMBERS, checked)),
       put(setDisabledControl(CONTROLS_KEYS.CODE_CRUMBS_DETAILS, checked)),
+      put(setDisabledControl(CONTROLS_KEYS.CODE_CRUMBS_CODE_PREVIEW, checked)),
       put(calcFilesTreeLayoutNodes(namespace))
     ]);
   }
 
-  if (switchKey === CONTROLS_KEYS.CODE_CRUMBS_DETAILS) {
+  if (
+    switchKey === CONTROLS_KEYS.CODE_CRUMBS_DETAILS ||
+    switchKey === CONTROLS_KEYS.CODE_CRUMBS_CODE_PREVIEW
+  ) {
     yield all([put(calcFilesTreeLayoutNodes(namespace))]);
+
+    if (checked) {
+      const otherField =
+        switchKey === CONTROLS_KEYS.CODE_CRUMBS_DETAILS
+          ? CONTROLS_KEYS.CODE_CRUMBS_CODE_PREVIEW
+          : CONTROLS_KEYS.CODE_CRUMBS_DETAILS;
+
+      yield put(toggleSwitch(otherField, false));
+    }
   }
 
   if (switchKey === CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON) {

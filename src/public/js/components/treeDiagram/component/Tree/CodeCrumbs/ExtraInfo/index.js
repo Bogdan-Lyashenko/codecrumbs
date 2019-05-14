@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { getCheckedState } from 'core/controlsBus/selectors';
-import { getCodeCrumbsUserChoice, getSourceLayout } from 'core/dataBus/selectors';
+import {
+  getCodeCrumbsUserChoice,
+  getSourceLayout,
+  getProjectMetadata
+} from 'core/dataBus/selectors';
 import { getCcPosition, isCodeCrumbSelected } from '../helpers';
 
 import './index.scss';
+
+const Code = React.lazy(() =>
+  import(/* webpackChunkName: "code" */ 'components/sideBar/component/Code')
+);
 
 const DetailsComponent = props => {
   const { name, details, position, selected } = props;
@@ -27,9 +35,8 @@ const DetailsComponent = props => {
 };
 
 const CodeComponent = props => {
-  const { position, crumbNodeLines, file } = props;
+  const { position, crumbNodeLines, file, language, namespace } = props;
   const { fileCode } = file.data;
-  const previewCode = fileCode.split('\n').slice(crumbNodeLines[0]-2, crumbNodeLines[0] + 2).join('\n');
 
   return (
     <div
@@ -39,7 +46,16 @@ const CodeComponent = props => {
         top: position.y
       }}
     >
-      <pre style={{fontSize: '9px'}}>{previewCode}</pre>
+      <Suspense fallback={null}>
+        <Code
+          namespace={namespace}
+          language={language}
+          code={fileCode}
+          fontSize={10}
+          lineHeight={15}
+          crumbedLines={[crumbNodeLines]}
+        />
+      </Suspense>
     </div>
   );
 };
@@ -53,7 +69,8 @@ const ExtraInfoSet = ({
   sortedFlowSteps,
   filesLayoutMap,
   ccShiftIndexMap,
-  namespace
+  namespace,
+  language
 }) => {
   if (!detailsEnabled && !codePreviewEnabled) return null;
 
@@ -89,6 +106,8 @@ const ExtraInfoSet = ({
               position={position}
               crumbNodeLines={crumb.crumbNodeLines}
               file={filesLayoutMap[crumb.filePath]}
+              namespace={namespace}
+              language={language}
             />
           );
         }
@@ -104,6 +123,7 @@ const mapStateToProps = (state, props) => {
   const { namespace } = props;
 
   const namespaceProps = { namespace };
+  const { language } = getProjectMetadata(state, namespaceProps);
   const { selectedCcFlowEdgeNodes } = getCodeCrumbsUserChoice(state, namespaceProps);
   const { ccAlightPoint, filesLayoutMap } = getSourceLayout(state, namespaceProps);
 
@@ -112,7 +132,8 @@ const mapStateToProps = (state, props) => {
     codePreviewEnabled: !codeCrumbsMinimize && codeCrumbsCodePreview,
     filesLayoutMap,
     selectedCcFlowEdgeNodes,
-    ccAlightPoint
+    ccAlightPoint,
+    language
   };
 };
 

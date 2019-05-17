@@ -3,7 +3,7 @@ const exec = require('child_process').exec;
 const logger = require('../utils/logger');
 const codeParser = require('../code-parse');
 
-const parseFiles = ({ path, parseDependencies,  webpackConfigPath, tsConfigPath }, projectDir, language) => 
+const parseFiles = ( {path, parseDependencies}, {webpackConfigPath, tsConfigPath , projectDir, language}) => 
   Promise.all(
     path.map(itemPath =>
       codeParser.parseFile(itemPath, projectDir, {

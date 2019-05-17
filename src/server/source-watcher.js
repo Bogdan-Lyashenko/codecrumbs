@@ -73,7 +73,7 @@ const run = (
 
         case SOCKET_MESSAGE_TYPE.CLIENT_REQUEST_FETCH_FILE:
           if (message.namespace === namespace) {
-            parseFiles({...message.data, webpackConfigPath, tsConfigPath }, projectDir, language).then(files =>
+            parseFiles( message.data, {webpackConfigPath, tsConfigPath , projectDir, language}).then(files =>
               connection.sendUTF(
                 JSON.stringify({
                   type: SOCKET_MESSAGE_TYPE.SOURCE_RESPONSE_FETCH_FILE,

@@ -4,7 +4,7 @@ const madge = require('madge');
 const jsDependencies = require('../../../utils/jsDependencies');
 const { config: astParseConfig, getNodeLines } = require('./astParse');
 
-const getDependencies = (entryPoint, projectDir, webpackConfigPath) => {
+const getDependencies = (entryPoint, projectDir, {webpackConfigPath}) => {
   const rootPath = path.resolve();
   const separator = path.sep;
 

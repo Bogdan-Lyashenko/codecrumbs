@@ -4,7 +4,7 @@ const madge = require('madge');
 const jsDependencies = require('../../../utils/jsDependencies');
 const { config: astParseConfig, getNodeLines } = require('./astParse');
 
-const getDependencies = (entryPoint, projectDir, webpackConfigPath, tsConfig = {}) => {
+const getDependencies = (entryPoint, projectDir, { webpackConfigPath, tsConfigPath}) => {
   // TODO: investigated usage for tsConfig param
   const rootPath = path.resolve();
   const separator = path.sep;
@@ -12,6 +12,7 @@ const getDependencies = (entryPoint, projectDir, webpackConfigPath, tsConfig = {
   return madge(entryPoint, {
     webpackConfig: webpackConfigPath,
     baseDir: projectDir,
+    tsConfig: tsConfigPath,
     // TODO: this filter will be extended based on how much dependencies is needed
     dependencyFilter: (depPath, sourcePath) => sourcePath === `${rootPath}${separator}${entryPoint}`
   })

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
-import { LoginForm } from './loginForm';
+import { LoginForm } from '@src/components/login/loginForm';
 import { isValidLogin } from '../../api/login';
 import { LoginEntity, createEmptyLogin } from '../../model';
 import { NotificationComponent } from '../../common/components/notification';

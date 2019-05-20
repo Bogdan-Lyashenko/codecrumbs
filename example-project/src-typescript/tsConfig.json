@@ -1,0 +1,9 @@
+{ 
+  "compilerOptions": {
+  "baseUrl": "example-project",
+  "moduleResolution": "node",
+   "paths": {
+    "@src/*": ["src-typescript/*"]
+  }
+  }
+}

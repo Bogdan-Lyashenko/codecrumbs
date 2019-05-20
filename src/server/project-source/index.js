@@ -17,6 +17,7 @@ const parseProjectSourceFiles = ({
   projectDir,
   entryPoint,
   webpackConfigPath,
+  tsConfigPath,
   language
 }) =>
   Promise.all(
@@ -27,6 +28,8 @@ const parseProjectSourceFiles = ({
           parseImports: true,
           parseDependencies: itemPath === entryPoint,
           attachCode: itemPath === entryPoint,
+          webpackConfigPath,
+          tsConfigPath,
           language
         })
         .then(item =>
@@ -49,7 +52,7 @@ const closePreviousSubscription = id => {
 
 const subscribeOnChange = (
   namespace,
-  { projectName, projectDir, entryPoint, excludeDir, webpackConfigPath, language, fileExtensions },
+  { projectName, projectDir, entryPoint, excludeDir, webpackConfigPath,tsConfigPath, language, fileExtensions },
   { onInit, onChange }
 ) => {
   logger.info(`> source watcher subscribing for changes`);
@@ -78,6 +81,7 @@ const subscribeOnChange = (
     projectDir,
     entryPoint,
     webpackConfigPath,
+    tsConfigPath,
     language
   })
     .then(() => {

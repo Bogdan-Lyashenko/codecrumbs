@@ -154,7 +154,12 @@ export const calcFilesTreeLayoutNodes = namespace => (dispatch, getState) => {
     namespaceConfig
   );
 
-  const { codeCrumbsDiagramOn, codeCrumbsMinimize, codeCrumbsDetails, codeCrumbsCodePreview } = getCheckedState(state);
+  const {
+    codeCrumbsDiagramOn,
+    codeCrumbsMinimize,
+    codeCrumbsDetails,
+    codeCrumbsCodePreview
+  } = getCheckedState(state);
 
   if (!sourceTree) return;
 

@@ -27,8 +27,7 @@ const run = (
     logger.info(
       `+ started: source watcher: ${namespace} for: ${projectName}; `,
       `setup: dir - ${projectDir}, entry point - ${entryPoint}`,
-      `options: webPackConfig - ${webpackConfigPath}, tsConfig - ${tsConfigPath}`
-
+      `options: webPackConfig - ${webpackConfigPath || '?'}, tsConfig - ${tsConfigPath || '?'}`
     );
 
     connection.on('message', ({ utf8Data }) => {

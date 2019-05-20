@@ -1,6 +1,6 @@
 import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'core/constants';
 
-export const calculateLayoutProps = (list, padding = 80) => {
+export const calculateLayoutProps = (list, padding = 100) => {
   if (!list) {
     return {
       width: 0,
@@ -17,9 +17,8 @@ export const calculateLayoutProps = (list, padding = 80) => {
   let maxCcWidth = 0;
 
   list.each(node => {
-    const [x, y] = [node.y, node.x];
+    const [x, nY] = [node.y, node.x];
     const nX = x + node.ySize;
-    const nY = y - node.xSize;
 
     if (node.data.type !== FILE_NODE_TYPE && node.data.type !== DIR_NODE_TYPE) {
       if (node.ySize > maxCcWidth) {
@@ -33,8 +32,8 @@ export const calculateLayoutProps = (list, padding = 80) => {
       minX = nX;
     }
 
-    if (nY < minY) {
-      minY = nY;
+    if (nY - node.xSize < minY) {
+      minY = nY - node.xSize;
     }
 
     if (nX > maxX) {
@@ -42,15 +41,15 @@ export const calculateLayoutProps = (list, padding = 80) => {
       ccAlightPoint = node.y + node.ySize;
     }
 
-    if (nY > maxY) {
-      maxY = nY;
+    if (nY + node.xSize > maxY) {
+      maxY = nY + node.xSize;
     }
   });
 
   return {
     width: Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding),
     height: Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding),
-    xShift: padding / 2,
+    xShift: padding / 4,
     yShift: Math.round(Math.abs(minY)) + padding,
     ccAlightPoint
   };

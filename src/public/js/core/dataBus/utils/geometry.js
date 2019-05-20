@@ -48,7 +48,7 @@ export const calculateLayoutProps = (list, padding = 100) => {
 
   return {
     width: Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding),
-    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding),
+    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 3 * padding),
     xShift: padding / 4,
     yShift: Math.round(Math.abs(minY)) + padding,
     ccAlightPoint

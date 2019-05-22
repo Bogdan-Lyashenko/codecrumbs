@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneLight } from 'react-syntax-highlighter/styles/hljs';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import './index.scss';
 
@@ -49,13 +49,9 @@ export default class extends React.Component {
       <div className={classNames('Code', { limitedHeight })} ref={el => (this.codeRef = el)}>
         <SyntaxHighlighter
           language={language}
-          style={atomOneLight}
+          style={vs}
           showLineNumbers={true}
           wrapLines={true}
-          customStyle={{
-            fontSize: `${fontSize || FONT_SIZE}px`,
-            padding: `${PADDING_TOP}px 0px 5px 5px`
-          }}
           lineProps={lineNumber => {
             if (isMatchLineNumber(crumbedLines, lineNumber)) {
               return { className: 'crumbedLine' };

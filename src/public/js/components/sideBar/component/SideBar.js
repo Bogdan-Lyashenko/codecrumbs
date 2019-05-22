@@ -55,7 +55,12 @@ export default ({
           {standaloneNoCode ? (
             <Skeleton />
           ) : (
-            <Code namespace={namespace} language={language} code={file.fileCode} />
+            <Code
+              crumbedLines={codeCrumbsDiagramOn ? file.children.map(({ crumbNodeLines }) => crumbNodeLines) : []}
+              namespace={namespace}
+              language={language}
+              code={file.fileCode}
+            />
           )}
         </Suspense>
       </TabPane>

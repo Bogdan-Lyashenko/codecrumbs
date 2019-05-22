@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch, props) => {
   const { namespace } = props;
   return {
     onCodeCrumbSelect: (event, options) => {
-      return event.metaKey
+      return event.metaKey || event.altKey
         ? dispatch(
             selectNodeToOpenInEditor(
               { path: options.fileNode.path, line: options.codeCrumb.crumbNodeLines[0] },

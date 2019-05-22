@@ -133,14 +133,13 @@ const SourceTree = props => {
       {(sourceDiagramOn && sourceEdges) || null}
       {(sourceDiagramOn && selectedSourceEdges) || null}
 
-      {dependenciesDiagramOn &&
-        selectedNode.dependencies && (
-          <DependenciesTree
-            namespace={namespace}
-            language={language}
-            shiftToCenterPoint={shiftToCenterPoint}
-          />
-        )}
+      {dependenciesDiagramOn && selectedNode.dependencies && (
+        <DependenciesTree
+          namespace={namespace}
+          language={language}
+          shiftToCenterPoint={shiftToCenterPoint}
+        />
+      )}
 
       {(sourceDiagramOn && sourceNodes) || null}
       {(sourceDiagramOn && sourceDotes) || null}

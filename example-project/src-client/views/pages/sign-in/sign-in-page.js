@@ -7,17 +7,19 @@ import Button from '../../../views/components/button';
 
 import './sign-in-page.css';
 
+// test for bug in react syntax highlighting
+const WrapperComponent = ({children}) => <div className="g-row sign-in">{children}</div>
 
 const SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {
   return (
-    <div className="g-row sign-in">
+    <WrapperComponent>
       <div className="g-col">
         <h1 className="sign-in__heading">Sign in</h1>
         <Button className="sign-in__button" onClick={signInWithGithub}>GitHub</Button>
         <Button className="sign-in__button" onClick={signInWithGoogle}>Google</Button>
         <Button className="sign-in__button" onClick={signInWithTwitter}>Twitter</Button>
       </div>
-    </div>
+    </WrapperComponent>
   );
 };
 

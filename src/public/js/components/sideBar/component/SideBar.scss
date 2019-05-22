@@ -1,13 +1,14 @@
 .SideBar {
-  position: absolute;
+  position: fixed;
   right: 0;
-  top: 0;
+  top: 42px;
   height: 100%;
   overflow: hidden;
   width: 650px;
   max-width: 100%;
   z-index: 4;
   background-color: white;
+  border-top: 1px solid #ebedf0;
   border-left: 1px solid #ebedf0;
   padding: 8px 16px;
 

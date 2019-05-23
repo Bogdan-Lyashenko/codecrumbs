@@ -69,7 +69,12 @@ export const getTreeLayout = (
         }, 0);
       }
 
-      const widthSpace = nameLength * config.symbolWidth + config.nodeSizeY;
+      const LARGE_WIDTH_CC = 5000;
+      const widthSpace =
+        node.data.type !== DIR_NODE_TYPE && node.data.type !== FILE_NODE_TYPE
+          ? LARGE_WIDTH_CC
+          : nameLength * config.symbolWidth + config.nodeSizeY;
+
       if (
         extraSpaceForDetails &&
         node.data.type !== DIR_NODE_TYPE &&
@@ -194,5 +199,5 @@ const calcHeightForDetails = ({ data }) => {
 
 const calcHeightForCodePreview = () => {
   const n = 5;
-  return n * 15 + 80;
+  return n * 15 + 40;
 };

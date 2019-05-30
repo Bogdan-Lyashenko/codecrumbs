@@ -66,6 +66,7 @@ const ExtraInfoSet = ({
   shiftToCenterPoint,
   ccAlightPoint,
   selectedCcFlowEdgeNodes,
+  flowSteps,
   sortedFlowSteps,
   filesLayoutMap,
   ccShiftIndexMap,
@@ -74,9 +75,10 @@ const ExtraInfoSet = ({
 }) => {
   if (!detailsEnabled && !codePreviewEnabled) return null;
 
+  const crumbs = sortedFlowSteps.length ? sortedFlowSteps : flowSteps;
   return (
     <React.Fragment>
-      {sortedFlowSteps.map(crumb => {
+      {crumbs.map(crumb => {
         if (crumb.namespace !== namespace) {
           return null;
         }

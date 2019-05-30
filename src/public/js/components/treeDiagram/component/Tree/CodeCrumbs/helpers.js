@@ -15,17 +15,15 @@ export const isCodeCrumbSelected = (selectedCcFlowEdgeNodes, cc) => {
 
 const stepSorter = (a, b) => a.step - b.step;
 
-// TODO: this should be done in reducer ?
-const getSortedFlowSteps = ({
+const getFlowSteps = ({
   namespace,
   codeCrumbedFlowsMap,
   selectedCrumbedFlowKey,
   codecrumbsLayoutMap
 }) => {
   const currentFlow = codeCrumbedFlowsMap[selectedCrumbedFlowKey] || {};
-  let sortedFlowSteps = [];
 
-  Object.keys(currentFlow).forEach(filePath => {
+  return Object.keys(currentFlow).reduce((flowSteps, filePath) => {
     const steps = ((codecrumbsLayoutMap[filePath] && codecrumbsLayoutMap[filePath].children) || [])
       .filter(({ data }) => data.params.flow === selectedCrumbedFlowKey)
       .map(({ data, x, y }) => ({
@@ -38,12 +36,8 @@ const getSortedFlowSteps = ({
         y
       }));
 
-    sortedFlowSteps = sortedFlowSteps.concat(steps);
-  });
-
-  sortedFlowSteps.sort(stepSorter);
-
-  return sortedFlowSteps;
+    return [...flowSteps, ...steps];
+  }, []);
 };
 
 const createCcShiftIndexMap = sortedFlowSteps => {
@@ -67,7 +61,7 @@ const createCcShiftIndexMap = sortedFlowSteps => {
 };
 
 export const gatherFlowStepsData = (state, { namespacesList, currentSelectedCrumbedFlowKey }) => {
-  const { involvedNsData, sortedFlowSteps } = namespacesList.reduce(
+  const flowStepsData = namespacesList.reduce(
     (acc, ns) => {
       const namespaceProps = { namespace: ns };
       const { selectedCrumbedFlowKey, codeCrumbedFlowsMap } = getCodeCrumbsUserChoice(
@@ -81,31 +75,31 @@ export const gatherFlowStepsData = (state, { namespacesList, currentSelectedCrum
 
       const { codecrumbsLayoutMap, ccAlightPoint } = getSourceLayout(state, namespaceProps);
 
-      const sortedFlowSteps =
-        selectedCrumbedFlowKey !== NO_TRAIL_FLOW
-          ? getSortedFlowSteps({
-              namespace: ns,
-              codeCrumbedFlowsMap,
-              selectedCrumbedFlowKey,
-              codecrumbsLayoutMap
-            })
-          : [];
+      const flowSteps = getFlowSteps({
+        namespace: ns,
+        codeCrumbedFlowsMap,
+        selectedCrumbedFlowKey,
+        codecrumbsLayoutMap
+      });
 
       return {
-        sortedFlowSteps: [...acc.sortedFlowSteps, ...sortedFlowSteps].sort(stepSorter),
+        flowSteps,
+        sortedFlowSteps:
+          selectedCrumbedFlowKey !== NO_TRAIL_FLOW
+            ? [...acc.sortedFlowSteps, ...flowSteps].sort(stepSorter)
+            : [],
         involvedNsData: {
           ...acc.involvedNsData,
           [ns]: { codecrumbsLayoutMap, ccAlightPoint }
         }
       };
     },
-    { involvedNsData: {}, sortedFlowSteps: [] }
+    { involvedNsData: {}, flowSteps: [], sortedFlowSteps: [] }
   );
 
   return {
-    sortedFlowSteps,
-    involvedNsData,
-    ccShiftIndexMap: createCcShiftIndexMap(sortedFlowSteps)
+    ...flowStepsData,
+    ccShiftIndexMap: createCcShiftIndexMap(flowStepsData.sortedFlowSteps)
   };
 };
 

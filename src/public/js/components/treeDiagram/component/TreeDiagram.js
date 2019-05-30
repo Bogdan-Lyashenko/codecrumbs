@@ -33,6 +33,7 @@ class TreeDiagram extends React.Component {
       maxWidth,
       sourceLayoutTree,
       onUnderLayerClick,
+      flowSteps,
       sortedFlowSteps,
       involvedNsData,
       ccShiftIndexMap
@@ -85,6 +86,7 @@ class TreeDiagram extends React.Component {
             shiftToCenterPoint={shiftToCenterPoint}
             ccShiftIndexMap={ccShiftIndexMap}
             sortedFlowSteps={sortedFlowSteps}
+            flowSteps={flowSteps}
           />
         ) : null}
       </div>
@@ -110,14 +112,18 @@ const mapStateToProps = (state, props) => {
     });
 
     const namespacesList = getNamespacesList(state);
-    const { sortedFlowSteps, involvedNsData, ccShiftIndexMap } = gatherFlowStepsData(state, {
-      currentSelectedCrumbedFlowKey: codeCrumbsUserChoice.selectedCrumbedFlowKey,
-      namespacesList
-    });
+    const { flowSteps, sortedFlowSteps, involvedNsData, ccShiftIndexMap } = gatherFlowStepsData(
+      state,
+      {
+        currentSelectedCrumbedFlowKey: codeCrumbsUserChoice.selectedCrumbedFlowKey,
+        namespacesList
+      }
+    );
 
     const maxWidth = getMaxWidthForNs(state, { namespacesList });
 
     extendedCcProps = {
+      flowSteps,
       sortedFlowSteps,
       involvedNsData,
       ccShiftIndexMap,

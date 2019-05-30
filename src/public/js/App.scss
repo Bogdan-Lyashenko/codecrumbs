@@ -15,7 +15,11 @@
   }
 
   > .header {
-    position: relative;
+    position: fixed;
+    z-index: 1;
+    background: #fff;
+    width: 100%;
+    padding-right: 15px;
     border-bottom: 1px solid #F5F5F5;
   }
 

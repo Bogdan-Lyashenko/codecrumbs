@@ -1,5 +1,5 @@
 import saveAs from 'file-saver';
-const version = '*';
+import metaInfo from './../../../meta';
 
 import { FOLDER_OPEN_STATE } from '../../constants';
 
@@ -20,7 +20,7 @@ export const getFoldersForPaths = (paths, openedFolders, override, sep) =>
   }, {});
 
 export const downloadObjectAsJsonFile = (data, fileName = 'codecrumbs-showcase.json') => {
-  const fileToSave = new Blob([JSON.stringify({ version, data }, undefined, 2)], {
+  const fileToSave = new Blob([JSON.stringify({ version: metaInfo.version, data }, undefined, 2)], {
     type: 'application/json',
     name: fileName
   });

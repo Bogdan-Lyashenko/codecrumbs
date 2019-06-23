@@ -17,7 +17,7 @@
     "server-debug": "nodemon --inspect src/index.dev.js",
     "clean": "rm -rf src/public/dist/standalone-build",
     "babel-compile": "babel src/public/js -d src/public/dist/standalone-build --config-file ./src/public/babel.config.js --copy-files",
-    "build": "yarn clean && yarn babel-compile",
+    "build": "yarn clean && node scripts/index.js && yarn babel-compile",
     "start:standalone": "cd src/public/dist/standalone && http-server",
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""
   },

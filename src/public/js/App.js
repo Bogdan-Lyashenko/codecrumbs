@@ -3,6 +3,7 @@ import Spin from 'antd/lib/spin';
 import 'antd/lib/spin/style/css';
 
 import { isMobile } from './utils/index';
+import metaInfo from './meta';
 
 const DataBus = React.lazy(() => import(/* webpackChunkName: "data-bus" */ './core/dataBus'));
 const ViewsSwitches = React.lazy(() =>
@@ -59,7 +60,7 @@ const App = (props = {}) => {
       </div>
 
       <footer className="footer">
-        <span>{`v${process.env.VERSION}`}</span>
+        <span>{`v${metaInfo.version}`}</span>
         <span>
           &#9400; Bohdan Liashenko
           {' • '}

@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Dropdown, Button } from 'antd';
 
-import { NO_TRAIL_FLOW } from 'core/constants';
-import { selectCodeCrumbedFlow } from 'core/dataBus/actions';
-import { getCodeCrumbsUserChoice } from 'core/dataBus/selectors';
-import { getCheckedState } from 'core/controlsBus/selectors';
+import { NO_TRAIL_FLOW } from '../../../../core/constants';
+import { selectCodeCrumbedFlow } from '../../../../core/dataBus/actions';
+import { getCodeCrumbsUserChoice } from '../../../../core/dataBus/selectors';
+import { getCheckedState } from '../../../../core/controlsBus/selectors';
 import './index.scss';
 
 const FlowSelect = ({

@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { LAYOUT_CONFIG, DepEdgeGroups } from 'components/treeDiagram/component/constants';
-import Arrow from 'components/treeDiagram/component/Icons/Arrow';
+import { LAYOUT_CONFIG, DepEdgeGroups } from '../constants';
+import Arrow from '../Icons/Arrow';
 import './index.scss';
 
 const { TOP_LEFT, TOP_RIGHT } = DepEdgeGroups;

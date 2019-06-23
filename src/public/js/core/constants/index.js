@@ -3,7 +3,7 @@ export {
   DIR_NODE_TYPE,
   SOCKET_MESSAGE_TYPE,
   NO_TRAIL_FLOW
-} from 'shared-with-server-src/constants';
+} from '../../../../shared/constants';
 
 export const FOLDER_OPEN_STATE = {
   CLOSED: 0,

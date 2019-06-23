@@ -7,16 +7,16 @@ import CodeCrumbsExtraInfo from './Tree/CodeCrumbs/ExtraInfo';
 import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.scss';
 
-import { buildShiftToPoint } from 'core/dataBus/utils/geometry';
+import { buildShiftToPoint } from '../../../core/dataBus/utils/geometry';
 import {
   getProjectMetadata,
   getSourceLayout,
   getCodeCrumbsUserChoice,
   getNamespacesList
-} from 'core/dataBus/selectors';
-import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
-import { selectDependencyEdge, selectCcFlowEdge } from 'core/dataBus/actions';
-import { setActiveNamespace } from 'core/namespaceIntegration/actions';
+} from '../../../core/dataBus/selectors';
+import { getCheckedState, getValuesState } from '../../../core/controlsBus/selectors';
+import { selectDependencyEdge, selectCcFlowEdge } from '../../../core/dataBus/actions';
+import { setActiveNamespace } from '../../../core/namespaceIntegration/actions';
 import { gatherFlowStepsData, getMaxWidthForNs } from './Tree/CodeCrumbs/helpers';
 
 class TreeDiagram extends React.Component {

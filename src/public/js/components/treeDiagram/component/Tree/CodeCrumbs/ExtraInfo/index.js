@@ -2,18 +2,18 @@ import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { getCheckedState } from 'core/controlsBus/selectors';
+import { getCheckedState } from '../../../../../../core/controlsBus/selectors';
 import {
   getCodeCrumbsUserChoice,
   getSourceLayout,
   getProjectMetadata
-} from 'core/dataBus/selectors';
+} from '../../../../../../core/dataBus/selectors';
 import { getCcPosition, isCodeCrumbSelected } from '../helpers';
 
 import './index.scss';
 
 const Code = React.lazy(() =>
-  import(/* webpackChunkName: "code" */ 'components/sideBar/component/Code')
+  import(/* webpackChunkName: "code" */ '../../../../../sideBar/component/Code')
 );
 
 const DetailsComponent = props => {

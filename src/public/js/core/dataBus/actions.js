@@ -1,7 +1,7 @@
-import { requestFetchFile, openFileInEditor } from 'core/dataBus/connection';
-import { ACTIONS as VIEW_SWITCHES_ACTIONS } from 'core/controlsBus/constants';
-import { ACTIONS as NAMESPACE_INTEGRATION_ACTIONS } from 'core/namespaceIntegration/constants';
-import { getCheckedState, getValuesState, getDisabledState } from 'core/controlsBus/selectors';
+import { requestFetchFile, openFileInEditor } from './connection';
+import { ACTIONS as VIEW_SWITCHES_ACTIONS } from '../controlsBus/constants';
+import { ACTIONS as NAMESPACE_INTEGRATION_ACTIONS } from '../namespaceIntegration/constants';
+import { getCheckedState, getValuesState, getDisabledState } from '../controlsBus/selectors';
 
 import { getFoldersForPaths, downloadObjectAsJsonFile, uploadFileAsObject } from './utils';
 import {

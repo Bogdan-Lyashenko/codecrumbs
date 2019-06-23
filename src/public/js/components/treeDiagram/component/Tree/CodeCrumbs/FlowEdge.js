@@ -3,7 +3,7 @@ import React from 'react';
 import {
   CodeCrumbedFlowEdge,
   ExternalEdge
-} from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
+} from '../../../component/Edge/CodeCrumbEdge';
 import { isCodeCrumbsEqual, getCcPosition } from './helpers';
 
 export default props => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Collapse, Alert } from 'antd';
 
-import { getSource, getSourceUserChoice, getDependenciesUserChoice } from 'core/dataBus/selectors';
+import { getSource, getSourceUserChoice, getDependenciesUserChoice } from '../../../../core/dataBus/selectors';
 
 import Code from '../Code';
 import {

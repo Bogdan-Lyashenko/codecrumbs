@@ -1,13 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import { FOLDER_OPEN_STATE } from 'core/constants';
+import { FOLDER_OPEN_STATE } from '../../../../core/constants';
 import {
   OpenFolder as OpenFolderIcon,
   CloseFolder as CloseFolderIcon
-} from 'components/treeDiagram/component/Icons/Folder';
+} from '../Icons/Folder';
 
 import './index.scss';
-import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
+import { SYMBOL_WIDTH } from '../constants';
 
 export const FolderName = props => {
   const { position, name, cover, disabled, openedState, onNodeClick } = props;

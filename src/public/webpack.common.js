@@ -42,11 +42,7 @@ module.exports = {
     ]
   },
   resolve: {
-    modules: [path.resolve('../../node_modules'), path.resolve(__dirname, 'js/')],
-    alias: {
-      'app.package.json': path.resolve(__dirname, '../../package.json'),
-      'shared-with-server-src': path.resolve(__dirname, '../shared')
-    },
+    modules: [path.resolve('../../node_modules')],
     extensions: ['.js']
   },
 

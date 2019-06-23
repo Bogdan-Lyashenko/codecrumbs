@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getActiveNamespace } from 'core/namespaceIntegration/selectors';
-import { getSourceUserChoice, getSource, getProjectMetadata } from 'core/dataBus/selectors';
-import { toggleSwitch, selectSideBarTab } from 'core/controlsBus/actions';
-import { getCheckedState, getValuesState } from 'core/controlsBus/selectors';
+import { getActiveNamespace } from '../../core/namespaceIntegration/selectors';
+import { getSourceUserChoice, getSource, getProjectMetadata } from '../../core/dataBus/selectors';
+import { toggleSwitch, selectSideBarTab } from '../../core/controlsBus/actions';
+import { getCheckedState, getValuesState } from '../../core/controlsBus/selectors';
 import SideBar from './component/SideBar';
 
 const SideBarContainer = ({ sideBar, ...otherProps }) => {

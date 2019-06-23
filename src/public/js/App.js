@@ -2,23 +2,23 @@ import React, { Suspense } from 'react';
 import Spin from 'antd/lib/spin';
 import 'antd/lib/spin/style/css';
 
-import { isMobile } from 'utils/index';
+import { isMobile } from './utils/index';
 
-const DataBus = React.lazy(() => import(/* webpackChunkName: "data-bus" */ 'core/dataBus'));
+const DataBus = React.lazy(() => import(/* webpackChunkName: "data-bus" */ './core/dataBus'));
 const ViewsSwitches = React.lazy(() =>
-  import(/* webpackChunkName: "view-switches" */ 'components/topBar/controls/ViewSwitches/ViewSwitchesContainer')
+  import(/* webpackChunkName: "view-switches" */ './components/topBar/controls/ViewSwitches/ViewSwitchesContainer')
 );
 const TopBar = React.lazy(() =>
-  import(/* webpackChunkName: "top-bar" */ 'components/topBar/subPanel/SubPanelContainer')
+  import(/* webpackChunkName: "top-bar" */ './components/topBar/subPanel/SubPanelContainer')
 );
 const TreeDiagramsContainer = React.lazy(() =>
-  import(/* webpackChunkName: "tree-diagram" */ 'components/treeDiagram/TreeDiagramsContainer')
+  import(/* webpackChunkName: "tree-diagram" */ './components/treeDiagram/TreeDiagramsContainer')
 );
 const SideBar = React.lazy(() =>
-  import(/* webpackChunkName: "side-bar" */ 'components/sideBar/SideBarContainer')
+  import(/* webpackChunkName: "side-bar" */ './components/sideBar/SideBarContainer')
 );
 const ExplorerBar = React.lazy(() =>
-  import(/* webpackChunkName: "explorer-bar" */ 'components/explorerBar/ExplorerBarContainer')
+  import(/* webpackChunkName: "explorer-bar" */ './components/explorerBar/ExplorerBarContainer')
 );
 
 import './App.scss';

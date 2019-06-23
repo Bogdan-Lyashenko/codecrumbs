@@ -4,9 +4,9 @@ import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import controlsBus from 'core/controlsBus/reducer';
-import dataBus from 'core/dataBus/reducer';
-import namespaceIntegration from 'core/namespaceIntegration/reducer';
+import controlsBus from '../controlsBus/reducer';
+import dataBus from '../dataBus/reducer';
+import namespaceIntegration from '../namespaceIntegration/reducer';
 import rootSaga from './sagas';
 
 export default () => {

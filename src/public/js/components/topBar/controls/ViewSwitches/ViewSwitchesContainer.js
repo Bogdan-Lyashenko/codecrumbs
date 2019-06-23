@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getActiveNamespace } from 'core/namespaceIntegration/selectors';
-import { getProjectMetadata } from 'core/dataBus/selectors';
+import { getActiveNamespace } from '../../../../core/namespaceIntegration/selectors';
+import { getProjectMetadata } from '../../../../core/dataBus/selectors';
 
-import { CONTROLS_KEYS } from 'core/controlsBus/constants';
-import { toggleSwitch, fireButtonAction } from 'core/controlsBus/actions';
-import { getSwitches, getCheckedState, getDisabledState } from 'core/controlsBus/selectors';
+import { CONTROLS_KEYS } from '../../../../core/controlsBus/constants';
+import { toggleSwitch, fireButtonAction } from '../../../../core/controlsBus/actions';
+import { getSwitches, getCheckedState, getDisabledState } from '../../../../core/controlsBus/selectors';
 
 import ViewSwitchList from './List/ViewSwitchList';
 

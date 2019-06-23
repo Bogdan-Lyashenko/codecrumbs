@@ -1,4 +1,4 @@
-import { FILE_NODE_TYPE, DIR_NODE_TYPE } from 'core/constants';
+import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../constants';
 
 export const calculateLayoutProps = (list, padding = 100) => {
   if (!list) {

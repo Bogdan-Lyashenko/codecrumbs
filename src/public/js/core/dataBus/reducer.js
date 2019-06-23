@@ -1,4 +1,4 @@
-import { FOLDER_OPEN_STATE } from 'core/constants';
+import { FOLDER_OPEN_STATE } from '../constants';
 
 import { ACTIONS } from './constants';
 import { getFileNodesMap, getCodecrumbNodesMap } from './utils/treeLayout';

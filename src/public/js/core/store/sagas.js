@@ -1,7 +1,7 @@
 import { put, takeLatest, select, all } from 'redux-saga/effects';
 // import { delay } from 'redux-saga';
 
-import { ACTIONS as DATA_BUS_ACTIONS } from 'core/dataBus/constants';
+import { ACTIONS as DATA_BUS_ACTIONS } from '../dataBus/constants';
 import {
   calcFilesTreeLayoutNodes,
   openAllFolders,
@@ -10,14 +10,14 @@ import {
   setDependenciesEntryPoint,
   selectCodeCrumbedFlow,
   updateFoldersByActiveChildren
-} from 'core/dataBus/actions';
-import { getNamespacesList } from 'core/dataBus/selectors';
+} from '../dataBus/actions';
+import { getNamespacesList } from '../dataBus/selectors';
 
-import { ACTIONS as SWITCHES_ACTIONS, CONTROLS_KEYS } from 'core/controlsBus/constants';
-import { setDisabledControl, toggleSwitch } from 'core/controlsBus/actions';
-import { getCheckedState } from 'core/controlsBus/selectors';
+import { ACTIONS as SWITCHES_ACTIONS, CONTROLS_KEYS } from '../controlsBus/constants';
+import { setDisabledControl, toggleSwitch } from '../controlsBus/actions';
+import { getCheckedState } from '../controlsBus/selectors';
 
-import { setActiveNamespace } from 'core/namespaceIntegration/actions';
+import { setActiveNamespace } from '../namespaceIntegration/actions';
 
 function* reactOnSwitchToggle(action) {
   const namespacesList = yield select(getNamespacesList);

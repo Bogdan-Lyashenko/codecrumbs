@@ -1,9 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import FlowSelect from 'components/topBar/controls/FlowSelect/index';
-import ZoomControl from 'components/topBar/controls/ZoomControl/index';
-import SettingsControl from 'components/topBar/controls/SettingsControl/index';
+import FlowSelect from '../../FlowSelect/index';
+import SettingsControl from '../../SettingsControl/index';
 
 import ViewSwitch from '../Item/ViewSwitch';
 import './ViewSwitchList.scss';

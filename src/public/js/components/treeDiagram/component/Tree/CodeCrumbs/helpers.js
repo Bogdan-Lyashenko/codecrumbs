@@ -1,5 +1,5 @@
-import { getCodeCrumbsUserChoice, getSourceLayout } from 'core/dataBus/selectors';
-import { NO_TRAIL_FLOW } from 'core/constants';
+import { getCodeCrumbsUserChoice, getSourceLayout } from '../../../../../core/dataBus/selectors';
+import { NO_TRAIL_FLOW } from '../../../../../core/constants';
 
 export const isCodeCrumbsEqual = (cc, currentCc) =>
   cc.name === currentCc.name && cc.flowStep === currentCc.flowStep;

@@ -1,7 +1,7 @@
 import saveAs from 'file-saver';
-const { version } = require('app.package.json');
+const { version } = require('../../../../../../package.json');
 
-import { FOLDER_OPEN_STATE } from 'core/constants';
+import { FOLDER_OPEN_STATE } from '../../constants';
 
 export const getFoldersForPaths = (paths, openedFolders, override, sep) =>
   paths.reduce((res, path) => {

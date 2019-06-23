@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { NO_TRAIL_FLOW } from 'core/constants';
-import { CodeCrumbName } from 'components/treeDiagram/component/Node/CodeCrumb';
-import { PartEdge, CodeCrumbMultiEdge } from 'components/treeDiagram/component/Edge/CodeCrumbEdge';
+import { NO_TRAIL_FLOW } from '../../../../../core/constants';
+import { CodeCrumbName } from '../../../../treeDiagram/component/Node/CodeCrumb';
+import { PartEdge, CodeCrumbMultiEdge } from '../../../../treeDiagram/component/Edge/CodeCrumbEdge';
 import { isCodeCrumbSelected, getCcPosition } from './helpers';
 
 const Tree = props => {

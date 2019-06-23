@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Menu, Dropdown, Icon } from 'antd';
 
-import { VIEW_TYPES } from 'core/controlsBus/constants';
+import { VIEW_TYPES } from '../../../../../core/controlsBus/constants';
 import './ViewSwitch.scss';
 
 class ViewSwitch extends React.Component {

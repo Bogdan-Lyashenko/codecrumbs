@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Tabs } from 'antd';
 import { Skeleton, Alert } from 'antd';
 
-import { Copy } from 'components/topBar/controls/Copy';
+import { Copy } from '../../topBar/controls/Copy';
 
 const Code = React.lazy(() => import(/* webpackChunkName: "code" */ './Code'));
 const DependenciesTab = React.lazy(() =>

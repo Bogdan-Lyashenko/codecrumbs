@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { createConnection } from 'core/dataBus/connection';
-import { SOCKET_MESSAGE_TYPE } from 'core/constants';
+import { createConnection } from './connection';
+import { SOCKET_MESSAGE_TYPE } from '../constants';
 import {
   setInitialSourceData,
   setChangedSourceData,

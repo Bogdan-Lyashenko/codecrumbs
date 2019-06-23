@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SYMBOL_WIDTH, NODE_NAME_X_SHIFT } from 'components/treeDiagram/component/constants';
+import { SYMBOL_WIDTH, NODE_NAME_X_SHIFT } from '../constants';
 
-import FileIcon from 'components/treeDiagram/component/Icons/language/File';
-import CppFileIcon from 'components/treeDiagram/component/Icons/language/CppFile';
-import JavaScriptFileIcon from 'components/treeDiagram/component/Icons/language/JavaScriptFile';
-import PythonFileIcon from 'components/treeDiagram/component/Icons/language/PythonFile';
+import FileIcon from '../Icons/language/File';
+import CppFileIcon from '../Icons/language/CppFile';
+import JavaScriptFileIcon from '../Icons/language/JavaScriptFile';
+import PythonFileIcon from '../Icons/language/PythonFile';
 
-import DepCirclesIcon from 'components/treeDiagram/component/Icons/DepCircles';
+import DepCirclesIcon from '../Icons/DepCircles';
 import './index.scss';
 
 const getFileIcon = ({ position, iconSize, language }) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Upload, Icon } from 'antd';
 
-import { uploadStore } from 'core/dataBus/actions';
+import { uploadStore } from '../../../../core/dataBus/actions';
 import './index.scss';
 
 const Dragger = Upload.Dragger;

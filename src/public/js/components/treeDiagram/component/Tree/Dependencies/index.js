@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import {
   DependenciesEdge,
   DependenciesArrow
-} from 'components/treeDiagram/component/Edge/DepenenciesEdge';
-import { FileName } from 'components/treeDiagram/component/Node/File';
-import { selectDependencyEdge } from 'core/dataBus/actions';
+} from '../../Edge/DepenenciesEdge';
+import { FileName } from '../../../component/Node/File';
+import { selectDependencyEdge } from '../../../../../core/dataBus/actions';
 import {
   getSourceLayout,
   getSourceUserChoice,
   getDependenciesUserChoice
-} from 'core/dataBus/selectors';
-import { getCheckedState } from 'core/controlsBus/selectors';
+} from '../../../../../core/dataBus/selectors';
+import { getCheckedState } from '../../../../../core/controlsBus/selectors';
 
 import { getGroupsAroundNode, checkIsEdgeSelected } from './utils';
 

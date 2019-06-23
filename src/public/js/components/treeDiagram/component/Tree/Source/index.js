@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectNode, selectNodeToOpenInEditor, toggleFolder } from 'core/dataBus/actions';
+import { selectNode, selectNodeToOpenInEditor, toggleFolder } from '../../../../../core/dataBus/actions';
 import {
   getSource,
   getSourceLayout,
   getSourceUserChoice,
   getDependenciesUserChoice,
   getProjectMetadata
-} from 'core/dataBus/selectors';
-import { getCheckedState } from 'core/controlsBus/selectors';
+} from '../../../../../core/dataBus/selectors';
+import { getCheckedState } from '../../../../../core/controlsBus/selectors';
 import SourceTree from './Tree';
 
 const mapStateToProps = (state, props) => {

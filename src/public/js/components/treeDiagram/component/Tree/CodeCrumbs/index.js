@@ -6,9 +6,9 @@ import {
   getSourceLayout,
   getCodeCrumbsUserChoice,
   getNamespacesList
-} from 'core/dataBus/selectors';
-import { selectCodeCrumb, selectNodeToOpenInEditor, selectCcFlowEdge } from 'core/dataBus/actions';
-import { getCheckedState } from 'core/controlsBus/selectors';
+} from '../../../../../core/dataBus/selectors';
+import { selectCodeCrumb, selectNodeToOpenInEditor, selectCcFlowEdge } from '../../../../../core/dataBus/actions';
+import { getCheckedState } from '../../../../../core/controlsBus/selectors';
 
 import Tree from './Tree';
 import FlowEdges from './FlowEdge';

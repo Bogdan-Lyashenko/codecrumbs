@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SYMBOL_WIDTH } from 'components/treeDiagram/component/constants';
-import Arrow from 'components/treeDiagram/component/Icons/Arrow';
+import { SYMBOL_WIDTH } from '../constants';
+import Arrow from '../Icons/Arrow';
 import './index.scss';
 
 const SINGLE_CRUMB_SHIFT = 22;

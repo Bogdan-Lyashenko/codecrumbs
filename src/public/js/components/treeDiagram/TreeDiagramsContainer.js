@@ -4,8 +4,8 @@ import { Spin } from 'antd';
 
 import StandalonePlaceholder from './component/StandalonePlaceholder';
 
-import { getNamespacesList } from 'core/dataBus/selectors';
-import { getActiveNamespace } from 'core/namespaceIntegration/selectors';
+import { getNamespacesList } from '../../core/dataBus/selectors';
+import { getActiveNamespace } from '../../core/namespaceIntegration/selectors';
 import TreeDiagram from './component/TreeDiagram';
 
 import './TreeDiagamsContainer.scss';

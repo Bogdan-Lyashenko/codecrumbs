@@ -3,7 +3,7 @@ node_modules
 
 # Build directories
 src/public/dist/local/bundle/
-src/public/dist/standalone/bundle/
+src/public/dist/standalone-build/
 
 # example for dev
 # example-project

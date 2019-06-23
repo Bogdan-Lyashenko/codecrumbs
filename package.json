@@ -3,6 +3,7 @@
   "version": "1.4.6",
   "author": "Bohdan Liashenko",
   "license": "BSD-3-Clause",
+  "main": "src/public/dist/standalone-build",
   "repository": {
     "type": "git",
     "url": "https://github.com/Bogdan-Lyashenko/codecrumbs.git"
@@ -14,7 +15,9 @@
     "client-dev": "cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev",
     "server-dev": "nodemon src/index.dev.js",
     "server-debug": "nodemon --inspect src/index.dev.js",
-    "build": "cd src/public && webpack --config webpack.prod.js --progress --colors",
+    "clean": "rm -rf src/public/dist/standalone-build",
+    "babel-compile": "babel src/public/js -d src/public/dist/standalone-build --config-file ./src/public/babel.config.js --copy-files",
+    "build": "yarn clean && yarn babel-compile",
     "start:standalone": "cd src/public/dist/standalone && http-server",
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""
   },
@@ -53,6 +56,7 @@
     "websocket": "1.0.27"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.1.0",

@@ -1,5 +1,5 @@
 import saveAs from 'file-saver';
-const { version } = require('../../../../../../package.json');
+const version = '*';
 
 import { FOLDER_OPEN_STATE } from '../../constants';
 

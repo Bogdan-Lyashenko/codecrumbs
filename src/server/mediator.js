@@ -3,7 +3,7 @@ const http = require('http');
 
 const { SOCKET_MSG_MAX_SIZE } = require('./config');
 const logger = require('./utils/logger');
-const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
+const { SOCKET_MESSAGE_TYPE } = require('./shared-constants');
 
 // instances should run on many ports but then send data to mediator and mediator to client
 const run = ({ port, clientPort }) => {

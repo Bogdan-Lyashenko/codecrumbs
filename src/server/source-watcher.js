@@ -3,7 +3,7 @@ const WebSocketClient = require('websocket').client;
 const { SOCKET_MSG_MAX_SIZE } = require('./config');
 const logger = require('./utils/logger');
 const { parseFiles, openFileInEditor } = require('./api/');
-const { SOCKET_MESSAGE_TYPE } = require('../shared/constants');
+const { SOCKET_MESSAGE_TYPE } = require('./shared-constants');
 
 const projectSourceWatcher = require('./project-source/');
 const { detectLanguage } = require('./code-parse/language');

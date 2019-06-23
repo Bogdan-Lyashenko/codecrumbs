@@ -1,4 +1,4 @@
-const { SERVER_PORT, SOCKET_MESSAGE_TYPE } = require('../../../../shared/constants');
+import { SERVER_PORT, SOCKET_MESSAGE_TYPE } from '../../shared-constants';
 
 let sendMessage = () => {
   console.warn('Connection to server was not established');

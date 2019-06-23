@@ -1,4 +1,4 @@
-const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../../shared/constants');
+const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../shared-constants');
 
 const CRUMB = 'codecrumb',
   CRUMB_SHORT_HANDLER = 'cc';

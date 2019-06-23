@@ -1,7 +1,7 @@
 const directoryTree = require('directory-tree');
 
-const { traversal: treeTraversal } = require('../../shared/utils/tree');
-const DIR_NODE_TYPE = require('../../shared/constants').DIR_NODE_TYPE;
+const { traversal: treeTraversal } = require('../utils/tree');
+const { DIR_NODE_TYPE } = require('../shared-constants');
 
 const getProjectFiles = (projectDir, config = { extensions: /(.*?)/ }) => {
   const filesMap = {};

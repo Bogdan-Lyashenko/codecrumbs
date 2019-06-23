@@ -5,7 +5,7 @@ const portscanner = require('portscanner');
 const httpServer = require('http-server');
 
 const logger = require('./utils/logger');
-const { SERVER_PORT } = require('../shared/constants');
+const { SERVER_PORT } = require('./shared-constants');
 const mediator = require('./mediator');
 const sourceWatcher = require('./source-watcher');
 

@@ -45,7 +45,7 @@ export const selectNode = (fileNode, namespace) => dispatch => {
     namespace
   });
 
-  if (process.env.STANDALONE) {
+  if (!process.env.LOCAL) {
     return;
   }
 
@@ -53,7 +53,7 @@ export const selectNode = (fileNode, namespace) => dispatch => {
 };
 
 export const selectNodeToOpenInEditor = ({ path, line }, namespace) => () => {
-  if (process.env.STANDALONE) {
+  if (!process.env.LOCAL) {
     return;
   }
 

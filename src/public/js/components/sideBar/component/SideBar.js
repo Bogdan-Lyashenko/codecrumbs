@@ -31,7 +31,7 @@ export default ({
   onTabSelect
 }) => {
   const file = selectedNode && filesMap[selectedNode.path];
-  const standaloneNoCode = process.env.STANDALONE && (!file || !file.fileCode);
+  const standaloneNoCode = !process.env.LOCAL && (!file || !file.fileCode);
   const header = standaloneNoCode ? (
     <Alert
       message="No code for this file in standalone mode."

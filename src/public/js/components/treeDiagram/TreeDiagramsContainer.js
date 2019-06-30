@@ -12,7 +12,7 @@ import './TreeDiagamsContainer.scss';
 
 const TreeDiagramsContainer = ({ namespacesList, activeNamespace }) => {
   if (!namespacesList.length) {
-    return process.env.STANDALONE ? (
+    return !process.env.LOCAL ? (
       <StandalonePlaceholder />
     ) : (
       <div className={'MainLoader'}>

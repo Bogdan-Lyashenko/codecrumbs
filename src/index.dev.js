@@ -16,12 +16,12 @@ const namespaceTwo = {
 };
 
 const namespaceTypeScriptExample = {
-    projectNameAlias: 'ts-example-server',
-    projectDir: `example-project/src-typescript`,
-    entryPoint: `example-project/src-typescript/index.tsx`,
-    tsConfigPath: `example-project/src-typescript/tsConfig.json`,
-    clientPort: 2018
-  };
+  projectNameAlias: 'ts-example-server',
+  projectDir: `example-project/src-typescript`,
+  entryPoint: `example-project/src-typescript/index.tsx`,
+  tsConfigPath: `example-project/src-typescript/tsConfig.json`,
+  clientPort: 2018
+};
 
 const namespaceDebug = {
   projectNameAlias: 'debug',
@@ -39,9 +39,8 @@ const namespaceLanguageTest = {
 
 const args = process.argv.slice(2);
 const namespaces = {
-   two: namespaceTwo,
-   ts: namespaceTypeScriptExample
+  two: namespaceTwo,
+  ts: namespaceTypeScriptExample
 };
 const namespace = namespaces[args[0]] !== undefined ? namespaces[args[0]] : namespaceOne;
-const isDev = true;
-server.setup(namespace, isDev);
+server.setup(namespace, { isDev: true });

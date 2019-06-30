@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Upload, Icon } from 'antd';
+import { Upload, Icon } from 'antd'; // TODO: refactor imports to have direct css import from es/
+// e.g.
+// import Spin from 'antd/lib/spin';
+// import 'antd/lib/spin/style/css';
 
 import { uploadStore } from '../../../../core/dataBus/actions';
 import './index.scss';

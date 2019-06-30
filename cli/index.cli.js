@@ -7,11 +7,7 @@ const server = require('../src/server');
 
 program
   .option('-e, --entry [entryFile]', 'Specify path to entry point file. E.g. `src/app.js`')
-  .option(
-    '-d, --dir [projectDir]',
-    'Specify path to project source code directory. E.g. `src`',
-    ''
-  )
+  .option('-d, --dir [projectDir]', 'Specify path to project source code directory. E.g. `src`', '')
   .option(
     '-w, --webpack [webpackConfigFile]',
     'Specify path to webpack config file. E.g. webpack.config.js'
@@ -44,5 +40,5 @@ server.setup(
     clientPort: program.port,
     excludeDir: program.excludeDir
   },
-  false
+  { isDev: false }
 );

@@ -3,7 +3,6 @@ import Spin from 'antd/lib/spin';
 import 'antd/lib/spin/style/css';
 
 import { isMobile } from './utils/index';
-import metaInfo from './meta';
 
 const DataBus = React.lazy(() => import(/* webpackChunkName: "data-bus" */ './core/dataBus'));
 const ViewsSwitches = React.lazy(() =>
@@ -20,6 +19,10 @@ const SideBar = React.lazy(() =>
 );
 const ExplorerBar = React.lazy(() =>
   import(/* webpackChunkName: "explorer-bar" */ './components/explorerBar/ExplorerBarContainer')
+);
+
+const Footer = React.lazy(() =>
+  import(/* webpackChunkName: "explorer-bar" */ './components/footer')
 );
 
 import './App.scss';
@@ -60,18 +63,9 @@ const App = (props = {}) => {
       </div>
 
       <footer className="footer">
-        <span>{`v${metaInfo.version}`}</span>
-        <span>
-          &#9400; Bohdan Liashenko
-          {' • '}
-          <a target="_blank" href="https://github.com/Bogdan-Lyashenko/codecrumbs">
-            Github
-          </a>
-          {' • '}
-          <a target="_blank" href="https://codecrumbs.io/">
-            codecrumbs.io
-          </a>
-        </span>
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
       </footer>
     </div>
   );

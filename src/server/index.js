@@ -9,7 +9,7 @@ const { SERVER_PORT } = require('./shared-constants');
 const mediator = require('./mediator');
 const sourceWatcher = require('./source-watcher');
 
-const setup = (options, isDev) => {
+const setup = (options, devOptions) => {
   logger.fun(`>\n> Codecrumbs magic begins!\n>`);
   logger.info(`> started with options: ${JSON.stringify(options)}`);
 
@@ -46,8 +46,8 @@ const setup = (options, isDev) => {
         logger.log(`- starting: http server for client assets`);
         httpServer
           .createServer({
-            root: path.resolve(__dirname, '../public/dist/local'),
-            cache: isDev ? -1 : 3600
+            root: devOptions.httpServerRoot || path.resolve(__dirname, '../public/dist/local'),
+            cache: devOptions.isDev ? -1 : 3600
           })
           .listen(clientPort, HOST, () => {
             logger.info(

@@ -1,1 +1,1 @@
-export default { version: '1.5.6' }
+export default { version: process.env.CODECRUMBS_VERSION }

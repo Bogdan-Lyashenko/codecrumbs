@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { SYMBOL_WIDTH } from '../constants';
 import Arrow from '../Icons/Arrow';
-import './index.scss';
+import './index.less';
 
 const SINGLE_CRUMB_SHIFT = 22;
 

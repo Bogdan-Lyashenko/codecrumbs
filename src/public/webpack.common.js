@@ -23,14 +23,33 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        test: /\.less$/,
+        include: [path.resolve(__dirname, './js/')],
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader'
+          }
+        ]
       },
       {
-        test: /\.css$/,
+        test: /\.less$/,
         include: [path.resolve(__dirname, '../../node_modules/antd/')],
-        use: ['style-loader', 'css-loader']
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true
+            }
+          }
+        ]
       }
     ]
   },

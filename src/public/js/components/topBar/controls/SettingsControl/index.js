@@ -1,9 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Dropdown, Button, Icon, Upload } from 'antd';
+
+import Menu from 'antd/es/menu'
+import 'antd/es/menu/style'
+import Dropdown from 'antd/es/dropdown'
+import 'antd/es/dropdown/style'
+import Icon from 'antd/es/icon'
+import 'antd/es/icon/style'
+import Button from 'antd/es/button'
+import 'antd/es/button/style'
+import Upload from 'antd/es/upload'
+import 'antd/es/upload/style'
 
 import { downloadStore, uploadStore } from '../../../../core/dataBus/actions';
-import './index.scss';
+import './index.less';
 
 const SettingsControl = ({ onDownload, onUpload }) => {
   const uploadProps = {

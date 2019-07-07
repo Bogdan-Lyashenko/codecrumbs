@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { LAYOUT_CONFIG, DepEdgeGroups } from '../constants';
 import Arrow from '../Icons/Arrow';
-import './index.scss';
+import './index.less';
 
 const { TOP_LEFT, TOP_RIGHT } = DepEdgeGroups;
 

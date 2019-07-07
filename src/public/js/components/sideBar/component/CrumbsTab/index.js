@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Collapse, Alert } from 'antd';
+
+import Collapse from 'antd/es/collapse'
+import 'antd/es/collapse/style'
+import Alert from 'antd/es/alert'
+import 'antd/es/alert/style'
 
 import { NO_TRAIL_FLOW } from '../../../../shared-constants';
 import { getCodeCrumbsUserChoice } from '../../../../core/dataBus/selectors';
@@ -8,7 +12,7 @@ import { getNamespacesList } from '../../../../core/dataBus/selectors';
 import { gatherFlowStepsData } from '../../../treeDiagram/component/Tree/CodeCrumbs/helpers';
 
 import Code from '../Code';
-import './index.scss';
+import './index.less';
 
 const Panel = Collapse.Panel;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import './index.scss';
+import './index.less';
 
 export const CodeCrumbName = props => {
   // onMouseOver maybe use onMouseOver to show crumb details in popover

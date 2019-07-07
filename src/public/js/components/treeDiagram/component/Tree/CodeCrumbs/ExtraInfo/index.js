@@ -10,7 +10,7 @@ import {
 } from '../../../../../../core/dataBus/selectors';
 import { getCcPosition, isCodeCrumbSelected } from '../helpers';
 
-import './index.scss';
+import './index.less';
 
 const Code = React.lazy(() =>
   import(/* webpackChunkName: "code" */ '../../../../../sideBar/component/Code')

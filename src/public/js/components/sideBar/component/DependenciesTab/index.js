@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Collapse, Alert } from 'antd';
+
+import Collapse from 'antd/es/collapse'
+import 'antd/es/collapse/style'
+import Alert from 'antd/es/alert'
+import 'antd/es/alert/style'
 
 import { getSource, getSourceUserChoice, getDependenciesUserChoice } from '../../../../core/dataBus/selectors';
 
@@ -10,7 +14,7 @@ import {
   findFileNode,
   extractExportsForImports
 } from '../shared/utils';
-import './index.scss';
+import './index.less';
 
 const Panel = Collapse.Panel;
 

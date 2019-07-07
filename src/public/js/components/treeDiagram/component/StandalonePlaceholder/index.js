@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Upload, Icon } from 'antd'; // TODO: refactor imports to have direct css import from es/
-// e.g.
-// import Spin from 'antd/lib/spin';
-// import 'antd/lib/spin/style/css';
+
+import Upload from 'antd/es/upload'
+import 'antd/es/upload/style'
+import Icon from 'antd/es/icon'
+import 'antd/es/icon/style'
 
 import { uploadStore } from '../../../../core/dataBus/actions';
-import './index.scss';
+import './index.less';
 
 const Dragger = Upload.Dragger;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './index.scss';
+import './index.less';
 
 const styleUp = {
   transform: 'rotate(-90deg)',

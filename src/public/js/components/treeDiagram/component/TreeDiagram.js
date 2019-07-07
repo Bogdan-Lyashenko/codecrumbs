@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import SourceTree from './Tree/Source/';
 import CodeCrumbsExtraInfo from './Tree/CodeCrumbs/ExtraInfo';
 import { UnderLayer } from './UnderLayer';
-import './TreeDiagram.scss';
+import './TreeDiagram.less';
 
 import { buildShiftToPoint } from '../../../core/dataBus/utils/geometry';
 import {

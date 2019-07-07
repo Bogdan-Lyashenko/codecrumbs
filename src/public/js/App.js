@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
-import Spin from 'antd/lib/spin';
-import 'antd/lib/spin/style/css';
+
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
 
 import { isMobile } from './utils/index';
 
@@ -25,7 +26,7 @@ const Footer = React.lazy(() =>
   import(/* webpackChunkName: "explorer-bar" */ './components/footer')
 );
 
-import './App.scss';
+import './App.less';
 
 const App = (props = {}) => {
   return (

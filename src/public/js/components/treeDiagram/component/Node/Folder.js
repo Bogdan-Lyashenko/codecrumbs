@@ -6,7 +6,7 @@ import {
   CloseFolder as CloseFolderIcon
 } from '../Icons/Folder';
 
-import './index.scss';
+import './index.less';
 import { SYMBOL_WIDTH } from '../constants';
 
 export const FolderName = props => {

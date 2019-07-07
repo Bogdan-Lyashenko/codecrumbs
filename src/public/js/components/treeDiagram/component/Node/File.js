@@ -9,7 +9,7 @@ import JavaScriptFileIcon from '../Icons/language/JavaScriptFile';
 import PythonFileIcon from '../Icons/language/PythonFile';
 
 import DepCirclesIcon from '../Icons/DepCircles';
-import './index.scss';
+import './index.less';
 
 const getFileIcon = ({ position, iconSize, language }) => {
   switch (language) {

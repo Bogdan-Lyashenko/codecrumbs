@@ -5,7 +5,7 @@ import FlowSelect from '../../FlowSelect/index';
 import SettingsControl from '../../SettingsControl/index';
 
 import ViewSwitch from '../Item/ViewSwitch';
-import './ViewSwitchList.scss';
+import './ViewSwitchList.less';
 
 const ViewSwitchList = props => {
   const {

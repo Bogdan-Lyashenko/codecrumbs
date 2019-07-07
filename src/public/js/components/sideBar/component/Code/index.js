@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
-import './index.scss';
+import './index.less';
 
 const FONT_SIZE = 12;
 const LINE_HEIGHT = 18;

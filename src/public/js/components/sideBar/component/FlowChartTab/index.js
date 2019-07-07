@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { Spin, Alert } from 'antd';
+import Alert from 'antd/es/alert'
+import 'antd/es/alert/style'
+import Spin from 'antd/es/spin'
+import 'antd/es/spin/style'
 
-import './index.scss';
+import './index.less';
 
 const Styles = {
   strokeColor: '#00bcd4',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Spin } from 'antd';
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
 
 import StandalonePlaceholder from './component/StandalonePlaceholder';
 
@@ -8,7 +9,7 @@ import { getNamespacesList } from '../../core/dataBus/selectors';
 import { getActiveNamespace } from '../../core/namespaceIntegration/selectors';
 import TreeDiagram from './component/TreeDiagram';
 
-import './TreeDiagamsContainer.scss';
+import './TreeDiagamsContainer.less';
 
 const TreeDiagramsContainer = ({ namespacesList, activeNamespace }) => {
   if (!namespacesList.length) {

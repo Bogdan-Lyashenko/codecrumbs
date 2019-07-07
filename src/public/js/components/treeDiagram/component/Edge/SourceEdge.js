@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import './index.scss';
+import './index.less';
 
 export const SourceEdge = props => {
   const { targetPosition, sourcePosition, disabled, singleChild, selected } = props;

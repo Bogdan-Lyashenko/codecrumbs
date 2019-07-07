@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './index.scss';
+import './index.less';
 
 export const OpenFolder = ({ x, y, width, height, fill }) => (
   <svg

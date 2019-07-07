@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'antd';
+
+import Button from 'antd/es/button'
+import 'antd/es/button/style'
 
 const ButtonGroup = Button.Group;
 
-import { setZoom } from 'core/controlsBus/actions';
-import { getValuesState } from 'core/controlsBus/selectors';
-import './index.scss';
+import { setZoom } from '../../../../core/controlsBus/actions';
+import { getValuesState } from '../../../../core/controlsBus/selectors';
+import './index.less';
 
 const ZoomControl = ({ zoom, setZoom }) => {
   const step = 0.1;

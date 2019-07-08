@@ -26,7 +26,7 @@ module.exports = {
       },
       {
         language: 'javascript',
-        extensions: /\.(js|jsx|_js|bones|es|es6|frag|gs|jake|jsb|jscad|jsfl|jsm|jss|mjs|njs|pac|sjs|ssjs|xsjs|xsjslib)$/
+        extensions: /\.(js|jsx|_js|bones|es|es6|frag|gs|jake|jsb|jscad|jsfl|jsm|jss|mjs|njs|pac|sjs|ssjs|vue|xsjs|xsjslib)$/
       },
       {
         language: 'kotlin',

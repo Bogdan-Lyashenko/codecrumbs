@@ -28,7 +28,7 @@
 ## Demo
 Check out the example of [**standalone version running here**](https://codecrumbs.io/#showcase=todo-react-redux).
  
-<img src="/docs/main-ui-2.png" width="100%"/>
+<img src="/docs/main-ui-3.png" width="100%"/>
  
 ## Get started
 ### Install and run
@@ -50,13 +50,13 @@ Parameter | Description | Example
 ## Features
 ### Breadcrumbs and trails
 
-<img src="/docs/cc-ui-2.png" width="750"/>
+<img src="/docs/cc-ui-3.png" width="750"/>
 
 UI explained:
 - enable "Codecrumbs" switch to have codecrumbs tree on the scheme (drop-down contains extra configuration)
 - choose "current" codecrumbs trail to display (can be either trail or all other "simple" codecrumbs)
 - select connection between two steps (code for two codecrumbs will be opened in "Sidebar" under "Crumbs" tab)
-- set other options in dropdowns to configure behaviour of the diagram
+- set other options in dropdowns to configure behaviour of the diagram (show code blocks, details, etc.)
 
 **How to get there?** 
 
@@ -80,7 +80,7 @@ Simply start codecrumbs multiple times (once for each codebase), it all **will b
 E.g. for client-server application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. 
 > **Note:** codebases can be located wherever you want (**no** need to have them like mono-repo, etc.), simply run `codecrumbs` for directory you need.  
 
-<img src="/docs/multi-codebase-cc.png" width="100%"/>
+<img src="/docs/multi-codebase-cc-2.png" width="100%"/>
 
 ### Multi-language support
 Current version supports next programming languages: 

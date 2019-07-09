@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch, props) => {
       event.preventDefault();
       event.stopPropagation();
 
-      return event.metaKey
+      return event.metaKey || event.altKey
         ? dispatch(selectNodeToOpenInEditor(fileNode, namespace))
         : dispatch(selectNode(fileNode, namespace));
     },

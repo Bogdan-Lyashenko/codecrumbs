@@ -23,6 +23,8 @@
 >
 >**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and builds its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly. 
 >
+> Check out [my talk at React-Finland](https://www.youtube.com/watch?v=S_1-1jzLxm4) for more details.
+>
 >-[@bliashenko](https://twitter.com/bliashenko)    
 
 ## Demo
@@ -44,6 +46,7 @@ Parameter | Description | Example
 ```-d```, ```--dir``` | Relative path to project source code directory | ```-d src```
 ```-e```, ```--entry``` | Relative path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
 ```-x```, ```--excludeDir``` | Relative path(or paths separated by ```,```) to directories for exclusion | ```-x src/doc,src/thirdparty```
+```-i```, ```--ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
 ```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
 
@@ -120,6 +123,13 @@ UI explained:
 <img src="/docs/flow-ui.png" width="100%"/>
 
 [js2flowchart](https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart) is used in the sidebar to draw flowchart for the selected file code.
+
+### IDE integration
+> Check ```-i``` CLI param first to configure command.
+
+Navigate from browser to your code editor simply by clicking ```Command+click```(or ```Alt+click```) on a file or a codecrumb to open file in your IDE.
+
+<img src="/docs/ide-integration.gif" width="100%"/>
 
 ## Case studies
 The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & Upload* feature it becomes super easy to collect and share your "investigation results".

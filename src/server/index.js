@@ -20,7 +20,8 @@ const setup = (options, devOptions) => {
     webpackConfigPath,
     tsConfigPath,
     clientPort,
-    excludeDir
+    excludeDir,
+    ideCmd
   } = options;
 
   const PORT_IN_USE = 'open';
@@ -74,7 +75,8 @@ const setup = (options, devOptions) => {
           entryPoint: alignPlatformPath(entryPoint),
           webpackConfigPath: alignPlatformPath(webpackConfigPath),
           tsConfigPath: alignPlatformPath(tsConfigPath),
-          excludeDir: (excludeDir ? excludeDir.split(',') : []).map(alignPlatformPath)
+          excludeDir: (excludeDir ? excludeDir.split(',') : []).map(alignPlatformPath),
+          ideCmd
         }
       );
     })

@@ -17,6 +17,7 @@ program
     'Specify path to typeScript config file. E.g. tsConfig.json'
   )
   .option('-p, --port [defaultPort]', 'Specify port for Codecrumbs client. E.g. 3333', 2018)
+  .option('-i, --ideCmd [ideCmd]', 'IDE command to open file')
   .option('-x, --excludeDir [excludeDirectories]', 'Exclude directories')
   .option('-n, --projectName [projectNameAlias]', 'Project name alias')
   .parse(process.argv);
@@ -38,7 +39,8 @@ server.setup(
     webpackConfigPath: program.webpack,
     tsConfigPath: program.tsconfig,
     clientPort: program.port,
-    excludeDir: program.excludeDir
+    excludeDir: program.excludeDir,
+    ideCmd: program.ideCmd
   },
   { isDev: false }
 );

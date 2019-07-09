@@ -10,7 +10,7 @@ const { detectLanguage } = require('./code-parse/language');
 
 const run = (
   { mediatorEndPoint, namespace, projectName },
-  { projectDir, entryPoint, webpackConfigPath, tsConfigPath, excludeDir }
+  { projectDir, entryPoint, webpackConfigPath, tsConfigPath, excludeDir, ideCmd }
 ) => {
   const { language, extensions: fileExtensions } = detectLanguage(entryPoint);
 
@@ -86,7 +86,7 @@ const run = (
 
         case SOCKET_MESSAGE_TYPE.CLIENT_OPEN_FILE_IN_EDITOR:
           if (message.namespace === namespace) {
-            openFileInEditor(message.data);
+            openFileInEditor(message.data, ideCmd);
           }
 
           break;

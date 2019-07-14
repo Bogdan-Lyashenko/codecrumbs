@@ -12,10 +12,39 @@
   border-top: 1px solid #754BC3;
 }
 
+@CcCodeContainerWidth: 650px;
 .CcCodeContainer {
   position: absolute;
   border: 1px solid #e8e8e8;
-  width: 650px;
+  width: @CcCodeContainerWidth;
   background: rgba(255,255,255,0.9);
   height: 80px;
+  transition: height .1s;
+  overflow: hidden;
+  z-index: 1;
+}
+
+@CcCodeContainerExpandedHeight: 300px;
+.CcCodeContainerExpanded {
+  height: @CcCodeContainerExpandedHeight;
+  transition: height .1s;
+  z-index: 9;
+}
+
+@ccUnderlayPaddingH: 20px;
+.CcCodeContainerUnderlay {
+  width: (@CcCodeContainerWidth + 2 * @ccUnderlayPaddingH);
+  height: 0;
+  position: absolute;
+  background-color: rgba(255,255,255,0.3);
+  transition: height, background-color .1s;
+}
+
+@ccUnderlayPaddingV: 70px;
+.CcCodeContainerUnderlayExpanded {
+  background-color: rgba(251,251,251,0.85);
+  width: (@CcCodeContainerWidth + 2 * @ccUnderlayPaddingH);
+  height: (@CcCodeContainerExpandedHeight + @ccUnderlayPaddingV);
+  transition: height, background-color .1s;
+  z-index: 2;
 }

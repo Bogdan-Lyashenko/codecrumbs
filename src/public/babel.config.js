@@ -20,6 +20,7 @@ module.exports = function(app) {
     ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-transform-runtime',
+    '@babel/plugin-proposal-class-properties',
     [
       'transform-define',
       {

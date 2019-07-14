@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Upload from 'antd/es/upload'
-import 'antd/es/upload/style'
-import Icon from 'antd/es/icon'
-import 'antd/es/icon/style'
+import Upload from 'antd/es/upload';
+import 'antd/es/upload/style';
+import Icon from 'antd/es/icon';
+import 'antd/es/icon/style';
 
 import { uploadStore } from '../../../../core/dataBus/actions';
 import './index.less';

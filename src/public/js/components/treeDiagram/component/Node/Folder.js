@@ -1,10 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { FOLDER_OPEN_STATE } from '../../../../core/constants';
-import {
-  OpenFolder as OpenFolderIcon,
-  CloseFolder as CloseFolderIcon
-} from '../Icons/Folder';
+import { OpenFolder as OpenFolderIcon, CloseFolder as CloseFolderIcon } from '../Icons/Folder';
 
 import './index.less';
 import { SYMBOL_WIDTH } from '../constants';

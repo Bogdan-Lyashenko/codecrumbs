@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react';
 
-import Tabs from 'antd/es/tabs'
-import 'antd/es/tabs/style'
-import Skeleton from 'antd/es/skeleton'
-import 'antd/es/skeleton/style'
-import Alert from 'antd/es/alert'
-import 'antd/es/alert/style'
+import Tabs from 'antd/es/tabs';
+import 'antd/es/tabs/style';
+import Skeleton from 'antd/es/skeleton';
+import 'antd/es/skeleton/style';
+import Alert from 'antd/es/alert';
+import 'antd/es/alert/style';
 
 import { Copy } from '../../topBar/controls/Copy';
 

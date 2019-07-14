@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Collapse from 'antd/es/collapse'
-import 'antd/es/collapse/style'
-import Alert from 'antd/es/alert'
-import 'antd/es/alert/style'
+import Collapse from 'antd/es/collapse';
+import 'antd/es/collapse/style';
+import Alert from 'antd/es/alert';
+import 'antd/es/alert/style';
 
 import { NO_TRAIL_FLOW } from '../../../../shared-constants';
 import { getCodeCrumbsUserChoice } from '../../../../core/dataBus/selectors';

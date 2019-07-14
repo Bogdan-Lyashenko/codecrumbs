@@ -7,7 +7,11 @@ import {
   getCodeCrumbsUserChoice,
   getNamespacesList
 } from '../../../../../core/dataBus/selectors';
-import { selectCodeCrumb, selectNodeToOpenInEditor, selectCcFlowEdge } from '../../../../../core/dataBus/actions';
+import {
+  selectCodeCrumb,
+  selectNodeToOpenInEditor,
+  selectCcFlowEdge
+} from '../../../../../core/dataBus/actions';
 import { getCheckedState } from '../../../../../core/controlsBus/selectors';
 
 import Tree from './Tree';

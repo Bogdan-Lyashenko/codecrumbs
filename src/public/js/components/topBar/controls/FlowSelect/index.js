@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Menu from 'antd/es/menu'
-import 'antd/es/menu/style'
-import Dropdown from 'antd/es/dropdown'
-import 'antd/es/dropdown/style'
-import Button from 'antd/es/button'
-import 'antd/es/button/style'
+import Menu from 'antd/es/menu';
+import 'antd/es/menu/style';
+import Dropdown from 'antd/es/dropdown';
+import 'antd/es/dropdown/style';
+import Button from 'antd/es/button';
+import 'antd/es/button/style';
 
 import { NO_TRAIL_FLOW } from '../../../../core/constants';
 import { selectCodeCrumbedFlow } from '../../../../core/dataBus/actions';

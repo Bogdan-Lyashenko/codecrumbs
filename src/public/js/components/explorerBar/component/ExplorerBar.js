@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Tree from 'antd/es/tree'
-import 'antd/es/tree/style'
+import Tree from 'antd/es/tree';
+import 'antd/es/tree/style';
 
 import { FILE_NODE_TYPE } from '../../../core/constants';
 import './ExplorerBar.less';

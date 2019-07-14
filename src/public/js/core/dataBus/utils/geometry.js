@@ -1,4 +1,4 @@
-import { FILE_NODE_TYPE, DIR_NODE_TYPE } from '../../constants';
+import { CC_NODE_TYPE } from '../../constants';
 
 export const calculateLayoutProps = (list, padding = 100) => {
   if (!list) {
@@ -17,40 +17,42 @@ export const calculateLayoutProps = (list, padding = 100) => {
   let maxCcWidth = 0;
 
   list.each(node => {
-    const [x, nY] = [node.y, node.x];
-    const nX = x + node.ySize;
+    const [x, y] = [node.y, node.x];
+    const [xSize, ySize] = [node.ySize, node.xSize];
 
-    if (node.data.type !== FILE_NODE_TYPE && node.data.type !== DIR_NODE_TYPE) {
-      if (node.ySize > maxCcWidth) {
-        maxCcWidth = node.ySize;
+    // calc cc vertical line
+    if (node.data.type === CC_NODE_TYPE) {
+      if (xSize > maxCcWidth) {
+        maxCcWidth = xSize;
       }
-
-      return;
+    } else {
+      if (x + xSize > ccAlightPoint) {
+        ccAlightPoint = x + xSize;
+      }
     }
 
-    if (nX < minX) {
-      minX = nX;
+    if (x < minX) {
+      minX = x;
     }
 
-    if (nY - node.xSize < minY) {
-      minY = nY - node.xSize;
+    if (y - ySize / 2 < minY) {
+      minY = y - ySize / 2;
     }
 
-    if (nX > maxX) {
-      maxX = nX;
-      ccAlightPoint = node.y + node.ySize;
+    if (x + xSize > maxX) {
+      maxX = x + xSize;
     }
 
-    if (nY + node.xSize > maxY) {
-      maxY = nY + node.xSize;
+    if (y + ySize / 2 > maxY) {
+      maxY = y + ySize / 2;
     }
   });
 
   return {
     width: Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding),
-    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 3 * padding),
+    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding),
     xShift: padding / 4,
-    yShift: Math.round(Math.abs(minY)) + padding,
+    yShift: Math.abs(Math.round(minY)) > 2 * padding ? Math.abs(Math.round(minY)) : 2 * padding,
     ccAlightPoint
   };
 };

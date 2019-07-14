@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Button from 'antd/es/button'
-import 'antd/es/button/style'
+import Button from 'antd/es/button';
+import 'antd/es/button/style';
 
 const ButtonGroup = Button.Group;
 

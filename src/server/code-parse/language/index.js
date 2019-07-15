@@ -17,6 +17,10 @@ module.exports = {
         extensions: /\.(f90|f|f03|f08|f77|f95|for|fpp)$/
       },
       {
+        language: 'golang',
+        extensions: /\.(go)$/
+      },
+      {
         language: 'haskell',
         extensions: /\.(hs|hsc)$/
       },
@@ -66,6 +70,10 @@ module.exports = {
       fortran: {
         codecrumbsParser: require('./fortran/codecrumbs'),
         dependenciesParser: require('./fortran/dependencies')
+      },
+      golang: {
+        codecrumbsParser: require('./golang/codecrumbs'),
+        dependenciesParser: require('./golang/dependencies')
       },
       haskell: {
         codecrumbsParser: require('./haskell/codecrumbs'),

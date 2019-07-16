@@ -147,6 +147,13 @@ Please, consider [making financial donation](https://opencollective.com/codecrum
   <img src="https://opencollective.com/codecrumbs/donate/button@2x.png?color=blue" width=300 />
 </a>
 
+#### Sponsors
+Development supported by [0+x](https://0x.se)
+
+<a href="https://0x.se" target="_blank">
+  <img src="https://avatars0.githubusercontent.com/u/16350669?s=200&v=4" width=100 />
+</a>
+
 #### Backers
 <a href="https://opencollective.com/codecrumbs/backer/0/website" target="_blank"><img src="https://opencollective.com/codecrumbs/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/codecrumbs/backer/1/website" target="_blank"><img src="https://opencollective.com/codecrumbs/backer/1/avatar.svg"></a>

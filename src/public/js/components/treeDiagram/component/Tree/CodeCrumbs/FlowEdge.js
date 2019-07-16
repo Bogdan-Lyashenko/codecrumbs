@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  CodeCrumbedFlowEdge,
-  ExternalEdge
-} from '../../../component/Edge/CodeCrumbEdge';
+import { CodeCrumbedFlowEdge, ExternalEdge } from '../../../component/Edge/CodeCrumbEdge';
 import { isCodeCrumbsEqual, getCcPosition } from './helpers';
 
 export default props => {

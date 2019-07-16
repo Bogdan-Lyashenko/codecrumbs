@@ -34,31 +34,59 @@ const DetailsComponent = props => {
   );
 };
 
-const CodeComponent = props => {
-  const { position, crumbNodeLines, file, language, namespace } = props;
-  const { fileCode } = file.data;
+const ccUnderlayPaddingH = 20;
+class CodeComponent extends React.Component {
+  state = {};
 
-  return (
-    <div
-      className={'CcCodeContainer'}
-      style={{
-        left: position.x,
-        top: position.y
-      }}
-    >
-      <Suspense fallback={null}>
-        <Code
-          namespace={namespace}
-          language={language}
-          code={fileCode}
-          fontSize={10}
-          lineHeight={15}
-          crumbedLines={[crumbNodeLines]}
+  onMouseEnter = () => {
+    this.setState({ isExpanded: true });
+  };
+
+  onMouseLeave = () => {
+    this.setState({ isExpanded: false });
+  };
+
+  render() {
+    const { position, crumbNodeLines, file, language, namespace } = this.props;
+    const { fileCode } = file.data;
+
+    const { isExpanded } = this.state;
+
+    return (
+      <React.Fragment>
+        <div
+          className={classNames('CcCodeContainer', { CcCodeContainerExpanded: isExpanded })}
+          style={{
+            left: position.x,
+            top: position.y
+          }}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+        >
+          <Suspense fallback={null}>
+            <Code
+              namespace={namespace}
+              language={language}
+              code={fileCode}
+              fontSize={10}
+              lineHeight={15}
+              crumbedLines={[crumbNodeLines]}
+            />
+          </Suspense>
+        </div>
+        <div
+          style={{
+            left: position.x - ccUnderlayPaddingH,
+            top: position.y
+          }}
+          className={classNames('CcCodeContainerUnderlay', {
+            CcCodeContainerUnderlayExpanded: isExpanded
+          })}
         />
-      </Suspense>
-    </div>
-  );
-};
+      </React.Fragment>
+    );
+  }
+}
 
 const ExtraInfoSet = ({
   detailsEnabled,

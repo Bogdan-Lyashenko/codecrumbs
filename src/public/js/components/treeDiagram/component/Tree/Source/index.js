@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectNode, selectNodeToOpenInEditor, toggleFolder } from '../../../../../core/dataBus/actions';
+import {
+  selectNode,
+  selectNodeToOpenInEditor,
+  toggleFolder
+} from '../../../../../core/dataBus/actions';
 import {
   getSource,
   getSourceLayout,

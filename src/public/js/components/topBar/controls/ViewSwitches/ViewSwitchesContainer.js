@@ -6,7 +6,11 @@ import { getProjectMetadata } from '../../../../core/dataBus/selectors';
 
 import { CONTROLS_KEYS } from '../../../../core/controlsBus/constants';
 import { toggleSwitch, fireButtonAction } from '../../../../core/controlsBus/actions';
-import { getSwitches, getCheckedState, getDisabledState } from '../../../../core/controlsBus/selectors';
+import {
+  getSwitches,
+  getCheckedState,
+  getDisabledState
+} from '../../../../core/controlsBus/selectors';
 
 import ViewSwitchList from './List/ViewSwitchList';
 

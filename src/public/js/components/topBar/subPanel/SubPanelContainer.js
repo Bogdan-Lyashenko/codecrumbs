@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Icon from 'antd/es/icon'
-import 'antd/es/icon/style'
-import Breadcrumb from 'antd/es/breadcrumb'
-import 'antd/es/breadcrumb/style'
+import Icon from 'antd/es/icon';
+import 'antd/es/icon/style';
+import Breadcrumb from 'antd/es/breadcrumb';
+import 'antd/es/breadcrumb/style';
 
 import { FILE_NODE_TYPE } from '../../../core/constants/index';
 import { Copy } from '../controls/Copy/index';

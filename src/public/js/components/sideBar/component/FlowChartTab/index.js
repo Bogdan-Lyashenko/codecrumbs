@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Alert from 'antd/es/alert'
-import 'antd/es/alert/style'
-import Spin from 'antd/es/spin'
-import 'antd/es/spin/style'
+import Alert from 'antd/es/alert';
+import 'antd/es/alert/style';
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
 
 import './index.less';
 

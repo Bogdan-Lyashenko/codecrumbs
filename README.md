@@ -19,23 +19,23 @@
 </h3>
 
 ## What
-> **Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that. Also, it will increase your development speed and give more knowledge about your application architecture. 
+> **Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that. Also, it will increase your development speed and give more knowledge about your application architecture.
 >
->**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and builds its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly. 
+>**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and builds its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly.
 >
 > Check out [my talk at React-Finland](https://www.youtube.com/watch?v=S_1-1jzLxm4) for more details.
 >
->-[@bliashenko](https://twitter.com/bliashenko)    
+>-[@bliashenko](https://twitter.com/bliashenko)
 
 ## Demo
 Check out the example of [**standalone version running here**](https://codecrumbs.io/#showcase=todo-react-redux).
- 
+
 <img src="/docs/main-ui-3.png" width="100%"/>
- 
+
 ## Get started
 ### Install and run
->Pre-condition: update/install `NodeJS` version to be >= *8.11.1*  
- 
+>Pre-condition: update/install `NodeJS` version to be >= *8.11.1*
+
 1) Install ```codecrumbs``` globally (```yarn global add codecrumbs```)
 2) Run ```codecrumbs -d project-src-dir -e project-src-dir/index.js```. Change parameters to match your project:```-d``` is *directory with source code*, ```-e``` is *entry point file* .
 3) Go to [http://localhost:2018](http://localhost:2018/#) in the browser to check it out.
@@ -61,43 +61,44 @@ UI explained:
 - select connection between two steps (code for two codecrumbs will be opened in "Sidebar" under "Crumbs" tab)
 - set other options in dropdowns to configure behaviour of the diagram (show code blocks, details, etc.)
 
-**How to get there?** 
+**How to get there?**
 
 Leave breadcrumb in code by writing down a comment: ```//cc:[parameters;]```.
 
-```cc``` (stands for "CodeCrumb") is a prefix which used by the parser; check example of parameters in the table below:  
- 
+```cc``` (stands for "CodeCrumb") is a prefix which used by the parser; check example of parameters in the table below:
+
 Example | Description | Use case
 --- | --- | ---
 ```//cc:remember place``` | simple breadcrumb, ```remember place``` is a title of our first breadcrumb | Mark an important place to not forget where it was
 ```//cc:here is bug;well, seems like a bug in logic``` | simple breadcrumb, ```well, seems like a bug in logic``` is details for breadcrumb, separated by ```;``` | Add extra information, will be rendered in popups
 ```//cc:signin#3;enable route``` | trail of breadcrumbs,```signin``` is the **trail ID**, ```#3``` is order **number of step**, ```enable route``` is a title describing the step. | A sequence of codecrumbs, use to describe some data flow (e.g. user login, or form submit, etc.).
-```//cc:signin#1;firebase sign in;+2;do call to firebase with credentials``` | trail of breadcrumbs,```+2``` is number of lines to highlight, separated by ```;``` | Use number of lines to highlight the code related to breadcrumb 
+```//cc:signin#1;firebase sign in;+2;do call to firebase with credentials``` | trail of breadcrumbs,```+2``` is number of lines to highlight, separated by ```;``` | Use number of lines to highlight the code related to breadcrumb
 
-> Note: current version supports single line comments only. 
+> Note: current version supports single line comments only.
 
 ### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.
 Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab. To control a diagram UI - select it by clicking on it.
 
-E.g. for client-server application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`. 
-> **Note:** codebases can be located wherever you want (**no** need to have them like mono-repo, etc.), simply run `codecrumbs` for directory you need.  
+E.g. for client-server application, go to the source directory for your server code and run `codecrumbs -e your-server-src/index.py -d your-server-src`, same for client `codecrumbs -e src-client/index.js -d src-client`.
+> **Note:** codebases can be located wherever you want (**no** need to have them like mono-repo, etc.), simply run `codecrumbs` for directory you need.
 
 <img src="/docs/multi-codebase-cc-2.png" width="100%"/>
 
 ### Multi-language support
-Current version supports next programming languages: 
+Current version supports next programming languages:
+- `C#`
+- `C++`
+- `Fortran`
+- `Go`
+- `Haskell`
+- `Java`
 - `JavaScript`
-- `TypeScript`
+- `Kotlin`
+- `PHP`
 - `Python`
 - `Ruby`
-- `PHP`
-- `Java`
-- `Kotlin`
-- `C++`
-- `C#`
-- `Fortran`
-- `Haskell`
+- `TypeScript`
 
 Please file an issue to support other language you would like to have.
 
@@ -108,7 +109,7 @@ You can take a snapshot of application state at any point of time and share it w
 <img src="/docs/upload-feature-2.gif" width="100%"/>
 
 ### Dependencies
-> Note: In current version only [JavaScript, TypeScript] offer this feature 
+> Note: In current version only [JavaScript, TypeScript] offer this feature
 
 <img src="/docs/dep-ui-2.png" width="100%"/>
 
@@ -118,7 +119,7 @@ UI explained:
 - select connection between modules (all involved files will be opened in "Sidebar", so you can see “what is imported” and “its implementation”)
 
 ### Flowchart
-> Note: In current version only JavaScript offers this feature 
+> Note: In current version only JavaScript offers this feature
 
 <img src="/docs/flow-ui.png" width="100%"/>
 
@@ -134,7 +135,7 @@ Navigate from browser to your code editor simply by clicking ```Command+click```
 ## Case studies
 The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & Upload* feature it becomes super easy to collect and share your "investigation results".
 
-The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned. 
+The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned.
 
 ## Support
 Any support is very much appreciated! 👍 😘 ❤️
@@ -144,7 +145,7 @@ Please, consider [making financial donation](https://opencollective.com/codecrum
 
 <a href="https://opencollective.com/codecrumbs/donate" target="_blank">
   <img src="https://opencollective.com/codecrumbs/donate/button@2x.png?color=blue" width=300 />
-</a>   
+</a>
 
 #### Backers
 <a href="https://opencollective.com/codecrumbs/backer/0/website" target="_blank"><img src="https://opencollective.com/codecrumbs/backer/0/avatar.svg"></a>
@@ -161,5 +162,5 @@ yarn && yarn start
 ## WIP
 Next features are developing:
 - **eject codecrumbs** - ability to remove all "breadcrumbs" from source code in "one click"
-- **data transferring between cc trail steps** 
-- **VS Code extension** - some neat features right inside the code editor. Checkout [the repo here](https://github.com/Bogdan-Lyashenko/vs-code-codecrumbs). 
+- **data transferring between cc trail steps**
+- **VS Code extension** - some neat features right inside the code editor. Checkout [the repo here](https://github.com/Bogdan-Lyashenko/vs-code-codecrumbs).

@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  DependenciesEdge,
-  DependenciesArrow
-} from '../../Edge/DepenenciesEdge';
+import { DependenciesEdge, DependenciesArrow } from '../../Edge/DepenenciesEdge';
 import { FileName } from '../../../component/Node/File';
 import { selectDependencyEdge } from '../../../../../core/dataBus/actions';
 import {

@@ -17,8 +17,6 @@ const LANGUAGES = [
   'typescript'
 ];
 
-const PARSERS = ['default', ...LANGUAGES];
-
 const getExtensions = parserName => require(`./${parserName}/extensions`);
 
 const LANGUAGE_LIST = LANGUAGES.map(language => {
@@ -44,15 +42,15 @@ module.exports = {
 
   getLanguageParsers: (language = 'default') => {
     return (
-      PARSERS.reduce((target, parser) => {
+      LANGUAGES.reduce((target, parser) => {
         return target.set(parser, getPropertiesByParser(parser));
-      }, new Map()).get(language) || map.default
+      }, new Map()).get(language) || getPropertiesByParser('default')
     );
   }
 };
 
 const getPropertiesByParser = parser => {
-  if (typeof parser === 'string' || parser instanceof String) {
+  if (typeof parser === 'string') {
     return {
       codecrumbsParser: require(`./${parser}/codecrumbs`),
       dependenciesParser: require(`./${parser}/dependencies`)

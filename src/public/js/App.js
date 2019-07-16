@@ -23,7 +23,7 @@ const ExplorerBar = React.lazy(() =>
 );
 
 const Footer = React.lazy(() =>
-  import(/* webpackChunkName: "explorer-bar" */ './components/footer')
+  import(/* webpackChunkName: "footer" */ './components/footer')
 );
 
 import './App.less';

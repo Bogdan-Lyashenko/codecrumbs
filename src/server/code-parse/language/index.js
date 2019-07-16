@@ -1,110 +1,63 @@
 // check extensions
 // https://github.com/blakeembrey/language-map/blob/master/languages.json
 // copy(`/\.(${extensions.map(i=>i.slice(1)).join('|')})$/`)
+
+const LANGUAGES = [
+  'cpp',
+  'csharp',
+  'fortran',
+  'golang',
+  'haskell',
+  'java',
+  'javascript',
+  'kotlin',
+  'php',
+  'python',
+  'ruby',
+  'typescript'
+];
+
+const PARSERS = ['default', ...LANGUAGES];
+
+const getExtensions = parserName => require(`./${parserName}/extensions`);
+
+const LANGUAGE_LIST = LANGUAGES.map(language => {
+  return {
+    language,
+    extensions: getExtensions(language)
+  };
+});
+
+const DEFAULT_PARSER = {
+  language: 'default',
+  extensions: getExtensions('default')
+};
+
 module.exports = {
-  detectLanguage: (entryPoint) => {
-    const list = [
-      {
-        language: 'cpp',
-        extensions: /\.(cpp|c\+\+|cc|cp|cxx|h|h\+\+|hh|hpp|hxx|inc|inl|ino|ipp|re|tcc|tpp)$/
-      },
-      {
-        language: 'csharp',
-        extensions: /\.(cs|cake|cshtml|csx)$/
-      },
-      {
-        language: 'fortran',
-        extensions: /\.(f90|f|f03|f08|f77|f95|for|fpp)$/
-      },
-      {
-        language: 'haskell',
-        extensions: /\.(hs|hsc)$/
-      },
-      {
-        language: 'java',
-        extensions: /\.(java|jsp)$/
-      },
-      {
-        language: 'javascript',
-        extensions: /\.(js|jsx|_js|bones|es|es6|frag|gs|jake|jsb|jscad|jsfl|jsm|jss|mjs|njs|pac|sjs|ssjs|vue|xsjs|xsjslib)$/
-      },
-      {
-        language: 'kotlin',
-        extensions: /\.(kt|ktm|kts)$/
-      },
-      {
-        language: 'php',
-        extensions: /\.(php|aw|ctp|fcgi|inc|php3|php4|php5|phps|phpt)$/
-      },
-      {
-        language: 'python',
-        extensions: /\.(py|bzl|cgi|fcgi|gyp|gypi|lmi|py3|pyde|pyi|pyp|pyt|pyw|rpy|spec|tac|wsgi|xpy)$/
-      },
-      {
-        language: 'ruby',
-        extensions: /\.(rb|builder|eye|fcgi|gemspec|god|jbuilder|mspec|pluginspec|podspec|rabl|rake|rbuild|rbw|rbx|ru|ruby|spec|thor|watchr)$/
-      },
-      {
-        language: 'typescript',
-        extensions: /\.(ts|tsx)$/
-      }
-    ];
+  detectLanguage: entryPoint => {
+    const detection = LANGUAGE_LIST.find(language => {
+      return language.extensions.test(entryPoint);
+    });
 
-    const detection = list.find(item => item.extensions.test(entryPoint));
-    return detection ? detection : { language: 'default', extensions: /(.*?)/ };
+    return detection ? detection : DEFAULT_PARSER;
   },
-  getLanguageParsers: (language = 'default') => {
-    const map = {
-      cpp: {
-        codecrumbsParser: require('./cpp/codecrumbs'),
-        dependenciesParser: require('./cpp/dependencies')
-      },
-      csharp: {
-        codecrumbsParser: require('./csharp/codecrumbs'),
-        dependenciesParser: require('./csharp/dependencies')
-      },
-      fortran: {
-        codecrumbsParser: require('./fortran/codecrumbs'),
-        dependenciesParser: require('./fortran/dependencies')
-      },
-      haskell: {
-        codecrumbsParser: require('./haskell/codecrumbs'),
-        dependenciesParser: require('./haskell/dependencies')
-      },
-      java: {
-        codecrumbsParser: require('./java/codecrumbs'),
-        dependenciesParser: require('./java/dependencies')
-      },
-      javascript: {
-        codecrumbsParser: require('./javascript/codecrumbs'),
-        dependenciesParser: require('./javascript/dependencies')
-      },
-      kotlin: {
-        codecrumbsParser: require('./kotlin/codecrumbs'),
-        dependenciesParser: require('./kotlin/dependencies')
-      },
-      php: {
-        codecrumbsParser: require('./php/codecrumbs'),
-        dependenciesParser: require('./php/dependencies')
-      },
-      python: {
-        codecrumbsParser: require('./python/codecrumbs'),
-        dependenciesParser: require('./python/dependencies')
-      },
-      ruby: {
-        codecrumbsParser: require('./ruby/codecrumbs'),
-        dependenciesParser: require('./ruby/dependencies')
-      },
-      typescript: {
-        codecrumbsParser: require('./typescript/codecrumbs'),
-        dependenciesParser: require('./typescript/dependencies')
-      },
-      default: {
-        codecrumbsParser: require('./default/codecrumbs'),
-        dependenciesParser: require('./default/dependencies')
-      }
-    };
 
-    return map[language] || map.default;
+  getLanguageParsers: (language = 'default') => {
+    return (
+      PARSERS.reduce((target, parser) => {
+        return target.set(parser, getPropertiesByParser(parser));
+      }, new Map()).get(language) || map.default
+    );
+  }
+};
+
+const getPropertiesByParser = parser => {
+  if (typeof parser === 'string' || parser instanceof String) {
+    return {
+      codecrumbsParser: require(`./${parser}/codecrumbs`),
+      dependenciesParser: require(`./${parser}/dependencies`)
+    };
+  } else {
+    throw 'Invalid parser name';
   }
 };

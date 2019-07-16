@@ -14,8 +14,8 @@
     "client-dev": "cd src/public && webpack --config webpack.dev.js --progress --colors --watch --env dev",
     "server-dev": "nodemon src/index.dev.js",
     "server-debug": "nodemon --inspect src/index.dev.js",
-    "clean": "rm -rf standalone-build",
-    "babel-compile-standalone": "babel src/public/js -d standalone-build --config-file ./src/public/babel.config.js --copy-files",
+    "clean": "rm -rf build",
+    "babel-compile-standalone": "babel src/public/js -d build --config-file ./src/public/babel.config.js --copy-files",
     "webpack-compile-local": "cd src/public && webpack --config webpack.local.js --progress",
     "build": "yarn clean && yarn babel-compile-standalone && yarn webpack-compile-local",
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""

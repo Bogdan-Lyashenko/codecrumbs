@@ -148,7 +148,7 @@ Please, consider [making financial donation](https://opencollective.com/codecrum
 </a>
 
 #### Sponsors
-Development supported by [0+x](https://0x.se)
+Development supported by [0+X](https://0x.se)
 
 <a href="https://0x.se" target="_blank">
   <img src="https://avatars0.githubusercontent.com/u/16350669?s=200&v=4" width=100 />

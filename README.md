@@ -15,6 +15,8 @@
   <span> · </span>
   <a href="#case-studies">Case studies</a>
   <span> · </span>
+  <a href="#docker">Docker<a>
+  <span> · </span>
   <a href="#support">Support</a>
 </h3>
 
@@ -136,6 +138,12 @@ Navigate from browser to your code editor simply by clicking ```Command+click```
 The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & Upload* feature it becomes super easy to collect and share your "investigation results".
 
 The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned.
+
+## Docker
+To start dockerise application run
+`docker build -t codecrumbs .`
+and once docker image will be build successfully
+`docker run -p 2018:2018 -d codecrumbs`
 
 ## Support
 Any support is very much appreciated! 👍 😘 ❤️

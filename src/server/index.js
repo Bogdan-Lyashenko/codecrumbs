@@ -25,7 +25,7 @@ const setup = (options, devOptions) => {
   } = options;
 
   const PORT_IN_USE = 'open';
-  const HOST = '127.0.0.1';
+  const HOST = '0.0.0.0';
 
   validateProjectPath(projectDir, entryPoint);
 

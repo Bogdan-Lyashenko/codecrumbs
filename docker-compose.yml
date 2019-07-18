@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  codecrumbs:
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 2018:2018
+      - 3018:3018
+      - 9229:9229
+      - 8888:8888
+    command: yarn start

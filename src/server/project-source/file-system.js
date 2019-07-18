@@ -3,7 +3,11 @@ const directoryTree = require('directory-tree');
 const { traversal: treeTraversal } = require('../utils/tree');
 const { DIR_NODE_TYPE } = require('../shared-constants');
 
-const getProjectFiles = (projectDir, config = { extensions: /(.*?)/ }) => {
+const DEFAULT_EXTENSION_REGEX = require('../code-parse/language/default/extensions')
+const DEFAULT_CONFIG = { extensions: DEFAULT_EXTENSION_REGEX }
+const NO_FILES_ERROR = 'There is not files found. Please check source dir and entry point configs.';
+
+const getProjectFiles = (projectDir, config = DEFAULT_CONFIG) => {
   const filesMap = {};
   const foldersMap = {};
 
@@ -12,7 +16,7 @@ const getProjectFiles = (projectDir, config = { extensions: /(.*?)/ }) => {
   });
 
   if (!Object.keys(filesMap).length) {
-    throw new Error('There is not files found. Please check source dir and entry point configs.');
+    throw new Error(NO_FILES_ERROR);
   }
 
   treeTraversal(sourceTree, node => {

@@ -5,6 +5,10 @@ const { SOCKET_MSG_MAX_SIZE } = require('./config');
 const logger = require('./utils/logger');
 const { SOCKET_MESSAGE_TYPE } = require('./shared-constants');
 
+const connectedJSON = JSON.stringify({
+  type: SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED
+})
+
 // instances should run on many ports but then send data to mediator and mediator to client
 const run = ({ port, clientPort }) => {
   const httpServer = http.createServer();
@@ -29,22 +33,10 @@ const run = ({ port, clientPort }) => {
     if (isClient) {
       clientInstance = connection;
       logger.info('> browser client connected');
-      sendToSourceWatchers(
-        JSON.stringify({
-          type: SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED
-        })
-      );
+      sendToSourceWatchers(connectedJSON);
     } else {
       sourceWatcherInstances.push(connection);
-
-      // if client already there just init watcher
-      if (clientInstance) {
-        connection.sendUTF(
-          JSON.stringify({
-            type: SOCKET_MESSAGE_TYPE.CLIENT_CONNECTED
-          })
-        );
-      }
+      initWatcherIfClientExist(client, connection)
     }
 
     connection.on('message', ({ utf8Data }) => {
@@ -60,6 +52,12 @@ const run = ({ port, clientPort }) => {
     });
   });
 };
+
+function initWatcherIfClientExist (client, connection) {
+  if (client) {
+    connection.sendUTF(connectedJSON)
+  }
+}
 
 module.exports = {
   run

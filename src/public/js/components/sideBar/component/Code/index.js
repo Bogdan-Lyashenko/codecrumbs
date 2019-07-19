@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneLight } from 'react-syntax-highlighter/styles/hljs';
+import SyntaxHighlighter from 'react-syntax-highlighter/prism';
+import { coy } from 'react-syntax-highlighter/styles/prism';
 
 import './index.less';
 
@@ -49,7 +49,7 @@ export default class extends React.Component {
       <div className={classNames('Code', { limitedHeight })} ref={el => (this.codeRef = el)}>
         <SyntaxHighlighter
           language={language}
-          style={atomOneLight}
+          style={coy}
           showLineNumbers={true}
           wrapLines={true}
           customStyle={{

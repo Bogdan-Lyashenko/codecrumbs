@@ -15,8 +15,6 @@
   <span> · </span>
   <a href="#case-studies">Case studies</a>
   <span> · </span>
-  <a href="#docker">Docker<a>
-  <span> · </span>
   <a href="#support">Support</a>
 </h3>
 
@@ -35,12 +33,23 @@ Check out the example of [**standalone version running here**](https://codecrumb
 <img src="/docs/main-ui-3.png" width="100%"/>
 
 ## Get started
+
+So basically you have 2 ways:
+- Install and run
+- Run with Docker
+
 ### Install and run
 >Pre-condition: update/install `NodeJS` version to be >= *8.11.1*
 
 1) Install ```codecrumbs``` globally (```yarn global add codecrumbs```)
 2) Run ```codecrumbs -d project-src-dir -e project-src-dir/index.js```. Change parameters to match your project:```-d``` is *directory with source code*, ```-e``` is *entry point file* .
 3) Go to [http://localhost:2018](http://localhost:2018/#) in the browser to check it out.
+
+### Docker
+To start dockerise application run
+`docker build -t codecrumbs .`
+and once docker image will be build successfully
+`docker run -p 2018:2018 -d codecrumbs`
 
 ### CLI
 Parameter | Description | Example
@@ -138,12 +147,6 @@ Navigate from browser to your code editor simply by clicking ```Command+click```
 The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & Upload* feature it becomes super easy to collect and share your "investigation results".
 
 The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned.
-
-## Docker
-To start dockerise application run
-`docker build -t codecrumbs .`
-and once docker image will be build successfully
-`docker run -p 2018:2018 -d codecrumbs`
 
 ## Support
 Any support is very much appreciated! 👍 😘 ❤️

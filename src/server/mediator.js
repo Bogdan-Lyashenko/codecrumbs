@@ -36,7 +36,7 @@ const run = ({ port, clientPort }) => {
       sendToSourceWatchers(connectedJSON);
     } else {
       sourceWatcherInstances.push(connection);
-      initWatcherIfClientExist(client, connection)
+      initWatcherIfClientExist(clientInstance, connection)
     }
 
     connection.on('message', ({ utf8Data }) => {

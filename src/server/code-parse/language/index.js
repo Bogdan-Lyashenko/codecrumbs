@@ -12,6 +12,8 @@ const LANGUAGES = [
   'javascript',
   'kotlin',
   'lua',
+  'ocaml',
+  'perl',
   'php',
   'python',
   'ruby',

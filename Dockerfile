@@ -1,7 +1,9 @@
-FROM node:10-alpine
+FROM node:12-alpine
 
 # Create app directory
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
+COPY . /app
+WORKDIR /app
 
 # Install app dependencies
 COPY package*.json ./
@@ -11,4 +13,5 @@ RUN yarn install
 COPY . .
 
 EXPOSE 2018 3018 8888 9229
-CMD [ "yarn", "start" ]
+ENTRYPOINT [ "node",  "cli/index.cli.js" ]
+CMD ["codecrumbs"]

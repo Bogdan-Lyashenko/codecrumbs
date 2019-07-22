@@ -49,7 +49,8 @@ So basically you have 2 ways:
 To start dockerise application run
 `docker build -t codecrumbs .`
 and once docker image will be build successfully
-`docker run -p 2018:2018 -d codecrumbs`
+`TARGET_APP_PATH=$PWD docker-compose run codecrumbs -d target/ -e target/index.dev.js`
+where `TARGET_APP_PATH` is path to project source code directory
 
 ### CLI
 Parameter | Description | Example

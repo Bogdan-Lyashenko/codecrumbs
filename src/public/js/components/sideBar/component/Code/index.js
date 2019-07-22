@@ -1,13 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import SyntaxHighlighter from 'react-syntax-highlighter/prism';
-import { coy } from 'react-syntax-highlighter/styles/prism';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import './index.less';
 
 const FONT_SIZE = 12;
 const LINE_HEIGHT = 18;
 const PADDING_TOP = 5;
+
 //TODO: add select with several themes
 //TODO: scrool to/highlight crumbed lines
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
@@ -36,7 +37,6 @@ export default class extends React.Component {
 
   render() {
     const {
-      language,
       code,
       crumbedLines = [],
       dependenciesLines = [],
@@ -48,8 +48,7 @@ export default class extends React.Component {
     return (
       <div className={classNames('Code', { limitedHeight })} ref={el => (this.codeRef = el)}>
         <SyntaxHighlighter
-          language={language}
-          style={coy}
+          style={atomOneLight}
           showLineNumbers={true}
           wrapLines={true}
           customStyle={{

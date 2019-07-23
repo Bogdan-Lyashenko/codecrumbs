@@ -1,7 +1,4 @@
-const { setupGetCrumbs, setupGetCommentsFromCode } = require('../default/codecrumbs');
-
-const GOLANG_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/
-const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(GOLANG_COMMENT_REGEX));
+const { getCrumbs } = require('../default/codecrumbs');
 
 // replace with own implementation if needed
 module.exports = {

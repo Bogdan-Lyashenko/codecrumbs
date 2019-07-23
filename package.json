@@ -39,7 +39,7 @@
     "js2flowchart": "^1.1.7",
     "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
-    "madge": "^3.3.0",
+    "madge": "^3.4.4",
     "portscanner": "^2.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

@@ -29,6 +29,7 @@ const parseFile = (
 
     if (parseCodeCrumbs) {
       const codecrumbsList = codecrumbsParser.getCrumbs(code, itemPath);
+      // console.log(codecrumbsList)
       if (codecrumbsList.length) {
         item.fileCode = code;
         item.children = codecrumbsList;

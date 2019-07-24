@@ -1,7 +1,9 @@
+const lineNumber = require('line-number');
+const isUndefined = require('lodash/isUndefined');
 const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../shared-constants');
 
-const CRUMB = 'codecrumb',
-  CRUMB_SHORT_HANDLER = 'cc';
+const CRUMB_REGEX = /cc|codecrumb/;
+const DEFAULT_COMMENT_REGEX = /(\/\*[\s\S]*?(.*)\*\/)|(\/\/.*)/gm;
 
 const getCommentNodeValue = node => (node.value || '').trim();
 
@@ -38,12 +40,7 @@ const parseCodecrumbComment = (node = {}) => {
   return cc;
 };
 
-const isCodecrumb = node => {
-  if (!node) return false;
-
-  const comment = getCommentNodeValue(node);
-  return comment.startsWith(CRUMB) || comment.startsWith(CRUMB_SHORT_HANDLER);
-};
+const isCodecrumb = node => CRUMB_REGEX.test(getCommentNodeValue(node));
 
 const buildCrumb = (params, crumbNodeLines, path) => ({
   type: CC_NODE_TYPE,
@@ -57,22 +54,20 @@ const buildCrumb = (params, crumbNodeLines, path) => ({
 });
 
 const setupGetCommentsFromCode = regex => fileCode => {
-  if (!fileCode) return [];
+  if (!fileCode) {
+    return [];
+  }
 
-  return fileCode.split('\n').reduce((comments, item, i) => {
-    const codeLine = item.trim();
-    if (!codeLine) return comments;
+  const result = DEFAULT_COMMENT_REGEX.exec(fileCode) || [];
 
-    const matches = regex.exec(codeLine);
-    if (matches) {
-      const lineNumber = i + 1;
-      return [
-        ...comments,
-        { value: matches[matches.length - 1], nodeLines: [lineNumber, lineNumber] }
-      ];
+  return result.reduce((comments, item, i) => {
+    if (isUndefined(item)) {
+      return comments;
     }
 
-    return comments;
+    const matchLineNumber = lineNumber(fileCode, DEFAULT_COMMENT_REGEX);
+
+    return [...comments, { value: item, nodeLines: [matchLineNumber, matchLineNumber] }];
   }, []);
 };
 
@@ -99,7 +94,6 @@ const setupGetCrumbs = getCommentsFromCode => (fileCode, path) => {
   }
 };
 
-const DEFAULT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
 const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(DEFAULT_COMMENT_REGEX));
 
 module.exports = {

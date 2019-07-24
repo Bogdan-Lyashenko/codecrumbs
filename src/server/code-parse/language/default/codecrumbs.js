@@ -3,7 +3,7 @@ const isUndefined = require('lodash/isUndefined');
 const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../shared-constants');
 
 const CRUMB_REGEX = /cc|codecrumb/;
-const DEFAULT_COMMENT_REGEX = /(\/\*[\s\S]*?(.*)\*\/)|(\/\/.*)/gm;
+const DEFAULT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
 
 const getCommentNodeValue = node => (node.value || '').trim();
 
@@ -58,16 +58,18 @@ const setupGetCommentsFromCode = regex => fileCode => {
     return [];
   }
 
-  const result = DEFAULT_COMMENT_REGEX.exec(fileCode) || [];
+  const result = regex.exec(fileCode) || [];
 
-  return result.reduce((comments, item, i) => {
-    if (isUndefined(item)) {
+  return result.reduce((comments, value) => {
+    if (isUndefined(value)) {
       return comments;
     }
 
-    const matchLineNumber = lineNumber(fileCode, DEFAULT_COMMENT_REGEX);
+    const matchLineNumber = lineNumber(fileCode, regex);
+    const nodeLines = [matchLineNumber, matchLineNumber];
 
-    return [...comments, { value: item, nodeLines: [matchLineNumber, matchLineNumber] }];
+    return [...comments, { value, nodeLines }];
+
   }, []);
 };
 

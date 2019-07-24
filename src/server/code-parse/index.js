@@ -7,7 +7,7 @@ const parseFile = (
   { parseCodeCrumbs, parseImports, parseDependencies, attachCode, language, webpackConfigPath, tsConfigPath } = {}
 ) => {
   const { codecrumbsParser, dependenciesParser } = getLanguageParsers(language);
-  
+
   return Promise.all([
     parseDependencies && dependenciesParser.getDependencies(itemPath, projectDir, {webpackConfigPath, tsConfigPath}),
     file.read(itemPath, 'utf8')
@@ -20,6 +20,7 @@ const parseFile = (
 
     if (parseCodeCrumbs) {
       const codecrumbsList = codecrumbsParser.getCrumbs(code, itemPath);
+      // console.log(codecrumbsList)
       if (codecrumbsList.length) {
         item.fileCode = code;
         item.children = codecrumbsList;
@@ -37,7 +38,7 @@ const parseFile = (
         item.flows = undefined;
       }
     }
-    
+
     if (parseImports) {
       const importedDependencies = dependenciesParser.getImports(code, itemPath);
       if (importedDependencies.length) {

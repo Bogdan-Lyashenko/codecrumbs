@@ -37,6 +37,7 @@
     "file-saver": "^2.0.0",
     "http-server": "^0.11.1",
     "js2flowchart": "^1.1.7",
+    "line-number": "^0.1.0",
     "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
     "madge": "^3.3.0",

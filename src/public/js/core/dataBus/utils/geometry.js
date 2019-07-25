@@ -1,6 +1,6 @@
 import { CC_NODE_TYPE } from '../../constants';
 
-export const calculateLayoutProps = (list, padding = 100) => {
+export const calculateLayoutProps = (list, padding = 120) => {
   if (!list) {
     return {
       width: 0,

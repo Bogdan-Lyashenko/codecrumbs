@@ -28,6 +28,7 @@ const { setupGetCrumbs, setupGetCommentsFromCode } = require('../default/codecru
 const JAVA_SCRIPT_COMMENT_REGEX = /(\/\*[\s\S]*?(.*)\*\/)|(\/\/.*)/gm;
 const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(JAVA_SCRIPT_COMMENT_REGEX));
 
+// replace with own implementation if needed
 module.exports = {
   getCrumbs
 };

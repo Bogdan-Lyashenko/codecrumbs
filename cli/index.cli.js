@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const colors = require('colors');
+const _ = require('lodash');
 
 const server = require('../src/server');
 
@@ -31,16 +32,20 @@ if (!program.entry || !program.dir) {
   process.exit();
 }
 
+
+const config = require('codecrumbs.config.json');
+const environmentConfig = {
+  projectNameAlias: program.projectName,
+  entryPoint: program.entry,
+  projectDir: program.dir,
+  webpackConfigPath: program.webpack,
+  tsConfigPath: program.tsconfig,
+  clientPort: program.port,
+  excludeDir: program.excludeDir,
+  ideCmd: program.ideCmd
+}
+
 server.setup(
-  {
-    projectNameAlias: program.projectName,
-    entryPoint: program.entry,
-    projectDir: program.dir,
-    webpackConfigPath: program.webpack,
-    tsConfigPath: program.tsconfig,
-    clientPort: program.port,
-    excludeDir: program.excludeDir,
-    ideCmd: program.ideCmd
-  },
+  _.merge(config, environmentConfig),
   { isDev: false }
 );

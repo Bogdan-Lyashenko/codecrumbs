@@ -50,7 +50,7 @@ class TreeDiagram extends React.Component {
     });
 
     return (
-      <div className={'TreeDiagram'}>
+      <div className={classNames('TreeDiagram', { border: multiple })}>
         {multiple ? (
           <p
             className={classNames('namespaceTitle', {

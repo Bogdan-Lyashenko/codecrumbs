@@ -195,6 +195,17 @@ export default (state = DefaultState, action) => {
         }
       });
 
+    case ACTIONS.SET_FULL_STATE:
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case ACTIONS.SET_NAMESPACE_STATE:
+      return mergeState({
+        ...action.payload
+      });
+
     case ACTIONS.RESET_ALL:
       return DefaultState;
 

@@ -339,3 +339,13 @@ export const setPredefinedState = predefinedState => dispatch => {
     }, 100 * i);
   });
 };
+
+export const setFullState = payload => ({
+  type: ACTIONS.SET_FULL_STATE,
+  payload
+});
+
+export const setNamespaceState = payload => ({
+  type: ACTIONS.SET_NAMESPACE_STATE,
+  payload
+});

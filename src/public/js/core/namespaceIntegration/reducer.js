@@ -12,6 +12,12 @@ export default (state = DefaultState, action) => {
         activeNamespace: action.payload
       };
 
+    case ACTIONS.SET_FULL_STATE:
+      return {
+        ...state,
+        ...action.payload
+      };
+
     case ACTIONS.RESET_ALL:
       return DefaultState;
 

@@ -22,9 +22,7 @@ const ExplorerBar = React.lazy(() =>
   import(/* webpackChunkName: "explorer-bar" */ './components/explorerBar/ExplorerBarContainer')
 );
 
-const Footer = React.lazy(() =>
-  import(/* webpackChunkName: "footer" */ './components/footer')
-);
+const Footer = React.lazy(() => import(/* webpackChunkName: "footer" */ './components/footer'));
 
 import './App.less';
 
@@ -61,6 +59,9 @@ const App = (props = {}) => {
         <Suspense fallback={null}>
           <SideBar />
         </Suspense>
+        {props.extraLayout.appBodyBottom && (
+          <props.extraLayout.appBodyBottom.Component {...props} />
+        )}
       </div>
 
       <footer className="footer">

@@ -4,12 +4,21 @@ const { getLanguageParsers } = require('./language');
 const parseFile = (
   itemPath,
   projectDir,
-  { parseCodeCrumbs, parseImports, parseDependencies, attachCode, language, webpackConfigPath, tsConfigPath } = {}
+  {
+    parseCodeCrumbs,
+    parseImports,
+    parseDependencies,
+    attachCode,
+    language,
+    webpackConfigPath,
+    tsConfigPath
+  } = {}
 ) => {
   const { codecrumbsParser, dependenciesParser } = getLanguageParsers(language);
 
   return Promise.all([
-    parseDependencies && dependenciesParser.getDependencies(itemPath, projectDir, {webpackConfigPath, tsConfigPath}),
+    parseDependencies &&
+      dependenciesParser.getDependencies(itemPath, projectDir, { webpackConfigPath, tsConfigPath }),
     file.read(itemPath, 'utf8')
   ]).then(([dependencies, code]) => {
     const item = {

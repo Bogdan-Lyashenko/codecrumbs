@@ -9,7 +9,7 @@ import dataBus from '../dataBus/reducer';
 import namespaceIntegration from '../namespaceIntegration/reducer';
 import rootSaga from './sagas';
 
-export default () => {
+export default ({ extraReducers } = {}) => {
   const sagaMiddleware = createSagaMiddleware();
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -24,7 +24,8 @@ export default () => {
     combineReducers({
       controlsBus,
       dataBus,
-      namespaceIntegration
+      namespaceIntegration,
+      ...extraReducers
     })
   );
 

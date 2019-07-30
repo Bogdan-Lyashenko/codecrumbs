@@ -68,7 +68,7 @@ const setupGetCommentsFromCode = regex => fileCode => {
     if(parseRes) {
       const number = parseRes["number"]
 
-      const nodeLines = [1, 1];
+      const nodeLines = [number, number];
 
       return [...comments, { value, nodeLines }];
     } else {

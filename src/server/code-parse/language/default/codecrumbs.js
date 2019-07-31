@@ -1,4 +1,3 @@
-const lineNumber = require('line-number');
 const compact = require('lodash/compact');
 const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../shared-constants');
 
@@ -61,20 +60,13 @@ const setupGetCommentsFromCode = regex => fileCode => {
   const result = compact(regex.exec(fileCode)) || [];
 
   return result.reduce((comments, value) => {
-    const matchLineNumber = lineNumber(fileCode, regex);
+    const index = fileCode.indexOf(value);
+    const tempString = fileCode.substring(0, index);
+    const matchLineNumber = tempString.split('\n').length;
 
-    const parseRes = matchLineNumber.filter((val) => val.match == value)[0]
-
-    if(parseRes) {
-      const number = parseRes["number"]
-
-      const nodeLines = [number, number];
-
-      return [...comments, { value, nodeLines }];
-    } else {
-      return comments;
-    }
-
+    const commentStringCount = value.split('\n').length
+    const nodeLines = [matchLineNumber, matchLineNumber + commentStringCount - 1];
+    return [...comments, { value, nodeLines }]
   }, []);
 };
 

@@ -5,7 +5,12 @@ const logAdapter = msg => console.log(msg);
 module.exports = {
   getText: e => {
     try {
-      return typeof e === 'object' ? JSON.stringify(e) : e;
+      if (typeof e === 'object') {
+        const stringifiedError = JSON.stringify(e);
+        return stringifiedError === '{}' ? e : stringifiedError;
+      } else {
+        return e;
+      }
     } catch (e) {
       return `COULD NOT PARSE ERROR ${e}`;
     }

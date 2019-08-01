@@ -27,7 +27,11 @@ export default props => {
           if (!i) return null;
 
           const fromItem = list[i - 1];
-          if (fromItem.namespace !== namespace && toItem.namespace !== namespace) {
+
+          if (
+            (fromItem.namespace !== namespace && toItem.namespace !== namespace) ||
+            fromItem.step === toItem.step
+          ) {
             return null;
           }
 

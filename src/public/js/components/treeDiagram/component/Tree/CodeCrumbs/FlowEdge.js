@@ -38,7 +38,7 @@ export default props => {
           });
 
           const edgeBaseProps = {
-            key: `cc-external-edge-${fromItem.name}-${toItem.name}`,
+            key: `cc-external-edge-${fromItem.name}-${toItem.name}-${edgePoints[0].y}`,
             sourcePosition: edgePoints[0],
             targetPosition: edgePoints[1],
             onClick: () => onFlowEdgeClick(fromItem, toItem, ccNamespacesKeys),

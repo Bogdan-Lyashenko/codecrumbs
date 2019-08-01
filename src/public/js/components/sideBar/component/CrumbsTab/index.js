@@ -34,7 +34,7 @@ const CrumbsTab = props => {
                 header={`[${typeof stepFile.step !== 'undefined' ? stepFile.step : '*'}] ${
                   stepFile.file.path
                 }`}
-                key={i}
+                key={stepFile.crumbNodeLines.join(',')}
               >
                 <Code
                   language={language}

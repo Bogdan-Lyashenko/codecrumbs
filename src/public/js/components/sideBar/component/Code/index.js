@@ -28,6 +28,7 @@ export default class extends React.Component {
       this.codeRef.scrollTo(0, (lines[0][0] - 1) * (lineHeight || LINE_HEIGHT) + PADDING_TOP - 2);
   }
   componentDidUpdate(prevProps) {
+    // TODO: don\t do it each time (check real changes)
     this.fixScroll();
   }
   componentDidMount() {

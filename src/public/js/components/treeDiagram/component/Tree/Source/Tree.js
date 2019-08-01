@@ -60,7 +60,7 @@ const SourceTree = props => {
 
         const edge = (
           <SourceEdge
-            key={`source-edge-${path}`}
+            key={`source-edge-${path}-${sourcePosition.x}-${sourcePosition.y}`}
             targetPosition={position}
             sourcePosition={sourcePosition}
             disabled={sourceDimFolders}
@@ -77,7 +77,13 @@ const SourceTree = props => {
         (type === FILE_NODE_TYPE &&
           !(dependenciesDiagramOn && selectedNode.dependencies && selectedNode.dependencies[path]))
       ) {
-        sourceDotes.push(<Dot key={`dot-${path}`} position={position} selected={selected} />);
+        sourceDotes.push(
+          <Dot
+            key={`dot-${path}-${position.x}-${position.y}`}
+            position={position}
+            selected={selected}
+          />
+        );
       }
 
       let nodeBasedOnType = null;

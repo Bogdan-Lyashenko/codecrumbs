@@ -60,6 +60,7 @@ const setupGetCommentsFromCode = regex => fileCode => {
   const result = compact(regex.exec(fileCode)) || [];
 
   return result.reduce((comments, value) => {
+    value = value.trim()
     const index = fileCode.indexOf(value);
     const tempString = fileCode.substring(0, index);
     const matchLineNumber = tempString.split('\n').length;

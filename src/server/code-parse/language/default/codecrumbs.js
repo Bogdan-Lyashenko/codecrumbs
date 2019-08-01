@@ -2,7 +2,7 @@ const compact = require('lodash/compact');
 const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../shared-constants');
 
 const CRUMB_REGEX = /cc|codecrumb/;
-const DEFAULT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
+const DEFAULT_COMMENT_REGEX = /\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm;
 
 const getCommentNodeValue = node => (node.value || '').trim();
 

@@ -23,10 +23,7 @@ const getCrumbs = (fileCode, path) => {
   }
 };*/
 
-const { setupGetCrumbs, setupGetCommentsFromCode } = require('../default/codecrumbs');
-
-const JAVA_SCRIPT_COMMENT_REGEX = /\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm;
-const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(JAVA_SCRIPT_COMMENT_REGEX));
+const { getCrumbs } = require('../default/codecrumbs');
 
 // replace with own implementation if needed
 module.exports = {

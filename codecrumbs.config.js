@@ -1,4 +1,4 @@
-{
+module.exports = {
   "entryFile": null,
   "projectDir": null,
   "webpackConfigFile": null,
@@ -7,4 +7,4 @@
   "ideCmd": null,
   "excludeDirectories": null,
   "projectNameAlias": null
-}
+};

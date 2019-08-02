@@ -33,7 +33,7 @@ if (!program.entry || !program.dir) {
 }
 
 
-const config = require('codecrumbs.config.json');
+const config = require('codecrumbs.config.js');
 const environmentConfig = {
   projectNameAlias: program.projectName,
   entryPoint: program.entry,

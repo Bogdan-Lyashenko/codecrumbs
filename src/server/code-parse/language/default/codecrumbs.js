@@ -57,7 +57,7 @@ const setupGetCommentsFromCode = regex => fileCode => {
     return [];
   }
 
-  const result = compact(regex.exec(fileCode)) || [];
+  const result = fileCode.match(regex) || [];
 
   return result.reduce((comments, value) => {
     value = value.trim()

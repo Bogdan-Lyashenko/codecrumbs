@@ -3,6 +3,7 @@
 const program = require('commander');
 const colors = require('colors');
 
+const showUpdatesInfo = require('./updatesInfo');
 const server = require('../src/server');
 
 program
@@ -31,6 +32,8 @@ if (!program.entry || !program.dir) {
   );
   process.exit();
 }
+
+showUpdatesInfo();
 
 server.setup(
   {

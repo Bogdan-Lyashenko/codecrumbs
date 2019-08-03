@@ -76,6 +76,8 @@ Example | Description | Use case
 
 > Note: current version supports single line comments only.
 
+> Hint: you can use trail id without step number (e.g. ```//cc:groupname#;test```) just to group breadcrumbs, you always can add step numbers later when you know the correct order. 
+
 ### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.
 Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab. To control a diagram UI - select it by clicking on it.

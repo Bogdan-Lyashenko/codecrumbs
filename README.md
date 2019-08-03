@@ -49,6 +49,7 @@ Parameter | Description | Example
 ```-i```, ```--ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
 ```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
+```-D```, ```--debugModeEnabled``` | Enable debug mode for logs (optional, default is ```false```) | ```-D```
 
 ## Features
 ### Breadcrumbs and trails

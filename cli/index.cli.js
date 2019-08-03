@@ -20,6 +20,7 @@ program
   .option('-i, --ideCmd [ideCmd]', 'IDE command to open file')
   .option('-x, --excludeDir [excludeDirectories]', 'Exclude directories')
   .option('-n, --projectName [projectNameAlias]', 'Project name alias')
+  .option('-D, --debugModeEnabled [debugModeEnabled]', 'Enable debug mode for logs.')
   .parse(process.argv);
 
 if (!program.entry || !program.dir) {
@@ -40,7 +41,8 @@ server.setup(
     tsConfigPath: program.tsconfig,
     clientPort: program.port,
     excludeDir: program.excludeDir,
-    ideCmd: program.ideCmd
+    ideCmd: program.ideCmd,
+    debugModeEnabled: program.debugModeEnabled
   },
   { isDev: false }
 );

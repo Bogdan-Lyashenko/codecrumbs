@@ -10,9 +10,6 @@ const mediator = require('./mediator');
 const sourceWatcher = require('./source-watcher');
 
 const setup = (options, devOptions) => {
-  logger.fun(`>\n> Codecrumbs magic begins!\n>`);
-  logger.info(`> started with options: ${JSON.stringify(options)}`);
-
   const {
     projectNameAlias,
     projectDir,
@@ -21,8 +18,14 @@ const setup = (options, devOptions) => {
     tsConfigPath,
     clientPort,
     excludeDir,
-    ideCmd
+    ideCmd,
+    debugModeEnabled
   } = options;
+
+  logger.setDebugModeEnabled(debugModeEnabled);
+
+  logger.fun(`>\n> Codecrumbs magic begins!\n>`);
+  logger.info(`> started with options: ${JSON.stringify(options)}`);
 
   const PORT_IN_USE = 'open';
   const HOST = '127.0.0.1';

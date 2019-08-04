@@ -195,6 +195,11 @@ export default (state = DefaultState, action) => {
         }
       });
 
+    case ACTIONS.SAVE_TREE_DIAGRAM_CONTENT_ID:
+      return mergeState({
+        treeDiagramContentId: action.payload
+      });
+
     case ACTIONS.SET_FULL_STATE:
       return {
         ...state,

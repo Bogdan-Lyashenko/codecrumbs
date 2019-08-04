@@ -26,6 +26,7 @@ const Footer = React.lazy(() => import(/* webpackChunkName: "footer" */ './compo
 
 import './App.less';
 
+// test
 const App = (props = {}) => {
   return (
     <div className="App">

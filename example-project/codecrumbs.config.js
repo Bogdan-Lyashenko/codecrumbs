@@ -1,5 +1,5 @@
 module.exports = {
-  "entryFile": null,
+  "entryPoint": null,
   "projectDir": null,
   "webpackConfigFile": null,
   "tsConfigFile": null,

@@ -50,6 +50,8 @@ Parameter | Description | Example
 ```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
 
+Parameters could be specified in `codecrumbs.config.js`
+
 ## Features
 ### Breadcrumbs and trails
 

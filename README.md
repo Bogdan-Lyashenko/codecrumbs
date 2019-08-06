@@ -49,6 +49,7 @@ Parameter | Description | Example
 ```-i```, ```--ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
 ```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
+```-D```, ```--debugModeEnabled``` | Enable debug mode for logs (optional, default is ```false```) | ```-D```
 
 Parameters could be specified in `codecrumbs.config.js`
 
@@ -77,6 +78,8 @@ Example | Description | Use case
 ```//cc:signin#1;firebase sign in;+2;do call to firebase with credentials``` | trail of breadcrumbs,```+2``` is number of lines to highlight, separated by ```;``` | Use number of lines to highlight the code related to breadcrumb
 
 > Note: current version supports single line comments only.
+
+> Hint: you can use trail id without step number (e.g. ```//cc:groupname#;test```) just to group breadcrumbs, you always can add step numbers later when you know the correct order. 
 
 ### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.

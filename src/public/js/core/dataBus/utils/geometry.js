@@ -1,6 +1,6 @@
 import { CC_NODE_TYPE } from '../../constants';
 
-export const calculateLayoutProps = (list, padding = 100) => {
+export const calculateLayoutProps = (list, padding = 120) => {
   if (!list) {
     return {
       width: 0,
@@ -35,24 +35,28 @@ export const calculateLayoutProps = (list, padding = 100) => {
       minX = x;
     }
 
-    if (y - ySize / 2 < minY) {
-      minY = y - ySize / 2;
+    if (y < minY) {
+      minY = y;
     }
 
     if (x + xSize > maxX) {
       maxX = x + xSize;
     }
 
-    if (y + ySize / 2 > maxY) {
-      maxY = y + ySize / 2;
+    if (y + ySize > maxY) {
+      maxY = y + ySize;
     }
   });
 
+  const yShift = Math.abs(Math.round(minY)) + 20;
+  const height = Math.round(Math.abs(maxY) + Math.abs(yShift)) + 5;
+  const width = Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding);
+
   return {
-    width: Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding),
-    height: Math.round(Math.abs(maxY) + Math.abs(minY) + 2 * padding),
     xShift: padding / 4,
-    yShift: Math.abs(Math.round(minY)) > 2 * padding ? Math.abs(Math.round(minY)) : 2 * padding,
+    width,
+    height,
+    yShift,
     ccAlightPoint
   };
 };

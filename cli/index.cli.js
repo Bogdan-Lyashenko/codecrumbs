@@ -4,6 +4,7 @@ const program = require('commander');
 const colors = require('colors');
 const _ = require('lodash');
 
+const showUpdatesInfo = require('./updatesInfo');
 const server = require('../src/server');
 
 program
@@ -21,6 +22,7 @@ program
   .option('-i, --ideCmd [ideCmd]', 'IDE command to open file')
   .option('-x, --excludeDir [excludeDirectories]', 'Exclude directories')
   .option('-n, --projectName [projectNameAlias]', 'Project name alias')
+  .option('-D, --debugModeEnabled [debugModeEnabled]', 'Enable debug mode for logs.')
   .parse(process.argv);
 
 if (!program.entry || !program.dir) {
@@ -32,6 +34,7 @@ if (!program.entry || !program.dir) {
   process.exit();
 }
 
+showUpdatesInfo();
 
 const config = require('codecrumbs.config.js');
 const environmentConfig = {
@@ -42,7 +45,8 @@ const environmentConfig = {
   tsConfigPath: program.tsconfig,
   clientPort: program.port,
   excludeDir: program.excludeDir,
-  ideCmd: program.ideCmd
+  ideCmd: program.ideCmd,
+  debugModeEnabled: program.debugModeEnabled
 }
 
 server.setup(

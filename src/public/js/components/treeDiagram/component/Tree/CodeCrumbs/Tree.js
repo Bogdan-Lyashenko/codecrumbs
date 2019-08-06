@@ -40,7 +40,7 @@ const Tree = props => {
           ).x;
 
         return (
-          <React.Fragment key={`code-crumb-${node.data.path}-${key}`}>
+          <React.Fragment key={`code-crumb-${key}-${nX}-${nY}`}>
             {!codeCrumbsMinimize &&
               node.children.map((crumb, i) => {
                 const [_, cY] = [crumb.y, crumb.x];
@@ -55,7 +55,9 @@ const Tree = props => {
                 const ccParams = crumbData.params;
 
                 return (
-                  <React.Fragment key={`code-crumb-edge-${file.path}-${crumbData.name}`}>
+                  <React.Fragment
+                    key={`code-crumb-edge-${crumbData.name}-${crumbPosition.x}-${crumbPosition.y}`}
+                  >
                     {!i && (
                       <PartEdge
                         sourcePosition={position}
@@ -84,6 +86,7 @@ const Tree = props => {
                         currentSelectedCrumbedFlowKey !== NO_TRAIL_FLOW
                       }
                       flowStep={ccParams.flowStep}
+                      original={ccParams.original}
                       onClick={e => onCodeCrumbSelect(e, { fileNode: file, codeCrumb: crumbData })}
                     />
                   </React.Fragment>

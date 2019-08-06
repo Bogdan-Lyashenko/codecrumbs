@@ -5,7 +5,10 @@
   margin: 0;
   padding: 0;
   overflow-y: hidden;
-  border-bottom: 1px solid #ebedf0;
+
+  &.border {
+    border-bottom: 1px solid #ebedf0;
+  }
 
   .namespaceTitle {
     position: absolute;
@@ -22,7 +25,9 @@
     }
   }
 
-  svg {
-    display: block;
+  .content {
+    svg {
+      display: block;
+    }
   }
 }

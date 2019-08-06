@@ -24,3 +24,8 @@ export const setZoom = payload => ({
   type: ACTIONS.SET_ZOOM,
   payload
 });
+
+export const setFullState = payload => ({
+  type: ACTIONS.SET_FULL_STATE,
+  payload
+});

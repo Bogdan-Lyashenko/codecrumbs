@@ -80,7 +80,7 @@ const DependenciesTree = props => {
 
                 const edge = (
                   <DependenciesEdge
-                    key={`dep-edge-${importedNodePath}`}
+                    key={`dep-edge-${importedNodePath}-${sourcePosition.x}-${targetPosition.x}`}
                     anyEdgeSelected={!!selectedDependencyEdgeNodes}
                     selected={selected}
                     groupName={groupName}
@@ -106,7 +106,7 @@ const DependenciesTree = props => {
 
                   const arrow = (
                     <DependenciesArrow
-                      key={`dep-arrow-${importedNodePath}`}
+                      key={`dep-arrow-${importedNodePath}-${groupName}`}
                       selected={arrowSelected}
                       groupName={groupName}
                       targetPosition={targetPosition}

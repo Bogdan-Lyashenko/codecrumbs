@@ -45,14 +45,14 @@ Run codecrumbs with CLI params or specify static config file `codecrumbs.config.
 
 CLI | Config file | Description | Example
 --- | --- | --- | ---
-```-d``` | ```projectDir``` | Relative path to project source code directory | ```-d src```
-```-e``` | ```entryPoint``` | Relative path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
-```-x``` | ```excludeDir``` | Relative path(or paths separated by ```,```) to directories for exclusion | ```-x src/doc,src/thirdparty```
-```-i``` | ```ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
-```-p``` | ```clientPort``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
-```-n``` | ```projectNameAlias``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
-```-C``` | - | Path to codecrumbs.config.js (optional, by default will try to find the file in PWD) | ```-C config/codecrumbs.config.js```
-```-D``` | ```debugModeEnabled``` | Enable debug mode for logs (optional, default is ```false```) | ```-D```
+```d``` | ```projectDir``` | Relative path to project source code directory | ```-d src```
+```e``` | ```entryPoint``` | Relative path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
+```x``` | ```excludeDir``` | Relative path(or paths separated by ```,```) to directories for exclusion | ```-x src/doc,src/thirdparty```
+```i``` | ```ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
+```p``` | ```clientPort``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
+```n``` | ```projectNameAlias``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
+```C``` | - | Path to codecrumbs.config.js (optional, by default will try to find the file in PWD) | ```-C config/codecrumbs.config.js```
+```D``` | ```debugModeEnabled``` | Enable debug mode for logs (optional, default is ```false```) | ```-D```
 
 ## Features
 ### Breadcrumbs and trails

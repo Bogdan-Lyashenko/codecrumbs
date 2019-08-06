@@ -1,10 +1,10 @@
 module.exports = {
-  "entryPoint": null,
-  "projectDir": null,
-  "webpackConfigFile": null,
-  "tsConfigFile": null,
-  "defaultPort": null,
-  "ideCmd": null,
-  "excludeDirectories": null,
-  "projectNameAlias": null
+  "entryPoint": 'src/index.js',
+  "projectDir": 'src',
+  "webpackConfigFile": 'webpack.config.js',
+  "tsConfigFile": 'tsconfig.js',
+  "defaultPort": 1234,
+  "ideCmd": 'webstorm',
+  "excludeDirectories": ['build'],
+  "projectNameAlias": 'my-hello-world'
 };

@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const colors = require('colors');
+const _ = require('lodash');
 
 const showUpdatesInfo = require('./updatesInfo');
 const server = require('../src/server');
@@ -35,17 +36,20 @@ if (!program.entry || !program.dir) {
 
 showUpdatesInfo();
 
+const config = require('codecrumbs.config.js');
+const environmentConfig = {
+  projectNameAlias: program.projectName,
+  entryPoint: program.entry,
+  projectDir: program.dir,
+  webpackConfigPath: program.webpack,
+  tsConfigPath: program.tsconfig,
+  clientPort: program.port,
+  excludeDir: program.excludeDir,
+  ideCmd: program.ideCmd,
+  debugModeEnabled: program.debugModeEnabled
+}
+
 server.setup(
-  {
-    projectNameAlias: program.projectName,
-    entryPoint: program.entry,
-    projectDir: program.dir,
-    webpackConfigPath: program.webpack,
-    tsConfigPath: program.tsconfig,
-    clientPort: program.port,
-    excludeDir: program.excludeDir,
-    ideCmd: program.ideCmd,
-    debugModeEnabled: program.debugModeEnabled
-  },
+  _.merge(config, environmentConfig),
   { isDev: false }
 );

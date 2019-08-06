@@ -51,6 +51,8 @@ Parameter | Description | Example
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
 ```-D```, ```--debugModeEnabled``` | Enable debug mode for logs (optional, default is ```false```) | ```-D```
 
+Parameters could be specified in `codecrumbs.config.js`
+
 ## Features
 ### Breadcrumbs and trails
 

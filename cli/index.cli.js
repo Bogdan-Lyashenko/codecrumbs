@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const path = require('path');
 const program = require('commander');
 const colors = require('colors');
 const _ = require('lodash');
@@ -7,8 +8,10 @@ const _ = require('lodash');
 const showUpdatesInfo = require('./updatesInfo');
 const server = require('../src/server');
 
+showUpdatesInfo();
+
 program
-  .option('-e, --entry [entryFile]', 'Specify path to entry point file. E.g. `src/app.js`')
+  .option('-e, --entry [entryPoint]', 'Specify path to entry point file. E.g. `src/app.js`')
   .option('-d, --dir [projectDir]', 'Specify path to project source code directory. E.g. `src`', '')
   .option(
     '-w, --webpack [webpackConfigFile]',
@@ -22,22 +25,24 @@ program
   .option('-i, --ideCmd [ideCmd]', 'IDE command to open file')
   .option('-x, --excludeDir [excludeDirectories]', 'Exclude directories')
   .option('-n, --projectName [projectNameAlias]', 'Project name alias')
+  .option('-C, --configFile [pathToConfigFile]', 'Path to codecrumbs.config.js')
   .option('-D, --debugModeEnabled [debugModeEnabled]', 'Enable debug mode for logs.')
   .parse(process.argv);
 
-if (!program.entry || !program.dir) {
+const pathToConfigFile = program.configFile || 'codecrumbs.config.js';
+const configFileExists = server.checkIfPathExists(pathToConfigFile);
+if ((!program.entry || !program.dir) && !configFileExists) {
   console.log(
     colors.magenta(
-      'Please specify `entry` and `dir` params. E.g. `codecrumbs -e src/app.js -d src`'
+      'Please specify `entryPoint` and `projectDir` params (e.g. `codecrumbs -e src/app.js -d src`). Or use `-C codecrumbs.config.js` instead.'
     )
   );
   process.exit();
 }
 
-showUpdatesInfo();
+const configFromFile = configFileExists ? require(path.resolve(pathToConfigFile)) : {};
 
-const config = require('codecrumbs.config.js');
-const environmentConfig = {
+const configFromCLI = {
   projectNameAlias: program.projectName,
   entryPoint: program.entry,
   projectDir: program.dir,
@@ -47,9 +52,6 @@ const environmentConfig = {
   excludeDir: program.excludeDir,
   ideCmd: program.ideCmd,
   debugModeEnabled: program.debugModeEnabled
-}
+};
 
-server.setup(
-  _.merge(config, environmentConfig),
-  { isDev: false }
-);
+server.setup(_.merge(configFromCLI, configFromFile), { isDev: false });

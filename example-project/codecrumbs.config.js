@@ -1,10 +1,7 @@
 module.exports = {
-  "entryPoint": 'src/index.js',
-  "projectDir": 'src',
-  "webpackConfigFile": 'webpack.config.js',
-  "tsConfigFile": 'tsconfig.js',
-  "defaultPort": 1234,
-  "ideCmd": 'webstorm',
-  "excludeDirectories": ['build'],
-  "projectNameAlias": 'my-hello-world'
+  entryPoint: 'example-project/src-client/index.js',
+  projectDir: 'example-project/src-client',
+  clientPort: 1234,
+  projectNameAlias: 'example-project-for-client',
+  debugModeEnabled: true
 };

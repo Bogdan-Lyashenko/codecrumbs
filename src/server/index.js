@@ -97,11 +97,11 @@ const alignPlatformPath = (p = '') =>
 
 const validateProjectPath = (pDir, ePoint) => {
   const paths = [];
-  if (!fs.existsSync(alignPlatformPath(pDir))) {
+  if (!checkIfPathExists(pDir)) {
     paths.push(pDir);
   }
 
-  if (!fs.existsSync(alignPlatformPath(ePoint))) {
+  if (!checkIfPathExists(ePoint)) {
     paths.push(ePoint);
   }
 
@@ -113,6 +113,9 @@ const validateProjectPath = (pDir, ePoint) => {
   }
 };
 
+const checkIfPathExists = path => fs.existsSync(alignPlatformPath(path));
+
 module.exports = {
+  checkIfPathExists,
   setup
 };

@@ -36,7 +36,7 @@ if (!program.entry || !program.dir) {
 const config = require('codecrumbs.config.js');
 const environmentConfig = {
   projectNameAlias: program.projectName,
-  entryPoint: program.entry,
+  entryFile: program.entry,
   projectDir: program.dir,
   webpackConfigPath: program.webpack,
   tsConfigPath: program.tsconfig,

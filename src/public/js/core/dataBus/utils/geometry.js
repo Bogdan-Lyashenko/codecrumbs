@@ -53,7 +53,7 @@ export const calculateLayoutProps = (list, padding = 120) => {
   const width = Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding);
 
   return {
-    xShift: padding / 4,
+    xShift: 5,
     width,
     height,
     yShift,

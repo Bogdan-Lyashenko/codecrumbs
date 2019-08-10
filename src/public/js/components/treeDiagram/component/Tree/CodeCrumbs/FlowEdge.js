@@ -17,6 +17,10 @@ export default props => {
     selectedCcFlowEdgeNodes
   } = props;
 
+  if (!involvedNsData || !involvedNsData[namespace]) {
+    return null;
+  }
+
   const { codecrumbsLayoutMap } = involvedNsData[namespace];
   const ccNamespacesKeys = Object.keys(involvedNsData || {});
 

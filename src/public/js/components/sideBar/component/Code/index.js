@@ -11,7 +11,7 @@ const PADDING_TOP = 5;
 //TODO: add select with several themes
 //TODO: scrool to/highlight crumbed lines
 //https://github.com/conorhastings/react-syntax-highlighter/blob/master/README.md
-export default class extends React.Component {
+export default class extends React.PureComponent {
   fixScroll() {
     const { dependenciesLines = [], crumbedLines = [], lineHeight } = this.props;
     if (!this.codeRef || !this.codeRef.scrollTo) {

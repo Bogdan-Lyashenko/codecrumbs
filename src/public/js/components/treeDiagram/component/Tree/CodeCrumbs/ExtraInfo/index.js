@@ -35,7 +35,7 @@ const DetailsComponent = props => {
 };
 
 const ccUnderlayPaddingH = 20;
-class CodeComponent extends React.Component {
+class CodeComponent extends React.PureComponent {
   state = {};
 
   onMouseEnter = () => {
@@ -101,7 +101,7 @@ const ExtraInfoSet = ({
   namespace,
   language
 }) => {
-  if (!detailsEnabled && !codePreviewEnabled) return null;
+  if ((!detailsEnabled && !codePreviewEnabled) || !sortedFlowSteps) return null;
 
   const crumbs = sortedFlowSteps.length ? sortedFlowSteps : flowSteps;
   return (

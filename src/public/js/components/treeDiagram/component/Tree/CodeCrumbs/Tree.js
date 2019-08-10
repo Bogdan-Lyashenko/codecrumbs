@@ -19,6 +19,10 @@ const Tree = props => {
     selectedCcFlowEdgeNodes
   } = props;
 
+  if (!ccShiftIndexMap) {
+    return null;
+  }
+
   return (
     <React.Fragment>
       {Object.keys(codecrumbsLayoutMap).map(key => {

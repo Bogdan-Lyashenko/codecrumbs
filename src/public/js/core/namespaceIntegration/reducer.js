@@ -1,7 +1,8 @@
 import { ACTIONS } from './constants';
 
 const DefaultState = {
-  activeNamespace: undefined
+  activeNamespace: undefined,
+  sharedFlowStepsData: null
 };
 
 export default (state = DefaultState, action) => {
@@ -10,6 +11,12 @@ export default (state = DefaultState, action) => {
       return {
         ...state,
         activeNamespace: action.payload
+      };
+
+    case ACTIONS.CALC_SHARED_FLOW_STEPS_DATA:
+      return {
+        ...state,
+        sharedFlowStepsData: action.payload
       };
 
     case ACTIONS.SET_FULL_STATE:

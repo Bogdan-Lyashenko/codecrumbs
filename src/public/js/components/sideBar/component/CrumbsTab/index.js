@@ -8,8 +8,7 @@ import 'antd/es/alert/style';
 
 import { NO_TRAIL_FLOW } from '../../../../shared-constants';
 import { getCodeCrumbsUserChoice } from '../../../../core/dataBus/selectors';
-import { getNamespacesList } from '../../../../core/dataBus/selectors';
-import { gatherFlowStepsData } from '../../../treeDiagram/component/Tree/CodeCrumbs/helpers';
+import { getSharedFlowStepsData } from '../../../../core/namespaceIntegration/selectors';
 
 import Code from '../Code';
 import './index.less';
@@ -58,7 +57,6 @@ const CrumbsTab = props => {
 };
 
 const mapStateToProps = (state, props) => {
-  const namespacesList = getNamespacesList(state);
   const { namespace } = props;
 
   const {
@@ -69,10 +67,7 @@ const mapStateToProps = (state, props) => {
     namespace
   });
 
-  const { involvedNsData, sortedFlowSteps } = gatherFlowStepsData(state, {
-    currentSelectedCrumbedFlowKey,
-    namespacesList
-  });
+  const { involvedNsData, sortedFlowSteps } = getSharedFlowStepsData(state);
 
   if (currentSelectedCrumbedFlowKey === NO_TRAIL_FLOW) {
     return {

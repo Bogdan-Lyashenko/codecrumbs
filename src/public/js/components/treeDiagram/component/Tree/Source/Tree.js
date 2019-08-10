@@ -114,7 +114,7 @@ const SourceTree = props => {
               selectedNodeDependencies[path] &&
               !selectedNodeDependencies[path].importedModuleNames.length
             }
-            onNodeClick={e => onFileNodeClick(e, fileNode)}
+            onNodeClick={e => selectedNode !== fileNode && onFileNodeClick(e, fileNode)}
           />
         );
       } else if (type === DIR_NODE_TYPE) {

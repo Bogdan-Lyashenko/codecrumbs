@@ -12,7 +12,7 @@ import 'antd/es/icon/style';
 import { VIEW_TYPES } from '../../../../../core/controlsBus/constants';
 import './ViewSwitch.less';
 
-class ViewSwitch extends React.Component {
+class ViewSwitch extends React.PureComponent {
   renderMenu() {
     const {
       name,

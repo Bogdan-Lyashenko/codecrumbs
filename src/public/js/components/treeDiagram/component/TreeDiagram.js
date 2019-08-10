@@ -8,12 +8,7 @@ import { UnderLayer } from './UnderLayer';
 import './TreeDiagram.less';
 
 import { buildShiftToPoint } from '../../../core/dataBus/utils/geometry';
-import {
-  getProjectMetadata,
-  getSourceLayout,
-  getCodeCrumbsUserChoice,
-  getNamespacesList
-} from '../../../core/dataBus/selectors';
+import { getProjectMetadata, getSourceLayout } from '../../../core/dataBus/selectors';
 import { getCheckedState, getValuesState } from '../../../core/controlsBus/selectors';
 import {
   selectDependencyEdge,
@@ -21,9 +16,9 @@ import {
   saveTreeDiagramContentId
 } from '../../../core/dataBus/actions';
 import { setActiveNamespace } from '../../../core/namespaceIntegration/actions';
-import { gatherFlowStepsData, getMaxWidthForNs } from './Tree/CodeCrumbs/helpers';
+import { getSharedFlowStepsData } from '../../../core/namespaceIntegration/selectors';
 
-class TreeDiagram extends React.Component {
+class TreeDiagram extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if (!prevProps.layoutSize && this.props.layoutSize) {
       this.props.saveContentId(this.treeDiagramContent.getAttribute('id'));
@@ -121,31 +116,7 @@ const mapStateToProps = (state, props) => {
   const { diagramZoom } = getValuesState(state);
   const { codeCrumbsDiagramOn } = getCheckedState(state);
 
-  let extendedCcProps = {};
-  if (codeCrumbsDiagramOn) {
-    const codeCrumbsUserChoice = getCodeCrumbsUserChoice(state, {
-      namespace
-    });
-
-    const namespacesList = getNamespacesList(state);
-    const { flowSteps, sortedFlowSteps, involvedNsData, ccShiftIndexMap } = gatherFlowStepsData(
-      state,
-      {
-        currentSelectedCrumbedFlowKey: codeCrumbsUserChoice.selectedCrumbedFlowKey,
-        namespacesList
-      }
-    );
-
-    const maxWidth = getMaxWidthForNs(state, { namespacesList });
-
-    extendedCcProps = {
-      flowSteps,
-      sortedFlowSteps,
-      involvedNsData,
-      ccShiftIndexMap,
-      maxWidth
-    };
-  }
+  const extendedCcProps = codeCrumbsDiagramOn ? getSharedFlowStepsData(state) : {};
 
   return {
     namespace,

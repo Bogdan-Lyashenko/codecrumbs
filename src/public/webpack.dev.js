@@ -12,7 +12,8 @@ module.exports = merge(common, {
       openAnalyzer: false
     }),
     new webpack.DefinePlugin({
-      'process.env.LOCAL': JSON.stringify(true)
+      'process.env.LOCAL': JSON.stringify(true),
+      'process.env.DEV': JSON.stringify(true)
     })
   ]
 });

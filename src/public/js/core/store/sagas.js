@@ -39,7 +39,7 @@ function* applyReactionOnSwitchToggleToNamespace({ switchKey, checked, namespace
     } else {
       yield all([
         put(setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, false)),
-        put(reactByUpdatingFoldersState({ namespace }))
+        reactByUpdatingFoldersState({ namespace })
       ]);
     }
   }

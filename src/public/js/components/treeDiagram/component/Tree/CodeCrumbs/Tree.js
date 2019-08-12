@@ -7,6 +7,7 @@ import { isCodeCrumbSelected, getCcPosition } from './helpers';
 
 const Tree = props => {
   const {
+    sourceDiagramOn,
     ccAlightPoint,
     ccShiftIndexMap,
     shiftToCenterPoint,
@@ -62,21 +63,23 @@ const Tree = props => {
                   <React.Fragment
                     key={`code-crumb-edge-${crumbData.name}-${crumbPosition.x}-${crumbPosition.y}`}
                   >
-                    {!i && (
-                      <PartEdge
-                        sourcePosition={position}
-                        parentName={file.name}
-                        ccAlightPoint={crumbPosition.x}
-                        singleCrumb={singleCrumb}
-                      />
-                    )}
-                    {!singleCrumb && (
-                      <CodeCrumbMultiEdge
-                        sourcePosition={position}
-                        targetPosition={crumbPosition}
-                        ccAlightPoint={i && firstCrumbXPoint}
-                      />
-                    )}
+                    {!i &&
+                      sourceDiagramOn && (
+                        <PartEdge
+                          sourcePosition={position}
+                          parentName={file.name}
+                          ccAlightPoint={crumbPosition.x}
+                          singleCrumb={singleCrumb}
+                        />
+                      )}
+                    {!singleCrumb &&
+                      sourceDiagramOn && (
+                        <CodeCrumbMultiEdge
+                          sourcePosition={position}
+                          targetPosition={crumbPosition}
+                          ccAlightPoint={i && firstCrumbXPoint}
+                        />
+                      )}
                     <CodeCrumbName
                       position={crumbPosition}
                       loc={codeCrumbsLineNumbers ? crumbData.displayLoc : ''}

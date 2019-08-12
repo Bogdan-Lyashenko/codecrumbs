@@ -2,24 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { DependenciesEdge, DependenciesArrow } from '../../Edge/DepenenciesEdge';
-import { FileName } from '../../../component/Node/File';
 import { selectDependencyEdge } from '../../../../../core/dataBus/actions';
 import {
   getSourceLayout,
   getSourceUserChoice,
   getDependenciesUserChoice
 } from '../../../../../core/dataBus/selectors';
-import { getCheckedState } from '../../../../../core/controlsBus/selectors';
 
 import { getGroupsAroundNode, checkIsEdgeSelected } from './utils';
 
 const DependenciesTree = props => {
   const {
-    language,
     selectedNode,
     filesLayoutMap,
     shiftToCenterPoint,
-    sourceDiagramOn,
     onDependencyEdgeClick,
     selectedDependencyEdgeNodes
   } = props;
@@ -36,22 +32,8 @@ const DependenciesTree = props => {
           const moduleNode = filesLayoutMap[moduleName];
           if (!moduleNode) return null;
 
-          const { name, path } = moduleNode.data;
           const [mX, mY] = [moduleNode.y, moduleNode.x];
           const targetPosition = shiftToCenterPoint(mX, mY);
-          const sourceNodes = [];
-          if (!sourceDiagramOn) {
-            // TODO: un sync with FileName in SourceTree, duplication
-            sourceNodes.push(
-              <FileName
-                language={language}
-                key={path}
-                position={targetPosition}
-                name={name}
-                dependency={true}
-              />
-            );
-          }
 
           const importedNodes = importedModuleNames
             .map(name => filesLayoutMap[name])
@@ -72,7 +54,7 @@ const DependenciesTree = props => {
               groupNodes.forEach((importedNode, i) => {
                 const [iX, iY] = [importedNode.y, importedNode.x];
                 const sourcePosition = shiftToCenterPoint(iX, iY);
-                const { path: importedNodePath, name } = importedNode.data;
+                const { path: importedNodePath } = importedNode.data;
 
                 const selected =
                   selectedDependencyEdgeNodes &&
@@ -114,18 +96,6 @@ const DependenciesTree = props => {
                   );
                   arrowSelected ? selectedEdges.push(arrow) : edges.push(arrow);
                 }
-
-                if (!sourceDiagramOn) {
-                  sourceNodes.push(
-                    <FileName
-                      key={importedNodePath}
-                      language={language}
-                      position={sourcePosition}
-                      name={name}
-                      dependency={true}
-                    />
-                  );
-                }
               });
             }
           );
@@ -134,7 +104,6 @@ const DependenciesTree = props => {
             <React.Fragment key={moduleName}>
               {edges}
               {selectedEdges}
-              {sourceNodes}
             </React.Fragment>
           );
         })}
@@ -143,8 +112,6 @@ const DependenciesTree = props => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { sourceDiagramOn } = getCheckedState(state);
-
   const { namespace } = props;
   const namespaceProps = { namespace };
   const { filesLayoutMap } = getSourceLayout(state, namespaceProps);
@@ -152,7 +119,6 @@ const mapStateToProps = (state, props) => {
   const { selectedDependencyEdgeNodes } = getDependenciesUserChoice(state, namespaceProps);
 
   return {
-    sourceDiagramOn,
     filesLayoutMap,
     selectedNode,
     selectedDependencyEdgeNodes

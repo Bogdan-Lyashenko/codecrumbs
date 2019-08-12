@@ -1,6 +1,6 @@
 import { CC_NODE_TYPE } from '../../constants';
 
-export const calculateLayoutProps = (list, padding = 120) => {
+export const calculateLayoutProps = (list, { sourceDiagramOn }) => {
   if (!list) {
     return {
       width: 0,
@@ -50,14 +50,14 @@ export const calculateLayoutProps = (list, padding = 120) => {
 
   const yShift = Math.abs(Math.round(minY)) + 20;
   const height = Math.round(Math.abs(maxY) + Math.abs(yShift)) + 5;
-  const width = Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * padding);
+  const width = Math.round(Math.abs(maxX + maxCcWidth) + Math.abs(minX) + 2 * 20);
 
   return {
     xShift: 5,
     width,
     height,
     yShift,
-    ccAlightPoint
+    ccAlightPoint: sourceDiagramOn ? ccAlightPoint : 50
   };
 };
 

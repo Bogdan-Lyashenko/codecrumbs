@@ -30,6 +30,20 @@ function* reactOnSwitchToggle(action) {
 }
 
 function* applyReactionOnSwitchToggleToNamespace({ switchKey, checked, namespace }) {
+  if (switchKey === CONTROLS_KEYS.SOURCE_DIAGRAM_ON) {
+    if (!checked) {
+      yield all([
+        put(toggleSwitch(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, false)),
+        put(setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, true))
+      ]);
+    } else {
+      yield all([
+        put(setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, false)),
+        put(reactByUpdatingFoldersState({ namespace }))
+      ]);
+    }
+  }
+
   if (switchKey === CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_ITEMS) {
     if (checked) {
       yield reactByUpdatingFoldersState({ namespace });

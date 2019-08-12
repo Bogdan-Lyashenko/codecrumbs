@@ -7,8 +7,11 @@ import { getFoldersForPaths, downloadObjectAsJsonFile, uploadFileAsObject } from
 import {
   getTreeLayout,
   getFilesForCurrentCcFlow,
-  getCodeCrumbsMapForCurrentCcFlow
+  getCodeCrumbsMapForCurrentCcFlow,
+  getFileNodesMap,
+  getCodecrumbNodesMap
 } from './utils/treeLayout';
+import { calculateLayoutProps } from './utils/geometry';
 
 import { ACTIONS } from './constants';
 import {
@@ -155,6 +158,7 @@ export const calcFilesTreeLayoutNodes = namespace => (dispatch, getState) => {
   );
 
   const {
+    sourceDiagramOn,
     codeCrumbsDiagramOn,
     codeCrumbsMinimize,
     codeCrumbsDetails,
@@ -172,16 +176,30 @@ export const calcFilesTreeLayoutNodes = namespace => (dispatch, getState) => {
     });
   }
 
+  const sourceLayoutTree = getTreeLayout(sourceTree, {
+    includeFileChildren: codeCrumbsDiagramOn && !codeCrumbsMinimize,
+    extraSpaceForDetails: codeCrumbsDetails,
+    extraSpaceForCodePreview: codeCrumbsCodePreview,
+    openedFolders,
+    activeItemsMap,
+    activeCodeCrumbs
+  });
+
+  const filesLayoutMap = getFileNodesMap(sourceLayoutTree);
+  const codecrumbsLayoutMap = getCodecrumbNodesMap(filesLayoutMap);
+  const { ccAlightPoint, ...layoutSize } = calculateLayoutProps(sourceLayoutTree, {
+    sourceDiagramOn
+  });
+
   return dispatch({
     type: ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES,
-    payload: getTreeLayout(sourceTree, {
-      includeFileChildren: codeCrumbsDiagramOn && !codeCrumbsMinimize,
-      extraSpaceForDetails: codeCrumbsDetails,
-      extraSpaceForCodePreview: codeCrumbsCodePreview,
-      openedFolders,
-      activeItemsMap,
-      activeCodeCrumbs
-    }),
+    payload: {
+      sourceLayoutTree,
+      filesLayoutMap,
+      codecrumbsLayoutMap,
+      ccAlightPoint,
+      layoutSize
+    },
     namespace
   });
 };

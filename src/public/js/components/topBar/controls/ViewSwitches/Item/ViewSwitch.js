@@ -78,7 +78,7 @@ class ViewSwitch extends React.PureComponent {
   }
 
   render() {
-    const { name, itemKey, subMenuItems, checkedState, toggleSwitch } = this.props;
+    const { name, itemKey, subMenuItems, checkedState, disabledState, toggleSwitch } = this.props;
 
     return (
       <div className="ViewSwitchItem">
@@ -92,6 +92,7 @@ class ViewSwitch extends React.PureComponent {
             size="small"
             checked={checkedState[itemKey]}
             onChange={v => toggleSwitch(itemKey, v)}
+            disabled={disabledState[itemKey]}
           />
         </div>
       </div>

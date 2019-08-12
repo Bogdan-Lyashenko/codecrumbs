@@ -1,8 +1,6 @@
 import { FOLDER_OPEN_STATE } from '../constants';
 
 import { ACTIONS } from './constants';
-import { getFileNodesMap, getCodecrumbNodesMap } from './utils/treeLayout';
-import { calculateLayoutProps } from './utils/geometry';
 
 const DefaultState = {};
 
@@ -65,18 +63,9 @@ export default (state = DefaultState, action) => {
       return mergeState(action.payload);
 
     case ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES: {
-      const { payload: sourceLayoutTree } = action;
-
-      const { ccAlightPoint, ...layoutSize } = calculateLayoutProps(sourceLayoutTree);
-      const filesLayoutMap = getFileNodesMap(sourceLayoutTree);
-      const codecrumbsLayoutMap = getCodecrumbNodesMap(filesLayoutMap);
-
+      const { payload } = action;
       return mergeState({
-        sourceLayoutTree,
-        layoutSize,
-        filesLayoutMap,
-        codecrumbsLayoutMap,
-        ccAlightPoint
+        ...payload
       });
     }
 

@@ -48,8 +48,7 @@ class CodeComponent extends React.PureComponent {
 
   render() {
     const { position, crumbNodeLines, file, language, namespace } = this.props;
-    const { fileCode } = file.data;
-
+    const { fileCode, path, name } = file.data;
     const { isExpanded } = this.state;
 
     return (
@@ -63,6 +62,12 @@ class CodeComponent extends React.PureComponent {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
+          <div className={'FilePath'}>
+            <span>{path.replace(name, '')}</span>
+            <span>
+              <b>{name}</b>
+            </span>
+          </div>
           <Suspense fallback={null}>
             <Code
               namespace={namespace}

@@ -19,7 +19,8 @@
     "babel-compile-standalone": "babel src/public/js -d build --config-file ./src/public/babel.config.js --copy-files",
     "webpack-compile-local": "cd src/public && webpack --config webpack.local.js --progress",
     "build": "yarn clean && yarn babel-compile-standalone && yarn webpack-compile-local",
-    "pretty": "prettier  --write \"./src/public/js/**/*.js\""
+    "pretty": "prettier  --write \"./src/public/js/**/*.js\"",
+    "test:e2e" : "export PLAYGROUND_URL=localhost:2018 && testcafe chrome tests/e2e/*"
   },
   "bin": {
     "codecrumbs": "./cli/index.cli.js"
@@ -74,6 +75,7 @@
     "nodemon": "^1.18.7",
     "prettier": "^1.14.0",
     "style-loader": "^0.21.0",
+    "testcafe": "^1.4.0",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.1.2",

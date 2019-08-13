@@ -13,7 +13,7 @@ module.exports = merge(common, {
     }),
     new webpack.DefinePlugin({
       'process.env.LOCAL': JSON.stringify(true),
-      'process.env.DEV': JSON.stringify(true)
-    })
+      'process.env.DEV': JSON.stringify(true),
+    }),
   ]
 });

@@ -155,6 +155,4 @@ yarn && yarn start
 
 ## WIP
 Next features are developing:
-- **eject codecrumbs** - ability to remove all "breadcrumbs" from source code in "one click"
-- **data transferring between cc trail steps**
 - **VS Code extension** - some neat features right inside the code editor. Checkout [the repo here](https://github.com/Bogdan-Lyashenko/vs-code-codecrumbs).

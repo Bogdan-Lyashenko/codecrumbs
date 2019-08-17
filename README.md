@@ -48,7 +48,6 @@ CLI | Config file | Description | Example
 ```d``` | ```projectDir``` | Relative path to project source code directory | ```-d src```
 ```e``` | ```entryPoint``` | Relative path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
 ```x``` | ```excludeDir``` | Relative path(or paths separated by ```,```) to directories for exclusion | ```-x src/doc,src/thirdparty```
-```i``` | ```ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
 ```p``` | ```clientPort``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```n``` | ```projectNameAlias``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
 ```C``` | - | Path to codecrumbs.config.js (optional, by default will try to find the file in PWD) | ```-C config/codecrumbs.config.js```
@@ -108,12 +107,6 @@ Current version supports next programming languages:
 
 Please file an issue to support other language you would like to have.
 
-### Download & Upload (learn and share your knowledge)
-
-You can take a snapshot of application state at any point of time and share it with others. Simply download the json file of codecrumbs store (*top-right corner, "setup -> download"*). This json file can be then uploaded to codecrumbs (*top-right corner, "setup -> upload"*) to represent exactly same picture, even without having that project locally!
-
-<img src="/docs/upload-feature-2.gif" width="100%"/>
-
 ### Dependencies
 > Note: In current version only [JavaScript, TypeScript] offer this feature
 
@@ -130,18 +123,6 @@ UI explained:
 <img src="/docs/flow-ui.png" width="100%"/>
 
 [js2flowchart](https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart) is used in the sidebar to draw flowchart for the selected file code.
-
-### IDE integration
-> Check ```-i``` CLI param first to configure command.
-
-Navigate from browser to your code editor simply by clicking ```Command+click```(or ```Alt+click```) on a file or a codecrumb to open file in your IDE.
-
-<img src="/docs/ide-integration.gif" width="100%"/>
-
-## Case studies
-The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & Upload* feature it becomes super easy to collect and share your "investigation results".
-
-The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned.
 
 ## Support
 Any support is very much appreciated! 👍 😘 ❤️

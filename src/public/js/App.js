@@ -59,9 +59,6 @@ const App = (props = {}) => {
         <Suspense fallback={null}>
           <SideBar />
         </Suspense>
-        {props.extraLayout.appBodyBottom && (
-          <props.extraLayout.appBodyBottom.Component {...props} />
-        )}
       </div>
 
       <footer className="footer">

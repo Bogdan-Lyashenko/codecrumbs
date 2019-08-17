@@ -9,13 +9,13 @@ import dataBus from '../dataBus/reducer';
 import namespaceIntegration from '../namespaceIntegration/reducer';
 import rootSaga from './sagas';
 
-export default ({ extraReducers = {}, extraPersistWhiteList = [] } = {}) => {
+export default () => {
   const sagaMiddleware = createSagaMiddleware();
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   const persistConfig = {
     key: 'codecrumbs-config-storage',
-    whitelist: ['controlsBus', ...extraPersistWhiteList],
+    whitelist: ['controlsBus'],
     storage
   };
 
@@ -24,8 +24,7 @@ export default ({ extraReducers = {}, extraPersistWhiteList = [] } = {}) => {
     combineReducers({
       controlsBus,
       dataBus,
-      namespaceIntegration,
-      ...extraReducers
+      namespaceIntegration
     })
   );
 

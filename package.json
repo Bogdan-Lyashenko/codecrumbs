@@ -16,9 +16,8 @@
     "server:cli": "node cli/index.cli.js -e example-project/src-client/index.js -d example-project/src-client/",
     "server-debug": "nodemon --inspect src/index.dev.js",
     "clean": "rm -rf build",
-    "babel-compile-standalone": "babel src/public/js -d build --config-file ./src/public/babel.config.js --copy-files",
     "webpack-compile-local": "cd src/public && webpack --config webpack.local.js --progress",
-    "build": "yarn clean && yarn babel-compile-standalone && yarn webpack-compile-local",
+    "build": "yarn clean && yarn webpack-compile-local",
     "pretty": "prettier  --write \"./src/public/js/**/*.js\""
   },
   "bin": {

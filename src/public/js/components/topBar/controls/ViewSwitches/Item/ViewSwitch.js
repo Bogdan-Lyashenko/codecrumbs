@@ -89,6 +89,7 @@ class ViewSwitch extends React.PureComponent {
             <span className="viewSwitchName">{name}</span>
           )}
           <Switch
+            id={name.toLowerCase()}
             size="small"
             checked={checkedState[itemKey]}
             onChange={v => toggleSwitch(itemKey, v)}

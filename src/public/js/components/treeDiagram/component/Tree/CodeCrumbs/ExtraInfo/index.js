@@ -35,7 +35,7 @@ const DetailsComponent = props => {
 };
 
 const ccUnderlayPaddingH = 20;
-class CodeComponent extends React.Component {
+class CodeComponent extends React.PureComponent {
   state = {};
 
   onMouseEnter = () => {
@@ -48,8 +48,7 @@ class CodeComponent extends React.Component {
 
   render() {
     const { position, crumbNodeLines, file, language, namespace } = this.props;
-    const { fileCode } = file.data;
-
+    const { fileCode, path, name } = file.data;
     const { isExpanded } = this.state;
 
     return (
@@ -63,6 +62,12 @@ class CodeComponent extends React.Component {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
+          <div className={'FilePath'}>
+            <span>{path.replace(name, '')}</span>
+            <span>
+              <b>{name}</b>
+            </span>
+          </div>
           <Suspense fallback={null}>
             <Code
               namespace={namespace}
@@ -101,7 +106,7 @@ const ExtraInfoSet = ({
   namespace,
   language
 }) => {
-  if (!detailsEnabled && !codePreviewEnabled) return null;
+  if ((!detailsEnabled && !codePreviewEnabled) || !sortedFlowSteps) return null;
 
   const crumbs = sortedFlowSteps.length ? sortedFlowSteps : flowSteps;
   return (

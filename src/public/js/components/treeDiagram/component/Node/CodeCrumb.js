@@ -13,6 +13,7 @@ export const CodeCrumbName = props => {
     cover,
     flow,
     flowStep,
+    original,
     selected,
     onMouseOver,
     onClick
@@ -73,7 +74,7 @@ export const CodeCrumbName = props => {
             onClick={onClick}
             className={'CodeCrumbName-flow'}
           >
-            {flowStep}
+            {flowStep !== 0 ? flowStep : /#0/.test(original) ? 0 : '*'}
           </text>
         </React.Fragment>
       )) ||

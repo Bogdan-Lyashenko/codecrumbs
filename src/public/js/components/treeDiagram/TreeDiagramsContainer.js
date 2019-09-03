@@ -24,6 +24,7 @@ const TreeDiagramsContainer = ({ namespacesList, activeNamespace }) => {
     );
   }
 
+  // TODO: use ref for TreeDiagram container (on mount set it to store)
   return (
     <div className={'TreeDiagramsContainer'}>
       {namespacesList.map(namespace => (

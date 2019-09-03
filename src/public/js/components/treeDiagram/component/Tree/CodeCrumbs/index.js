@@ -18,7 +18,7 @@ import Tree from './Tree';
 import FlowEdges from './FlowEdge';
 
 const mapStateToProps = (state, props) => {
-  const { codeCrumbsMinimize, codeCrumbsLineNumbers } = getCheckedState(state);
+  const { codeCrumbsMinimize, codeCrumbsLineNumbers, sourceDiagramOn } = getCheckedState(state);
 
   const namespacesList = getNamespacesList(state);
 
@@ -35,6 +35,7 @@ const mapStateToProps = (state, props) => {
   });
 
   return {
+    sourceDiagramOn,
     codecrumbsLayoutMap,
     ccAlightPoint,
     filesMap,

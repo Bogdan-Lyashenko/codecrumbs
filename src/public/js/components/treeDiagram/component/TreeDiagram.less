@@ -5,7 +5,10 @@
   margin: 0;
   padding: 0;
   overflow-y: hidden;
-  border-bottom: 1px solid #ebedf0;
+
+  &.border {
+    border-bottom: 1px solid #ebedf0;
+  }
 
   .namespaceTitle {
     position: absolute;
@@ -14,6 +17,7 @@
     left: 0;
     z-index: 2;
     border-left: 1px solid #ebedf0;
+    background: rgba(255,255,255,0.8);
     font-size: 11px;
 
     &.activeTreeDiagram {
@@ -22,7 +26,9 @@
     }
   }
 
-  svg {
-    display: block;
+  .content {
+    svg {
+      display: block;
+    }
   }
 }

@@ -13,6 +13,11 @@ export const getProjectMetadata = createSelector([getNamespaceState], namespaceS
   return { projectName, language, platformPathSeparator, fullFeaturesSupport };
 });
 
+export const getTreeDiagramContentId = createSelector([getNamespaceState], namespaceState => {
+  const { treeDiagramContentId } = namespaceState;
+  return { id: treeDiagramContentId };
+});
+
 export const getSource = createSelector([getNamespaceState], namespaceState => {
   const { sourceTree, filesMap, foldersMap } = namespaceState;
 

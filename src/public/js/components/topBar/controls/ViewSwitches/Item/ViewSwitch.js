@@ -12,7 +12,7 @@ import 'antd/es/icon/style';
 import { VIEW_TYPES } from '../../../../../core/controlsBus/constants';
 import './ViewSwitch.less';
 
-class ViewSwitch extends React.Component {
+class ViewSwitch extends React.PureComponent {
   renderMenu() {
     const {
       name,
@@ -78,7 +78,7 @@ class ViewSwitch extends React.Component {
   }
 
   render() {
-    const { name, itemKey, subMenuItems, checkedState, toggleSwitch } = this.props;
+    const { name, itemKey, subMenuItems, checkedState, disabledState, toggleSwitch } = this.props;
 
     return (
       <div className="ViewSwitchItem">
@@ -92,6 +92,7 @@ class ViewSwitch extends React.Component {
             size="small"
             checked={checkedState[itemKey]}
             onChange={v => toggleSwitch(itemKey, v)}
+            disabled={disabledState[itemKey]}
           />
         </div>
       </div>

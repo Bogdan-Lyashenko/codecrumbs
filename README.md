@@ -45,6 +45,7 @@ So basically you have 2 ways:
 2) Run ```codecrumbs -d project-src-dir -e project-src-dir/index.js```. Change parameters to match your project:```-d``` is *directory with source code*, ```-e``` is *entry point file* .
 3) Go to [http://localhost:2018](http://localhost:2018/#) in the browser to check it out.
 
+
 ### Docker
 To start dockerise application run
 `docker build -t codecrumbs .`
@@ -61,6 +62,19 @@ Parameter | Description | Example
 ```-i```, ```--ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
 ```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
 ```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
+
+### Configuration
+Run codecrumbs with CLI params or specify static config file `codecrumbs.config.js` (see example [here](/example-project/codecrumbs.config.js))
+
+CLI | Config file | Description | Example
+--- | --- | --- | ---
+```d``` | ```projectDir``` | Relative path to project source code directory | ```-d src```
+```e``` | ```entryPoint``` | Relative path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
+```x``` | ```excludeDir``` | Relative path(or paths separated by ```,```) to directories for exclusion | ```-x src/doc,src/thirdparty```
+```p``` | ```clientPort``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
+```n``` | ```projectNameAlias``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
+```C``` | - | Path to codecrumbs.config.js (optional, by default will try to find the file in PWD) | ```-C config/codecrumbs.config.js```
+```D``` | ```debugModeEnabled``` | Enable debug mode for logs (optional, default is ```false```) | ```-D```
 
 ## Features
 ### Breadcrumbs and trails
@@ -88,6 +102,8 @@ Example | Description | Use case
 
 > Note: current version supports single line comments only.
 
+> Hint: you can use trail id without step number (e.g. ```//cc:groupname#;test```) just to group breadcrumbs, you always can add step numbers later when you know the correct order. 
+
 ### Multi-codebase integration
 You might be interested to study connections between several codebases (sub-modules), codecrumbs supports that.
 Simply start codecrumbs multiple times (once for each codebase), it all **will be synced in one picture** inside the browser tab. To control a diagram UI - select it by clicking on it.
@@ -114,12 +130,6 @@ Current version supports next programming languages:
 
 Please file an issue to support other language you would like to have.
 
-### Download & Upload (learn and share your knowledge)
-
-You can take a snapshot of application state at any point of time and share it with others. Simply download the json file of codecrumbs store (*top-right corner, "setup -> download"*). This json file can be then uploaded to codecrumbs (*top-right corner, "setup -> upload"*) to represent exactly same picture, even without having that project locally!
-
-<img src="/docs/upload-feature-2.gif" width="100%"/>
-
 ### Dependencies
 > Note: In current version only [JavaScript, TypeScript] offer this feature
 
@@ -137,18 +147,6 @@ UI explained:
 
 [js2flowchart](https://github.com/Bogdan-Lyashenko/js-code-to-svg-flowchart) is used in the sidebar to draw flowchart for the selected file code.
 
-### IDE integration
-> Check ```-i``` CLI param first to configure command.
-
-Navigate from browser to your code editor simply by clicking ```Command+click```(or ```Alt+click```) on a file or a codecrumb to open file in your IDE.
-
-<img src="/docs/ide-integration.gif" width="100%"/>
-
-## Case studies
-The tool (codecrumbs) allows us to learn, document and explain a codebase much faster. Also, with *Download & Upload* feature it becomes super easy to collect and share your "investigation results".
-
-The ultimate goal is to have many case studies hosting at [https://codecrumbs.io](https://codecrumbs.io/). **The library of projects "explained with codecrumbs", the place for collaborative learning**. More features around that coming soon, stay tuned.
-
 ## Support
 Any support is very much appreciated! 👍 😘 ❤️
 If you like this project, please, **put a :star: and tweet about it**. Thanks!
@@ -160,7 +158,7 @@ Please, consider [making financial donation](https://opencollective.com/codecrum
 </a>
 
 #### Sponsors
-Development supported by [0+x](https://0x.se)
+Development supported by [0+X](https://0x.se)
 
 <a href="https://0x.se" target="_blank">
   <img src="https://avatars0.githubusercontent.com/u/16350669?s=200&v=4" width=100 />
@@ -180,6 +178,4 @@ yarn && yarn start
 
 ## WIP
 Next features are developing:
-- **eject codecrumbs** - ability to remove all "breadcrumbs" from source code in "one click"
-- **data transferring between cc trail steps**
 - **VS Code extension** - some neat features right inside the code editor. Checkout [the repo here](https://github.com/Bogdan-Lyashenko/vs-code-codecrumbs).

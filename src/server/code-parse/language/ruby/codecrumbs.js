@@ -1,7 +1,7 @@
 const { setupGetCrumbs, setupGetCommentsFromCode } = require('../default/codecrumbs');
 
-const RUBY_COMMENT_REGEX = /^([^#]*)#(.*)$/g;
-const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(RUBY_COMMENT_REGEX));
+import { RUBY_REGEX } from "regex-comment/lib/index";
+const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(RUBY_REGEX));
 
 // replace with own implementation if needed
 module.exports = {

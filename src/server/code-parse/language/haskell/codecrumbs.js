@@ -1,7 +1,7 @@
 const { setupGetCrumbs, setupGetCommentsFromCode } = require('../default/codecrumbs');
+import { HASKELL_REGEX } from "regex-comment/lib/index";
 
-const HASKELL_COMMENT_REGEX = /(^ ?-- ?.*| -- .*)/gm;
-const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(HASKELL_COMMENT_REGEX));
+const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(HASKELL_REGEX));
 
 // replace with own implementation if needed
 module.exports = {

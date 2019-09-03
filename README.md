@@ -53,16 +53,6 @@ and once docker image will be build successfully
 `TARGET_APP_PATH=$PWD docker-compose run codecrumbs -d target/ -e target/index.dev.js`
 where `TARGET_APP_PATH` is path to project source code directory
 
-### CLI
-Parameter | Description | Example
---- | --- | ---
-```-d```, ```--dir``` | Relative path to project source code directory | ```-d src```
-```-e```, ```--entry``` | Relative path to project source entry point file (must be inside ```dir```) | ```-e src/app.js```
-```-x```, ```--excludeDir``` | Relative path(or paths separated by ```,```) to directories for exclusion | ```-x src/doc,src/thirdparty```
-```-i```, ```--ideCmd``` | command to open file in IDE from bash (default 'webstorm') | ```-i code```
-```-p```, ```--port``` | Port for Codecrumbs client (optional, default *2018*) | ```-p 2019```
-```-n```, ```--projectName``` | Project name alias (optional, default same as ```-d``` value) | ```-n my-hello-world```
-
 ### Configuration
 Run codecrumbs with CLI params or specify static config file `codecrumbs.config.js` (see example [here](/example-project/codecrumbs.config.js))
 

@@ -3,12 +3,14 @@ version: '3'
 services:
   codecrumbs:
     build: .
+    command: [yarn, start, codecrumbs, -D, -d, $APP_DIRECTORY/, -e, $APP_DIRECTORY/$APP_ENTRYPOINT_PATH]
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-      - $TARGET_APP_PATH/src:/app/target
     environment:
-      - TARGET_APP_PATH
+      - APP_ENTRYPOINT_PATH
+      - APP_DIRECTORY="${APP_DIRECTORY:-src/}"
+      - NODE_ENV=development
     ports:
       - 2018:2018
       - 3018:3018

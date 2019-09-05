@@ -10,7 +10,7 @@ import {
   updateFiles
 } from './actions';
 
-class DataBusContainer extends React.Component {
+class DataBusContainer extends React.PureComponent {
   componentDidMount() {
     const { standalone } = this.props;
 

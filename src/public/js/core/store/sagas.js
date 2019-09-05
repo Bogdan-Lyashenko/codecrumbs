@@ -17,7 +17,8 @@ import { ACTIONS as SWITCHES_ACTIONS, CONTROLS_KEYS } from '../controlsBus/const
 import { setDisabledControl, toggleSwitch } from '../controlsBus/actions';
 import { getCheckedState } from '../controlsBus/selectors';
 
-import { setActiveNamespace } from '../namespaceIntegration/actions';
+import { getActiveNamespace } from '../namespaceIntegration/selectors';
+import { setActiveNamespace, calcSharedFlowStepsData } from '../namespaceIntegration/actions';
 
 function* reactOnSwitchToggle(action) {
   const namespacesList = yield select(getNamespacesList);
@@ -29,6 +30,20 @@ function* reactOnSwitchToggle(action) {
 }
 
 function* applyReactionOnSwitchToggleToNamespace({ switchKey, checked, namespace }) {
+  if (switchKey === CONTROLS_KEYS.SOURCE_DIAGRAM_ON) {
+    if (!checked) {
+      yield all([
+        put(toggleSwitch(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, false)),
+        put(setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, true))
+      ]);
+    } else {
+      yield all([
+        put(setDisabledControl(CONTROLS_KEYS.DEPENDENCIES_DIAGRAM_ON, false)),
+        reactByUpdatingFoldersState({ namespace })
+      ]);
+    }
+  }
+
   if (switchKey === CONTROLS_KEYS.SOURCE_KEEP_ONLY_ACTIVE_ITEMS) {
     if (checked) {
       yield reactByUpdatingFoldersState({ namespace });
@@ -108,8 +123,11 @@ function* reactOnToggledFolder({ namespace }) {
 
 function* reactOnSourceSet({ namespace }) {
   const { dependenciesDiagramOn, codeCrumbsDiagramOn } = yield select(getCheckedState);
+  const activeNamespace = yield select(getActiveNamespace);
 
-  yield put(setActiveNamespace(namespace));
+  if (activeNamespace !== namespace) {
+    yield put(setActiveNamespace(namespace));
+  }
 
   if (!dependenciesDiagramOn && !codeCrumbsDiagramOn) {
     yield reactByUpdatingFoldersState({ namespace });
@@ -127,6 +145,13 @@ function* reactOnSourceSet({ namespace }) {
 function* reactByUpdatingFoldersState({ namespace }) {
   yield put(updateFoldersByActiveChildren(namespace));
   yield put(calcFilesTreeLayoutNodes(namespace));
+}
+
+function* reactByCalcSharedFlowStepsData() {
+  const { codeCrumbsDiagramOn } = yield select(getCheckedState);
+  if (codeCrumbsDiagramOn) {
+    yield put(calcSharedFlowStepsData());
+  }
 }
 
 // TODO: will work if switches per namespace as well
@@ -147,8 +172,11 @@ function* reactOnCcFlowEdgeSelect({ payload, namespace }) {
   }
 }
 
-function* reactBySettingActiveNamespace({ payload, namespace }) {
-  yield put(setActiveNamespace(namespace));
+function* reactBySettingActiveNamespace({ namespace }) {
+  const activeNamespace = yield select(getActiveNamespace);
+  if (activeNamespace !== namespace) {
+    yield put(setActiveNamespace(namespace));
+  }
 }
 
 export default function* rootSaga() {
@@ -160,9 +188,9 @@ export default function* rootSaga() {
     takeLatest(DATA_BUS_ACTIONS.SET_CHANGED_SOURCE_DATA, reactOnSourceSet),
     takeLatest(DATA_BUS_ACTIONS.SET_DEPENDENCIES_ENTRY_POINT, reactByUpdatingFoldersState),
     takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState),
-    takeLatest(DATA_BUS_ACTIONS.UPDATE_FILES, reactByUpdatingFoldersState),
     takeLatest(DATA_BUS_ACTIONS.SELECT_CC_FLOW_EDGE, reactOnCcFlowEdgeSelect),
     takeLatest(DATA_BUS_ACTIONS.SELECT_NODE, reactBySettingActiveNamespace),
-    takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMB, reactBySettingActiveNamespace)
+    takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMB, reactBySettingActiveNamespace),
+    takeLatest(DATA_BUS_ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES, reactByCalcSharedFlowStepsData)
   ]);
 }

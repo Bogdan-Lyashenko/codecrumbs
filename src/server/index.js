@@ -10,9 +10,6 @@ const mediator = require('./mediator');
 const sourceWatcher = require('./source-watcher');
 
 const setup = (options, devOptions) => {
-  logger.fun(`>\n> Codecrumbs magic begins!\n>`);
-  logger.info(`> started with options: ${JSON.stringify(options)}`);
-
   const {
     projectNameAlias,
     projectDir,
@@ -21,8 +18,14 @@ const setup = (options, devOptions) => {
     tsConfigPath,
     clientPort,
     excludeDir,
-    ideCmd
+    ideCmd,
+    debugModeEnabled
   } = options;
+
+  logger.setDebugModeEnabled(debugModeEnabled);
+
+  logger.fun(`>\n> Codecrumbs magic begins!\n>`);
+  logger.info(`> started with options: ${JSON.stringify(options)}`);
 
   const PORT_IN_USE = 'open';
   const HOST = '0.0.0.0';
@@ -94,11 +97,11 @@ const alignPlatformPath = (p = '') =>
 
 const validateProjectPath = (pDir, ePoint) => {
   const paths = [];
-  if (!fs.existsSync(alignPlatformPath(pDir))) {
+  if (!checkIfPathExists(pDir)) {
     paths.push(pDir);
   }
 
-  if (!fs.existsSync(alignPlatformPath(ePoint))) {
+  if (!checkIfPathExists(ePoint)) {
     paths.push(ePoint);
   }
 
@@ -110,6 +113,9 @@ const validateProjectPath = (pDir, ePoint) => {
   }
 };
 
+const checkIfPathExists = path => fs.existsSync(alignPlatformPath(path));
+
 module.exports = {
+  checkIfPathExists,
   setup
 };

@@ -17,6 +17,10 @@ export default props => {
     selectedCcFlowEdgeNodes
   } = props;
 
+  if (!involvedNsData || !involvedNsData[namespace]) {
+    return null;
+  }
+
   const { codecrumbsLayoutMap } = involvedNsData[namespace];
   const ccNamespacesKeys = Object.keys(involvedNsData || {});
 
@@ -27,7 +31,11 @@ export default props => {
           if (!i) return null;
 
           const fromItem = list[i - 1];
-          if (fromItem.namespace !== namespace && toItem.namespace !== namespace) {
+
+          if (
+            (fromItem.namespace !== namespace && toItem.namespace !== namespace) ||
+            fromItem.step === toItem.step
+          ) {
             return null;
           }
 
@@ -38,7 +46,7 @@ export default props => {
           });
 
           const edgeBaseProps = {
-            key: `cc-external-edge-${fromItem.name}-${toItem.name}`,
+            key: `cc-external-edge-${fromItem.name}-${toItem.name}-${edgePoints[0].y}`,
             sourcePosition: edgePoints[0],
             targetPosition: edgePoints[1],
             onClick: () => onFlowEdgeClick(fromItem, toItem, ccNamespacesKeys),

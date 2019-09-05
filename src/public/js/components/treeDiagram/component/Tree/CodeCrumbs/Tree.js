@@ -7,6 +7,7 @@ import { isCodeCrumbSelected, getCcPosition } from './helpers';
 
 const Tree = props => {
   const {
+    sourceDiagramOn,
     ccAlightPoint,
     ccShiftIndexMap,
     shiftToCenterPoint,
@@ -18,6 +19,10 @@ const Tree = props => {
     onCodeCrumbSelect,
     selectedCcFlowEdgeNodes
   } = props;
+
+  if (!ccShiftIndexMap) {
+    return null;
+  }
 
   return (
     <React.Fragment>
@@ -40,7 +45,7 @@ const Tree = props => {
           ).x;
 
         return (
-          <React.Fragment key={`code-crumb-${node.data.path}-${key}`}>
+          <React.Fragment key={`code-crumb-${key}-${nX}-${nY}`}>
             {!codeCrumbsMinimize &&
               node.children.map((crumb, i) => {
                 const [_, cY] = [crumb.y, crumb.x];
@@ -55,22 +60,26 @@ const Tree = props => {
                 const ccParams = crumbData.params;
 
                 return (
-                  <React.Fragment key={`code-crumb-edge-${file.path}-${crumbData.name}`}>
-                    {!i && (
-                      <PartEdge
-                        sourcePosition={position}
-                        parentName={file.name}
-                        ccAlightPoint={crumbPosition.x}
-                        singleCrumb={singleCrumb}
-                      />
-                    )}
-                    {!singleCrumb && (
-                      <CodeCrumbMultiEdge
-                        sourcePosition={position}
-                        targetPosition={crumbPosition}
-                        ccAlightPoint={i && firstCrumbXPoint}
-                      />
-                    )}
+                  <React.Fragment
+                    key={`code-crumb-edge-${crumbData.name}-${crumbPosition.x}-${crumbPosition.y}`}
+                  >
+                    {!i &&
+                      sourceDiagramOn && (
+                        <PartEdge
+                          sourcePosition={position}
+                          parentName={file.name}
+                          ccAlightPoint={crumbPosition.x}
+                          singleCrumb={singleCrumb}
+                        />
+                      )}
+                    {!singleCrumb &&
+                      sourceDiagramOn && (
+                        <CodeCrumbMultiEdge
+                          sourcePosition={position}
+                          targetPosition={crumbPosition}
+                          ccAlightPoint={i && firstCrumbXPoint}
+                        />
+                      )}
                     <CodeCrumbName
                       position={crumbPosition}
                       loc={codeCrumbsLineNumbers ? crumbData.displayLoc : ''}
@@ -84,6 +93,7 @@ const Tree = props => {
                         currentSelectedCrumbedFlowKey !== NO_TRAIL_FLOW
                       }
                       flowStep={ccParams.flowStep}
+                      original={ccParams.original}
                       onClick={e => onCodeCrumbSelect(e, { fileNode: file, codeCrumb: crumbData })}
                     />
                   </React.Fragment>

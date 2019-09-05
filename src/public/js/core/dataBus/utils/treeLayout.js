@@ -69,6 +69,8 @@ export const getTreeLayout = (
         }, 0);
       }
 
+      // TODO: calc properly, not 5000
+      // impossible to do in one loop
       const LARGE_WIDTH_CC = 5000;
       const widthSpace =
         node.data.type !== DIR_NODE_TYPE && node.data.type !== FILE_NODE_TYPE

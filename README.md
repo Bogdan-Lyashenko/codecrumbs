@@ -24,8 +24,9 @@
 >**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and builds its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly.
 >
 > Check out [my talk at React-Finland](https://www.youtube.com/watch?v=S_1-1jzLxm4) for more details.
->
->-[@bliashenko](https://twitter.com/bliashenko)
+
+
+> If you like this project, follow me on Twitter [@bliashenko](https://twitter.com/bliashenko) to hear about things I am building. 
 
 ## Demo
 Check out the example of [**standalone version running here**](https://codecrumbs.io/#showcase=todo-react-redux).

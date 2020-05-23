@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  codecrumbs:
+    build: .
+    command: [yarn, start, codecrumbs, -D, -d, $APP_DIRECTORY/, -e, $APP_DIRECTORY/$APP_ENTRYPOINT_PATH]
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - APP_ENTRYPOINT_PATH
+      - APP_DIRECTORY="${APP_DIRECTORY:-src/}"
+      - NODE_ENV=development
+    ports:
+      - 2018:2018
+      - 3018:3018
+      - 9229:9229
+      - 8888:8888

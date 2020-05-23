@@ -34,12 +34,25 @@ Check out the example of [**standalone version running here**](https://codecrumb
 <img src="/docs/main-ui-3.png" width="100%"/>
 
 ## Get started
+
+So basically you have 2 ways:
+- Install and run
+- Run with Docker
+
 ### Install and run
 >Pre-condition: update/install `NodeJS` version to be >= *8.11.1*
 
 1) Install ```codecrumbs``` globally (```yarn global add codecrumbs```)
 2) Run ```codecrumbs -d project-src-dir -e project-src-dir/index.js```. Change parameters to match your project:```-d``` is *directory with source code*, ```-e``` is *entry point file* .
 3) Go to [http://localhost:2018](http://localhost:2018/#) in the browser to check it out.
+
+
+### Docker
+To start dockerise application run
+`docker build -t codecrumbs .`
+and once docker image will be build successfully
+`TARGET_APP_PATH=$PWD docker-compose run codecrumbs -d target/ -e target/index.dev.js`
+where `TARGET_APP_PATH` is path to project source code directory
 
 ### Configuration
 Run codecrumbs with CLI params or specify static config file `codecrumbs.config.js` (see example [here](/example-project/codecrumbs.config.js))

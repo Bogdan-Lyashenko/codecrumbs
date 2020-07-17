@@ -17,6 +17,7 @@ const LANGUAGES = [
   'php',
   'python',
   'ruby',
+  'rust',
   'typescript'
 ];
 

@@ -24,6 +24,13 @@ const namespaceTypeScriptExample = {
   clientPort: 2018
 };
 
+const namespacePhpExample = {
+  projectNameAlias: 'php-example-server',
+  projectDir: `example-project/src-php`,
+  entryPoint: `example-project/src-php/index.php`,
+  clientPort: 2018
+};
+
 const namespaceDebug = {
   projectNameAlias: 'debug',
   projectDir: `example-project/debug`,
@@ -41,7 +48,8 @@ const namespaceLanguageTest = {
 const args = process.argv.slice(2);
 const namespaces = {
   two: namespaceTwo,
-  ts: namespaceTypeScriptExample
+  ts: namespaceTypeScriptExample,
+  php: namespacePhpExample
 };
 const namespace = namespaces[args[0]] !== undefined ? namespaces[args[0]] : namespaceOne;
 server.setup(namespace, { isDev: true });

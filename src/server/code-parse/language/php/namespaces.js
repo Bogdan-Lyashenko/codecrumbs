@@ -6,7 +6,7 @@ const parser = require('./parser')
 
 const namespaces = {};
 
-const setNamespaces = async (projectDir) => {
+const parse = async (projectDir) => {
   const separator = path.sep;
   const set = (parsed, itemPath) => {
     parsed.children
@@ -44,9 +44,9 @@ const setNamespaces = async (projectDir) => {
 
   await Promise.all(tasks)
 }
-const getNamespaces = () => namespaces
+const get = () => namespaces
 
 module.exports = {
-  setNamespaces,
-  getNamespaces
+  parse,
+  get
 }

@@ -63,7 +63,7 @@ const DependenciesTree = props => {
 
                 const selected =
                   selectedDependencyEdgeNodes &&
-                  checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName, importedNodePath);
+                  checkIsEdgeSelected(selectedDependencyEdgeNodes, selectedNode.path, importedNodePath);
 
                 const edge = (
                   <DependenciesEdge
@@ -76,7 +76,7 @@ const DependenciesTree = props => {
                     firstSourcePosition={i ? firstSourcePosition : null}
                     onClick={() =>
                       onDependencyEdgeClick({
-                        target: moduleName,
+                        target: selectedNode.path,
                         sources: [importedNodePath],
                         groupName
                       })

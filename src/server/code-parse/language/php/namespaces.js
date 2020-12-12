@@ -8,14 +8,10 @@ const namespaces = {};
 
 const setNamespaces = async (projectDir) => {
   const separator = path.sep;
-  const tasks = readdirRecursive(projectDir)
-    .filter(f => extensions.test('.' + f.split('.').pop()))
-    .map(async f => {
-      const itemPath = `${projectDir}${separator}${f.replace(/\//g, separator)}`
-      const fileCode = await file.read(itemPath, 'utf8')
-      const parsed = parser.parseCode(fileCode, path.basename(f));
-
-      parsed.children?.forEach(parsedChild => {
+  const set = (parsed, itemPath) => {
+    parsed.children
+      ?.filter(parsedChild => parsedChild.name)
+      .forEach(parsedChild => {
         const namespace = {
           moduleName: parsedChild.name,
           importedModuleNames: []
@@ -28,12 +24,22 @@ const setNamespaces = async (projectDir) => {
             })
             break
           case 'class':
+          case 'trait':
+          case 'interface':
             namespace.moduleName = `${parsedChild.name}\\${c.name.name}`
           }
         })
 
         namespaces[itemPath] = namespace
       })
+  }
+
+  const tasks = readdirRecursive(projectDir)
+    .filter(f => extensions.test('.' + f.split('.').pop()))
+    .map(async f => {
+      const itemPath = `${projectDir}${separator}${f.replace(/\//g, separator)}`
+      const fileCode = await file.read(itemPath, 'utf8')
+      set(parser.parseCode(fileCode, path.basename(f)), itemPath)
     });
 
   await Promise.all(tasks)

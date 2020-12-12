@@ -153,7 +153,6 @@ export default (state = DefaultState, action) => {
       // do some reducer
       return mergeState({
         dependenciesEntryName,
-        selectedDependencyEdgeNodes: null
       });
     }
 

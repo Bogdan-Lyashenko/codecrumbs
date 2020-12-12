@@ -35,29 +35,32 @@ const getImports = (fileCode, itemPath) => {
   }
 
   parsed.children?.forEach(parsedChild => {
-    const dependence = {
-      importNodeLines: [],
-      sourceFile: null,
-      specifiers: [],
-    }
     parsedChild.children?.forEach(c => {
-      switch (c.kind) {
-      case 'usegroup':
-        c.items.forEach(item => {
-          dependence.importNodeLines = [
-            item.loc.start.line,
-            item.loc.end.line,
-          ]
-          dependence.sourceFile = findSourceFile(item.name)
-        })
-        break
-      case 'class':
-        // dependence.sourceFile = `${parsedChild.name}\\${c.name.name}`
+      if (c.kind !== 'usegroup') {
+        return
       }
+      const dependence = {
+        importNodeLines: [
+          c.loc.start.line,
+          c.loc.end.line,
+        ],
+        sourceFile: null,
+        specifiers: [],
+      }
+      c.items.forEach(item => {
+        dependence.sourceFile = findSourceFile(item.name)
+        const importSpecifierName = dependence?.sourceFile?.split('/').pop()
+        if (importSpecifierName) {
+          dependence.specifiers.push({
+            type: 'ImportSpecifier',
+            name: importSpecifierName
+          })
+        }
+      })
+      dependencies.push(dependence)
     })
-    dependencies.push(dependence)
   })
-  return dependencies
+  return dependencies.filter(({sourceFile}) => !!sourceFile)
 }
 
 // replace with own implementation if needed

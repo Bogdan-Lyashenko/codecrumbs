@@ -7,8 +7,7 @@ const parser = require('./parser')
 const namespaces = {};
 
 const parse = async (projectDir) => {
-  const separator = path.sep;
-  const set = (parsed, itemPath) => {
+  const setNamespaces = (itemPath, parsed) =>
     parsed.children
       ?.filter(parsedChild => parsedChild.name)
       .forEach(parsedChild => {
@@ -32,14 +31,14 @@ const parse = async (projectDir) => {
 
         namespaces[itemPath] = namespace
       })
-  }
 
   const tasks = readdirRecursive(projectDir)
     .filter(f => extensions.test('.' + f.split('.').pop()))
     .map(async f => {
+      const separator = path.sep;
       const itemPath = `${projectDir}${separator}${f.replace(/\//g, separator)}`
       const fileCode = await file.read(itemPath, 'utf8')
-      set(parser.parseCode(fileCode, path.basename(f)), itemPath)
+      setNamespaces(itemPath, parser.parseCode(fileCode, path.basename(f)))
     });
 
   await Promise.all(tasks)

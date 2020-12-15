@@ -3,8 +3,7 @@ const namespaces = require('./namespaces')
 const parser = require('./parser')
 
 const getDependencies = async (entryPoint, projectDir) => {
-  await namespaces.parse(projectDir)
-  const phpNamespaces = namespaces.get()
+  const phpNamespaces = await namespaces.parse(projectDir)
 
   const dependencies = {
     [entryPoint]: phpNamespaces[entryPoint]
@@ -23,7 +22,7 @@ const getDependencies = async (entryPoint, projectDir) => {
 };
 
 const getImports = (fileCode, itemPath) => {
-  const phpNamespaces = namespaces.get();
+  const phpNamespaces = namespaces.getCache();
   const parsed = parser.parseCode(fileCode, path.basename(itemPath));
   const dependencies = [];
 

@@ -18,7 +18,8 @@
     "clean": "rm -rf build",
     "webpack-compile-local": "cd src/public && webpack --config webpack.local.js --progress",
     "build": "yarn clean && yarn webpack-compile-local",
-    "pretty": "prettier  --write \"./src/public/js/**/*.js\""
+    "pretty": "prettier  --write \"./src/public/js/**/*.js\"",
+    "docker:server-dev": "docker build -t codecrumbs-server . && docker run --rm -p 2018:2018 -p 3018:3018 -it codecrumbs-server yarn server-dev"
   },
   "bin": {
     "codecrumbs": "./cli/index.cli.js"

@@ -117,6 +117,13 @@ function* applyReactionOnButtonActionToNamespace({ buttonKey, namespace }) {
   }
 }
 
+function* reactOnUpdateFiles({namespace}) {
+  const {dependenciesShowDirectOnly} = yield select(getCheckedState)
+  if (dependenciesShowDirectOnly) {
+    yield put(setDependenciesEntryPoint(undefined, namespace))
+  }
+}
+
 function* reactOnToggledFolder({ namespace }) {
   yield put(calcFilesTreeLayoutNodes(namespace));
 }
@@ -190,6 +197,7 @@ export default function* rootSaga() {
     takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMBED_FLOW, reactByUpdatingFoldersState),
     takeLatest(DATA_BUS_ACTIONS.SELECT_CC_FLOW_EDGE, reactOnCcFlowEdgeSelect),
     takeLatest(DATA_BUS_ACTIONS.SELECT_NODE, reactBySettingActiveNamespace),
+    takeLatest(DATA_BUS_ACTIONS.UPDATE_FILES, reactOnUpdateFiles),
     takeLatest(DATA_BUS_ACTIONS.SELECT_CODE_CRUMB, reactBySettingActiveNamespace),
     takeLatest(DATA_BUS_ACTIONS.UPDATE_FILES_TREE_LAYOUT_NODES, reactByCalcSharedFlowStepsData)
   ]);

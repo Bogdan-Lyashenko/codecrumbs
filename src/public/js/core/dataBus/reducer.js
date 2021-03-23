@@ -34,7 +34,7 @@ export const getMergeState = (state, namespace) => namespaceStateUpdate => ({
   }
 });
 
-const FULL_FEATURES_LANG_LIST = ['javascript', 'typescript'];
+const FULL_FEATURES_LANG_LIST = ['javascript', 'typescript', 'php'];
 
 export default (state = DefaultState, action) => {
   const namespace = action.namespace;
@@ -150,10 +150,9 @@ export default (state = DefaultState, action) => {
       const { fileNode } = action.payload;
       const dependenciesEntryName = fileNode ? fileNode.path : namespaceState.dependenciesEntryName;
 
-      // do some reducerr
+      // do some reducer
       return mergeState({
         dependenciesEntryName,
-        selectedDependencyEdgeNodes: null
       });
     }
 

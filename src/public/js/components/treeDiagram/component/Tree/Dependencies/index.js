@@ -29,14 +29,19 @@ const DependenciesTree = props => {
     <React.Fragment>
       {selectedNodeDependencies &&
         [selectedNodeDependencies].map(({ moduleName, importedModuleNames }) => {
-          const moduleNode = filesLayoutMap[moduleName];
+          const moduleNode = filesLayoutMap[selectedNode.path];
           if (!moduleNode) return null;
 
           const [mX, mY] = [moduleNode.y, moduleNode.x];
           const targetPosition = shiftToCenterPoint(mX, mY);
 
           const importedNodes = importedModuleNames
-            .map(name => filesLayoutMap[name])
+            .map(moduleName => {
+              const key = Object.keys(selectedNode.dependencies).find(key => {
+                return selectedNode.dependencies[key].moduleName === moduleName
+              })
+              return filesLayoutMap[key]
+            })
             .filter(node => !!node);
 
           const edges = [];
@@ -58,7 +63,7 @@ const DependenciesTree = props => {
 
                 const selected =
                   selectedDependencyEdgeNodes &&
-                  checkIsEdgeSelected(selectedDependencyEdgeNodes, moduleName, importedNodePath);
+                  checkIsEdgeSelected(selectedDependencyEdgeNodes, selectedNode.path, importedNodePath);
 
                 const edge = (
                   <DependenciesEdge
@@ -71,7 +76,7 @@ const DependenciesTree = props => {
                     firstSourcePosition={i ? firstSourcePosition : null}
                     onClick={() =>
                       onDependencyEdgeClick({
-                        target: moduleName,
+                        target: selectedNode.path,
                         sources: [importedNodePath],
                         groupName
                       })

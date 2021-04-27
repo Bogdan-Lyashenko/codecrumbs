@@ -18,6 +18,17 @@
   <a href="#support">Support</a>
 </h3>
 
+## Codecrumbs v2
+Checkout [new version of this project as standalone application](https://codecrumbs.io). Just in a few clicks you can start exploring a codebase in more efficient way, create interactive visual guides and share them with others on your own blog! 
+
+<p align="center">
+  <a href="https://codecrumbs.io" target="_blank">
+   <img src="https://codecrumbs.io/external/img/common/app-ui-1.png" />
+  </a>
+</p>
+
+
+
 ## What
 > **Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that. Also, it will increase your development speed and give more knowledge about your application architecture.
 >
@@ -29,7 +40,7 @@
 > If you like this project, follow me on Twitter [@bliashenko](https://twitter.com/bliashenko) to hear about things I am building. 
 
 ## Demo
-Check out the example of [**standalone version running here**](https://codecrumbs.io/#showcase=todo-react-redux).
+Check out the example of [**standalone version running here**](https://codecrumbs.io).
 
 <img src="/docs/main-ui-3.png" width="100%"/>
 

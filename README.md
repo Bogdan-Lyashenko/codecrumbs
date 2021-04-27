@@ -19,7 +19,7 @@
 </h3>
 
 ## Codecrumbs v2
-Checkout [new version of this project as standalone application](https://codecrumbs.io). Just in a few clicks you can start exploring a codebase in more efficient way, create interactive visual guides and share them with others on your own blog! 
+Check out [new version of this project as standalone application](https://codecrumbs.io). Just in a few clicks you can start exploring a codebase in more efficient way, create interactive visual guides and share them with others on your own blog! 
 
 <p align="center">
   <a href="https://codecrumbs.io" target="_blank">

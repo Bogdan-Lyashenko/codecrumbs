@@ -40,8 +40,9 @@ Check out new version of this project as [standalone application](https://codecr
 > If you like this project, follow me on Twitter [@bliashenko](https://twitter.com/bliashenko) to hear about things I am building. 
 
 ## Demo
-Check out the example of [**standalone version running here**](https://codecrumbs.io/app).
+Check out prepared example for [**standalone version running here**](https://codecrumbs.io/app).
 
+## Codecrumbs v1
 <img src="/docs/main-ui-3.png" width="100%"/>
 
 ## Get started

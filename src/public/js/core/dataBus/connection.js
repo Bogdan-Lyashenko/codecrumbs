@@ -4,7 +4,7 @@ let sendMessage = () => {
   console.warn('Connection to server was not established');
 };
 
-export const createConnection = (onMessage, route = `ws://127.0.0.1:${SERVER_PORT}/`) => {
+export const createConnection = (onMessage, route = `ws://localhost:${SERVER_PORT}/`) => {
   const ws = new WebSocket(route);
 
   ws.onopen = () => console.log(`Client connected to ${route}`);

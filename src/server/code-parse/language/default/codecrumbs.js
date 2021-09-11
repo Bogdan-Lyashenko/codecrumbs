@@ -1,7 +1,8 @@
+const compact = require('lodash/compact');
 const { CC_NODE_TYPE, NO_TRAIL_FLOW } = require('../../../shared-constants');
 
-const CRUMB = 'codecrumb',
-  CRUMB_SHORT_HANDLER = 'cc';
+const CRUMB_REGEX = /cc|codecrumb/;
+import { DEFAULT_REGEX } from "regex-comment/lib/index";
 
 const getCommentNodeValue = node => (node.value || '').trim();
 
@@ -38,12 +39,7 @@ const parseCodecrumbComment = (node = {}) => {
   return cc;
 };
 
-const isCodecrumb = node => {
-  if (!node) return false;
-
-  const comment = getCommentNodeValue(node);
-  return comment.startsWith(CRUMB) || comment.startsWith(CRUMB_SHORT_HANDLER);
-};
+const isCodecrumb = node => CRUMB_REGEX.test(getCommentNodeValue(node));
 
 const buildCrumb = (params, crumbNodeLines, path) => ({
   type: CC_NODE_TYPE,
@@ -57,22 +53,21 @@ const buildCrumb = (params, crumbNodeLines, path) => ({
 });
 
 const setupGetCommentsFromCode = regex => fileCode => {
-  if (!fileCode) return [];
+  if (!fileCode) {
+    return [];
+  }
 
-  return fileCode.split('\n').reduce((comments, item, i) => {
-    const codeLine = item.trim();
-    if (!codeLine) return comments;
+  const result = fileCode.match(regex) || [];
 
-    const matches = regex.exec(codeLine);
-    if (matches) {
-      const lineNumber = i + 1;
-      return [
-        ...comments,
-        { value: matches[matches.length - 1], nodeLines: [lineNumber, lineNumber] }
-      ];
-    }
+  return result.reduce((comments, value) => {
+    value = value.trim()
+    const index = fileCode.indexOf(value);
+    const tempString = fileCode.substring(0, index);
+    const matchLineNumber = tempString.split('\n').length;
 
-    return comments;
+    const commentStringCount = value.split('\n').length
+    const nodeLines = [matchLineNumber, matchLineNumber + commentStringCount - 1];
+    return [...comments, { value, nodeLines }]
   }, []);
 };
 
@@ -99,8 +94,7 @@ const setupGetCrumbs = getCommentsFromCode => (fileCode, path) => {
   }
 };
 
-const DEFAULT_COMMENT_REGEX = /^([^\/\/]*)\/\/(.*)$/;
-const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(DEFAULT_COMMENT_REGEX));
+const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(DEFAULT_REGEX));
 
 module.exports = {
   getCrumbs,

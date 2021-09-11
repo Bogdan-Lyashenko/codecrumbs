@@ -1,2 +1,2 @@
-/* cc:main function */
+(* cc:main function *)
 let hello = () => "Hello, World!";

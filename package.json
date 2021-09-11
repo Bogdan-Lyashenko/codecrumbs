@@ -50,6 +50,7 @@
     "redux-persist": "^5.10.0",
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
+    "regex-comment": "^1.0.2",
     "reselect": "^4.0.0",
     "watchpack": "^1.6.0",
     "websocket": "1.0.27"

@@ -1,7 +1,7 @@
 const { setupGetCrumbs, setupGetCommentsFromCode } = require('../default/codecrumbs');
 
-const FORTRAN_COMMENT_REGEX = /^([^!]*)!(.*)$/;
-const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(FORTRAN_COMMENT_REGEX));
+import { FORTRAN_REGEX } from "regex-comment/lib/index";
+const getCrumbs = setupGetCrumbs(setupGetCommentsFromCode(FORTRAN_REGEX));
 
 // replace with own implementation if needed
 module.exports = {

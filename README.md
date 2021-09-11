@@ -18,6 +18,9 @@
   <a href="#support">Support</a>
 </h3>
 
+**Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that. Also, it will increase your development speed and give more knowledge about your application architecture.
+> If you like this project, follow me on Twitter [@bliashenko](https://twitter.com/bliashenko) to hear about things I am building. 
+
 ## Codecrumbs v2
 Check out new version of this project as [standalone application](https://codecrumbs.io). Just in a few clicks you can start exploring a codebase in more efficient way, create interactive visual guides and share them with others on your own blog! See [quick guide here](https://codecrumbs.io/guides/web-app-with-github/).
 
@@ -28,21 +31,16 @@ Check out new version of this project as [standalone application](https://codecr
 </p>
 
 
+## Demo
+Check out prepared example for [**standalone version running here**](https://codecrumbs.io/app).
 
-## What
-> **Have you ever got lost in a big or unknown codebase?** This tool will help you to solve that. Also, it will increase your development speed and give more knowledge about your application architecture.
->
+## Codecrumbs v1
+
 >**How it works?** You run `codecrumbs` command for a codebase, it analyzes source code and builds its visual representation. Write down a codecrumb-comment and codebase state will be reflected by visual client in browser on the fly.
 >
 > Check out [my talk at React-Finland](https://www.youtube.com/watch?v=S_1-1jzLxm4) for more details.
 
 
-> If you like this project, follow me on Twitter [@bliashenko](https://twitter.com/bliashenko) to hear about things I am building. 
-
-## Demo
-Check out prepared example for [**standalone version running here**](https://codecrumbs.io/app).
-
-## Codecrumbs v1
 <img src="/docs/main-ui-3.png" width="100%"/>
 
 ## Get started
